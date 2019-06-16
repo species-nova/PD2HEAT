@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<hooks script_path="lib/" hook_id="lib/">
+	<pre script_path="Corepre.lua" :hook_id="entry"/>
+	<post script_path="Core.lua" :hook_id="entry"/>
+
+	<post :script_path="network/matchmaking/networkmatchmakingsteam.lua" :hook_id="network/matchmaking/networkmatchmakingsteam"/>
+</hooks>
