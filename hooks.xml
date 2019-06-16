@@ -4,4 +4,5 @@
 	<post script_path="Core.lua" :hook_id="entry"/>
 
 	<post :script_path="network/matchmaking/networkmatchmakingsteam.lua" :hook_id="network/matchmaking/networkmatchmakingsteam"/>
+	<post :script_path="managers/savefilemanager.lua" :hook_id="managers/savefilemanager"/>
 </hooks>
