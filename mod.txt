@@ -1,0 +1,11 @@
+{
+ "name" : "PAYDAY 2 -Final Mix-"
+ "description" : " ",
+ "author" : "Rhynne",
+ "contact" : " ",
+ "version" : "1",
+ "priority" : 48,
+ "blt_version" : 2,
+ "undisablable" : false,
+ "disable_safe_mode" : false,
+}
