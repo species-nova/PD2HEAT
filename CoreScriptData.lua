@@ -21,7 +21,6 @@ Hooks:Add("BeardLibPreProcessScriptData", "FinalMixCreateEnvironment", function(
         }
         for _, sky in ipairs(skies) do
             if not managers.dyn_resource:has_resource(Idstring("scene"), Idstring("core/environments/skies/" .. sky .. "/" .. sky), managers.dyn_resource.DYN_RESOURCES_PACKAGE) then
-                RestorationCore.log_shit("not loaded")
                 managers.dyn_resource:load(Idstring("scene"), Idstring("core/environments/skies/" .. sky .. "/" .. sky), managers.dyn_resource.DYN_RESOURCES_PACKAGE, nil)
             end
         end
