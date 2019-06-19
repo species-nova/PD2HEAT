@@ -1,8 +1,13 @@
 <?xml version="1.0"?>
+<!-- ///BASE LIB\\\ -->
 <hooks script_path="lib/" hook_id="lib/">
 	<pre script_path="Corepre.lua" :hook_id="entry"/>
 	<post script_path="Core.lua" :hook_id="entry"/>
 
 	<post :script_path="network/matchmaking/networkmatchmakingsteam.lua" :hook_id="network/matchmaking/networkmatchmakingsteam"/>
 	<post :script_path="managers/savefilemanager.lua" :hook_id="managers/savefilemanager"/>
+</hooks>
+<!-- ///CORE LIB\\\ -->
+<hooks script_path="core/lib/" hook_id="core/lib/">
+	<post :script_path="managers/coresoundenvironmentmanager" :hook_id="managers/coresoundenvironmentmanager"/>
 </hooks>
