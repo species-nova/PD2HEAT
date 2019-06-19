@@ -1,1 +1,9 @@
 <?xml version="1.0"?>
+<!--///ASSET FIXES AND CHANGES\\\-->
+<assets base_path="assets/">
+<!--does this need a target or load group? figure this out-->
+	<file :name="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container.model" force="false"/>
+	<file :name="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_df.texture" force="false"/>
+	<file :name="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_nm.texture" force="false"/>
+	<file :name="units/payday2/props/lcm_prop_securitydoor/lcm_prop_securitydoor_01.object" force="false"/>
+</assets>
