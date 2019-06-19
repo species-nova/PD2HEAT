@@ -6,6 +6,8 @@
 
 	<post :script_path="network/matchmaking/networkmatchmakingsteam.lua" :hook_id="network/matchmaking/networkmatchmakingsteam"/>
 	<post :script_path="managers/savefilemanager.lua" :hook_id="managers/savefilemanager"/>
+	
+	<post :script_path="units/enemies/logics/coplogicattack" :hook_id="units/enemies/logics/coplogicattack"/>
 </hooks>
 <!-- ///CORE LIB\\\ -->
 <hooks script_path="core/lib/" hook_id="core/lib/">
