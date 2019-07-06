@@ -17,7 +17,3 @@
 	<post :script_path="managers/hud/hudtemp.lua" :hook_id="managers/hud/hudtemp.lua"/>
 	<!-- \\\GENERAL UI/// -->
 </hooks>
-<!-- ///CORE LIB\\\ -->
-<hooks script_path="core/lib/" hook_id="core/lib/">
-	<post :script_path="managers/coresoundenvironmentmanager" :hook_id="managers/coresoundenvironmentmanager"/>
-</hooks>
