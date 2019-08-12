@@ -27,6 +27,9 @@ if SC and SC._data.sc_ai_toggle or restoration and restoration.Options:GetValue(
 			summers = true,
 			autumn = true
 		}
+		self._downleniency = 1
+		self._downcountleniency = 0
+		self._rolled_dramatalk_chance = nil
 	end
 
 	local sc_group_base = GroupAIStateBase.on_simulation_started
@@ -47,7 +50,151 @@ if SC and SC._data.sc_ai_toggle or restoration and restoration.Options:GetValue(
 			summers = true,
 			autumn = true
 		}
+		self._downleniency = 1
+		self._downcountleniency = 0
+		self._rolled_dramatalk_chance = nil
 	end
+	
+function GroupAIStateBase:chk_random_drama_comment()
+	local chance = math.random(1, 100)
+	local bain_chance = math.random(1, 100)
+	local bainchtchance = math.random(1, 50)
+	local randomcommentchance = math.random(1, 40)
+	
+	if self._feddensityhigh and not self._rolled_dramatalk_chance then
+		if chance > 85 then
+			if bain_chance > 50 then
+				if bainchtchance < 10 then
+					managers.dialog:queue_narrator_dialog_raw("pln_esc_pep", {})
+					--log("keepittogether")
+				elseif bainchtchance > 10 and bainchtchance < 20 then
+					managers.dialog:queue_narrator_dialog_raw("Play_pln_gen_wsd_01", {})
+					--log("keep defending")
+				elseif bainchtchance > 20 and bainchtchance < 30 then
+					managers.dialog:queue_narrator_dialog_raw("Play_pln_gen_bfr_09", {})
+					--log("dont linger")
+				elseif bainchtchance > 30 and bainchtchance < 40 then
+					managers.dialog:queue_narrator_dialog_raw("Play_pln_gen_bfr_11", {})
+					--log("risks")
+				else
+					managers.dialog:queue_narrator_dialog_raw("Play_pln_sbh_01", {})
+					--log("dontsayswears")
+				end
+			else
+				if randomcommentchance < 10 then
+					managers.groupai:state():teammate_comment(nil, "g68", nil, false, nil, true)
+				elseif randomcommentchance > 10 and randomcommentchance < 20 then
+					managers.groupai:state():teammate_comment(nil, "g69", nil, false, nil, true)
+				elseif randomcommentchance > 20 and randomcommentchance < 30 then
+					managers.groupai:state():teammate_comment(nil, "g29", nil, false, nil, true)
+				else
+					managers.groupai:state():teammate_comment(nil, "g16", nil, false, nil, true)
+				end
+			end
+		end
+	end
+	self._rolled_dramatalk_chance = true
+end
+
+function GroupAIStateBase:set_importance_weight(u_key, wgt_report)
+	if #wgt_report == 0 then
+		return
+	end
+
+	local t_rem = table.remove
+	local t_ins = table.insert
+	local max_nr_imp = 6969 --no reason to have this anymore, i think i adjusted reaction times enough to justify removing importance altogether
+	local imp_adj = 0
+	local criminals = self._player_criminals
+	local cops = self._police
+
+	for i_dis_rep = #wgt_report - 1, 1, -2 do
+		local c_key = wgt_report[i_dis_rep]
+		local c_dis = wgt_report[i_dis_rep + 1]
+		local c_record = criminals[c_key]
+		local imp_enemies = c_record.important_enemies
+		local imp_dis = c_record.important_dis
+		local was_imp = nil
+
+		for i_imp = #imp_enemies, 1, -1 do
+			if imp_enemies[i_imp] == u_key then
+				table.remove(imp_enemies, i_imp)
+				table.remove(imp_dis, i_imp)
+
+				was_imp = true
+
+				break
+			end
+		end
+
+		local i_imp = #imp_dis
+
+		while i_imp > 0 do
+			if imp_dis[i_imp] <= c_dis then
+				break
+			end
+
+			i_imp = i_imp - 1
+		end
+
+		if i_imp < max_nr_imp then
+			i_imp = i_imp + 1
+
+			while max_nr_imp <= #imp_enemies do
+				local dump_e_key = imp_enemies[#imp_enemies]
+
+				self:_adjust_cop_importance(dump_e_key, -1)
+				t_rem(imp_enemies)
+				t_rem(imp_dis)
+			end
+
+			t_ins(imp_enemies, i_imp, u_key)
+			t_ins(imp_dis, i_imp, c_dis)
+
+			if not was_imp then
+				imp_adj = imp_adj + 1
+			end
+		elseif was_imp then
+			imp_adj = imp_adj - 1
+		end
+	end
+
+	if imp_adj ~= 0 then
+		self:_adjust_cop_importance(u_key, imp_adj)
+	end
+end
+
+function GroupAIStateBase:on_criminal_neutralized(unit)
+	local criminal_key = unit:key()
+	local record = self._criminals[criminal_key]
+
+	if not record then
+		return
+	end
+
+	record.status = "dead"
+	record.arrest_timeout = 0
+
+	if Network:is_server() then
+		self._downs_during_assault = self._downs_during_assault + 1
+		if self._downcountleniency and self._downcountleniency < 5 then
+			self._downcountleniency = self._downcountleniency + 1
+		end
+		
+		if self._downleniency and self._downleniency > 0.5 then 
+			self._downleniency = self._downleniency - 0.1
+			--log("down leniency increased")
+		end
+
+		for key, data in pairs(self._police) do
+			data.unit:brain():on_criminal_neutralized(criminal_key)
+		end
+
+		self:_add_drama(self._drama_data.actions.criminal_dead)
+		self:check_gameover_conditions()
+	end
+end
+
 	
 	function GroupAIStateBase:_radio_chatter_clbk()
 		if self._ai_enabled and not self:whisper_mode() then
