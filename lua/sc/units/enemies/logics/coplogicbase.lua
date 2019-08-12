@@ -1,5 +1,3 @@
-if SC and SC._data.sc_ai_toggle or restoration and restoration.Options:GetValue("SC/SC") then
-
 	local math = math
 	local mvec3_set = mvector3.set
 	local mvec3_set_z = mvector3.set_z
@@ -246,8 +244,6 @@ if SC and SC._data.sc_ai_toggle or restoration and restoration.Options:GetValue(
 			managers.groupai:state():on_enemy_disengaging(data.unit, old_att_obj.u_key)
 		end
 	end
-
-end
 
 function CopLogicBase.should_duck_on_alert(data, alert_data)
 	--this fucking sucks.
