@@ -1,5 +1,4 @@
-if SC and SC._data.sc_ai_toggle or restoration and restoration.Options:GetValue("SC/SC") then
-    
+
 	--[[function GroupAIStateBesiege:init(group_ai_state)
     	GroupAIStateBesiege.super.init(self)
     
@@ -13,6 +12,92 @@ if SC and SC._data.sc_ai_toggle or restoration and restoration.Options:GetValue(
 		self:set_debug_draw_state(true)
     end]]--
 	--uncomment to test ai debug stuff
+
+function GroupAIStateBesiege:init(group_ai_state)
+	GroupAIStateBesiege.super.init(self)
+
+	if Network:is_server() and managers.navigation:is_data_ready() then
+		self:_queue_police_upd_task()
+	end
+
+	self._tweak_data = tweak_data.group_ai[group_ai_state]
+	self._spawn_group_timers = {}
+	self._graph_distance_cache = {}
+	self._feddensityhigh = nil	
+	self._feddensityhighfrequency = 1
+	self._downleniency = 1
+	self._downcountleniency = 0
+	self._feddensity_active_t = nil
+end
+
+function GroupAIStateBesiege:_queue_police_upd_task()
+	if not self._police_upd_task_queued then
+		self._police_upd_task_queued = true
+
+		managers.enemy:queue_task("GroupAIStateBesiege._upd_police_activity", self._upd_police_activity, self, self._t + (next(self._spawning_groups) and 0.01 or 0.4)) --please dont let your own algorithms implode like that, ovk, thanks
+	end
+end
+
+function GroupAIStateBesiege:update(t, dt)
+	GroupAIStateBesiege.super.update(self, t, dt)
+	
+	if Network:is_server() then
+		self:_queue_police_upd_task()
+		
+		if self._downcountleniency > 5 then
+			self._downcountleniency = 5
+		end
+		
+		local activedrama = self._drama_data.amount >= tweak_data.drama.consistentcombat
+		
+		self._max_fedfuck_t_add = math.ceil(5 * self._feddensityhighfrequency)
+		
+		--if not self._feddensity_reset_t then
+			--log("noresettime")
+		--end
+		
+		self._feddensity_active_t = 5 + self._downcountleniency
+			
+		if self._downleniency and self._max_fedfuck_t_add then
+			self._max_fedfuck_t_add = math.floor(self._max_fedfuck_t_add * self._downleniency)
+		end
+		
+		if not self._max_fedfuck_t and activedrama and not self._feddensityhigh then
+			--log("tick tock")
+			self._max_fedfuck_t = self._t + (self._max_fedfuck_t_add * self._downleniency)
+		end
+		
+		if not activedrama and self._max_fedfuck_t then
+			--log("beepbeepbeep")
+			self._max_fedfuck_t = nil
+		end
+		
+		if not self._feddensityhigh then
+			if activedrama and self._max_fedfuck_t and self._max_fedfuck_t < self._t then
+				self._feddensityhigh = true
+				self._max_fedfuck_t = nil
+				self:chk_random_drama_comment()
+				self._feddensity_reset_t = self._t + 5
+				self._feddensityhighfrequency = self._feddensityhighfrequency + 0.5
+				log("feddensityhigh active")
+			end
+		end
+		
+		if self._feddensityhigh and self._feddensity_reset_t and self._feddensity_reset_t < self._t or self._feddensityhigh and not self._task_data.assault.active then
+			self._feddensityhigh = nil
+			self._feddensity_reset_t = nil
+			self._max_fedfuck_t = nil
+			self._rolled_dramatalk_chance = nil
+			log("resetting feddensity")
+		end
+
+		if managers.navigation:is_data_ready() and self._draw_enabled then
+			self:_draw_enemy_activity(t)
+			self:_draw_spawn_points()
+		end
+	end
+end
+
 
 	-- Tracks the cooldowns of each group type, will be populated by the GroupAIStateBesiege:_spawn_in_group() hook 
 	local group_timestamps = {}
