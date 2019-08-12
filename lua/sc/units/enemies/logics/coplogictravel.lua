@@ -157,32 +157,7 @@ end
 function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	local my_objective = data.objective
 	
-	local dense_units = {
-		"security",
-		"security_undominatable",
-		"cop",
-		"cop_scared",
-		"cop_female",
-		"gensec",
-		"fbi",
-		"swat",
-		"heavy_swat",
-		"fbi_swat",
-		"fbi_heavy_swat",
-		"city_swat",
-		"gangster",
-		"biker",
-		"mobster",
-		"bolivian",
-		"bolivian_indoors",
-		"medic"
-	}
-	local dense_mook = nil
-	for _, name in ipairs(dense_units) do
-		if data.unit:base()._tweak_table == name then
-			dense_mook = true
-		end
-	end
+	local common_cop = data.unit:base():has_tag("law") and not data.unit:base():has_tag("special")
 	
 	--check that the people in my group who have a similar objective to mine have caught up with me
 	if not my_objective.grp_objective then
@@ -193,7 +168,7 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 		return false
 	end
 	
-	if CopLogicTravel._chk_close_to_criminal(data, my_data) and managers.groupai:state():chk_high_fed_density() and dense_mook then
+	if CopLogicTravel._chk_close_to_criminal(data, my_data) and managers.groupai:state():chk_high_fed_density() and common_cop then
 		return false
 	end
 	
@@ -217,7 +192,7 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 
 	if data.attention_obj and AIAttentionObject.REACT_COMBAT >= data.attention_obj.reaction and not data.attention_obj.verified or not CopLogicTravel._chk_close_to_criminal(data, my_data) and data.attention_obj and AIAttentionObject.REACT_COMBAT >= data.attention_obj.reaction and data.attention_obj.dis > 800 and data.attention_obj.verified or data.attention_obj and data.attention_obj.is_person and data.attention_obj.reaction >= AIAttentionObject.REACT_COMBAT and pantsdownchk then --if the player is not verified, or i am NOT in a navseg that is near the criminal/player navseg, and their position is 800 meters away, and they are verified, or the player/criminal is reloading, then i am allowed to continue moving
 		if not (data.tactics and data.tactics.obstacle) then
-			if dense_mook then
+			if common_cop then
 				if managers.groupai:state():chk_high_fed_density() then
 					return false
 				else
@@ -626,35 +601,7 @@ function CopLogicTravel._chk_begin_advance(data, my_data)
 	local objective = data.objective
 	local haste = nil
 	
-	local mook_units = {
-		"security",
-		"security_undominatable",
-		"cop",
-		"cop_scared",
-		"cop_female",
-		"heavy_swat_sniper",
-		"gensec",
-		"shield",
-		"fbi",
-		"swat",
-		"heavy_swat",
-		"fbi_swat",
-		"fbi_heavy_swat",
-		"city_swat",
-		"gangster",
-		"biker",
-		"mobster",
-		"bolivian",
-		"bolivian_indoors",
-		"medic",
-		"taser"
-	}
-	local is_mook = nil
-	for _, name in ipairs(mook_units) do
-		if data.unit:base()._tweak_table == name then
-			is_mook = true
-		end
-	end
+	local common_cop = data.unit:base():has_tag("law") and not data.unit:base():has_tag("special")
 	
 	--this is a mess, but it should keep enemy movement tacticool overall, by having them prefer slower apporoaches at close ranges
 	
@@ -665,7 +612,7 @@ function CopLogicTravel._chk_begin_advance(data, my_data)
 		haste = "walk"
 	elseif data.attention_obj and AIAttentionObject.REACT_COMBAT >= data.attention_obj.reaction and data.attention_obj.dis > 1200 + (enemyseeninlast4secs and 500 or 0) and not data.unit:movement():cool() and not managers.groupai:state():whisper_mode() then
 		haste = "run"
-	elseif data.attention_obj and AIAttentionObject.REACT_COMBAT >= data.attention_obj.reaction and data.attention_obj.dis <= 1200 + enemy_seen_range_bonus - (math.abs(data.m_pos.z - data.attention_obj.m_pos.z) < 250 and 700 or 0) and is_mook and data.tactics and not data.tactics.hitnrun then
+	elseif data.attention_obj and AIAttentionObject.REACT_COMBAT >= data.attention_obj.reaction and data.attention_obj.dis <= 1200 + enemy_seen_range_bonus - (math.abs(data.m_pos.z - data.attention_obj.m_pos.z) < 250 and 700 or 0) and common_cop and data.tactics and not data.tactics.hitnrun then
 		haste = "walk"
 	else
 		haste = "run"
