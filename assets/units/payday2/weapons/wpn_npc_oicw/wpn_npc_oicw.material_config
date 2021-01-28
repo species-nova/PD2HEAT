@@ -1,0 +1,8 @@
+<materials version="3">
+    <material name="lambert1" render_template="generic:DIFFUSE_TEXTURE:RL_3RD_WEAPONS" version="2">
+        <diffuse_texture file="units/payday2/weapons/wpn_npc_oicw/oicw_lod_df"/>
+    </material>
+    <material name="weapon_lod1" render_template="generic:DIFFUSE_TEXTURE:RL_3RD_WEAPONS" version="2">
+        <diffuse_texture file="units/payday2/weapons/wpn_npc_oicw/oicw_lod_df"/>
+    </material>
+</materials>
