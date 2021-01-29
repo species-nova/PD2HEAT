@@ -1,3 +1,63 @@
+--local mvec3_x = mvector3.x
+--local mvec3_y = mvector3.y
+--local mvec3_z = mvector3.z
+local mvec3_set = mvector3.set
+local mvec3_set_z = mvector3.set_z
+--local mvec3_sub = mvector3.subtract
+--local mvec3_dir = mvector3.direction
+--local mvec3_dot = mvector3.dot
+local mvec3_dis = mvector3.distance
+local mvec3_dis_sq = mvector3.distance_sq
+local mvec3_lerp = mvector3.lerp
+--local mvec3_norm = mvector3.normalize
+local mvec3_add = mvector3.add
+local mvec3_mul = mvector3.multiply
+--local mvec3_cross = mvector3.cross
+--local mvec3_rand_ortho = mvector3.random_orthogonal
+local mvec3_negate = mvector3.negate
+local mvec3_len = mvector3.length
+--local mvec3_len_sq = mvector3.length_sq
+local mvec3_cpy = mvector3.copy
+--local mvec3_set_stat = mvector3.set_static
+local mvec3_set_length = mvector3.set_length
+--local mvec3_angle = mvector3.angle
+--local mvec3_step = mvector3.step
+local mvec3_rotate_with = mvector3.rotate_with
+local mvec3_equal = mvector3.equal
+
+local tmp_vec1 = Vector3()
+
+local math_lerp = math.lerp
+local math_random = math.random
+local math_up = math.UP
+local math_abs = math.abs
+local math_clamp = math.clamp
+local math_min = math.min
+local math_max = math.max
+local math_sign = math.sign
+--local math_floor = math.floor
+
+--local m_rot_x = mrotation.x
+local m_rot_y = mrotation.y
+--local m_rot_z = mrotation.z
+
+local table_insert = table.insert
+local table_remove = table.remove
+--local table_contains = table.contains
+
+local REACT_IDLE = AIAttentionObject.REACT_IDLE
+local REACT_CURIOUS = AIAttentionObject.REACT_CURIOUS
+local REACT_AIM = AIAttentionObject.REACT_AIM
+local REACT_COMBAT = AIAttentionObject.REACT_COMBAT
+local REACT_SHOOT = AIAttentionObject.REACT_SHOOT
+local REACT_SUSPICIOUS = AIAttentionObject.REACT_SUSPICIOUS
+local REACT_SCARED = AIAttentionObject.REACT_SCARED
+local REACT_SURPRISED = AIAttentionObject.REACT_SURPRISED
+local REACT_ARREST = AIAttentionObject.REACT_ARREST
+local REACT_SPECIAL_ATTACK = AIAttentionObject.REACT_SPECIAL_ATTACK
+
+local is_local_vr = _G.IS_VR
+
 function CopLogicIdle.on_intimidated(data, amount, aggressor_unit)
 	local surrender = false
 	local my_data = data.internal_data
