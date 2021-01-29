@@ -429,6 +429,14 @@ function CopLogicAttack.enter(data, new_logic_name, enter_params)
 
 	my_data.attitude = objective and objective.attitude or "avoid"
 	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
+	
+	if data.tactics then
+		if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
+			my_data.weapon_range.close = my_data.weapon_range.close * 2
+			my_data.weapon_range.optimal = my_data.weapon_range.optimal * 1.5
+		end
+	end
+		
 
 	data.brain:set_attention_settings({
 		cbt = true
@@ -594,6 +602,28 @@ function CopLogicAttack._upd_combat_movement(data)
 					end
 				--end
 			end
+		end
+	end
+	
+	if not action_taken and data.tactics then
+		local reason, vis_req = nil		
+		local ammo_max, ammo = data.unit:inventory():equipped_unit():base():ammo_info()
+		
+		if data.tactics.hitnrun and focus_enemy.verified and focus_enemy.verified_dis <= 1000 and math_abs(data.m_pos.z - data.attention_obj.m_pos.z) < 200 then
+			reason = "hitnrun"
+		elseif data.tactics.spoocavoidance and focus_enemy.verified and focus_enemy.verified_dis <= 1500 and focus_enemy.aimed_at then
+			reason = "spoocavoidance"
+		elseif data.tactics.elite_ranged_fire and focus_enemy.verified and focus_enemy.verified_dis <= my_data.weapon_range.close * 0.5 then
+			reason = "eliterangedfire"
+			vis_req = true
+		elseif data.tactics.reloadingretreat then
+			if ammo / ammo_max < 0.2 and focus_enemy.verified then
+				reason = "reloadingretreat"
+			end
+		end
+		
+		if reason then
+			action_taken = CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, vis_req, reason)
 		end
 	end
 
@@ -863,25 +893,51 @@ function CopLogicAttack._upd_combat_movement(data)
 	end
 end
 
-function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, vis_required) ----keep testing, modify, might want to revert back to vanilla
+function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, vis_required, reason)
 	if not focus_enemy or not focus_enemy.verified or not CopLogicAttack._can_move(data) then
 		return
 	end
 
 	local attempt_retreat = nil
-	local reloading_or_low_ammo = my_data.want_to_take_cover == "reload" or my_data.want_to_take_cover == "low_ammo"
-
-	if reloading_or_low_ammo then
-		if focus_enemy.dis < 1000 then
-			attempt_retreat = true
-			vis_required = nil
-		end
-	elseif focus_enemy.dis < 250 then
+	local reason_dis, reason_pose, reason_haste = nil
+	
+	if reason then
 		attempt_retreat = true
-	end
+		
+		if reason == "hitnrun" then
+			reason_dis = 1000
+			reason_pose = "crouch"
+			reason_haste = "run"
+		elseif reason == "spoocavoidance" then
+			reason_dis = 2000
+			reason_pose = "stand"
+			reason_haste = "run"
+		elseif reason == "eliterangedfire" then
+			reason_dis = my_data.weapon_range.close * 0.5
+			reason_pose = "stand"
+			reason_haste = "walk"
+		elseif reason == "reloadingretreat" then
+			reason_dis = my_data.weapon_range.close
+			reason_pose = "crouch"
+			reason_haste = "run"
+		end
+		
+			
+	else
+		local reloading_or_low_ammo = my_data.want_to_take_cover == "reload" or my_data.want_to_take_cover == "low_ammo"
 
-	if not attempt_retreat then
-		return
+		if reloading_or_low_ammo then
+			if focus_enemy.dis < 1000 then
+				attempt_retreat = true
+				vis_required = nil
+			end
+		elseif focus_enemy.dis < 250 then
+			attempt_retreat = true
+		end
+
+		if not attempt_retreat then
+			return
+		end
 	end
 
 	local threat_tracker = focus_enemy.nav_tracker
@@ -895,8 +951,8 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 
 	local from_pos = mvec3_cpy(data.m_pos)
 	local threat_head_pos = focus_enemy.m_head_pos
-	local max_walk_dis = reloading_or_low_ammo and 800 or 400
-	local pose = data.is_suppressed and "crouch" or "stand"
+	local max_walk_dis = reason_dis or reloading_or_low_ammo and 800 or 400
+	local pose = reason_pose or data.is_suppressed and "crouch" or "stand"
 	local end_pose = pose
 
 	if pose == "crouch" and not data.char_tweak.crouch_move then
@@ -919,7 +975,7 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 		CopLogicAttack._cancel_cover_pathing(data, my_data)
 
 		local new_action_data = {
-			variant = reloading_or_low_ammo and "run" or "walk",
+			variant = reason_haste or reloading_or_low_ammo and "run" or "walk",
 			body_part = 2,
 			type = "walk",
 			nav_path = {

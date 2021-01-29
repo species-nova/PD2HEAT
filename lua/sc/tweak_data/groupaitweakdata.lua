@@ -12254,9 +12254,9 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	--unit moves to player position and engages per conventional rules. Primary driver for most units.
 	--enemies will go into the room and get into sight of you.
 	--ranged_fire 
-	--unit engages from longer range location with line of sight. Will eventually close with player.
+	--unit engages from longer range location with line of sight, but not far away enough to lose effective weapon damage. Will eventually close with player if no LOS is found.
 	--elite_ranged_fire 
-	--Ranged_fire but with a forced retreat if player closer than closer than 8m (i think that's what we changed it to).
+	--Ranged_fire but with a forced retreat if player closer than closer than a certain amount based on their weapon usage range.
 	--obstacle 
 	--Unit attempts to position themselves in neighboring room near entrance closest to player.
 	--reloadingretreat

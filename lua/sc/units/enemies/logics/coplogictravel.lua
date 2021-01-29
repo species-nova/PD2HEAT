@@ -53,6 +53,424 @@ local REACT_SHOOT = AIAttentionObject.REACT_SHOOT
 local REACT_SUSPICIOUS = AIAttentionObject.REACT_SUSPICIOUS
 local REACT_SCARED = AIAttentionObject.REACT_SCARED
 
+function CopLogicTravel.enter(data, new_logic_name, enter_params)
+	CopLogicBase.enter(data, new_logic_name, enter_params)
+	data.brain:cancel_all_pathing_searches()
+
+	local old_internal_data = data.internal_data
+	local my_data = {
+		unit = data.unit
+	}
+	local was_cool = data.cool
+
+	if was_cool then
+		my_data.detection = data.char_tweak.detection.ntl
+	else
+		my_data.detection = data.char_tweak.detection.recon
+	end
+
+	if old_internal_data then
+		my_data.turning = old_internal_data.turning
+		my_data.firing = old_internal_data.firing
+		my_data.shooting = old_internal_data.shooting
+		my_data.attention_unit = old_internal_data.attention_unit
+
+		if old_internal_data.nearest_cover then
+			my_data.nearest_cover = old_internal_data.nearest_cover
+
+			managers.navigation:reserve_cover(my_data.nearest_cover[1], data.pos_rsrv_id)
+		end
+
+		if old_internal_data.best_cover then
+			my_data.best_cover = old_internal_data.best_cover
+
+			managers.navigation:reserve_cover(my_data.best_cover[1], data.pos_rsrv_id)
+		end
+	end
+
+	--disabling since there's no audio for this in PD2 and this just wastes performance, enable back if actually needed
+	--[[if data.announce_t then
+		data.announce_t = math_max(data.announce_t, data. + 2)
+	elseif data.char_tweak.announce_incomming then
+		data.announce_t = data.t + 2
+	end]]
+
+	data.internal_data = my_data
+
+	local new_stance = nil
+	local objective = data.objective
+
+	if objective.stance then
+		new_stance = objective.stance
+
+		if new_stance == "ntl" and data.char_tweak.allowed_stances and not data.char_tweak.allowed_stances.ntl then
+			new_stance = nil
+		end
+	end
+
+	if was_cool then
+		local scary_attention_obj = data.attention_obj and data.attention_obj.reaction >= REACT_SCARED and data.attention_obj
+
+		if not new_stance and scary_attention_obj or new_stance and new_stance ~= "ntl" then
+			local giveaway = scary_attention_obj and managers.groupai:state().analyse_giveaway(data.unit:base()._tweak_table, scary_attention_obj.unit)
+
+			data.unit:movement():set_cool(false, giveaway)
+
+			if my_data ~= data.internal_data then
+				return
+			end
+		end
+	end
+
+	if not new_stance and not data.cool then --checking for data.cool instead of was_cool is intended here (the latter isn't modified if the unit goes uncool, and in this case, didn't switch logics)
+		new_stance = "hos"
+	end
+
+	if new_stance then
+		if new_stance == "ntl" then
+			data.unit:movement():set_stance(new_stance)
+
+			if my_data ~= data.internal_data then
+				return
+			end
+		elseif not my_data.shooting then
+			if data.char_tweak.allowed_stances and not data.char_tweak.allowed_stances[new_stance] then
+				if new_stance ~= "hos" and data.char_tweak.allowed_stances.hos then
+					new_stance = "hos"
+				elseif new_stance ~= "cbt" and data.char_tweak.allowed_stances.cbt then
+					new_stance = "cbt"
+				else
+					new_stance = nil
+				end
+			end
+
+			if new_stance then
+				data.unit:movement():set_stance(new_stance)
+
+				if my_data ~= data.internal_data then
+					return
+				end
+			end
+		end
+	end
+
+	my_data.attitude = objective.attitude or "avoid"
+	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
+	
+	if data.tactics then
+		if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
+			my_data.weapon_range.close = my_data.weapon_range.close * 2
+			my_data.weapon_range.optimal = my_data.weapon_range.optimal * 1.5
+		end
+	end
+	
+	--my_data.path_safely = not data.cool and data.team.foes[tweak_data.levels:get_default_team_ID("player")]
+	my_data.path_safely = not data.cool and data.objective and data.objective.grp_objective and data.objective.grp_objective.type == "recon_area"
+	my_data.path_ahead = data.cool or objective.path_ahead or data.is_converted or data.unit:in_slot(16) or data.team.id == tweak_data.levels:get_default_team_ID("player")
+
+	local key_str = tostring(data.key)
+	my_data.upd_task_key = "CopLogicTravel.queued_update" .. key_str
+
+	CopLogicTravel.queue_update(data, my_data)
+
+	my_data.cover_update_task_key = "CopLogicTravel._update_cover" .. key_str
+
+	if my_data.nearest_cover or my_data.best_cover then
+		CopLogicBase.add_delayed_clbk(my_data, my_data.cover_update_task_key, callback(CopLogicTravel, CopLogicTravel, "_update_cover", data), data.t + 1)
+	end
+
+	my_data.advance_path_search_id = "CopLogicTravel_detailed" .. key_str
+	my_data.coarse_path_search_id = "CopLogicTravel_coarse" .. key_str
+
+	CopLogicIdle._chk_has_old_action(data, my_data)
+
+	if my_data.advancing then
+		my_data.old_action_advancing = true
+	end
+
+	if data.cool then
+		if not was_cool then
+			my_data.detection = data.char_tweak.detection.ntl
+		end
+
+		if my_data.firing then
+			data.unit:movement():set_allow_fire(false)
+
+			my_data.firing = nil
+		end
+
+		data.brain:set_attention_settings({
+			peaceful = true
+		})
+	else
+		if was_cool then
+			my_data.detection = data.char_tweak.detection.recon
+		end
+
+		if data.unit:base().has_tag and data.unit:base():has_tag("special") then
+			my_data.detection_uses_aim_react_or_higher = true
+		end
+
+		data.brain:set_attention_settings({
+			cbt = true
+		})
+	end
+
+	data.brain:set_update_enabled_state(false)
+
+	local path_style = objective.path_style
+
+	if path_style == "warp" then
+		my_data.warp_pos = objective.pos
+	else
+		local path_data = objective.path_data
+
+		if path_data then
+			if path_style == "precise" then
+				local path = {
+					mvec3_cpy(data.m_pos)
+				}
+
+				for _, point in ipairs(path_data.points) do
+					table_insert(path, mvec3_cpy(point.position))
+				end
+
+				my_data.advance_path = path
+				my_data.coarse_path_index = 1
+				local start_seg = data.unit:movement():nav_tracker():nav_segment()
+				local end_pos = mvec3_cpy(path[#path])
+				local end_seg = managers.navigation:get_nav_seg_from_pos(end_pos)
+				my_data.coarse_path = {
+					{
+						start_seg
+					},
+					{
+						end_seg,
+						end_pos
+					}
+				}
+				my_data.path_is_precise = true
+			elseif path_style == "coarse" then
+				local nav_manager = managers.navigation
+				local f_get_nav_seg = nav_manager.get_nav_seg_from_pos
+				local start_seg = data.unit:movement():nav_tracker():nav_segment()
+				local path = {
+					{
+						start_seg
+					}
+				}
+
+				for _, point in ipairs(path_data.points) do
+					local pos = mvec3_cpy(point.position)
+					local nav_seg = f_get_nav_seg(nav_manager, pos)
+
+					table_insert(path, {
+						nav_seg,
+						pos
+					})
+				end
+
+				my_data.coarse_path = path
+				my_data.coarse_path_index = CopLogicTravel.complete_coarse_path(data, my_data, path)
+			elseif path_style == "coarse_complete" then
+				my_data.coarse_path_index = 1
+				my_data.coarse_path = deep_clone(objective.path_data)
+				my_data.coarse_path_index = CopLogicTravel.complete_coarse_path(data, my_data, my_data.coarse_path)
+			end
+		end
+	end
+end
+
+function CopLogicTravel.queued_update(data)
+	data.t = TimerManager:game():time()
+	local my_data = data.internal_data
+	my_data.close_to_criminal = nil
+
+	local delay = CopLogicTravel._upd_enemy_detection(data)
+
+	if data.internal_data ~= my_data then
+		return
+	end
+
+	CopLogicTravel.upd_advance(data)
+
+	if data.internal_data ~= my_data then
+		return
+	end
+
+	if not delay then
+		--debug_pause_unit(data.unit, "crap!!!", inspect(data))
+
+		delay = 1
+	end
+	
+	local hostage_count = managers.groupai:state():get_hostage_count_for_chatter() --check current hostage count
+	local chosen_panic_chatter = "controlpanic" --set default generic assault break chatter
+	
+	if hostage_count > 0 then --make sure the hostage count is actually above zero before replacing any of the lines
+		if hostage_count > 3 then  -- hostage count needs to be above 3
+			if math_random() < 0.4 then --40% chance for regular panic if hostages are present
+				chosen_panic_chatter = "controlpanic"
+			else
+				chosen_panic_chatter = "hostagepanic2" --more panicky "GET THOSE HOSTAGES OUT RIGHT NOW!!!" line for when theres too many hostages on the map
+			end
+		else
+			if math_random() < 0.4 then
+				chosen_panic_chatter = "controlpanic"
+			else
+				chosen_panic_chatter = "hostagepanic1" --less panicky "Delay the assault until those hostages are out." line
+			end
+		end
+			
+		if managers.groupai:state():chk_has_civilian_hostages() then
+			--log("they got sausages!")
+			if math_random() < 0.5 then
+				chosen_panic_chatter = chosen_panic_chatter
+			else
+				chosen_panic_chatter = "civilianpanic"
+			end
+		end
+			
+	elseif managers.groupai:state():chk_had_hostages() then
+		if math_random() < 0.4 then
+			chosen_panic_chatter = "controlpanic"
+		else
+			chosen_panic_chatter = "hostagepanic3" -- no more hostages!!! full force!!!
+		end
+	end
+	
+	local chosen_sabotage_chatter = "sabotagegeneric" --set default sabotage chatter for variety's sake
+	local skirmish_map = managers.skirmish:is_skirmish()--these shouldnt play on holdout
+	local ignore_radio_rules = nil
+	
+	if objective and objective.bagjob then
+		--log("oh, worm")
+		chosen_sabotage_chatter = "sabotagebags"
+		ignore_radio_rules = true
+	elseif objective and objective.hostagejob then
+		--log("sausage removal squadron")
+		chosen_sabotage_chatter = "sabotagehostages"
+		ignore_radio_rules = true 
+	else
+		chosen_sabotage_chatter = "sabotagegeneric" --if none of these levels are the current one, use a generic "Break their gear!" line
+	end
+		
+	local clear_t_chk = not data.attention_obj or not data.attention_obj.verified_t or data.attention_obj.verified_t - data.t > math_random(2.5, 5)	
+		
+	local cant_say_clear = not data.attention_obj or AIAttentionObject.REACT_COMBAT <= data.attention_obj.reaction and clear_t_chk
+		
+	if not data.unit:base():has_tag("special") and not cant_say_clear and not data.is_converted then
+		if data.unit:movement():cool() and data.char_tweak.chatter and data.char_tweak.chatter.clear_whisper then            
+			local roll = math.rand(1, 100)
+			local whistle_chance = 50
+			if roll <= whistle_chance then
+				managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "clear_whisper_2" )
+				--log("whistle")
+			else
+				managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "clear_whisper" )
+				--log("reporting")
+			end
+		elseif not data.unit:movement():cool() then
+			if not managers.groupai:state():chk_assault_active_atm() then
+				if data.char_tweak.chatter and data.char_tweak.chatter.controlpanic then
+					local clearchk = math_random(0, 90)
+					local say_clear = 30
+					if clearchk > 60 then
+						managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "clear" )
+					elseif clearchk > 30 then
+						if not skirmish_map and my_data.radio_voice or not skirmish_map and ignore_radio_rules then
+							managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, chosen_sabotage_chatter )
+						else
+							managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, chosen_panic_chatter )
+						end
+					else
+						managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, chosen_panic_chatter )
+					end
+				elseif data.char_tweak.chatter and data.char_tweak.chatter.clear then
+					managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "clear" )
+				end
+			end
+		end
+	end
+	
+	if data.unit:base():has_tag("special") and not cant_say_clear then
+		if data.unit:base():has_tag("tank") or data.unit:base():has_tag("taser") then
+			managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "approachingspecial" )
+		elseif data.unit:base()._tweak_table == "shield" then
+			--fuck off
+		elseif data.unit:base()._tweak_table == "akuma" then
+			managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "lotusapproach" )
+		end
+	end
+		
+	--mid-assault panic for cops based on alerts instead of opening fire, since its supposed to be generic action lines instead of for opening fire and such
+	--I'm adding some randomness to these since the delays in groupaitweakdata went a bit overboard but also arent able to really discern things proper
+				
+	if data.char_tweak and data.char_tweak.chatter and data.char_tweak.chatter.enemyidlepanic and not data.is_converted then
+		if not data.unit:base():has_tag("special") and data.unit:base():has_tag("law") then
+			if managers.groupai:state():chk_assault_active_atm() then
+				if managers.groupai:state():_check_assault_panic_chatter() then
+					if data.attention_obj and data.attention_obj.verified and data.attention_obj.dis <= 500 or data.is_suppressed and data.attention_obj and data.attention_obj.verified then
+						local roll = math_random(1, 100)
+						local chance_suppanic = 50
+						
+						if roll <= chance_suppanic then
+							local nroll = math_random(1, 100)
+							local chance_help = 50
+							if roll <= chance_suppanic then
+								managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanicsuppressed1" )
+							else
+								managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanicsuppressed2" )
+							end
+						else
+							managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanic" )
+						end
+					else
+						if math_random() < 0.2 then
+							managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, chosen_sabotage_chatter )
+						else
+							managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanic" )
+						end
+					end
+				else
+					local clearchk = math_random(0, 90)
+						
+					if clearchk > 60 then
+						if not skirmish_map and my_data.radio_voice or not skirmish_map and ignore_radio_rules then
+							managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, chosen_sabotage_chatter )
+						end
+					elseif chosen_panic_chatter == "civilianpanic" then
+						managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, chosen_panic_chatter )
+					end
+				end
+			end
+		elseif not data.unit:base():has_tag("special") and data.attention_obj and AIAttentionObject.REACT_COMBAT <= data.attention_obj.reaction and data.attention_obj.verified_t or not data.unit:base():has_tag("special") and data.attention_obj and AIAttentionObject.REACT_COMBAT <= data.attention_obj.reaction and data.attention_obj.alert_t then
+		
+			if data.attention_obj.verified and data.attention_obj.dis <= 500 or data.is_suppressed and data.attention_obj.verified then
+				local roll = math_random(1, 100)
+				local chance_suppanic = 50
+						
+				if roll <= chance_suppanic then
+					local nroll = math_random(1, 100)
+					local chance_help = 50
+					if roll <= chance_suppanic then
+						managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanicsuppressed1" )
+					else
+						managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanicsuppressed2" )
+					end
+				else
+					managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanic" )
+				end
+			else
+				managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "assaultpanic" )
+			end
+			
+		end	
+	end
+
+	CopLogicTravel.queue_update(data, data.internal_data, delay)
+end
+
 function CopLogicTravel.upd_advance(data)
 	local my_data = data.internal_data
 	local objective = data.objective
