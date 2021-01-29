@@ -69,22 +69,33 @@ NavigationManager.ACCESS_FLAGS = {
 }
 NavigationManager.ACCESS_FLAGS_OLD = {}
 
-function NavigationManager:find_cover_from_threat_2(nav_seg_id, optimal_threat_dis, near_pos, threat_pos, search_start_pos, max_distance, cone_base, cone_angle, rsrv_filter)
-	if type(nav_seg_id) == "table" then
-		nav_seg_id = self._convert_nav_seg_map_to_vec(nav_seg_id)
+function NavigationManager:release_cover(cover)
+	local reserved = cover[self.COVER_RESERVED]
+	
+	if not reserved then
+		log("cover invalid!!! but probably not reserved!!!")
+		return true
 	end
+	
+	if reserved == 1 then
+		cover[self.COVER_RESERVED] = nil
 
-	local search_params = {
-		cone_base = cone_base,
-		cone_angle = cone_angle,
-		max_distance = max_distance,
-		near_pos = near_pos,
-		threat_pos = threat_pos,
-		rsrv_filter = rsrv_filter,
-		search_start_pos = search_start_pos,
-		in_nav_seg = nav_seg_id,
-		optimal_threat_dis = optimal_threat_dis
-	}
+		self:unreserve_pos(cover[self.COVER_RESERVATION])
+	else
+		cover[self.COVER_RESERVED] = reserved - 1
+	end
+end
+
+function NavigationManager:find_cover_from_literally_anything(search_params)
+	if not search_params then
+		return
+	end
+	
+	if type(search_params.in_nav_seg) == "table" then
+		search_params.in_nav_seg = self._convert_nav_seg_map_to_vec(search_params.in_nav_seg)
+	end
+	
+	--log("cum")
 
 	return self._quad_field:find_cover(search_params)
 end
