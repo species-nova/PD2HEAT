@@ -436,6 +436,7 @@ function CopLogicIdle.queued_update(data)
 	end
 
 	CopLogicIdle._perform_objective_action(data, my_data, objective)
+	CopLogicIdle._upd_stance_and_pose(data, my_data, objective)
 	CopLogicIdle._upd_pathing(data, my_data)
 	CopLogicIdle._upd_scan(data, my_data)
 
