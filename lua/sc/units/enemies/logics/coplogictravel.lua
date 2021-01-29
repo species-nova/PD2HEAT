@@ -216,7 +216,9 @@ function CopLogicTravel.action_complete_clbk(data, action)
 					my_data.close_to_criminal = nil
 
 					if not CopLogicTravel._chk_close_to_criminal(data, my_data) then
-						local cover_wait_time = my_data.coarse_path_index == #my_data.coarse_path - 1 and 0.3 or 0.6 + 0.4 * math_random()
+						local cover_wait_time = 0.6 + 0.4 * math_random()
+						
+						cover_wait_time = cover_wait_time + 1 * math_random()
 
 						my_data.cover_leave_t = TimerManager:game():time() + cover_wait_time
 
@@ -2023,86 +2025,4 @@ function CopLogicTravel._chk_stop_for_follow_unit(data, my_data)
 			data.logic.on_new_objective(data)
 		end
 	end
-end
-
-function CopLogicTravel._find_cover(data, search_nav_seg, near_pos)
-	local cover = nil
-	local search_area = managers.groupai:state():get_area_from_nav_seg_id(search_nav_seg)
-	local my_data = data.internal_data
-
-	if data.unit:movement():cool() then
-		cover = managers.navigation:find_cover_in_nav_seg_1(search_area.nav_segs)
-	else
-		local search_start_pos, cone_base, cone_angle, variation_z, optimal_threat_dis, max_dist, threat_pos = nil
-
-		near_pos = near_pos or nil
-		
-		local all_criminals = managers.groupai:state():all_char_criminals()
-		local closest_crim_u_data, closest_crim_dis = nil
-		
-		if data.unit:in_slot(managers.slot:get_mask("enemies")) and not data.is_converted then
-			if data.attention_obj and AIAttentionObject.REACT_COMBAT <= data.attention_obj.reaction then
-				threat_pos = data.attention_obj.nav_tracker:field_position()
-			else
-				for u_key, u_data in pairs(all_criminals) do
-					local crim_area = managers.groupai:state():get_area_from_nav_seg_id(u_data.tracker:nav_segment())
-
-					if crim_area == search_area then
-						threat_pos = u_data.m_pos
-
-						break
-					else
-						local pos_to_check = near_pos or search_area.pos
-						local crim_dis = mvec3_dis_sq(pos_to_check, u_data.m_pos)
-
-						if not closest_crim_dis or crim_dis < closest_crim_dis then
-							threat_pos = u_data.unit:movement():nav_tracker():field_position()
-							closest_crim_dis = crim_dis
-						end
-					end
-				end
-			end
-		
-			if threat_pos then		
-				if data.objective.attitude == "engage" then
-					if not near_pos then
-						search_start_pos = threat_pos or nil
-					end
-					optimal_threat_dis = nil
-				else
-					optimal_threat_dis = my_data.weapon_range.far
-				end			
-			end
-		end
-		
-		if near_pos then
-			if not data.objective.distance then
-				max_dist = 600
-
-				if data.objective.called or data.team and data.team.id == tweak_data.levels:get_default_team_ID("player") or data.is_converted or data.unit:in_slot(16) or data.unit:in_slot(managers.slot:get_mask("criminals")) or data.tactics and data.tactics.shield_cover then
-					max_dist = 300
-				end
-			else
-				max_dist = data.objective.distance * 0.9
-			end
-			--variation_z = 250 causes an access violation crash, probably needs something else...
-		end
-		
-		--things commented out here need setups that i wouldnt know how to make...
-		local search_params = {
-			in_nav_seg = search_nav_seg, 
-			optimal_threat_dis = optimal_threat_dis or nil, 
-			near_pos = near_pos or nil, 
-			threat_pos = threat_pos or nil,
-			--cone_base = cone_base or nil,
-			--cone_angle = cone_angle or nil,
-			max_dist = max_dist or nil,
-			--variation_z = variation_z or nil,
-			search_start_pos = search_start_pos or near_pos or nil
-		}
-
-		cover = managers.navigation:find_cover_from_literally_anything(search_params) --custom function, pay attention
-	end
-
-	return cover
 end
