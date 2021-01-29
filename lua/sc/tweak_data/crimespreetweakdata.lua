@@ -201,13 +201,6 @@ function CrimeSpreeTweakData:init_missions(tweak_data)
 				id = "family",
 				icon = "csm_family",
 				level = tweak_data.narrative.stages.family
-			},
-			{
-				stage_id = "wetwork",
-				add = 6,
-				id = "wetwork",
-				icon = "csm_wetwork",
-				level = tweak_data.narrative.stages.wetwork
 			}
 		},
 		{
@@ -364,20 +357,6 @@ function CrimeSpreeTweakData:init_missions(tweak_data)
 				id = "election_day_3_skip1",
 				icon = "csm_election_3",
 				level = tweak_data.narrative.stages.election_day_3_skip1
-			},
-			{
-				stage_id = "wetwork_burn",
-				add = debug_med_add,
-				id = "wetwork_burn",
-				icon = "csm_wetwork_burn",
-				level = tweak_data.narrative.stages.wetwork_burn
-			},
-			{
-				stage_id = "junk",
-				add = debug_short_add,
-				id = "junk",
-				icon = "csm_junk",
-				level = tweak_data.narrative.stages.junk
 			}
 		},
 		{
