@@ -605,6 +605,8 @@ function CopLogicAttack._upd_combat_movement(data)
 		end
 	end
 	
+	action_taken = action_taken or data.logic.action_taken(data, my_data) or CopLogicAttack._upd_pose(data, my_data)
+	
 	if not action_taken and data.tactics then
 		local reason, vis_req = nil		
 		local ammo_max, ammo = data.unit:inventory():equipped_unit():base():ammo_info()
@@ -627,7 +629,6 @@ function CopLogicAttack._upd_combat_movement(data)
 		end
 	end
 
-	action_taken = action_taken or data.logic.action_taken(data, my_data) or CopLogicAttack._upd_pose(data, my_data)
 
 	local enemy_visible_soft = focus_enemy.verified_t and t - focus_enemy.verified_t < 2
 	local enemy_visible_softer = focus_enemy.verified_t and t - focus_enemy.verified_t < 15
@@ -660,20 +661,14 @@ function CopLogicAttack._upd_combat_movement(data)
 			move_to_cover = true
 		elseif not enemy_visible_soft then
 			if data.tactics and data.tactics.charge and data.objective and data.objective.grp_objective and data.objective.grp_objective.charge then
-				if not my_data.charge_path_failed_t or t - my_data.charge_path_failed_t > 6 then
+				if not my_data.charge_path_failed_t or t - my_data.charge_path_failed_t > 3 then
 					if my_data.charge_path then
 						local path = my_data.charge_path
 						my_data.charge_path = nil
 
 						action_taken = CopLogicAttack._chk_request_action_walk_to_cover_shoot_pos(data, my_data, path, "run")
 					elseif not my_data.charge_path_search_id and focus_enemy.nav_tracker then
-						if data.tactics.flank then
-							my_data.charge_pos = CopLogicAttack._find_flank_pos(data, my_data, focus_enemy.nav_tracker, my_data.weapon_range.optimal) --charge to a position that would put the unit in a flanking position, not a flanking path
-						else
-							my_data.charge_pos = CopLogicTravel._get_pos_on_wall(focus_enemy.nav_tracker:field_position(), my_data.weapon_range.optimal, 45, nil, data.pos_rsrv_id)
-						end
-
-						--my_data.charge_pos = CopLogicTravel._get_pos_on_wall(focus_enemy.nav_tracker:field_position(), my_data.weapon_range.optimal, 45, nil, data.pos_rsrv_id)
+						my_data.charge_pos = CopLogicTravel._get_pos_on_wall(focus_enemy.nav_tracker:field_position(), my_data.weapon_range.close, 45, nil, data.pos_rsrv_id)
 
 						if my_data.charge_pos then
 							local my_pos = data.unit:movement():nav_tracker():field_position()
@@ -721,7 +716,7 @@ function CopLogicAttack._upd_combat_movement(data)
 			elseif my_data.flank_cover and my_data.flank_cover.failed then
 				want_flank_cover = true
 
-				if not my_data.charge_path_failed_t or t - my_data.charge_path_failed_t > 6 then --not gonna bother renaming and adding stuff to be used as flank_path as well, so I'm sharing the name even though they're kinda different
+				if not my_data.charge_path_failed_t or t - my_data.charge_path_failed_t > 3 then --not gonna bother renaming and adding stuff to be used as flank_path as well, so I'm sharing the name even though they're kinda different
 					my_data.flank_cover = nil
 
 					if my_data.charge_path then
