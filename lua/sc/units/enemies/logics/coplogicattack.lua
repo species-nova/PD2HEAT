@@ -1611,7 +1611,7 @@ function CopLogicAttack._upd_enemy_detection(data, is_synchronous)
 	local delay = CopLogicBase._upd_attention_obj_detection(data, min_reaction, nil)
 	local reaction_func = nil
 	
-	if data.unit:base():has_tag("taser") then
+	if not data.unit:base():has_tag("titan_taser") and data.unit:base():has_tag("taser") then
 		reaction_func = TaserLogicAttack._chk_reaction_to_attention_object
 	elseif data.unit:base():has_tag("spooc") then
 		reaction_func = SpoocLogicAttack.chk_reaction_to_attention_object
