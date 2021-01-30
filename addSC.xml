@@ -111,7 +111,7 @@
 	<!--Updated Assets-->
 	<!-- <object	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> -->
 	<!-- <sequence_manager	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> --> <!--what was this for?-->
-	<material_config path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/>
+	<texture path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera_df" force="true"/>
 	
 	<environment path="environments/pd2_env_night/pd2_env_night" force="true"/>
 	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
