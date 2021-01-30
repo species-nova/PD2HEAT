@@ -1477,7 +1477,7 @@ if Network:is_server() then
 			if not criminal then
 				return
 			end
-			self:set_difficulty(nil, 0.05)
+			self:set_difficulty(nil, 0.1)
 			
 		    if is_first or self._assault_number and self._assault_number >= 1 then
 				local roll = math.rand(1, 100)
@@ -1491,7 +1491,7 @@ end
 
 --this function has been repurposed. instead of overriding any previous value, this ADDS diff
 --this is set to 0.5 on loud, while other events increase it
---+0.05 on civilian kill (watch your fire!), +0.3 on assault end
+--+0.1 on civilian kill (watch your fire!), +0.3 on assault end
 --script value is used by the base game, we usually ignore it after the beginning of a level
 --thanks (again) to hoxi for helping out with this
 --perhaps modify these values at one point in crime spree? who knows
