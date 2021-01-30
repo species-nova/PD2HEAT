@@ -110,7 +110,8 @@
 
 	<!--Updated Assets-->
 	<!-- <object	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> -->
-	<!-- <sequence_manager	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> -->
+	<!-- <sequence_manager	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> --> <!--what was this for?-->
+	<material_config path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/>
 	
 	<environment path="environments/pd2_env_night/pd2_env_night" force="true"/>
 	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
@@ -238,8 +239,8 @@
 	
 	<mission path="levels/instances/shared/skm_negotiator/world/world" force="true" unload="true"/> <!-- disables modifier dialogue and re-enables an unused negotiator line for players going in custody.-->
 	
-	<continent path="levels/narratives/bain/big/world/world" force="true" unload="true"/><!--you can now drill the small cashbox, money cassettes spawn-->
-
+	<continent path="levels/narratives/bain/big/world/world" force="true" unload="true"/> <!--you can now drill the small cashbox, money cassettes spawn-->
+	
 	<mission path="levels/narratives/classics/pal/world/world" force="true" unload="true"/> <!--c4 warning plays when you walk into the shelter and fbi agents can pull the power/water-->
 
 	<continent path="levels/narratives/classics/dah/world/world" force="true" unload="true"/>
