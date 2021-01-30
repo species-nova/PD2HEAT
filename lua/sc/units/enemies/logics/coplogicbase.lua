@@ -63,7 +63,7 @@ CopLogicBase._DANGEROUS_ALERT_TYPES = {
 	fire = true
 }
 
-function CopLogicBase.on_importance(data)
+function CopLogicBase.on_importance(data) ----distribute in each logic, do not modify timers, or if it's done, store previous ones in case the unit is no longer important
 	if not data.important or not data.internal_data then
 		return
 	end
@@ -1116,7 +1116,7 @@ function CopLogicBase.should_duck_on_alert(data, alert_data)
 	return true]]
 end
 
-function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key)
+function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key) ----should be better on performance
 	local current_focus = data.attention_obj
 
 	if current_focus then
@@ -1132,83 +1132,6 @@ function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key
 	end
 end
 
-function CopLogicBase._get_logic_state_from_reaction(data, reaction)
-	local current_focus = data.attention_obj
-
-	if current_focus and current_focus.forced then
-		return "attack"
-	end
-
-	if data.cool then
-		return
-	end
-
-	if reaction == nil and current_focus then
-		reaction = current_focus.reaction
-	end
-
-	if data.is_converted then
-		if not reaction or reaction < REACT_AIM then
-			return "idle"
-		else
-			return "attack"
-		end
-	end
-
-	if not reaction or reaction < REACT_AIM then
-		if data.char_tweak.calls_in and not managers.groupai:state():is_police_called() then
-			if not data.objective or not data.objective.no_arrest then
-				if not CopLogicArrest._chk_already_calling_in_area(data) then
-					return "arrest"
-				end
-			end
-		end
-
-		return "idle"
-	elseif reaction == REACT_ARREST and CopLogicBase._can_arrest(data) then
-		return "arrest"
-	elseif data.char_tweak.calls_in and not managers.groupai:state():is_police_called() then
-		if not data.objective or not data.objective.no_arrest then
-			if not current_focus or reaction == REACT_AIM and not current_focus.is_person or current_focus.criminal_record and current_focus.criminal_record.being_arrested or current_focus.dis > 1500 or not current_focus.verified_t or data.t - current_focus.verified_t > 6 then
-				if not CopLogicArrest._chk_already_calling_in_area(data) then
-					return "arrest"
-				end
-			end
-		end
-	end
-
-	return "attack"
-end
-
-function CopLogicBase._chk_call_the_police(data)
-	if data.is_converted or data.cool or not data.char_tweak.calls_in or managers.groupai:state():is_police_called() then
-		return
-	end
-
-	--doing this instead of calling CopLogicBase._can_arrest(data), which would check for data.char_tweak.no_arrest, and that makes no sense (no_arrest in an objective just means "don't switch to arrest logic")
-	if data.objective and data.objective.no_arrest then
-		return
-	end
-
-	local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, nil)
-
-	if allow_trans and data.logic.is_available_for_assignment(data) then
-		local current_focus = data.attention_obj
-
-		if not current_focus or current_focus.reaction < REACT_AIM --[[or current_focus.reaction == REACT_ARREST and not data.char_tweak.no_arrest]] or not current_focus.verified_t or data.t - current_focus.verified_t > 6 then
-			if obj_failed then
-				data.objective_failed_clbk(data.unit, data.objective)
-			end
-
-			if not data.objective or data.objective.is_default then
-
-				if not CopLogicArrest._chk_already_calling_in_area(data) then
-					CopLogicBase._exit(data.unit, "arrest")
-				end
-			end
-		end
-	end
-end
 local REACT_SPECIAL = AIAttentionObject.REACT_SPECIAL_ATTACK
 
 function CopLogicBase.is_obstructed(data, objective, strictness, attention, check_obstruction, force_obstruction)
@@ -1229,7 +1152,6 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention, chec
 	end
 	
 	if attention then
-	
 		if REACT_SPECIAL <= attention.reaction or force_obstruction or data.unit:character_damage():dead() then
 			return true, true
 		end
@@ -1388,7 +1310,7 @@ function CopLogicBase._upd_suspicion(data, my_data, attention_obj)
 		end
 
 		attention_obj.reaction = reaction
-		local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, attention_obj)
+		local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, attention_obj, true)
 
 		if allow_trans then
 			if obj_failed then
@@ -1485,6 +1407,87 @@ function CopLogicBase.upd_suspicion_decay(data)
 				u_data.unit:movement():on_suspicion(data.unit, u_data.uncover_progress)
 
 				u_data.last_suspicion_t = data.t
+			end
+		end
+	end
+end
+
+function CopLogicBase._get_logic_state_from_reaction(data, reaction)
+	local current_focus = data.attention_obj
+
+	if current_focus and current_focus.forced then
+		return "attack"
+	end
+
+	if data.cool then
+		return
+	end
+
+	if reaction == nil and current_focus then
+		reaction = current_focus.reaction
+	end
+
+	if data.is_converted then
+		if not reaction or reaction < REACT_AIM then
+			return "idle"
+		else
+			return "attack"
+		end
+	end
+
+	if not reaction or reaction < REACT_AIM then
+		if data.char_tweak.calls_in and not managers.groupai:state():is_police_called() then
+			if not data.objective or not data.objective.no_arrest then
+				if not CopLogicArrest._chk_already_calling_in_area(data) then
+					return "arrest"
+				end
+			end
+		end
+
+		return "idle"
+	elseif reaction == REACT_ARREST and CopLogicBase._can_arrest(data) then
+		return "arrest"
+	elseif data.char_tweak.calls_in and not managers.groupai:state():is_police_called() then
+		if not data.objective or not data.objective.no_arrest then
+			if not current_focus or reaction == REACT_AIM and not current_focus.is_person or current_focus.criminal_record and current_focus.criminal_record.being_arrested or current_focus.dis > 1500 or not current_focus.verified_t or data.t - current_focus.verified_t > 6 then
+				if not CopLogicArrest._chk_already_calling_in_area(data) then
+					return "arrest"
+				end
+			end
+		end
+	end
+
+	return "attack"
+end
+
+function CopLogicBase._chk_call_the_police(data)
+	if data.is_converted or data.cool or not data.char_tweak.calls_in or managers.groupai:state():is_police_called() then
+		return
+	end
+
+	--doing this instead of calling CopLogicBase._can_arrest(data), which would check for data.char_tweak.no_arrest, and that makes no sense (no_arrest in an objective just means "don't switch to arrest logic")
+	if data.objective and data.objective.no_arrest then
+		return
+	end
+
+	local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, nil, true)
+
+	if allow_trans and data.logic.is_available_for_assignment(data) then
+		local current_focus = data.attention_obj
+
+		if not current_focus or current_focus.reaction < REACT_AIM --[[or current_focus.reaction == REACT_ARREST and not data.char_tweak.no_arrest]] or not current_focus.verified_t or data.t - current_focus.verified_t > 6 then
+			if obj_failed then
+				data.objective_failed_clbk(data.unit, data.objective)
+			end
+
+			if not data.objective or data.objective.is_default then
+				--[[local my_cur_nav_seg = data.unit:movement():nav_tracker():nav_segment()
+				local my_cur_area = managers.groupai:state():get_area_from_nav_seg_id(my_cur_nav_seg)
+				local already_calling_in_area = managers.groupai:state():chk_enemy_calling_in_area(my_cur_area, data.key)]]
+
+				if not CopLogicArrest._chk_already_calling_in_area(data) then
+					CopLogicBase._exit(data.unit, "arrest")
+				end
 			end
 		end
 	end
@@ -1662,190 +1665,6 @@ function CopLogicBase._chk_alert_obstructed(my_listen_pos, alert_data)
 		end
 	end
 end
-
-function CopLogicBase.do_grenade(data, pos, flash, drop)
-	if not managers.groupai:state():is_smoke_grenade_active() or data.unit:base().has_tag and not data.unit:base():has_tag("law") or data.char_tweak.cannot_throw_grenades then --if you're not calling this function from somewhere outside do_smart_grenade, remove this entire check
-		return
-	end
-
-	local duration = tweak_data.group_ai.smoke_grenade_lifetime
-
-	if flash then
-		duration = tweak_data.group_ai.flash_grenade_lifetime
-
-		managers.groupai:state():detonate_smoke_grenade(pos, data.unit:movement():m_head_pos(), duration, flash)
-		managers.groupai:state():apply_grenade_cooldown(flash)
-
-		if not drop and data.char_tweak.chatter and data.char_tweak.chatter.flash_grenade then
-			data.unit:sound():say("d02", true)	
-		end
-	else
-		managers.groupai:state():detonate_smoke_grenade(pos, data.unit:movement():m_head_pos(), duration, flash)
-		managers.groupai:state():apply_grenade_cooldown(flash)
-
-		if not drop and data.char_tweak.chatter and data.char_tweak.chatter.smoke then
-			data.unit:sound():say("d01", true)	
-		end
-	end
-	
-	if not drop and not data.unit:movement():chk_action_forbidden("action") and not data.char_tweak.no_grenade_anim then
-		local redir_name = "throw_grenade"
-
-		if data.unit:movement():play_redirect(redir_name) then
-			managers.network:session():send_to_peers_synched("play_distance_interact_redirect", data.unit, redir_name)
-		end
-	end
-
-	return true
-end
-
-function CopLogicBase.do_smart_grenade(data, my_data, focus_enemy)
-
-	if not focus_enemy then
-		--log("No focus_enemy sent! Fuck!?")
-		return
-	end
-	
-	if not data.tactics or data.unit:base().has_tag and not data.unit:base():has_tag("law") or data.char_tweak.cannot_throw_grenades then
-		--log("Invalid enemy.")
-		return
-	end
-	
-	if data.is_converted then
-		--log("Converted enemy.")
-		return
-	end
-	
-	if not managers.groupai:state():is_smoke_grenade_active() then --this function would be better named "are grenades allowed"
-		return
-	end
-	
-	local t = data.t
-	local enemy_visible = focus_enemy.verified
-	local enemy_visible_soft = focus_enemy.verified_t and t - focus_enemy.verified_t < 2
-	--local enemy_visible_softer = focus_enemy.verified_t and t - focus_enemy.verified_t < 15
-	
-	local flash = nil
-	
-	if data.tactics.smoke_grenade or data.tactics.flash_grenade then
-		if data.tactics.smoke_grenade and data.tactics.flash_grenade then
-			local flashchance = math.random()
-									
-			if flashchance < 0.5 then
-				flash = true
-			end
-		else
-			if data.tactics.flash_grenade then
-				flash = true
-			end
-		end
-	else
-		return
-	end
-	
-	local do_something_else = true
-	
-	if data.objective then
-		local attitude = data.objective.attitude or "avoid"
-		
-		if data.tactics.flank then
-			if attitude == "avoid" and not flash then
-				if focus_enemy.verified and focus_enemy.aimed_at and focus_enemy.dis < 2000 then
-					if my_data.walking_to_optimal_pos and my_data.optimal_pos then
-						if CopLogicBase.do_grenade(data, my_data.optimal_pos + math.UP * 5, flash, nil) then
-							--log("reason1")
-							do_something_else = nil
-						end
-					elseif my_data.advancing and my_data.advance_pos then
-						if CopLogicBase.do_grenade(data, my_data.advance_pos + math.UP * 5, flash, nil) then
-							--log("reason2")
-							do_something_else = nil
-						end
-					end
-				end
-			else
-				if my_data.optimal_pos and my_data.walking_to_optimal_pos and mvec3_dis(my_data.optimal_pos, focus_enemy.m_pos) < 600 then
-					if flash then
-						if CopLogicBase.do_grenade(data, my_data.optimal_pos + math.UP * 10, flash, nil) then
-							--log("reason3")
-							do_something_else = nil
-						end
-					else
-						if CopLogicBase.do_grenade(data, my_data.optimal_pos + math.UP * 5, flash, nil) then
-							--log("reason4")
-							do_something_else = nil
-						end
-					end
-				end
-			end
-		end
-		
-		if not do_something_else then
-			return true
-		end
-		
-		if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
-			if not flash then
-				if my_data.firing and focus_enemy.verified then
-					if data.is_suppressed or focus_enemy.criminal_record and focus_enemy.criminal_record.assault_t and data.t - focus_enemy.criminal_record.assault_t < 2 then
-						if CopLogicBase.do_grenade(data, focus_enemy.m_pos + math.UP * 5, flash, nil) then
-							--log("reason5")
-							do_something_else = nil
-						end
-					end
-				end
-			else
-				if data.tactics.elite_ranged_fire and focus_enemy.verified and focus_enemy.dis < 2000 then
-					if focus_enemy.is_person then
-						local area = managers.groupai:state():get_area_from_nav_seg_id(focus_enemy.nav_tracker:nav_segment())
-						if CopLogicBase.do_grenade(data, area.pos + math.UP * 10, flash, nil) then
-							--log("reason6")
-							do_something_else = nil
-						end
-					end
-				end
-			end
-		end
-					
-		if not do_something_else then
-			return true
-		end
-						
-		if focus_enemy.dis < 1500 and CopLogicTravel._chk_close_to_criminal(data, my_data) then
-			local pos_to_use = nil
-					
-			if my_data.advance_pos and mvec3_dis(my_data.advance_pos, focus_enemy.m_pos) < 600 then
-				pos_to_use = my_data.advance_pos
-			elseif my_data.optimal_pos and mvec3_dis(my_data.optimal_pos, focus_enemy.m_pos) < 600 then
-				pos_to_use = my_data.optimal_pos
-			end
-					
-			if pos_to_use then
-				if flash then
-					if CopLogicBase.do_grenade(data, pos_to_use + math.UP * 10, flash, nil) then
-						--log("reason7")
-						do_something_else = nil
-					end
-				else
-					if CopLogicBase.do_grenade(data, pos_to_use + math.UP * 5, flash, nil) then
-						--log("reason8")
-						do_something_else = nil
-					end
-				end
-			end
-		end
-	end
-	
-	if not do_something_else then
-		--log("found appropriate grenade throwing thingy!")
-		return true
-	else
-		--log("couldnt find suitable reason")
-		return
-	end
-	
-end 
-
 
 function CopLogicBase.on_long_dis_interacted(data, other_unit, secondary)
 end

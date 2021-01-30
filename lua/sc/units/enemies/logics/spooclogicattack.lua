@@ -183,38 +183,3 @@ function SpoocLogicAttack.queue_update(data, my_data)
 
 	CopLogicBase.queue_task(my_data, my_data.update_queue_id, SpoocLogicAttack.queued_update, data, data.t, true)
 end
-
-function SpoocLogicAttack._chk_reaction_to_attention_object(data, attention_data, stationary)
-	local reaction = CopLogicIdle._chk_reaction_to_attention_object(data, attention_data, stationary)
-	local charge_range = 2500
-
-	if reaction < AIAttentionObject.REACT_SHOOT or not attention_data.criminal_record or not attention_data.is_person then
-		return reaction
-	end
-
-	local focus_enemy = attention_data
-	
-	if focus_enemy and focus_enemy.nav_tracker and focus_enemy.is_person and AIAttentionObject.REACT_SHOOT <= focus_enemy.reaction and not data.unit:movement():chk_action_forbidden("walk") and focus_enemy.dis < charge_range then
-		if focus_enemy.criminal_record then
-			if focus_enemy.criminal_record.status then
-				return reaction
-			--[[elseif SpoocLogicAttack._is_last_standing_criminal(focus_enemy) then
-				return]]
-			end
-		end
-
-		if focus_enemy.unit:movement().zipline_unit and focus_enemy.unit:movement():zipline_unit() then
-			return reaction
-		end
-
-		if focus_enemy.unit:movement().is_SPOOC_attack_allowed and not focus_enemy.unit:movement():is_SPOOC_attack_allowed() then
-			return reaction
-		end
-
-		if focus_enemy.unit:movement().chk_action_forbidden and focus_enemy.unit:movement():chk_action_forbidden("hurt") then
-			return reaction
-		end
-		
-		return AIAttentionObject.REACT_SPECIAL_ATTACK
-	end
-end
