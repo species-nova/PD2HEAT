@@ -989,35 +989,13 @@ function CopLogicTravel._upd_pathing(data, my_data)
 			if path ~= "failed" then
 				my_data.advance_path = path
 				data.path_fail_t = nil
-				--my_data.pathing_to_pos = nil
 			else
 				if data.objective and data.objective.type == "revive" then
 					my_data.processing_coarse_path = nil
-					--my_data.pathing_to_pos = nil
+
 
 					CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, true)
 				else
-					--[[if my_data.pathing_to_pos then
-						managers.groupai:state():add_path_fail_position(mvec3_cpy(my_data.pathing_to_pos), data.unit)
-
-						my_data.pathing_to_pos = nil
-					end
-
-					local coarse_path = my_data.coarse_path
-
-					if coarse_path then
-						local pos_table = {}
-
-						for i = my_data.coarse_path_index, #coarse_path do
-							local pos = coarse_path[i][2]
-
-							if pos then
-								pos_table[#pos_table + 1] = mvec3_cpy(pos)
-							end
-						end
-
-						managers.groupai:state():add_failed_coarse(pos_table)
-					end]]
 
 					data.path_fail_t = data.t
 
@@ -1034,7 +1012,6 @@ function CopLogicTravel._upd_pathing(data, my_data)
 			my_data.processing_coarse_path = nil
 
 			if path ~= "failed" then
-				--my_data.pathing_to_pos_coarse = nil
 				my_data.coarse_path = path
 				my_data.coarse_path_index = 1
 				data.path_fail_t = nil
@@ -1044,20 +1021,11 @@ function CopLogicTravel._upd_pathing(data, my_data)
 					my_data.was_pathing_safely = nil
 				end
 			elseif my_data.path_safely then
-				--my_data.pathing_to_pos_coarse = nil
 				my_data.path_safely = nil
 				my_data.was_pathing_safely = true
 			elseif data.objective and data.objective.type == "revive" then
-				--my_data.pathing_to_pos_coarse = nil
 				CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, true)
 			else
-				--[[if my_data.pathing_to_pos_coarse then
-					managers.groupai:state():add_path_fail_position(mvec3_cpy(my_data.pathing_to_pos_coarse), data.unit)
-
-					my_data.pathing_to_pos_coarse = nil
-				end]]
-				--print("[CopLogicTravel:_upd_pathing] coarse_path failed unsafe", data.unit, my_data.coarse_path_index)
-
 				data.path_fail_t = data.t
 
 				data.objective_failed_clbk(data.unit, data.objective)
@@ -1065,6 +1033,11 @@ function CopLogicTravel._upd_pathing(data, my_data)
 		end
 	end
 end
+
+function CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, warp_back)
+	CopLogicTravel._on_destination_reached(data) --temp until hoxi goes over logic stuff herself
+end
+
 
 function CopLogicTravel._update_cover(ignore_this, data)
 	local my_data = data.internal_data
