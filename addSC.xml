@@ -218,7 +218,7 @@
 		<!--<bnk				force="true" path="soundbanks/regular_sfx" unload="true"/>-->
 		
 	<!--Tiny Heist Edits that Change like a few things-->	
-	<mission path="levels/narratives/pbr/jerry/world/world" force="true" unload="true"/><!--removes scripted sewer spawns. might have messed something up on the sewer part, so uh pls test kthx.-->		
+	<mission path="levels/narratives/pbr/jerry/world/world" force="true" unload="true"/> <!--removes scripted sewer spawns. might have messed something up on the sewer part, so uh pls test kthx.-->		
 	<mission path="levels/instances/unique/pbr/pbr_plane_cargo/world/world" force="true" unload="true"/> <!--makes the murkydozers use their actual models on the plane. not gonna touch the other instance, 
 	because editing instances is hard as fuck to do, and the fact that I always fuck the scripting here whenever I try to add a difficulty filter.-->	
 	<mission path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>  <!--so actual murky dozers rappel down when the helicopters arrive. also changes the van dozer.-->
@@ -227,10 +227,10 @@
 	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	
-	<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/><!--adds a bikerdozer to the bunker, removes swat turret.-->	
-	<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/><!--fixes cars clipping into ground-->
+	<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--adds a bikerdozer to the bunker, removes swat turret.-->	
+	<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--fixes cars clipping into ground-->
 
-	<mission path="levels/narratives/elephant/chew/world/world" force="true" unload="true"/><!--adds back in ponr, re-enables 4player c4 event, changes feedback-->
+	<mission path="levels/narratives/elephant/chew/world/world" force="true" unload="true"/> <!--adds back in ponr, re-enables 4player c4 event, changes feedback-->
 	
 	<mission path="levels/narratives/butcher/friend/world/world" force="true" unload="true"/> <!--Forces boat escape-->
 	
@@ -239,6 +239,8 @@
 	<mission path="levels/instances/shared/skm_negotiator/world/world" force="true" unload="true"/> <!-- disables modifier dialogue and re-enables an unused negotiator line for players going in custody.-->
 	
 	<continent path="levels/narratives/bain/big/world/world" force="true" unload="true"/><!--you can now drill the small cashbox, money cassettes spawn-->
+
+	<mission path="levels/narratives/classics/pal/world/world" force="true" unload="true"/> <!--c4 warning plays when you walk into the shelter and fbi agents can pull the power/water-->
 
 	<continent path="levels/narratives/classics/dah/world/world" force="true" unload="true"/>
 	<cover_data path="levels/narratives/classics/dah/cover_data" force="true" unload="true"/>

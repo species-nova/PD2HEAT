@@ -2663,7 +2663,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},					
 			murkywater = {
 				Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_yellow/ene_murky_shield_yellow")
-			},	
+			},
 			federales = {
 				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_c45/ene_swat_shield_policia_federale_c45")
 			},
@@ -2671,7 +2671,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 				Idstring("units/pd2_mod_nypd/characters/ene_nypd_shield/ene_nypd_shield")
 			},	
 			lapd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_nypd_shield/ene_nypd_shield")
+				Idstring("units/pd2_mod_lapd/characters/ene_shield_2/ene_shield_2")
 			},
 			omnia_skm = {
 				Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_yellow/ene_murky_shield_yellow")
