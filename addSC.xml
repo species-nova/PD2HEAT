@@ -153,7 +153,7 @@
 	<!--New logo-->
 	<texture path="guis/textures/game_small_logo" force="true"/>
 	<texture path="guis/textures/menu_title_screen" force="true"/>
-	<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>	
+	<!--<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>-->
 	
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
