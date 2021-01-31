@@ -526,75 +526,72 @@ function GroupAIStateBesiege:_begin_assault_task(assault_areas)
 	self._task_data.recon.tasks = {}
 end
 
---Generate table used to find spawn-in voicelines.
-function GroupAIStateBesiege:_init_group_entry_lines()
-	local function random_cs()
-		local randomgroupcallout = math.random(1, 100)
-		if randomgroupcallout < 25 then
-			return "csalpha"
-		elseif randomgroupcallout < 50 then
-			return "csbravo"
-		elseif randomgroupcallout < 75 then
-			return "cscharlie"
-		else
-			return "csdelta"
-		end
-	end
-
-	local function random_hrt()
-		local randomgroupcallout = math.random(1, 100)
-		if randomgroupcallout < 25 then
-			return "hrtalpha"
-		elseif randomgroupcallout < 50 then
-			return "hrtbravo"
-		elseif randomgroupcallout < 75 then
-			return "hrtcharlie"
-		else
-			return "hrtdelta"
-		end
-	end
-
-	--Metatable to handle more complex rng selections.
-	self._group_entry_line_selectors = setmetatable(
-		{
-			groupcs1 = "csalpha",
-			groupcs2 = "csbravo",
-			groupcs3 = "cscharlie",
-			groupcs4 = "csdelta",
-			grouphrt1 = "hrtalpha",
-			grouphrt2 = "hrtbravo",
-			grouphrt3 = "hrtcharlie",
-			grouphrt4 = "hrtdelta"
-		},{
-			__index = function(table, key)
-				if key == "groupcsr" then
-					return random_cs()
-				elseif key == "grouphrtr" then
-					return random_hrt()
-				elseif key == "groupany" then
-					if self._task_data.assault.active then
-						random_cs()
-					else
-						random_hrt()
-					end
-				else
-					return rawget(table, key)
-				end
-			end
-		}
-	)
-end
-
---Plays spawn in chatter.
---Refers to the _group_entry_line_selectors to determine what exactly to play.
 function GroupAIStateBesiege:_voice_groupentry(group)
 	local group_leader_u_key, group_leader_u_data = self._determine_group_leader(group.units)
 
 	if group_leader_u_data and group_leader_u_data.tactics and group_leader_u_data.char_tweak.chatter.entry then
 		for i_tactic, tactic_name in ipairs(group_leader_u_data.tactics) do
-			local selection = self._group_entry_line_selectors[tactic_name]
-			if selection then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, selection)
+			local randomgroupcallout = math_random(1, 100)
+			--assign tactic-identifiers for this in groupaistatebesiege on a group-to-group basis
+			--groupcs is for assault team, grouphrt is for rescue team,groupcsr/grouphrtr picks a random letter, groupany depends on whether assault is active and picks a random letter or not
+			if tactic_name == "groupcs1" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csalpha")
+			elseif tactic_name == "groupcs2" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csbravo")
+			elseif tactic_name == "groupcs3" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "cscharlie")
+			elseif tactic_name == "groupcs4" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csdelta")
+			elseif tactic_name == "grouphrt1" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtalpha")
+			elseif tactic_name == "grouphrt2" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtbravo")
+			elseif tactic_name == "grouphrt3" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtcharlie")
+			elseif tactic_name == "grouphrt4" then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtdelta")
+			elseif tactic_name == "groupcsr" then
+				if randomgroupcallout < 25 then
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csalpha")
+				elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csbravo")
+				elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "cscharlie")
+				else
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csdelta")
+				end
+			elseif tactic_name == "grouphrtr" then
+				if randomgroupcallout < 25 then
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtalpha")
+				elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtbravo")
+				elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtcharlie")
+				else
+					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtdelta")
+				end
+			elseif tactic_name == "groupany" then
+				if self._task_data.assault.active then
+					if randomgroupcallout < 25 then
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csalpha")
+					elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csbravo")
+					elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "cscharlie")
+					else
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csdelta")
+					end
+				else
+					if randomgroupcallout < 25 then
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtalpha")
+					elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtbravo")
+					elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtcharlie")
+					else
+						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtdelta")
+					end
+				end
 			end
 		end
 	end
