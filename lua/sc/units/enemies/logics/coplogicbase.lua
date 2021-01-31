@@ -1132,10 +1132,10 @@ function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key
 	end
 end
 
-local REACT_SPECIAL = AIAttentionObject.REACT_SPECIAL_ATTACK
-
-function CopLogicBase.is_obstructed(data, objective, strictness, attention, check_obstruction, force_obstruction)
-	attention = attention or data.attention_obj
+function CopLogicBase.is_obstructed(data, objective, strictness, attention)
+	if data.unit:character_damage():dead() then
+		return true, true
+	end
 
 	local health_ratio = data.unit:character_damage():health_ratio()
 
@@ -1148,35 +1148,6 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention, chec
 	elseif objective.in_place or not objective.nav_seg then
 		if not objective.action then
 			return true, false
-		end
-	end
-	
-	if attention then
-		if REACT_SPECIAL <= attention.reaction or force_obstruction or data.unit:character_damage():dead() then
-			return true, true
-		end
-	
-		if check_obstruction then
-			local bad_types = {
-				recon_area = true,
-				retire = true
-			}
-			
-			if objective.type == "defend_area" and objective.grp_objective and not bad_types[objective.grp_objective.type] then
-				local my_nav_seg = data.unit:movement():nav_tracker():nav_segment()
-				local my_area = managers.groupai:state():get_area_from_nav_seg_id(data.unit:movement():nav_tracker():nav_segment())
-				
-				if next(my_area.criminal.units) then
-					return true, true
-				end
-				
-				if REACT_COMBAT <= attention.reaction then
-					local dis = data.internal_data.weapon_range and data.internal_data.weapon_range.close or 1000
-					if attention.verified and attention.dis <= dis then
-						return true, true
-					end
-				end
-			end
 		end
 	end
 
@@ -1201,8 +1172,33 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention, chec
 			end
 		end
 	end
+	
+	if attention and REACT_COMBAT <= attention.reaction then
+		local bad_types = {
+			recon_area = true,
+			retire = true
+		}
+			
+		if objective.type == "defend_area" and objective.grp_objective and not bad_types[objective.grp_objective.type] then
+			local my_nav_seg = data.unit:movement():nav_tracker():nav_segment()
+			local my_area = managers.groupai:state():get_area_from_nav_seg_id(data.unit:movement():nav_tracker():nav_segment())
+				
+			if next(my_area.criminal.units) then
+				return true, true
+			end
+				
+			if REACT_COMBAT <= attention.reaction then
+				local dis = data.internal_data.weapon_range and data.internal_data.weapon_range.close or 1000
+				local visible_softer = attention.verified_t and data.t - attention.verified_t < 7
+				if visible_softer and attention.dis <= dis then
+					return true, true
+				end
+			end
+		end
+	end
 
 	if objective.interrupt_dis then
+		attention = attention or data.attention_obj
 
 		if attention and attention.reaction then
 			local reaction_to_check = nil
@@ -1250,6 +1246,17 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention, chec
 			return true, true
 		end
 	end
+
+	--[[if objective.interrupt_dis and data.name == "travel" and data.attention_obj and data.attention_obj.reaction >= REACT_COMBAT and data.unit:base().has_tag and data.unit:base():has_tag("special") then
+		if not data.unit:base():has_tag("sniper") and data.unit:base()._tweak_table ~= "phalanx_minion" and data.unit:base()._tweak_table ~= "phalanx_vip" then
+			local enter_attack_range = 1400
+			local focus_enemy_dis = data.attention_obj.verified and data.attention_obj.dis or data.attention_obj.verified_dis
+
+			if focus_enemy_dis < enter_attack_range then
+				return true, true
+			end
+		end
+	end]]
 
 	return false, false
 end
@@ -1310,7 +1317,7 @@ function CopLogicBase._upd_suspicion(data, my_data, attention_obj)
 		end
 
 		attention_obj.reaction = reaction
-		local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, attention_obj, true)
+		local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, attention_obj)
 
 		if allow_trans then
 			if obj_failed then
@@ -1470,7 +1477,7 @@ function CopLogicBase._chk_call_the_police(data)
 		return
 	end
 
-	local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, nil, true)
+	local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, data.objective, nil, nil)
 
 	if allow_trans and data.logic.is_available_for_assignment(data) then
 		local current_focus = data.attention_obj

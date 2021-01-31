@@ -58,6 +58,28 @@ local REACT_SPECIAL_ATTACK = AIAttentionObject.REACT_SPECIAL_ATTACK
 
 local is_local_vr = _G.IS_VR
 
+--[[CopLogicIdle = class(CopLogicBase)
+CopLogicIdle.allowed_transitional_actions = {
+	{
+		"idle",
+		"hurt",
+		"dodge"
+	},
+	{
+		"idle",
+		"turn"
+	},
+	{
+		"idle",
+		"reload"
+	},
+	{
+		"hurt",
+		"stand",
+		"crouch"
+	}
+}]]
+
 function CopLogicIdle.enter(data, new_logic_name, enter_params)
 	CopLogicBase.enter(data, new_logic_name, enter_params)
 	data.brain:cancel_all_pathing_searches()
@@ -114,7 +136,7 @@ function CopLogicIdle.enter(data, new_logic_name, enter_params)
 
 		my_data.scan = objective.scan
 
-		--almost got this working properly
+		----almost got this working properly
 		--if objective.rubberband_rotation or is_cool then
 		if is_cool then
 			--local original_fwd = Vector3()
@@ -269,7 +291,7 @@ function CopLogicIdle._upd_enemy_detection(data)
 
 	if new_reaction and REACT_SURPRISED <= new_reaction then
 		local objective = data.objective
-		local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, objective, nil, new_attention, true)
+		local allow_trans, obj_failed = CopLogicBase.is_obstructed(data, objective, nil, new_attention)
 
 		if allow_trans then
 			local wanted_state = CopLogicBase._get_logic_state_from_reaction(data)
