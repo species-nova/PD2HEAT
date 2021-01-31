@@ -1,3 +1,7 @@
+local next_g = next
+local pairs_g = pairs
+local type_g = type
+
 CopBrain._NET_EVENTS = {
 	stopped_seeing_client_peaceful = 11,
 	detected_client_peaceful_verified = 10,
@@ -259,76 +263,125 @@ function CopBrain:init(unit)
 	CopBrain._logic_variants.autumn = clone(security_variant)
 end
 
---Thanks Rokk--
-Hooks:PostHook(CopBrain, "convert_to_criminal", "SCCopBrainDoConvert", function(self)
-	
-	self._unit:unit_data().is_convert = true
-	
-	--Ugly hack to be able to call converts
-	--Kill me now
-	if not SC._converts then
-		SC._converts = {}
-	end   
-	table.insert(SC._converts, self._unit)
-	
-end)
-
+local on_nav_link_unregistered_original = CopBrain.on_nav_link_unregistered
 function CopBrain:on_nav_link_unregistered(element_id)
-	if self._logic_data.pathing_results then
-		local failed_search_ids = nil
+	on_nav_link_unregistered_original(self, element_id)
 
-		for path_name, path in pairs(self._logic_data.pathing_results) do
-			if type(path) == "table" and path[1] and type(path[1]) ~= "table" then
-				for i, nav_point in ipairs(path) do
-					if not nav_point.x and nav_point.script_data and nav_point:script_data().element._id == element_id then
-						failed_search_ids = failed_search_ids or {}
-						failed_search_ids[path_name] = true
+	if next_g(self._logic_data.active_searches) then
+		for search_id, search_type in pairs_g(self._logic_data.active_searches) do
+			if search_type ~= 2 then
+				self._nav_links_to_check = self._nav_links_to_check or {}
+				self._nav_links_to_check[search_id] = element_id
+			end
+		end
+	end
+end
+
+local clbk_pathing_results_original = CopBrain.clbk_pathing_results
+function CopBrain:clbk_pathing_results(search_id, path)
+	local dead_nav_links = self._nav_links_to_check
+
+	if dead_nav_links then
+		if path then
+			local element_id = dead_nav_links[search_id]
+
+			if element_id then
+				for i = 1, #path do
+					local nav_point = path[i]
+
+					if not nav_point.x and nav_point:script_data().element._id == element_id then
+						path = nil
 
 						break
 					end
 				end
 			end
-		end
 
-		if failed_search_ids then
-			for search_id, _ in pairs(failed_search_ids) do
-				self._logic_data.pathing_results[search_id] = "failed"
+			dead_nav_links[search_id] = nil
+
+			if not next_g(dead_nav_links) then
+				dead_nav_links = nil
+			end
+		elseif dead_nav_links[search_id] then
+			dead_nav_links[search_id] = nil
+
+			if not next_g(dead_nav_links) then
+				dead_nav_links = nil
 			end
 		end
+
+		self._nav_links_to_check = dead_nav_links
 	end
 
-	local paths = self._current_logic._get_all_paths and self._current_logic._get_all_paths(self._logic_data)
+	clbk_pathing_results_original(self, search_id, path)
+end
 
-	if not paths then
+function CopBrain:abort_detailed_pathing(search_id)
+	if not self._logic_data.active_searches[search_id] then
 		return
 	end
 
-	local verified_paths = {}
+	self._logic_data.active_searches[search_id] = nil
 
-	for path_name, path in pairs(paths) do
-		local path_is_ok = true
+	managers.navigation:cancel_pathing_search(search_id)
 
-		for i, nav_point in ipairs(path) do
-			if not nav_point.x and nav_point.script_data and nav_point:script_data().element._id == element_id then
-				path_is_ok = false
+	local dead_nav_links = self._nav_links_to_check
 
-				break
-			end
+	if dead_nav_links and dead_nav_links[search_id] then
+		dead_nav_links[search_id] = nil
+
+		if not next_g(dead_nav_links) then
+			dead_nav_links = nil
 		end
 
-		if path_is_ok then
-			verified_paths[path_name] = path
+		self._nav_links_to_check = dead_nav_links
+	end
+end
+
+function CopBrain:cancel_all_pathing_searches()
+	local dead_nav_links = self._nav_links_to_check
+	local contains_dead_nav_link = {}
+
+	for search_id, search_type in pairs_g(self._logic_data.active_searches) do
+		if search_type == 2 then
+			managers.navigation:cancel_coarse_search(search_id)
+		else
+			managers.navigation:cancel_pathing_search(search_id)
+
+			if dead_nav_links and dead_nav_links[search_id] then
+				contains_dead_nav_link[search_id] = true
+				dead_nav_links[search_id] = nil
+			end
 		end
 	end
 
-	self._current_logic._set_verified_paths(self._logic_data, verified_paths)
+	if dead_nav_links and not next_g(dead_nav_links) then
+		self._nav_links_to_check = nil
+	end
+
+	local path_results = self._logic_data.pathing_results
+
+	if path_results and next_g(path_results) then
+		for search_id, path in pairs_g(path_results) do
+			if path ~= "failed" and not contains_dead_nav_link[search_id] and type_g(path[1]) ~= "table" then
+				for i = 1, #path do
+					local nav_point = path[i]
+
+					if not nav_point.x and nav_point:script_data().element:nav_link_delay() then
+						nav_point:set_delay_time(0)
+					end
+				end
+			end
+		end
+	end
+
+	self._logic_data.active_searches = {}
+	self._logic_data.pathing_results = nil
 end
 
 function CopBrain:convert_to_criminal(mastermind_criminal)
-	if self._logic_data.internal_data and self._logic_data.internal_data.coarse_path then
-		self._logic_data.internal_data.coarse_path = nil
-	end
-	
+	managers.network:session():send_to_peers_synched("sync_unit_converted", self._unit)
+
 	if self._alert_listen_key then
 		managers.groupai:state():remove_alert_listener(self._alert_listen_key)
 	else
@@ -360,41 +413,71 @@ function CopBrain:convert_to_criminal(mastermind_criminal)
 
 	if alive(mastermind_criminal) then
 		--mastermind_criminal:sound():say("v21", false)
-		health_multiplier = health_multiplier * (mastermind_criminal:base():upgrade_value("player", "convert_enemies_health_multiplier") or 1)
-		health_multiplier = health_multiplier * (mastermind_criminal:base():upgrade_value("player", "passive_convert_enemies_health_multiplier") or 1)
-		damage_multiplier = damage_multiplier * (mastermind_criminal:base():upgrade_value("player", "convert_enemies_damage_multiplier") or 1)
-		damage_multiplier = damage_multiplier * (mastermind_criminal:base():upgrade_value("player", "passive_convert_enemies_damage_multiplier") or 1)
+
+		local base_ext = mastermind_criminal:base()
+
+		health_multiplier = health_multiplier * (base_ext:upgrade_value("player", "convert_enemies_health_multiplier") or 1)
+		health_multiplier = health_multiplier * (base_ext:upgrade_value("player", "passive_convert_enemies_health_multiplier") or 1)
+		damage_multiplier = damage_multiplier * (base_ext:upgrade_value("player", "convert_enemies_damage_multiplier") or 1)
+		damage_multiplier = damage_multiplier * (base_ext:upgrade_value("player", "passive_convert_enemies_damage_multiplier") or 1)
 	else
-		--managers.player:speak("v21", false, nil)
-		health_multiplier = health_multiplier * managers.player:upgrade_value("player", "convert_enemies_health_multiplier", 1)
-		health_multiplier = health_multiplier * managers.player:upgrade_value("player", "passive_convert_enemies_health_multiplier", 1)
-		damage_multiplier = damage_multiplier * managers.player:upgrade_value("player", "convert_enemies_damage_multiplier", 1)
-		damage_multiplier = damage_multiplier * managers.player:upgrade_value("player", "passive_convert_enemies_damage_multiplier", 1)
+		local player_manager = managers.player
+
+		--player_manager:speak("v21", false, nil)
+
+		health_multiplier = health_multiplier * player_manager:upgrade_value("player", "convert_enemies_health_multiplier", 1)
+		health_multiplier = health_multiplier * player_manager:upgrade_value("player", "passive_convert_enemies_health_multiplier", 1)
+		damage_multiplier = damage_multiplier * player_manager:upgrade_value("player", "convert_enemies_damage_multiplier", 1)
+		damage_multiplier = damage_multiplier * player_manager:upgrade_value("player", "passive_convert_enemies_damage_multiplier", 1)
 	end
-	
-	
 
 	self._unit:character_damage():convert_to_criminal(health_multiplier)
 
-	self._logic_data.attention_obj = nil
+	if self._logic_data.attention_obj then
+		CopLogicBase._set_attention_obj(self._logic_data, nil, nil)
+	end
+
+	local current_attention = self._unit:movement():attention()
+
+	if current_attention then
+		CopLogicBase._reset_attention(self._logic_data)
+	end
 
 	CopLogicBase._destroy_all_detected_attention_object_data(self._logic_data)
 
-	self._SO_access = managers.navigation:convert_access_flag(tweak_data.character.russian.access)
+	local team_ai_so_access = tweak_data.character.russian.access
+
+	self._SO_access = managers.navigation:convert_access_flag(team_ai_so_access)
 	self._logic_data.SO_access = self._SO_access
-	self._logic_data.SO_access_str = tweak_data.character.russian.access
+	self._logic_data.SO_access_str = team_ai_so_access
 	self._slotmask_enemies = managers.slot:get_mask("enemies")
 	self._logic_data.enemy_slotmask = self._slotmask_enemies
+
+	local char_tweaks = deep_clone(self._unit:base()._char_tweak)
+
+	char_tweaks.suppression = nil
+	char_tweaks.crouch_move = false
+	char_tweaks.allowed_poses = {stand = true}
+	char_tweaks.access = team_ai_so_access
+	char_tweaks.no_run_start = true
+	char_tweaks.no_run_stop = true
+
+	self._logic_data.char_tweak = char_tweaks
+	self._unit:base()._char_tweak = char_tweaks
+	self._unit:character_damage()._char_tweak = char_tweaks
+	self._unit:movement()._tweak_data = char_tweaks
+	self._unit:movement()._action_common_data.char_tweak = char_tweaks
+
+	World:effect_manager():spawn({
+		effect = Idstring("effects/payday2/particles/impacts/money_impact_pd2"),
+		position = self._unit:movement():m_pos()
+	})
+
 	local equipped_w_selection = self._unit:inventory():equipped_selection()
 
 	if equipped_w_selection then
 		self._unit:inventory():remove_selection(equipped_w_selection, true)
 	end
-	
-	World:effect_manager():spawn({
-		effect = Idstring("effects/payday2/particles/impacts/money_impact_pd2"),
-		position = self._unit:movement():m_pos()
-	})
 
 	local weap_name = self._unit:base():default_weapon_name()
 
@@ -403,6 +486,9 @@ function CopBrain:convert_to_criminal(mastermind_criminal)
 	local weapon_unit = self._unit:inventory():equipped_unit()
 
 	weapon_unit:base():add_damage_multiplier(damage_multiplier)
+
+	self._logic_data.important = true
+
 	self:set_objective(nil)
 	self:set_logic("idle", nil)
 
@@ -421,7 +507,6 @@ function CopBrain:convert_to_criminal(mastermind_criminal)
 
 	self._unit:brain():action_request(action_data)
 	self._unit:sound():say("cn1", true, nil)
-	managers.network:session():send_to_peers_synched("sync_unit_converted", self._unit)
 end
 			
 function CopBrain:on_suppressed(state)
