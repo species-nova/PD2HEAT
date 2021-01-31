@@ -192,8 +192,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_auto_generated_mod_sc_desc"] = "The stats on this attachment have been removed until automatic custom attachment stat generation is finished.",
 
 		--Overhaul Content Indicators--
-		["loot_sc"] = "Restoration Overhaul",
-		["loot_sc_desc"] = "THIS IS A RESTORATION OVERHAUL ITEM!",
+		["loot_sc"] = "Heat Overhaul",
+		["loot_sc_desc"] = "THIS IS A HEAT OVERHAUL ITEM!",
 
 		["menu_l_global_value_omnia"] = "OMNIA",
 		["menu_l_global_value_omnia_desc"] = "THIS IS AN OMNIA ITEM!",
