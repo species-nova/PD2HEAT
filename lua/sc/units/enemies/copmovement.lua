@@ -1,3 +1,39 @@
+local mvec3_set = mvector3.set
+local mvec3_set_z = mvector3.set_z
+local mvec3_lerp = mvector3.lerp
+local mvec3_add = mvector3.add
+local mvec3_sub = mvector3.subtract
+local mvec3_mul = mvector3.multiply
+local mvec3_norm = mvector3.normalize
+local mvec3_len = mvector3.length
+local mvec3_dir = mvector3.direction
+local mvec3_cpy = mvector3.copy
+local mvec3_dis = mvector3.distance
+local mvec3_dot = mvector3.dot
+
+local temp_vec1 = Vector3()
+local temp_vec2 = Vector3()
+local temp_vec3 = Vector3()
+
+local mrot_set = mrotation.set_yaw_pitch_roll
+
+local math_abs = math.abs
+local math_min = math.min
+local math_max = math.max
+local math_random = math.random
+local math_ceil = math.ceil
+local math_UP = math.UP
+local math_lerp = math.lerp
+
+local table_insert = table.insert
+local table_remove = table.remove
+local next_g = next
+
+local world_g = World
+
+local left_hand_str = Idstring("LeftHandMiddle2")
+local ids_movement = Idstring("movement")
+
 local old_init = CopMovement.init
 local action_variants = {
 	security = {
@@ -17,6 +53,7 @@ local action_variants = {
 		healed = CopActionHealed
 	}
 }
+
 local security_variant = action_variants.security
 function CopMovement:init(unit)
 	CopMovement._action_variants.dave = security_variant
@@ -65,8 +102,8 @@ function CopMovement:init(unit)
 	CopMovement._action_variants.spooc_titan = security_variant
 	CopMovement._action_variants.autumn = security_variant
 	CopMovement._action_variants.taser_titan = clone(security_variant)
-	
-	old_init(self, unit)		
+
+	old_init(self, unit)
 end
 
 function CopMovement:post_init()
@@ -97,7 +134,7 @@ function CopMovement:post_init()
 		self._nav_tracker = managers.navigation:create_nav_tracker(self._m_pos)
 		self._pos_rsrv_id = managers.navigation:get_pos_reservation_id()
 	else
-		Application:error("[CopMovement:post_init] Spawned AI unit with incomplete navigation data.")
+		--Application:error("[CopMovement:post_init] Spawned AI unit with incomplete navigation data.")
 		self._unit:set_extension_update(ids_movement, false)
 	end
 
@@ -121,10 +158,10 @@ function CopMovement:post_init()
 		"fatal",
 		"fire_hurt",
 		"poison_hurt",
-		"concussion"
+		"concussion",
+		"healed"
 	}
 
-	table.insert(event_list, "healed")
 	self._unit:character_damage():add_listener("movement", event_list, callback(self, self, "damage_clbk"))
 	self._unit:inventory():add_listener("movement", {
 		"equip",
@@ -177,12 +214,44 @@ function CopMovement:post_init()
 	end
 
 	self:_post_init()
-	self._omnia_cooldown = 0
-	self._aoe_heal_cooldown = 0 --should not be used anymore
 	self._aoe_blackout_cooldown = 0		
-	
-	if self._tweak_data.do_autumn_blackout then 
+
+	local char_tweak = self._tweak_data
+
+	if char_tweak.do_autumn_blackout then 
 		managers.groupai:state():register_blackout_source(self._unit)
+	end
+
+	local tweak_name = self._unit:base()._tweak_table
+
+	if char_tweak.do_omnia then
+		if tweak_name == "omnia_lpf" or tweak_name == "phalanx_vip" then
+			self._can_do_omnia = true
+			self._omnia_cooldown = 0
+			self._omnia_radius = tweak_data.medic.lpf_radius
+			self._omnia_slotmask = managers.slot:get_mask("enemies")
+		end
+	end
+
+	if char_tweak.do_aoe_heal and tweak_name == "omnia_lpf" then
+		self._can_do_aoe_heal = true
+		self._aoe_heal_cooldown = 0
+		self._aoe_heal_radius = tweak_data.medic.lpf_radius
+		self._aoe_heal_slotmask = managers.slot:get_mask("enemies")
+	end
+
+	if char_tweak.do_winters_aoe_heal and tweak_name == "phalanx_vip" then
+		self._can_do_winters_aoe_heal = true
+		self._winters_aoe_heal_cooldown = 0
+		self._winters_aoe_heal_radius = tweak_data.medic.lpf_radius * 4
+		self._winters_aoe_heal_slotmask = managers.slot:get_mask("enemies")
+	end
+
+	if char_tweak.do_summers_heal and tweak_name == "medic_summers" then
+		self._can_do_summers_heal = true
+		self._summers_heal_cooldown = 0
+		self._summers_heal_radius = tweak_data.medic.doc_radius
+		self._summers_heal_slotmask = managers.slot:get_mask("enemies")
 	end
 end	
 
@@ -190,7 +259,9 @@ function CopMovement:_upd_actions(t)
 	local a_actions = self._active_actions
 	local has_no_action = true
 
-	for i_action, action in ipairs(a_actions) do
+	for i = 1, #a_actions do
+		local action = a_actions[i]
+
 		if action then
 			if action.update then
 				action:update(t)
@@ -201,7 +272,7 @@ function CopMovement:_upd_actions(t)
 			end
 
 			if action.expired and action:expired() then
-				a_actions[i_action] = false
+				a_actions[i] = false
 
 				if action.on_exit then
 					action:on_exit()
@@ -209,14 +280,6 @@ function CopMovement:_upd_actions(t)
 
 				self._ext_brain:action_complete_clbk(action)
 				self._ext_base:chk_freeze_anims()
-
-				for _, action in ipairs(a_actions) do
-					if action then
-						has_no_action = nil
-
-						break
-					end
-				end
 			else
 				has_no_action = nil
 			end
@@ -224,7 +287,19 @@ function CopMovement:_upd_actions(t)
 	end
 
 	if has_no_action then
-		if not self._queued_actions or not next(self._queued_actions) then
+		for i = 1, #a_actions do
+			local action = a_actions[i]
+
+			if action then
+				has_no_action = nil
+
+				break
+			end
+		end
+	end
+
+	if has_no_action then
+		if not self._queued_actions or not next_g(self._queued_actions) then
 			self:action_request({
 				body_part = 1,
 				type = "idle"
@@ -233,7 +308,7 @@ function CopMovement:_upd_actions(t)
 	end
 
 	if not a_actions[1] then
-		if not self._queued_actions or not next(self._queued_actions) then
+		if not self._queued_actions or not next_g(self._queued_actions) then
 			if not a_actions[2] then
 				if not a_actions[3] or a_actions[3]:type() == "idle" then
 					if not self:chk_action_forbidden("action") then
@@ -274,109 +349,101 @@ function CopMovement:_upd_actions(t)
 		end
 	end
 
-	if self._tweak_data.do_omnia then
-		if not self._unit:character_damage():dead() then			
-			self:do_omnia(self)		
+	if not self._unit:character_damage():dead() then
+		if self._can_do_omnia then
+			self:do_omnia(t)
+		end
+
+		if self._can_do_aoe_heal then
+			self:do_aoe_heal(t)
+		end
+
+		if self._can_do_winters_aoe_heal then
+			self:do_winters_aoe_heal(t)
+		end
+
+		if self._can_do_summers_heal then
+			self:do_summers_heal(t)
 		end
 	end
-	if self._tweak_data.do_aoe_heal then
-		if not self._unit:character_damage():dead() then			
-			self:do_aoe_heal(self)		
-		end
-	end	
-	if self._tweak_data.do_winters_aoe_heal then
-		if not self._unit:character_damage():dead() then			
-			self:do_winters_aoe_heal(self)		
-		end
-	end			
-	if self._tweak_data.do_summers_heal then
-		if not self._unit:character_damage():dead() then			
-			self:do_summers_heal(self)		
-		end
-	end	
 end
 
-function CopMovement:do_omnia(self)
-	local t = TimerManager:main():time()
+local omnia_cops_to_heal = {
+	cop = true,
+	cop_scared = true,
+	cop_female = true,
+	fbi = true,
+	swat = true
+}
+
+function CopMovement:do_omnia(t)
 	if self._omnia_cooldown > t then
 		return
 	else
 		self._omnia_cooldown = t + 0.2
 	end
-	if self and self._unit then
-		if self._unit:base()._tweak_table == "omnia_lpf" or self._unit:base()._tweak_table == "phalanx_vip" and not self._unit:character_damage():dead() then
-			local cops_to_heal = {
-				"cop",
-				"cop_scared",
-				"cop_female",
-				"fbi",
-				"swat"
-			}
-			local enemies = World:find_units_quick(self._unit, "sphere", self._unit:position(), tweak_data.medic.lpf_radius * 1, managers.slot:get_mask("enemies"))
-			if enemies then
-				restoration.log_shit("SC: FOUND ENEMIES")
-				for _,enemy in ipairs(enemies) do
-					local found_dat_shit = false
-					for __,enemy_type in ipairs(cops_to_heal) do
-						restoration.log_shit("SC: CHECKING " .. enemy_type .. " VS " .. enemy:base()._tweak_table)
-						if enemy:base()._tweak_table == enemy_type then
-							restoration.log_shit("SC: ENEMY TO HEAL FOUND " .. enemy_type)
-							found_dat_shit = true
-						end
-					end
-					if found_dat_shit then
-						local health_left = enemy:character_damage()._health
-						restoration.log_shit("SC: health_left: " .. tostring(health_left))
-						local max_health = enemy:character_damage()._HEALTH_INIT * 2
-						restoration.log_shit("SC: max_health: " .. tostring(max_health))
-						if health_left < max_health then
-							local amount_to_heal = math.ceil(((max_health - health_left) / 20))
-							restoration.log_shit("SC: HEALING FOR " .. amount_to_heal)
-							if self._unit:contour() then
-								self._unit:contour():add("medic_show", false)
-								self._unit:contour():flash("medic_show", 0.2)
-								managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-							end										
-							if enemy:contour() then
-								enemy:contour():add("omnia_heal", false)
-							end		
-							enemy:character_damage():_apply_damage_to_health((amount_to_heal * -1))
-						end
-					end
+
+	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._omnia_radius, self._omnia_slotmask)
+	local healed_someone = nil
+
+	for i = 1, #enemies do
+		local enemy = enemies[i]
+
+		if omnia_cops_to_heal[enemy:base()._tweak_table] then
+			local dmg_ext = enemy:character_damage()
+			local health_left = dmg_ext._health
+			local max_health = dmg_ext._HEALTH_INIT * 2
+
+			if health_left < max_health then
+				healed_someone = true
+
+				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+				local contour_ext = enemy:contour()
+
+				if contour_ext then
+					contour_ext:add("omnia_heal", false)
 				end
+
+				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))
 			end
 		end
-	else
-		restoration.log_shit("SC: UNIT NOT FOUND WTF")
+	end
+
+	if healed_someone then
+		local contour_ext = self._unit:contour()
+
+		if contour_ext then
+			contour_ext:add("medic_show", false)
+			contour_ext:flash("medic_show", 0.2)
+		end
+
+		if Network:is_server()
+			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
+		end
 	end
 end
-	
-Hooks:PostHook(CopMovement,"pre_destroy","resmod_unregister_blackout_unit",function(self,...)
-	managers.groupai:state():unregister_blackout_source(self._unit)
-end)
-	
-function CopMovement:do_autumn_blackout(self)	--no longer used
+
+function CopMovement:do_autumn_blackout()	--no longer used
 	local test_kicker = false 
 	
---every [cooldown] seconds:
+	--every [cooldown] seconds:
 	-- check all equipment units with equipment tweakdata tag "blackout_vulnerable"
 	-- for each of these units:
 		-- if (in surrounding [radius] area): set var "blackout_active" to "true
 		-- else: set var "blackout_active" 
 
-	local blackout_cooldown = 1
-	local blackout_radius = math.huge --target equipment acquisition to apply blackout aoe to
 	local t = TimerManager:main():time()
+
 	if self._aoe_blackout_cooldown > t then
 		return
 	else
-		self._aoe_blackout_cooldown = t + blackout_cooldown
+		self._aoe_blackout_cooldown = t + 1
 	end
 	
 	if self._unit then
 		if self._unit:character_damage():dead() then return end --autumn's corpse will still disable equipment otherwise
 		
-		local all_eq = World:find_units_quick("all",14,25,26)
+		local all_eq = world_g:find_units_quick("all",14,25,26)
 		local closest = { --not currently used
 			--unit = false, 
 			--distance = math.huge()
@@ -458,225 +525,203 @@ function CopMovement:do_autumn_blackout(self)	--no longer used
 	end
 end
 
-function CopMovement:do_aoe_heal(self)
-	local t = TimerManager:main():time()
+local aoe_heal_cops_to_heal = {
+	heavy_swat = true,
+	fbi_swat = true,
+	fbi_heavy_swat = true,
+	city_swat = true,
+	omnia = true,
+	tank = true,
+	tank_hw = true,
+	tank_mini = true,
+	spooc = true,
+	shield = true,
+	taser = true,
+	boom = true
+}
+
+function CopMovement:do_aoe_heal(t)
 	if self._aoe_heal_cooldown > t then
 		return
 	else
 		self._aoe_heal_cooldown = t + 0.4
 	end
-	if self and self._unit then
-		if self._unit:base()._tweak_table == "omnia_lpf" and not self._unit:character_damage():dead() then
-			local cops_to_heal = {
-				"heavy_swat",
-				"fbi_swat",
-				"fbi_heavy_swat",
-				"city_swat",
-				"omnia",
-				"tank",
-				"tank_hw",
-				"tank_mini",
-				"spooc",
-				"shield",
-				"taser",
-				"boom"
-			}
-			local enemies = World:find_units_quick(self._unit, "sphere", self._unit:position(), tweak_data.medic.lpf_radius * 1, managers.slot:get_mask("enemies"))
-			if enemies then
-				restoration.log_shit("SC: FOUND ENEMIES")
-				for _,enemy in ipairs(enemies) do
-					local found_dat_shit = false
-					for __,enemy_type in ipairs(cops_to_heal) do
-						restoration.log_shit("SC: CHECKING " .. enemy_type .. " VS " .. enemy:base()._tweak_table)
-						if enemy:base()._tweak_table == enemy_type then
-							restoration.log_shit("SC: ENEMY TO HEAL FOUND " .. enemy_type)
-							found_dat_shit = true
-						end
-					end
-					if found_dat_shit then
-						local health_left = enemy:character_damage()._health
-						restoration.log_shit("SC: health_left: " .. tostring(health_left))
-						local max_health = enemy:character_damage()._HEALTH_INIT * 1
-						restoration.log_shit("SC: max_health: " .. tostring(max_health))
-						if health_left < max_health then
-							local amount_to_heal = math.ceil(((max_health - health_left) / 20))
-							restoration.log_shit("SC: HEALING FOR " .. amount_to_heal)
-							if self._unit:contour() then
-								self._unit:contour():add("medic_show", false)
-								self._unit:contour():flash("medic_show", 0.2)
-								managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-							end								
-							if enemy:contour() then
-								enemy:contour():add("medic_heal", true)
-								enemy:contour():flash("medic_heal", 0.2)
-							end		
-							enemy:character_damage():_apply_damage_to_health((amount_to_heal * -1))							
-						end
-					end
+
+	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._aoe_heal_radius, self._aoe_heal_slotmask)
+	local healed_someone = nil
+
+	for i = 1, #enemies do
+		local enemy = enemies[i]
+
+		if aoe_heal_cops_to_heal[enemy:base()._tweak_table] then
+			local dmg_ext = enemy:character_damage()
+			local health_left = dmg_ext._health
+			local max_health = dmg_ext._HEALTH_INIT
+
+			if health_left < max_health then
+				healed_someone = true
+
+				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+				local contour_ext = enemy:contour()
+
+				if contour_ext then
+					contour_ext:add("medic_heal", true)
+					contour_ext:flash("medic_heal", 0.2)
 				end
+
+				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))
 			end
 		end
-	else
-		restoration.log_shit("SC: UNIT NOT FOUND WTF")
+	end
+
+	if healed_someone then
+		local contour_ext = self._unit:contour()
+
+		if contour_ext then
+			contour_ext:add("medic_show", false)
+			contour_ext:flash("medic_show", 0.2)
+		end
+
+		if Network:is_server()
+			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
+		end
 	end
 end
 
-function CopMovement:do_winters_aoe_heal(self)
-	local t = TimerManager:main():time()
-	if self._aoe_heal_cooldown > t then
+local winters_aoe_heal_cops_to_heal = {
+	cop = true,
+	cop_scared = true,
+	cop_female = true,
+	fbi = true,
+	swat = true,					
+	heavy_swat = true,
+	fbi_swat = true,
+	fbi_heavy_swat = true,
+	city_swat = true,
+	omnia = true,
+	tank = true,
+	tank_hw = true,
+	tank_mini = true,
+	spooc = true,
+	shield = true,
+	phalanx_minion = true,
+	taser = true,
+	boom = true
+}
+
+function CopMovement:do_winters_aoe_heal(t)
+	if self._winters_aoe_heal_cooldown > t then
 		return
 	else
-		self._aoe_heal_cooldown = t + 0.4
+		self._winters_aoe_heal_cooldown = t + 0.4
 	end
-	if self and self._unit then
-		if self._unit:base()._tweak_table == "phalanx_vip" and not self._unit:character_damage():dead() then
-			local cops_to_heal = {
-				"cop",
-				"cop_scared",
-				"cop_female",
-				"fbi",
-				"swat",					
-				"heavy_swat",
-				"fbi_swat",
-				"fbi_heavy_swat",
-				"city_swat",
-				"omnia",
-				"tank",
-				"tank_hw",
-				"tank_mini",
-				"spooc",
-				"shield",
-				"phalanx_minion",
-				"taser",
-				"boom"
-			}
-			local enemies = World:find_units_quick(self._unit, "sphere", self._unit:position(), tweak_data.medic.lpf_radius * 4, managers.slot:get_mask("enemies"))
-			if enemies then
-				restoration.log_shit("SC: FOUND ENEMIES")
-				for _,enemy in ipairs(enemies) do
-					local found_dat_shit = false
-					for __,enemy_type in ipairs(cops_to_heal) do
-						restoration.log_shit("SC: CHECKING " .. enemy_type .. " VS " .. enemy:base()._tweak_table)
-						if enemy:base()._tweak_table == enemy_type then
-							restoration.log_shit("SC: ENEMY TO HEAL FOUND " .. enemy_type)
-							found_dat_shit = true
-						end
-					end
-					if found_dat_shit then
-						local health_left = enemy:character_damage()._health
-						restoration.log_shit("SC: health_left: " .. tostring(health_left))
-						local max_health = enemy:character_damage()._HEALTH_INIT * 1
-						restoration.log_shit("SC: max_health: " .. tostring(max_health))
-						if health_left < max_health then
-							local amount_to_heal = math.ceil(((max_health - health_left) / 20))
-							restoration.log_shit("SC: HEALING FOR " .. amount_to_heal)
-							if self._unit:contour() then
-								self._unit:contour():add("medic_show", false)
-								self._unit:contour():flash("medic_show", 0.2)
-								managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter_winters")
-							end								
-							if enemy:contour() then
-								enemy:contour():add("medic_heal", true)
-								enemy:contour():flash("medic_heal", 0.2)
-							end		
-							enemy:character_damage():_apply_damage_to_health((amount_to_heal * -1))							
-						end
-					end
+
+	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._winters_aoe_heal_radius, self._winters_aoe_heal_slotmask)
+	local healed_someone = nil
+
+	for i = 1, #enemies do
+		local enemy = enemies[i]
+
+		if winters_aoe_heal_cops_to_heal[enemy:base()._tweak_table] then
+			local dmg_ext = enemy:character_damage()
+			local health_left = dmg_ext._health
+			local max_health = dmg_ext._HEALTH_INIT
+
+			if health_left < max_health then
+				healed_someone = true
+
+				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+				local contour_ext = enemy:contour()
+
+				if contour_ext then
+					contour_ext:add("medic_heal", true)
+					contour_ext:flash("medic_heal", 0.2)
 				end
+
+				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
 			end
 		end
-	else
-		restoration.log_shit("SC: UNIT NOT FOUND WTF")
+	end
+
+	if healed_someone then
+		local contour_ext = self._unit:contour()
+
+		if contour_ext then
+			contour_ext:add("medic_show", false)
+			contour_ext:flash("medic_show", 0.2)
+		end
+
+		if Network:is_server()
+			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter_winters")
+		end
 	end
 end	
 
-function CopMovement:do_summers_heal(self)
-	local t = TimerManager:main():time()
-	if self._aoe_heal_cooldown > t then
+local summers_heal_cops_to_heal = {
+	taser_summers = true,
+	boom_summers = true,
+	summers = true
+}
+
+function CopMovement:do_summers_heal(t)
+	if self._summers_heal_cooldown > t then
 		return
 	else
-		self._aoe_heal_cooldown = t + 0.4
+		self._summers_heal_cooldown = t + 0.4
 	end
-	if self and self._unit then
-		if self._unit:base()._tweak_table == "medic_summers" and not self._unit:character_damage():dead() then
-			local cops_to_heal = {
-				"taser_summers",
-				"boom_summers",
-				"summers"
-			}
-			local enemies = World:find_units_quick(self._unit, "sphere", self._unit:position(), tweak_data.medic.doc_radius * 1, managers.slot:get_mask("enemies"))
-			if enemies then
-				restoration.log_shit("SC: FOUND ENEMIES")
-				for _,enemy in ipairs(enemies) do
-					local found_dat_shit = false
-					for __,enemy_type in ipairs(cops_to_heal) do
-						restoration.log_shit("SC: CHECKING " .. enemy_type .. " VS " .. enemy:base()._tweak_table)
-						if enemy:base()._tweak_table == enemy_type then
-							restoration.log_shit("SC: ENEMY TO HEAL FOUND " .. enemy_type)
-							found_dat_shit = true
-						end
-					end
-					if found_dat_shit then
-						local health_left = enemy:character_damage()._health
-						restoration.log_shit("SC: health_left: " .. tostring(health_left))
-						local max_health = enemy:character_damage()._HEALTH_INIT * 1
-						restoration.log_shit("SC: max_health: " .. tostring(max_health))
-						if health_left < max_health then
-							local amount_to_heal = math.ceil(((max_health - health_left) / 20))
-							restoration.log_shit("SC: HEALING FOR " .. amount_to_heal)
-							if self._unit:contour() then
-								self._unit:contour():add("medic_show", false)
-								self._unit:contour():flash("medic_show", 0.2)
-								managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-							end								
-							if enemy:contour() then
-								enemy:contour():add("medic_heal", true)
-								enemy:contour():flash("medic_heal", 0.2)
-							end		
-							enemy:character_damage():_apply_damage_to_health((amount_to_heal * -1))							
-						end
-					end
+
+	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._summers_heal_radius, self._summers_heal_slotmask)
+	local healed_someone = nil
+
+	for i = 1, #enemies do
+		local enemy = enemies[i]
+
+		if summers_heal_cops_to_heal[enemy:base()._tweak_table] then
+			local dmg_ext = enemy:character_damage()
+			local health_left = dmg_ext._health
+			local max_health = dmg_ext._HEALTH_INIT
+
+			if health_left < max_health then
+				healed_someone = true
+
+				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+				local contour_ext = enemy:contour()
+
+				if contour_ext then
+					contour_ext:add("medic_heal", true)
+					contour_ext:flash("medic_heal", 0.2)
 				end
+
+				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
 			end
 		end
-	else
-		restoration.log_shit("SC: UNIT NOT FOUND WTF")
+	end
+
+	if healed_someone then
+		local contour_ext = self._unit:contour()
+
+		if contour_ext then
+			contour_ext:add("medic_show", false)
+			contour_ext:flash("medic_show", 0.2)
+		end
+
+		if Network:is_server()
+			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
+		end
 	end
 end
 
 function CopMovement:play_redirect(redirect_name, at_time)
-	--Not pretty but groupai didn't like me checking unit slots
-	if redirect_name == "throw_grenade" then 
-		if self._unit:in_slot(16) or self._unit:in_slot(22) then	
-			return 
+	if redirect_name == "throw_grenade" then
+		if self._unit:in_slot(16) or self._unit:in_slot(22) or self._unit:base()._tweak_table == "boom" or self._unit:base()._tweak_table == "shield" or self._unit:base()._tweak_table == "phalanx_minion" or self._unit:base()._tweak_table == "phalanx_minion_assault" or self._unit:base()._tweak_table == "phalanx_vip" then
+			return
 		end
 	end
-	
-	if redirect_name == "throw_grenade" then 
-		if self._unit:base()._tweak_table == "boom" or self._unit:base()._tweak_table == "shield" or self._unit:base()._tweak_table == "phalanx_minion" or self._unit:base()._tweak_table == "phalanx_minion_assault" or self._unit:base()._tweak_table == "phalanx_vip" then	
-			return 
-		end
-	end
-	
+
 	local result = self._unit:play_redirect(Idstring(redirect_name), at_time)
-	
 
 	return result ~= Idstring("") and result
 end
-
-
-local mvec3_set = mvector3.set
-local mvec3_set_z = mvector3.set_z
-local mvec3_lerp = mvector3.lerp
-local mvec3_add = mvector3.add
-local mvec3_sub = mvector3.subtract
-local mvec3_mul = mvector3.multiply
-local mvec3_norm = mvector3.normalize
-local mvec3_len = mvector3.length
-local mrot_set = mrotation.set_yaw_pitch_roll
-local temp_vec1 = Vector3()
-local temp_vec2 = Vector3()
-local temp_vec3 = Vector3()
 
 function CopMovement:on_suppressed(state)
 	local suppression = self._suppression
@@ -876,15 +921,10 @@ function CopMovement:on_suppressed(state)
 end
 
 function CopMovement:synch_attention(attention)
-	if attention and self._unit:character_damage():dead() then
-		--debug_pause_unit(self._unit, "[CopMovement:synch_attention] dead AI", self._unit, inspect(attention))
-	end
-
 	self:_remove_attention_destroy_listener(self._attention)
 	self:_add_attention_destroy_listener(attention)
 
 	if attention and attention.unit and not attention.destroy_listener_key then
-		--debug_pause_unit(attention.unit, "[CopMovement:synch_attention] problematic attention unit", attention.unit)
 		self:synch_attention(nil)
 
 		return
@@ -901,22 +941,94 @@ function CopMovement:synch_attention(attention)
 	end
 end
 
+function CopMovement:clbk_sync_attention(attention)
+	if not alive(self._unit) then
+		return
+	end
+
+	if self._attention ~= attention then
+		return
+	end
+
+	attention = self._attention
+
+	if attention.handler then
+		if attention.handler:unit():id() ~= -1 then
+			self._ext_network:send("set_attention", attention.handler:unit(), attention.reaction)
+		else
+			self._ext_network:send("cop_set_attention_pos", mvec3_cpy(attention.handler:get_attention_m_pos()))
+		end
+	elseif attention.unit then
+		if attention.unit:id() ~= -1 then
+			self._ext_network:send("set_attention", attention.unit, AIAttentionObject.REACT_IDLE)
+		else
+			self._ext_network:send("cop_set_attention_pos", mvec3_cpy(attention.handler:get_attention_m_pos()))
+		end
+	end
+end
+
 --crash prevention
 function CopMovement:anim_clbk_enemy_spawn_melee_item()
 	if alive(self._melee_item_unit) then
 		return
 	end
 
-	local melee_weapon = self._unit:base().melee_weapon and self._unit:base():melee_weapon()
-	local unit_name = melee_weapon and melee_weapon ~= "weapon" and tweak_data.weapon.npc_melee[melee_weapon] and tweak_data.weapon.npc_melee[melee_weapon].unit_name or nil
+	local base_ext = self._ext_base
+	local melee_weapon = base_ext.melee_weapon and base_ext:melee_weapon()
+	local unit_name = nil
+
+	if melee_weapon and melee_weapon ~= "weapon" then
+		local npc_melee_tweak_data = tweak_data.weapon.npc_melee[melee_weapon]
+
+		unit_name = npc_melee_tweak_data and npc_melee_tweak_data.unit_name
+	end
 
 	if unit_name then
 		local align_obj_l_name = CopMovement._gadgets.aligns.hand_l
 		local align_obj_l = self._unit:get_object(align_obj_l_name)
 
-		self._melee_item_unit = World:spawn_unit(unit_name, align_obj_l:position(), align_obj_l:rotation())
+		self._melee_item_unit = world_g:spawn_unit(unit_name, align_obj_l:position(), align_obj_l:rotation())
 		self._unit:link(align_obj_l:name(), self._melee_item_unit, self._melee_item_unit:orientation_object():name())
 	end
+end
+
+function CopMovement:update(unit, t, dt)
+	local old_need_upd = self._need_upd
+	self._need_upd = false
+
+	self:_upd_actions(t)
+
+	if self._need_upd ~= old_need_upd then
+		unit:set_extension_update_enabled(ids_movement, self._need_upd)
+	end
+
+	if self._force_head_upd then
+		self._force_head_upd = nil
+
+		self:upd_m_head_pos()
+	end
+end
+
+local pre_destroy_original = CopMovement.pre_destroy
+function CopMovement:pre_destroy()
+	pre_destroy_original(self)
+
+	managers.groupai:state():unregister_blackout_source(self._unit)
+
+	if alive(self._melee_item_unit) then
+		self._melee_item_unit:unlink()
+		world_g:delete_unit(self._melee_item_unit)
+
+		self._melee_item_unit = nil
+	end
+
+	self.update = self._upd_empty
+end
+
+function CopMovement:_upd_empty()
+	self._gnd_ray = nil
+
+	unit:set_extension_update_enabled(ids_movement, false)
 end
 
 local _equip_item_original = CopMovement._equip_item
@@ -1427,5 +1539,108 @@ function CopMovement:damage_clbk(my_unit, damage_info)
 
 	if Network:is_server() or not self:chk_action_forbidden(action_data) then
 		self:action_request(action_data)
+	end
+end
+
+function CopMovement:anim_clbk_spawn_dropped_magazine()
+	if not self:allow_dropped_magazines() then
+		return
+	end
+
+	local equipped_weapon = self._unit:inventory():equipped_unit()
+
+	if alive(equipped_weapon) and not equipped_weapon:base()._assembly_complete then
+		return
+	end
+
+	local ref_unit = nil
+	local allow_throw = true
+
+	if not self._magazine_data then
+		local w_td_crew = self:_equipped_weapon_crew_tweak_data()
+
+		if not w_td_crew or not w_td_crew.pull_magazine_during_reload then
+			return
+		end
+
+		self:anim_clbk_show_magazine_in_hand()
+
+		if not self._magazine_data then
+			return
+		elseif not alive(self._magazine_data.unit) then
+			self._magazine_data = nil
+
+			return
+		end
+
+		local attach_bone = left_hand_str
+		local bone_hand = self._unit:get_object(attach_bone)
+
+		if bone_hand then
+			mvec3_set(temp_vec1, self._magazine_data.unit:position())
+			mvec3_sub(temp_vec1, self._magazine_data.unit:oobb():center())
+			mvec3_add(temp_vec1, bone_hand:position())
+			self._magazine_data.unit:set_position(temp_vec1)
+		end
+
+		ref_unit = self._magazine_data.part_unit
+		allow_throw = false
+	end
+
+	if self._magazine_data and alive(self._magazine_data.unit) then
+		ref_unit = ref_unit or self._magazine_data.unit
+
+		self._magazine_data.unit:set_visible(false)
+
+		local pos = ref_unit:position()
+		local rot = ref_unit:rotation()
+		local dropped_mag = self:_spawn_magazine_unit(self._magazine_data.id, self._magazine_data.name, pos, rot)
+
+		self:_set_unit_bullet_objects_visible(dropped_mag, self._magazine_data.bullets, false)
+
+		local mag_size = self._magazine_data.weapon_data.pull_magazine_during_reload
+
+		if type(mag_size) ~= "string" then
+			mag_size = "medium"
+		end
+
+		mvec3_set(temp_vec1, ref_unit:oobb():center())
+		mvec3_sub(temp_vec1, pos)
+		mvec3_set(temp_vec2, pos)
+		mvec3_add(temp_vec2, temp_vec1)
+
+		local dropped_col = world_g:spawn_unit(CopMovement.magazine_collisions[mag_size][1], temp_vec2, rot)
+
+		dropped_col:link(CopMovement.magazine_collisions[mag_size][2], dropped_mag)
+
+		if allow_throw then
+			if self._left_hand_direction then
+				local throw_force = 10
+
+				mvec3_set(temp_vec1, self._left_hand_direction)
+				mvec3_mul(temp_vec1, self._left_hand_velocity or 3)
+				mvec3_mul(temp_vec1, math_random(25, 45))
+				mvec3_mul(temp_vec1, -1)
+				dropped_col:push(throw_force, temp_vec1)
+			end
+		else
+			local throw_force = 10
+			local reload_speed_multiplier = 1
+			local w_td_crew = self:_equipped_weapon_crew_tweak_data()
+
+			if w_td_crew then
+				local weapon_usage_tweak = self._tweak_data.weapon[w_td_crew.usage]
+				reload_speed_multiplier = weapon_usage_tweak.RELOAD_SPEED or 1
+			end
+
+			local _t = reload_speed_multiplier - 1
+
+			mvec3_set(temp_vec1, equipped_weapon:rotation():z())
+			mvec3_mul(temp_vec1, math_lerp(math_random(65, 80), math_random(140, 160), _t))
+			mvec3_mul(temp_vec1, math_random() < 0.0005 and 10 or -1)
+			dropped_col:push(throw_force, temp_vec1)
+		end
+
+		managers.enemy:add_magazine(dropped_mag, dropped_col)
 	end
 end
