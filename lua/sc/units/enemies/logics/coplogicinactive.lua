@@ -6,12 +6,12 @@ end
 
 function CopLogicInactive._register_attention(data, my_data)
 	if data.unit:character_damage():dead() then
-		data.unit:brain():set_attention_settings({
-			corpse_sneak = true
-		})
-
-		if not managers.groupai:state():whisper_mode() then
-			data.unit:brain():set_attention_settings(nil)
+		if managers.groupai:state():whisper_mode() then
+			data.brain:set_attention_settings({
+				corpse_sneak = true
+			})
+		else
+			data.brain:set_attention_settings(nil)
 		end
 	else
 		data.unit:brain():set_attention_settings(nil)
