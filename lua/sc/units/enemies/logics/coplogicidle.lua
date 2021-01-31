@@ -1889,7 +1889,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							end
 						end
 
-						if data.attention_obj and data.attention_obj.u_key == u_key and data.t - attention_data.acquire_t < 4 then --old enemy
+						if data.attention_obj and data.attention_obj.u_key == u_key and attention_data.acquire_t and data.t - attention_data.acquire_t < 4 then --old enemy
 							target_priority_slot = target_priority_slot - 3
 						end
 
