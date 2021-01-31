@@ -92,7 +92,7 @@ tweak_data.projectiles.west_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.bow_poison_arrow.damage = 20
 tweak_data.projectiles.bow_poison_arrow.launch_speed = 2500
 
---Hunter crossbow--
+--Hunter Crossbow--
 tweak_data.projectiles.crossbow_arrow.damage = 24
 tweak_data.projectiles.crossbow_poison_arrow.damage = 20
 tweak_data.projectiles.crossbow_arrow_exp.damage = 48
@@ -108,7 +108,7 @@ tweak_data.projectiles.arblast_arrow_exp.launch_speed = 4375
 tweak_data.projectiles.arblast_arrow.launch_speed = 4375
 tweak_data.projectiles.arblast_poison_arrow.launch_speed = 4375
 
---Franken fish--
+--Frankish Arrow--
 tweak_data.projectiles.frankish_arrow.damage = 24
 tweak_data.projectiles.frankish_arrow_exp.damage = 48
 tweak_data.projectiles.frankish_poison_arrow.damage = 20
@@ -116,7 +116,7 @@ tweak_data.projectiles.frankish_poison_arrow.launch_speed = 3750
 tweak_data.projectiles.frankish_arrow_exp.launch_speed = 3750
 tweak_data.projectiles.frankish_arrow.launch_speed = 3750
 
---BOWMEN, FORM UP--
+--Long Arrow--
 tweak_data.projectiles.long_arrow.damage = 36
 tweak_data.projectiles.long_arrow_exp.damage = 60
 tweak_data.projectiles.long_poison_arrow.damage = 30
@@ -124,7 +124,7 @@ tweak_data.projectiles.long_arrow_exp.launch_speed = 3125
 tweak_data.projectiles.long_arrow.launch_speed = 3125
 tweak_data.projectiles.long_poison_arrow.launch_speed = 3125
 
---le happy merchant--
+--Airbow--
 tweak_data.projectiles.ecp_arrow.damage = 18
 tweak_data.projectiles.ecp_arrow_exp.damage = 36
 tweak_data.projectiles.ecp_arrow_poison.damage = 14
@@ -140,7 +140,7 @@ tweak_data.projectiles.elastic_arrow_exp.launch_speed = 3125
 tweak_data.projectiles.elastic_arrow.launch_speed = 3125
 tweak_data.projectiles.elastic_arrow_poison.launch_speed = 3125	
 
---GRENADE OUT--
+--Frag Grenade--
 tweak_data.projectiles.frag.damage = 80
 tweak_data.projectiles.frag.player_damage = 40
 tweak_data.projectiles.frag.curve_pow = 0.5
@@ -169,7 +169,7 @@ tweak_data.projectiles.molotov.damage = 3
 tweak_data.projectiles.molotov.player_damage = 3
 tweak_data.projectiles.molotov.burn_duration = 10
 
---Incendiary Nades, idea to make em a mollie--
+--Incendiary Nades--
 tweak_data.projectiles.fir_com.damage = 6
 tweak_data.projectiles.fir_com.player_damage = 3
 tweak_data.projectiles.fir_com.fire_dot_data = {
@@ -338,7 +338,7 @@ tweak_data.projectiles.launcher_incendiary_osipr = {
 tweak_data.projectiles.hatman_molotov = {}
 tweak_data.projectiles.hatman_molotov.env_effect = "hatman_molotov_fire"
 
---But why--
+--Genuinely why--
 tweak_data.team_ai.stop_action.delay = 0.8
 tweak_data.team_ai.stop_action.distance = 9999999999999999999999999999999999
 
