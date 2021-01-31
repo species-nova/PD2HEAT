@@ -1,3 +1,11 @@
+local ids_lod = Idstring("lod")
+local ids_lod1 = Idstring("lod1")
+local ids_ik_aim = Idstring("ik_aim")
+local ids_r_toe = Idstring("RightToeBase")
+local ids_l_toe = Idstring("LeftToeBase")
+local alive_g = alive
+local pairs_g = pairs
+
 Month = os.date("%m")
 local job = Global.level_data and Global.level_data.level_id
 
