@@ -168,8 +168,15 @@
 		<hook file="sc/units/enemies/actions/full_body/copactionact.lua" source_file="lib/units/enemies/cop/actions/full_body/copactionact"/>
 		<hook file="sc/units/enemies/actions/full_body/copactiondodge.lua" source_file="lib/units/enemies/cop/actions/full_body/copactiondodge"/>
 		<hook file="sc/units/enemies/copbase.lua" source_file="lib/units/enemies/cop/copbase"/>
-		<hook file="sc/units/player_team/teamaimovement.lua" source_file="lib/units/player_team/teamaimovement"/>
+		<hook file="sc/units/enemies/copinventory.lua" source_file="lib/units/enemies/cop/copinventory"/>
+		<hook file="sc/units/player_team/huskteamaibase.lua" source_file="lib/units/player_team/huskteamaibase"/>
 		<hook file="sc/units/player_team/huskteamaidamage.lua" source_file="lib/units/player_team/huskteamaidamage"/>
+		<hook file="sc/units/player_team/huskteamaiinventory.lua" source_file="lib/units/player_team/huskteamaiinventory"/>
+		<hook file="sc/units/player_team/huskteamaimovement.lua" source_file="lib/units/player_team/huskteamaimovement"/>
+		<hook file="sc/units/player_team/teamaibase.lua" source_file="lib/units/player_team/teamaibase"/>
+		<hook file="sc/units/player_team/teamaibrain.lua" source_file="lib/units/player_team/teamaibrain"/>
+		<hook file="sc/units/player_team/teamaiinventory.lua" source_file="lib/units/player_team/teamaiinventory"/>
+		<hook file="sc/units/player_team/teamaimovement.lua" source_file="lib/units/player_team/teamaimovement"/>
 		<hook file="sc/units/enemies/logics/coplogicinactive.lua" source_file="lib/units/enemies/cop/logics/coplogicinactive"/>
 		<hook file="sc/units/enemies/logics/coplogicintimidated.lua" source_file="lib/units/enemies/cop/logics/coplogicintimidated"/>
 		<hook file="sc/units/enemies/logics/coplogictravel.lua" source_file="lib/units/enemies/cop/logics/coplogictravel"/>
@@ -178,6 +185,7 @@
 		<hook file="sc/units/enemies/logics/coplogicidle.lua" source_file="lib/units/enemies/cop/logics/coplogicidle"/>
 		<hook file="sc/units/enemies/logics/coplogicattack.lua" source_file="lib/units/enemies/cop/logics/coplogicattack"/>
 		<hook file="sc/units/enemies/logics/coplogicarrest.lua" source_file="lib/units/enemies/cop/logics/coplogicarrest"/>
+		<hook file="sc/units/enemies/logics/coplogicsniper.lua" source_file="lib/units/enemies/cop/logics/coplogicsniper"/>	
 		<hook file="sc/units/enemies/medicdamage.lua" source_file="lib/units/enemies/medic/medicdamage"/>
 		<hook file="sc/units/enemies/logics/tankcoplogicattack.lua" source_file="lib/units/enemies/tank/logics/tankcoplogicattack"/>
 		<hook file="sc/units/enemies/logics/taserlogicattack.lua" source_file="lib/units/enemies/taser/logics/taserlogicattack"/>
@@ -192,14 +200,20 @@
 		<hook file="sc/units/enemies/copdamage.lua" source_file="lib/units/enemies/cop/copdamage"/>
 		<hook file="sc/units/enemies/copmovement.lua" source_file="lib/units/enemies/cop/copmovement"/>
 		<hook file="sc/units/enemies/copbrain.lua" source_file="lib/units/enemies/cop/copbrain"/>
+		<!-- <hook file="sc/units/enemies/copinventory.lua" source_file="lib/units/enemies/cop/copinventory"/> will add soon, not that important right now -->
+		<hook file="sc/units/enemies/huskcopbase.lua" source_file="lib/units/enemies/cop/huskcopbase"/>
 		<hook file="sc/units/enemies/huskcopbrain.lua" source_file="lib/units/enemies/cop/huskcopbrain"/>
+		<hook file="sc/units/enemies/huskcopinventory.lua" source_file="lib/units/enemies/cop/huskcopinventory"/>
+		<hook file="sc/units/enemies/copsound.lua" source_file="lib/units/enemies/cop/copsound"/>
+		<hook file="sc/units/civilians/civilianbase.lua" source_file="lib/units/civilians/civilianbase"/>
 		<hook file="sc/units/civilians/civilianbrain.lua" source_file="lib/units/civilians/civilianbrain"/>
 		<hook file="sc/units/civilians/civiliandamage.lua" source_file="lib/units/civilians/civiliandamage"/>
 		<hook file="sc/units/civilians/huskciviliandamage.lua" source_file="lib/units/civilians/huskciviliandamage"/>
 		<hook file="sc/units/enemies/huskcopdamage.lua" source_file="lib/units/enemies/cop/huskcopdamage"/>
 		<hook file="sc/utils/inventorydescription.lua" source_file="lib/utils/inventorydescription"/>
 		<hook file="sc/units/props/timergui.lua" source_file="lib/units/props/timergui"/>
-		<hook file="sc/units/props/texttemplatebase.lua" source_file="lib/units/props/texttemplatebase"/>		
+		<hook file="sc/units/props/texttemplatebase.lua" source_file="lib/units/props/texttemplatebase"/>
+		<hook file="sc/units/props/aiattentionobject.lua" source_file="lib/units/props/aiattentionobject"/>
 		<hook file="sc/units/pickups/ammoclip.lua" source_file="lib/units/pickups/ammoclip"/>
 		<hook file="sc/player_actions/skills/playeractiondamagecontrol.lua" source_file="lib/player_actions/skills/playeractiondamagecontrol"/>
 		<hook file="sc/player_actions/skills/playeractiontriggerhappy.lua" source_file="lib/player_actions/skills/playeractiontriggerhappy"/>
@@ -247,7 +261,6 @@
 		<hook file="sc/units/equipment/doctorbagbase.lua" source_file="lib/units/equipment/doctor_bag/doctorbagbase"/>
 		<hook file="sc/units/equipment/sentrygunweapon.lua" source_file="lib/units/equipment/sentry_gun/sentrygunweapon"/>
 		<hook file="sc/managers/menumanagerpd2.lua" source_file="lib/managers/menumanagerpd2"/>
-		<hook file="sc/units/enemies/copsound.lua" source_file="lib/units/enemies/cop/copsound"/>
 		<hook file="sc/managers/mission/elementmissionend.lua" source_file="lib/managers/mission/elementmissionend"/>
 		<hook file="sc/managers/mission/elementsmokegrenade.lua" source_file="lib/managers/mission/elementsmokegrenade"/>
 		<hook file="sc/tweak_data/skirmishtweakdata.lua" source_file="lib/tweak_data/skirmishtweakdata"/>
@@ -271,7 +284,6 @@
 		<hook file="sc/managers/modifiersmanager.lua" source_file="lib/managers/modifiersmanager"/>
 		<hook file="sc/managers/menu/skilltreeguinew.lua" source_file="lib/managers/menu/skilltreeguinew"/>
 		<hook file="sc/units/weapons/weaponliongadget1.lua" source_file="lib/units/weapons/weaponliongadget1"/>
-		<hook file="sc/units/enemies/logics/coplogicsniper.lua" source_file="lib/units/enemies/cop/logics/coplogicsniper"/>	
 		<hook file="sc/units/equipment/bodybagsbagbase.lua" source_file="lib/units/equipment/bodybags_bag/bodybagsbagbase"/>
 		<hook file="sc/managers/mission/coreelementunitsequence.lua" source_file="core/lib/managers/mission/coreelementunitsequence"/>
 		<hook file="sc/units/player/playerbase.lua" source_file="lib/units/beings/player/playerbase"/>
