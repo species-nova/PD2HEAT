@@ -2029,7 +2029,7 @@ function SkillTreeTweakData:init(tweak_data)
 		desc_id = "menu_deckall_8_desc_sc"
 	}
 	
-	--Crew Chief--
+	--Crew Chief, Dallas--
 	local sc_crew_chief = {
 			name_id = "menu_st_spec_1",
 			desc_id = "menu_st_spec_1_desc",
@@ -2091,7 +2091,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Muscle--
+	--Muscle, Chains--
 	local sc_muscle = {
 			name_id = "menu_st_spec_2",
 			desc_id = "menu_st_spec_2_desc",
@@ -2152,7 +2152,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Armorer--
+	--Armorer, Wolf--
 	local sc_armorer = {
 			name_id = "menu_st_spec_3",
 			desc_id = "menu_st_spec_3_desc",
@@ -2210,7 +2210,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Rogue--
+	--Rogue, Houston--
 	local sc_rogue = {
 			name_id = "menu_st_spec_4",
 			desc_id = "menu_st_spec_4_desc",
@@ -2269,7 +2269,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Hitman--
+	--Hitman, Johnathan Wick--
 	local sc_hitman = {
 			name_id = "menu_st_spec_5",
 			desc_id = "menu_st_spec_5_desc",
@@ -2328,7 +2328,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Crook--
+	--Crook, Hoxton--
 	local sc_crook = {
 			name_id = "menu_st_spec_6",
 			desc_id = "menu_st_spec_6_desc",
@@ -2396,7 +2396,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Burglar--
+	--Burglar, Clover--
 	local sc_burglar = {
 			name_id = "menu_st_spec_7",
 			desc_id = "menu_st_spec_7_desc",
@@ -2458,7 +2458,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Infiltrator--
+	--Infiltrator, Dragan--
 	local sc_infiltrator = {
 			name_id = "menu_st_spec_8",
 			desc_id = "menu_st_spec_8_desc",
@@ -2518,7 +2518,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Sociopath--
+	--Sociopath, Jacket--
 	local sc_sociopath = {
 			name_id = "menu_st_spec_9",
 			desc_id = "menu_st_spec_9_desc",
@@ -2575,7 +2575,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Gambler--
+	--Gambler, Bonnie--
 	local sc_gambler = {
 			name_id = "menu_st_spec_10",
 			desc_id = "menu_st_spec_10_desc",
@@ -2632,7 +2632,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Grinder--
+	--Grinder, Sokol--
 	local sc_grinder = {
 			name_id = "menu_st_spec_11",
 			desc_id = "menu_st_spec_11_desc",
@@ -2690,7 +2690,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Yakuza--
+	--Yakuza, Jiro--
 	local sc_yakuza = {
 			name_id = "menu_st_spec_12",
 			desc_id = "menu_st_spec_12_desc",
@@ -2749,7 +2749,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Ex President--
+	--Ex President, Bodhi--
 	local sc_ex = {
 			name_id = "menu_st_spec_13",
 			desc_id = "menu_st_spec_13_desc",
@@ -2808,7 +2808,7 @@ function SkillTreeTweakData:init(tweak_data)
 		}
 
 
-	--Maniac--
+	--Maniac, Jimmy--
 	local sc_maniac = {
 			name_id = "menu_st_spec_14",
 			desc_id = "menu_st_spec_14_desc",
@@ -2869,7 +2869,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Anarchist--
+	--Anarchist, Sydney--
 	local sc_sydney = {
 			name_id = "menu_st_spec_15",
 			desc_id = "menu_st_spec_15_desc",
@@ -2932,7 +2932,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 		
-	--Rust Perlman--
+	--Rust Perlman, Biker--
 	local sc_biker = {
 			{
 				cost = 200,
@@ -3006,6 +3006,7 @@ function SkillTreeTweakData:init(tweak_data)
 		}
 
 	--YOU AND I--
+	--Kingpin, Tony--
 	local sc_scarface = {
 			name_id = "menu_st_spec_17",
 			desc_id = "menu_st_spec_17_desc",
@@ -3069,7 +3070,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Sicario--
+	--Sicario, Sangres--
 	local sc_wall = {
 			name_id = "menu_st_spec_18",
 			desc_id = "menu_st_spec_18_desc",
@@ -3128,7 +3129,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 		
-	--Duke's perk deck i dont remember the name--
+	--Stoic, Duke--
 	local sc_august = {
 			desc_id = "menu_st_spec_19_desc",
 			name_id = "menu_st_spec_19",
@@ -3204,7 +3205,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 		
-	--ECP Deck--
+	--Tag Team, ECP--
 	local sc_ecp = {
 			{
 				cost = 200,
@@ -3283,7 +3284,7 @@ function SkillTreeTweakData:init(tweak_data)
 			desc_id = "menu_st_spec_20_desc"
 		}
 		
-	--Hacker--
+	--Hacker, Joy--
 	local sc_hacker = {
 			{
 				cost = 200,
