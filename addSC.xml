@@ -276,6 +276,18 @@
 	<mission path="levels/narratives/vlad/bex/art_props_interior/art_props_interior" force="true" unload="true"/>
 	<continent path="levels/narratives/vlad/bex/art_props_interior/art_props_interior" force="true" unload="true"/>		
 	<world path="levels/narratives/vlad/bex/world" force="true" unload="true"/>-->
+
+	<continent path="levels/narratives/locke/vit/art/art" force="true" unload="true"/>
+	<continent path="levels/narratives/locke/vit/backdrop/backdrop" force="true" unload="true"/>
+	<continent path="levels/narratives/locke/vit/collision/collision" force="true" unload="true"/>
+	<continent path="levels/narratives/locke/vit/lights/lights" force="true" unload="true"/>
+	<continent path="levels/narratives/locke/vit/props/props" force="true" unload="true"/>
+	<continent path="levels/narratives/locke/vit/props1/props1" force="true" unload="true"/>
+	<continent path="levels/narratives/locke/vit/world/world" force="true" unload="true"/>
+	<mission path="levels/narratives/locke/vit/world/world" force="true" unload="true"/>
+	<cover_data path="levels/narratives/locke/vit/cover_data" force="true" unload="true"/>
+	<nav_data path="levels/narratives/locke/vit/nav_manager_data" force="true" unload="true"/>
+
 	<nav_data path="levels/narratives/vlad/bex/nav_manager_data" force="true" unload="true"/>
 
 	<!--I LOVE GOOOOOOOOOOOOOLD-->
