@@ -417,7 +417,7 @@ function CopMovement:do_omnia(t)
 			contour_ext:flash("medic_show", 0.2)
 		end
 
-		if Network:is_server()
+		if Network:is_server() then
 			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
 		end
 	end
@@ -582,7 +582,7 @@ function CopMovement:do_aoe_heal(t)
 			contour_ext:flash("medic_show", 0.2)
 		end
 
-		if Network:is_server()
+		if Network:is_server() then
 			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
 		end
 	end
@@ -651,7 +651,7 @@ function CopMovement:do_winters_aoe_heal(t)
 			contour_ext:flash("medic_show", 0.2)
 		end
 
-		if Network:is_server()
+		if Network:is_server() then
 			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter_winters")
 		end
 	end
@@ -705,7 +705,7 @@ function CopMovement:do_summers_heal(t)
 			contour_ext:flash("medic_show", 0.2)
 		end
 
-		if Network:is_server()
+		if Network:is_server() then
 			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
 		end
 	end
