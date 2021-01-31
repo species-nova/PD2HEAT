@@ -1,6 +1,6 @@
 --Overrides for shotgun ammo types that vary per damage tier.
 	--Indented to make for easy code folding in most editors.
-	--@SC Feel free to define these for the other ammo types if you want, though it may require way more presets to be made since they also touch ammo count.
+	--Feel free to define these for the other ammo types if you want, though it may require way more presets to be made since they also touch ammo count.
 	--Flechettes
 	local a_piercing_auto_override = {
 		desc_id = "bm_wp_upg_a_piercing_auto_desc_sc",
@@ -569,7 +569,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_sights", "resmod_sights", function
 	self.parts.wpn_fps_upg_o_docter.perks = {"scope"}
 	self.parts.wpn_fps_upg_o_docter.stance_mod = deep_clone(self.parts.wpn_fps_upg_o_specter.stance_mod)
 	
-	--Compact Tactical (Fuck off)
+	--Compact Tactical
 	self.parts.wpn_fps_upg_o_tf90.pcs = {
 		10, 
 		20,
@@ -1560,7 +1560,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_amcar", "resmod_amcar", function(s
 		"wpn_fps_amcar_bolt_standard"
 	}
 	
-	--AMCAR Part Table, ditto. Stuff commented out is WIP and I'm not gonna bother for a bit to preserve my mental state.
+	--AMCAR Part Table, ditto. Stuff commented out is WIP.
 	self.wpn_fps_ass_amcar.uses_parts = {
 		"wpn_fps_m4_uupg_b_medium_vanilla",
 		"wpn_fps_m4_lower_reciever",
