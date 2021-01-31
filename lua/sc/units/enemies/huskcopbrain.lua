@@ -1,38 +1,87 @@
 local mvec3_dis = mvector3.distance
 local mvec3_dir = mvector3.direction
 local mvec3_angle = mvector3.angle
+
+local tmp_vec1 = Vector3()
+
 local math_lerp = math.lerp
 local math_clamp = math.clamp
 local math_min = math.min
-local tmp_vec1 = Vector3()
+
 local REACT_SCARED = AIAttentionObject.REACT_SCARED
 local REACT_SUSPICIOUS = AIAttentionObject.REACT_SUSPICIOUS
 
+local next_g = next
+
+local brain_idstr = Idstring("brain")
+
+HuskCopBrain._ENABLE_LASER_TIME = 0.5
+
 HuskCopBrain._NET_EVENTS = {
+	surrender_destroy_all_items = 5,
 	cloak = 4,
 	uncloak = 3,
 	weapon_laser_off = 2,
 	weapon_laser_on = 1
 }
 
+local sync_net_event_original = HuskCopBrain.sync_net_event
+function HuskCopBrain:sync_net_event(event_id, peer)
+	if event_id == self._NET_EVENTS.cloak then
+		local u_dmg = self._unit:damage()
+
+		if u_dmg and u_dmg:has_sequence("cloak_engaged") then
+			u_dmg:run_sequence_simple("cloak_engaged")
+
+			local weapon_unit = self._unit:inventory():equipped_unit()
+
+			if weapon_unit then
+				local weap_u_dmg = weapon_unit:damage()
+
+				if weap_u_dmg and weap_u_dmg:has_sequence("cloak_engaged") then
+					weap_u_dmg:run_sequence_simple("cloak_engaged")
+				end
+			end
+		end
+
+		return
+	elseif event_id == self._NET_EVENTS.uncloak then
+		local u_dmg = self._unit:damage()
+
+		if u_dmg and u_dmg:has_sequence("decloak") then
+			u_dmg:run_sequence_simple("decloak")
+
+			local weapon_unit = self._unit:inventory():equipped_unit()
+
+			if weapon_unit then
+				local weap_u_dmg = weapon_unit:damage()
+
+				if weap_u_dmg and weap_u_dmg:has_sequence("decloak") then
+					weap_u_dmg:run_sequence_simple("decloak")
+				end
+			end
+		end
+
+		return
+	elseif event_id ~= self._NET_EVENTS.surrender_destroy_all_items then
+		sync_net_event_original(self, event_id, peer)
+
+		if self._add_laser_t ~= nil then
+			self._unit:set_extension_update(brain_idstr, true)
+		end
+
+		return
+	end
+
+	self._unit:inventory():destroy_all_items()
+end
+
 function HuskCopBrain:post_init()
 	local is_ally = self._unit:in_slot(16)
 	local is_cool = self._unit:movement():cool()
 	self._is_ally = is_ally
 
-	self._alert_listen_key = "HuskCopBrain" .. tostring(self._unit:key())
-
-	local alert_listen_filter, alert_types = nil
-
 	if is_ally then
-		alert_listen_filter = managers.groupai:state():get_unit_type_filter("combatant")
-		alert_types = {
-			explosion = true,
-			fire = true,
-			aggression = true,
-			bullet = true
-		}
-
 		if is_cool then
 			self._detect_local_player = true
 		end
@@ -43,36 +92,15 @@ function HuskCopBrain:post_init()
 
 		if is_cool then
 			self._detect_local_player = true
-
-			alert_listen_filter = managers.groupai:state():get_unit_type_filter("criminals_enemies_civilians")
-			alert_types = {
-				vo_distress = true,
-				fire = true,
-				bullet = true,
-				vo_intimidate = true,
-				explosion = true,
-				footstep = true,
-				aggression = true,
-				vo_cbt = true
-			}
-		else
-			alert_listen_filter = managers.groupai:state():get_unit_type_filter("criminal")
-			alert_types = {
-				explosion = true,
-				fire = true,
-				aggression = true,
-				bullet = true
-			}
 		end
 	end
-
-	managers.groupai:state():add_alert_listener(self._alert_listen_key, callback(self, self, "on_alert"), alert_listen_filter, alert_types, self._unit:movement():m_head_pos())
 
 	self._last_alert_t = 0
 
 	self._unit:character_damage():add_listener("HuskCopBrain_death" .. tostring(self._unit:key()), {
 		"death"
 	}, callback(self, self, "clbk_death"))
+	self:_setup_fake_attention_handler()
 
 	self._post_init_complete = true
 	self._surrendered = false
@@ -86,69 +114,126 @@ function HuskCopBrain:post_init()
 	self._detected_player_att_data = {}
 end
 
+function HuskCopBrain:_setup_fake_attention_handler()
+	local handler = {}
+
+	function handler.get_attention_m_pos(handler)
+		return self._unit:movement():m_head_pos()
+	end
+
+	function handler.get_detection_m_pos(handler)
+		return self._unit:movement():m_head_pos()
+	end
+
+	function handler.get_ground_m_pos(handler)
+		return self._unit:movement():m_pos()
+	end
+
+	self._attention_handler = handler
+end
+
+function HuskCopBrain:_change_fake_handler_positions(new_head_pos_mutable, new_ground_pos_mutable)
+	local handler = self._attention_handler
+
+	function handler.get_attention_m_pos(handler)
+		return new_head_pos_mutable
+	end
+
+	function handler.get_detection_m_pos(handler)
+		return new_head_pos_mutable
+	end
+
+	function handler.get_ground_m_pos(handler)
+		return new_ground_pos_mutable
+	end
+
+	self._attention_handler = handler
+end
+
+function HuskCopBrain:attention_handler()
+	return self._attention_handler
+end
+
+function HuskCopBrain:enable_weapon_laser()
+	if self._weapon_laser_on then
+		return
+	end
+
+	local weapon_unit = not self._unit:character_damage():dead() and self._unit:inventory():equipped_unit()
+
+	if alive(weapon_unit) then
+		self._weapon_laser_on = true
+
+		weapon_unit:base():set_laser_enabled(true)
+
+		managers.enemy:_destroy_unit_gfx_lod_data(self._unit:key())
+	end
+end
+
+function HuskCopBrain:disable_weapon_laser()
+	self._add_laser_t = nil
+
+	if not self._weapon_laser_on then
+		return
+	end
+
+	self._weapon_laser_on = nil
+
+	local weapon_unit = self._unit:inventory():equipped_unit()
+
+	if alive(weapon_unit) then
+		weapon_unit:base():set_laser_enabled(false)
+	end
+
+	if not self._unit:character_damage():dead() then
+		managers.enemy:_create_unit_gfx_lod_data(self._unit)
+	end
+end
+
 function HuskCopBrain:sync_surrender(surrendered)
-	if not self._converted then
+	if self._unit:character_damage():dead() then
+		self._surrendered = false
+	else
 		if surrendered then
 			self._unit:base():set_slot(self._unit, 22)
+		elseif self._converted then
+			self._unit:base():set_slot(self._unit, 16)
 		else
 			self._unit:base():set_slot(self._unit, 12)
 		end
-	end
 
-	self._surrendered = surrendered
+		self._surrendered = surrendered
+	end
 end
 
 function HuskCopBrain:sync_converted()
+	if self._converted or self._unit:character_damage():dead() then
+		return
+	end
+
 	self._converted = true
+	self._is_ally = true
 
-	if self._alert_listen_key then
-		managers.groupai:state():remove_alert_listener(self._alert_listen_key)
-	else
-		self._alert_listen_key = "HuskCopBrain" .. tostring(self._unit:key())
-	end
+	self._unit:base():set_slot(self._unit, 16)
 
-	local alert_listen_filter = managers.groupai:state():get_unit_type_filter("combatant")
-	local alert_types = {
-		explosion = true,
-		fire = true,
-		aggression = true,
-		bullet = true
-	}
-
-	managers.groupai:state():add_alert_listener(self._alert_listen_key, callback(self, self, "on_alert"), alert_listen_filter, alert_types, self._unit:movement():m_head_pos())
-
-	local SO_access_str = tweak_data.character.russian.access
-	self._SO_access_str = SO_access_str
-	self._SO_access = managers.navigation:convert_access_flag(SO_access_str)
+	local team_ai_so_access = tweak_data.character.russian.access
+	self._SO_access_str = team_ai_so_access
+	self._SO_access = managers.navigation:convert_access_flag(team_ai_so_access)
 	self._enemy_slotmask = managers.slot:get_mask("enemies")
-end
 
-function HuskCopBrain:sync_net_event(event_id)
-	if event_id == self._NET_EVENTS.cloak then
-		if self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-			self._unit:damage():run_sequence_simple("cloak_engaged")
+	local char_tweaks = deep_clone(self._unit:base()._char_tweak)
 
-			local weapon_unit = self._unit:inventory():equipped_unit()
+	char_tweaks.suppression = nil
+	char_tweaks.crouch_move = false
+	char_tweaks.allowed_poses = {stand = true}
+	char_tweaks.access = team_ai_so_access
+	char_tweaks.no_run_start = true
+	char_tweaks.no_run_stop = true
 
-			if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-				weapon_unit:damage():run_sequence_simple("cloak_engaged")
-			end
-		end
-	elseif event_id == self._NET_EVENTS.uncloak then
-		if self._unit:damage() and self._unit:damage():has_sequence("decloak") then
-			self._unit:damage():run_sequence_simple("decloak")
-
-			local weapon_unit = self._unit:inventory():equipped_unit()
-
-			if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("decloak") then
-				weapon_unit:damage():run_sequence_simple("decloak")
-			end
-		end
-	elseif event_id == self._NET_EVENTS.weapon_laser_on then
-		self._add_laser_t = HuskCopBrain._ENABLE_LASER_TIME
-	elseif event_id == self._NET_EVENTS.weapon_laser_off then
-		self:disable_weapon_laser()
-	end
+	self._unit:base()._char_tweak = char_tweaks
+	self._unit:character_damage()._char_tweak = char_tweaks
+	self._unit:movement()._tweak_data = char_tweaks
+	self._unit:movement()._action_common_data.char_tweak = char_tweaks
 end
 
 function HuskCopBrain:update(unit, t, dt)
@@ -156,7 +241,11 @@ function HuskCopBrain:update(unit, t, dt)
 		return
 	end
 
+	local disable_ext_updating = true
+
 	if self._detect_local_player then
+		disable_ext_updating = nil
+
 		local attention_info = self:update_local_player_detection(t)
 
 		if attention_info and attention_info.identified then
@@ -197,7 +286,13 @@ function HuskCopBrain:update(unit, t, dt)
 			self:enable_weapon_laser()
 
 			self._add_laser_t = nil
+		else
+			disable_ext_updating = nil
 		end
+	end
+
+	if disable_ext_updating then
+		self._unit:set_extension_update(brain_idstr, false)
 	end
 end
 
@@ -206,53 +301,20 @@ function HuskCopBrain:on_team_set(team_data)
 
 	if self._unit:movement():cool() then
 		self._detect_local_player = true
+		self._unit:set_extension_update(brain_idstr, true)
 	end
 end
 
 function HuskCopBrain:on_cool_state_changed(state)
-	if self._is_ally then
-		self._detect_local_player = state
-
-		return
-	end
-
-	if self._alert_listen_key then
-		managers.groupai:state():remove_alert_listener(self._alert_listen_key)
-	else
-		self._alert_listen_key = "HuskCopBrain" .. tostring(self._unit:key())
-	end
-
-	local alert_listen_filter, alert_types = nil
-
 	if state then
-		alert_listen_filter = managers.groupai:state():get_unit_type_filter("criminals_enemies_civilians")
-		alert_types = {
-			vo_distress = true,
-			fire = true,
-			bullet = true,
-			vo_intimidate = true,
-			explosion = true,
-			footstep = true,
-			aggression = true,
-			vo_cbt = true
-		}
-	else
-		alert_listen_filter = managers.groupai:state():get_unit_type_filter("criminal")
-		alert_types = {
-			explosion = true,
-			fire = true,
-			aggression = true,
-			bullet = true
-		}
-
-		if self._detected_player_att_data then
-			self:terminate_all_suspicion()
-		end
+		self._unit:set_extension_update(brain_idstr, true)
 	end
-
-	managers.groupai:state():add_alert_listener(self._alert_listen_key, callback(self, self, "on_alert"), alert_listen_filter, alert_types, self._unit:movement():m_head_pos())
 
 	self._detect_local_player = state
+
+	if not state and not self._is_ally and self._detected_player_att_data then
+		self:terminate_all_suspicion()
+	end
 end
 
 function HuskCopBrain:terminate_all_suspicion()
@@ -270,7 +332,7 @@ function HuskCopBrain:update_local_player_detection(t)
 	local player = managers.player:player_unit()
 
 	if not player then
-		if #self._detected_player_att_data > 0 then
+		if next_g(self._detected_player_att_data) then
 			self:_destroy_all_detected_attention_object_data()
 		end
 
@@ -832,13 +894,27 @@ function HuskCopBrain:_destroy_all_detected_attention_object_data()
 	self._detected_player_att_data = {}
 end
 
-local clbk_death_original = HuskCopBrain.clbk_death
 function HuskCopBrain:clbk_death(my_unit, damage_info)
-	clbk_death_original(self, my_unit, damage_info)
-
 	self:_destroy_all_detected_attention_object_data()
+	self._unit:movement():synch_attention()
 
 	self._detect_local_player = nil
+
+	if self._alert_listen_key then
+		managers.groupai:state():remove_alert_listener(self._alert_listen_key)
+
+		self._alert_listen_key = nil
+	end
+
+	if self._following_hostage_contour_id then
+		self._unit:contour():remove_by_id(self._following_hostage_contour_id)
+
+		self._following_hostage_contour_id = nil
+	end
+
+	self:disable_weapon_laser()
+
+	self._unit:set_extension_update(brain_idstr, false)
 end
 
 function HuskCopBrain:pre_destroy()
@@ -853,9 +929,7 @@ function HuskCopBrain:pre_destroy()
 		self._alert_listen_key = nil
 	end
 
-	if self._weapon_laser_on then
-		self:sync_net_event(self._NET_EVENTS.weapon_laser_off)
-	end
+	self:disable_weapon_laser()
 end
 
 function HuskCopBrain:_send_client_detection_net_event(event_id)
