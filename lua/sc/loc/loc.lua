@@ -1870,8 +1870,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["bm_msk_shatter_true"] = "Raze",
 		["bm_msk_shatter_true_desc"] = "The mask of Raze, Jackal's partner in crime. The Phoenix represents rebirth. Each death bringing about new life. Raze believes that the mask is her 'lucky charm', and often doesn't work without it.",
 
-		["menu_l_global_value_veritas"] = "Restoration Mod",
-		["menu_l_global_value_veritas_desc"] = "This is a Restoration Mod item!",
+		["menu_l_global_value_veritas"] = "Heat",
+		["menu_l_global_value_veritas_desc"] = "This is a Heat item!",
 
 		["menu_alex_1_zipline"] = "Bag Zipline",
 
