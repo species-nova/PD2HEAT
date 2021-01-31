@@ -339,8 +339,9 @@ tweak_data.projectiles.hatman_molotov = {}
 tweak_data.projectiles.hatman_molotov.env_effect = "hatman_molotov_fire"
 
 --Genuinely why--
-tweak_data.team_ai.stop_action.delay = 0.8
-tweak_data.team_ai.stop_action.distance = 9999999999999999999999999999999999
+--Killed for now--
+--tweak_data.team_ai.stop_action.delay = 0.8
+--tweak_data.team_ai.stop_action.distance = 9999999999999999999999999999999999
 
 tweak_data.medic.cooldown = 90
 tweak_data.medic.radius = 400
