@@ -1,11 +1,7 @@
 --[[
 
-To whom it may concern, hello! If you're seeing this, there's a good chance you might be here to remove vital files related to
-making the skill overhaul in SC's mod function. While I understand that some of you may not like having your builds become
-invalid in the mod, you MUST understand that the mod was balanced with these changes in mind! Especially since it's to nerf
-overpowered builds and abilities that would otherwise trivialize the buffs I made to the cops, and you have to remember the 
-entire point of the mod was to increase the game's difficulty. So I ask you, please, actually try the mod with revamped skilltrees 
-before dismissing it. I promise you it's still fun and in fact, you may find that you enjoy this system more.
+Hi!  Leave this file alone.  Don't edit me unless you're a developer!
+Changing this file can cause issues in matches if you don't know what you're doing!  Thanks!
 
 ]]--
 
@@ -349,7 +345,7 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   ASSAULT SUBTREE, FORMERLY SHARPSHOOTER   ]]--
 			--{
 
-			--Leadership, you always have less recoils ;^)--
+			--Leadership, you always have less recoils ;)--
 			self.skills.stable_shot = {
 				["name_id"] = "menu_stable_shot_beta_sc",
 				["desc_id"] = "menu_stable_shot_beta_desc_sc",
@@ -2937,7 +2933,7 @@ function SkillTreeTweakData:init(tweak_data)
 		}
 		
 	--Rust Perlman--
-	local sc_fat_dick = {
+	local sc_biker = {
 			{
 				cost = 200,
 				texture_bundle_folder = "wild",
@@ -3073,7 +3069,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 
-	--Chicken Tacos--
+	--Sicario--
 	local sc_wall = {
 			name_id = "menu_st_spec_18",
 			desc_id = "menu_st_spec_18_desc",
@@ -3132,7 +3128,7 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 		
-	--Don't cry for me, I'm already dead.--
+	--Duke's perk deck i dont remember the name--
 	local sc_august = {
 			desc_id = "menu_st_spec_19_desc",
 			name_id = "menu_st_spec_19",
@@ -3208,8 +3204,8 @@ function SkillTreeTweakData:init(tweak_data)
 			}
 		}
 		
-	--The Doctor wrote "fucking loser" on his chart--
-	local sc_nose = {
+	--ECP Deck--
+	local sc_ecp = {
 			{
 				cost = 200,
 				texture_bundle_folder = "ecp",
@@ -3287,9 +3283,8 @@ function SkillTreeTweakData:init(tweak_data)
 			desc_id = "menu_st_spec_20_desc"
 		}
 		
-	--You need a science skill of 100 to understand the fuck's the point of this perk deck--
 	--Hacker--
-	local sc_nip = {
+	local sc_hacker = {
 			{
 				cost = 200,
 				texture_bundle_folder = "joy",
@@ -3444,7 +3439,7 @@ function SkillTreeTweakData:init(tweak_data)
 		}		
 		
 	--Wildcard Perk Deck--
-	local sc_yes_man = {
+	local sc_wildcard = {
 			name_id = "menu_st_spec_00",
 			desc_id = "menu_st_spec_00_desc",
 			{
@@ -3504,12 +3499,12 @@ function SkillTreeTweakData:init(tweak_data)
 	self.specializations[13] = sc_ex
 	self.specializations[14] = sc_maniac
 	self.specializations[15] = sc_sydney
-	self.specializations[16] = sc_fat_dick
+	self.specializations[16] = sc_biker
 	self.specializations[17] = sc_scarface
 	self.specializations[18] = sc_wall	
 	self.specializations[19] = sc_august	
-	self.specializations[20] = sc_nose
-	self.specializations[21] = sc_nip
+	self.specializations[20] = sc_ecp
+	self.specializations[21] = sc_hacker
 	self.specializations[22] = sc_blank
-	self.specializations[23] = sc_yes_man
+	self.specializations[23] = sc_wildcard
 end
