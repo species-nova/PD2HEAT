@@ -6,6 +6,8 @@ local mvec3_dir = mvector3.direction
 local mvec3_l_sq = mvector3.length_sq
 local tmp_vec1 = Vector3()
 
+local pairs_g = pairs
+
 function GroupAIStateBase:_calculate_difficulty_ratio()
 	local ramp = tweak_data.group_ai.difficulty_curve_points
 
@@ -1360,17 +1362,15 @@ function GroupAIStateBase:set_whisper_mode(state)
 
 	self:set_ambience_flag()
 
-	if Network:is_server() then
-		if state then
-			self:chk_register_removed_attention_objects()
-		else
-			self:chk_unregister_irrelevant_attention_objects()
+	if state then
+		self:chk_register_removed_attention_objects()
+	else
+		self:chk_unregister_irrelevant_attention_objects()
 
-			if not self._switch_to_not_cool_clbk_id then
-				self._switch_to_not_cool_clbk_id = "GroupAI_delayed_not_cool"
+		if Network:is_server() and not self._switch_to_not_cool_clbk_id then
+			self._switch_to_not_cool_clbk_id = "GroupAI_delayed_not_cool"
 
-				managers.enemy:add_delayed_clbk(self._switch_to_not_cool_clbk_id, callback(self, self, "_clbk_switch_enemies_to_not_cool"), self._t + 1)
-			end
+			managers.enemy:add_delayed_clbk(self._switch_to_not_cool_clbk_id, callback(self, self, "_clbk_switch_enemies_to_not_cool"), self._t + 1)
 		end
 	end
 
@@ -1382,15 +1382,21 @@ function GroupAIStateBase:set_whisper_mode(state)
 end
 
 function GroupAIStateBase:register_AI_attention_object(unit, handler, nav_tracker, team, SO_access)
-	local store_instead = nil
+	local actually_remove_instead = nil
 
-	if Network:is_server() and not self:whisper_mode() then
+	if not self:whisper_mode() then
 		if not nav_tracker and not unit:vehicle_driving() or unit:in_slot(1) or unit:in_slot(17) and unit:character_damage() then
-			store_instead = true
+			actually_remove_instead = true
 		end
 	end
 
-	if store_instead then
+	local u_key = unit:key()
+
+	if actually_remove_instead then
+		self._attention_objects.all[u_key] = {
+			handler = handler
+		}
+
 		local attention_info = {
 			unit = unit,
 			handler = handler,
@@ -1399,20 +1405,56 @@ function GroupAIStateBase:register_AI_attention_object(unit, handler, nav_tracke
 			SO_access = SO_access
 		}
 
-		self:store_removed_attention_object(unit:key(), attention_info)
+		self:store_removed_attention_object(u_key, attention_info)
 
-		return
+		handler:set_attention(nil)
+	else
+		self._attention_objects.all[u_key] = {
+			unit = unit,
+			handler = handler,
+			nav_tracker = nav_tracker,
+			team = team,
+			SO_access = SO_access
+		}
+
+		self:on_AI_attention_changed(u_key)
+
+		local att_obj_upd_state = true
+
+		if not nav_tracker and not unit:vehicle_driving() and not unit:carry_data() then
+			local base_ext = unit:base()
+
+			if not base_ext then
+				if unit:in_slot(1) then
+					att_obj_upd_state = false
+				end
+			elseif base_ext.is_security_camera then
+				if base_ext.is_friendly or base_ext:destroyed() then
+					att_obj_upd_state = false
+				end
+			elseif unit:in_slot(1) then
+				att_obj_upd_state = false
+			end
+		elseif unit:in_slot(1) then
+			att_obj_upd_state = false
+		end
+
+		handler:set_update_enabled(att_obj_upd_state)
+
+		if not att_obj_upd_state then
+			handler:update()
+
+			managers.enemy:add_delayed_clbk("_att_object_pos_upd" .. tostring(u_key), callback(handler, handler, "_do_late_update"), self._t + 0.5)
+		end
 	end
+end
 
-	self._attention_objects.all[unit:key()] = {
-		unit = unit,
-		handler = handler,
-		nav_tracker = nav_tracker,
-		team = team,
-		SO_access = SO_access
-	}
+function GroupAIStateBase:unregister_AI_attention_object(unit_key)
+	self._attention_objects.all[unit_key].handler:set_update_enabled(false)
 
-	self:on_AI_attention_changed(unit:key())
+	for cat_filter, list in pairs_g(self._attention_objects) do
+		list[unit_key] = nil
+	end
 end
 
 function GroupAIStateBase:chk_register_removed_attention_objects()
@@ -1422,7 +1464,7 @@ function GroupAIStateBase:chk_register_removed_attention_objects()
 
 	local all_attention_objects = self:get_all_AI_attention_objects()
 
-	for u_key, att_info in pairs (self._removed_attention_objects) do
+	for u_key, att_info in pairs_g(self._removed_attention_objects) do
 		if all_attention_objects[u_key] then
 			self._removed_attention_objects[u_key] = nil
 		elseif alive(att_info.unit) then
@@ -1443,9 +1485,10 @@ end
 function GroupAIStateBase:chk_unregister_irrelevant_attention_objects()
 	local all_attention_objects = self:get_all_AI_attention_objects()
 
-	for u_key, att_info in pairs (all_attention_objects) do
+	for u_key, att_info in pairs_g(all_attention_objects) do
 		if not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) or att_info.unit:in_slot(17) and att_info.unit:character_damage() then
 			self:store_removed_attention_object(u_key, att_info)
+
 			att_info.handler:set_attention(nil)
 		end
 	end
