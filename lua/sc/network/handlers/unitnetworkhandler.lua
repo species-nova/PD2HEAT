@@ -453,8 +453,8 @@ function UnitNetworkHandler:sync_friendly_fire_damage(peer_id, unit, damage, var
 end
 
 --Function clients invoke just tells host to do above.
-function UnitNetworkHandler:sync_spawn_extra_ammo(position, rotation)
-    managers.player:spawn_extra_ammo(position, rotation)
+function UnitNetworkHandler:sync_spawn_extra_ammo(killed_unit)
+    managers.player:spawn_extra_ammo_peer(killed_unit)
 end
 
 --Syncs to match whatever captain type the host has active in skirmish.

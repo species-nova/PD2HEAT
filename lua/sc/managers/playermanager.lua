@@ -992,12 +992,12 @@ end
 --Professional aced extra ammo when killing specials while using silenced weapons.
 function PlayerManager:_on_spawn_special_ammo_event(equipped_unit, variant, killed_unit)
 	if killed_unit.base and tweak_data.character[killed_unit:base()._tweak_table].priority_shout and equipped_unit:base():got_silencer() and variant == "bullet" then
-		local tracker = killed_unit:movement():nav_tracker()
-	    local position = tracker:lost() and tracker:field_position() or tracker:position()
-	    local rotation = killed_unit:rotation()
 		if Network:is_client() then
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", position, rotation)
+			managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
 		else
+			local tracker = killed_unit:movement():nav_tracker()
+			local position = tracker:lost() and tracker:field_position() or tracker:position()
+			local rotation = killed_unit:rotation()
 			self:spawn_extra_ammo(position, rotation)
 		end
 	end
@@ -1005,15 +1005,26 @@ end
 
 function PlayerManager:_on_spawn_extra_ammo_event(equipped_unit, variant, killed_unit)
 	if self._num_kills % self._target_kills == 0 then
-		local tracker = killed_unit:movement():nav_tracker()
-	    local position = tracker:lost() and tracker:field_position() or tracker:position()
-	    local rotation = killed_unit:rotation()
 		if Network:is_client() then
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", position, rotation)
+			managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
 		else
+			local tracker = killed_unit:movement():nav_tracker()
+			local position = tracker:lost() and tracker:field_position() or tracker:position()
+			local rotation = killed_unit:rotation()
 			self:spawn_extra_ammo(position, rotation)
 		end
 	end
+end
+
+function PlayerManager:spawn_extra_ammo_peer(killed_unit)
+	if not alive(killed_unit) then
+		return
+	end
+
+	local tracker = killed_unit:movement():nav_tracker()
+	local position = tracker:lost() and tracker:field_position() or tracker:position()
+	local rotation = killed_unit:rotation()
+	self:spawn_extra_ammo(position, rotation)	
 end
 
 function PlayerManager:spawn_extra_ammo(position, rotation)

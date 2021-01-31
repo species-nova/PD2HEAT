@@ -105,37 +105,6 @@
 		<search>
 			<network/>
 			<rpc/>
-			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="unit" check="client_to_server"/>
-			<param type="unit"/>
-		</search>
-		<target mode="attributes">
-			<attr name="type" value="vector3"/>
-		</target>
-	</tweak>
-	<tweak version="2" name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="unit" check="client_to_server"/>
-		</search>
-		<target mode="attach">
-			<param type="vector3" />
-		</target>
-	</tweak>
-	<tweak version="2" name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="unit" check="client_to_server"/>
-		</search>
-		<target mode="attach">
-			<param type="vector3" />
-		</target>
-	</tweak>
-	<tweak version="2" name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
 		</search>
 		<target mode="attach">
 			<message name="sync_skm_captain" delivery="reliable" receiver="unit" check="server_to_client">
