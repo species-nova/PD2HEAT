@@ -518,9 +518,9 @@ function CopLogicAttack._upd_combat_movement(data)
 		action_taken = CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
 	end
 
-	if not action_taken and want_to_take_cover and not my_data.best_cover then
+	--[[if not action_taken and want_to_take_cover and not my_data.best_cover then
 		action_taken = CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, my_data.attitude == "engage" and not data.is_suppressed)
-	end
+	end]]
 end
 
 function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, vis_required) --keep testing, modify, might want to revert back to vanilla
