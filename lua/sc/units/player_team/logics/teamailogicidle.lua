@@ -1247,6 +1247,60 @@ function TeamAILogicIdle.intimidate_civilians(data, criminal, play_sound, play_a
 	return primary_target or best_civ
 end
 
+function TeamAILogicIdle.on_new_objective(data, old_objective)
+	local new_objective = data.objective
+
+	TeamAILogicBase.on_new_objective(data, old_objective)
+
+	local my_data = data.internal_data
+
+	if not my_data.exiting then
+		if new_objective then
+			local objective_needs_travel = nil
+
+			if not data.unit:movement()._should_stay then
+				if new_objective.nav_seg or new_objective.type == "follow" then
+					if not new_objective.in_place then
+						if new_objective.pos then
+							objective_needs_travel = true
+						elseif not new_objective.area or not new_objective.area.nav_segs[data.unit:movement():nav_tracker():nav_segment()] then
+							objective_needs_travel = true
+						end
+					end
+				end
+			elseif new_objective.type == "revive" then
+				objective_needs_travel
+			end
+
+			if objective_needs_travel then
+				if data._ignore_first_travel_order then
+					data._ignore_first_travel_order = nil
+				else
+					CopLogicBase._exit(data.unit, "travel")
+				end
+			elseif new_objective.action or not data.attention_obj or AIAttentionObject.REACT_AIM > data.attention_obj.reaction then
+				CopLogicBase._exit(data.unit, "idle")
+			else
+				CopLogicBase._exit(data.unit, "assault")
+			end
+		else
+			CopLogicBase._exit(data.unit, "idle")
+		end
+	end
+
+	if new_objective and new_objective.stance then
+		if new_objective.stance == "ntl" then
+			data.unit:movement():set_cool(true)
+		else
+			data.unit:movement():set_cool(false)
+		end
+	end
+
+	if old_objective and old_objective.fail_clbk then
+		old_objective.fail_clbk(data.unit)
+	end
+end
+
 function TeamAILogicIdle._upd_sneak_spotting(data, my_data)
 	if not managers.groupai:state():whisper_mode() then
 		return
