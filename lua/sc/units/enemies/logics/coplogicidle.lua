@@ -729,7 +729,7 @@ function CopLogicIdle._chk_reaction_to_attention_object(data, attention_data, st
 
 	if record.status == "dead" then
 		return math_min(att_reaction, REACT_AIM)
-	elseif record.status == "electrified" and attention_data.verified and attention_data.dis < 1500 and not data.unit:base():has_tag("special") then
+	--[[elseif record.status == "electrified" and attention_data.verified and attention_data.dis < 1500 and not data.unit:base():has_tag("special") then
 		if record.being_arrested and #record.being_arrested > 1 then
 			if not record.assault_t or data.t > record.assault_t + 2 then
 				return math_min(att_reaction, REACT_AIM)
@@ -742,7 +742,7 @@ function CopLogicIdle._chk_reaction_to_attention_object(data, attention_data, st
 			if not attention_data.aimed_at or not attention_data.dmg_t or data.t > attention_data.dmg_t + 1 then
 				return math_min(att_reaction, REACT_ARREST)
 			end
-		end
+		end]]
 	elseif record.status == "disabled" then
 		if data.tactics and data.tactics.murder then
 			return math_min(att_reaction, REACT_COMBAT)
@@ -1806,9 +1806,9 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 
 						local crim_record = attention_data.criminal_record
 
-						if reaction == REACT_ARREST and crim_record and crim_record.status == "electrified" then
+						--[[if reaction == REACT_ARREST and crim_record and crim_record.status == "electrified" then
 							return attention_data, 1, reaction
-						end
+						end]]
 
 						if attention_data.is_local_player then
 							local cur_state = att_unit:movement():current_state()
@@ -1889,8 +1889,31 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							end
 						end
 
-						if data.attention_obj and data.attention_obj.u_key == u_key and attention_data.acquire_t and data.t - attention_data.acquire_t < 4 then --old enemy
-							target_priority_slot = target_priority_slot - 3
+						if data.attention_obj and data.attention_obj.u_key == u_key then
+							if not attention_data.acquire_t then
+								log("no acquire_t defined somehow")
+
+								if data.unit:character_damage():dead() then
+									log("unit was dead!")
+								end
+
+								local cur_logic_name = data.name
+
+								if cur_logic_name then
+									log("Logic name: " .. to_string(cur_logic_name) .. "")
+								end
+
+								local cam_pos = managers.viewport:get_current_camera_position()
+
+								if cam_pos then
+									local from_pos = cam_pos + math.DOWN * 50
+
+									local brush = Draw:brush(Color.red:with_alpha(0.5), 10)
+									brush:cylinder(from_pos, data.unit:movement():m_com(), 10)
+								end
+							elseif data.t - attention_data.acquire_t < 4 then --old enemy
+								target_priority_slot = target_priority_slot - 3
+							end
 						end
 
 						local reviving = nil
