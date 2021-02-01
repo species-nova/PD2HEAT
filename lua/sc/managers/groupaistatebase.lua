@@ -859,7 +859,11 @@ function GroupAIStateBase:update(t, dt)
 	end
 
 	self:_upd_debug_draw_attentions()
-	self:upd_team_AI_distance()
+
+	--[[if Network:is_server() and self:team_ai_enabled() then
+		self:upd_team_AI_distance()
+	end]]
+
 	self._last_detection_mul = self._old_guard_detection_mul_raw --used purely for suspicion meter syncing
 end
 
