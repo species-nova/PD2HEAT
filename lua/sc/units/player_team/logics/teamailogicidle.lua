@@ -1269,7 +1269,7 @@ function TeamAILogicIdle.on_new_objective(data, old_objective)
 					end
 				end
 			elseif new_objective.type == "revive" then
-				objective_needs_travel
+				objective_needs_travel = true
 			end
 
 			if objective_needs_travel then
