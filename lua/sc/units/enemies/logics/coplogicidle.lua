@@ -495,65 +495,23 @@ function CopLogicIdle._upd_scan(data, my_data)
 end
 
 function CopLogicIdle.damage_clbk(data, damage_info)
-	data.t = TimerManager:game():time()
+	local t = TimerManager:game():time()
+	data.t = t
 
 	local enemy = damage_info.attacker_unit
-	local enemy_data = nil
 
-	if enemy and enemy:in_slot(data.enemy_slotmask) then
-		local my_data = data.internal_data
-		local enemy_key = enemy:key()
-		enemy_data = data.detected_attention_objects[enemy_key]
-		local t = data.t
+	if alive(enemy) and enemy:in_slot(data.enemy_slotmask) then
+		local enemy_data, is_new = CopLogicBase.identify_attention_obj_instant(data, enemy:key())
 
 		if enemy_data then
 			enemy_data.dmg_t = t
 			enemy_data.alert_t = t
 
-			mvec3_set(enemy_data.verified_pos, enemy:movement():m_stand_pos())
-
-			if not enemy_data.identified then
-				enemy_data.identified = true
-				enemy_data.identified_t = t
-				enemy_data.notice_progress = nil
-				enemy_data.prev_notice_chk_t = nil
-
-				if enemy_data.settings.notice_clbk then
-					enemy_data.settings.notice_clbk(data.unit, true)
-				end
-
-				data.logic.on_attention_obj_identified(data, enemy_key, enemy_data)
-			end
-		else
-			local attention_info = managers.groupai:state():get_AI_attention_objects_by_filter(data.SO_access_str)[enemy_key]
-
-			if attention_info then
-				local settings = attention_info.handler:get_attention(data.SO_access, nil, nil, data.team)
-
-				if settings then
-					enemy_data = CopLogicBase._create_detected_attention_object_data(t, data.unit, enemy_key, attention_info, settings)
-					enemy_data.dmg_t = t
-					enemy_data.alert_t = t
-					enemy_data.identified = true
-					enemy_data.identified_t = t
-					enemy_data.notice_progress = nil
-					enemy_data.prev_notice_chk_t = nil
-
-					if enemy_data.settings.notice_clbk then
-						enemy_data.settings.notice_clbk(data.unit, true)
-					end
-
-					data.detected_attention_objects[enemy_key] = enemy_data
-
-					data.logic.on_attention_obj_identified(data, enemy_key, enemy_data)
-				end
+			if enemy_data.criminal_record then
+				managers.groupai:state():criminal_spotted(enemy)
+				managers.groupai:state():report_aggression(enemy)
 			end
 		end
-	end
-
-	if enemy_data and enemy_data.criminal_record then
-		managers.groupai:state():criminal_spotted(enemy)
-		managers.groupai:state():report_aggression(enemy)
 	end
 end
 
@@ -729,7 +687,7 @@ function CopLogicIdle._chk_reaction_to_attention_object(data, attention_data, st
 
 	if record.status == "dead" then
 		return math_min(att_reaction, REACT_AIM)
-	elseif record.status == "electrified" and attention_data.verified and attention_data.dis < 1500 and not data.unit:base():has_tag("special") then
+	--[[elseif record.status == "electrified" and attention_data.verified and attention_data.dis < 1500 and not data.unit:base():has_tag("special") then
 		if record.being_arrested and #record.being_arrested > 1 then
 			if not record.assault_t or data.t > record.assault_t + 2 then
 				return math_min(att_reaction, REACT_AIM)
@@ -742,7 +700,7 @@ function CopLogicIdle._chk_reaction_to_attention_object(data, attention_data, st
 			if not attention_data.aimed_at or not attention_data.dmg_t or data.t > attention_data.dmg_t + 1 then
 				return math_min(att_reaction, REACT_ARREST)
 			end
-		end
+		end]]
 	elseif record.status == "disabled" then
 		if data.tactics and data.tactics.murder then
 			return math_min(att_reaction, REACT_COMBAT)
@@ -1806,9 +1764,9 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 
 						local crim_record = attention_data.criminal_record
 
-						if reaction == REACT_ARREST and crim_record and crim_record.status == "electrified" then
+						--[[if reaction == REACT_ARREST and crim_record and crim_record.status == "electrified" then
 							return attention_data, 1, reaction
-						end
+						end]]
 
 						if attention_data.is_local_player then
 							local cur_state = att_unit:movement():current_state()
@@ -1889,8 +1847,31 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							end
 						end
 
-						if data.attention_obj and data.attention_obj.u_key == u_key and attention_data.acquire_t and data.t - attention_data.acquire_t < 4 then --old enemy
-							target_priority_slot = target_priority_slot - 3
+						if data.attention_obj and data.attention_obj.u_key == u_key then
+							if not attention_data.acquire_t then
+								log("no acquire_t defined somehow")
+
+								if data.unit:character_damage():dead() then
+									log("unit was dead!")
+								end
+
+								local cur_logic_name = data.name
+
+								if cur_logic_name then
+									log("Logic name: " .. to_string(cur_logic_name) .. "")
+								end
+
+								local cam_pos = managers.viewport:get_current_camera_position()
+
+								if cam_pos then
+									local from_pos = cam_pos + math.DOWN * 50
+
+									local brush = Draw:brush(Color.red:with_alpha(0.5), 10)
+									brush:cylinder(from_pos, data.unit:movement():m_com(), 10)
+								end
+							elseif data.t - attention_data.acquire_t < 4 then --old enemy
+								target_priority_slot = target_priority_slot - 3
+							end
 						end
 
 						local reviving = nil

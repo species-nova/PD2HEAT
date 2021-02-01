@@ -487,8 +487,8 @@ function CopLogicArrest._upd_enemy_detection(data)
 
 	if should_arrest and not my_data.arrest_targets[new_attention.u_key] then
 		my_data.arrest_targets[new_attention.u_key] = {
-			attention_obj = new_attention,
-			tase_arrest = new_attention.criminal_record and new_attention.criminal_record.status == "electrified" and true
+			attention_obj = new_attention
+			--tase_arrest = new_attention.criminal_record and new_attention.criminal_record.status == "electrified" and true
 		}
 
 		managers.groupai:state():on_arrest_start(data.key, new_attention.u_key)
@@ -633,7 +633,7 @@ function CopLogicArrest._chk_reaction_to_attention_object(data, attention_data, 
 
 	if record.status == "dead" then
 		return math_min(att_reaction, REACT_AIM)
-	elseif record.status == "electrified" then
+	--[[elseif record.status == "electrified" then
 		local chk_tase_arrest = nil
 
 		if record.being_arrested then
@@ -650,7 +650,7 @@ function CopLogicArrest._chk_reaction_to_attention_object(data, attention_data, 
 			if not attention_data.aimed_at or not attention_data.dmg_t or data.t > attention_data.dmg_t + 1 then
 				return math_min(att_reaction, REACT_ARREST)
 			end
-		end
+		end]]
 	elseif record.status == "disabled" then
 		if data.tactics and data.tactics.murder then
 			return math_min(att_reaction, REACT_COMBAT)
@@ -733,9 +733,9 @@ function CopLogicArrest._verify_arrest_targets(data, my_data)
 				drop = true
 				penalty = true
 			elseif record.status or data.t < record.arrest_timeout then
-				if record.status ~= "electrified" then
+				--if record.status ~= "electrified" then
 					drop = true
-				end
+				--end
 			elseif all_attention_objects[u_key] ~= arrest_data.attention_obj then
 				drop = true
 			elseif not arrest_data.attention_obj.identified then
@@ -917,7 +917,7 @@ function CopLogicArrest.on_criminal_neutralized(data, criminal_key)
 		end
 
 		my_data.arrest_targets[criminal_key] = nil
-	elseif record.status ~= "electrified" and my_data.arrest_targets[criminal_key] and my_data.arrest_targets[criminal_key].intro_pos then
+	elseif --[[record.status ~= "electrified" and]] my_data.arrest_targets[criminal_key] and my_data.arrest_targets[criminal_key].intro_pos then
 		my_data.arrest_targets[criminal_key].intro_pos = mvec3_cpy(my_data.arrest_targets[criminal_key].attention_obj.m_pos)
 		my_data.arrest_targets[criminal_key].intro_t = TimerManager:game():time()
 	end
@@ -1020,28 +1020,7 @@ function CopLogicArrest._get_priority_attention(data, attention_objects, reactio
 					reaction_too_mild = true
 				end
 
-				if reaction_too_mild then
-					if attention_data.verified and reaction == REACT_ARREST and attention_data.criminal_record and attention_data.criminal_record.status == "electrified" then
-						local target_priority = distance
-						local target_priority_slot = 1
-						local best = false
-
-						if not best_target then
-							best = true
-						elseif target_priority_slot < best_target_priority_slot then
-							best = true
-						elseif target_priority_slot == best_target_priority_slot and target_priority < best_target_priority then
-							best = true
-						end
-
-						if best then
-							best_target = attention_data
-							best_target_reaction = reaction
-							best_target_priority_slot = target_priority_slot
-							best_target_priority = target_priority
-						end
-					end
-				else
+				if not reaction_too_mild then
 					local arrest_targets = data.internal_data.arrest_targets
 					local is_target_to_arrest = nil
 
@@ -1054,7 +1033,7 @@ function CopLogicArrest._get_priority_attention(data, attention_objects, reactio
 					if is_target_to_arrest then
 						best_target = attention_data
 						best_target_reaction = reaction
-						best_target_priority_slot = crim_record and crim_record.status == "electrified" and 1 or 5
+						best_target_priority_slot = 7
 						best_target_priority = distance
 					else
 						local weight_mul = attention_data.settings.weight_mul or 1
@@ -1146,8 +1125,31 @@ function CopLogicArrest._get_priority_attention(data, attention_objects, reactio
 								end
 							end
 
-							if data.attention_obj and data.attention_obj.u_key == u_key and data.t - attention_data.acquire_t < 4 then --old enemy
-								target_priority_slot = target_priority_slot - 3
+							if data.attention_obj and data.attention_obj.u_key == u_key then
+								if not attention_data.acquire_t then
+									log("arrest: no acquire_t defined somehow")
+
+									if data.unit:character_damage():dead() then
+										log("arrest: unit was dead!")
+									end
+
+									local cur_logic_name = data.name
+
+									if cur_logic_name ~= "arrest" then
+										log("arrest: unit was in a different logic! Logic name: " .. to_string(cur_logic_name) .. "")
+									end
+
+									local cam_pos = managers.viewport:get_current_camera_position()
+
+									if cam_pos then
+										local from_pos = cam_pos + math.DOWN * 50
+
+										local brush = Draw:brush(Color.red:with_alpha(0.5), 10)
+										brush:cylinder(from_pos, data.unit:movement():m_com(), 10)
+									end
+								elseif data.t - attention_data.acquire_t < 4 then --old enemy
+									target_priority_slot = target_priority_slot - 3
+								end
 							end
 
 							local reviving = nil
