@@ -1505,13 +1505,14 @@ function CopLogicBase.identify_attention_obj_instant(data, att_u_key)
 	local is_new = not att_obj_data
 
 	if att_obj_data then
-		mvec3_set(att_obj_data.verified_pos, att_obj_data.m_head_pos)
+		local detect_pos = att_obj_data.m_head_pos
+		mvec3_set(att_obj_data.verified_pos, detect_pos)
 
-		att_obj_data.verified_dis = mvec3_dis(att_obj_data.m_pos, data.unit:movement():m_pos())
+		att_obj_data.verified_dis = mvec3_dis(data.unit:movement():m_head_pos(), detect_pos)
 
 		if not att_obj_data.identified then
 			att_obj_data.identified = true
-			att_obj_data.identified_t = data.t
+			att_obj_data.identified_t = TimerManager:game():time()
 			att_obj_data.notice_progress = nil
 			att_obj_data.prev_notice_chk_t = nil
 
@@ -1532,9 +1533,11 @@ function CopLogicBase.identify_attention_obj_instant(data, att_u_key)
 			local settings = attention_info.handler:get_attention(data.SO_access, nil, nil, data.team)
 
 			if settings then
-				att_obj_data = CopLogicBase._create_detected_attention_object_data(data.t, data.unit, att_u_key, attention_info, settings)
+				local t = TimerManager:game():time()
+
+				att_obj_data = CopLogicBase._create_detected_attention_object_data(t, data.unit, att_u_key, attention_info, settings)
 				att_obj_data.identified = true
-				att_obj_data.identified_t = data.t
+				att_obj_data.identified_t = t
 				att_obj_data.notice_progress = nil
 				att_obj_data.prev_notice_chk_t = nil
 
@@ -1555,7 +1558,7 @@ end
 function CopLogicBase._can_arrest(data)
 	if not data.is_converted then
 		if not data.objective or not data.objective.no_arrest then
-			if not data.char_tweak.no_arrest or data.attention_obj and data.attention_obj.criminal_record and data.attention_obj.criminal_record.status == "electrified" then
+			if not data.char_tweak.no_arrest then --or data.attention_obj and data.attention_obj.criminal_record and data.attention_obj.criminal_record.status == "electrified" then
 				return true
 			end
 		end
