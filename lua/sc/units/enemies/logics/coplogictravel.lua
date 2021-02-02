@@ -163,14 +163,14 @@ function CopLogicTravel.enter(data, new_logic_name, enter_params)
 
 	my_data.attitude = objective.attitude or "avoid"
 	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
-	
+
 	if data.tactics then
 		if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
 			my_data.weapon_range.close = my_data.weapon_range.close * 2
 			my_data.weapon_range.optimal = my_data.weapon_range.optimal * 1.5
 		end
 	end
-	
+
 	my_data.path_safely = not data.cool and data.objective and data.objective.grp_objective and data.objective.grp_objective.type == "recon_area"
 	my_data.path_ahead = data.cool or objective.path_ahead or data.is_converted or data.unit:in_slot(16) or data.team.id == tweak_data.levels:get_default_team_ID("player")
 
@@ -419,19 +419,14 @@ function CopLogicTravel.upd_advance(data)
 			end
 		end
 	elseif my_data.cover_leave_t then
-		if my_data.cover_leave_t < data.t or CopLogicTravel._chk_close_to_criminal(data, my_data) then
+		if my_data.cover_leave_t < data.t or not CopLogicTravel._chk_close_to_criminal(data, my_data) then
 			if not data.unit:anim_data().reload and not data.unit:movement():chk_action_forbidden("walk") then
 				my_data.cover_leave_t = nil
 			end
 		end
 
 		if my_data.cover_leave_t then
-			if not data.attention_obj then
-				if data.logic.chk_should_turn(data, my_data) then
-					CopLogicTravel._chk_request_action_turn_to_cover(data, my_data)
-				end
-			--if data.attention_obj and REACT_COMBAT <= data.attention_obj.reaction then --remove the lines above if turning based on the rotation of cover points isn't desired
-			elseif REACT_COMBAT <= data.attention_obj.reaction then
+			if data.attention_obj and REACT_COMBAT <= data.attention_obj.reaction then
 				if not my_data.best_cover or not my_data.best_cover[4] then
 					if not data.char_tweak.allowed_poses or data.char_tweak.allowed_poses.crouch then
 						if not data.unit:anim_data().crouch then
@@ -514,9 +509,7 @@ function CopLogicTravel._upd_enemy_detection(data)
 					end
 				end
 
-				if not objective or objective.is_default then --check
-					--debug_pause_unit(data.unit, "[CopLogicTravel._upd_enemy_detection] exiting without discarding objective", data.unit, inspect(objective))
-
+				if not objective or objective.is_default then
 					CopLogicBase._exit(data.unit, wanted_state)
 					CopLogicBase._report_detections(data.detected_attention_objects)
 
@@ -602,11 +595,9 @@ function CopLogicTravel._upd_pathing(data, my_data)
 			else
 				if data.objective and data.objective.type == "revive" then
 					my_data.processing_coarse_path = nil
-					--my_data.pathing_to_pos = nil
 
 					CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, true)
 				else
-
 					data.path_fail_t = data.t
 
 					data.objective_failed_clbk(data.unit, data.objective)
@@ -622,7 +613,6 @@ function CopLogicTravel._upd_pathing(data, my_data)
 			my_data.processing_coarse_path = nil
 
 			if path ~= "failed" then
-				--my_data.pathing_to_pos_coarse = nil
 				my_data.coarse_path = path
 				my_data.coarse_path_index = 1
 				data.path_fail_t = nil
@@ -632,20 +622,11 @@ function CopLogicTravel._upd_pathing(data, my_data)
 					my_data.was_pathing_safely = nil
 				end
 			elseif my_data.path_safely then
-				--my_data.pathing_to_pos_coarse = nil
 				my_data.path_safely = nil
 				my_data.was_pathing_safely = true
 			elseif data.objective and data.objective.type == "revive" then
-				--my_data.pathing_to_pos_coarse = nil
 				CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, true)
 			else
-				--[[if my_data.pathing_to_pos_coarse then
-					managers.groupai:state():add_path_fail_position(mvec3_cpy(my_data.pathing_to_pos_coarse), data.unit)
-
-					my_data.pathing_to_pos_coarse = nil
-				end]]
-				--print("[CopLogicTravel:_upd_pathing] coarse_path failed unsafe", data.unit, my_data.coarse_path_index)
-
 				data.path_fail_t = data.t
 
 				data.objective_failed_clbk(data.unit, data.objective)
@@ -773,8 +754,8 @@ function CopLogicTravel.action_complete_clbk(data, action)
 				if my_data.coarse_path_index ~= #my_data.coarse_path then
 					my_data.close_to_criminal = nil
 
-					if not CopLogicTravel._chk_close_to_criminal(data, my_data) then
-						local cover_wait_time = math_random() + 0.6 + 0.4 * math_random()
+					if CopLogicTravel._chk_close_to_criminal(data, my_data) then
+						local cover_wait_time = my_data.coarse_path_index == #my_data.coarse_path - 1 and 0.3 or 0.6 + 0.4 * math_random()
 
 						my_data.cover_leave_t = TimerManager:game():time() + cover_wait_time
 
@@ -1720,7 +1701,11 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	if not my_objective.grp_objective then
 		return true
 	end
-	
+
+	if not CopLogicTravel._chk_close_to_criminal(data, my_data) then
+		return true
+	end
+
 	local my_dis = mvec3_dis_sq(my_objective.area.pos, data.m_pos)
 
 	if my_dis > 4000000 then
@@ -2189,7 +2174,7 @@ function CopLogicTravel._on_destination_reached(data)
 	data.logic.on_new_objective(data)
 end
 
-function CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, warp_back) --wip until hoxi finish her work on logics
+function CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, warp_back)
 	CopLogicTravel._on_destination_reached(data)
 end
 
