@@ -3198,18 +3198,6 @@ end
 function CopDamage:_on_death(variant)
 	--Remove Ex-Pres
 	managers.player:chk_wild_kill_counter(self._unit, variant)
-
-	if self._char_tweak and self._char_tweak.do_autumn_blackout then --clear all equipment and re-enable them when autumn dies
-		managers.enemy:end_autumn_blackout()
-	end
-
-	if self._unit:unit_data().is_convert and SC._converts then
-		for i, unit in pairs(SC._converts) do
-			if unit == self._unit then
-				table.remove(SC._converts, i)
-			end
-		end
-	end
 end
 
 function CopDamage.is_hrt(type)
