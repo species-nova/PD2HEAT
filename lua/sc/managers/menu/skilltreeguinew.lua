@@ -2,6 +2,50 @@
 local image_transparency = 0.6
 local adjust_aspect_ratio = true
 
+function NewSkillTreeSkillItem:invest()
+	local refresh = false
+	local skill_id = self._skill_id
+
+	if self._skilltree:has_enough_skill_points(skill_id) and self._skilltree:unlock(skill_id) then
+		local skill_step = self._skilltree:skill_step(skill_id)
+		local points = self._skilltree:get_skill_points(skill_id, skill_step, self._tier)
+		local skill_points = self._skilltree:spend_points(points)
+
+		self._gui:set_skill_point_text(skill_points)
+		self._skilltree:_set_points_spent(self._tree, self._skilltree:points_spent(self._tree) + points)
+		self:refresh(self._locked)
+
+		refresh = true
+	end
+
+	return refresh
+end
+
+function NewSkillTreeSkillItem:refund()
+	local skill_tree = self._skilltree
+	local skill_id = self._skill_id
+	local skill_level = skill_tree:skill_step(skill_id)
+	local refresh = false
+
+	if skill_level > 0 then
+		local tier = self._tier
+		local tree = self._tree
+
+		if skill_tree:refund_skill(tree, tier, skill_id) then
+			local cost = skill_tree:get_skill_points(skill_id, skill_level, tier)
+			local skill_points = skill_tree:refund_points(cost)
+
+			self._gui:set_skill_point_text(skill_points)
+			self._skilltree:_set_points_spent(tree, skill_tree:points_spent(tree) - cost)
+			self:refresh(self._locked)
+
+			refresh = true
+		end
+	end
+
+	return refresh
+end
+
 function NewSkillTreeGui:setbgimg(page, init)
 	local bgpanels = { "_bg_image1", "_bg_image2", "_bg_image3", "_bg_image4", "_bg_image5" }
 
