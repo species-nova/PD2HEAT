@@ -45,6 +45,8 @@ local table_insert = table.insert
 local table_remove = table.remove
 --local table_contains = table.contains
 
+local deep_clone_g = deep_clone
+
 local REACT_CURIOUS = AIAttentionObject.REACT_CURIOUS
 local REACT_AIM = AIAttentionObject.REACT_AIM
 local REACT_COMBAT = AIAttentionObject.REACT_COMBAT
@@ -166,6 +168,8 @@ function CopLogicTravel.enter(data, new_logic_name, enter_params)
 
 	if data.tactics then
 		if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
+			my_data.weapon_range = deep_clone_g(my_data.weapon_range)
+
 			my_data.weapon_range.close = my_data.weapon_range.close * 2
 			my_data.weapon_range.optimal = my_data.weapon_range.optimal * 1.5
 		end
