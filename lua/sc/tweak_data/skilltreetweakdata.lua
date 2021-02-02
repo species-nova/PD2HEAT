@@ -207,7 +207,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_medic_2x_beta_desc_sc",
 				["icon_xy"] = {5, 8},
 				[1] = {
-					skill_cost = 5,
+					skill_cost = 4,
 					upgrades = {
 						"doctor_bag_amount_increase1"
 					},
@@ -973,7 +973,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Eco Sentry--
+			--Engineering--
 			self.skills.eco_sentry = {
 				["name_id"] = "menu_eco_sentry_beta_sc",
 				["desc_id"] = "menu_eco_sentry_beta_desc_sc",
@@ -986,7 +986,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"sentry_gun_armor_multiplier2"
 					},
@@ -1043,14 +1043,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_iron_man_desc_sc",
 				["icon_xy"] = {6, 4},
 				[1] = {
-					skill_cost = 10,
+					skill_cost = 8,
 					upgrades = {
 						"player_unpierceable_armor"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 12,
 					upgrades = {
 						"player_armor_regen_timer_multiplier_tier",
 						"player_armor_full_damage_absorb"
@@ -1093,7 +1093,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_combat_engineering_desc_sc",
 				["icon_xy"] = {4, 6},
 				[1] = {
-					skill_cost = 3,
+					skill_cost = 2,
 					upgrades = {
 						"trip_mine_explosion_size_multiplier_1"
 					},
@@ -1121,7 +1121,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 8,
 					upgrades = {
 						"player_drill_speed_multiplier2"
 					},
@@ -1168,7 +1168,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_drill_melee_hit_restart_chance_1"
 					},
@@ -1370,14 +1370,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_cleaner_beta_desc_sc",
 				["icon_xy"] = {10, 4},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 6,
 					upgrades = {
 						"player_pick_lock_easy_speed_multiplier_2"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 2,
 					upgrades = {
 						"player_pick_lock_hard"
 					},
@@ -1391,7 +1391,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_chameleon_beta_desc_sc",
 				["icon_xy"] = {6, 10},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 2,
 					upgrades = {
 						"player_standstill_omniscience"
 					},
@@ -1438,14 +1438,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_ecm_booster_beta_desc_sc",
 				["icon_xy"] = {3, 4},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"ecm_jammer_quantity_increase_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"ecm_jammer_quantity_increase_2"
 					},
@@ -1468,7 +1468,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"ecm_jammer_duration_multiplier_2",
 						"ecm_jammer_feedback_duration_boost_2",
@@ -1818,7 +1818,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 6,
 					upgrades = {
 						"pistol_reload_speed_multiplier_2"
 					},
