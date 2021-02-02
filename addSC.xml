@@ -225,6 +225,9 @@
 	<mission path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>  <!--so actual murky dozers rappel down when the helicopters arrive. also changes the van dozer.-->
 	<continent path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>
 	
+	<!--ETERNAL SWIVELDOZER-->
+	<mission path="levels/instances/unique/hox_breakout_serverroom001/world/world" force="true" unload="true"/>
+	
 	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	
