@@ -39,6 +39,8 @@ local math_sign = math.sign
 
 local table_insert = table.insert
 
+local deep_clone_g = deep_clone
+
 local REACT_AIM = AIAttentionObject.REACT_AIM
 local REACT_COMBAT = AIAttentionObject.REACT_COMBAT
 local REACT_SHOOT = AIAttentionObject.REACT_SHOOT
@@ -117,9 +119,11 @@ function CopLogicAttack.enter(data, new_logic_name, enter_params)
 
 	my_data.attitude = objective and objective.attitude or "avoid"
 	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
-	
+
 	if data.tactics then
 		if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
+			my_data.weapon_range = deep_clone_g(my_data.weapon_range)
+
 			my_data.weapon_range.close = my_data.weapon_range.close * 2
 			my_data.weapon_range.optimal = my_data.weapon_range.optimal * 1.5
 		end
@@ -568,98 +572,6 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 
 	local threat_tracker = focus_enemy.nav_tracker
 	local temp_tracker = nil
-
-	if threat_tracker and not alive(threat_tracker) then
-		log("move_back: attention tracker was destroyed!")
-
-		local att_unit = focus_enemy.unit
-
-		if not alive(att_unit) then
-			log("move_back: attention unit was destroyed!")
-		elseif att_unit:in_slot(0) then
-			log("move_back: attention unit is being destroyed!")
-		else
-			log("move_back: attention unit is still intact on the C side")
-
-			local unit_name = att_unit.name and att_unit:name()
-
-			if unit_name then
-				--might be pure gibberish
-				log("move_back: attention unit name: " .. tostring(unit_name) .. "")
-			end
-
-			if att_unit:id() == -1 then
-				log("move_back: attention unit was detached from the network")
-			end
-
-			local att_base_ext = att_unit:base()
-
-			if not att_base_ext then
-				log("move_back: attention unit has no base() extension")
-			elseif att_base_ext._tweak_table then
-				log("move_back: attention unit has tweak table: " .. tostring(att_base_ext._tweak_table) .. "")
-			elseif att_base_ext.is_husk_player then
-				log("move_back: attention unit was a player husk")
-			elseif att_base_ext.is_local_player then
-				log("move_back: attention unit was the local player")
-			end
-
-			local att_dmg_ext = att_unit:character_damage()
-
-			if not att_dmg_ext then
-				log("move_back: attention unit has no character_damage() extension")
-			elseif att_dmg_ext.dead and att_dmg_ext:dead() then
-				log("move_back: attention unit is dead")
-			end
-		end
-
-		local my_unit = data.unit
-
-		if not alive(my_unit) then
-			log("move_back: unit was destroyed!")
-		elseif my_unit:in_slot(0) then
-			log("move_back: unit is being destroyed!")
-		else
-			log("move_back: unit is still intact on the C side")
-
-			local my_base_ext = my_unit:base()
-
-			if not my_base_ext then
-				log("move_back: unit has no base() extension")
-			elseif my_base_ext._tweak_table then
-				log("move_back: unit has tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
-			else
-				log("move_back: unit has no tweak table")
-			end
-
-			local my_dmg_ext = my_unit:character_damage()
-
-			if not my_dmg_ext then
-				log("move_back: unit has no character_damage() extension")
-			elseif my_dmg_ext.dead and att_dmg_ext:dead() then
-				log("move_back: unit is dead")
-			end
-		end
-
-		local cur_logic_name = data.name
-
-		if cur_logic_name then
-			log("move_back: logic name: " .. tostring(cur_logic_name) .. "")
-		end
-
-		log("move_back: temporarily preventing crash by using a temporary tracker from the attention's m_pos")
-
-		local cam_pos = managers.viewport:get_current_camera_position()
-
-		if cam_pos then
-			local from_pos = cam_pos + math.DOWN * 50
-
-			local brush = Draw:brush(Color.blue:with_alpha(0.5), 10)
-			brush:cylinder(from_pos, focus_enemy.m_pos, 10)
-		end
-
-		threat_tracker = nil
-	end
 
 	if vis_required and not threat_tracker then --this shouldn't even happen, but just in case, we want the unit to still be able to retreat
 		local tracker_pos = mvec3_cpy(focus_enemy.m_pos)
@@ -1816,98 +1728,6 @@ function CopLogicAttack._get_cover_offset_pos(data, cover_data, threat_pos)
 end
 
 function CopLogicAttack._find_flank_pos(data, my_data, flank_tracker, max_dist)
-	if flank_tracker and not alive(flank_tracker) then
-		log("find_flank_pos: attention tracker was destroyed!")
-
-		local att_unit = data.attention_obj.unit
-
-		if not alive(att_unit) then
-			log("find_flank_pos: attention unit was destroyed!")
-		elseif att_unit:in_slot(0) then
-			log("find_flank_pos: attention unit is being destroyed!")
-		else
-			log("find_flank_pos: attention unit is still intact on the C side")
-
-			local unit_name = att_unit.name and att_unit:name()
-
-			if unit_name then
-				--might be pure gibberish
-				log("find_flank_pos: attention unit name: " .. tostring(unit_name) .. "")
-			end
-
-			if att_unit:id() == -1 then
-				log("find_flank_pos: attention unit was detached from the network")
-			end
-
-			local att_base_ext = att_unit:base()
-
-			if not att_base_ext then
-				log("find_flank_pos: attention unit has no base() extension")
-			elseif att_base_ext._tweak_table then
-				log("find_flank_pos: attention unit has tweak table: " .. tostring(att_base_ext._tweak_table) .. "")
-			elseif att_base_ext.is_husk_player then
-				log("find_flank_pos: attention unit was a player husk")
-			elseif att_base_ext.is_local_player then
-				log("find_flank_pos: attention unit was the local player")
-			end
-
-			local att_dmg_ext = att_unit:character_damage()
-
-			if not att_dmg_ext then
-				log("find_flank_pos: attention unit has no character_damage() extension")
-			elseif att_dmg_ext.dead and att_dmg_ext:dead() then
-				log("find_flank_pos: attention unit is dead")
-			end
-		end
-
-		local my_unit = data.unit
-
-		if not alive(my_unit) then
-			log("find_flank_pos: unit was destroyed!")
-		elseif my_unit:in_slot(0) then
-			log("find_flank_pos: unit is being destroyed!")
-		else
-			log("find_flank_pos: unit is still intact on the C side")
-
-			local my_base_ext = my_unit:base()
-
-			if not my_base_ext then
-				log("find_flank_pos: unit has no base() extension")
-			elseif my_base_ext._tweak_table then
-				log("find_flank_pos: unit has tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
-			else
-				log("find_flank_pos: unit has no tweak table")
-			end
-
-			local my_dmg_ext = my_unit:character_damage()
-
-			if not my_dmg_ext then
-				log("find_flank_pos: unit has no character_damage() extension")
-			elseif my_dmg_ext.dead and att_dmg_ext:dead() then
-				log("find_flank_pos: unit is dead")
-			end
-		end
-
-		local cur_logic_name = data.name
-
-		if cur_logic_name then
-			log("find_flank_pos: logic name: " .. tostring(cur_logic_name) .. "")
-		end
-
-		log("find_flank_pos: temporarily preventing crash by returning the attention's m_pos")
-
-		local cam_pos = managers.viewport:get_current_camera_position()
-
-		if cam_pos then
-			local from_pos = cam_pos + math.DOWN * 50
-
-			local brush = Draw:brush(Color.blue:with_alpha(0.5), 10)
-			brush:cylinder(from_pos, data.attention_obj.m_pos, 10)
-		end
-
-		return data.attention_obj.m_pos
-	end
-
 	local pos = flank_tracker:position()
 	local vec_to_pos = pos - data.m_pos
 
