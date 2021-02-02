@@ -2624,6 +2624,8 @@
 	<texture path="units/payday2/characters/shared_textures/swat_fbi_body_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/helmets_atlas_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/helmets_atlas_df" force="true"/>
+	<texture path="units/payday2/characters/shared_textures/bulldozer_city_df" force="true"/>
+	<texture path="units/payday2/characters/shared_textures/bulldozer_saiga_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/ene_city_heavy_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/ene_city_heavy_nm" force="true"/>
 	<texture path="units/pd2_mod_omnia/characters/shared_textures/swat_body_nm"/>
