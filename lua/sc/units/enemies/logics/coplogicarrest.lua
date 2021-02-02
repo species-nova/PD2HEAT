@@ -1151,37 +1151,41 @@ function CopLogicArrest._get_priority_attention(data, attention_objects, reactio
 									local att_unit = data.attention_obj.unit
 
 									if not alive(att_unit) then
-										log("attention unit was destroyed!")
+										log("arrest: attention unit was destroyed!")
+									elseif att_unit:in_slot(0) then
+										log("arrest: attention unit is being destroyed!")
 									else
-										if att_unit.name then
+										log("arrest: attention unit is still intact on the C side")
+
+										local unit_name = att_unit.name and att_unit:name()
+
+										if unit_name then
 											--might be pure gibberish
-											log("attention unit name: " .. tostring(att_unit:name()) .. "")
+											log("arrest: attention unit name: " .. tostring(unit_name) .. "")
 										end
 
 										if att_unit:id() == -1 then
-											log("attention unit was detached from the network")
+											log("arrest: attention unit was detached from the network")
 										end
 
 										local att_base_ext = att_unit:base()
 
 										if not att_base_ext then
-											log("attention unit has no base() extension")
-										else
-											if att_base_ext._tweak_table then
-												log("attention unit has tweak table: " .. tostring(att_base_ext._tweak_table) .. "")
-											elseif att_base_ext.is_husk_player then
-												log("attention unit was a player husk")
-											elseif att_base_ext.is_local_player then
-												log("attention unit was the local player")
-											end
+											log("arrest: attention unit has no base() extension")
+										elseif att_base_ext._tweak_table then
+											log("arrest: attention unit has tweak table: " .. tostring(att_base_ext._tweak_table) .. "")
+										elseif att_base_ext.is_husk_player then
+											log("arrest: attention unit was a player husk")
+										elseif att_base_ext.is_local_player then
+											log("arrest: attention unit was the local player")
 										end
 
 										local att_dmg_ext = att_unit:character_damage()
 
 										if not att_dmg_ext then
-											log("attention unit has no character_damage() extension")
+											log("arrest: attention unit has no character_damage() extension")
 										elseif att_dmg_ext.dead and att_dmg_ext:dead() then
-											log("attention unit is dead")
+											log("arrest: attention unit is dead")
 										end
 									end
 								elseif data.t - attention_data.acquire_t < 4 then --old enemy
