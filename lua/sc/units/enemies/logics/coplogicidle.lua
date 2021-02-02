@@ -1851,23 +1851,38 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							if not attention_data.acquire_t then
 								log("coplogicidle: no acquire_t defined somehow")
 
-								if data.unit:character_damage():dead() then
-									log("coplogicidle: unit was dead!")
+								local my_unit = data.unit
+
+								if not alive(my_unit) then
+									log("coplogicidle: unit was destroyed!")
+								elseif my_unit:in_slot(0) then
+									log("coplogicidle: unit is being destroyed!")
+								else
+									log("coplogicidle: unit is still intact on the C side")
+
+									local my_base_ext = my_unit:base()
+
+									if not my_base_ext then
+										log("coplogicidle: unit has no base() extension")
+									elseif my_base_ext._tweak_table then
+										log("coplogicidle: unit has tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+									else
+										log("coplogicidle: unit has no tweak table")
+									end
+
+									local my_dmg_ext = my_unit:character_damage()
+
+									if not my_dmg_ext then
+										log("coplogicidle: unit has no character_damage() extension")
+									elseif my_dmg_ext.dead and att_dmg_ext:dead() then
+										log("coplogicidle: unit is dead")
+									end
 								end
 
 								local cur_logic_name = data.name
 
 								if cur_logic_name then
 									log("coplogicidle: logic name: " .. tostring(cur_logic_name) .. "")
-								end
-
-								local cam_pos = managers.viewport:get_current_camera_position()
-
-								if cam_pos then
-									local from_pos = cam_pos + math.DOWN * 50
-
-									local brush = Draw:brush(Color.red:with_alpha(0.5), 10)
-									brush:cylinder(from_pos, data.unit:movement():m_com(), 10)
 								end
 
 								local att_unit = data.attention_obj.unit
@@ -1909,6 +1924,15 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 									elseif att_dmg_ext.dead and att_dmg_ext:dead() then
 										log("coplogicidle: attention unit is dead")
 									end
+								end
+
+								local cam_pos = managers.viewport:get_current_camera_position()
+
+								if cam_pos then
+									local from_pos = cam_pos + math.DOWN * 50
+
+									local brush = Draw:brush(Color.red:with_alpha(0.5), 10)
+									brush:cylinder(from_pos, my_unit:movement():m_com(), 10)
 								end
 							elseif data.t - attention_data.acquire_t < 4 then --old enemy
 								target_priority_slot = target_priority_slot - 3
