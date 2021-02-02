@@ -613,6 +613,51 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 			end
 		end
 
+		local my_unit = data.unit
+
+		if not alive(my_unit) then
+			log("move_back: unit was destroyed!")
+		elseif my_unit:in_slot(0) then
+			log("move_back: unit is being destroyed!")
+		else
+			log("move_back: unit is still intact on the C side")
+
+			local my_base_ext = my_unit:base()
+
+			if not my_base_ext then
+				log("move_back: unit has no base() extension")
+			elseif my_base_ext._tweak_table then
+				log("move_back: unit has tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+			else
+				log("move_back: unit has no tweak table")
+			end
+
+			local my_dmg_ext = my_unit:character_damage()
+
+			if not my_dmg_ext then
+				log("move_back: unit has no character_damage() extension")
+			elseif my_dmg_ext.dead and att_dmg_ext:dead() then
+				log("move_back: unit is dead")
+			end
+		end
+
+		local cur_logic_name = data.name
+
+		if cur_logic_name then
+			log("move_back: logic name: " .. tostring(cur_logic_name) .. "")
+		end
+
+		log("move_back: temporarily preventing crash by using a temporary tracker from the attention's m_pos")
+
+		local cam_pos = managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+
+			local brush = Draw:brush(Color.blue:with_alpha(0.5), 10)
+			brush:cylinder(from_pos, focus_enemy.m_pos, 10)
+		end
+
 		threat_tracker = nil
 	end
 
@@ -1813,6 +1858,51 @@ function CopLogicAttack._find_flank_pos(data, my_data, flank_tracker, max_dist)
 			elseif att_dmg_ext.dead and att_dmg_ext:dead() then
 				log("find_flank_pos: attention unit is dead")
 			end
+		end
+
+		local my_unit = data.unit
+
+		if not alive(my_unit) then
+			log("find_flank_pos: unit was destroyed!")
+		elseif my_unit:in_slot(0) then
+			log("find_flank_pos: unit is being destroyed!")
+		else
+			log("find_flank_pos: unit is still intact on the C side")
+
+			local my_base_ext = my_unit:base()
+
+			if not my_base_ext then
+				log("find_flank_pos: unit has no base() extension")
+			elseif my_base_ext._tweak_table then
+				log("find_flank_pos: unit has tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+			else
+				log("find_flank_pos: unit has no tweak table")
+			end
+
+			local my_dmg_ext = my_unit:character_damage()
+
+			if not my_dmg_ext then
+				log("find_flank_pos: unit has no character_damage() extension")
+			elseif my_dmg_ext.dead and att_dmg_ext:dead() then
+				log("find_flank_pos: unit is dead")
+			end
+		end
+
+		local cur_logic_name = data.name
+
+		if cur_logic_name then
+			log("find_flank_pos: logic name: " .. tostring(cur_logic_name) .. "")
+		end
+
+		log("find_flank_pos: temporarily preventing crash by returning the attention's m_pos")
+
+		local cam_pos = managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+
+			local brush = Draw:brush(Color.blue:with_alpha(0.5), 10)
+			brush:cylinder(from_pos, data.attention_obj.m_pos, 10)
 		end
 
 		return data.attention_obj.m_pos
