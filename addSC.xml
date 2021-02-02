@@ -231,6 +231,10 @@
 	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	
+	<!--heisters are no longer unsettled by saaws finishing on brooklyn bank-->
+	<mission path="levels/instances/unique/brb/single_door_large/world/world" force="true" unload="true"/>
+	<mission path="levels/instances/unique/brb/single_door/world/world" force="true" unload="true"/>
+	
 	<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--adds a bikerdozer to the bunker, removes swat turret.-->	
 	<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--fixes cars clipping into ground-->
 
