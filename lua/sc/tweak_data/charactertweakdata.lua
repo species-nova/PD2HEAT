@@ -15330,6 +15330,7 @@ function CharacterTweakData:character_map()
 				"ene_fbi_swat_1",
 				"ene_fbi_swat_2",
 				"ene_fbi_swat_3",
+				"ene_bulldozer_3",
 				"ene_fbi_heavy_1",
 				"ene_fbi_heavy_r870",
 				"ene_fbi_heavy_r870_sc",
