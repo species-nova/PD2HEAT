@@ -1015,7 +1015,7 @@ function GroupAIStateBase:upd_team_AI_distance()
 					if not player_mov_ext:zipline_unit() then
 						local player_state = player_mov_ext:current_state_name()
 
-						if not invalid_bot_warp_states[player_state] then
+						if not invalid_player_bot_warp_states[player_state] then
 							local in_air = nil
 
 							if player_unit:base().is_local_player then
