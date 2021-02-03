@@ -468,7 +468,7 @@ function ContourExt:_remove(index, sync)
 		end
 
 		if u_id then
-			managers.network:session():send_to_peers_synched("sync_contour_state", sync_unit, u_id, table_index_of(ContourExt.indexed_types, type), false, 1)
+			managers.network:session():send_to_peers_synched("sync_contour_state", sync_unit, u_id, table_index_of(ContourExt.indexed_types, contour_type), false, 1)
 		end
 	end
 
