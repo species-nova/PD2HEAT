@@ -12286,12 +12286,44 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	--Haste
 	--Unit will always have a cover_wait_time of 0
 	self._tactics = {
+		--Cloaker tactics, static. Tries to avoid confrontation
+		spooc = {
+			"hunter",
+			"flank",
+			"lonewolf",
+			"spoocavoidance",
+			"smoke_grenade",
+			"flash_grenade"
+		},	
+	
+		--Normal/Hard Tactics below
+		
+		--Standard Beat Cop, prefers to stay at range unless they spawn with a shotgunner
 		CS_cop = {
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
+			"charge",
 			"groupcsr"
 		},
+		--Shotgunner variant of Beat Cops, only real difference is they'll charge in
+		CS_cop_shotgun = {
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire",
+			"charge",
+			"groupcsr"
+		},		
+		--Beat Cop, flank variant. Will take control of the squad if they spawn and lead them to flank
+		CS_cop_flank = {
+			"flank",
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire",
+			"charge",			
+			"groupcsr"
+		},		
+		--Beat Cop, stealth variant. Prefers hit n run tactics and avoiding the front to prioritize hostages
 		CS_cop_stealth = {
 			"flank",
 			"provide_coverfire",
@@ -12299,39 +12331,67 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"hitnrun",
 			"grouphrtr"
 		},
+		--Standard Blue SWAT, upgraded from Beat Cops and will now use smoke grenades. 
 		CS_swat_rifle = {
 			"smoke_grenade",
-			"charge",
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
+			"charge",			
 			"deathguard",
 			"groupcsr"
 		},
+		--SWAT shotgunner, will lead charges with his squad
 		CS_swat_shotgun = {
 			"smoke_grenade",
 			"charge",
 			"provide_coverfire",
 			"provide_support",
-			"shield_cover",
+			"deathguard",			
 			"groupcsr"
 		},
-		CS_swat_heavy = {
+		--Blue SWAT, flank variant. Will take control and flank with his squad
+		CS_swat_rifle_flank = {
+			"flank",
 			"smoke_grenade",
-			"charge",
-			"flash_grenade",
 			"provide_coverfire",
 			"provide_support",
+			"ranged_fire",
+			"charge",			
+			"deathguard",
+			"groupcsr"
+		},			
+		--Heavy SWAT, act similar to Blue SWATs.
+		CS_swat_heavy = {
+			"smoke_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire",
+			"charge",			
+			"deathguard",
 			"groupcsr"
 		},
+		--Heavy SWAT Shotgunner. Leads charges
 		CS_swat_heavy_shotgun = {
 			"smoke_grenade",
 			"charge",
-			"flash_grenade",
 			"provide_coverfire",
 			"provide_support",
+			"deathguard",
 			"groupcsr"
-		},			
+		},
+		--Heavy SWAT flanker, leads flank maneuvers. 
+		CS_swat_heavy_flank = {
+			"flank",
+			"smoke_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire",
+			"charge",				
+			"deathguard",
+			"groupcsr"
+		},		
+		--Standard SWAT Shield, will charge forward against player positions
 		CS_shield = {
 			"charge",
 			"provide_coverfire",
@@ -12339,119 +12399,67 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield",
 			"deathguard"
 		},
-		CS_swat_rifle_flank = {
-			"flank",
-			"flash_grenade",
-			"smoke_grenade",
-			"provide_coverfire",
-			"lonewolf",
-			"provide_support"
-		},
-		CS_swat_shotgun_flank = {
-			"flank",
-			"flash_grenade",
-			"smoke_grenade",
+		--Back up ranged units to Shields. Will prefer to stay behind the shield and give fire support at range
+		CS_shield_ranged_support = {
+			"ranged_fire",		
 			"provide_coverfire",
 			"provide_support",
-			"lonewolf"
-		},
-		CS_swat_heavy_flank = {
-			"flank",
-			"flash_grenade",
-			"smoke_grenade",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		CS_shield_flank = {
-			"flank",
-			"charge",	
-			"flash_grenade",
-			"provide_coverfire",
-			"provide_support",
-			"shield"
-		},
+			"shield_cover",
+			"deathguard"
+		},		
+		--Tazer, flank around and charge to take down players one at a time. 
 		CS_tazer = {
 			"flank",
 			"charge",
-			"flash_grenade",
 			"smoke_grenade",
 			"shield_cover",
 			"murder",
 			"tunnel"
 		},
-		CS_boom = {
-			"harass",		
-			"elite_ranged_fire",
-			"provide_coverfire",		
-			"flash_grenade",
-			"smoke_grenade",
-			"shield_cover"
-		},	
-		FBI_medic = { --passive medics cus fuck you
-			"provide_coverfire",	
-			"hitnrun",
-			"reloadingretreat",
-			"elite_ranged_fire",
-			"shield_cover"
-		},	
-		FBI_medic_flank = {
+		--Ranged backup for Tazers
+		CS_tazer_ranged_support = {
 			"flank",
-			"obstacle",
-			"provide_coverfire",	
-			"hitnrun",
-			"reloadingretreat",
-			"elite_ranged_fire",
-			"shield_cover"
-		},	
-		MH_shield = { 
-			"legday",
-			"charge",
+			"charge",			
+			"smoke_grenade",
 			"provide_coverfire",
 			"provide_support",
-			"shield",
-			"deathguard"
-		},
-		DW_tazer = { --tries to get as close as possible to tase players easily
-			"legday",
-			"charge",
-			"flash_grenade",
-			"smoke_grenade",
-			"shield_cover",
+			"ranged_fire"
+		},		
+		--Greendozers on Normal/Hard, will try to flank the player
+		CS_tank = {
+			"flank",
+			"reloadingretreat",
 			"murder",
-			"tunnel"
-		},
-		ELITE_boom = {
-			"flash_grenade",
-			"smoke_grenade",
-			"harass",		
-			"elite_ranged_fire",
-			"provide_coverfire",
+			"tunnel",
+			"harass",
 			"hitnrun",
-			"shield_cover"
+			"provide_coverfire",
+			"provide_support",
+			"shield"
+		},		
+		--Beat Cop/Blue SWAT/Heavy SWAT defend. Used for reinforce groups
+		CS_defend = {
+			"flank",
+			"elite_ranged_fire",
+			"provide_support"
 		},			
+		--Sniper tactics. (Unused?)
 		CS_sniper = {
 			"ranged_fire",
 			"provide_coverfire",
 			"provide_support"
-		},
-		--hard flank light rifle
-		CS_swat_rifle_flank_hard = {
-			"flank",
-			"flash_grenade",
-			"smoke_grenade",
-			"provide_coverfire",
-			"elite_ranged_fire",
-			"lonewolf",
-			"provide_support"
-		},
+		},		
+		
+		--FBI tier stuff below. Very Hard/Overkill mainly
+		
+		--FBI HRT tactics, for when participating in assaults
 		FBI_suit = {
 			"flank",
 			"elite_ranged_fire",
 			"flash_grenade",
 			"grouphrtr"
-		},
+		},		
+		--FBI HRT, stealth and avoiding combat
 		FBI_suit_stealth = { 
 			"flank",
 			"hunter",
@@ -12463,33 +12471,52 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"elite_ranged_fire",
 			"grouphrtr"
 		},
+		--FBI Rifle SWATs, can now use flash grenades
 		FBI_swat_rifle = { 
 			"smoke_grenade",
 			"flash_grenade",
-			"provide_coverfire",
-			"charge",			
+			"provide_coverfire",			
 			"provide_support",
 			"ranged_fire",
-			"groupcsr"
-		},
-		FBI_swat_shotgun = {
-			"legday",
-			"smoke_grenade",
-			"flash_grenade",
 			"charge",
-			"provide_coverfire",
-			"provide_support",
+			"deathguard",
 			"groupcsr"
 		},
-		FBI_heavy = {
+		--FBI Shotgun SWATs, leads charges
+		FBI_swat_shotgun = {
 			"smoke_grenade",
 			"flash_grenade",
 			"charge",
 			"provide_coverfire",
 			"provide_support",
 			"deathguard",
+			"groupcsr",
+			"haste"
+		},		
+		--FBI Rifle SWATs, flank the player
+		FBI_swat_rifle_flank = {
+			"flank",
+			"smoke_grenade",
+			"flash_grenade",
+			"ranged_fire",
+			"charge",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},		
+		--FBI Heavy, now with flash grenades
+		FBI_heavy = {
+			"smoke_grenade",
+			"flash_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire",
+			"charge",
+			"deathguard",
 			"groupcsr"
 		},
+		--FBI Heavy Shotgun, leads charges
 		FBI_heavy_shotgun = {
 			"smoke_grenade",
 			"flash_grenade",
@@ -12498,173 +12525,90 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_support",
 			"deathguard",
 			"groupcsr"
-		},		
-		FBI_shield = {
-			--"smoke_grenade",
-			"charge",
-			"provide_coverfire",
-			"provide_support",
-			"shield",
-			"deathguard"
-		},
-		Phalanx_minion = {
-			--"smoke_grenade",
-			"charge",
-			"provide_coverfire",
-			"provide_support",
-			"shield",
-			"deathguard"
-		},
-		Phalanx_vip = {
-			--"smoke_grenade",
-			"charge",
-			"provide_coverfire",
-			"provide_support",
-			"shield",
-			"deathguard"
-		},
-		FBI_swat_rifle_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		FBI_swat_shotgun_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"provide_coverfire",
-			"provide_support",
-			"shield_cover",
-			"lonewolf"
-		},
+		},			
+		--FBI Heavy, flanker
 		FBI_heavy_flank = {
 			"flank",
 			"smoke_grenade",
 			"flash_grenade",	
 			"provide_coverfire",
 			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		--mayhem tactics
-		MH_swat_rifle = {
 			"ranged_fire",
-			"smoke_grenade",
-			"flash_grenade",
-			"provide_coverfire",
 			"charge",
-			"provide_support",
-			"shield_cover",
-			"groupcsr"
-		},
-		MH_swat_shotgun = { 
-			"legday",
-			"smoke_grenade",
-			"flash_grenade",
-			"charge",
-			"provide_coverfire",
-			"provide_support",
-			"groupcsr"
-		},
-		MH_heavy = { 
-			"ranged_fire",
-			"smoke_grenade",
-			"flash_grenade",
-			"charge",
-			"provide_coverfire",
-			"provide_support",
-			"shield_cover",
 			"deathguard",
 			"groupcsr"
-		},
-		MH_swat_rifle_flank = { 
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		MH_swat_shotgun_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"legday",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		MH_heavy_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",	
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		MH_heavy_shotgun_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		--death wish tactics
-		DW_swat_rifle = {
-			"ranged_fire",
-			"smoke_grenade",
-			"flash_grenade",
-			"provide_coverfire",
+		},		
+		--FBI Shield, basically the same as the CS shield.
+		FBI_shield = {
 			"charge",
+			"provide_coverfire",
+			"provide_support",
+			"shield",
+			"deathguard"
+		},
+		--FBI shield backup units, passive. Now use support grenades
+		FBI_shield_ranged_support = {
+			"ranged_fire",		
+			"smoke_grenade",
+			"flash_grenade",				
+			"provide_coverfire",
 			"provide_support",
 			"shield_cover",
-			"groupcsr"
-		},
-		DW_swat_rifle_flank = { 
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",
-			"provide_coverfire",
-			"provide_support",
-			"harass",
-			"lonewolf",
-			"shield_cover"
-		},
-		DW_heavy_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",
-			"provide_coverfire",
-			"provide_support",
-			"harass",
-			"lonewolf",		
-			"shield_cover"
-		},
+			"deathguard"
+		},				
+		--FBI Shield, passive. Covers whoever they spawned with
 		FBI_shield_flank = {
 			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"charge",
+			"ranged_fire",
 			"provide_coverfire",
 			"provide_support",
-			"lonewolf",
 			"shield"
-		},
-		FBI_tank = { --set up to try and flank the player
+		},		
+		--Grenadier, passive. Tries to hide behind shields/other units when possible
+		FBI_Boom = {
+			"harass",		
+			"elite_ranged_fire",
+			"provide_coverfire",		
+			"flash_grenade",
+			"smoke_grenade",
+			"shield_cover"
+		},	
+		--Ranged backup for Tazers
+		FBI_boom_ranged_support = {
+			"flank",
+			"charge",			
+			"smoke_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire"
+		},			
+		--Medics, passive. Avoids confrontations.
+		FBI_medic = { 
+			"provide_coverfire",	
+			"hitnrun",
+			"reloadingretreat",
+			"elite_ranged_fire",
+			"shield_cover"
+		},	
+		--Flank Medic tactics, avoid confrontations and flanks. Hugs squad leader
+		FBI_medic_flank = {
+			"flank",
+			"obstacle",
+			"provide_coverfire",	
+			"hitnrun",
+			"reloadingretreat",
+			"elite_ranged_fire",
+			"shield_cover"
+		},	
+		--Reinforce groups
+		FBI_defend = {
+			"flank",
+			"elite_ranged_fire",
+			"provide_support",
+			"reloadingretreat"
+		},		
+		--Greendozer on FBI tier and above, hitnrun tactics and flank a lot
+		GREEN_tank = {
 			"flank",
 			"reloadingretreat",
 			"murder",
@@ -12675,15 +12619,193 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_support",
 			"shield"
 		},
-		BLACK_tank = { --set up to be hyper aggressive and charge the player
-			"reloadingretreat",
+		--Blackdozers, hyper aggressive and unload on the player. 
+		BLACK_tank = {
 			"murder",
 			"tunnel",
 			"charge",
 			"harass",
-			"shield"
+			"shield",
+			"haste"
 		},
-		SKULL_tank = { --slightly more passive than the other dozers will stand his ground if charged
+		
+		--Mayhem tactics below
+		
+		--Mayhem rifle SWAT
+		MH_swat_rifle = {
+			"ranged_fire",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},
+		--Mayhem SWAT Shotgunners, leads charges
+		MH_swat_shotgun = { 
+			"smoke_grenade",
+			"flash_grenade",
+			"charge",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr",
+			"haste"
+		},
+		--Mayhem SWAT Flankers, will disengage when targeted
+		MH_swat_rifle_flank = { 
+			"flank",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
+			"elite_ranged_fire",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},		
+		--Mayhem Heavy
+		MH_heavy = { 
+			"ranged_fire",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},
+		--Mayhem Heavy Flank, disengage when targeted
+		MH_heavy_flank = {
+			"flank",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
+			"elite_ranged_fire",	
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},
+		--Mayhem Shield, now moves much faster into position
+		MH_shield = { 
+			"legday",
+			"charge",
+			"ranged_fire",
+			"provide_coverfire",
+			"provide_support",
+			"shield",
+			"deathguard"
+		},
+		--Passive MH Shield
+		MH_shield_flank = { 
+			"legday",
+			"flank",
+			"ranged_fire",
+			"provide_coverfire",
+			"provide_support",
+			"shield",
+			"deathguard"
+		},		
+		--Mayhem shield backup units, passive. Now have legday to keep up
+		MH_shield_ranged_support = {
+			"legday",
+			"ranged_fire",		
+			"smoke_grenade",
+			"flash_grenade",				
+			"provide_coverfire",
+			"provide_support",
+			"shield_cover",
+			"deathguard"
+		},				
+		
+		--Deathwish Tactics below
+		
+		--hunter hrt tactics
+		HRT_attack = { --sneaks up and targets players in bad positions
+			"flank",
+			"hunter",
+			"harass",
+			"provide_coverfire",
+			"provide_support",
+			"smoke_grenade",
+			"flash_grenade",
+			"hitnrun",
+			"grouphrtr",
+			"haste"
+		},	
+		--DW Taser, tries extremely hard to get up close and personal
+		DW_tazer = {
+			"legday",
+			"charge",
+			"flash_grenade",
+			"smoke_grenade",
+			"shield_cover",
+			"murder",
+			"tunnel",
+			"haste"
+		},
+		--DW Grenadier, even more passive and will use hitnrun
+		ELITE_boom = {
+			"flash_grenade",
+			"smoke_grenade",
+			"harass",		
+			"elite_ranged_fire",
+			"provide_coverfire",
+			"hitnrun",
+			"shield_cover"
+		},			
+		--death wish tactics
+		DW_swat_rifle = {
+			"ranged_fire",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},
+		--Will now also harrass players doing objectives/reloading/other stuff
+		DW_swat_rifle_flank = { 
+			"flank",
+			"smoke_grenade",
+			"flash_grenade",
+			"elite_ranged_fire",
+			"provide_coverfire",
+			"provide_support",
+			"ranged_fire",	
+			"charge",			
+			"harass",
+			"deathguard",
+			"groupcsr"
+		},
+		DW_heavy = {
+			"ranged_fire",
+			"charge",
+			"smoke_grenade",
+			"flash_grenade",
+			"provide_coverfire",
+			"provide_support",
+			"deathguard",
+			"groupcsr"
+		},		
+		DW_heavy_flank = {
+			"flank",
+			"ranged_fire",
+			"charge",			
+			"smoke_grenade",
+			"flash_grenade",
+			"elite_ranged_fire",
+			"provide_coverfire",
+			"provide_support",
+			"harass",	
+			"deathguard",
+			"groupcsr"
+		},
+		--slightly more passive than the other dozers will stand his ground if charged
+		SKULL_tank = { 
 			"reloadingretreat",
 			"ranged_fire",
 			"murder",
@@ -12691,7 +12813,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"harass",
 			"shield"
 		},
-		TIT_tank = { --set up to use passive suppressive fire against players :)
+		--set up to use passive suppressive fire against players :)
+		TIT_tank = {
 			"obstacle",
 			"hitnrun",
 			"reloadingretreat",
@@ -12700,13 +12823,103 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"elite_ranged_fire",
 			"harass"
 		},
-		spooc = {
-			"hunter",
+		
+		--mean DS tactics below
+		ELITE_suit_stealth = { --sneaky as fuck
 			"flank",
-			"spoocavoidance",
 			"smoke_grenade",
-			"flash_grenade"
+			"flash_grenade",
+			"hunter",
+			"legday",
+			"reloadingretreat",
+			"spoocavoidance",
+			"provide_coverfire",
+			"provide_support",
+			"hitnrun",
+			"grouphrtr"
 		},
+		ELITE_swat_rifle = {
+			"ranged_fire",
+			"charge",	
+			"smoke_grenade",
+			"flash_grenade",
+			"provide_coverfire",
+			"harass",
+			"provide_support",
+			"shield_cover",
+			"groupcsr"
+		},
+		ELITE_swat_shotgun = {
+			"legday",
+			"smoke_grenade",
+			"flash_grenade",
+			"charge",
+			"harass",
+			"provide_coverfire",
+			"shield_cover",
+			"provide_support",
+			"groupcsr",
+			"haste"
+		},		
+		ELITE_heavy = { 
+			"ranged_fire",
+			"charge",	
+			"smoke_grenade",
+			"flash_grenade",
+			"harass",
+			"provide_coverfire",
+			"provide_support",
+			"shield_cover",
+			"deathguard",
+			"groupcsr"
+		},
+		ELITE_heavy_shotgun = { 
+			"smoke_grenade",
+			"flash_grenade",
+			"harass",
+			"charge",
+			"provide_coverfire",
+			"provide_support",
+			"shield_cover",
+			"deathguard",
+			"groupcsr",
+			"haste"
+		},		
+		ELITE_swat_rifle_flank = {
+			"flank",
+			"smoke_grenade",
+			"flash_grenade",
+			"elite_ranged_fire",
+			"charge",
+			"harass",
+			"provide_coverfire",
+			"provide_support",
+			"shield_cover"
+		},
+		ELITE_heavy_flank = { 
+			"flank",
+			"smoke_grenade",
+			"flash_grenade",
+			"elite_ranged_fire",
+			"charge",
+			"harass",
+			"provide_coverfire",
+			"provide_support",
+			"shield_cover"
+		},
+		ELITE_heavy_shotgun_flank = {
+			"flank",
+			"smoke_grenade",
+			"flash_grenade",
+			"harass",	
+			"charge",
+			"provide_coverfire",
+			"provide_support",
+			"shield_cover",
+			"haste"
+		},				
+		
+		--Captains
 		Cap_spring = {
 			"shield",
 			"charge"
@@ -12717,7 +12930,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		},		
 		Cap_summers_minion = {
 			"shield_cover",
-			"charge"
+			"charge",
+			"haste" --Might help them keep up with Summers a little better.
 		},	
 		Cap_summers = {
 			"shield",
@@ -12741,197 +12955,23 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		Cap_winters_minion = {
 			"shield",
 			"charge"
-		},			
-		--hunter hrt tactics
-		HRT_attack = { --sneaks up and targets players in bad positions
-			"flank",
-			"hunter",
-			"harass",
-			"provide_coverfire",
-			"provide_support",
-			"smoke_grenade",
-			"flash_grenade",
-			"hitnrun",
-			"grouphrtr"
-		},
-		--mean DS tactics below
-		ELITE_suit_stealth = { --sneaky as fuck
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"hunter",
-			"legday",
-			"reloadingretreat",
-			"spoocavoidance",
-			"provide_coverfire",
-			"provide_support",
-			"hitnrun",
-			"grouphrtr"
-		},
-		ELITE_swat_rifle = {
-			"ranged_fire ",
-			"smoke_grenade",
-			"flash_grenade",
-			"provide_coverfire",
-			"charge",
-			"harass",
-			"provide_support",
-			"shield_cover",
-			"groupcsr"
-		},
-		ELITE_heavy = { 
-			"ranged_fire ",
-			"smoke_grenade",
-			"flash_grenade",
-			"charge",
-			"harass",
-			"provide_coverfire",
-			"provide_support",
-			"shield_cover",
-			"deathguard",
-			"groupcsr"
-		},
-		ELITE_swat_shotgun = {
-			"legday",
-			"smoke_grenade",
-			"flash_grenade",
-			"charge",
-			"harass",
-			"provide_coverfire",
-			"shield_cover",
-			"provide_support",
-			"groupcsr"
-		},
-		ELITE_swat_rifle_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",
-			"harass",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		ELITE_swat_shotgun_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"legday",
-			"harass",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		ELITE_heavy_flank = { 
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"elite_ranged_fire",
-			"harass",
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
-		},
-		ELITE_heavy_shotgun_flank = {
-			"flank",
-			"smoke_grenade",
-			"flash_grenade",
-			"harass",		
-			"provide_coverfire",
-			"provide_support",
-			"lonewolf",
-			"shield_cover"
 		},		
-		--Reinforce groups
-		FBI_defend = {
-			"obstacle",
-			"elite_ranged_fire",
-			"provide_coverfire",
-			"provide_support"
-		},		
-		--Vanilla shit below
-		swat_shotgun_rush = {
+		--Old Winters
+		Phalanx_minion = {
+			--"smoke_grenade",
 			"charge",
 			"provide_coverfire",
 			"provide_support",
-			"deathguard",
-			"flash_grenade",
-			"groupcsr"
-		},
-		swat_shotgun_flank = {
-			"flank",
-			"charge",
-			"provide_coverfire",
-			"provide_support",
-			"deathguard",
-			"lonewolf",
-			"hitnrun"
-		},
-		swat_rifle = {
-			"ranged_fire",
-			"provide_coverfire",
-			"provide_support",
-			"groupcsr"
-		},
-		swat_rifle_flank = {
-			"flank",
-			"elite_ranged_fire",
-			"provide_coverfire",
-			"provide_support"
-		},
-		shield_wall_ranged = {
 			"shield",
-			"ranged_fire",
-			"provide_support "
-		},
-		shield_support_ranged = {
-			"shield_cover",
-			"ranged_fire",
-			"provide_coverfire"
-		},
-		shield_wall_charge = {
-			"shield",
-			"charge",
-			"provide_support "
-		},
-		shield_support_charge = {
-			"shield_cover",
-			"charge",
-			"provide_coverfire",
-			"flash_grenade"
-		},
-		shield_wall = {
-			"shield",
-			"ranged_fire",
-			"provide_support",
-			"murder",
-			"tunnel",
 			"deathguard"
 		},
-		tazer_flanking = {
-			"flank",
-			"legday",
+		Phalanx_vip = {
+			--"smoke_grenade",
 			"charge",
 			"provide_coverfire",
-			"smoke_grenade",
-			"tunnel",
-			"murder"
-		},
-		tazer_charge = {
-			"charge",
-			"legday",
-			"provide_coverfire",
-			"tunnel",
-			"murder"
-		},
-		tank_rush = {
-			"charge",
-			"provide_coverfire",
-			"tunnel",
-			"murder"
+			"provide_support",
+			"shield",
+			"deathguard"
 		}
 	}
 	
