@@ -1578,7 +1578,7 @@ function GroupAIStateBase:register_AI_attention_object(unit, handler, nav_tracke
 	local actually_remove_instead = nil
 
 	if not self:whisper_mode() then
-		if not nav_tracker and not unit:vehicle_driving() or unit:in_slot(1) or unit:in_slot(17) and unit:character_damage() then
+		if not nav_tracker and not unit:vehicle_driving() or unit:in_slot(1) --[[or unit:in_slot(17) and unit:character_damage()]] then
 			actually_remove_instead = true
 		end
 	end
@@ -1612,38 +1612,45 @@ function GroupAIStateBase:register_AI_attention_object(unit, handler, nav_tracke
 
 		self:on_AI_attention_changed(u_key)
 
-		local att_obj_upd_state = true
+		if handler._is_extension then
+			local att_obj_upd_state = true
 
-		if not nav_tracker and not unit:vehicle_driving() and not unit:carry_data() then
-			local base_ext = unit:base()
+			if not nav_tracker and not unit:vehicle_driving() and not unit:carry_data() then
+				local base_ext = unit:base()
 
-			if not base_ext then
-				if unit:in_slot(1) then
-					att_obj_upd_state = false
-				end
-			elseif base_ext.is_security_camera then
-				if base_ext.is_friendly or base_ext:destroyed() then
+				if not base_ext then
+					if unit:in_slot(1) then
+						att_obj_upd_state = false
+					end
+				elseif base_ext.is_security_camera then
+					if base_ext.is_friendly or base_ext:destroyed() then
+						att_obj_upd_state = false
+					end
+				elseif unit:in_slot(1) then
 					att_obj_upd_state = false
 				end
 			elseif unit:in_slot(1) then
 				att_obj_upd_state = false
 			end
-		elseif unit:in_slot(1) then
-			att_obj_upd_state = false
-		end
 
-		handler:set_update_enabled(att_obj_upd_state)
+			handler:set_update_enabled(att_obj_upd_state)
 
-		if not att_obj_upd_state then
-			handler:update()
+			if not att_obj_upd_state then
+				handler:update()
 
-			managers.enemy:add_delayed_clbk("_att_object_pos_upd" .. tostring(u_key), callback(handler, handler, "_do_late_update"), self._t + 0.5)
+				managers.enemy:add_delayed_clbk("_att_object_pos_upd" .. tostring(u_key), callback(handler, handler, "_do_late_update"), self._t + 0.5)
+			end
 		end
 	end
 end
 
 function GroupAIStateBase:unregister_AI_attention_object(unit_key)
-	self._attention_objects.all[unit_key].handler:set_update_enabled(false)
+	local general_entry = self._attention_objects.all[unit_key]
+	local handler = general_entry and general_entry.handler
+
+	if handler and handler._is_extension then
+		handler:set_update_enabled(false)
+	end
 
 	for cat_filter, list in pairs_g(self._attention_objects) do
 		list[unit_key] = nil
@@ -1679,7 +1686,7 @@ function GroupAIStateBase:chk_unregister_irrelevant_attention_objects()
 	local all_attention_objects = self:get_all_AI_attention_objects()
 
 	for u_key, att_info in pairs_g(all_attention_objects) do
-		if not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) or att_info.unit:in_slot(17) and att_info.unit:character_damage() then
+		if not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) --[[or att_info.unit:in_slot(17) and att_info.unit:character_damage()]] then
 			self:store_removed_attention_object(u_key, att_info)
 
 			att_info.handler:set_attention(nil)
