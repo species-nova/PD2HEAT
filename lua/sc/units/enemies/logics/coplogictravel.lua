@@ -423,7 +423,7 @@ function CopLogicTravel.upd_advance(data)
 			end
 		end
 	elseif my_data.cover_leave_t then
-		if my_data.cover_leave_t < data.t or not CopLogicTravel._chk_close_to_criminal(data, my_data) then
+		if my_data.cover_leave_t < data.t or CopLogicTravel._chk_close_to_criminal(data, my_data) then
 			if not data.unit:anim_data().reload and not data.unit:movement():chk_action_forbidden("walk") then
 				my_data.cover_leave_t = nil
 			end
@@ -757,13 +757,19 @@ function CopLogicTravel.action_complete_clbk(data, action)
 
 				if my_data.coarse_path_index ~= #my_data.coarse_path then
 					my_data.close_to_criminal = nil
+					
+					if not data.tactics or not data.tactics.aggressor and not data.tactics.legday then
+						if not CopLogicTravel._chk_close_to_criminal(data, my_data) then
+							local cover_wait_time = 0.6 + 0.4 * math_random()
+							
+							if not data.tactics or not data.tactics.charge then
+								cover_wait_time = cover_wait_time + math_random()
+							end
+							
+							my_data.cover_leave_t = TimerManager:game():time() + cover_wait_time
 
-					if CopLogicTravel._chk_close_to_criminal(data, my_data) then
-						local cover_wait_time = my_data.coarse_path_index == #my_data.coarse_path - 1 and 0.3 or 0.6 + 0.4 * math_random()
-
-						my_data.cover_leave_t = TimerManager:game():time() + cover_wait_time
-
-						update_immediately = nil
+							update_immediately = nil
+						end
 					end
 				end
 			else
@@ -1703,10 +1709,6 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	local my_objective = data.objective
 
 	if not my_objective.grp_objective then
-		return true
-	end
-
-	if not CopLogicTravel._chk_close_to_criminal(data, my_data) then
 		return true
 	end
 
