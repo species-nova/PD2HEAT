@@ -944,8 +944,16 @@ function GroupAIStateBase:update(t, dt)
 
 	self:_upd_debug_draw_attentions()
 
-	if Network:is_server() and self:team_ai_enabled() then
-		self:upd_team_AI_distance()
+	if Network:is_server() then
+		local check_t = self._team_ai_dist_t
+
+		if not check_t or check_t < t then
+			self._team_ai_dist_t = t + 1
+
+			if self:team_ai_enabled() then
+				self:upd_team_AI_distance()
+			end
+		end
 	end
 
 	self._last_detection_mul = self._old_guard_detection_mul_raw --used purely for suspicion meter syncing
@@ -970,10 +978,7 @@ function GroupAIStateBase:upd_team_AI_distance()
 		return
 	end
 
-	--if you want to reenable the far away check, readd this line and check for other comments below
-	--local far_away_distance = tweak_data.team_ai.stop_action.distance * tweak_data.team_ai.stop_action.distance
 	local teleport_distance = tweak_data.team_ai.stop_action.teleport_distance * tweak_data.team_ai.stop_action.teleport_distance
-
 	local nav_manager = managers.navigation
 	local find_cover_f = nav_manager.find_cover_in_nav_seg_3
 
@@ -981,67 +986,70 @@ function GroupAIStateBase:upd_team_AI_distance()
 		local unit = ai.unit
 
 		if not unit:movement():cool() then
-			local bot_pos = ai.m_pos
-			local closest_distance, closest_player, closest_tracker = nil
+			local ai_mov_ext = unit:movement()
 
-			for _, player in pairs_g(self:all_player_criminals()) do
-				if player.status ~= "dead" then
-					local tracker = player.tracker
+			if not ai_mov_ext:chk_action_forbidden("walk") then
+				local bot_pos = ai.m_pos
+				local valid_players = {}
 
-					if not tracker:obstructed() and not tracker:lost() then
+				for _, player in pairs_g(self:all_player_criminals()) do
+					if player.status ~= "dead" then
 						local distance = mvec3_dis_sq(bot_pos, player.m_pos)
 
-						if not closest_distance or distance < closest_distance then
-							closest_distance = distance
-							closest_player = player
-							closest_tracker = tracker
+						if distance > teleport_distance then
+							valid_players[#valid_players + 1] = {player, distance}
+						else
+							return
 						end
 					end
 				end
-			end
 
-			if closest_player then
-				local ai_mov_ext = unit:movement()
+				local closest_distance, closest_player, closest_tracker = nil
 
-				--if you want to reenable the far away check, readd this line and check further below for another comment
-				--[[if closest_distance > far_away_distance and ai_mov_ext._should_stay then
-					ai_mov_ext:set_should_stay(false)
-				end]]
+				for i = 1, #valid_players do
+					local player = valid_players[i][1]
+					local tracker = player.tracker
 
-				if closest_distance > teleport_distance and not ai_mov_ext:chk_action_forbidden("walk") then
-					local player_unit = closest_player.unit
-					local player_mov_ext = player_unit:movement()
+					if not tracker:obstructed() and not tracker:lost() then
+						local player_unit = player.unit
+						local player_mov_ext = player_unit:movement()
 
-					if not player_mov_ext:zipline_unit() then
-						local player_state = player_mov_ext:current_state_name()
+						if not player_mov_ext:zipline_unit() then
+							local player_state = player_mov_ext:current_state_name()
 
-						if not invalid_player_bot_warp_states[player_state] then
-							local in_air = nil
+							if not invalid_player_bot_warp_states[player_state] then
+								local in_air = nil
 
-							if player_unit:base().is_local_player then
-								in_air = player_mov_ext:in_air() and true
-							else
-								in_air = player_mov_ext._in_air and true
-							end
-
-							if not in_air then
-								--if you want to reenable the far away check, comment out this this small block
-								if ai_mov_ext._should_stay then
-									ai_mov_ext:set_should_stay(false)
+								if player_unit:base().is_local_player then
+									in_air = player_mov_ext:in_air() and true
+								else
+									in_air = player_mov_ext._in_air and true
 								end
 
-								local near_cover_point = find_cover_f(nav_manager, closest_tracker:nav_segment(), 500, closest_tracker:field_position())
-								local position = near_cover_point and near_cover_point[1] or closest_player.m_pos
-								local action_desc = {
-									body_part = 1,
-									type = "warp",
-									position = mvec3_cpy(position)
-								}
+								if not in_air then
+									local distance = valid_players[i][2]
 
-								ai_mov_ext:action_request(action_desc)
+									if not closest_distance or distance < closest_distance then
+										closest_distance = distance
+										closest_player = player
+										closest_tracker = tracker
+									end
+								end
 							end
 						end
 					end
+				end
+
+				if closest_player then
+					local near_cover_point = find_cover_f(nav_manager, closest_tracker:nav_segment(), 500, closest_tracker:field_position())
+					local position = near_cover_point and near_cover_point[1] or closest_player.m_pos
+					local action_desc = {
+						body_part = 1,
+						type = "warp",
+						position = mvec3_cpy(position)
+					}
+
+					ai_mov_ext:action_request(action_desc)
 				end
 			end
 		end
