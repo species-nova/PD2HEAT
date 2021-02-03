@@ -17,8 +17,86 @@ function GroupAIStateBesiege:init(group_ai_state)
 	self._spawn_group_timers = {}
 	self._graph_distance_cache = {}
 	self._ponr_is_on = nil
-	--self:set_debug_draw_state(true) --uncomment to test ai stuff
+	--Sets functions that determine chatter for spawn group leaders to say upon spawning.
+	self:_init_group_entry_lines()
+	--self:set_debug_draw_state(true) --Uncomment to debug AI stuff.
 end	
+
+function GroupAIStateBesiege:_queue_police_upd_task()
+	if not self._police_upd_task_queued then
+		self._police_upd_task_queued = true
+
+		managers.enemy:queue_task("GroupAIStateBesiege._upd_police_activity", self._upd_police_activity, self, self._t, nil, true) --please dont let your own algorithms implode like that, ovk, thanks
+	end
+end
+
+local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+local difficulty_index = tweak_data:difficulty_to_index(difficulty)
+
+--Implements cooldowns and hard-diff filters for specific spawn groups, by prefiltering them before actually choosing the best groups.
+local group_timestamps = {}
+local _choose_best_groups_actual = GroupAIStateBesiege._choose_best_groups
+function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types, allowed_groups, weight, ...)
+	local new_allowed_groups = {} --Replacement table for _choose_best_groups_actual.
+	local currenttime = self._t
+	local group_cooldowns = self._tweak_data.group_cooldowns
+	local group_max_diffs = self._tweak_data.group_max_diff
+	local group_min_diffs = self._tweak_data.group_min_diff
+
+	--Check each spawn group and see if it meets filter.
+	for group_type, cat_weights in pairs(allowed_groups) do
+		--Get timestamp from when group was last spawned and make sure that cooldown is complete. 
+		local previoustimestamp = group_timestamps[group_type]
+		local cooldown = group_cooldowns[group_type] or 0
+		local cooldown_over = previoustimestamp == nil or (currenttime - previoustimestamp) > cooldown
+
+		--Get whether this spawn group can appear on this diff.
+		local valid_diff = (group_max_diffs[group_type] or 1) >= self._difficulty_value and self._difficulty_value > (group_min_diffs[group_type] or 0)
+
+		--If both contitions are met, add it to the replacement table. Otherwise, ignore it.
+		if cooldown_over == true and valid_diff == true then
+			new_allowed_groups[group_type] = cat_weights
+		end
+	end
+
+	-- Call the original function with the replacement spawngroup table.
+	return _choose_best_groups_actual(self, best_groups, group, group_types, new_allowed_groups, weight, ...)
+end
+
+--Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
+local _spawn_in_group_actual = GroupAIStateBesiege._spawn_in_group
+function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, ...)
+	group_timestamps[spawn_group_type] = self._t
+
+	return _spawn_in_group_actual(self, spawn_group, spawn_group_type, ...)
+end
+
+-- Cache for normal spawngroups to avoid losing them when they're overwritten.
+-- Once a captain is spawned in, this gets reset back to nil.
+local cached_spawn_groups = nil
+-- Hard forces the next spawn group type by temporarily replacing the assault.groups table.
+-- When the group is spawned, the assault.groups table is reverted to cached_spawn_groups.
+-- Used by skirmish to force captain spawns.
+function GroupAIStateBesiege:force_spawn_group_hard(spawn_group)
+	-- Ignore previous force attempt if ones overlap.
+	-- Might change to using a LIFO queue if we need support for multiple nearby calls at some point.
+	if cached_spawn_groups then
+		self._tweak_data.assault.groups = cached_spawn_groups
+		cached_spawn_groups = nil
+	end
+
+	--Create new forced spawngroup.
+	local new_spawn_groups = nil
+	if managers.skirmish:is_skirmish() then --Handle Skirmish's custom diff curve.
+		new_spawn_groups = { [spawn_group] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} }
+	else
+		new_spawn_groups = { [spawn_group] = {1, 1, 1} }
+	end
+
+	--Cache old spawn groups, and apply new forced spawn group table.
+	cached_spawn_groups = self._tweak_data.assault.groups
+	self._tweak_data.assault.groups = new_spawn_groups
+end
 
 local function make_dis_id(from, to)
 	local f = from < to and from or to
@@ -209,58 +287,6 @@ function GroupAIStateBesiege:_choose_best_group(best_groups, total_weight, delay
 	return best_grp, best_grp_type
 end
 
--- Tracks the cooldowns of each group type, will be populated by the GroupAIStateBesiege:_spawn_in_group() hook 
-local group_timestamps = {}
-local cached_spawn_groups = nil
-local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
-local difficulty_index = tweak_data:difficulty_to_index(difficulty)
-
-local _choose_best_groups_actual = GroupAIStateBesiege._choose_best_groups
-function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types, allowed_groups, weight, ...)
-	local new_allowed_groups = {}
-	local currenttime = Application:time()
-	-- Remember not to modify allowed_groups nor its subtables, otherwise you'll unknowingly be altering
-	-- tweak_data.group_ai.besiege.recon.groups instead
-	for group_type, cat_weights in pairs(allowed_groups) do
-		local previoustimestamp = group_timestamps[group_type]
-		local cooldown = self._tweak_data.group_cooldowns[group_type] or 0
-		local cooldown_over = previoustimestamp == nil or (currenttime - previoustimestamp) > cooldown
-		local valid_diff = (self._tweak_data.group_max_diff[group_type] or 1) >= self._difficulty_value and self._difficulty_value > (self._tweak_data.group_min_diff[group_type] or 0)
-		if cooldown_over == true and valid_diff == true then
-			-- This group type if off cooldown and can spawn on this diff, copy the subtable reference to the new_allowed_groups table
-			-- rule applies - do not modify the subtable or you'll be affecting global state, which will make debugging the cause
-			-- a nightmare)
-			new_allowed_groups[group_type] = cat_weights
-		end
-	end
-
-	-- Call the original function with the manipulated list
-	return _choose_best_groups_actual(self, best_groups, group, group_types, new_allowed_groups, weight, ...)
-end
-
-function GroupAIStateBesiege:_queue_police_upd_task()
-	if not self._police_upd_task_queued then
-		self._police_upd_task_queued = true
-
-		managers.enemy:queue_task("GroupAIStateBesiege._upd_police_activity", self._upd_police_activity, self, self._t, nil, true) --please dont let your own algorithms implode like that, ovk, thanks
-	end
-end
-
-
---Softly forces the next spawn group type. Used by Skirmish for spawning captains.
---Might cause wonkiness, so use sparingly.
---Will update to a more robust solution in the future if needed.
-function GroupAIStateBesiege:force_skirmish_captain(spawn_group)
-	if cached_spawn_groups then --Ignore previous force attempt if ones overlap.
-		self._tweak_data.assault.groups = cached_spawn_groups
-		cached_spawn_groups = nil
-	end
-
-	local new_spawn_groups = { [spawn_group] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} }
-	cached_spawn_groups = self._tweak_data.assault.groups
-	self._tweak_data.assault.groups = new_spawn_groups
-end
-
 function GroupAIStateBesiege:not_assault_0_check()
 	if self._assault_number and self._assault_number <= 0 then
 		return
@@ -288,15 +314,6 @@ function GroupAIStateBesiege:_get_megaphone_sound_source()
 	sound_source:set_position(pos)
 
 	return sound_source
-end
-
--- Simple wrapper function to identify the winning candidate group that was actually selected and spawned in, and when they were
--- spawned in
-local _spawn_in_group_actual = GroupAIStateBesiege._spawn_in_group
-function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, ...)
-	group_timestamps[spawn_group_type] = Application:time()
-
-	return _spawn_in_group_actual(self, spawn_group, spawn_group_type, ...)
 end
 
 function GroupAIStateBesiege:_check_spawn_phalanx()
@@ -526,72 +543,75 @@ function GroupAIStateBesiege:_begin_assault_task(assault_areas)
 	self._task_data.recon.tasks = {}
 end
 
+--Generate table used to find spawn-in voicelines.
+function GroupAIStateBesiege:_init_group_entry_lines()
+	local function random_cs()
+		local randomgroupcallout = math.random(1, 100)
+		if randomgroupcallout < 25 then
+			return "csalpha"
+		elseif randomgroupcallout < 50 then
+			return "csbravo"
+		elseif randomgroupcallout < 75 then
+			return "cscharlie"
+		else
+			return "csdelta"
+		end
+	end
+
+	local function random_hrt()
+		local randomgroupcallout = math.random(1, 100)
+		if randomgroupcallout < 25 then
+			return "hrtalpha"
+		elseif randomgroupcallout < 50 then
+			return "hrtbravo"
+		elseif randomgroupcallout < 75 then
+			return "hrtcharlie"
+		else
+			return "hrtdelta"
+		end
+	end
+
+	--Metatable to handle more complex rng selections.
+	self._group_entry_line_selectors = setmetatable(
+		{
+			groupcs1 = "csalpha",
+			groupcs2 = "csbravo",
+			groupcs3 = "cscharlie",
+			groupcs4 = "csdelta",
+			grouphrt1 = "hrtalpha",
+			grouphrt2 = "hrtbravo",
+			grouphrt3 = "hrtcharlie",
+			grouphrt4 = "hrtdelta"
+		},{
+			__index = function(table, key)
+				if key == "groupcsr" then
+					return random_cs()
+				elseif key == "grouphrtr" then
+					return random_hrt()
+				elseif key == "groupany" then
+					if self._task_data.assault.active then
+						random_cs()
+					else
+						random_hrt()
+					end
+				else
+					return rawget(table, key)
+				end
+			end
+		}
+	)
+end
+
+--Plays spawn in chatter.
+--Refers to the _group_entry_line_selectors to determine what exactly to play.
 function GroupAIStateBesiege:_voice_groupentry(group)
 	local group_leader_u_key, group_leader_u_data = self._determine_group_leader(group.units)
 
 	if group_leader_u_data and group_leader_u_data.tactics and group_leader_u_data.char_tweak.chatter.entry then
 		for i_tactic, tactic_name in ipairs(group_leader_u_data.tactics) do
-			local randomgroupcallout = math_random(1, 100)
-			--assign tactic-identifiers for this in groupaistatebesiege on a group-to-group basis
-			--groupcs is for assault team, grouphrt is for rescue team,groupcsr/grouphrtr picks a random letter, groupany depends on whether assault is active and picks a random letter or not
-			if tactic_name == "groupcs1" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csalpha")
-			elseif tactic_name == "groupcs2" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csbravo")
-			elseif tactic_name == "groupcs3" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "cscharlie")
-			elseif tactic_name == "groupcs4" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csdelta")
-			elseif tactic_name == "grouphrt1" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtalpha")
-			elseif tactic_name == "grouphrt2" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtbravo")
-			elseif tactic_name == "grouphrt3" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtcharlie")
-			elseif tactic_name == "grouphrt4" then
-				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtdelta")
-			elseif tactic_name == "groupcsr" then
-				if randomgroupcallout < 25 then
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csalpha")
-				elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csbravo")
-				elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "cscharlie")
-				else
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csdelta")
-				end
-			elseif tactic_name == "grouphrtr" then
-				if randomgroupcallout < 25 then
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtalpha")
-				elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtbravo")
-				elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtcharlie")
-				else
-					self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtdelta")
-				end
-			elseif tactic_name == "groupany" then
-				if self._task_data.assault.active then
-					if randomgroupcallout < 25 then
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csalpha")
-					elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csbravo")
-					elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "cscharlie")
-					else
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "csdelta")
-					end
-				else
-					if randomgroupcallout < 25 then
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtalpha")
-					elseif randomgroupcallout > 25 and randomgroupcallout < 50 then
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtbravo")
-					elseif randomgroupcallout < 74 and randomgroupcallout > 50 then
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtcharlie")
-					else
-						self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, "hrtdelta")
-					end
-				end
+			local selection = self._group_entry_line_selectors[tactic_name]
+			if selection then
+				self:chk_say_enemy_chatter(group_leader_u_data.unit, group_leader_u_data.m_pos, selection)
 			end
 		end
 	end
