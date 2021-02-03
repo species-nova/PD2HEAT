@@ -39,6 +39,19 @@ ContourExt._types.deployable_blackout = { --for autumn's deployable disabling ab
 	color = Vector3(0.5, 0, 1)
 }
 
+--redefine the indexed_types table since more contours were added
+ContourExt.indexed_types = {}
+
+for name, preset in pairs(ContourExt._types) do
+	ContourExt.indexed_types[#ContourExt.indexed_types + 1] = name
+end
+
+table.sort(ContourExt.indexed_types)
+
+if #ContourExt.indexed_types > 32 then
+	log("exceeded amount of contours that can be synced! (" .. tostring(#ContourExt.indexed_types) .. "/32)")
+end
+
 local init_original = ContourExt.init
 function ContourExt:init(...)
 	self._timer = TimerManager:game()
