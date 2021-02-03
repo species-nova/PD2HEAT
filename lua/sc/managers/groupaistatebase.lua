@@ -16,6 +16,8 @@ local ipairs_g = ipairs
 local pairs_g = pairs
 local next_g = next
 
+local alive_g = alive
+
 function GroupAIStateBase:_calculate_difficulty_ratio()
 	local ramp = tweak_data.group_ai.difficulty_curve_points
 
@@ -1667,7 +1669,7 @@ function GroupAIStateBase:chk_register_removed_attention_objects()
 	for u_key, att_info in pairs_g(self._removed_attention_objects) do
 		if all_attention_objects[u_key] then
 			self._removed_attention_objects[u_key] = nil
-		elseif alive(att_info.unit) then
+		elseif alive_g(att_info.unit) then
 			self:register_AI_attention_object(att_info.unit, att_info.handler, att_info.nav_tracker, att_info.team, att_info.SO_access)
 			self._removed_attention_objects[u_key] = nil
 		end
@@ -1686,11 +1688,21 @@ function GroupAIStateBase:chk_unregister_irrelevant_attention_objects()
 	local all_attention_objects = self:get_all_AI_attention_objects()
 
 	for u_key, att_info in pairs_g(all_attention_objects) do
-		if not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) --[[or att_info.unit:in_slot(17) and att_info.unit:character_damage()]] then
+		if not alive_g(att_info.unit) then
+			log("the unit of an attention object was destroyed without unregistering!")
+
+			managers.enemy:add_delayed_clbk("_ensure_att_obj_unregistering" .. tostring(u_key), callback(self, self, "_chk_remove_destroyed_att_object", u_key), self._t + 0.5)
+		elseif not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) --[[or att_info.unit:in_slot(17) and att_info.unit:character_damage()]] then
 			self:store_removed_attention_object(u_key, att_info)
 
 			att_info.handler:set_attention(nil)
 		end
+	end
+end
+
+function GroupAIStateBase:_chk_remove_destroyed_att_object(u_key)
+	for cat_filter, list in pairs_g(self._attention_objects) do
+		list[u_key] = nil
 	end
 end
 
