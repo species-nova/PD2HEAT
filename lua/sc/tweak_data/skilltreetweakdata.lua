@@ -979,14 +979,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_eco_sentry_beta_desc_sc",
 				["icon_xy"] = {9, 2},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"sentry_gun_armor_multiplier"
 					},		
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"sentry_gun_armor_multiplier2"
 					},
@@ -1021,14 +1021,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_tower_defense_beta_desc_sc",
 				["icon_xy"] = {9, 5},
 				[1] = {
-					skill_cost = 10,
+					skill_cost = 6,
 					upgrades = {
 						"sentry_gun_ap_bullets"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 6,
 					upgrades = {
 						"sentry_gun_quantity_1",
 						"sentry_gun_cost_reduction_1"
