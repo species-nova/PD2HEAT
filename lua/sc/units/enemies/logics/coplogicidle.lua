@@ -1874,7 +1874,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 
 									if not my_dmg_ext then
 										log("coplogicidle: unit has no character_damage() extension")
-									elseif my_dmg_ext.dead and att_dmg_ext:dead() then
+									elseif my_dmg_ext.dead and my_dmg_ext:dead() then
 										log("coplogicidle: unit is dead")
 									end
 								end
