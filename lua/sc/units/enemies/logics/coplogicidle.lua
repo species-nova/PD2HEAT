@@ -1712,6 +1712,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 
 	local near_threshold = data.internal_data.weapon_range.optimal
 	local too_close_threshold = data.internal_data.weapon_range.close
+	local harasser = data.tactics and data.tactics.harass
 
 	for u_key, attention_data in pairs(attention_objects) do
 		local att_unit = attention_data.unit
@@ -1757,6 +1758,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 					local dmg_dt = attention_data.dmg_t and data.t - attention_data.dmg_t or 10000
 					local target_priority = nil
 					local target_priority_slot = 0
+					local valid_harass = nil
 
 					if visible then
 						local aimed_at = CopLogicIdle.chk_am_i_aimed_at(data, attention_data, attention_data.aimed_at and 0.95 or 0.985)
@@ -1774,6 +1776,10 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							if not cur_state._moving and cur_state:ducking() then
 								weight_mul = weight_mul * managers.player:upgrade_value("player", "stand_still_crouch_camouflage_bonus", 1)
 							end
+							
+							if harasser and cur_state:_is_reloading() then
+								valid_harass = true
+							end
 
 							--[[if managers.player:has_activate_temporary_upgrade("temporary", "chico_injector") and managers.player:upgrade_value("player", "chico_preferred_target", false) then
 								weight_mul = weight_mul * 1000
@@ -1785,6 +1791,12 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							end
 						elseif attention_data.is_husk_player then
 							local att_base_ext = att_unit:base()
+							
+							local anim_data = att_unit:anim_data()
+
+							if harasser and anim_data.reload then
+								valid_harass = true
+							end
 
 							if att_base_ext and att_base_ext.upgrade_value then
 								local att_move_ext = att_unit:movement()
@@ -1939,20 +1951,26 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							end
 						end
 
-						local reviving = nil
-
-						if attention_data.is_local_player then
-							local iparams = att_unit:movement():current_state()._interact_params
-
-							if iparams and managers.criminals:character_name_by_unit(iparams.object) ~= nil then
-								reviving = true
-							end
-						else
-							reviving = att_unit:anim_data() and att_unit:anim_data().revive
+						if harasser and valid_harass then
+							target_priority_slot = target_priority_slot - 3
 						end
+						
+						if not harasser then					
+							local reviving = nil
+						
+							if attention_data.is_local_player then
+								local iparams = att_unit:movement():current_state()._interact_params
 
-						if reviving then
-							target_priority_slot = target_priority_slot + 2
+								if iparams and managers.criminals:character_name_by_unit(iparams.object) ~= nil then
+									reviving = true
+								end
+							else
+								reviving = att_unit:anim_data() and att_unit:anim_data().revive
+							end
+							
+							if reviving then
+								target_priority_slot = target_priority_slot + 2
+							end
 						end
 
 						local nr_enemies = crim_record and crim_record.engaged_force
@@ -1970,6 +1988,27 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 						target_priority_slot = math_clamp(target_priority_slot, 1, 10)
 					else
 						target_priority_slot = 10
+						
+						if harasser then
+							if attention_data.is_local_player then
+								local cur_state = att_unit:movement():current_state()
+								
+								if cur_state:_is_reloading() then
+									valid_harass = true
+								end
+							elseif attention_data.is_husk_player then							
+								local anim_data = att_unit:anim_data()
+
+								if anim_data.reload then
+									valid_harass = true
+								end
+							end
+						end
+						
+						if valid_harass then
+							target_priority_slot = target_priority_slot - 3
+						end
+
 
 						if weight_mul and weight_mul ~= 1 then
 							weight_mul = 1 / weight_mul

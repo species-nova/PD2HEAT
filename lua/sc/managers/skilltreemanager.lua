@@ -103,3 +103,25 @@ function SkillTreeManager:get_points_spent_until_tier(tiers, target_tier_idx)
 
 	return points
 end
+
+function SkillTreeManager:skill_can_be_removed(tree, tier, skill_id)
+	local skill_step = self:skill_step(skill_id)
+
+	if skill_step == 0 then
+		return false
+	end
+
+	local tiers = tweak_data.skilltree:get_tiers(tree)
+	local points_to_remove = self:skill_cost(tier, skill_step)
+	local points_left, points_spent_until_tier, tier_index, tier_data = nil
+
+	if not points_to_remove then
+		return false
+	end
+
+	if points_to_remove == 0 then
+		return true
+	end
+
+	return true
+end
