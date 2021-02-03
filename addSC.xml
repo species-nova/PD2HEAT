@@ -109,10 +109,6 @@
 
 
 	<!--Updated Assets-->
-
-	<!--PDTH Counterfeit hackbox-->
-	<model force="true" path="units/world/props/suburbia_hackbox/suburbia_hackbox" unload="true"/>
-
 	<!-- <object	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> -->
 	<!-- <sequence_manager	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> --> <!--what was this for?-->
 	<texture path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera_df" force="true"/>
