@@ -2581,7 +2581,9 @@ function SkillTreeTweakData:init(tweak_data)
 			background_texture = "guis/textures/pd2/skilltree/bg_fundamentalist",
 			tiers = {
 				{
-					"bagger",
+					"bagger"
+				},
+				{
 					"haste"
 				}
 			}
