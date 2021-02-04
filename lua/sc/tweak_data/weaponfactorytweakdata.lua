@@ -26278,7 +26278,7 @@ if self.wpn_fps_shot_ks23 then 	-- Pawcio's KS-23
 		self.parts.wpn_fps_ass_m4_m_wick.supported = true
 		self.parts.wpn_fps_ass_m4_m_wick.stats = {
 			value = 2,
-			concealment = 2,
+			concealment = 1,
 			reload = 1,
 			extra_ammo = -10
 		}
