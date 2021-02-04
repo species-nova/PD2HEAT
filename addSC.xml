@@ -155,6 +155,9 @@
 	<texture path="guis/textures/menu_title_screen" force="true"/>
 	<!--<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>-->
 	
+	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
+	<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>
+	
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_single_shot_fast_reload" force="false" load="false"/> <!-- Aggressive Reload -->

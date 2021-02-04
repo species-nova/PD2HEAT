@@ -2560,7 +2560,7 @@ function SkillTreeTweakData:init(tweak_data)
 			skill = "jackal",
 			name_id = "st_menu_jackal_1",
 			unlocked = true,
-			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			background_texture = "guis/textures/pd2/skilltree/bg_fundamentalist",
 			tiers = {
 				{
 					"bagger"
