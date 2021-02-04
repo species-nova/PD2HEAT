@@ -1685,9 +1685,21 @@ function GroupAIStateBase:chk_register_removed_attention_objects()
 end
 
 function GroupAIStateBase:store_removed_attention_object(u_key, unit, handler, attention_data)
-	self._removed_attention_objects = self._removed_attention_objects or {}
+	local stored_data = self._removed_attention_objects or {}
 
-	self._removed_attention_objects[u_key] = {unit, handler, attention_data}
+	if stored_data[u_key] then
+		stored_data[u_key][1] = unit
+		stored_data[u_key][2] = handler
+		local stored_att_data = stored_data[u_key][3]
+
+		for id, data in pairs_g(attention_data) do
+			stored_att_data[id] = data
+		end
+	else
+		stored_data[u_key] = {unit, handler, attention_data}
+	end
+
+	self._removed_attention_objects = stored_data
 end
 
 function GroupAIStateBase:chk_unregister_irrelevant_attention_objects()
