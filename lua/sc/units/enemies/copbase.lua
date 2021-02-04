@@ -102,6 +102,27 @@ function CopBase:random_mat_seq_initialization()
 end	
 
 local material_config_paths = {
+  "units/payday2/characters/ene_cop_vars/ene_cop_var1",
+  "units/payday2/characters/ene_cop_vars/ene_cop_var2",
+  "units/payday2/characters/ene_cop_vars/ene_cop_var3",
+  "units/payday2/characters/ene_fbi_vars/ene_fbi_var1",
+  "units/payday2/characters/ene_fbi_vars/ene_fbi_var2",
+  "units/payday2/characters/ene_fbi_vars/ene_fbi_var3",
+  "units/payday2/characters/ene_fbi_vars/ene_fbi_var4",
+  "units/payday2/characters/ene_fbi_vars/ene_fbi_var5",
+  "units/payday2/characters/ene_fbi_vars/ene_fbi_var6",
+  "units/payday2/characters/ene_security_vars/ene_security_var1",
+  "units/payday2/characters/ene_security_vars/ene_security_var2",
+  "units/payday2/characters/ene_security_vars/ene_security_var3",
+  "units/payday2/characters/ene_security_vars/ene_security_var4",
+  "units/payday2/characters/ene_security_vars/ene_security_var5",
+  "units/payday2/characters/ene_security_vars/ene_security_var6",
+  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var1",
+  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var2",
+  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var3",
+  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var4",
+  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var5",
+  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var6",
   "units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1_disktrasa"
 }
 
