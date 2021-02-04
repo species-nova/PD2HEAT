@@ -1592,17 +1592,13 @@ function GroupAIStateBase:register_AI_attention_object(unit, handler, nav_tracke
 			handler = handler
 		}
 
-		local attention_info = {
-			unit = unit,
-			handler = handler,
-			nav_tracker = nav_tracker,
-			team = team,
-			SO_access = SO_access
-		}
+		local handler_data = deep_clone(handler:attention_data())
 
-		self:store_removed_attention_object(u_key, attention_info)
+		self:store_removed_attention_object(u_key, unit, handler, handler_data)
 
-		handler:set_attention(nil)
+		for attention_id, _ in pairs_g(handler_data) do
+			handler:remove_attention(attention_id)
+		end
 	else
 		self._attention_objects.all[u_key] = {
 			unit = unit,
@@ -1666,44 +1662,54 @@ function GroupAIStateBase:chk_register_removed_attention_objects()
 
 	local all_attention_objects = self:get_all_AI_attention_objects()
 
-	for u_key, att_info in pairs_g(self._removed_attention_objects) do
+	for u_key, removed_data in pairs_g(self._removed_attention_objects) do
 		if all_attention_objects[u_key] then
 			self._removed_attention_objects[u_key] = nil
-		elseif alive_g(att_info.unit) then
-			self:register_AI_attention_object(att_info.unit, att_info.handler, att_info.nav_tracker, att_info.team, att_info.SO_access)
+		else
+			local unit = removed_data[1]
+
+			if alive_g(unit) then
+				local handler = removed_data[2]
+				local saved_attention_data = removed_data[3]
+
+				for attention_id, attention_data in pairs_g(saved_attention_data) do
+					handler:add_attention(attention_data)
+				end
+			end
+
 			self._removed_attention_objects[u_key] = nil
 		end
 	end
 
-	self._removed_attention_objects = nil
+	self._removed_attention_objects = {}
 end
 
-function GroupAIStateBase:store_removed_attention_object(u_key, attention_info)
+function GroupAIStateBase:store_removed_attention_object(u_key, unit, handler, attention_data)
 	self._removed_attention_objects = self._removed_attention_objects or {}
 
-	self._removed_attention_objects[u_key] = attention_info
+	self._removed_attention_objects[u_key] = {unit, handler, attention_data}
 end
 
 function GroupAIStateBase:chk_unregister_irrelevant_attention_objects()
 	local all_attention_objects = self:get_all_AI_attention_objects()
 
 	for u_key, att_info in pairs_g(all_attention_objects) do
-		if not alive_g(att_info.unit) then
-			log("the unit of an attention object was destroyed without unregistering!")
+		if not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) --[[or att_info.unit:in_slot(17) and att_info.unit:character_damage()]] then
+			local handler = att_info.handler
+			local handler_data = deep_clone(handler:attention_data())
 
-			managers.enemy:add_delayed_clbk("_ensure_att_obj_unregistering" .. tostring(u_key), callback(self, self, "_chk_remove_destroyed_att_object", u_key), self._t + 0.5)
-		elseif not att_info.nav_tracker and not att_info.unit:vehicle_driving() or att_info.unit:in_slot(1) --[[or att_info.unit:in_slot(17) and att_info.unit:character_damage()]] then
-			self:store_removed_attention_object(u_key, att_info)
+			self:store_removed_attention_object(u_key, att_info.unit, handler, handler_data)
 
-			att_info.handler:set_attention(nil)
+			for attention_id, _ in pairs_g(handler_data) do
+				handler:remove_attention(attention_id)
+			end
 		end
 	end
 end
 
-function GroupAIStateBase:_chk_remove_destroyed_att_object(u_key)
-	for cat_filter, list in pairs_g(self._attention_objects) do
-		list[u_key] = nil
-	end
+--remove this if it ever becomes intended that hostages can't be rescued during assaults
+--otherwise leave the function like this since it only causes issues
+function GroupAIStateBase:_set_rescue_state(state)
 end
 
 --setup for host to set diff based on events
