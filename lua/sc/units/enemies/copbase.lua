@@ -59,7 +59,7 @@ function CopBase:random_mat_seq_initialization()
 	
 	local fbi_3 = unit_name == Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3") 
 	
-	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_fbis") and fbi_1_2 then
+	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_fbi_1_2") and fbi_1_2 then
 		 -- log("okeez xd, run the fbi sequence for fbi 1 and 2!")
 		self._unit:damage():run_sequence_simple("pick_mats_for_fbi_1_2")	
 	elseif self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_fbi_3") and fbi_3 then
