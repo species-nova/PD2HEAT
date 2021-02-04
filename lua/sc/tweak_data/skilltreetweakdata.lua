@@ -2206,7 +2206,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 1,
+					skill_cost = 0,
 					upgrades = {
 						"carry_interact_speed_multiplier_2",
 						"carry_throw_distance_multiplier",
@@ -2229,7 +2229,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 1,
+					skill_cost = 0,
 					upgrades = {
 						"player_pick_lock_easy_speed_multiplier_1"
 					},
