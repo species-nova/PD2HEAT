@@ -2195,8 +2195,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		
 		--Haste--
 		["menu_haste"] = "Haste",
-		["menu_haste_desc"] = "BASIC: ##$basic##\nYou cable tie hostages faster.\nYour ECM interaction speed is faster.\n\nACE: ##$pro##\nYou lockpick some locks faster."
-
+		["menu_haste_desc"] = "BASIC: ##$basic##\nYou cable tie hostages ##75%## faster.\nYou interact with placed ECMs ##instantly.##.\n\nACE: ##$pro##\nYou lockpick weak doors ##50%## faster."
+		
 	})
 end)
 
