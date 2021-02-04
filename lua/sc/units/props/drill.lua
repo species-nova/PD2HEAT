@@ -185,12 +185,8 @@ function Drill:set_skill_upgrades(upgrades)
 				self:set_autorepair(true)
 			end
 
-			--use golden icon if the drill has both autorepair upgrades
-			if current_auto_repair_level_1 > 0 and current_auto_repair_level_2 > 0 then
-				add_bg_icon_func(background_icons, "drillgui_icon_restarter", timer_gui_ext:get_upgrade_icon_color("upgrade_color_2"))
-			else
-				add_bg_icon_func(background_icons, "drillgui_icon_restarter", timer_gui_ext:get_upgrade_icon_color("upgrade_color_1"))
-			end
+			--use golden icon by default since there's only one skill for it
+			add_bg_icon_func(background_icons, "drillgui_icon_restarter", timer_gui_ext:get_upgrade_icon_color("upgrade_color_2"))
 		else
 			add_bg_icon_func(background_icons, "drillgui_icon_restarter", timer_gui_ext:get_upgrade_icon_color("upgrade_color_0"))
 		end
