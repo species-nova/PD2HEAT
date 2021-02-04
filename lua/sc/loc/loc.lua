@@ -12,8 +12,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["menu_utility_radial_menu_name"] = "Utility Radial Menu",
 		["menu_utility_radial_menu_desc"] = "Open the Utility Menu",
 
-		["res_credits"] = "Restoration Mod Credits",
-		["res_credits_help"] = "View the credits for RESTORATION MOD.",
+		["res_credits"] = "Heat Credits",
+		["res_credits_help"] = "View the credits for Heat.",
 
 		["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
 		["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
@@ -21,12 +21,12 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 
 		["res_saveboost"] = "HOLD $BTN_INTERACT TO BOOST TO LEVEL 100",
 
-		["RestorationModOptionsButtonTitleID"] = "Restoration Mod Options",
-		["RestorationModOptionsButtonDescID"] = "Restoration Mod's Options.",
-		["RestorationModHUDOptionsButtonTitleID"] = "Restoration HUD & UI Options",
-		["RestorationModHUDOptionsButtonDescID"] = "Restoration's HUD & UI Options.",
-		["RestorationModOTHEROptionsButtonTitleID"] = "Extra Restoration Mod Options",
-		["RestorationModOTHEROptionsButtonDescID"] = "Extra Restoration Mod options.",
+		["RestorationModOptionsButtonTitleID"] = "Heat Options",
+		["RestorationModOptionsButtonDescID"] = "Heat's Options.",
+		["RestorationModHUDOptionsButtonTitleID"] = "Heat HUD & UI Options",
+		["RestorationModHUDOptionsButtonDescID"] = "Heat's HUD & UI Options.",
+		["RestorationModOTHEROptionsButtonTitleID"] = "Extra Heat Options",
+		["RestorationModOTHEROptionsButtonDescID"] = "Extra Heat options.",
 		["RestorationModUIOptionsButtonTitleID"] = "Alpha UI",
 		["RestorationModUIOptionsButtonDescID"] = "Alpha UI options.",
 		["RestorationModTimeOfDayTitleID"] = "New + Randomized Time-of-days",
@@ -184,18 +184,18 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModDifficultyMarkersDescID"] = "Enable or disable the Pre-Release Difficulty Markers.",
 		["RestorationModStaminaIndicatorTitleID"] = "Debug Stamina Indicator",
 		["RestorationModStaminaIndicatorDescID"] = "Enable or disable the Debug Stamina Indicator.",
-		["RestorationModBlackScreenTitleID"] = "Restoration Blackscreen",
-		["RestorationModBlackScreenDescID"] = "Enable or disable the Restoration Blackscreen.",
+		["RestorationModBlackScreenTitleID"] = "Heat Blackscreen",
+		["RestorationModBlackScreenDescID"] = "Enable or disable the Heat Blackscreen.",
 		["RestorationModLoadoutsTitleID"] = "Alpha Loadouts",
 		["RestorationModLoadoutsDescID"] = "Enable or disable the Alpha Loadouts screen.",
 		["RestorationModDistrictTitleID"] = "CRIME.NET District Descriptions",
 		["RestorationModDistrictDescID"] = "Enable or disable district descriptions in CRIME.NET.  Not gameplay accurate.",
-		["RestorationModSCOptionsButtonTitleID"] = "Restoration Overhaul Options",
-		["RestorationModSCOptionsButtonDescID"] = "Restoration Overhaul Options",
+		["RestorationModSCOptionsButtonTitleID"] = "Heat Options",
+		["RestorationModSCOptionsButtonDescID"] = "Heat Options",
 		["RestorationModSCTitleID"] = "Complete Overhaul (DEBUG)",
-		["RestorationModSCDescID"] = "Enable or disable Restoration's complete game overhaul. Toggling this option will automatically exit your game to prevent save corruption.",
+		["RestorationModSCDescID"] = "Enable or disable Heat's complete game overhaul. Toggling this option will automatically exit your game to prevent save corruption.",
 		["RestorationModHolidayTitleID"] = "Holiday Effects",
-		["RestorationModHolidayDescID"] = "Enable or disable Holiday effects for the overhaul.",
+		["RestorationModHolidayDescID"] = "Enable or disable Holiday effects Heat.",
 		["RestorationModRestoreHitFlashTitleID"] = "Restore Hit Flash",
 		["RestorationModRestoreHitFlashDescID"] = "Enable or disable the restored hit flash when taking damage.",	
 		["RestorationModNotifyTitleID"] = "Feature Notification",
@@ -204,7 +204,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModPauseDescID"] = "Enable or disable the Alpha Pause Menu.",
 
 		["menu_support"] = "Overhaul Guide/Support",
-		["menu_support_help"] = "View the guide for Restoration Mod's Overhaul, get support, find crew mates.",
+		["menu_support_help"] = "View the guide for Heat's Overhaul, get support, find crew mates.",
 		["menu_manual_header"] = "Placeholder Text",
 		["hud_assault_alpha"] = "POLICE ASSAULT",
 		["hud_loot_secured_title"] = "LOOT SECURED!",
@@ -218,7 +218,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["restoration_level_data_framing_frame_3"] = "2:20 AM, Highrise Apartments",
 		["restoration_level_data_election_day_1"] = "12:37 PM, Pier 39",
 		["restoration_level_data_election_day_2"] = "8:10 AM, Storage Warehouse",
-		["restoration_level_data_election_day_3"] = "Hi! If you see this string during gameplay, report it to Restoration! Thank you!",
+		["restoration_level_data_election_day_3"] = "Hi! If you see this string during gameplay, report it to Heat! Thank you!",
 		["restoration_level_data_election_day_3_skip1"] = "4:25 PM, Capitol Savings Bank",
 		["restoration_level_data_election_day_3_skip2"] = "3:25 PM, Capitol Savings Bank",
 		["restoration_level_data_watchdogs_1"] = "4:10 PM, Meat Truck",
@@ -373,8 +373,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["bm_msk_shatter_true"] = "Raze",
 		["bm_msk_shatter_true_desc"] = "The mask of Raze, Jackal's partner in crime. The Phoenix represents rebirth. Each death bringing about new life. Raze believes that the mask is her 'lucky charm', and often doesn't work without it.",
 
-		["menu_l_global_value_veritas"] = "Restoration Mod",
-		["menu_l_global_value_veritas_desc"] = "This is a Restoration Mod item!",
+		["menu_l_global_value_veritas"] = "Heat",
+		["menu_l_global_value_veritas_desc"] = "This is a Heat item!",
 
 		["menu_alex_1_zipline"] = "Bag Zipline",
 
@@ -583,8 +583,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["alpha_assault"] = "Early Alpha Corner",
 		["beta_assault"] = "Alpha Tape",
 
-		["menu_ingame_manual"] = "Overhaul Guide",
-		["menu_ingame_manual_help"] = "View the guide for Restoration's Overhaul.",
+		["menu_ingame_manual"] = "Heat Guide",
+		["menu_ingame_manual_help"] = "View the guide for Heat.",
 
 		["menu_asset_wet_add_saw"] = "Additional Saw",
 		["menu_asset_wet_add_saw_desc"] = "Buy an additional saw",
@@ -1055,8 +1055,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_auto_generated_mod_sc_desc"] = "The stats on this attachment have been removed until automatic custom attachment stat generation is finished.",
 
 		--Overhaul Content Indicators--
-		["loot_sc"] = "Restoration Overhaul",
-		["loot_sc_desc"] = "THIS IS A RESTORATION OVERHAUL ITEM!",
+		["loot_sc"] = "Heat",
+		["loot_sc_desc"] = "THIS IS A HEAT ITEM!",
 
 		["menu_l_global_value_omnia"] = "OMNIA",
 		["menu_l_global_value_omnia_desc"] = "THIS IS AN OMNIA ITEM!",
@@ -1419,8 +1419,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_risk_sm_wish"] = "DEATH SENTENCE. NOW SHOW THEM THAT YOU CAN'T BE STOPPED.",
 
 		--Loading Hints--
-		--Restoration Gameplay Hints--
-		["loading_gameplay_res_title"] = "Restoration Gameplay Tips",
+		--Heat Gameplay Hints--
+		["loading_gameplay_res_title"] = "Heat Gameplay Tips",
 		["loading_gameplay_res_1"] = "Cloakers make a 'wheezing' sound when aggressive towards heisters. Use this to locate them.",
 		["loading_gameplay_res_2"] = "Cloakers no longer make an ambient humming sound or screech when charging. Pay attention to your surroundings, as their goggles are now always lit up.",
 		["loading_gameplay_res_3"] = "On Death Sentence, enemies may prioritize you if you reload. Make sure that you're in good cover or far from enemies. It might be better to swap weapons sometimes, especially if using a pistol as your secondary.",
@@ -1447,10 +1447,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_gameplay_res_24"] = "Enemies will behave significantly smarter and are less predictable on higher difficulties.",
 		["loading_gameplay_res_25"] = "Death Sentence difficulty has gone through a full design overhaul from vanilla to make it harder and meaner without being unfair. Check the Guide.",
 		["loading_gameplay_res_26"] = "Pro Jobs forbid you from buying generic assets before the heist (such as the Medic Bag, Ammo Bag or the Body Bag Case), toggle friendly fire on (even with your bots) and may trigger a PONR in the final stretch of the mission with special Bravo enemies joining the ranks.",
-		["loading_gameplay_res_27"] = "Restoration Mod provides different factions, such as Murkywater mercenaries and enforcers from other states. They function the same, but add a nice flavor to heists that canonically take place away from Washington DC.",
+		["loading_gameplay_res_27"] = "Heat provides different factions, such as Murkywater mercenaries and enforcers from other states. They function the same, but add a nice flavor to heists that canonically take place away from Washington DC.",
 		["loading_gameplay_res_28"] = "Cloakers will throw smoke grenades at you before charging.",
 		--New Units Hints
-		["loading_new_units_res_title"] = "Restoration Unit Tips",
+		["loading_new_units_res_title"] = "Heat Unit Tips",
 		["loading_new_units_res_1"] = "Titan HRTs are lightning-fast units that will free hostages and steal loot before you know they were there. Also, they will drop a tear gas grenade when killed without a Headshot or melee.",
 		["loading_new_units_res_2"] = "LPFs are weak to melee.",
 		["loading_new_units_res_3"] = "Lighter units will be Overhealed by the LPF. Overhealed enemies are outlined in purple. Overhealed units will always survive at least one shot.",
@@ -1471,7 +1471,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_new_units_res_18"] = "AKAN fields their own Titan units, which look different but behave the same way. Their overall color scheme and visual characteristics are the same, though, so that they may be easily identified.",
 		["loading_new_units_res_19"] = "The Grenadier launches tear gas grenades at range with his underbarrel attachment, damaging players that stand in the cloud. On Death Sentence he instead comes armed with deadlier, stamina-draining nerve gas grenades.",
 		--Captain Hints
-		["loading_captains_res_title"] = "Restoration Captain Tips",
+		["loading_captains_res_title"] = "Heat Captain Tips",
 		["loading_captains_res_1"] = "To take Captain Summers down, target his crew first starting with Doc. He's unkillable until his entire crew is dead, and the other two are nearly invulnerable until Doc is dead.",		
 		["loading_captains_res_2"] = "Don't hug Captain Summers. He WILL melt you with his flamethrower, and he has a Buzzer that he will electrocute you with.",		
 		["loading_captains_res_3"] = "Captain Spring can take a ton of damage but will eventually go down. Watch for his grenades and try to lead him around, as he's very slow.",	
@@ -1485,7 +1485,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_captains_res_11"] = "Captain Winters' shield is completely unpierceable.",	
 		["loading_captains_res_12"] = "Captain Winters has been overhauled. He now wanders around the map healing enemies in a large area around him while aggressively charging when the opportunity arises.",	
 		--Stealth Hints
-		["loading_stealth_res_title"] = "Restoration Stealth Tips",
+		["loading_stealth_res_title"] = "Heat Stealth Tips",
 		["loading_stealth_res_1"] = "Guards will no longer be instantly alerted by seeing broken cameras. A specific guard will be made to inspect the camera, allowing it to be used as a lure.",	
 		["loading_stealth_res_2"] = "Killing unalerted guards with melee or taking them hostage will not set off a pager. Melee killing a guard a split second after he was alerted will still prevent the pager from being set off.",	
 		["loading_stealth_res_3"] = "Melee killing unalerted guards or taking them hostage will still trigger guard replacements and map events.",	
@@ -1508,10 +1508,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_stealth_res_20"] = "Answering pagers beyond your allowed limit massively increases suspicion, but not as much as dropping or not answering.",	
 		["loading_stealth_res_21"] = "Pagers take longer to answer and expire faster on the ground on higher difficulties.",	
 		--Equipment/Skill Hints
-		["loading_equip_skills_res_title"] = "Restoration Equipment/Skill Tips",
+		["loading_equip_skills_res_title"] = "Heat Equipment/Skill Tips",
 		["loading_equip_skills_res_1"] = "Shotguns lose range as their accuracy gets lower, experiment and see what works best! Be careful not to leave yourself unable to deal with snipers, though; consider a non-shotgun secondary.",	
 		["loading_equip_skills_res_2"] = "Pistols are very fast to swap to and are generally accurate and stable. They work very well as backup weapons if you aren't specialized in something else.",	
-		["loading_equip_skills_res_3"] = "Weapons in Restoration fall under a variety of classes with different pros and cons. Higher damage weapons may kill enemies faster, but they may run dry on you before you know it!",	
+		["loading_equip_skills_res_3"] = "Weapons in Heat fall under a variety of classes with different pros and cons. Higher damage weapons may kill enemies faster, but they may run dry on you before you know it!",	
 		["loading_equip_skills_res_4"] = "Higher-damage weapons are generally less concealable unless they have significant downsides, such as Accuracy or Rate of Fire.",	
 		["loading_equip_skills_res_5"] = "Wolf has upgraded our Sentry Guns to allow field repairs. It takes some time, but they will automatically repair once you initiate it.",	
 		["loading_equip_skills_res_6"] = "If you have Sentry AP rounds unlocked, you can choose your default ammo type in the Equipment menu.",	
@@ -1539,14 +1539,14 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_equip_skills_res_28"] = "Leveling up perk decks unlocks the Throwables Case.",
 		["loading_equip_skills_res_29"] = "Replenishing your throwables in the Equipment Case now refills your entire stock with each use.",	
 		["loading_equip_skills_res_30"] = "Save Inspire ace for when things have really gone sideways, it has a very long cooldown and requires line of sight.",	
-		["loading_equip_skills_res_31"] = "Restoration Mod adds two new Perk Decks (Wildcard and Blank) which provide only the common perks and no perks whatsoever, respectively. They are meant for self-imposed challenges.",
+		["loading_equip_skills_res_31"] = "Heat adds two new Perk Decks (Wildcard and Blank) which provide only the common perks and no perks whatsoever, respectively. They are meant for self-imposed challenges.",
 		--Misc Hints
-		["loading_misc_res_title"] = "Restoration Miscellaneous Tips",
+		["loading_misc_res_title"] = "Heat Miscellaneous Tips",
 		["loading_misc_res_1"] = "Try our Custom Heists as well! You can find most of them under the 'Jackal and Raze' Contractor, as well as 'Doghouse' under Vlad.",	
-		["loading_misc_res_2"] = "Restoration Mod has a Steam Guide! This should be your resource for more detailed information. Check the Main Menu.",	
-		["loading_misc_res_3"] = "Restoration Mod has a Discord server! Join for discussion, balance feedback, and matchmaking! Check the Main Menu.",	
+		["loading_misc_res_2"] = "Heat has a Steam Guide! This should be your resource for more detailed information. Check the Main Menu.",	
+		["loading_misc_res_3"] = "Heat has a Discord server! Join for discussion, balance feedback, and matchmaking! Check the Main Menu.",	
 		--Trivia Hints
-		["loading_fluff_res_title"] = "Restoration Trivia",
+		["loading_fluff_res_title"] = "Heat Trivia",
 		["loading_fluff_res_1"] = "OMNIA spends a fortune reviving failed weapon projects.",	
 		["loading_fluff_res_2"] = "The LPF is owed a lot of beers.",	
 		["loading_fluff_res_3"] = "The LPF and Titan Sniper are Australian.",	
@@ -1554,7 +1554,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_fluff_res_5"] = "The ZEAL UMP Elite SWAT's name is Chad.",	
 		["loading_fluff_res_6"] = "Titan Dozers have glowing eyes thanks to extensive genetic engineering, human experiments, and combat drugs.",	
 		["loading_fluff_res_7"] = "Captain Spring is not human. He might have been, once upon a time.",	
-		["loading_fluff_res_8"] = "Restoration Mod is often nicknamed 'resmod', 'SCmod', 'furry mod' and 'mememod', by various members of the community and the dev team.",	
+		["loading_fluff_res_8"] = "guys how do you change localization strings help",	
 		["loading_fluff_res_9"] = "OMNIA has been developing reinforced security doors to protect against dinosaur attacks.",	
 		["loading_fluff_res_10"] = "The Grenadier used to work in pest control.",	
 		["loading_fluff_res_11"] = "You have never seen a Titan Cloaker.",
@@ -1596,7 +1596,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		-- Ad Banner Change
 		["menu_changelog"] = "Latest Changelog",
 		["menu_discord"] = "Discord Server",
-		["menu_guide"] = "Overhaul Guide",
+		["menu_guide"] = "Heat Guide",
 		["menu_captains"] = "Information on Captains",
 		["menu_content_updates"] = "Guide/Support",
 		["menu_content_updates_previous"] = "",
