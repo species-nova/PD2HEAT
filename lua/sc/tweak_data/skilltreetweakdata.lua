@@ -58,12 +58,10 @@ function SkillTreeTweakData:init(tweak_data)
 		"akimbo_recoil_index_addend_1",
 		"akimbo_spread_index_addend_1",
 		"ecm_jammer_can_activate_feedback",
-		"ecm_jammer_interaction_speed_multiplier",
 		"ecm_jammer_can_retrigger",
 		"saw",
 		"saw_secondary",
 		"cable_tie",
-		"cable_tie_interact_speed_multiplier",
 		"player_special_enemy_highlight",
 		"player_hostage_trade",
 		"player_sec_camera_highlight",
@@ -96,7 +94,6 @@ function SkillTreeTweakData:init(tweak_data)
 		"player_special_enemy_highlight_mask_off",
 		"player_mask_off_pickup",
 		"player_small_loot_multiplier_1",
-		"player_pick_lock_easy_speed_multiplier_1",
 		"player_counter_strike_melee",
 		"sentry_gun_silent",
 		"player_tape_loop_duration_1",
@@ -2218,6 +2215,27 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightierpro
 				}
 			}
+			--Haste--
+			self.skills.haste = {
+				["name_id"] = "menu_haste",
+				["desc_id"] = "menu_haste_desc",
+				["icon_xy"] = {0, 0},
+				[1] = {
+					skill_cost = 1,
+					upgrades = {
+						"cable_tie_interact_speed_multiplier",
+						"ecm_jammer_interaction_speed_multiplier"
+					},
+					cost = self.costs.hightier
+				},
+				[2] = {
+					skill_cost = 1,
+					upgrades = {
+						"player_pick_lock_easy_speed_multiplier_1"
+					},
+					cost = self.costs.hightierpro
+				}
+			}
 		
 		
 		--[[
@@ -2563,7 +2581,8 @@ function SkillTreeTweakData:init(tweak_data)
 			background_texture = "guis/textures/pd2/skilltree/bg_fundamentalist",
 			tiers = {
 				{
-					"bagger"
+					"bagger",
+					"haste"
 				}
 			}
 		}

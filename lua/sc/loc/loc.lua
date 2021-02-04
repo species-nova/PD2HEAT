@@ -2191,7 +2191,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		
 		--Bagger--
 		["menu_bagger"] = "Bagger",
-		["menu_bagger_desc"] = "BASIC: ##$basic##\nYou bag items ##25%## faster.\n\nACE: ##$pro##\nYou bag items ##75%## faster.\nYou move ##50%## faster with bags.\nYou throw bags ##50%## further."
+		["menu_bagger_desc"] = "BASIC: ##$basic##\nYou bag items ##25%## faster.\n\nACE: ##$pro##\nYou bag items ##75%## faster.\nYou move ##50%## faster with bags.\nYou throw bags ##50%## further.",
+		
+		--Haste--
+		["menu_haste"] = "Haste",
+		["menu_haste_desc"] = "BASIC: ##$basic##\nYou cable tie hostages faster.\nYour ECM interaction speed is faster.\n\nACE: ##$pro##\nYou lockpick some locks faster."
 
 	})
 end)
