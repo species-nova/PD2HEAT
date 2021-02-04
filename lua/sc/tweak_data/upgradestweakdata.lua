@@ -1,11 +1,6 @@
 --[[
 
-To whom it may concern, hello! If you're seeing this, there's a good chance you might be here to remove vital files related to
-making the skill overhaul in SC's mod function. While I understand that some of you may not like having your builds become
-invalid in the mod, you MUST understand that the mod was balanced with these changes in mind! Especially since it's to nerf
-overpowered builds and abilities that would otherwise trivialize the buffs I made to the cops, and you have to remember the 
-entire point of the mod was to increase the game's difficulty. So I ask you, please, actually try the mod with revamped skilltrees 
-before dismissing it. I promise you it's still fun and in fact, you may find that you enjoy this system more.
+DON'T MODIFY ME IF YOU'RE NOT A DEVELOPER!!!  THANK YOU!!!!!!!!!
 
 ]]--
 

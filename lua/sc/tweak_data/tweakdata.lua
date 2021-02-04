@@ -229,8 +229,8 @@ tweak_data.upgrades.values.player.health_multiplier = {1.15, 1.4}
 tweak_data.upgrades.values.trip_mine.quantity = {3, 7}
 tweak_data.upgrades.values.shape_charge.quantity = {3, 5}
 
-tweak_data.interaction.drill_upgrade.timer = 3
-tweak_data.interaction.gen_int_saw_upgrade.timer = 3
+tweak_data.interaction.drill_upgrade.timer = 2
+tweak_data.interaction.gen_int_saw_upgrade.timer = 2
 
 
 local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"

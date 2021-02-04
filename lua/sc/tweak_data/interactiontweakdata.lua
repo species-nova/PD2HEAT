@@ -61,6 +61,21 @@ Hooks:PostHook( InteractionTweakData, "init", "SC_interact", function(self)
 	self.res_lvl_assault_shatter.action_text_id = "res_lvl_assault_shatter_action"
 	self.res_lvl_assault_shatter.timer = 3
 	
+	--Jammed Drill
+	self.drill_jammed = {
+		icon = "equipment_drill",
+		text_id = "hud_int_equipment_drill_jammed",
+		timer = 5,
+		sound_start = "bar_drill_fix",
+		sound_interupt = "bar_drill_fix_cancel",
+		sound_done = "bar_drill_fix_finished",
+		upgrade_timer_multiplier = {
+			upgrade = "drill_fix_interaction_speed_multiplier",
+			category = "player"
+		},
+		action_text_id = "hud_action_fixing_drill",
+		block_upgrade = true
+	}
 	
 	self.start_sentrygun_repairmode = {
 		icon = "icon_repair",

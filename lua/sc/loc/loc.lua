@@ -2186,7 +2186,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		
 		--New Skill Page 1--
 		["st_menu_jackal"] = "Tempname",
-		["st_menu_jackal_1"] = "Speed",
+		["st_menu_jackal_1"] = "Tree 1",
 		
 		
 		--Bagger--
