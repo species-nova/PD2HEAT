@@ -1784,8 +1784,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   ASSAULT SUBTREE, FORMERLY SHARPSHOOTER   ]]--
 			--{
 
-			--Leadership
-			["menu_stable_shot_beta_sc"] = "Leadership",
+			--Military Grade
+			["menu_stable_shot_beta_sc"] = "Military Grade",
 			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nSMGs and LMGs gain ##4## stability.\n\nACE: ##$pro##\nYou and your crews' stability rating for all weapons is increased by ##4.##",
 
 			--MG Handling
