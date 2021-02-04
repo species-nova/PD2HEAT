@@ -39,10 +39,6 @@ function SkillTreeTweakData:init(tweak_data)
 	
 
    	self.default_upgrades = {
-		"carry_interact_speed_multiplier_1",
-		"carry_interact_speed_multiplier_2",
-		"carry_movement_speed_multiplier",
-		"carry_throw_distance_multiplier",
 		"trip_mine_sensor_toggle",
 		"trip_mine_sensor_highlight",
 		"trip_mine_can_switch_on_off",
@@ -106,7 +102,42 @@ function SkillTreeTweakData:init(tweak_data)
 		"player_tape_loop_duration_1",
 		"player_civ_calming_alerts"
 	}
-
+	
+	self.skill_pages_order = {
+		"mastermind",
+		"enforcer",
+		"technician",
+		"ghost",
+		"hoxton",
+		"jackal"
+	}
+	
+	self.skilltree = {
+		mastermind = {
+			name_id = "st_menu_mastermind",
+			desc_id = "st_menu_mastermind_desc"
+		},
+		enforcer = {
+			name_id = "st_menu_enforcer",
+			desc_id = "st_menu_enforcer_desc"
+		},
+		technician = {
+			name_id = "st_menu_technician",
+			desc_id = "st_menu_technician_desc"
+		},
+		ghost = {
+			name_id = "st_menu_ghost",
+			desc_id = "st_menu_ghost_desc"
+		},
+		hoxton = {
+			name_id = "st_menu_hoxton_pack",
+			desc_id = "st_menu_hoxton_pack_desc"
+		},
+		jackal = {
+			name_id = "st_menu_jackal",
+			desc_id = "st_menu_jackal_desc"
+		}
+	}
 --[[   SKILLTREES   ]]--
 	--{
 	
@@ -2165,7 +2196,379 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightierpro
 				}
 			}
-
+			--Bagger--
+			self.skills.bagger = {
+				["name_id"] = "menu_bagger",
+				["desc_id"] = "menu_bagger_desc",
+				["icon_xy"] = {0, 0},
+				[1] = {
+					skill_cost = 1,
+					upgrades = {
+						"carry_interact_speed_multiplier_1"
+					},
+					cost = self.costs.hightier
+				},
+				[2] = {
+					skill_cost = 1,
+					upgrades = {
+						"carry_interact_speed_multiplier_2",
+						"carry_throw_distance_multiplier",
+						"carry_movement_speed_multiplier"
+					},
+					cost = self.costs.hightierpro
+				}
+			}
+		
+		
+		--[[
+		//////////\\\\\\\\\\
+		/////SKILL TREE\\\\\
+		//////////\\\\\\\\\\
+		]]--
+		self.trees = {
+		{
+			skill = "mastermind",
+			name_id = "st_menu_mastermind_inspire",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"combat_medic"
+				},
+				{
+					"tea_time",
+					"fast_learner"
+				},
+				{
+					"tea_cookies",
+					"medic_2x"
+				},
+				{
+					"inspire"
+				}
+			}
+		},
+		{
+			skill = "mastermind",
+			name_id = "st_menu_mastermind_dominate",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"triathlete"
+				},
+				{
+					"cable_guy",
+					"joker"
+				},
+				{
+					"stockholm_syndrome",
+					"control_freak"
+				},
+				{
+					"black_marketeer"
+				}
+			}
+		},
+		{
+			skill = "mastermind",
+			name_id = "st_menu_mastermind_single_shot",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"stable_shot"
+				},
+				{
+					"rifleman",
+					"sharpshooter"
+				},
+				{
+					"spotter_teamwork",
+					"speedy_reload"
+				},
+				{
+					"single_shot_ammo_return"
+				}
+			}
+		},
+		{
+			skill = "enforcer",
+			name_id = "st_menu_enforce_shotgun",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"underdog"
+				},
+				{
+					"shotgun_cqb",
+					"shotgun_impact"
+				},
+				{
+					"far_away",
+					"close_by"
+				},
+				{
+					"overkill"
+				}
+			}
+		},
+		{
+			skill = "enforcer",
+			name_id = "st_menu_enforcer_armor",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"oppressor"
+				},
+				{
+					"show_of_force",
+					"pack_mule"
+				},
+				{
+					"iron_man",
+					"prison_wife"
+				},
+				{
+					"juggernaut"
+				}
+			}
+		},
+		{
+			skill = "enforcer",
+			name_id = "st_menu_enforcer_ammo",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"scavenging"
+				},
+				{
+					"ammo_reservoir",
+					"portable_saw"
+				},
+				{
+					"ammo_2x",
+					"carbon_blade"
+				},
+				{
+					"bandoliers"
+				}
+			}
+		},
+		{
+			skill = "technician",
+			name_id = "st_menu_technician_sentry",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"defense_up"
+				},
+				{
+					"sentry_targeting_package",
+					"eco_sentry"
+				},
+				{
+					"engineering",
+					"jack_of_all_trades"
+				},
+				{
+					"tower_defense"
+				}
+			}
+		},
+		{
+			skill = "technician",
+			name_id = "st_menu_technician_breaching",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"hardware_expert"
+				},
+				{
+					"combat_engineering",
+					"drill_expert"
+				},
+				{
+					"more_fire_power",
+					"kick_starter"
+				},
+				{
+					"fire_trap"
+				}
+			}
+		},
+		{
+			skill = "technician",
+			name_id = "st_menu_technician_auto",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"steady_grip"
+				},
+				{
+					"heavy_impact",
+					"fire_control"
+				},
+				{
+					"shock_and_awe",
+					"fast_fire"
+				},
+				{
+					"body_expertise"
+				}
+			}
+		},
+		{
+			skill = "ghost",
+			name_id = "st_menu_ghost_stealth",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"jail_workout"
+				},
+				{
+					"cleaner",
+					"chameleon"
+				},
+				{
+					"second_chances",
+					"ecm_booster"
+				},
+				{
+					"ecm_2x"
+				}
+			}
+		},
+		{
+			skill = "ghost",
+			name_id = "st_menu_ghost_concealed",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"sprinter"
+				},
+				{
+					"awareness",
+					"thick_skin"
+				},
+				{
+					"dire_need",
+					"insulation"
+				},
+				{
+					"jail_diet"
+				}
+			}
+		},
+		{
+			skill = "ghost",
+			name_id = "st_menu_ghost_silencer",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"scavenger"
+				},
+				{
+					"optic_illusions",
+					"silence_expert"
+				},
+				{
+					"backstab",
+					"hitman"
+				},
+				{
+					"unseen_strike"
+				}
+			}
+		},
+		{
+			skill = "hoxton",
+			name_id = "st_menu_fugitive_pistol_akimbo",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"equilibrium"
+				},
+				{
+					"dance_instructor",
+					"akimbo"
+				},
+				{
+					"gun_fighter",
+					"expert_handling"
+				},
+				{
+					"trigger_happy"
+				}
+			}
+		},
+		{
+			skill = "hoxton",
+			name_id = "st_menu_fugitive_undead",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"nine_lives"
+				},
+				{
+					"running_from_death",
+					"up_you_go"
+				},
+				{
+					"perseverance",
+					"feign_death"
+				},
+				{
+					"messiah"
+				}
+			}
+		},
+		{
+			skill = "hoxton",
+			name_id = "st_menu_fugitive_berserker",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"martial_arts"
+				},
+				{
+					"bloodthirst",
+					"steroids"
+				},
+				{
+					"drop_soap",
+					"wolverine"
+				},
+				{
+					"frenzy"
+				}
+			}
+		},
+		{
+			skill = "jackal",
+			name_id = "st_menu_jackal_1",
+			unlocked = true,
+			background_texture = "guis/textures/pd2/skilltree/bg_mastermind",
+			tiers = {
+				{
+					"bagger"
+				}
+			}
+		}
+		
+	}
 			--}
 		--}
 	--}

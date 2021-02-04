@@ -2181,7 +2181,17 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Berserker--
 		["menu_frenzy_sc"] = "Berserker",
-		["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##150%## more melee and saw damage.\n\nACE: ##$pro##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##75%## more damage with firearms."
+		["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##150%## more melee and saw damage.\n\nACE: ##$pro##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##75%## more damage with firearms.",
+		
+		
+		--New Skill Page 1--
+		["st_menu_jackal"] = "Tempname",
+		["st_menu_jackal_1"] = "Speed",
+		
+		
+		--Bagger--
+		["menu_bagger"] = "Bagger",
+		["menu_bagger_desc"] = "BASIC: ##$basic##\nYou bag items faster.\n\nACE: ##$pro##\nYou bag items even faster.\nYou move faster with bags.\nYou throw bags further."
 
 	})
 end)
