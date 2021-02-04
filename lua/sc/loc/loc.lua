@@ -772,7 +772,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		
 		["bm_wp_wpn_fps_pis_shatters_fury_body_smooth"] = "Smooth Cylinder",
 
-		["menu_l_global_value_shatters_fury"] = "This is a VERITAS item!",
+		["menu_l_global_value_shatters_fury"] = "This is a HEAT item!",
 		
 		--MK-23
 		--Semi-automatic pistol. Hold down ■ to aim. Release to fire.
