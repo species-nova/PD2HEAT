@@ -351,15 +351,19 @@ function GroupAIStateBase:_update_point_of_no_return(t, dt)
 
 	if not self._point_of_no_return_areas then
 		self._point_of_no_return_areas = {}
-		local element = get_mission_script_element(self._point_of_no_return_id)
-		local element_elements = element._values.elements
+		local ponr_id = self._point_of_no_return_id
+		local element = ponr_id and get_mission_script_element(ponr_id)
 
-		for i = 1, #element_elements do
-			local id = element_elements[i]
-			local area = id and get_mission_script_element(id)
+		if element then
+			local element_elements = element._values.elements
 
-			if area then
-				self._point_of_no_return_areas[#self._point_of_no_return_areas + 1] = area
+			for i = 1, #element_elements do
+				local id = element_elements[i]
+				local area = id and get_mission_script_element(id)
+
+				if area then
+					self._point_of_no_return_areas[#self._point_of_no_return_areas + 1] = area
+				end
 			end
 		end
 
@@ -411,11 +415,13 @@ function GroupAIStateBase:_update_point_of_no_return(t, dt)
 	if is_inside ~= self._is_inside_point_of_no_return then
 		self._is_inside_point_of_no_return = is_inside
 
+		local session = managers.network:session()
+
 		if managers.network:session() then
 			if not Network:is_server() then
-				managers.network:session():send_to_host("is_inside_point_of_no_return", is_inside)
+				session:send_to_host("is_inside_point_of_no_return", is_inside)
 			else
-				self:set_is_inside_point_of_no_return(managers.network:session():local_peer():id(), is_inside)
+				self:set_is_inside_point_of_no_return(session:local_peer():id(), is_inside)
 			end
 		end
 	end
@@ -800,24 +806,6 @@ function GroupAIStateBase:has_room_for_police_hostage()
 	return nr_hostages_allowed > self._police_hostage_headcount
 end
 
-function GroupAIStateBase:sync_event(event_id, blame_id)
-	local event_name = self.EVENT_SYNC[event_id]
-	local blame_name = self.BLAME_SYNC[blame_id]
-	if event_name == "police_called" then
-		self._police_called = true
-		self:_call_listeners("police_called")
-	elseif event_name == "enemy_weapons_hot" then
-		self._police_called = true
-		self._enemy_weapons_hot = true
-		managers.music:post_event(tweak_data.levels:get_music_event("control"))
-		self:_call_listeners("enemy_weapons_hot")
-		managers.enemy:add_delayed_clbk("notify_bain_weapons_hot", callback(self, self, "notify_bain_weapons_hot", blame_name), Application:time() + 0)
-		managers.enemy:set_corpse_disposal_enabled(true)
-	elseif event_name == "phalanx_spawned" then
-		managers.game_play_central:announcer_say("cpa_a02_01")
-	end
-end
-
 function GroupAIStateBase:propagate_alert(alert_data)
 	if managers.network:session() and Network and not Network:is_server() then
 		managers.network:session():send_to_host("propagate_alert", alert_data[1], alert_data[2], alert_data[3], alert_data[4], alert_data[5], alert_data[6])
@@ -1022,8 +1010,12 @@ function GroupAIStateBase:update(t, dt)
 		--init value
 		self._suspicion_interpolated = level_suspicion
 	end
+
+	local is_server = Network:is_server()
+
 	managers.hud:_upd_animate_level_suspicion(t,level_suspicion,alarm_threshold,self._suspicion_interpolated,is_whisper_mode)
-	if self._last_detection_mul and self._last_detection_mul ~= self._old_guard_detection_mul_raw and Network:is_server() then 
+
+	if is_server and self._last_detection_mul and self._last_detection_mul ~= self._old_guard_detection_mul_raw then 
 		LuaNetworking:SendToPeers("restoration_sync_level_suspicion",tostring(self._old_guard_detection_mul_raw) .. ":" .. tostring(self._weapons_hot_threshold))
 	end
 			
@@ -1035,17 +1027,17 @@ function GroupAIStateBase:update(t, dt)
 		local warning_3_threshold = self._weapons_hot_threshold * 0.75
 			
 		if self._played_stealth_warning < 1 and self._old_guard_detection_mul_raw >= warning_1_threshold then
-			log("warning1")
+			--log("warning1")
 			self._played_stealth_warning = 1 
 		end
 			
 		if self._played_stealth_warning < 2 and self._old_guard_detection_mul_raw >= warning_2_threshold then
-			log("warning2")
+			--log("warning2")
 			self._played_stealth_warning = 2 
 		end
 			
 		if self._played_stealth_warning < 3 and self._old_guard_detection_mul_raw >= warning_3_threshold then
-			log("warning3")
+			--log("warning3")
 			self._played_stealth_warning = 3
 		end
 			
@@ -1068,10 +1060,12 @@ function GroupAIStateBase:update(t, dt)
 				managers.dialog:queue_dialog("Play_pln_pat_05", {})
 				self._played_stealth_warning = 6
 			end
-				
-			if self._alarm_t < t then
-				self:on_police_called("sys_police_alerted")
-				--log("uhohstinkyyyy")
+
+			if is_server then
+				if self._alarm_t < t then
+					self:on_police_called("sys_police_alerted")
+					--log("uhohstinkyyyy")
+				end
 			end
 		end
 		
@@ -1086,7 +1080,7 @@ function GroupAIStateBase:update(t, dt)
 
 	self:_upd_debug_draw_attentions()
 
-	if Network:is_server() then
+	if is_server then
 		local check_t = self._team_ai_dist_t
 
 		if not check_t or check_t < t then
@@ -2106,8 +2100,8 @@ end)
 
 local get_sync_event_id_original = GroupAIStateBase.get_sync_event_id
 function GroupAIStateBase:get_sync_event_id(event_name)
-	--instead of making this effect work for the host (since it normally doesn't)
-	--since Cloakers do this sound globally here, prevent it from syncing to clients
+	--instead of making this effect work for the host (it normally doesn't)
+	--since Cloakers do this sound globally in this mod, prevent it from syncing to clients
 	if event_name == "cloaker_spawned" then
 		return
 	end
