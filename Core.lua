@@ -79,7 +79,7 @@ function restoration:Init()
 	}
 	restoration.what_a_horrible_heist_to_have_a_curse = {
 		"help", --Prison Nightmare
-		"nail", --lab rats
+		"nail" --lab rats
 		--"haunted", --safehouse nightmare
 		--"hvh" --cursed kill room
 
