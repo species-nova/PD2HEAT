@@ -81,7 +81,7 @@ function restoration:Init()
 		"help", --Prison Nightmare
 		"nail", --lab rats
 		--"haunted", --safehouse nightmare
-		"hvh" --cursed kill room
+		--"hvh" --cursed kill room
 
 	}
 	
