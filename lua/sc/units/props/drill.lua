@@ -22,7 +22,7 @@ function Drill:start()
 			self:_set_alert_state(true)
 
 			--only allow drill warnings during stealth if the drill isn't silent
-			if not self.is_hacking_device and self._alert_radius then
+			if not self.is_hacking_device and not self.is_saw and self._alert_radius then
 				managers.dialog:queue_narrator_dialog("drl_wrn_snd", {})
 			end
 
