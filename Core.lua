@@ -24,6 +24,7 @@ function restoration:Init()
 		"moon", --Stealing Xmas
 		"mus",	--the diamond
 		"gallery", --art gallery
+		"crojob3", --bomb forest
 		--Custom Heists--
 		"office_strike", --office strike
 		"firestarter_2_res" --firestarter day 2 res edit version
