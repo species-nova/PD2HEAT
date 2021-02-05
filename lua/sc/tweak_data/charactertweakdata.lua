@@ -641,7 +641,7 @@ function CharacterTweakData:_init_medic(presets)
 	self.medic.is_special = true
 	table.insert(self._enemy_list, "medic")
 	self.medic_summers = deep_clone(self.medic)
-	self.medic_summers.HEALTH_INIT = 40
+	self.medic_summers.HEALTH_INIT = 60
 	self.medic_summers.headshot_dmg_mul = 1.25
 	self.medic_summers.tags = {"medic_summers_special", "medic_summers", "custom", "special"}
 	self.medic_summers.ignore_medic_revive_animation = false
