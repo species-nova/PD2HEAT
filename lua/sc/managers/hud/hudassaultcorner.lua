@@ -35,3 +35,52 @@ Hooks:PostHook(HUDAssaultCorner, "init", "SCHUDAssaultInit", function(self)
 		self._vip_bg_box:child("vip_icon"):set_image(buff_icon)
 	end
 end)
+
+local math_sin = math.sin
+local math_lerp = math.lerp
+
+local feed_point_of_no_return_timer_original = HUDAssaultCorner.feed_point_of_no_return_timer
+function HUDAssaultCorner:feed_point_of_no_return_timer(time, is_inside)
+	feed_point_of_no_return_timer_original(self, time, is_inside)
+
+	if self._is_inside_ponr ~= is_inside then
+		local color = is_inside and self._assault_survived_color or self._noreturn_color
+		local ponr_timer = self._noreturn_bg_box:child("point_of_no_return_timer")
+
+		if ponr_timer.set_color then
+			ponr_timer:set_color(color)
+		end
+
+		local ponr_text = self._noreturn_bg_box:child("point_of_no_return_text")
+
+		if ponr_text.set_color then
+			ponr_text:set_color(color)
+		end
+	end
+
+	self._is_inside_ponr = is_inside
+end
+
+function HUDAssaultCorner:flash_point_of_no_return_timer(beep)
+	local font_size = tweak_data.hud_corner.noreturn_size
+
+	local function flash_timer(o)
+		local t = 0
+
+		while t < 0.5 do
+			t = t + coroutine.yield()
+			local n = 1 - math_sin(t * 180)
+			local color = self._is_inside_ponr and self._assault_survived_color or self._noreturn_color
+			local r = math_lerp(color.r, 1, n)
+			local g = math_lerp(color.g, 0.8, n)
+			local b = math_lerp(color.b, 0.2, n)
+
+			o:set_color(Color(r, g, b))
+			o:set_font_size(math_lerp(font_size, font_size * 1.25, n))
+		end
+	end
+
+	local point_of_no_return_timer = self._noreturn_bg_box:child("point_of_no_return_timer")
+
+	point_of_no_return_timer:animate(flash_timer)
+end
