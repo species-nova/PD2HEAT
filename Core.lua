@@ -48,6 +48,7 @@ function restoration:Init()
 		"firestarter_1", --firestarter day 1
 		"arm_for",	--train heist
 		"big", --big bank
+		"kenaz", --ggc
 		"dinner", --Slaughterhouse
 		--custom heists		
 		"firestarter_1_res", --firestarter day 1 res edit version
@@ -56,6 +57,7 @@ function restoration:Init()
 	restoration.captain_stelf = {
 		"alex_1", --Rats Day 1
 		"rat",	--cook off
+		"flat", --panic room
 		"nightclub", --and Autumn stay off the dance floor
 		"branchbank", --well the trees are orange
 		"family", --diamond store
