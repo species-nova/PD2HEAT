@@ -35,6 +35,7 @@ function restoration:Init()
 		"firestarter_3", --firestarter day 3
 		"jolly", --aftershock
 		"rvd1", --highland mortuary 
+		"mad", --boiling point
 		"watchdogs_2", --watch dogs 2
 		"watchdogs_2_day", --Watchdogs Day 2 Daytime
 		"jolly_CD", --jolly crackdown edit
@@ -50,6 +51,7 @@ function restoration:Init()
 		"big", --big bank
 		"kenaz", --ggc
 		"red2", --fwb
+		"bex", --san martin bank
 		"dinner", --Slaughterhouse
 		--custom heists		
 		"firestarter_1_res", --firestarter day 1 res edit version
@@ -66,6 +68,7 @@ function restoration:Init()
 		"framing_frame_3", --Powerbox simulator
 		"jewelry_store", --Jewelry Store
 		"ukrainian_job", --Ukrainian Job
+		"pex", --bul's mansion
 		--custom heists
 		"wetwork", --res map package wetworks
 		"alex_1_res", --Rats Day 1 res edit version
@@ -74,7 +77,11 @@ function restoration:Init()
 		"hntn" --harvest and trustee north
 	}
 	restoration.what_a_horrible_heist_to_have_a_curse = {
-		"help" --Prison Nightmare
+		"help", --Prison Nightmare
+		"nail", --lab rats
+		--"haunted", --safehouse nightmare
+		"hvh" --cursed kill room
+
 	}
 	
 	if Month == "10" and restoration.Options:GetValue("OTHER/Holiday") then
