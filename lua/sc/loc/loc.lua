@@ -1591,15 +1591,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["hud_instruct_mask_on_alpha"] = "Press $BTN_USE_ITEM to put on your mask",
 
 		--Default Suit String
-		["bm_suit_none_desc"] = "This is the heister's default outfit with the selected armor. Will automatically change from the Two-piece Suit depending on the selected heist!",
-
-		-- Ad Banner Change
-		["menu_changelog"] = "Latest Changelog",
-		["menu_discord"] = "Discord Server",
-		["menu_guide"] = "Heat Guide",
-		["menu_captains"] = "Information on Captains",
-		["menu_content_updates"] = "Guide/Support",
-		["menu_content_updates_previous"] = "",
+		["bm_suit_none_desc"] = "This is the heister's default outfit with the selected armor.\n\nWill automatically change from the Two-piece Suit depending on the selected heist!",
 
 		--Mutators
 		["menu_mutators_achievement_disabled"] = "Mutators that reduce Experience and Money gained will also disable the earning of achievements, most trophies, and level completions!",
@@ -1632,7 +1624,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_fatroll_desc"] = "Damage Grace disabled.",
 		["mutator_fatroll_longdesc"] = "Damage grace on players and AI crew members is set to 0, meaning that there is no delay on instances of damage.",
 
-		["mutator_zombie_outbreak"] = "The Dead Walking",
+		["mutator_zombie_outbreak"] = "The Dead, Walking",
 		["mutator_zombie_outbreak_desc"] = "Replaces all enemies with Zombie units",
 		["mutator_zombie_outbreak_longdesc"] = "The dead have risen! Replaces all enemies with Zombie units",
 
