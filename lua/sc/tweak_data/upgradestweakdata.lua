@@ -656,7 +656,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Overkill
 				self.values.temporary.overkill_damage_multiplier = {
-					{1.5, 2}, --Basic
+					{1.5, 3}, --Basic
 					{1.5, 10} --Ace
 				}
 				--Ace

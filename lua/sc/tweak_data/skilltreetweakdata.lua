@@ -157,7 +157,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 1,
+					skill_cost = 3,
 					upgrades = {
 						"player_revive_health_boost"
 					},
@@ -171,7 +171,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_tea_time_beta_desc_sc",
 				["icon_xy"] = {1, 11},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 2,
 					upgrades = {
 						"first_aid_kit_deploy_time_multiplier"
 					},
@@ -199,7 +199,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"player_revive_damage_reduction_level_2"
 					},
@@ -213,14 +213,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_tea_cookies_beta_desc_sc",
 				["icon_xy"] = {2, 11},
 				[1] = {
-					skill_cost = 5,
+					skill_cost = 3,
 					upgrades = {
 						"first_aid_kit_quantity_increase_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 6,
 					upgrades = {
 						"first_aid_kit_quantity_increase_2",
 						"first_aid_kit_auto_recovery_1"
@@ -235,14 +235,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_medic_2x_beta_desc_sc",
 				["icon_xy"] = {5, 8},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"doctor_bag_amount_increase1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 6,
 					upgrades = {
 						"doctor_bag_quantity"
 					},
@@ -256,7 +256,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_inspire_beta_desc_sc",
 				["icon_xy"] = {4, 9},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_revive_interaction_speed_multiplier",
 						"player_morale_boost"						
@@ -264,7 +264,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 16,
+					skill_cost = 8,
 					upgrades = {
 						"cooldown_long_dis_revive"
 					},
@@ -290,7 +290,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 2,
+					skill_cost = 3,
 					upgrades = {
 						"cable_tie_pickup_chance"
 					},
@@ -305,14 +305,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_cable_guy_beta_desc_sc",
 				["icon_xy"] = {2, 8},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_civ_intimidation_mul"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"player_intimidate_range_mul",
 						"player_intimidate_aura"						
@@ -327,14 +327,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_joker_beta_desc_sc",
 				["icon_xy"] = {3, 8},
 				[1] = {
-					skill_cost = 3,
+					skill_cost = 2,
 					upgrades = {
 						"player_civilians_dont_flee"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 5,
+					skill_cost = 4,
 					upgrades = {
 						"player_civilian_reviver",
 						"player_civilian_gives_ammo"
@@ -349,7 +349,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_stockholm_syndrome_beta_desc_sc",
 				["icon_xy"] = {6, 8},
 				[1] = {
-					skill_cost = 5,
+					skill_cost = 3,
 					upgrades = {
 						"player_convert_enemies",
 						"player_convert_enemies_max_minions_1"
@@ -357,7 +357,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 5,
+					skill_cost = 6,
 					upgrades = {
 						"player_convert_enemies_damage_multiplier_1",
 						"player_convert_enemies_max_minions_2"
@@ -372,7 +372,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_control_freak_beta_desc_sc",
 				["icon_xy"] = {1, 10},
 				[1] = {
-					skill_cost = 10,
+					skill_cost = 3,
 					upgrades = {
 						"player_minion_master_speed_multiplier",
 						"player_passive_convert_enemies_health_multiplier_1"
@@ -380,7 +380,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 15,
+					skill_cost = 6,
 					upgrades = {
 						"player_minion_master_health_multiplier",
 						"player_passive_convert_enemies_health_multiplier_2"
@@ -395,14 +395,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_black_marketeer_beta_desc_sc",
 				["icon_xy"] = {2, 10},
 				[1] = {
-					skill_cost = 10,
+					skill_cost = 4,
 					upgrades = {
 						"player_hostage_health_regen_addend_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 15,
+					skill_cost = 8,
 					upgrades = {
 						"player_hostage_health_regen_max_mult",
 						"team_damage_hostage_absorption"
@@ -422,14 +422,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_stable_shot_beta_desc_sc",
 				["icon_xy"] = {7, 7},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 1,
 					upgrades = {
 						"smg_recoil_index_addend"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"team_weapon_recoil_index_addend"
 					},
@@ -450,7 +450,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"smg_reload_speed_multiplier"
 					},
@@ -471,7 +471,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 4,
 					upgrades = {
 						"smg_fire_rate_multiplier_1",
 						"smg_full_auto_free_ammo"
@@ -486,14 +486,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_spotter_teamwork_beta_desc_sc",
 				["icon_xy"] = {2, 0},
 				[1] = {
-					skill_cost = 10,
+					skill_cost = 3,
 					upgrades = {
 						"weapon_clip_ammo_increase_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 14,
+					skill_cost = 6,
 					upgrades = {
 						"player_run_and_shoot_1",
 						"weapon_clip_ammo_increase_2"
@@ -515,7 +515,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 14,
+					skill_cost = 6,
 					upgrades = {
 						"player_bipod_damage_reduction"
 					},
@@ -529,7 +529,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_body_expertise_beta_desc_sc",
 				["icon_xy"] = {10, 3},
 				[1] = {
-					skill_cost = 20,
+					skill_cost = 4,
 					upgrades = {
 						"player_ap_bullets_1",
 						"weapon_automatic_head_shot_add_1"
@@ -537,8 +537,8 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 40, --just kill like 90% of the enemy roster near instantly its fine
-					upgrades = {
+					skill_cost = 8, --just kill like 90% of the enemy roster near instantly its fine
+					upgrades = { --Or learn to aim and not waste 12 skill points 4head
 						"weapon_automatic_head_shot_add_2",
 						"player_universal_body_expertise"
 					},
@@ -560,14 +560,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_shotgun_impact_beta_desc_sc",
 				["icon_xy"] = {5, 0},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 1,
 					upgrades = {
 						"shotgun_recoil_index_addend",
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"shotgun_extra_rays"
 					},
@@ -588,7 +588,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"shotgun_reload_speed_multiplier_1"
 					},
@@ -602,7 +602,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_underdog_beta_desc_sc",
 				["icon_xy"] = {2, 1},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_damage_multiplier_outnumbered"
 					},
@@ -623,14 +623,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_far_away_beta_desc_sc",
 				["icon_xy"] = {8, 5},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 3,
 					upgrades = {
 						"shotgun_steelsight_accuracy_inc_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 6,
 					upgrades = {
 						"shotgun_steelsight_range_inc_1"
 					},
@@ -644,14 +644,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_close_by_beta_desc_sc",
 				["icon_xy"] = {8, 6},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"shotgun_hip_run_and_shoot_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 12,
+					skill_cost = 6,
 					upgrades = {
 						"shotgun_hip_rate_of_fire_1"
 					},
@@ -665,14 +665,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_overkill_desc_sc",
 				["icon_xy"] = {3, 2},
 				[1] = {
-					skill_cost = 30,
+					skill_cost = 4,
 					upgrades = {
 						"player_overkill_damage_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 40, --goodbye, build
+					skill_cost = 8,
 					upgrades = {
 						"player_overkill_all_weapons",
 						"player_overkill_damage_multiplier_2",
@@ -695,14 +695,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_oppressor_beta_desc_sc",
 				["icon_xy"] = {6, 1},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 1,
 					upgrades = {
 						"player_resist_melee_push"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_flashbang_multiplier_2"
 					},
@@ -716,14 +716,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_show_of_force_desc_sc",
 				["icon_xy"] = {2, 12},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_deflection_addend_1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 1,
+					skill_cost = 4,
 					upgrades = {
 						"player_deflection_addend_2"
 					},
@@ -737,7 +737,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_transporter_beta_desc_sc",
 				["icon_xy"] = {6, 0},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 2,
 					upgrades = {
 						"player_armor_carry_bonus_1"
 					},
@@ -758,14 +758,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_iron_man_beta_desc_sc",
 				["icon_xy"] = {1, 1},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 3,
 					upgrades = {
 						"player_health_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"player_health_multiplier_2"
 					},
@@ -779,14 +779,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_prison_wife_beta_desc_sc",
 				["icon_xy"] = {6, 11},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"player_headshot_regen_armor_bonus_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 6,
 					upgrades = {
 						"player_headshot_regen_armor_bonus_2"
 					},
@@ -800,14 +800,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_juggernaut_beta_desc_sc",
 				["icon_xy"] = {3, 1},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"body_armor6"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 8,
 					upgrades = {
 						"player_shield_knock",
 						"player_armor_regen_timer_multiplier"
@@ -834,7 +834,7 @@ function SkillTreeTweakData:init(tweak_data)
 						cost = self.costs.hightier
 					},
 					[2] = {
-						skill_cost = 4,
+						skill_cost = 3,
 						upgrades = {
 							"player_double_drop_1"
 						},
@@ -848,7 +848,7 @@ function SkillTreeTweakData:init(tweak_data)
 					["desc_id"] = "menu_ammo_reservoir_beta_desc_sc",
 					["icon_xy"] = {4, 5},
 					[1] = {
-						skill_cost = 4,
+						skill_cost = 2,
 						upgrades = {
 							"temporary_no_ammo_cost_1"
 						},
@@ -869,14 +869,14 @@ function SkillTreeTweakData:init(tweak_data)
 					["desc_id"] = "menu_portable_saw_beta_desc_sc",
 					["icon_xy"] = {0, 1},
 					[1] = {
-						skill_cost = 3,
+						skill_cost = 2,
 						upgrades = {
 							"saw_enemy_slicer"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
-						skill_cost = 8,
+						skill_cost = 4,
 						upgrades = {
 							"saw_reload_speed_multiplier",
 							"crossbow_reload_speed_multiplier",
@@ -893,14 +893,14 @@ function SkillTreeTweakData:init(tweak_data)
 					["desc_id"] = "menu_ammo_2x_beta_desc_sc",
 					["icon_xy"] = {7, 1},
 					[1] = {
-						skill_cost = 4,
+						skill_cost = 3,
 						upgrades = {
 							"ammo_bag_ammo_increase1"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
-						skill_cost = 8,
+						skill_cost = 6,
 						upgrades = {
 							"ammo_bag_quantity"
 						},
@@ -914,7 +914,7 @@ function SkillTreeTweakData:init(tweak_data)
 					["desc_id"] = "menu_carbon_blade_beta_desc_sc",
 					["icon_xy"] = {0, 2},
 					[1] = {
-						skill_cost = 6,
+						skill_cost = 3,
 						upgrades = {
 							"saw_ignore_shields_1"
 						},
@@ -935,14 +935,14 @@ function SkillTreeTweakData:init(tweak_data)
 					["desc_id"] = "menu_bandoliers_desc_sc",
 					["icon_xy"] = {3, 0},
 					[1] = {
-						skill_cost = 6,
+						skill_cost = 4,
 						upgrades = {
 							"extra_ammo_multiplier1"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
-						skill_cost = 10,
+						skill_cost = 8,
 						upgrades = {
 							"player_fully_loaded_pick_up_multiplier",
 							"player_regain_throwable_from_ammo_1"
@@ -965,7 +965,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_defense_up_beta_desc_sc",
 				["icon_xy"] = {4, 3},
 				[1] = {
-					skill_cost = 3,
+					skill_cost = 1,
 					upgrades = {
 						"deploy_interact_faster_1"
 					},
@@ -993,7 +993,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_interacting_damage_multiplier"
 					},
@@ -1007,7 +1007,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_eco_sentry_beta_desc_sc",
 				["icon_xy"] = {9, 2},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 2,
 					upgrades = {
 						"sentry_gun_armor_multiplier"
 					},		
@@ -1028,14 +1028,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_jack_of_all_trades_beta_desc_sc",
 				["icon_xy"] = {9, 4},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 3,
 					upgrades = {
 						"player_throwables_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 20,
+					skill_cost = 6,
 					upgrades = {
 						"second_deployable_1"
 					},
@@ -1049,7 +1049,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_tower_defense_beta_desc_sc",
 				["icon_xy"] = {9, 5},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"sentry_gun_ap_bullets"
 					},
@@ -1071,14 +1071,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_iron_man_desc_sc",
 				["icon_xy"] = {6, 4},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_unpierceable_armor"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 12,
+					skill_cost = 8,
 					upgrades = {
 						"player_armor_regen_timer_multiplier_tier",
 						"player_armor_full_damage_absorb"
@@ -1098,7 +1098,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_hardware_expert_beta_desc_sc",
 				["icon_xy"] = {9, 6},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 1,
 					upgrades = {
 						"player_drill_fix_interaction_speed_multiplier_1",
 						"player_drill_alert"
@@ -1106,7 +1106,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_drill_fix_interaction_speed_multiplier_2",
 						"player_silent_drill"
@@ -1128,7 +1128,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"trip_mine_damage_multiplier_1"
 					},
@@ -1142,14 +1142,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_drill_expert_beta_desc_sc",
 				["icon_xy"] = {3, 6},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 2,
 					upgrades = {
 						"player_drill_speed_multiplier1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_drill_speed_multiplier2"
 					},
@@ -1163,7 +1163,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_more_fire_power_desc_sc",
 				["icon_xy"] = {9, 7},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"shape_charge_quantity_increase_1",
 						"trip_mine_quantity_increase_1",
@@ -1189,14 +1189,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_kick_starter_beta_desc_sc",
 				["icon_xy"] = {9, 8},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 3,
 					upgrades = {
 						"player_drill_autorepair_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 6,
 					upgrades = {
 						"player_drill_melee_hit_restart_chance_1"
 					},
@@ -1210,7 +1210,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_fire_trap_beta_desc_sc",
 				["icon_xy"] = {9, 9},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"trip_mine_fire_trap_1"
 					},
@@ -1244,7 +1244,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"temporary_headshot_fire_rate_mult"
 					},
@@ -1266,7 +1266,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"assault_rifle_reload_speed_multiplier",
 						"snp_reload_speed_multiplier"
@@ -1281,14 +1281,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_rifleman_desc_sc",
 				["icon_xy"] = {6, 5},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"weapon_enter_steelsight_speed_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"assault_rifle_steelsight_accuracy_inc_1",
 						"snp_steelsight_accuracy_inc_1"
@@ -1303,14 +1303,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_kilmer_desc_sc",
 				["icon_xy"] = {11, 9},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 3,
 					upgrades = {
 						"snp_graze_damage_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"snp_graze_damage_2"
 					},
@@ -1324,7 +1324,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_single_shot_ammo_return_desc_sc",
 				["icon_xy"] = {8, 4},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 3,
 					upgrades = {
 						"head_shot_ammo_return_1"
 					},
@@ -1345,14 +1345,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_engineering_beta_desc_sc",
 				["icon_xy"] = {8, 3},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"temporary_single_shot_fast_reload_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 8,
 					upgrades = {
 						"temporary_single_shot_fast_reload_2"
 					},
@@ -1375,7 +1375,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_jail_workout_desc_sc",
 				["icon_xy"] = {7, 2},
 				[1] = {
-					skill_cost = 3,
+					skill_cost = 1,
 					upgrades = {
 						"player_corpse_dispose_amount_2",
 						"weapon_special_damage_taken_multiplier_1"			
@@ -1398,14 +1398,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_cleaner_beta_desc_sc",
 				["icon_xy"] = {10, 4},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 2,
 					upgrades = {
 						"player_pick_lock_easy_speed_multiplier_2"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 2,
+					skill_cost = 4,
 					upgrades = {
 						"player_pick_lock_hard"
 					},
@@ -1426,7 +1426,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_buy_bodybags_asset",
 						"player_additional_assets",
@@ -1442,7 +1442,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_second_chances_beta_desc_sc",
 				["icon_xy"] = {4, 2},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 3,
 					upgrades = {
 						"player_tape_loop_duration_2",
 						"player_hack_fix_interaction_speed_multiplier_1"
@@ -1473,7 +1473,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 6,
 					upgrades = {
 						"ecm_jammer_quantity_increase_2"
 					},
@@ -1487,7 +1487,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_ecm_2x_beta_desc_sc",
 				["icon_xy"] = {6, 3},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"ecm_jammer_can_open_sec_doors",
 						"ecm_jammer_duration_multiplier",
@@ -1496,7 +1496,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 8,
 					upgrades = {
 						"ecm_jammer_duration_multiplier_2",
 						"ecm_jammer_feedback_duration_boost_2",
@@ -1540,7 +1540,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_awareness_beta_desc_sc",
 				["icon_xy"] = {7, 10},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_movement_speed_multiplier_1",
 						"player_fall_damage_multiplier"
@@ -1548,7 +1548,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"player_run_and_reload"
 					},
@@ -1562,14 +1562,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_thick_skin_beta_desc_sc",
 				["icon_xy"] = {10, 7},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_melee_concealment_modifier"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 5,
+					skill_cost = 4,
 					upgrades = {
 						"player_level_2_armor_addend",
 						"player_level_3_armor_addend",
@@ -1586,7 +1586,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_dire_need_beta_desc_sc",
 				["icon_xy"] = {2, 4},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
                    		"player_detection_risk_add_movement_speed_1"
 					},
@@ -1608,14 +1608,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_insulation_beta_desc_sc",
 				["icon_xy"] = {3, 5},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 3,
 					upgrades = {
 						"player_taser_malfunction"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"player_taser_self_shock",
 						"player_escape_taser_1"
@@ -1630,7 +1630,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_jail_diet_beta_desc_sc",
 				["icon_xy"] = {1, 12},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"player_detection_risk_add_dodge_chance_1"
 					},
@@ -1658,14 +1658,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_scavenger_beta_desc_sc",
 				["icon_xy"] = {10, 9},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 1,
 					upgrades = {
 						"temporary_damage_speed_multiplier_1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 2,
+					skill_cost = 3,
 					upgrades = {
 						"player_armor_depleted_stagger_shot_1",
 						"player_armor_depleted_stagger_shot_2"
@@ -1680,12 +1680,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_optic_illusions_desc_sc",
 				["icon_xy"] = {10, 10},
 				[1] = {
+					skill_cost = 2,
 					upgrades = {
 						"player_silencer_concealment_increase_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
+					skill_cost = 4,
 					upgrades = {
 						"player_silencer_concealment_increase_2",
 						"player_silencer_swap_increase"
@@ -1700,14 +1702,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_silence_expert_beta_desc_sc",
 				["icon_xy"] = {4, 4},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"weapon_silencer_spread_index_addend"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"player_special_double_drop"
 					},
@@ -1721,7 +1723,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_backstab_beta_desc_sc",
 				["icon_xy"] = {10, 11},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_unseen_increased_crit_chance_1",
 						"player_unseen_temp_increased_crit_chance_1"
@@ -1729,7 +1731,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 6,
 					upgrades = {
 						"player_unseen_increased_crit_chance_2",
 						"player_unseen_temp_increased_crit_chance_2"
@@ -1751,7 +1753,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 6,
 					upgrades = {
 						"player_marked_inc_dmg_distance_1"			
 					},
@@ -1765,7 +1767,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_unseen_strike_beta_desc_sc",
 				["icon_xy"] = {0, 12},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"player_detection_risk_add_crit_chance_1"
 					},
@@ -1802,7 +1804,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 5,
+					skill_cost = 3,
 					upgrades = {
 						"pistol_swap_speed_multiplier_1"
 					},
@@ -1816,14 +1818,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_dance_instructor_desc_sc",
 				["icon_xy"] = {11, 0},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"pistol_hip_fire_spread_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"pistol_fire_rate_multiplier",
 						"pistol_ap_bullets_1"
@@ -1838,7 +1840,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_gun_fighter_desc_sc",
 				["icon_xy"] = {0, 9},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 2,
 					upgrades = {
 						"pistol_reload_speed_multiplier_1",
 						"pistol_move_spread_multiplier"
@@ -1846,7 +1848,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"pistol_reload_speed_multiplier_2"
 					},
@@ -1860,7 +1862,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_akimbo_skill_desc_sc",
 				["icon_xy"] = {3, 11},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"akimbo_recoil_index_addend_2"
 					},
@@ -1882,14 +1884,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_expert_handling_desc_sc",
 				["icon_xy"] = {11, 1},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 3,
 					upgrades = {
 						"pistol_stacked_accuracy_bonus_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 6,
 					upgrades = {
 						"pistol_stacked_accuracy_bonus_2",
 						"player_desperado_bodyshot_refresh"
@@ -1904,14 +1906,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_trigger_happy_beta_desc_sc",
 				["icon_xy"] = {11, 2},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
 						"pistol_stacking_hit_damage_multiplier_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 8,
 					upgrades = {
 						"pistol_stacking_hit_damage_multiplier_2",
 						"player_trigger_happy_bodyshot_refresh"
@@ -1931,14 +1933,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_nine_lives_beta_desc_sc",
 				["icon_xy"] = {11, 3},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 1,
 					upgrades = {
 						"player_temp_increased_movement_speed_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_revived_damage_resist_1",
 						"player_revive_reload"
@@ -1953,14 +1955,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_running_from_death_beta_desc_sc",
 				["icon_xy"] = {1, 2},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_bleed_out_health_multiplier_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"player_bleed_out_health_multiplier_2",
 						"player_primary_weapon_when_downed"
@@ -1976,14 +1978,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_what_doesnt_kill_beta_desc_sc",
 				["icon_xy"] = {11, 5},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"player_damage_absorption_low_revives"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"player_damage_absorption_addend"
 					},
@@ -1997,7 +1999,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_perseverance_desc_sc",
 				["icon_xy"] = {5, 12},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"temporary_berserker_damage_multiplier_1"
 					},
@@ -2018,14 +2020,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_haunt_desc_sc",
 				["icon_xy"] = {5, 2},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_killshot_spooky_panic_chance"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 6,
 					upgrades = {
 						"player_killshot_extra_spooky_panic_chance"
 					},
@@ -2039,7 +2041,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_pistol_beta_messiah_desc_sc",
 				["icon_xy"] = {2, 9},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_messiah_revive_from_bleed_out_1",
 						"player_additional_lives_1"
@@ -2047,7 +2049,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 12,
+					skill_cost = 8,
 					upgrades = {
 						"player_infinite_messiah"
 					},
@@ -2067,14 +2069,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_martial_arts_beta_desc_sc",
 				["icon_xy"] = {11, 7},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 1,
 					upgrades = {
 						"player_melee_damage_dampener"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_melee_knockdown_mul"
 					},
@@ -2088,7 +2090,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_drop_soap_beta_desc_sc",
 				["icon_xy"] = {4, 12},
 				[1] = {
-					skill_cost = 6,
+					skill_cost = 2,
 					upgrades = {
 						"player_counter_strike_spooc",
 						"player_spooc_damage_resist_1"						
@@ -2096,7 +2098,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_deflect_ranged",
 						"player_spooc_damage_resist_2"
@@ -2111,7 +2113,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_steroids_beta_desc_sc",
 				["icon_xy"] = {4, 0},
 				[1] = {
-					skill_cost = 3,
+					skill_cost = 2,
 					upgrades = {
 						"player_melee_swing_multiplier_1",
 						"player_melee_swing_multiplier_delay_1"
@@ -2119,7 +2121,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 3,
+					skill_cost = 4,
 					upgrades = {
 						"player_melee_swing_multiplier_2",
 						"player_melee_swing_multiplier_delay_2"
@@ -2134,7 +2136,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_bloodthirst_desc_sc",
 				["icon_xy"] = {11, 6},
 				[1] = {
-					skill_cost = 4,
+					skill_cost = 3,
 					upgrades = {
 						"player_temp_melee_kill_increase_reload_speed_1"
 					},
@@ -2155,7 +2157,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_wolverine_beta_desc_sc",
 				["icon_xy"] = {11, 8},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 3,
 					upgrades = {
 						"player_healing_reduction_1",
 						"player_frenzy_deflection_1",
@@ -2164,7 +2166,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 1,
+					skill_cost = 6,
 					upgrades = {
 						"player_healing_reduction_2",
 						"player_frenzy_deflection_2"
@@ -2179,14 +2181,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_frenzy_desc_sc",
 				["icon_xy"] = {2, 2},
 				[1] = {
-					skill_cost = 8,
+					skill_cost = 4,
 					upgrades = {
 						"player_melee_damage_health_ratio_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 10,
+					skill_cost = 8,
 					upgrades = {
 						"player_damage_health_ratio_multiplier"
 					},
@@ -2199,14 +2201,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_bagger_desc",
 				["icon_xy"] = {0, 0},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"carry_interact_speed_multiplier_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 0,
+					skill_cost = 4,
 					upgrades = {
 						"carry_interact_speed_multiplier_2",
 						"carry_throw_distance_multiplier",
@@ -2221,7 +2223,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["desc_id"] = "menu_haste_desc",
 				["icon_xy"] = {0, 0},
 				[1] = {
-					skill_cost = 1,
+					skill_cost = 2,
 					upgrades = {
 						"cable_tie_interact_speed_multiplier",
 						"ecm_jammer_interaction_speed_multiplier"
@@ -2229,7 +2231,7 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 0,
+					skill_cost = 4,
 					upgrades = {
 						"player_pick_lock_easy_speed_multiplier_1"
 					},
