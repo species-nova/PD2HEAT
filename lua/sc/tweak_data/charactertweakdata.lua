@@ -3267,7 +3267,7 @@ function CharacterTweakData:_init_german(presets)
 	self.german.weapon = deep_clone(presets.weapon.gang_member)
 	self.german.weapon.weapons_of_choice = {
 		primary = "wpn_fps_shot_r870_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.german.detection = presets.detection.gang_member
 	self.german.move_speed = presets.move_speed.gang_member
@@ -3293,7 +3293,7 @@ function CharacterTweakData:_init_spanish(presets)
 	self.spanish.weapon = deep_clone(presets.weapon.gang_member)
 	self.spanish.weapon.weapons_of_choice = {
 		primary = "wpn_fps_lmg_m249_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.spanish.detection = presets.detection.gang_member
 	self.spanish.move_speed = presets.move_speed.gang_member
@@ -3344,7 +3344,7 @@ function CharacterTweakData:_init_jowi(presets)
 	self.jowi.weapon = deep_clone(presets.weapon.gang_member)
 	self.jowi.weapon.weapons_of_choice = {
 		primary = "wpn_fps_snp_tti_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
 	}
 	self.jowi.detection = presets.detection.gang_member
 	self.jowi.move_speed = presets.move_speed.gang_member
@@ -3369,7 +3369,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.weapon = deep_clone(presets.weapon.gang_member)
 	self.old_hoxton.weapon.weapons_of_choice = {
 		primary = "wpn_fps_sho_spas12_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
 	}
 	self.old_hoxton.detection = presets.detection.gang_member
 	self.old_hoxton.move_speed = presets.move_speed.gang_member
@@ -3419,7 +3419,7 @@ function CharacterTweakData:_init_dragan(presets)
 	self.dragan.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragan.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_vhs_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker")
 	}
 	self.dragan.detection = presets.detection.gang_member
 	self.dragan.move_speed = presets.move_speed.gang_member
@@ -3444,7 +3444,7 @@ function CharacterTweakData:_init_jacket(presets)
 	self.jacket.weapon = deep_clone(presets.weapon.gang_member)
 	self.jacket.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_74_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.jacket.detection = presets.detection.gang_member
 	self.jacket.move_speed = presets.move_speed.gang_member
@@ -3469,7 +3469,7 @@ function CharacterTweakData:_init_bonnie(presets)
 	self.bonnie.weapon = deep_clone(presets.weapon.gang_member)
 	self.bonnie.weapon.weapons_of_choice = {
 		primary = "wpn_fps_shot_b682_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.bonnie.detection = presets.detection.gang_member
 	self.bonnie.move_speed = presets.move_speed.gang_member
@@ -3519,7 +3519,7 @@ function CharacterTweakData:_init_dragon(presets)
 	self.dragon.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragon.weapon.weapons_of_choice = {
 		primary = "wpn_fps_snp_wa2000_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
 	}
 	self.dragon.detection = presets.detection.gang_member
 	self.dragon.move_speed = presets.move_speed.gang_member
@@ -3544,7 +3544,7 @@ function CharacterTweakData:_init_bodhi(presets)
 	self.bodhi.weapon = deep_clone(presets.weapon.gang_member)
 	self.bodhi.weapon.weapons_of_choice = {
 		primary = "wpn_fps_snp_model70_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.bodhi.detection = presets.detection.gang_member
 	self.bodhi.move_speed = presets.move_speed.gang_member
@@ -3569,7 +3569,7 @@ function CharacterTweakData:_init_jimmy(presets)
 	self.jimmy.weapon = deep_clone(presets.weapon.gang_member)
 	self.jimmy.weapon.weapons_of_choice = {
 		primary = "wpn_fps_sho_ben_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.jimmy.detection = presets.detection.gang_member
 	self.jimmy.move_speed = presets.move_speed.gang_member
@@ -3594,7 +3594,7 @@ function CharacterTweakData:_init_sydney(presets)
 	self.sydney.weapon = deep_clone(presets.weapon.gang_member)
 	self.sydney.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_tecci_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_degle/wpn_npc_degle")
 	}
 	self.sydney.detection = presets.detection.gang_member
 	self.sydney.move_speed = presets.move_speed.gang_member
@@ -3619,7 +3619,7 @@ function CharacterTweakData:_init_wild(presets)
 	self.wild.weapon = deep_clone(presets.weapon.gang_member)
 	self.wild.weapon.weapons_of_choice = {
 		primary = "wpn_fps_sho_boot_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
 	}
 	self.wild.detection = presets.detection.gang_member
 	self.wild.move_speed = presets.move_speed.gang_member
@@ -3644,7 +3644,7 @@ function CharacterTweakData:_init_chico(presets)
 	self.chico.weapon = deep_clone(presets.weapon.gang_member)
 	self.chico.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_contraband_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.chico.detection = presets.detection.gang_member
 	self.chico.move_speed = presets.move_speed.gang_member
@@ -3669,7 +3669,7 @@ function CharacterTweakData:_init_max(presets)
 	self.max.weapon = deep_clone(presets.weapon.gang_member)
 	self.max.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_akm_gold_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker")
 	}
 	self.max.detection = presets.detection.gang_member
 	self.max.move_speed = presets.move_speed.gang_member
@@ -3695,7 +3695,7 @@ function CharacterTweakData:_init_myh(presets)
 	self.myh.weapon = deep_clone(presets.weapon.gang_member)
 	self.myh.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_ching_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
 	}
 	self.myh.detection = presets.detection.gang_member
 	self.myh.move_speed = presets.move_speed.gang_member
@@ -3769,7 +3769,7 @@ function CharacterTweakData:_init_joy(presets)
 	}
 	self.joy.weapon.weapons_of_choice = {
 		primary = "wpn_fps_smg_shepheard_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
 	}
 	self.joy.always_face_enemy = true
 	self.joy.no_run_start = true

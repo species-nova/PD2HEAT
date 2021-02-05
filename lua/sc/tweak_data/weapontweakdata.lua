@@ -616,8 +616,6 @@ function WeaponTweakData:_init_data_raging_bull_npc()
 	self.deagle_npc.sounds.prefix = "deagle_npc"
 	
 	self.peacemaker_npc = deep_clone(self.raging_bull_npc)
-	self.peacemaker_npc.DAMAGE = 14.1
-	self.peacemaker_npc.armor_piercing = true
 	
 	self.raging_bull_primary_npc = deep_clone(self.raging_bull_npc)
 	self.raging_bull_primary_npc.use_data.selection_index = 2
