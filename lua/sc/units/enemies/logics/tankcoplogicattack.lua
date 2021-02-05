@@ -304,14 +304,17 @@ function TankCopLogicAttack._upd_combat_movement(data)
 			end
 		end
 	elseif my_data.walking_to_chase_pos and not my_data.use_flank_pos_when_chasing then
-		if data.unit:anim_data().run or data.unit:anim_data().move then
+		--dozers are not supposed to use running start or stop animations, but if you make a unit use tankcoplogicattack, enable the stopping() check
+		local current_haste = my_data.advancing --[[and not my_data.advancing:stopping()]] and my_data.advancing:haste()
+
+		if current_haste then
 			local enemy_dis = enemy_visible and focus_enemy.dis or focus_enemy.verified_dis
 			local run_dist = enemy_visible and 1400 or 700
 			local change_speed = nil
 
-			if data.unit:anim_data().run then
+			if current_haste == "run" then
 				change_speed = enemy_dis < run_dist and "walk"
-			elseif data.unit:anim_data().move then
+			else
 				change_speed = enemy_dis >= run_dist and "run"
 			end
 
