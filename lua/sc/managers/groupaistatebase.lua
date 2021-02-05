@@ -9,8 +9,11 @@ local mvec3_cpy = mvector3.copy
 local tmp_vec1 = Vector3()
 
 local math_random = math.random
+local math_floor = math.floor
 local math_clamp = math.clamp
 local math_lerp = math.lerp
+
+local table_contains = table.contains
 
 local ipairs_g = ipairs
 local pairs_g = pairs
@@ -322,37 +325,180 @@ function GroupAIStateBase:set_point_of_no_return_timer(time, point_of_no_return_
 	self:set_difficulty(nil, 1)
 end
 
-local old_update_point_of_no_return = GroupAIStateBase._update_point_of_no_return
-
 function GroupAIStateBase:_update_point_of_no_return(t, dt)
-	local get_mission_script_element = function(id)
+	if setup:has_queued_exec() then
+		managers.hud:hide_point_of_no_return_timer()
+		managers.hud:remove_updator("point_of_no_return")
+
+		return
+	end
+
+	local function get_mission_script_element(id)
 		for name, script in pairs_g(managers.mission:scripts()) do
 			if script:element(id) then
 				return script:element(id)
 			end
 		end
 	end
-	
-		
-	if not self._point_of_no_return_id or not get_mission_script_element(self._point_of_no_return_id) then
-	
-		local prev_time = self._point_of_no_return_timer
-		self._point_of_no_return_timer = self._point_of_no_return_timer - dt
-		local sec = math.floor(self._point_of_no_return_timer)
 
-		if sec < math.floor(prev_time) then
-			managers.hud:flash_point_of_no_return_timer(sec <= 10)
-		end
-			
-		if self._point_of_no_return_timer <= 0 then
-			managers.network:session():send_to_peers("mission_ended", false, 0)
-			game_state_machine:change_state_by_name("gameoverscreen")
-		else
-			managers.hud:feed_point_of_no_return_timer(self._point_of_no_return_timer)
-		end
-	else
-		old_update_point_of_no_return(self, t, dt)
+	local prev_time = self._point_of_no_return_timer
+	self._point_of_no_return_timer = self._point_of_no_return_timer - dt
+	local sec = math_floor(self._point_of_no_return_timer)
+
+	if sec < math_floor(prev_time) then
+		managers.hud:flash_point_of_no_return_timer(sec <= 10)
 	end
+
+	if not self._point_of_no_return_areas then
+		self._point_of_no_return_areas = {}
+		local ponr_id = self._point_of_no_return_id
+		local element = ponr_id and get_mission_script_element(ponr_id)
+
+		if element then
+			local element_elements = element._values.elements
+
+			for i = 1, #element_elements do
+				local id = element_elements[i]
+				local area = id and get_mission_script_element(id)
+
+				if area then
+					self._point_of_no_return_areas[#self._point_of_no_return_areas + 1] = area
+				end
+			end
+		end
+
+		if #self._point_of_no_return_areas == 0 then
+			self:check_ponr_escape_area()
+		end
+	end
+
+	local is_inside = false
+	local plr_unit = managers.player:player_unit()
+
+	if plr_unit then
+		local ponr_areas = self._point_of_no_return_areas
+
+		for i = 1, #ponr_areas do
+			local area = ponr_areas[i]
+			local shapes = area._shapes
+
+			for idx = 1, #shapes do
+				local shape = shapes[idx]
+
+				if shape:is_inside(plr_unit:movement():m_pos()) then
+					--shape:draw(0, 0, 0, 1, 0, 0.2)
+
+					is_inside = true
+
+					break
+				--else
+					--shape:draw(0, 0, 0, 0, 1, 0.2)
+				end
+			end
+
+			--[[local shape_elements = area._shape_elements
+
+			if shape_elements then
+				for idx = 1, #shape_elements do
+					local shapes = shape_elements[idx]:get_shapes()
+
+					for idx2 = 1, #shapes do
+						local shape = shapes[idx2]
+
+						shape:draw(0, 0, 0, 1, 1, 0.2)
+					end
+				end
+			end]]
+		end
+	end
+
+	if is_inside ~= self._is_inside_point_of_no_return then
+		self._is_inside_point_of_no_return = is_inside
+
+		local session = managers.network:session()
+
+		if managers.network:session() then
+			if not Network:is_server() then
+				session:send_to_host("is_inside_point_of_no_return", is_inside)
+			else
+				self:set_is_inside_point_of_no_return(session:local_peer():id(), is_inside)
+			end
+		end
+	end
+
+	if self._point_of_no_return_timer <= 0 then
+		managers.hud:remove_updator("point_of_no_return")
+
+		if not is_inside then
+			self._failed_point_of_no_return = true
+		end
+
+		if Network:is_server() then
+			if managers.platform:presence() == "Playing" then
+				local num_is_inside = 0
+
+				for _, peer_inside in pairs_g(self._peers_inside_point_of_no_return) do
+					num_is_inside = num_is_inside + (peer_inside and 1 or 0)
+				end
+
+				if num_is_inside > 0 then
+					local num_winners = num_is_inside + self:amount_of_winning_ai_criminals()
+
+					managers.network:session():send_to_peers("mission_ended", true, num_winners)
+					game_state_machine:change_state_by_name("victoryscreen", {
+						num_winners = num_winners,
+						personal_win = is_inside
+					})
+				else
+					managers.network:session():send_to_peers("mission_ended", false, 0)
+					game_state_machine:change_state_by_name("gameoverscreen")
+				end
+			end
+
+			local element = get_mission_script_element(self._point_of_no_return_id)
+			local element_elements = element._values.elements
+
+			for i = 1, #element_elements do
+				local id = element_elements[i]
+				local area = id and get_mission_script_element(id)
+
+				if area then
+					area:execute_on_executed(nil)
+				end
+			end
+		end
+
+		managers.hud:feed_point_of_no_return_timer(0, is_inside)
+	else
+		managers.hud:feed_point_of_no_return_timer(self._point_of_no_return_timer, is_inside)
+	end
+end
+
+function GroupAIStateBase:check_ponr_escape_area()
+	if not self._point_of_no_return_areas or setup:has_queued_exec() then
+		return
+	end
+
+	for name, script in pairs_g(managers.mission:scripts()) do
+		for id, element in pairs_g(script:elements()) do
+			if element._shapes and element._callback then
+				local values = element._values
+				local instigator = values and values.enabled and values.instigator
+
+				if instigator == "player" and values.amount == "all" then
+					local trigger = values.trigger_on
+
+					if trigger == "on_enter" or trigger == "while_inside" then
+						if not self._point_of_no_return_areas[1] or not table_contains(self._point_of_no_return_areas, element) then
+							self._point_of_no_return_areas[#self._point_of_no_return_areas + 1] = element
+						end
+					end
+				end
+			end
+		end
+	end
+
+	managers.enemy:add_delayed_clbk("check_ponr_escape_area", callback(self, self, "check_ponr_escape_area"), self._t + 0.5)
 end
 		
 function GroupAIStateBase:_radio_chatter_clbk()
@@ -660,24 +806,6 @@ function GroupAIStateBase:has_room_for_police_hostage()
 	return nr_hostages_allowed > self._police_hostage_headcount
 end
 
-function GroupAIStateBase:sync_event(event_id, blame_id)
-	local event_name = self.EVENT_SYNC[event_id]
-	local blame_name = self.BLAME_SYNC[blame_id]
-	if event_name == "police_called" then
-		self._police_called = true
-		self:_call_listeners("police_called")
-	elseif event_name == "enemy_weapons_hot" then
-		self._police_called = true
-		self._enemy_weapons_hot = true
-		managers.music:post_event(tweak_data.levels:get_music_event("control"))
-		self:_call_listeners("enemy_weapons_hot")
-		managers.enemy:add_delayed_clbk("notify_bain_weapons_hot", callback(self, self, "notify_bain_weapons_hot", blame_name), Application:time() + 0)
-		managers.enemy:set_corpse_disposal_enabled(true)
-	elseif event_name == "phalanx_spawned" then
-		managers.game_play_central:announcer_say("cpa_a02_01")
-	end
-end
-
 function GroupAIStateBase:propagate_alert(alert_data)
 	if managers.network:session() and Network and not Network:is_server() then
 		managers.network:session():send_to_host("propagate_alert", alert_data[1], alert_data[2], alert_data[3], alert_data[4], alert_data[5], alert_data[6])
@@ -882,8 +1010,12 @@ function GroupAIStateBase:update(t, dt)
 		--init value
 		self._suspicion_interpolated = level_suspicion
 	end
+
+	local is_server = Network:is_server()
+
 	managers.hud:_upd_animate_level_suspicion(t,level_suspicion,alarm_threshold,self._suspicion_interpolated,is_whisper_mode)
-	if self._last_detection_mul and self._last_detection_mul ~= self._old_guard_detection_mul_raw and Network:is_server() then 
+
+	if is_server and self._last_detection_mul and self._last_detection_mul ~= self._old_guard_detection_mul_raw then 
 		LuaNetworking:SendToPeers("restoration_sync_level_suspicion",tostring(self._old_guard_detection_mul_raw) .. ":" .. tostring(self._weapons_hot_threshold))
 	end
 			
@@ -895,17 +1027,17 @@ function GroupAIStateBase:update(t, dt)
 		local warning_3_threshold = self._weapons_hot_threshold * 0.75
 			
 		if self._played_stealth_warning < 1 and self._old_guard_detection_mul_raw >= warning_1_threshold then
-			log("warning1")
+			--log("warning1")
 			self._played_stealth_warning = 1 
 		end
 			
 		if self._played_stealth_warning < 2 and self._old_guard_detection_mul_raw >= warning_2_threshold then
-			log("warning2")
+			--log("warning2")
 			self._played_stealth_warning = 2 
 		end
 			
 		if self._played_stealth_warning < 3 and self._old_guard_detection_mul_raw >= warning_3_threshold then
-			log("warning3")
+			--log("warning3")
 			self._played_stealth_warning = 3
 		end
 			
@@ -928,10 +1060,12 @@ function GroupAIStateBase:update(t, dt)
 				managers.dialog:queue_dialog("Play_pln_pat_05", {})
 				self._played_stealth_warning = 6
 			end
-				
-			if self._alarm_t < t then
-				self:on_police_called("sys_police_alerted")
-				--log("uhohstinkyyyy")
+
+			if is_server then
+				if self._alarm_t < t then
+					self:on_police_called("sys_police_alerted")
+					--log("uhohstinkyyyy")
+				end
 			end
 		end
 		
@@ -946,7 +1080,7 @@ function GroupAIStateBase:update(t, dt)
 
 	self:_upd_debug_draw_attentions()
 
-	if Network:is_server() then
+	if is_server then
 		local check_t = self._team_ai_dist_t
 
 		if not check_t or check_t < t then
@@ -1963,3 +2097,14 @@ Hooks:PreHook(GroupAIStateBase, "sync_assault_mode" , "TriggerEnduringHost" , fu
 		managers.player:check_enduring()
 	end
 end)
+
+local get_sync_event_id_original = GroupAIStateBase.get_sync_event_id
+function GroupAIStateBase:get_sync_event_id(event_name)
+	--instead of making this effect work for the host (it normally doesn't)
+	--since Cloakers do this sound globally in this mod, prevent it from syncing to clients
+	if event_name == "cloaker_spawned" then
+		return
+	end
+
+	get_sync_event_id_original(self, event_name)
+end

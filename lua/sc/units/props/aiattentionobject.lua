@@ -9,7 +9,7 @@ function AIAttentionObject:set_update_enabled(state)
 end
 
 function AIAttentionObject:_do_late_update()
-	if not self._attention_obj or not self._observer_info then
+	if not self._attention_obj or not self._observer_info or not alive(self._unit) then
 		return
 	end
 

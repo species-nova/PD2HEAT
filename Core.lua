@@ -49,6 +49,7 @@ function restoration:Init()
 		"arm_for",	--train heist
 		"big", --big bank
 		"kenaz", --ggc
+		"red2", --fwb
 		"dinner", --Slaughterhouse
 		--custom heists		
 		"firestarter_1_res", --firestarter day 1 res edit version
