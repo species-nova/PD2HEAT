@@ -18381,19 +18381,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				self.besiege.assault.groups.Cap_Autumn = {
 					0,
 					0.1,
-					1
+					0.3
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Autumn = {
 					0,
 					0.15,
-					1
+					0.3
 				}
 			else
 				self.besiege.assault.groups.Cap_Autumn = {
 					0,
 					0.2,
-					1
+					0.3
 				}
 			end
 			break
@@ -18412,19 +18412,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				self.besiege.assault.groups.Cap_Summers = {
 					0,
 					0.1,
-					1
+					0.3
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Summers = {
 					0,
 					0.15,
-					1
+					0.3
 				}
 			else
 				self.besiege.assault.groups.Cap_Summers = {
 					0,
 					0.2,
-					1
+					0.3
 				}
 			end
 			break
@@ -18443,19 +18443,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				self.besiege.assault.groups.Cap_Spring = {
 					0,
 					0.1,
-					1
+					0.3
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Spring = {
 					0,
 					0.15,
-					1
+					0.3
 				}
 			else
 				self.besiege.assault.groups.Cap_Spring = {
 					0,
 					0.2,
-					1
+					0.3
 				}
 			end
 			break
@@ -18474,19 +18474,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				self.besiege.assault.groups.HVH_Boss = {
 					0,
 					0.1,
-					1
+					0.3
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.HVH_Boss = {
 					0,
 					0.15,
-					1
+					0.3
 				}
 			else
 				self.besiege.assault.groups.HVH_Boss = {
 					0,
 					0.2,
-					1
+					0.3
 				}
 			end
 			break
@@ -18505,19 +18505,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				self.besiege.assault.groups.Cap_Winters = {
 					0,
 					0.1,
-					1
+					0.3
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Winters = {
 					0,
 					0.15,
-					1
+					0.3
 				}
 			else
 				self.besiege.assault.groups.Cap_Winters = {
 					0,
 					0.2,
-					1
+					0.3
 				}
 			end
 			break
