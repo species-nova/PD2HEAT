@@ -69,10 +69,12 @@ function restoration:Init()
 		"framing_frame_3", --Powerbox simulator
 		"jewelry_store", --Jewelry Store
 		"ukrainian_job", --Ukrainian Job
-		"pex", --bul's mansion
+		"pex", --police station mex
+		"man", --undercover--
 		--custom heists
 		"wetwork", --res map package wetworks
 		"alex_1_res", --Rats Day 1 res edit version
+		"man_res", --undercover HEAT edit--
 		"lvl_fourmorestores", --four more stores
 		"ukrainian_job_res", --Ukrainian Job res edit version
 		"hntn" --harvest and trustee north
