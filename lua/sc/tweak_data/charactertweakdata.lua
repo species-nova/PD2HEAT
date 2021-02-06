@@ -3344,7 +3344,7 @@ function CharacterTweakData:_init_jowi(presets)
 	self.jowi.weapon = deep_clone(presets.weapon.gang_member)
 	self.jowi.weapon.weapons_of_choice = {
 		primary = "wpn_fps_snp_tti_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.jowi.detection = presets.detection.gang_member
 	self.jowi.move_speed = presets.move_speed.gang_member
@@ -3369,7 +3369,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.weapon = deep_clone(presets.weapon.gang_member)
 	self.old_hoxton.weapon.weapons_of_choice = {
 		primary = "wpn_fps_sho_spas12_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.old_hoxton.detection = presets.detection.gang_member
 	self.old_hoxton.move_speed = presets.move_speed.gang_member
@@ -3519,7 +3519,7 @@ function CharacterTweakData:_init_dragon(presets)
 	self.dragon.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragon.weapon.weapons_of_choice = {
 		primary = "wpn_fps_snp_wa2000_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
 	}
 	self.dragon.detection = presets.detection.gang_member
 	self.dragon.move_speed = presets.move_speed.gang_member
@@ -3619,7 +3619,7 @@ function CharacterTweakData:_init_wild(presets)
 	self.wild.weapon = deep_clone(presets.weapon.gang_member)
 	self.wild.weapon.weapons_of_choice = {
 		primary = "wpn_fps_sho_boot_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.wild.detection = presets.detection.gang_member
 	self.wild.move_speed = presets.move_speed.gang_member
@@ -3695,7 +3695,7 @@ function CharacterTweakData:_init_myh(presets)
 	self.myh.weapon = deep_clone(presets.weapon.gang_member)
 	self.myh.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_ching_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.myh.detection = presets.detection.gang_member
 	self.myh.move_speed = presets.move_speed.gang_member
@@ -3769,7 +3769,7 @@ function CharacterTweakData:_init_joy(presets)
 	}
 	self.joy.weapon.weapons_of_choice = {
 		primary = "wpn_fps_smg_shepheard_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_1911/wpn_npc_1911")
+		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.joy.always_face_enemy = true
 	self.joy.no_run_start = true
