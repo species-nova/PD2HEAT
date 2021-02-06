@@ -393,7 +393,9 @@ function CopLogicTravel.upd_advance(data)
 			return
 		end
 
-		CopLogicTravel._chk_begin_advance(data, my_data)
+		if data.cool or CopLogicTravel.chk_group_ready_to_move(data, my_data) then
+			CopLogicTravel._chk_begin_advance(data, my_data)
+		end
 
 		if my_data.advancing and my_data.path_ahead then
 			CopLogicTravel._check_start_path_ahead(data)
@@ -412,7 +414,9 @@ function CopLogicTravel.upd_advance(data)
 						return
 					end
 
-					CopLogicTravel._chk_begin_advance(data, my_data)
+					if data.cool or CopLogicTravel.chk_group_ready_to_move(data, my_data) then
+						CopLogicTravel._chk_begin_advance(data, my_data)
+					end
 
 					if my_data.advancing and my_data.path_ahead then
 						CopLogicTravel._check_start_path_ahead(data)
@@ -822,7 +826,9 @@ function CopLogicTravel.action_complete_clbk(data, action)
 
 				data.t = TimerManager:game():time()
 
-				CopLogicTravel._chk_begin_advance(data, my_data)
+				if data.cool or CopLogicTravel.chk_group_ready_to_move(data, my_data) then
+					CopLogicTravel._chk_begin_advance(data, my_data)
+				end
 
 				if my_data.advancing and my_data.path_ahead then
 					CopLogicTravel._check_start_path_ahead(data)
@@ -2378,7 +2384,9 @@ function CopLogicTravel._chk_start_pathing_to_next_nav_point(data, my_data)
 		--[[local line = Draw:brush(Color.blue:with_alpha(0.5), 5)
 		line:cylinder(my_pos, to_pos, 25)]]
 
-		CopLogicTravel._chk_begin_advance(data, my_data)
+		if data.cool or CopLogicTravel.chk_group_ready_to_move(data, my_data) then
+			CopLogicTravel._chk_begin_advance(data, my_data)
+		end
 
 		if my_data.advancing and my_data.path_ahead then
 			CopLogicTravel._check_start_path_ahead(data)
