@@ -398,7 +398,9 @@ function ExplosionManager:detect_and_give_dmg(params)
 												dmg_multiplier = tweak_dmg.shield_explosion_ally_damage_mul
 											end
 
-											if dmg_multiplier then
+											if dmg_multiplier == 0 then
+												ray_hit = nil
+											else
 												dmg_mul = dmg_multiplier
 											end
 										end
@@ -406,7 +408,7 @@ function ExplosionManager:detect_and_give_dmg(params)
 								end
 							end
 
-							if ray_hit then]]
+							if ray_hit then
 								if draw_splinter_hits then
 									local draw_duration = 3
 									local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
@@ -414,7 +416,7 @@ function ExplosionManager:detect_and_give_dmg(params)
 								end
 
 								break
-							--end
+							end
 						end
 
 						if draw_obstructed_splinters then
