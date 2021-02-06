@@ -1,1 +1,1 @@
-NetworkMatchMakingSTEAM._BUILD_SEARCH_INTEREST_KEY = "restoration_11"
+NetworkMatchMakingSTEAM._BUILD_SEARCH_INTEREST_KEY = "need_for_speed_heat_alpha"
