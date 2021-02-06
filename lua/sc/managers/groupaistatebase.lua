@@ -2111,5 +2111,5 @@ function GroupAIStateBase:get_sync_event_id(event_name)
 		return
 	end
 
-	get_sync_event_id_original(self, event_name)
+	return get_sync_event_id_original(self, event_name)
 end
