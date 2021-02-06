@@ -1207,8 +1207,10 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 						return
 					end
 				end
-			elseif tactic_name == "charge" and not current_objective.moving_out and group.in_place_t and (self._t - group.in_place_t > 7 or self._t - group.in_place_t > 4 and next(current_objective.area.criminal.units)) and group.is_chasing and not current_objective.charge then
-				charge = true
+			elseif tactic_name == "charge" and not current_objective.moving_out and group.in_place_t then
+				if self._t - group.in_place_t > 7 or self._t - group.in_place_t > 4 and next(current_objective.area.criminal.units) and group.is_chasing and not current_objective.charge then
+					charge = true
+				end
 			end
 		end
 	end
