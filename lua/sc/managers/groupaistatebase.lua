@@ -1120,72 +1120,77 @@ function GroupAIStateBase:upd_team_AI_distance()
 
 	for _, ai in pairs_g(ai_criminals) do
 		local unit = ai.unit
+		local ai_mov_ext = unit:movement()
 
-		if not unit:movement():cool() then
-			local ai_mov_ext = unit:movement()
+		if not ai_mov_ext:cool() then
+			local objective = unit:brain():objective()
 
-			if not ai_mov_ext:chk_action_forbidden("walk") then
-				local bot_pos = ai.m_pos
-				local valid_players = {}
+			if not objective or objective.path_style ~= "warp" then
+				if not ai_mov_ext:chk_action_forbidden("walk") then
+					local bot_pos = ai.m_pos
+					local valid_players = {}
 
-				for _, player in pairs_g(self:all_player_criminals()) do
-					if player.status ~= "dead" then
-						local distance = mvec3_dis_sq(bot_pos, player.m_pos)
+					for _, player in pairs_g(self:all_player_criminals()) do
+						if player.status ~= "dead" then
+							local distance = mvec3_dis_sq(bot_pos, player.m_pos)
 
-						if distance > teleport_distance then
-							valid_players[#valid_players + 1] = {player, distance}
-						else
-							return
+							if distance > teleport_distance then
+								valid_players[#valid_players + 1] = {player, distance}
+							else
+								valid_players = {}
+
+								break
+							end
 						end
 					end
-				end
 
-				local closest_distance, closest_player, closest_tracker = nil
+					local closest_distance, closest_player, closest_tracker = nil
 
-				for i = 1, #valid_players do
-					local player = valid_players[i][1]
-					local tracker = player.tracker
+					for i = 1, #valid_players do
+						local player = valid_players[i][1]
+						local tracker = player.tracker
 
-					if not tracker:obstructed() and not tracker:lost() then
-						local player_unit = player.unit
-						local player_mov_ext = player_unit:movement()
+						if not tracker:obstructed() and not tracker:lost() then
+							local player_unit = player.unit
+							local player_mov_ext = player_unit:movement()
 
-						if not player_mov_ext:zipline_unit() then
-							local player_state = player_mov_ext:current_state_name()
+							if not player_mov_ext:zipline_unit() then
+								local player_state = player_mov_ext:current_state_name()
 
-							if not invalid_player_bot_warp_states[player_state] then
-								local in_air = nil
+								if not invalid_player_bot_warp_states[player_state] then
+									local in_air = nil
 
-								if player_unit:base().is_local_player then
-									in_air = player_mov_ext:in_air() and true
-								else
-									in_air = player_mov_ext._in_air and true
-								end
+									if player_unit:base().is_local_player then
+										in_air = player_mov_ext:in_air() and true
+									else
+										in_air = player_mov_ext._in_air and true
+									end
 
-								if not in_air then
-									local distance = valid_players[i][2]
+									if not in_air then
+										local distance = valid_players[i][2]
 
-									if not closest_distance or distance < closest_distance then
-										closest_distance = distance
-										closest_player = player
-										closest_tracker = tracker
+										if not closest_distance or distance < closest_distance then
+											closest_distance = distance
+											closest_player = player
+											closest_tracker = tracker
+										end
 									end
 								end
 							end
 						end
 					end
-				end
 
-				if closest_player then
-					local near_cover_point = find_cover_f(nav_manager, closest_tracker:nav_segment(), 500, closest_tracker:field_position())
-					local position = near_cover_point and near_cover_point[1] or closest_player.m_pos
-					local action_desc = {
-						body_part = 1,
-						type = "warp",
-						position = mvec3_cpy(position)
-					}
+					if closest_player then
+						local near_cover_point = find_cover_f(nav_manager, closest_tracker:nav_segment(), 500, closest_tracker:field_position())
+						local position = near_cover_point and near_cover_point[1] or closest_player.m_pos
+						local action_desc = {
+							body_part = 1,
+							type = "warp",
+							position = mvec3_cpy(position)
+						}
 
-					ai_mov_ext:action_request(action_desc)
+						ai_mov_ext:action_request(action_desc)
+					end
 				end
 			end
 		end
