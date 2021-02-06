@@ -1004,6 +1004,478 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 	end
 end
 
+function GroupAIStateBesiege:is_area_populated(area)
+	for u_key, u_data in pairs(self._police) do
+		if not u_data.is_deployable and u_data.tactics_map and not u_data.tactics_map.flank and area.nav_segs[u_data.tracker:nav_segment()] then
+			--log("violator")
+			return
+		end
+	end
+	
+	--log("we got it")
+
+	return true
+end
+
+function GroupAIStateBesiege:is_area_populated_and_safe(area)
+	for u_key, u_data in pairs(self._police) do
+		if not u_data.is_deployable and u_data.tactics_map and not u_data.tactics_map.flank and area.nav_segs[u_data.tracker:nav_segment()] then
+			return
+		end
+	end
+	
+	for u_key, u_data in pairs(self._criminals) do
+		if area.nav_segs[u_data.tracker:nav_segment()] then
+			return
+		end
+	end
+
+	return true
+end
+
+function GroupAIStateBase:is_nav_seg_populated(nav_seg)
+	local area = self:get_area_from_nav_seg_id(nav_seg)
+
+	return self:is_area_populated(area)
+end
+
+function GroupAIStateBase:is_nav_seg_populated_and_safe(nav_seg)
+	local area = self:get_area_from_nav_seg_id(nav_seg)
+
+	return self:is_area_populated_and_safe(area)
+end
+
+function GroupAIStateBase:is_area_flank_route(area)	
+	for u_key, u_data in pairs(self._police) do
+		if not u_data.is_deployable and u_data.tactics_map and u_data.tactics_map.flank and area.nav_segs[u_data.tracker:nav_segment()] then
+			return
+		end
+	end
+
+	return true
+end
+
+function GroupAIStateBase:is_area_safe_charge(area)
+	for u_key, u_data in pairs(self._criminals) do
+		if not u_data.is_deployable and area.nav_segs[u_data.tracker:nav_segment()] then
+			return
+		end
+	end
+	
+	for u_key, u_data in pairs(self._police) do
+		if not u_data.is_deployable and u_data.tactics_map and u_data.tactics_map.flank and area.nav_segs[u_data.tracker:nav_segment()] then
+			return
+		end
+	end
+
+	return true
+end
+
+function GroupAIStateBase:is_nav_seg_flank_route(nav_seg)
+	local area = self:get_area_from_nav_seg_id(nav_seg)
+
+	return self:is_area_flank_route(area)
+end
+
+function GroupAIStateBase:is_nav_seg_safe_charge(nav_seg)
+	local area = self:get_area_from_nav_seg_id(nav_seg)
+
+	return self:is_area_safe_charge(area)
+end
+
+function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
+	if not group.has_spawned then
+		return
+	end
+
+	local phase_is_anticipation = phase == "anticipation"
+	local current_objective = group.objective
+	local approach, open_fire, push, pull_back, charge = nil
+	local obstructed_area = self:_chk_group_areas_tresspassed(group)
+	local group_leader_u_key, group_leader_u_data = self._determine_group_leader(group.units)
+	local tactics_map = nil
+
+	if group_leader_u_data and group_leader_u_data.tactics then
+		tactics_map = {}
+
+		for _, tactic_name in ipairs(group_leader_u_data.tactics) do
+			tactics_map[tactic_name] = true
+		end
+
+		if current_objective.tactic and not tactics_map[current_objective.tactic] then
+			current_objective.tactic = nil
+		end
+
+		for i_tactic, tactic_name in ipairs(group_leader_u_data.tactics) do
+			if tactic_name == "hunter" and not phase_is_anticipation then
+				local closest_crim_u_data, closest_crim_dis_sq = nil
+				local crim_dis_sq_chk = not closest_crim_dis_sq or closest_crim_dis_sq > closest_u_dis_sq
+				
+				for u_key, u_data in pairs(self._char_criminals) do
+					if u_data.unit then
+						if not u_data.status or u_data.status == "electrified" then
+							local players_nearby = managers.player:_chk_fellow_crimin_proximity(u_data.unit)
+							local closest_u_id, closest_u_data, closest_u_dis_sq = self._get_closest_group_unit_to_pos(u_data.m_pos, group.units)
+							if players_nearby and players_nearby <= 0 then
+								if closest_u_dis_sq and crim_dis_sq_chk then
+									closest_crim_u_data = u_data
+									closest_crim_dis_sq = closest_u_dis_sq
+								end
+							end
+						end
+					end
+				end
+				
+				if closest_crim_u_data then
+					local search_params = {
+						id = "GroupAI_hunter",
+						from_tracker = group_leader_u_data.unit:movement():nav_tracker(),
+						to_tracker = closest_crim_u_data.tracker,
+						access_pos = self._get_group_acces_mask(group)
+					}
+					local coarse_path = managers.navigation:search_coarse(search_params)
+
+					if coarse_path then
+						local grp_objective = {
+							distance = 400,
+							type = "assault_area",
+							attitude = "engage",
+							tactic = "hunter",
+							moving_in = true,
+							follow_unit = closest_crim_u_data.unit,
+							area = self:get_area_from_nav_seg_id(coarse_path[#coarse_path][1]),
+							coarse_path = coarse_path
+						}
+						group.is_chasing = true
+
+						self:_set_objective_to_enemy_group(group, grp_objective)
+
+						return
+					end
+				end
+			elseif tactic_name == "deathguard" and not phase_is_anticipation then
+				if current_objective.tactic == tactic_name then
+					for u_key, u_data in pairs(self._char_criminals) do
+						if u_data.status and current_objective.follow_unit == u_data.unit then
+							local crim_nav_seg = u_data.tracker:nav_segment()
+
+							if current_objective.area.nav_segs[crim_nav_seg] then
+								return
+							end
+						end
+					end
+				end
+
+				local closest_crim_u_data, closest_crim_dis_sq = nil
+
+				for u_key, u_data in pairs(self._char_criminals) do
+					if u_data.status and u_data.status ~= "electrified" then
+						local closest_u_id, closest_u_data, closest_u_dis_sq = self._get_closest_group_unit_to_pos(u_data.m_pos, group.units)
+
+						if closest_u_dis_sq and (not closest_crim_dis_sq or closest_u_dis_sq < closest_crim_dis_sq) then
+							closest_crim_u_data = u_data
+							closest_crim_dis_sq = closest_u_dis_sq
+						end
+					end
+				end
+
+				if closest_crim_u_data then
+					local search_params = {
+						id = "GroupAI_deathguard",
+						from_tracker = group_leader_u_data.unit:movement():nav_tracker(),
+						to_tracker = closest_crim_u_data.tracker,
+						access_pos = self._get_group_acces_mask(group)
+					}
+					local coarse_path = managers.navigation:search_coarse(search_params)
+
+					if coarse_path then
+						local grp_objective = {
+							distance = 800,
+							type = "assault_area",
+							attitude = "engage",
+							tactic = "deathguard",
+							moving_in = true,
+							follow_unit = closest_crim_u_data.unit,
+							area = self:get_area_from_nav_seg_id(coarse_path[#coarse_path][1]),
+							coarse_path = coarse_path
+						}
+						group.is_chasing = true
+
+						self:_set_objective_to_enemy_group(group, grp_objective)
+						self:_voice_deathguard_start(group)
+
+						return
+					end
+				end
+			elseif tactic_name == "charge" and not current_objective.moving_out and group.in_place_t then
+				if self._t - group.in_place_t > 7 or self._t - group.in_place_t > 4 and next(current_objective.area.criminal.units) and group.is_chasing and not current_objective.charge then
+					charge = true
+				end
+			end
+		end
+	end
+
+	local objective_area = nil
+
+	if obstructed_area then
+		if current_objective.moving_out then
+			if not current_objective.open_fire then
+				open_fire = true
+			end
+		elseif not current_objective.pushed or charge and not current_objective.charge then
+			push = true
+		end
+	else
+		if not current_objective.moving_out then
+			local has_criminals_close = nil
+
+			if not current_objective.moving_out then
+				for area_id, neighbour_area in pairs(current_objective.area.neighbours) do
+					if next(neighbour_area.criminal.units) then
+						has_criminals_close = true
+
+						break
+					end
+				end
+			end
+
+			if charge then
+				push = true
+			elseif not has_criminals_close or not group.in_place_t then
+				push = true
+			elseif not phase_is_anticipation and not current_objective.open_fire then
+				open_fire = true
+			end
+			
+			if phase_is_anticipation then
+				push = nil
+				approach = true
+			end
+			
+			if not charge or approach or open_fire then
+				if phase_is_anticipation and current_objective.open_fire then
+					pull_back = true
+				elseif group.in_place_t then
+					if group.is_chasing or not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire or self._t - group.in_place_t > 7 then
+						push = true
+					end
+				end			
+			end
+		end
+	end
+
+	objective_area = objective_area or current_objective.area
+	
+	if tactics_map and tactics_map.flank then
+		flank = true
+		--log("ok cool")
+	end
+
+	if open_fire then
+		local grp_objective = {
+			attitude = "engage",
+			pose = "stand",
+			type = "assault_area",
+			stance = "hos",
+			open_fire = true,
+			tactic = current_objective.tactic,
+			area = obstructed_area or current_objective.area,
+			coarse_path = {
+				{
+					objective_area.pos_nav_seg,
+					mvector3.copy(current_objective.area.pos)
+				}
+			}
+		}
+
+		self:_set_objective_to_enemy_group(group, grp_objective)
+		self:_voice_open_fire_start(group)
+	elseif approach or push then
+		local verify_clbk = nil
+		local assault_area, alternate_assault_area, alternate_assault_area_from, assault_path, alternate_assault_path, area_to_go_to = nil
+		
+		if flank then
+			verify_clbk = approach and callback(self, self, "is_nav_seg_populated_and_safe") or callback(self, self, "is_nav_seg_populated")
+		else
+			verify_clbk = approach and callback(self, self, "is_nav_seg_safe_charge") or callback(self, self, "is_nav_seg_flank_route")
+		end
+		
+		local to_search_areas = {
+			objective_area	
+		}
+		local found_areas = {
+			[objective_area] = "init"
+		}
+
+		repeat
+			local search_area = table.remove(to_search_areas, 1)
+
+			if next(search_area.criminal.units) then
+				local assault_from_here = true
+				area_to_go_to = search_area
+				
+				if approach then
+					for other_area_id, other_area in pairs(search_area.neighbours) do
+						if self:is_area_safe_assault(other_area) then
+							area_to_go_to = other_area
+							break
+						end
+					end
+				end
+					
+				
+				--i COULD reformat this entire function in order to remove this stupid check and save a bit of performance...but meh
+				if assault_from_here then
+					local search_params = {
+						id = "GroupAI_assault",
+						from_seg = current_objective.area.pos_nav_seg,
+						to_seg = area_to_go_to.pos_nav_seg,
+						access_pos = self._get_group_acces_mask(group),
+						verify_clbk = verify_clbk
+					}
+					assault_path = managers.navigation:search_coarse(search_params)
+
+					if assault_path then
+					
+						--[[if flank then
+							log("sex")
+						else
+							log("fucking!!!")
+						end]]
+						
+						self:_merge_coarse_path_by_area(assault_path)
+
+						assault_area = area_to_go_to
+
+						break
+					else
+						if tactics_map and tactics_map.flank then 
+							verify_clbk = approach and callback(self, self, "is_nav_seg_flank_route")
+						else
+							verify_clbk = approach and callback(self, self, "is_nav_seg_populated")
+						end
+						
+						local search_params = { --approach failed possibly due to unsafe segs, change the check to simply check for crossing flank routes
+							id = "GroupAI_assault",
+							from_seg = current_objective.area.pos_nav_seg,
+							to_seg = area_to_go_to.pos_nav_seg,
+							access_pos = self._get_group_acces_mask(group),
+							verify_clbk = verify_clbk
+						}
+						alternate_assault_path = managers.navigation:search_coarse(search_params)
+
+						if approach and not alternate_assault_path then --dont run it twice for non-approach chargers, since that basically means the area is a dead end with other cops in it
+							--[[if flank then
+								--log("cock")
+							else
+								--log("motherforker")
+							end]]
+							
+							local search_params = { 
+								id = "GroupAI_assault",
+								from_seg = current_objective.area.pos_nav_seg,
+								to_seg = area_to_go_to.pos_nav_seg,
+								access_pos = self._get_group_acces_mask(group)
+							}
+							alternate_assault_path = managers.navigation:search_coarse(search_params)
+						end
+						
+						if alternate_assault_path then
+							--[[if flank then
+								log("augh")
+							end
+						
+							log("nngh")]]
+							self:_merge_coarse_path_by_area(alternate_assault_path)
+
+							alternate_assault_area = search_area
+							alternate_assault_area_from = assault_from_area
+							
+							break
+						end
+					end
+				end
+			else
+				for other_area_id, other_area in pairs(search_area.neighbours) do
+					if not found_areas[other_area] then
+						table.insert(to_search_areas, other_area)
+
+						found_areas[other_area] = search_area
+					end
+				end
+			end
+		until #to_search_areas == 0
+
+		if not assault_area and alternate_assault_area then
+			assault_area = alternate_assault_area
+			found_areas[assault_area] = alternate_assault_area_from
+			assault_path = alternate_assault_path
+		end
+
+		if assault_area and assault_path then
+			if #assault_path > 2 and assault_area.nav_segs[assault_path[#assault_path - 1][1]] then
+				table.remove(assault_path)
+			end
+
+			if push then				
+				self:_voice_move_in_start(group)
+			end
+
+			local grp_objective = {
+				type = "assault_area",
+				stance = "hos",
+				area = assault_area,
+				coarse_path = assault_path,
+				pose = push and "crouch" or "stand",
+				attitude = push and "engage" or "avoid",
+				moving_in = push and true or nil,
+				open_fire = push or nil,
+				pushed = push or nil,
+				charge = charge,
+				interrupt_dis = charge and 0 or nil
+			}
+			group.is_chasing = group.is_chasing or push
+
+			self:_set_objective_to_enemy_group(group, grp_objective)
+		end
+	elseif pull_back then
+		local retreat_area, do_not_retreat = nil
+		
+		if objective_area and self:is_area_safe(objective_area) then
+			retreat_area = objective_area
+		end
+
+		if not retreat_area and not do_not_retreat and current_objective.coarse_path then
+			local forwardmost_i_nav_point = self:_get_group_forwardmost_coarse_path_index(group)
+
+			if forwardmost_i_nav_point then
+				retreat_area = self:get_area_from_nav_seg_id(group.coarse_path[math.max(forwardmost_i_nav_point - 1, 1)][1])
+			end
+		end
+
+		if retreat_area then
+			local new_grp_objective = {
+				attitude = "avoid",
+				stance = "hos",
+				pose = "crouch",
+				type = "assault_area",
+				area = retreat_area,
+				coarse_path = {
+					{
+						retreat_area.pos_nav_seg,
+						mvector3.copy(retreat_area.pos)
+					}
+				}
+			}
+			group.is_chasing = nil
+
+			self:_set_objective_to_enemy_group(group, new_grp_objective)
+
+			return
+		end
+	end
+end
+
 function GroupAIStateBesiege:_set_recon_objective_to_group(group)
 	local current_objective = group.objective
 	local target_area = current_objective.target_area or current_objective.area
