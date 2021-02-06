@@ -400,6 +400,8 @@ function ExplosionManager:detect_and_give_dmg(params)
 
 											if dmg_multiplier == 0 then
 												ray_hit = nil
+
+												break
 											else
 												dmg_mul = dmg_multiplier
 											end
@@ -479,11 +481,8 @@ function ExplosionManager:detect_and_give_dmg(params)
 			dir = dir:normalized()
 
 			local damage = dmg_mul and dmg * dmg_mul or dmg
-
-			if dmg_mul ~= 0 then --check that damage isn't being fully negated by a shield
-				damage = damage * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow) --apply falloff
-				damage = damage < 1 and 1 or damage --clamp to 1 (10) if less
-			end
+			damage = damage * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow) --apply falloff
+			damage = damage < 1 and 1 or damage --clamp to 1 (10 in-game) if less
 
 			if apply_dmg and damage > 0 then
 				local prop_damage = damage < 1 and 1 - length / range < -5 and 1 or damage
