@@ -368,7 +368,7 @@ function ExplosionManager:detect_and_give_dmg(params)
 							units_to_hit[hit_unit_key] = true
 							damage_character = true
 
-							--[[local mov_ext = hit_unit:movement()
+							local mov_ext = hit_unit:movement()
 
 							if mov_ext and mov_ext.m_com then
 								local e_com = mov_ext:m_com()
