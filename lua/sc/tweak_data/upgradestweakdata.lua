@@ -437,7 +437,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.sentry_gun_base_ammo = 140
 
 	--"Baked In" upgrades
-	self.values.cable_tie.interact_speed_multiplier = {0.25}
 	self.values.player.stamina_multiplier = {2}
 	self.values.team.stamina.multiplier = {1.5}
 	self.values.player.civ_calming_alerts = {true}
@@ -529,6 +528,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Cable Guy
 				--Basic
 					self.values.cable_tie.quantity_1 = {4}
+					self.values.cable_tie.interact_speed_multiplier = {0.25}
 				--Ace
 					self.values.cable_tie.quantity_2 = {4}
 					self.values.cable_tie.pickup_chance = {true}

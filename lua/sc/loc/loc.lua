@@ -1748,7 +1748,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Cable Guy
 			["menu_triathlete_beta_sc"] = "Cable Guy",
-			["menu_triathlete_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases your supply of cable ties by ##4##.\n\nACE: ##$pro##\nYour chance to pick up cable ties from ammo boxes is increased to ##30%.##\n\nIncreases your maximum cable ties by ##3.##",
+			["menu_triathlete_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases your supply of cable ties by ##4##.\n\nYou cable tie hostages ##75%## faster.\n\nACE: ##$pro##\nYour chance to pick up cable ties from ammo boxes is increased to ##30%.##\n\nIncreases your maximum cable ties by ##3.##",
 
 			--Clowns are Scary
 			["menu_cable_guy_beta_sc"] = "Clowns are Scary",
@@ -2174,21 +2174,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		--Berserker--
 		["menu_frenzy_sc"] = "Berserker",
 		["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##150%## more melee and saw damage.\n\nACE: ##$pro##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##75%## more damage with firearms.",
-		
-		
-		--New Skill Page 1--
-		["st_menu_jackal"] = "Tempname",
-		["st_menu_jackal_1"] = "Tree 1",
-		
-		
-		--Bagger--
-		["menu_bagger"] = "Bagger",
-		["menu_bagger_desc"] = "BASIC: ##$basic##\nYou bag items ##25%## faster.\n\nACE: ##$pro##\nYou bag items ##75%## faster.\nYou move ##50%## faster with bags.\nYou throw bags ##50%## further.",
-		
-		--Haste--
-		["menu_haste"] = "Haste",
-		["menu_haste_desc"] = "BASIC: ##$basic##\nYou cable tie hostages ##75%## faster.\nYou interact with placed ECMs ##instantly##.\n\nACE: ##$pro##\nYou lockpick weak doors ##50%## faster."
-		
 	})
 end)
 

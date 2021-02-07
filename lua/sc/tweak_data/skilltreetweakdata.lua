@@ -97,7 +97,11 @@ function SkillTreeTweakData:init(tweak_data)
 		"player_counter_strike_melee",
 		"sentry_gun_silent",
 		"player_tape_loop_duration_1",
-		"player_civ_calming_alerts"
+		"player_civ_calming_alerts",
+		"player_pick_lock_easy_speed_multiplier_1",
+		"ecm_jammer_interaction_speed_multiplier",
+		"carry_throw_distance_multiplier",
+		"carry_movement_speed_multiplier"
 	}
 	
 	self.skill_pages_order = {
@@ -105,8 +109,7 @@ function SkillTreeTweakData:init(tweak_data)
 		"enforcer",
 		"technician",
 		"ghost",
-		"hoxton",
-		"jackal"
+		"hoxton"
 	}
 	
 	self.skilltree = {
@@ -285,7 +288,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"cable_tie_quantity"
+						"cable_tie_quantity",
+						"cable_tie_interact_speed_multiplier"
 					},
 					cost = self.costs.default
 				},
@@ -2195,49 +2199,6 @@ function SkillTreeTweakData:init(tweak_data)
 					cost = self.costs.hightierpro
 				}
 			}
-			--Bagger--
-			self.skills.bagger = {
-				["name_id"] = "menu_bagger",
-				["desc_id"] = "menu_bagger_desc",
-				["icon_xy"] = {0, 0},
-				[1] = {
-					skill_cost = 0,
-					upgrades = {
-						"carry_interact_speed_multiplier_1"
-					},
-					cost = self.costs.hightier
-				},
-				[2] = {
-					skill_cost = 0,
-					upgrades = {
-						"carry_interact_speed_multiplier_2",
-						"carry_throw_distance_multiplier",
-						"carry_movement_speed_multiplier"
-					},
-					cost = self.costs.hightierpro
-				}
-			}
-			--Haste--
-			self.skills.haste = {
-				["name_id"] = "menu_haste",
-				["desc_id"] = "menu_haste_desc",
-				["icon_xy"] = {0, 0},
-				[1] = {
-					skill_cost = 0,
-					upgrades = {
-						"cable_tie_interact_speed_multiplier",
-						"ecm_jammer_interaction_speed_multiplier"
-					},
-					cost = self.costs.hightier
-				},
-				[2] = {
-					skill_cost = 0,
-					upgrades = {
-						"player_pick_lock_easy_speed_multiplier_1"
-					},
-					cost = self.costs.hightierpro
-				}
-			}
 		
 		
 		--[[
@@ -2573,20 +2534,6 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				{
 					"frenzy"
-				}
-			}
-		},
-		{
-			skill = "jackal",
-			name_id = "st_menu_jackal_1",
-			unlocked = true,
-			background_texture = "guis/textures/pd2/skilltree/bg_fundamentalist",
-			tiers = {
-				{
-					"bagger"
-				},
-				{
-					"haste"
 				}
 			}
 		}
