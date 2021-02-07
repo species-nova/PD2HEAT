@@ -135,22 +135,8 @@ function TeamAILogicTravel.enter(data, new_logic_name, enter_params)
 			objective.called = false
 		end
 
-		if objective.type == "revive" then
-			local revive_unit = objective.follow_unit
-
-			if managers.player:has_category_upgrade("team", "crew_inspire") then
-				if revive_unit:base().is_husk_player then
-					if revive_unit:movement():need_revive() and revive_unit:movement():current_state_name() ~= "arrested" then
-						my_data.can_inspire = true
-					end
-				else
-					local dmg_ext = revive_unit:character_damage()
-
-					if dmg_ext:need_revive() and not dmg_ext:arrested() then
-						my_data.can_inspire = true
-					end
-				end
-			end
+		if objective.type == "revive" and objective.action == "revive" and managers.player:has_category_upgrade("team", "crew_inspire") then
+			my_data.can_inspire = true
 		end
 
 		local path_style = objective.path_style
@@ -374,6 +360,8 @@ function TeamAILogicTravel.update(data)
 end
 
 function TeamAILogicTravel._upd_enemy_detection(data)
+	managers.groupai:state():on_unit_detection_updated(data.unit)
+
 	data.t = TimerManager:game():time()
 	local my_data = data.internal_data
 	local is_cool = data.cool
