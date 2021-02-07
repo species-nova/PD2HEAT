@@ -1,4 +1,5 @@
-TeamAIMovement.update = TeamAIMovement.super.update
+local mvec3_set = mvector3.set
+local tmp_vec1 = Vector3()
 
 function TeamAIMovement:sync_reload_weapon(empty_reload, reload_speed_multiplier)
 	local reload_action = {
@@ -29,17 +30,35 @@ end
 local old_throw = TeamAIMovement.throw_bag
 function TeamAIMovement:throw_bag(...)
 	local data = self._ext_brain._logic_data
+
 	if data then
 		local objective = data.objective
-		if objective then
-			if objective.type == "revive" then
-				if managers.player:is_custom_cooldown_not_active("team", "crew_inspire") then
-					return
-				end
-			end
+
+		if objective and objective.type == "revive" and managers.player:is_custom_cooldown_not_active("team", "crew_inspire") then
+			return
 		end
 	end
+
 	return old_throw(self, ...)
+end
+
+function TeamAIMovement:sync_throw_bag(carry_unit, target_unit)
+	if not alive(target_unit) then
+		return
+	end
+
+	local target_pos = tmp_vec1
+	mvec3_set(target_pos, target_unit:movement():m_head_pos())
+
+	local carry_pos = carry_unit:position()
+	local dir = target_pos - carry_pos
+	local set_z = dir:length() * 0.75
+	target_pos = target_pos:with_z(target_pos.z + set_z)
+	dir = target_pos - carry_pos
+
+	local throw_distance_multiplier = tweak_data.carry.types[tweak_data.carry[carry_unit:carry_data():carry_id()].type].throw_distance_multiplier
+
+	carry_unit:push(tweak_data.ai_carry.throw_force, (dir - carry_unit:velocity()) * throw_distance_multiplier)
 end
 
 --use inherited functionality from CopMovement:pre_destroy() as this function is normally outdated
