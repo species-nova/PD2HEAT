@@ -1713,6 +1713,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 	local near_threshold = data.internal_data.weapon_range.optimal
 	local too_close_threshold = data.internal_data.weapon_range.close
 	local harasser = data.tactics and data.tactics.harass
+	local spoocavoider = data.tactics and data.tactics.spoocavoidance
 
 	for u_key, attention_data in pairs(attention_objects) do
 		local att_unit = attention_data.unit
@@ -1856,6 +1857,12 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 
 							if has_alerted then
 								target_priority_slot = target_priority_slot - 1
+							end
+						end
+						
+						if spoocavoider then
+							if aimed_at and distance < 2000 then
+								target_priority_slot = target_priority_slot - 2
 							end
 						end
 

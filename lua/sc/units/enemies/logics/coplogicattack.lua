@@ -227,7 +227,7 @@ function CopLogicAttack._upd_combat_movement(data)
 	local focus_enemy = data.attention_obj
 	local action_taken = nil
 
-	if data.important and focus_enemy.verified and not my_data.turning and CopLogicAttack._can_move(data) and not unit:movement():chk_action_forbidden("walk") then
+	if not my_data.surprised and data.important and focus_enemy.verified and not my_data.turning and CopLogicAttack._can_move(data) and not unit:movement():chk_action_forbidden("walk") then
 		if not my_data.in_cover or not my_data.in_cover[4] then
 			if data.is_suppressed and t - unit:character_damage():last_suppression_t() < 0.7 then
 				action_taken = CopLogicBase.chk_start_action_dodge(data, "scared")
@@ -298,6 +298,12 @@ function CopLogicAttack._upd_combat_movement(data)
 
 	local move_to_cover, want_flank_cover = nil
 	local valid_harass = nil
+	
+	if not action_taken then
+		if want_to_take_cover and want_to_take_cover ~= true then
+			action_taken = CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, my_data.attitude == "engage" and not data.is_suppressed)
+		end
+	end
 	
 	if tactics and tactics.harass then		
 		if not data.unit:in_slot(16) and not data.is_converted and focus_enemy.is_person then
@@ -559,10 +565,6 @@ function CopLogicAttack._upd_combat_movement(data)
 	if not action_taken and move_to_cover and my_data.cover_path then
 		action_taken = CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
 	end
-
-	if not action_taken and want_to_take_cover and not my_data.best_cover then
-		action_taken = CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, my_data.attitude == "engage" and not data.is_suppressed)
-	end
 end
 
 function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, vis_required) --keep testing, modify, might want to revert back to vanilla
@@ -578,7 +580,12 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 	if want_to_take_cover then
 		attempt_retreat = true
 		
-		if want_to_take_cover == "low_ammo" or want_to_take_cover == "hitnrun" then
+		if want_to_take_cover == "spoocavoidance" then
+			haste = "run"
+			vis_required = nil
+			max_walk_dis = 2000
+			pose = "crouch"
+		elseif want_to_take_cover == "low_ammo" or want_to_take_cover == "hitnrun" then
 			vis_required = nil
 			haste = "run"
 			
@@ -1931,10 +1938,6 @@ function CopLogicAttack.is_available_for_assignment(data, new_objective)
 		return
 	end
 
-	if data.is_suppressed then
-		return
-	end
-
 	local att_obj = data.attention_obj
 
 	if not att_obj or att_obj.reaction < REACT_AIM then
@@ -1960,11 +1963,7 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 	if not data.attention_obj or data.attention_obj.reaction < REACT_COMBAT then
 		return
 	end
-
-	if my_data.moving_to_cover or data.is_suppressed or my_data.attitude ~= "engage" then
-		return true
-	end
-
+	
 	local ammo_max, ammo = data.unit:inventory():equipped_unit():base():ammo_info()
 
 	if ammo / ammo_max < 0.2 then
@@ -1972,7 +1971,9 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 	end
 	
 	if data.tactics then
-		if data.tactics.reloadingretreat and data.unit:anim_data().reload then
+		if data.tactics.spoocavoidance and data.attention_obj.dis < 2000 and data.attention_obj.aimed_at then
+			return "spoocavoidance"
+		elseif data.tactics.reloadingretreat and data.unit:anim_data().reload then
 			return "reload"
 		elseif data.tactics.elite_ranged_fire and data.attention_obj.verified_dis < my_data.weapon_range.close * 0.5 then
 			return "eliterangedfire"
@@ -1980,7 +1981,10 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 			return "hitnrun"
 		end
 	end
-	
+
+	if my_data.moving_to_cover or data.is_suppressed or my_data.attitude ~= "engage" or data.attention_obj.dmg_t and data.attention_obj.dmg_t < 2 then
+		return true
+	end
 end
 
 function CopLogicAttack._set_best_cover(data, my_data, cover_data)
