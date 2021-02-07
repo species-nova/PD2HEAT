@@ -53,8 +53,18 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 		--Get whether this spawn group can appear on this diff.
 		local valid_diff = (group_max_diffs[group_type] or 1) >= self._difficulty_value and self._difficulty_value > (group_min_diffs[group_type] or 0)
 
-		--If both contitions are met, add it to the replacement table. Otherwise, ignore it.
-		if cooldown_over == true and valid_diff == true then
+		--Only allow captains to spawn during sustain
+		local valid_assault = true
+		local sustain = self._task_data.assault and self._task_data.assault.phase == "sustain"
+
+		--if the group has a min diff (captains only) and assault is not in sustain, don't let the spawn go through
+		--dozers do not have a min diff so they ignore this check entirely
+		if group_min_diffs[group_type] and not sustain then
+			valid_assault = false
+		end
+
+		--If all 3 conditions are met, add it to the replacement table. Otherwise, ignore it.
+		if cooldown_over == true and valid_diff == true and valid_assault == true then
 			new_allowed_groups[group_type] = cat_weights
 		end
 	end
