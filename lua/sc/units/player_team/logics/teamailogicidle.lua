@@ -212,8 +212,12 @@ function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
 			end
 
 			if throw_bag then
+				local spine_pos = tmp_vec1
+				mov_ext._obj_spine:m_position(spine_pos)
+
+				local dis = mvec3_dist(spine_pos, other_unit_mov_ext:m_head_pos())
+
 				local throw_distance = tweak_data.ai_carry.throw_distance * mov_ext:carry_tweak().throw_distance_multiplier
-				local dis = mvec3_dist(mov_ext._carry_unit:position(), other_unit_mov_ext:m_head_pos())
 				throw_bag = dis <= throw_distance
 			end
 
@@ -274,8 +278,12 @@ function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
 			end
 
 			if throw_bag then
+				local spine_pos = tmp_vec1
+				mov_ext._obj_spine:m_position(spine_pos)
+
+				local dis = mvec3_dist(spine_pos, other_unit_mov_ext:m_head_pos())
+
 				local throw_distance = tweak_data.ai_carry.throw_distance * mov_ext:carry_tweak().throw_distance_multiplier
-				local dis = mvec3_dist(mov_ext._carry_unit:position(), other_unit_mov_ext:m_head_pos())
 				throw_bag = dis <= throw_distance
 			end
 
