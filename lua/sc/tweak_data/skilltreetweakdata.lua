@@ -14,26 +14,26 @@ function SkillTreeTweakData:init(tweak_data)
 	end
 	self.tier_unlocks = {
 		digest(0),
-		digest(0),
-		digest(0),
-		digest(0)
+		digest(1),
+		digest(7),
+		digest(16)
 	}
 	self.tier_cost = {
 		{
 			1,
-			1
+			3
 		},
 		{
-			1,
-			1
+			2,
+			4
 		},
 		{
-			1,
-			1
+			3,
+			6
 		},
 		{
-			1,
-			1
+			4,
+			8
 		}
 	}
 	
