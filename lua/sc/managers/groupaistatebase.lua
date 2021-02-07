@@ -18,6 +18,7 @@ local table_contains = table.contains
 local ipairs_g = ipairs
 local pairs_g = pairs
 local next_g = next
+local tostring_g = tostring
 
 local alive_g = alive
 
@@ -97,22 +98,24 @@ function GroupAIStateBase:_determine_objective_for_criminal_AI(unit)
 		}
 	end
 
-	if not objective and self:is_ai_trade_possible() then
+	if not objective then
 		local mov_ext = unit:movement()
 
 		if mov_ext._should_stay then
 			mov_ext:set_should_stay(false)
 		end
 
-		local hostage = managers.trade:get_best_hostage(ai_pos)
+		if self:is_ai_trade_possible() then
+			local hostage = managers.trade:get_best_hostage(ai_pos)
 
-		if hostage and mvec3_dis_sq(ai_pos, hostage.m_pos) > 250000 then
-			objective = {
-				scan = true,
-				type = "free",
-				haste = "run",
-				nav_seg = hostage.tracker:nav_segment()
-			}
+			if hostage and mvec3_dis_sq(ai_pos, hostage.m_pos) > 250000 then
+				objective = {
+					scan = true,
+					type = "free",
+					haste = "run",
+					nav_seg = hostage.tracker:nav_segment()
+				}
+			end
 		end
 	end
 
@@ -1101,6 +1104,12 @@ local invalid_player_bot_warp_states = {
 	driving = true
 }
 
+local teleport_SO_anims = {
+	e_so_teleport_var1 = true,
+	e_so_teleport_var2 = true,
+	e_so_teleport_var3 = true
+}
+
 function GroupAIStateBase:upd_team_AI_distance()
 	local ai_criminals = self:all_AI_criminals()
 
@@ -1117,15 +1126,31 @@ function GroupAIStateBase:upd_team_AI_distance()
 	local teleport_distance = tweak_data.team_ai.stop_action.teleport_distance * tweak_data.team_ai.stop_action.teleport_distance
 	local nav_manager = managers.navigation
 	local find_cover_f = nav_manager.find_cover_in_nav_seg_3
+	local search_coarse_f = nav_manager.search_coarse
 
-	for _, ai in pairs_g(ai_criminals) do
+	for ai_key, ai in pairs_g(ai_criminals) do
 		local unit = ai.unit
 		local ai_mov_ext = unit:movement()
 
 		if not ai_mov_ext:cool() then
 			local objective = unit:brain():objective()
+			local has_warp_objective = nil
 
-			if not objective or objective.path_style ~= "warp" then
+			if objective then
+				if objective.path_style == "warp" or teleport_SO_anims[objective.action]then
+					has_warp_objective = true
+				else
+					local followup = objective.followup_objective
+
+					if followup then
+						if followup.path_style == "warp" or teleport_SO_anims[followup.action] then
+							has_warp_objective = true
+						end
+					end
+				end
+			end
+
+			if not has_warp_objective then
 				if not ai_mov_ext:chk_action_forbidden("walk") then
 					local bot_pos = ai.m_pos
 					local valid_players = {}
@@ -1145,6 +1170,7 @@ function GroupAIStateBase:upd_team_AI_distance()
 					end
 
 					local closest_distance, closest_player, closest_tracker = nil
+					local ai_tracker, ai_access = ai.tracker, ai.so_access
 
 					for i = 1, #valid_players do
 						local player = valid_players[i][1]
@@ -1170,9 +1196,23 @@ function GroupAIStateBase:upd_team_AI_distance()
 										local distance = valid_players[i][2]
 
 										if not closest_distance or distance < closest_distance then
-											closest_distance = distance
-											closest_player = player
-											closest_tracker = tracker
+											local params = {
+												from_tracker = ai_tracker,
+												to_seg = tracker:nav_segment(),
+												access = {
+													"walk"
+												},
+												id = "warp_coarse_check" .. tostring_g(ai_key),
+												access_pos = ai_access
+											}
+
+											local can_path = search_coarse_f(nav_manager, params) and true
+
+											if can_path then
+												closest_distance = distance
+												closest_player = player
+												closest_tracker = tracker
+											end
 										end
 									end
 								end
