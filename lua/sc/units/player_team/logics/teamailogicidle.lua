@@ -139,12 +139,6 @@ function TeamAILogicIdle.enter(data, new_logic_name, enter_params)
 
 				return
 			end
-		elseif objective.type == "throw_bag" then
-			data.unit:movement():throw_bag(objective.unit)
-
-			data._ignore_first_travel_order = true
-
-			data.unit:brain():set_objective()
 		else
 			if objective.action_duration then
 				my_data.action_timeout_clbk_id = "TeamAILogicIdle_action_timeout" .. key_str
@@ -179,31 +173,73 @@ function TeamAILogicIdle.enter(data, new_logic_name, enter_params)
 end
 
 function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
-	if data.objective and data.objective.type == "revive" then
+	local cur_objective = data.objective
+	local mov_ext = data.unit:movement()
+	local other_unit_mov_ext = other_unit:movement()
+	local was_staying = mov_ext._should_stay and true
+
+	if secondary then
+		if was_staying then
+			return
+		end
+
+		mov_ext:set_should_stay(true)
+
+		if not cur_objective or cur_objective.type ~= "revive" then
+			local new_objective = {
+				scan = true,
+				destroy_clbk_key = false,
+				type = "follow",
+				follow_unit = other_unit,
+				is_stop = true
+			}
+			data.brain:set_objective(new_objective)
+		end
+
+		return
+	end
+
+	if cur_objective and cur_objective.type == "revive" then
+		if mov_ext:carrying_bag() then
+			local throw_bag = true
+
+			if other_unit:base().is_local_player then
+				if other_unit_mov_ext:current_state_name() == "carry" or other_unit:character_damage():need_revive() then
+					throw_bag = false
+				end
+			elseif other_unit_mov_ext:carry_id() ~= nil or other_unit_mov_ext:need_revive() then
+				throw_bag = false
+			end
+
+			if throw_bag then
+				local throw_distance = tweak_data.ai_carry.throw_distance * mov_ext:carry_tweak().throw_distance_multiplier
+				local dis = mvec3_dist(mov_ext._carry_unit:position(), other_unit_mov_ext:m_head_pos())
+				throw_bag = dis <= throw_distance
+			end
+
+			if throw_bag then
+				mov_ext:throw_bag(other_unit)
+
+				return
+			end
+		end
+
+		if was_staying then
+			mov_ext:set_should_stay(false)
+		end
+
 		return
 	end
 
 	local objective_type, objective_action, interrupt = nil
 
 	if other_unit:base().is_local_player then
-		if not secondary then
-			if other_unit:character_damage():need_revive() then
-				objective_type = "revive"
-				objective_action = "revive"
-			elseif other_unit:character_damage():arrested() then
-				objective_type = "revive"
-				objective_action = "untie"
-			else
-				objective_type = "follow"
-			end
-		else
-			objective_type = "stop"
-		end
-	elseif not secondary then
-		if other_unit:movement():need_revive() then
+		local other_unit_dmg_ext = other_unit:character_damage()
+
+		if other_unit_dmg_ext:need_revive() then
 			objective_type = "revive"
 
-			if other_unit:movement():current_state_name() == "arrested" then
+			if other_unit_dmg_ext:arrested() then
 				objective_action = "untie"
 			else
 				objective_action = "revive"
@@ -211,57 +247,54 @@ function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
 		else
 			objective_type = "follow"
 		end
+	elseif other_unit_mov_ext:need_revive() then
+		objective_type = "revive"
+
+		if other_unit_mov_ext:current_state_name() == "arrested" then
+			objective_action = "untie"
+		else
+			objective_action = "revive"
+		end
 	else
-		objective_type = "stop"
+		objective_type = "follow"
 	end
 
-	local objective = nil
-	local should_stay = false
+	local new_objective = nil
 
 	if objective_type == "follow" then
-		if data.unit:movement():carrying_bag() and not data.unit:movement()._should_stay then
-			local throw_distance = tweak_data.ai_carry.throw_distance * data.unit:movement():carry_tweak().throw_distance_multiplier
-			local dist = data.unit:position() - other_unit:position()
-			local throw_bag = mvec3_dot(dist, dist) < throw_distance * throw_distance
+		if mov_ext:carrying_bag() then
+			local throw_bag = true
 
-			if throw_bag then
-				if other_unit == managers.player:player_unit() then
-					if other_unit:movement():current_state_name() == "carry" then
-						throw_bag = false
-					end
-				elseif other_unit:movement():carry_id() ~= nil then
+			if other_unit:base().is_local_player then
+				if other_unit_mov_ext:current_state_name() == "carry" then
 					throw_bag = false
 				end
+			elseif other_unit_mov_ext:carry_id() ~= nil then
+				throw_bag = false
 			end
 
 			if throw_bag then
-				objective = {
-					type = "throw_bag",
-					unit = other_unit
-				}
+				local throw_distance = tweak_data.ai_carry.throw_distance * mov_ext:carry_tweak().throw_distance_multiplier
+				local dis = mvec3_dist(mov_ext._carry_unit:position(), other_unit_mov_ext:m_head_pos())
+				throw_bag = dis <= throw_distance
+			end
+
+			if throw_bag then
+				mov_ext:throw_bag(other_unit)
+
+				return
 			end
 		end
 
-		if not objective then
-			objective = {
-				scan = true,
-				destroy_clbk_key = false,
-				called = true,
-				type = objective_type,
-				follow_unit = other_unit
-			}
-
-			data.unit:sound():say("r01x_sin", true)
-		end
-	elseif objective_type == "stop" then
-		objective = {
+		new_objective = {
 			scan = true,
 			destroy_clbk_key = false,
-			type = "follow",
 			called = true,
+			type = objective_type,
 			follow_unit = other_unit
 		}
-		should_stay = true
+
+		data.unit:sound():say("r01x_sin", true)
 	else
 		local followup_objective = {
 			scan = true,
@@ -279,7 +312,7 @@ function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
 				}
 			}
 		}
-		objective = {
+		new_objective = {
 			type = "revive",
 			called = true,
 			scan = true,
@@ -297,41 +330,37 @@ function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
 					action = -1,
 					heavy_hurt = -1,
 					aim = -1,
-					walk = -1
+					walk = -1,
+					dodge = -1
 				}
 			},
-			action_duration = tweak_data.interaction[objective_action == "untie" and "free" or objective_action].timer,
+			action_duration = tweak_data.interaction[objective_action == "untie" and "free" or "revive"].timer,
 			followup_objective = followup_objective
 		}
 
-		if objective_type == "revive" and not objective_action == "untie" then
+		if not objective_action == "untie" then
 			data.unit:sound():say("r02a_sin", true)
 		end
-	end
 
-	if data.unit:movement():carrying_bag() and objective.type == "revive" then --carrying a bag and being called to revive a player
-		if not data.unit:movement():carry_tweak().can_run then --slowed down by the bag
+		if mov_ext:carrying_bag() and not mov_ext:carry_tweak().can_run then
 			local range_sq = 810000
-			local my_pos = data.unit:position()
-			local other_unit_pos = other_unit:position()
-			local dist = mvec3_dist_sq(my_pos, other_unit_pos)
-			local inspire_available = managers.player:is_custom_cooldown_not_active("team", "crew_inspire")
+			local dist_sq = mvec3_dist_sq(data.m_pos, other_unit:movement():m_pos())
 
-			if dist < range_sq then --within inspire range, taken from teamailogictravel as it's calculated with square distance
-				if not inspire_available then --if inspire is on cooldown, throw the bag, otherwise, don't
-					data.unit:movement():throw_bag()
+			if dist_sq < range_sq then --within inspire range, taken from teamailogictravel as it's calculated with square distance
+				if not managers.player:is_custom_cooldown_not_active("team", "crew_inspire") then --if inspire is on cooldown, throw the bag, otherwise, don't
+					mov_ext:throw_bag()
 				end
 			else --not within inspire range, so throw the bag
-				data.unit:movement():throw_bag()
+				mov_ext:throw_bag()
 			end
 		end
 	end
 
-	data.unit:movement():set_should_stay(should_stay)
-
-	if objective then
-		data.unit:brain():set_objective(objective)
+	if was_staying then
+		mov_ext:set_should_stay(false)
 	end
+
+	data.brain:set_objective(new_objective)
 end
 
 function TeamAILogicIdle._ignore_shield(unit, attention)
@@ -1252,36 +1281,36 @@ function TeamAILogicIdle.on_new_objective(data, old_objective)
 
 	TeamAILogicBase.on_new_objective(data, old_objective)
 
-	local my_data = data.internal_data
-
-	if not my_data.exiting then
+	if not data.internal_data.exiting then
 		if new_objective then
-			local objective_needs_travel = nil
+			if new_objective.is_stop then
+				local att_obj = data.attention_obj
 
-			if not data.unit:movement()._should_stay then
-				if new_objective.nav_seg or new_objective.type == "follow" then
-					if not new_objective.in_place then
-						if new_objective.pos then
-							objective_needs_travel = true
-						elseif not new_objective.area or not new_objective.area.nav_segs[data.unit:movement():nav_tracker():nav_segment()] then
-							objective_needs_travel = true
-						end
+				if not att_obj or AIAttentionObject.REACT_AIM > att_obj.reaction then
+					CopLogicBase._exit(data.unit, "idle")
+				else
+					CopLogicBase._exit(data.unit, "assault")
+				end
+			else
+				local objective_needs_travel = nil
+
+				if not data.unit:movement()._should_stay or new_objective.type == "revive" then ----check, although I gotta go through the entire file anyway
+					objective_needs_travel = CopLogicIdle._chk_objective_needs_travel(data, new_objective)
+				end
+
+				if objective_needs_travel then
+					CopLogicBase._exit(data.unit, "travel")
+				elseif new_objective.action then
+					CopLogicBase._exit(data.unit, "idle")
+				else
+					local att_obj = data.attention_obj
+
+					if not att_obj or AIAttentionObject.REACT_AIM > att_obj.reaction then
+						CopLogicBase._exit(data.unit, "idle")
+					else
+						CopLogicBase._exit(data.unit, "assault")
 					end
 				end
-			elseif new_objective.type == "revive" then
-				objective_needs_travel = true
-			end
-
-			if objective_needs_travel then
-				if data._ignore_first_travel_order then
-					data._ignore_first_travel_order = nil
-				else
-					CopLogicBase._exit(data.unit, "travel")
-				end
-			elseif new_objective.action or not data.attention_obj or AIAttentionObject.REACT_AIM > data.attention_obj.reaction then
-				CopLogicBase._exit(data.unit, "idle")
-			else
-				CopLogicBase._exit(data.unit, "assault")
 			end
 		else
 			CopLogicBase._exit(data.unit, "idle")
