@@ -62,6 +62,10 @@ function SpoocLogicAttack.queued_update(data)
 
 		CopLogicAttack._update_cover(data)
 		CopLogicAttack._upd_combat_movement(data)
+		local groupai = managers.groupai:state()
+		if not data.char_tweak.cannot_throw_grenades and not data.is_converted and data.unit:base().has_tag and data.unit:base():has_tag("law") and groupai:is_smoke_grenade_active() then 
+			CopLogicBase.do_smart_grenade(data, my_data, data.attention_obj)
+		end
 	end
 
 	SpoocLogicAttack.queue_update(data, my_data)
@@ -99,6 +103,10 @@ function SpoocLogicAttack._upd_spooc_attack(data, my_data)
 		if focus_enemy.unit:movement().chk_action_forbidden and focus_enemy.unit:movement():chk_action_forbidden("hurt") then
 			return true
 		end
+		
+		if focus_enemy.verified and focus_enemy.verified_dis <= 2500 then
+			managers.groupai:state():chk_say_enemy_chatter( data.unit, data.m_pos, "cloakercontact" )
+		end
 
 		if focus_enemy.verified and focus_enemy.verified_dis <= 2500 and ActionSpooc.chk_can_start_spooc_sprint(data.unit, focus_enemy.unit) and not data.unit:raycast("ray", data.unit:movement():m_head_pos(), focus_enemy.m_head_pos, "slot_mask", managers.slot:get_mask("bullet_impact_targets_no_criminals"), "ignore_unit", focus_enemy.unit, "report") then
 			if my_data.attention_unit ~= focus_enemy.u_key then
@@ -110,6 +118,15 @@ function SpoocLogicAttack._upd_spooc_attack(data, my_data)
 			local action = SpoocLogicAttack._chk_request_action_spooc_attack(data, my_data)
 
 			if action then
+			
+				if data.tactics then
+					if data.tactics.smoke_grenade or data.tactics.flash_grenade then
+						local flash = not data.tactics.smoke_grenade or data.tactics.flash_grenade and math.random() < 0.5
+						
+						CopLogicBase.do_grenade(data, focus_enemy.m_pos + math.UP * 5, flash)
+					end
+				end
+			
 				my_data.spooc_attack = {
 					start_t = data.t,
 					target_u_data = focus_enemy,
@@ -176,6 +193,56 @@ function SpoocLogicAttack._chk_request_action_spooc_attack(data, my_data, flying
 	local action = data.brain:action_request(new_action_data)
 
 	return action
+end
+
+function SpoocLogicAttack.action_complete_clbk(data, action)
+	local action_type = action:type()
+	local my_data = data.internal_data
+
+	if action_type == "walk" then
+		my_data.advancing = nil
+
+		if my_data.surprised then
+			my_data.surprised = false
+		elseif my_data.moving_to_cover then
+			if action:expired() then
+				my_data.in_cover = my_data.moving_to_cover
+
+				CopLogicAttack._set_nearest_cover(my_data, my_data.in_cover)
+
+				my_data.cover_enter_t = data.t
+				my_data.cover_sideways_chk = nil
+			end
+
+			my_data.moving_to_cover = nil
+		elseif my_data.walking_to_cover_shoot_pos then
+			my_data.walking_to_cover_shoot_pos = nil
+		end
+	elseif action_type == "shoot" then
+		my_data.shooting = nil
+	elseif action_type == "turn" then
+		my_data.turning = nil
+	elseif action_type == "spooc" then
+		data.spooc_attack_timeout_t = TimerManager:game():time() + math.lerp(data.char_tweak.spooc_attack_timeout[1], data.char_tweak.spooc_attack_timeout[2], math.random())
+
+		if action:complete() and data.char_tweak.spooc_attack_use_smoke_chance > 0 and math.random() <= data.char_tweak.spooc_attack_use_smoke_chance and managers.groupai:state():is_smoke_grenade_active() then
+			managers.groupai:state():detonate_smoke_grenade(data.m_pos + math.UP * 10, data.unit:movement():m_head_pos(), math.lerp(15, 30, math.random()), false)
+		end
+
+		my_data.spooc_attack = nil
+	elseif action_type == "dodge" then
+		local timeout = action:timeout()
+
+		if timeout then
+			data.dodge_timeout_t = TimerManager:game():time() + math.lerp(timeout[1], timeout[2], math.random())
+		end
+
+		CopLogicAttack._cancel_cover_pathing(data, my_data)
+
+		if action:expired() then
+			SpoocLogicAttack._upd_aim(data, my_data)
+		end
+	end
 end
 
 function SpoocLogicAttack.queue_update(data, my_data)

@@ -1329,7 +1329,9 @@ function ActionSpooc:anim_act_clbk(anim_act)
 	end
 
 	if Global.game_settings.difficulty == "sm_wish" then
-		MutatorCloakerEffect.effect_smoke(nil, self._unit)
+		if managers.groupai:state():is_smoke_grenade_active() then
+			MutatorCloakerEffect.effect_smoke(nil, self._unit)
+		end
 	end
 
 	managers.mutators:_run_func("OnPlayerCloakerKicked", self._unit)

@@ -1188,7 +1188,7 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention)
 			end
 				
 			if REACT_COMBAT <= attention.reaction then
-				local dis = data.internal_data.weapon_range and data.internal_data.weapon_range.close or 1000
+				local dis = data.internal_data.weapon_range and data.internal_data.weapon_range.optimal or 2000
 				local visible_softer = attention.verified_t and data.t - attention.verified_t < 7
 				if visible_softer and attention.dis <= dis then
 					return true, true
@@ -1675,6 +1675,132 @@ function CopLogicBase._chk_alert_obstructed(my_listen_pos, alert_data)
 		end
 	end
 end
+
+function CopLogicBase.do_grenade(data, pos, flash, drop)
+	if not managers.groupai:state():is_smoke_grenade_active() or data.unit:base().has_tag and not data.unit:base():has_tag("law") or data.char_tweak.cannot_throw_grenades then --if you're not calling this function from somewhere outside do_smart_grenade, remove this entire check
+		return
+	end
+
+	local duration = tweak_data.group_ai.smoke_grenade_lifetime
+
+	if flash then
+		duration = tweak_data.group_ai.flash_grenade_lifetime
+
+		managers.groupai:state():detonate_smoke_grenade(pos, data.unit:movement():m_head_pos(), duration, flash)
+		managers.groupai:state():apply_grenade_cooldown(flash)
+
+		if not drop and data.char_tweak.chatter and data.char_tweak.chatter.flash_grenade then
+			data.unit:sound():say("d02", true)	
+		end
+	else
+		managers.groupai:state():detonate_smoke_grenade(pos, data.unit:movement():m_head_pos(), duration, flash)
+		managers.groupai:state():apply_grenade_cooldown(flash)
+
+		if not drop and data.char_tweak.chatter and data.char_tweak.chatter.smoke then
+			data.unit:sound():say("d01", true)	
+		end
+	end
+	
+	if not drop and not data.unit:movement():chk_action_forbidden("action") and not data.char_tweak.no_grenade_anim then
+		local redir_name = "throw_grenade"
+
+		if data.unit:movement():play_redirect(redir_name) then
+			managers.network:session():send_to_peers_synched("play_distance_interact_redirect", data.unit, redir_name)
+		end
+	end
+
+	return true
+end
+
+function CopLogicBase.do_smart_grenade(data, my_data, focus_enemy)
+	if not data.tactics then
+		return
+	end
+	
+	local flash = nil
+	
+	if data.tactics.smoke_grenade or data.tactics.flash_grenade then
+		flash = not data.tactics.smoke_grenade or data.tactics.flash_grenade and math_random() < 0.5
+	else
+		return
+	end
+	
+	local t = data.t
+	local enemy_visible = focus_enemy.verified
+	local enemy_visible_soft = focus_enemy.verified_t and t - focus_enemy.verified_t < 2
+	--local enemy_visible_softer = focus_enemy.verified_t and t - focus_enemy.verified_t < 15
+	
+	local do_something_else = true
+	
+	if data.objective then
+		local attitude = data.objective.attitude or "avoid"
+		local pos_to_use = CopLogicAttack.is_advancing(data)
+		
+		if pos_to_use then
+			if attitude == "avoid" and not flash then
+				if focus_enemy.verified and focus_enemy.aimed_at and focus_enemy.dis < 2000 then
+					if CopLogicBase.do_grenade(data, pos_to_use + math.UP * 5, flash, nil) then
+						--log("reason1")
+						do_something_else = nil
+					end
+				end
+			else
+				if mvec3_dis(pos_to_use, focus_enemy.m_pos) < 600 then
+					if flash then
+						if CopLogicBase.do_grenade(data, pos_to_use + math.UP * 10, flash, nil) then
+							--log("reason3")
+							do_something_else = nil
+						end
+					else
+						if CopLogicBase.do_grenade(data, pos_to_use + math.UP * 5, flash, nil) then
+							--log("reason4")
+							do_something_else = nil
+						end
+					end
+				end
+			end
+		end
+		
+		if not do_something_else then
+			return true
+		end
+		
+		if not flash then
+			if my_data.firing and focus_enemy.verified then
+				if data.is_suppressed or focus_enemy.criminal_record and focus_enemy.criminal_record.assault_t and data.t - focus_enemy.criminal_record.assault_t < 2 then
+					if CopLogicBase.do_grenade(data, data.m_pos + math.UP * 5, flash, true) then
+						--log("reason5")
+						do_something_else = nil
+					end
+				end
+			end
+		else
+			if focus_enemy.verified and focus_enemy.dis < 2000 then
+				if focus_enemy.is_person then
+					local area = managers.groupai:state():get_area_from_nav_seg_id(focus_enemy.nav_tracker:nav_segment())
+					if CopLogicBase.do_grenade(data, area.pos + math.UP * 10, flash, nil) then
+						--log("reason6")
+						do_something_else = nil
+					end
+				end
+			end
+		end
+					
+		if not do_something_else then
+			return true
+		end
+	end
+	
+	if not do_something_else then
+		--log("found appropriate grenade throwing thingy!")
+		return true
+	else
+		--log("couldnt find suitable reason")
+		return
+	end
+	
+end 
+
 
 function CopLogicBase.on_long_dis_interacted(data, other_unit, secondary)
 end

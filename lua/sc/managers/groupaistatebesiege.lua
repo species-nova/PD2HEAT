@@ -963,6 +963,38 @@ function GroupAIStateBesiege:_upd_assault_task()
 	self:_assign_enemy_groups_to_assault(task_data.phase)
 end
 
+function GroupAIStateBesiege:_upd_groups()
+	for group_id, group in pairs(self._groups) do
+		if group.has_spawned or group.objective and group.objective.type == "retire" then --make sure the group has fully spawned (or if its intent is to not even spawn) before giving the enemies objectives
+			self:_verify_group_objective(group)
+
+			for u_key, u_data in pairs(group.units) do
+				local brain = u_data.unit:brain()
+				local current_objective = brain:objective()
+				local noobjordefaultorgrpobjchkandnoretry = not current_objective or current_objective.is_default or current_objective.grp_objective and current_objective.grp_objective ~= group.objective and not current_objective.grp_objective.no_retry
+				local notfollowingorfollowingaliveunit = not group.objective.follow_unit or alive(group.objective.follow_unit)
+
+				if noobjordefaultorgrpobjchkandnoretry and notfollowingorfollowingaliveunit then
+					local objective = self._create_objective_from_group_objective(group.objective, u_data.unit)
+					
+					if objective then
+						if brain:is_available_for_assignment(objective) then
+							self:set_enemy_assigned(objective.area or group.objective.area, u_key)
+
+							if objective.element then
+								objective.element:clbk_objective_administered(u_data.unit)
+							end
+
+							u_data.unit:brain():set_objective(objective)
+						end
+					end
+				end
+			end
+		end
+	end
+end
+
+
 function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 	local bad_types = {
 		recon_area = true,
@@ -1654,6 +1686,7 @@ function GroupAIStateBesiege._create_objective_from_group_objective(grp_objectiv
 		objective.stance = "hos"
 		objective.pose = "stand"
 		objective.scan = true
+		objective.no_arrest = true
 	elseif grp_objective.type == "assault_area" then
 		objective.type = "defend_area"
 
@@ -1661,7 +1694,8 @@ function GroupAIStateBesiege._create_objective_from_group_objective(grp_objectiv
 			objective.follow_unit = grp_objective.follow_unit
 			objective.distance = grp_objective.distance
 		end
-
+		
+		objective.no_arrest = true
 		objective.stance = "hos"
 		objective.pose = "stand"
 		objective.scan = true
@@ -1687,6 +1721,11 @@ function GroupAIStateBesiege._create_objective_from_group_objective(grp_objectiv
 	objective.area = grp_objective.area
 	objective.nav_seg = grp_objective.nav_seg or objective.area.pos_nav_seg
 	objective.attitude = grp_objective.attitude or objective.attitude
+	
+	if not objective.no_arrest then
+		objective.no_arrest = not objective.attitude or objective.attitude == "avoid"
+	end
+	
 	objective.interrupt_dis = grp_objective.interrupt_dis or objective.interrupt_dis
 	objective.interrupt_health = grp_objective.interrupt_health or objective.interrupt_health
 	objective.interrupt_suppression = nil

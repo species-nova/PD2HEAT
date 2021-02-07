@@ -173,11 +173,12 @@ function CopLogicAttack.update(data)
 		return
 	end
 
-	--if data.team.id == "criminal1" then --converted enemies use "converted_enemy" as team, not "criminal1"
+	local groupai = managers.groupai:state()
+	
 	if data.is_converted then
 		if not data.objective or data.objective.type == "free" then
 			if not data.path_fail_t or data.t - data.path_fail_t > 6 then
-				managers.groupai:state():on_criminal_jobless(data.unit)
+				groupai:on_criminal_jobless(data.unit)
 
 				if my_data ~= data.internal_data then
 					return
@@ -205,6 +206,10 @@ function CopLogicAttack.update(data)
 
 		CopLogicAttack._update_cover(data)
 		CopLogicAttack._upd_combat_movement(data)
+		
+		if not data.char_tweak.cannot_throw_grenades and not data.is_converted and data.unit:base().has_tag and data.unit:base():has_tag("law") and groupai:is_smoke_grenade_active() then 
+			CopLogicBase.do_smart_grenade(data, my_data, data.attention_obj)
+		end
 	end
 
 	if not data.logic.action_taken then
@@ -605,7 +610,7 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 				pose = "crouch"
 			end
 			
-			max_walk_dis = my_data.weapon_range.close * 0.5
+			max_walk_dis = my_data.weapon_range.optimal * 0.5
 		end
 	elseif focus_enemy.dis < 250 then
 		attempt_retreat = true
@@ -663,6 +668,17 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 		my_data.advancing = data.brain:action_request(new_action_data)
 
 		if my_data.advancing then
+			if want_to_take_cover and want_to_take_cover ~= true then
+				if data.tactics then
+					if data.tactics.smoke_grenade or data.tactics.flash_grenade then
+						local flash = not data.tactics.smoke_grenade or data.tactics.flash_grenade and math.random() < 0.5
+						local pos = not flash and data.m_pos or focus_enemy.m_pos
+						
+						CopLogicBase.do_grenade(data, pos + math.UP * 5, flash, not flash)
+					end
+				end
+			end
+		
 			my_data.surprised = true
 
 			data.brain:rem_pos_rsrv("path")
@@ -1975,7 +1991,7 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 			return "spoocavoidance"
 		elseif data.tactics.reloadingretreat and data.unit:anim_data().reload then
 			return "reload"
-		elseif data.tactics.elite_ranged_fire and data.attention_obj.verified_dis < my_data.weapon_range.close * 0.5 then
+		elseif data.tactics.elite_ranged_fire and data.attention_obj.verified_dis < my_data.weapon_range.optimal * 0.5 then
 			return "eliterangedfire"
 		elseif data.tactics.hitnrun and data.attention_obj.verified_dis < 1000 then
 			return "hitnrun"
