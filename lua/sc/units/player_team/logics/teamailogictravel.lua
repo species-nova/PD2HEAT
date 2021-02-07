@@ -263,6 +263,22 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 		end
 	end
 
+	if not allow_inspire then
+		local revive_timer = nil
+
+		if revive_unit:base().is_local_player then
+			revive_timer = revive_unit:character_damage()._downed_timer
+		else
+			local interact_ext = revive_unit:interaction()
+			revive_timer = interact_ext.get_waypoint_time and interact_ext:get_waypoint_time()
+		end
+
+		--unit to revive will go into custody in 10 or less seconds
+		if revive_timer and revive_timer <= 10 then
+			allow_inspire = true
+		end
+	end
+
 	if not allow_inspire and data.unit:character_damage():health_ratio() < 0.3 then --bot has less than 30% health
 		allow_inspire = true
 	end
@@ -284,7 +300,7 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 			end
 		end
 
-		--more than 4 enemies damaged the bot in the last 1.2 seconds
+		--more than 3 enemies damaged the bot in the last 1.2 seconds
 		if under_multiple_fire then
 			allow_inspire = true
 		end
