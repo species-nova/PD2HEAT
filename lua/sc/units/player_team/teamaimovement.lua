@@ -47,18 +47,64 @@ function TeamAIMovement:sync_throw_bag(carry_unit, target_unit)
 		return
 	end
 
-	local target_pos = tmp_vec1
-	mvec3_set(target_pos, target_unit:movement():m_head_pos())
+	local dynamic_bodies = {}
+	local nr_bodies = carry_unit:num_bodies()
 
-	local carry_pos = carry_unit:position()
-	local dir = target_pos - carry_pos
-	local set_z = dir:length() * 0.75
-	target_pos = target_pos:with_z(target_pos.z + set_z)
-	dir = target_pos - carry_pos
+	for i = 0, nr_bodies - 1 do
+		local body = carry_unit:body(i)
 
-	local throw_distance_multiplier = tweak_data.carry.types[tweak_data.carry[carry_unit:carry_data():carry_id()].type].throw_distance_multiplier
+		if body:dynamic() then
+			body:set_keyframed()
 
-	carry_unit:push(tweak_data.ai_carry.throw_force, (dir - carry_unit:velocity()) * throw_distance_multiplier)
+			dynamic_bodies[#dynamic_bodies + 1] = body
+		end
+	end
+
+	call_on_next_update(function ()
+		if not alive(carry_unit) or not alive(target_unit) or not alive(self._unit) then
+			return
+		end
+
+		local spine_pos = Vector3()
+		self._obj_spine:m_position(spine_pos)
+
+		local target_pos = tmp_vec1
+		local carry_rot = tmp_rot_1
+		mvec3_set(target_pos, target_unit:movement():m_head_pos())
+
+		local dir = target_pos - spine_pos
+		mrot_lookat(carry_rot, dir, math_up)
+
+		local set_z = dir:length() * 0.75
+		target_pos = target_pos:with_z(target_pos.z + set_z)
+		dir = target_pos - spine_pos
+
+		carry_unit:set_position(spine_pos)
+		carry_unit:set_velocity(Vector3(0, 0, 0))
+		carry_unit:set_rotation(carry_rot)
+
+		call_on_next_update(function ()
+			if not alive(carry_unit) or not alive(target_unit) or not alive(self._unit) then
+				return
+			end
+
+			for i = 1, #dynamic_bodies do
+				local body = dynamic_bodies[i]
+
+				body:set_dynamic()
+			end
+
+			call_on_next_update(function ()
+				if not alive(carry_unit) or not alive(target_unit) or not alive(self._unit) then
+					return
+				end
+
+				local throw_distance_multiplier = tweak_data.carry.types[tweak_data.carry[carry_unit:carry_data():carry_id()].type].throw_distance_multiplier
+
+				carry_unit:push(tweak_data.ai_carry.throw_force, dir * throw_distance_multiplier)
+			end)
+		end)
+	end)
 end
 
 function TeamAIMovement:set_should_stay(should_stay)
