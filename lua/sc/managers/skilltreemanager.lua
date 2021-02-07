@@ -1,22 +1,24 @@
 SkillTreeManager.VERSION = 69
 
+--In case we want to retry skill pools for some reason.
+--[[
 local function get_skill_costs()
 	local t = {
 		{
 			1,
-			1
+			3
 		},
 		{
-			1,
-			1
+			2,
+			4
 		},
 		{
-			1,
-			1
+			3,
+			6
 		},
 		{
-			1,
-			1
+			4,
+			6
 		}
 	}
 
@@ -125,3 +127,4 @@ function SkillTreeManager:skill_can_be_removed(tree, tier, skill_id)
 
 	return true
 end
+]]
