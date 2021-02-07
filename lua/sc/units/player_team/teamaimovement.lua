@@ -61,6 +61,41 @@ function TeamAIMovement:sync_throw_bag(carry_unit, target_unit)
 	carry_unit:push(tweak_data.ai_carry.throw_force, (dir - carry_unit:velocity()) * throw_distance_multiplier)
 end
 
+function TeamAIMovement:set_should_stay(should_stay)
+	if self._should_stay == should_stay then
+		return
+	end
+
+	self._should_stay = should_stay
+
+	if Network:is_server() then
+		managers.network:session():send_to_peers_synched("sync_team_ai_stopped", self._unit, should_stay)
+	end
+
+	local panel = managers.criminals:character_data_by_unit(self._unit)
+
+	if panel then
+		managers.hud:set_ai_stopped(panel.panel_id, should_stay)
+	end
+end
+
+function TeamAIMovement:chk_action_forbidden(action_type)
+	--stay put orders are not supposed to affect clients
+	if action_type == "walk" and self._should_stay and Network:is_server() then
+		local objective = self._unit:brain():objective()
+
+		if objective then
+			if objective.forced or objective.type == "revive" then
+				return false
+			end
+		end
+
+		return true
+	end
+
+	return TeamAIMovement.super.chk_action_forbidden(self, action_type)
+end
+
 --use inherited functionality from CopMovement:pre_destroy() as this function is normally outdated
 function TeamAIMovement:pre_destroy()
 	TeamAIMovement.super.pre_destroy(self)
