@@ -291,13 +291,13 @@ function CopBase:default_weapon_name()
 		default_weapon_id = "r870"	
 	end
 
-	--Giving Friendly AI silenced pistols
+	--Giving Friendly AI guns
 	if self._unit:name() == Idstring("units/pd2_dlc_spa/characters/npc_spa/npc_spa") then
 		default_weapon_id = "beretta92"	
 	elseif self._unit:name() == Idstring("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2") then
-		default_weapon_id = "beretta92"				
+		default_weapon_id = "mp9"				
 	elseif self._unit:name() == Idstring("units/pd2_dlc_berry/characters/npc_locke/npc_locke") then
-		default_weapon_id = "beretta92"					
+		default_weapon_id = "m1911_npc"					
 	end
 	
 	--Giving Vanilla Titanshields their silent pistols
