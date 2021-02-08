@@ -25,6 +25,7 @@ function restoration:Init()
 		"mus",	--the diamond
 		"gallery", --art gallery
 		"crojob3", --bomb forest
+		"red2", --fwb
 		--Custom Heists--
 		"office_strike", --office strike
 		"firestarter_2_res" --firestarter day 2 res edit version
@@ -51,7 +52,6 @@ function restoration:Init()
 		"arm_for",	--train heist
 		"big", --big bank
 		"kenaz", --ggc
-		"red2", --fwb
 		"bex", --san martin bank
 		"dinner", --Slaughterhouse
 		--custom heists		
