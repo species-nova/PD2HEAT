@@ -1133,6 +1133,10 @@ function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key
 end
 
 function CopLogicBase.is_obstructed(data, objective, strictness, attention)
+	if not objective then
+		return true, false
+	end
+
 	if data.unit:character_damage():dead() then
 		return true, true
 	end
@@ -1143,7 +1147,7 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention)
 		return true, true
 	end
 
-	if not objective or objective.is_default then
+	if objective.is_default then
 		return true, false
 	elseif objective.in_place or not objective.nav_seg then
 		if not objective.action then
