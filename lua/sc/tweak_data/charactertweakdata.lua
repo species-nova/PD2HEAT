@@ -14914,7 +14914,6 @@ function CharacterTweakData:character_map()
 				"ene_zeal_heavy_shield",
 				"ene_zeal_swat_shield",
 				"ene_zeal_tazer",
-				"ene_grenadier_1",
 				"ene_zeal_fbi_m4",
 				"ene_zeal_fbi_mp5",
 				"ene_zeal_swat_heavy_sc",
