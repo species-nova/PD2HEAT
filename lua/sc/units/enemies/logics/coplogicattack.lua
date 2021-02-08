@@ -518,7 +518,7 @@ function CopLogicAttack._upd_combat_movement(data)
 	end
 
 	if not action_taken then
-		if not my_data.cover_path_failed_t or t - my_data.cover_path_failed_t > 5 then
+		if not my_data.cover_path_failed_t or t - my_data.cover_path_failed_t > 2 then
 			local best_cover = my_data.best_cover
 
 			if best_cover and not my_data.processing_cover_path and not my_data.cover_path and not my_data.charge_path_search_id then
@@ -1026,7 +1026,7 @@ function CopLogicAttack._update_cover(data)
 	local focus_enemy = data.attention_obj
 
 	if focus_enemy and focus_enemy.nav_tracker and REACT_COMBAT <= focus_enemy.reaction then
-		local find_new_cover = not my_data.cover_path_failed_t or data.t - my_data.cover_path_failed_t > 2.5
+		local find_new_cover = not my_data.cover_path_failed_t or data.t - my_data.cover_path_failed_t > 1
 
 		if find_new_cover then
 			if my_data.processing_cover_path or my_data.charge_path_search_id or my_data.moving_to_cover or my_data.walking_to_cover_shoot_pos or my_data.surprised then
@@ -1040,13 +1040,13 @@ function CopLogicAttack._update_cover(data)
 			if data.objective and data.objective.type == "follow" then
 				local near_pos = data.objective.follow_unit:movement():nav_tracker():field_position() --small clarification, follow_unit and focus_enemy can easily not be the same thing -- also using field_position if possible for valid navigation purposes
 
-				if not best_cover or not CopLogicAttack._verify_follow_cover(best_cover[1], near_pos, threat_pos, 200, 1000) then
+				if not best_cover or not CopLogicAttack._verify_follow_cover(best_cover[1], near_pos, threat_pos, 200, my_data.weapon_range.far) then
 					local follow_unit_area = managers.groupai:state():get_area_from_nav_seg_id(data.objective.follow_unit:movement():nav_tracker():nav_segment())
 					local max_near_dis = data.objective.distance and data.objective.distance * 0.9 or nil
 					local found_cover = managers.navigation:find_cover_in_nav_seg_3(follow_unit_area.nav_segs, max_near_dis, near_pos, threat_pos)
 
 					if found_cover then
-						if not best_cover or CopLogicAttack._verify_follow_cover(found_cover, near_pos, threat_pos, 200, 1000) then
+						if not best_cover or CopLogicAttack._verify_follow_cover(found_cover, near_pos, threat_pos, 200, my_data.weapon_range.far) then
 							local better_cover = {
 								found_cover
 							}

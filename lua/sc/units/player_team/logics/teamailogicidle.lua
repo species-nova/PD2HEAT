@@ -2,12 +2,15 @@ local mvec3_dot = mvector3.dot
 local mvec3_dist_sq = mvector3.distance_sq
 local mvec3_dist = mvector3.distance
 local mvec3_norm = mvector3.normalize
+local math_abs = math.abs
 local math_max = math.max
 local math_min = math.min
 local math_lerp = math.lerp
 local math_random = math.random
 local t_cont = table.contains
 local t_ins = table.insert
+local pairs_g = pairs
+local ipairs_g = ipairs
 local tmp_vec1 = Vector3()
 local tmp_vec2 = Vector3()
 local tmp_vec3 = Vector3()
@@ -421,7 +424,7 @@ function TeamAILogicIdle._get_priority_attention(data, attention_objects, reacti
 	reaction_func = reaction_func or TeamAILogicBase._chk_reaction_to_attention_object
 	local best_target, best_target_priority_slot, best_target_priority, best_target_reaction = nil
 
-	for u_key, attention_data in pairs(attention_objects) do
+	for u_key, attention_data in pairs_g(attention_objects) do
 		local att_unit = attention_data.unit
 
 		if attention_data.identified then
@@ -681,7 +684,7 @@ function TeamAILogicIdle._get_priority_attention(data, attention_objects, reacti
 								local function get_nearby_lpf(unit)
 									local enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.medic.lpf_radius, managers.slot:get_mask("enemies"))
 
-									for _, enemy in ipairs(enemies) do
+									for _, enemy in ipairs_g(enemies) do
 										if enemy:base():has_tag("lpf") then
 											return enemy
 										end
@@ -693,7 +696,7 @@ function TeamAILogicIdle._get_priority_attention(data, attention_objects, reacti
 								local function get_nearby_medic_summers(unit)
 									local enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.medic.doc_radius, managers.slot:get_mask("enemies"))
 
-									for _, enemy in ipairs(enemies) do
+									for _, enemy in ipairs_g(enemies) do
 										if enemy:base():has_tag("medic_summers_special") then
 											return enemy
 										end
@@ -1236,7 +1239,7 @@ function TeamAILogicIdle.intimidate_civilians(data, criminal, play_sound, play_a
 
 	local intimidated_primary_target = false
 
-	for _, civ in ipairs(intimidateable_civilians) do
+	for _, civ in ipairs_g(intimidateable_civilians) do
 		if primary_target == civ.unit then
 			intimidated_primary_target = true
 		end
@@ -1456,4 +1459,73 @@ function TeamAILogicIdle.mark_sneak_char(data, criminal, to_mark, play_sound, pl
 	end
 
 	to_mark:contour():add("mark_enemy", true)
+end
+
+function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
+	local follow_unit = objective.follow_unit
+	local movement_ext = data.unit:movement()
+	local m_field_pos = movement_ext:nav_tracker():field_position()
+	local follow_unit_mov_ext = follow_unit:movement()
+	local follow_unit_field_pos = follow_unit_mov_ext:nav_tracker():field_position()
+	local max_allowed_dis_xy = 700 * 700
+	local max_allowed_dis_z = 200
+
+	local too_far = nil
+
+	if math_abs(m_field_pos.z - follow_unit_field_pos.z) > max_allowed_dis_z then --this is more or less going to check for different floors since field pos doesnt have that much height before it gets clamped
+		too_far = true
+		--log("no")
+	else	
+		local dis = mvec3_dist_sq(m_field_pos, follow_unit_field_pos)
+
+		if max_allowed_dis_xy < dis then
+			--log("yes")
+			too_far = true
+		end
+	end
+
+	if too_far then
+		return true
+	end
+	
+	local my_nav_seg_id = movement_ext:nav_tracker():nav_segment()
+	local follow_unit_nav_seg_id = follow_unit_mov_ext:nav_tracker():nav_segment()
+	
+	if my_nav_seg_id == follow_unit_nav_seg_id then
+		--log("they're in my area")
+		return
+	end
+	
+	local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
+	local raycast = data.unit:raycast("ray", movement_ext:m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
+	
+	if raycast then
+		--log("no los")
+		return true
+	end	
+
+	local is_my_area_dangerous, is_follow_unit_area_dangerous = nil
+	local my_areas = managers.groupai:state():get_areas_from_nav_seg_id(my_nav_seg_id)
+
+	for _, area in ipairs_g(my_areas) do
+		if next(area.police.units) then
+			is_my_area_dangerous = true
+
+			break
+		end
+	end
+
+	local follow_unit_areas = managers.groupai:state():get_areas_from_nav_seg_id(follow_unit_nav_seg_id)
+
+	for _, area in ipairs_g(follow_unit_areas) do
+		if next(area.police.units) then
+			is_follow_unit_area_dangerous = true
+
+			break
+		end
+	end
+	
+	if is_my_area_dangerous and not is_follow_unit_area_dangerous then
+		return true
+	end
 end

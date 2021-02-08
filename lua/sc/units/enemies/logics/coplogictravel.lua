@@ -1316,9 +1316,9 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 		local dest_nav_seg_id = my_data.coarse_path[#my_data.coarse_path][1]
 		local dest_area = managers.groupai:state():get_area_from_nav_seg_id(dest_nav_seg_id)
 		local cover = nil
+		local follow_pos = objective.follow_unit:movement():nav_tracker():field_position()
 
-		if CopLogicTravel._needs_cover_at_destination(data, dest_area) then
-			local follow_pos = objective.follow_unit:movement():nav_tracker():field_position()
+		if CopLogicTravel._needs_cover_at_destination(data, dest_area) then			
 			local threat_pos, max_dist = nil
 
 			if data.attention_obj and data.attention_obj.nav_tracker and REACT_COMBAT <= data.attention_obj.reaction then
@@ -1344,12 +1344,12 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 			local max_dist = nil
 
 			if objective.called then
-				max_dist = 600
+				max_dist = 500
 			elseif my_data.called then
-				max_dist = 450
+				max_dist = 400
 			end
 
-			local to_pos = CopLogicTravel._get_pos_on_wall(dest_area.pos, max_dist, nil, nil, data.pos_rsrv_id) ----
+			local to_pos = CopLogicTravel._get_pos_on_wall(follow_pos, max_dist, nil, nil, data.pos_rsrv_id) ----
 			occupation = {
 				type = "defend",
 				pos = to_pos,
