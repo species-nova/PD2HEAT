@@ -1,6 +1,11 @@
 local mvec3_set = mvector3.set
 local tmp_vec1 = Vector3()
 
+local mrot_lookat = mrotation.set_look_at
+local tmp_rot_1 = Rotation()
+
+local math_up = math.UP
+
 function TeamAIMovement:sync_reload_weapon(empty_reload, reload_speed_multiplier)
 	local reload_action = {
 		body_part = 3,
