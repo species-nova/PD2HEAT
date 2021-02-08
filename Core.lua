@@ -38,6 +38,7 @@ function restoration:Init()
 		"jolly", --aftershock
 		"rvd1", --highland mortuary 
 		"mad", --boiling point
+		"wwh", --alaskan deal
 		"watchdogs_2", --watch dogs 2
 		"watchdogs_2_day", --Watchdogs Day 2 Daytime
 		"jolly_CD", --jolly crackdown edit
