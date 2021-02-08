@@ -72,6 +72,8 @@ function restoration:Init()
 		"ukrainian_job", --Ukrainian Job
 		"pex", --police station mex
 		"man", --undercover--
+		"rvd2", --garnet group boutique 
+		"brb", --brooklyn bank 
 		--custom heists
 		"wetwork", --res map package wetworks
 		"alex_1_res", --Rats Day 1 res edit version
