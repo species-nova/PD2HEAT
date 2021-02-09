@@ -1106,7 +1106,7 @@ end
 function PlayerManager:get_hostage_bonus_multiplier(category)
 	local groupai = managers.groupai and managers.groupai:state()
 	local hostages = groupai and groupai:hostage_count() or 0
-	local minions = hostages + (groupai and groupai._num_converted_police or self:num_local_minions() or 0)
+	hostages = hostages + (groupai and groupai._num_converted_police or self:num_local_minions() or 0)
 	local multiplier = 0
 	local hostage_max_num = tweak_data:get_raw_value("upgrades", "hostage_max_num", category)
 
@@ -1129,7 +1129,7 @@ end
 function PlayerManager:get_hostage_bonus_addend(category)
 	local groupai = managers.groupai and managers.groupai:state()
 	local hostages = groupai and groupai:hostage_count() or 0
-	local minions = hostages + (groupai and groupai._num_converted_police or self:num_local_minions() or 0)
+	hostages = hostages + (groupai and groupai._num_converted_police or self:num_local_minions() or 0)
 	local addend = 0
 	local hostage_max_num = tweak_data:get_raw_value("upgrades", "hostage_max_num", category)
 
