@@ -77,7 +77,6 @@ function restoration:Init()
 		--custom heists
 		"wetwork", --res map package wetworks
 		"alex_1_res", --Rats Day 1 res edit version
-		"man_res", --undercover HEAT edit--
 		"lvl_fourmorestores", --four more stores
 		"ukrainian_job_res", --Ukrainian Job res edit version
 		"hntn" --harvest and trustee north
@@ -153,7 +152,6 @@ function restoration:Init()
 		"sah", --Shacklethorne
 		"chill_combat",	--Safehouse Raid
 		"man", --Undercover
-		"man_res", --Undercover resmod edit		
 		"jolly", --Aftershock
 		"branchbank", --Bank heist
 		"firestarter_3", --firestarter day 3
