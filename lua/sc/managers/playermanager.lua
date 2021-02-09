@@ -1118,7 +1118,7 @@ function PlayerManager:get_hostage_bonus_multiplier(category)
 	multiplier = multiplier + self:team_upgrade_value(category, "passive_hostage_multiplier", 1) - 1
 	multiplier = multiplier + self:upgrade_value("player", "hostage_" .. category .. "_multiplier", 1) - 1
 	multiplier = multiplier + self:upgrade_value("player", "passive_hostage_" .. category .. "_multiplier", 1) - 1
-	local local_player = self:local_player()
+	--Removed useless local_player call.
 
 	--No close to hostage boosts.
 

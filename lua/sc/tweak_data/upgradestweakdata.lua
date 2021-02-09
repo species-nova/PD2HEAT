@@ -565,7 +565,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 				--Partners in Crime--
 					--Basic
-						--Minor misname, actually applies to hostages now.
 						self.values.player.hostage_speed_multiplier = {1.03}
 					--Ace
 						self.values.player.hostage_health_multiplier = {1.1}
