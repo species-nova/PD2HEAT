@@ -9,12 +9,24 @@ local pairs_g = pairs
 Month = os.date("%m")
 local job = Global.level_data and Global.level_data.level_id
 
+local summers_crew = {
+	taser_summers = true,
+	boom_summers = true,
+	medic_summers = true
+}
+
 Hooks:PostHook(CopBase, "post_init", "postinithooksex", function(self)
     self:random_mat_seq_initialization()
 	
 	if self._tweak_table == "spooc" then
 		self._unit:damage():run_sequence_simple("turn_on_spook_lights")
 	end
+	
+	if summers_crew[self._tweak_table] then
+		self._engagement_range = 1125 --manually set engagement range so these idiots can stick to summers properly without fucking up their weapon usages
+		managers.enemy:register_summers_crew(self._unit)
+	end
+	
 	if self._tweak_table == "phalanx_vip" or self._tweak_table == "spring" or self._tweak_table == "summers" or self._tweak_table == "headless_hatman" or managers.skirmish:is_skirmish() and self._tweak_table == "autumn" then
 		GroupAIStateBesiege:set_assault_endless(true)
 		managers.hud:set_buff_enabled("vip", true)

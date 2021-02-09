@@ -384,6 +384,13 @@ function UnitNetworkHandler:action_hurt_start(unit, hurt_type_idx, body_part, de
 	end
 end
 
+local no_heal_anim = {
+	taser_summers = true,
+	boom_summers = true,
+	medic_summers = true,
+	tank_medic = true
+}
+
 function UnitNetworkHandler:sync_medic_heal(unit, sender)
 	if not self._verify_gamestate(self._gamestate_filter.any_ingame) or not self._verify_sender(sender) then
 		return
@@ -398,17 +405,40 @@ function UnitNetworkHandler:sync_medic_heal(unit, sender)
 			unit:contour():add("medic_show")
 			unit:contour():flash("medic_show", 0.2)
 		end
+		
+		local anim_data = unit:anim_data()
+		local acting = anim_data and anim_data.act
 
 		if unit:anim_data() and unit:anim_data().act then
 			unit:sound():say("heal")
 		else
-			local action_data = {
-				body_part = 1,
-				type = "heal",
-				client_interrupt = Network:is_client()
-			}
+			local my_tweak_data = unit:base()._tweak_table
+			
+			if no_heal_anim[my_tweak_data] then
+				local redir_res = unit:movement():play_redirect("cmd_get_up")
 
-			unit:movement():action_request(action_data)
+				if redir_res then
+					unit:anim_state_machine():set_speed(redir_res, 0.5)
+				end
+				
+				if unit:base():char_tweak()["custom_voicework"] then
+					local voicelines = _G.voiceline_framework.BufferedSounds[unit:base():char_tweak().custom_voicework]
+					if voicelines and voicelines["heal"] then
+						local line_to_use = voicelines.heal[math.random(#voicelines.heal)]
+						unit:base():play_voiceline(line_to_use)
+					end
+				else
+					unit:sound():say("heal")
+				end
+			else
+				local action_data = {
+					body_part = 1,
+					type = "heal",
+					client_interrupt = Network:is_client()
+				}
+
+				unit:movement():action_request(action_data)
+			end
 		end
 	end
 end

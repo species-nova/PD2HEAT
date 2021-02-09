@@ -5,46 +5,89 @@ local mvec3_dis = mvector3.distance
 local tmp_vec1 = Vector3()
 
 local t_fv = table.find_value
-
+local math_random = math.random
 local pairs_g = pairs
 
 local world_g = World
 local alive_g = alive
 
+function EnemyManager:init()
+	self:_init_enemy_data()
+
+	self._unit_clbk_key = "EnemyManager"
+	self._corpse_disposal_upd_interval = 5
+	self._shield_disposal_upd_interval = 15
+	self._shield_disposal_lifetime = 60
+	self._MAX_NR_SHIELDS = 8
+	self._queue_buffer = 0
+	self._registered_summers_crew = {}
+end
+
+function EnemyManager:register_summers_crew(unit)
+	if self._registered_summers_crew then
+		self._registered_summers_crew[#self._registered_summers_crew + 1] = unit
+	else
+		self._registered_summers_crew = {}
+		self._registered_summers_crew[#self._registered_summers_crew + 1] = unit
+	end
+end
+
+local summers_tier = {
+    summers = 1,
+    taser_summers = 2,
+    boom_summers = 2
+}
+
 function EnemyManager:get_nearby_medic(unit)
 	if self:is_civilian(unit) then
 		return nil
 	end
+	
+	local summers_heal = summers_tier[unit:base()._tweak_table]
 
-	local enemies = nil
+	if summers_heal then
+		local summers_crew = self._registered_summers_crew
 
-	if unit:base()._tweak_table == "taser_summers" or unit:base()._tweak_table == "boom_summers" then
-		enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.radius_summers, managers.slot:get_mask("enemies"))
+		if summers_heal > 1 then
+			for i = 1, #summers_crew do
+				local enemy = summers_crew[i]
 
-		for _, enemy in ipairs(enemies) do
-			if enemy:base():has_tag("medic_summers_special") and enemy:base():has_tag("custom") then
-				return enemy
+				if enemy:base()._tweak_table == "medic_summers" then
+					return enemy
+				end
 			end
+		else
+			return summers_crew[math_random(#summers_crew)]
 		end
-	elseif unit:base()._tweak_table == "summers" then
-		enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.radius_summers, managers.slot:get_mask("enemies"))
+	end
 
-		for _, enemy in ipairs(enemies) do
-			if enemy:base():has_tag("medic_summers") and enemy:base():has_tag("custom") then
-				return enemy
-			end
-		end
-	elseif unit:base()._tweak_table ~= "medic_summers" then
-		enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.medic.radius, managers.slot:get_mask("enemies"))
+	local enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.medic.radius, managers.slot:get_mask("enemies"))
 
-		for _, enemy in ipairs(enemies) do
-			if enemy:base():has_tag("medic")then
-				return enemy
-			end
+	for _, enemy in ipairs(enemies) do
+		if enemy:base():has_tag("medic")then
+			return enemy
 		end
 	end
 
 	return nil
+end
+
+function EnemyManager:on_enemy_unregistered(unit)
+	self._enemy_data.nr_units = self._enemy_data.nr_units - 1
+
+	managers.groupai:state():on_enemy_unregistered(unit)
+	
+	local summers_crew = self._registered_summers_crew
+	
+	if summers_crew then
+		for i = 1, #self._registered_summers_crew do
+			local enemy = summers_crew[i]
+			if enemy:key() == unit:key() then
+				table.remove(summers_crew, i)
+				break
+			end
+		end
+	end
 end
 
 function EnemyManager:_update_gfx_lod()

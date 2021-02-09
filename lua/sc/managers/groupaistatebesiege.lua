@@ -78,12 +78,160 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 	return _choose_best_groups_actual(self, best_groups, group, group_types, new_allowed_groups, weight, ...)
 end
 
---Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
-local _spawn_in_group_actual = GroupAIStateBesiege._spawn_in_group
-function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, ...)
-	group_timestamps[spawn_group_type] = self._t
 
-	return _spawn_in_group_actual(self, spawn_group, spawn_group_type, ...)
+function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_objective, ai_task) 
+	--need to set this up in an ugly-ass way to make sure this works, summers and other caps shouldnt intrude on other units spawning to prevent stupid bullshit
+	
+	group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
+	local spawn_group_desc = tweak_data.group_ai.enemy_spawn_groups[spawn_group_type]
+	local wanted_nr_units = nil
+
+	if type(spawn_group_desc.amount) == "number" then
+		wanted_nr_units = spawn_group_desc.amount
+	else
+		wanted_nr_units = math.random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+	end
+
+	local valid_unit_types = {}
+
+	self._extract_group_desc_structure(spawn_group_desc.spawn, valid_unit_types)
+
+	local unit_categories = tweak_data.group_ai.unit_categories
+	local total_wgt = 0
+	local i = 1
+
+	while i <= #valid_unit_types do
+		local spawn_entry = valid_unit_types[i]
+		local cat_data = unit_categories[spawn_entry.unit]
+
+		if not cat_data then
+			--debug_pause("[GroupAIStateBesiege:_spawn_in_group] unit category doesn't exist:", spawn_entry.unit)
+
+			return
+		end
+
+		local spawn_limit = managers.job:current_spawn_limit(cat_data.special_type)
+
+		if not spawn_group_desc.force and not cat_data.is_captain and cat_data.special_type and spawn_limit < self:_get_special_unit_type_count(cat_data.special_type) + (spawn_entry.amount_min or 0) then
+			spawn_group.delay_t = self._t + 10
+
+			return
+		else
+			total_wgt = total_wgt + spawn_entry.freq
+			i = i + 1
+		end
+	end
+	
+	if not spawn_group_desc.force then
+		for _, sp_data in ipairs(spawn_group.spawn_pts) do
+			sp_data.delay_t = self._t + math.rand(0.5)
+		end
+	end
+
+	local spawn_task = {
+		objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
+		units_remaining = {},
+		spawn_group = spawn_group,
+		force = spawn_group_desc.force,
+		spawn_group_type = spawn_group_type,
+		ai_task = ai_task
+	}
+
+	table.insert(self._spawning_groups, spawn_task)
+
+	local function _add_unit_type_to_spawn_task(i, spawn_entry)
+		local spawn_amount_mine = 1 + (spawn_task.units_remaining[spawn_entry.unit] and spawn_task.units_remaining[spawn_entry.unit].amount or 0)
+		spawn_task.units_remaining[spawn_entry.unit] = {
+			amount = spawn_amount_mine,
+			spawn_entry = spawn_entry
+		}
+		wanted_nr_units = wanted_nr_units - 1
+
+		if spawn_entry.amount_min then
+			spawn_entry.amount_min = spawn_entry.amount_min - 1
+		end
+
+		if spawn_entry.amount_max then
+			spawn_entry.amount_max = spawn_entry.amount_max - 1
+
+			if spawn_entry.amount_max == 0 then
+				table.remove(valid_unit_types, i)
+
+				total_wgt = total_wgt - spawn_entry.freq
+
+				return true
+			end
+		end
+	end
+
+	local i = 1
+
+	while i <= #valid_unit_types do
+		local spawn_entry = valid_unit_types[i]
+
+		if i <= #valid_unit_types and wanted_nr_units > 0 and spawn_entry.amount_min and spawn_entry.amount_min > 0 and (not spawn_entry.amount_max or spawn_entry.amount_max > 0) then
+			if not _add_unit_type_to_spawn_task(i, spawn_entry) then
+				i = i + 1
+			end
+		else
+			i = i + 1
+		end
+	end
+
+	while wanted_nr_units > 0 and #valid_unit_types ~= 0 do
+		local rand_wght = math.random() * total_wgt
+		local rand_i = 1
+		local rand_entry = nil
+
+		repeat
+			rand_entry = valid_unit_types[rand_i]
+			rand_wght = rand_wght - rand_entry.freq
+
+			if rand_wght <= 0 then
+				break
+			else
+				rand_i = rand_i + 1
+			end
+		until false
+
+		local cat_data = unit_categories[rand_entry.unit]
+		local spawn_limit = managers.job:current_spawn_limit(cat_data.special_type)
+
+		if cat_data.special_type and not cat_data.is_captain and spawn_limit <= self:_get_special_unit_type_count(cat_data.special_type) then
+			table.remove(valid_unit_types, rand_i)
+
+			total_wgt = total_wgt - rand_entry.freq
+		else
+			_add_unit_type_to_spawn_task(rand_i, rand_entry)
+		end
+	end
+
+	local group_desc = {
+		size = 0,
+		type = spawn_group_type
+	}
+
+	for u_name, spawn_info in pairs(spawn_task.units_remaining) do
+		group_desc.size = group_desc.size + spawn_info.amount
+	end
+
+	local group = self:_create_group(group_desc)
+	group.objective = grp_objective
+	group.objective.moving_out = true
+	group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
+	spawn_task.group = group
+
+	return group
+end
+
+function GroupAIStateBesiege:_upd_group_spawning(use_last)
+	local spawn_task = self._spawning_groups[use_last and #self._spawning_groups or 1]
+
+	if not spawn_task then
+		return
+	end
+
+	self:_perform_group_spawning(spawn_task, spawn_task.force, use_last)
 end
 
 -- Cache for normal spawngroups to avoid losing them when they're overwritten.
@@ -1773,8 +1921,8 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 	local group_ai_tweak = tweak_data.group_ai
 	local spawn_points = spawn_task.spawn_group.spawn_pts
 
-	local function _try_spawn_unit(u_type_name, spawn_entry)
-		if GroupAIStateBesiege._MAX_SIMULTANEOUS_SPAWNS <= nr_units_spawned and not force then
+	local function _try_spawn_unit(u_type_name, spawn_entry, force)
+		if not force and GroupAIStateBesiege._MAX_SIMULTANEOUS_SPAWNS <= nr_units_spawned then
 			return
 		end
 
@@ -1787,7 +1935,7 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 			if (sp_data.accessibility == "any" or category.access[sp_data.accessibility]) and (not sp_data.amount or sp_data.amount > 0) and sp_data.mission_element:enabled() then
 				hopeless = false
 
-				if sp_data.delay_t < self._t then
+				if force or sp_data.delay_t < self._t then
 					local units = category.unit_types[current_unit_type]
 					produce_data.name = units[math_random(#units)]
 					produce_data.name = managers.modifiers:modify_value("GroupAIStateBesiege:SpawningUnit", produce_data.name)
@@ -1844,8 +1992,10 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 						spawn_task.ai_task.force_spawned = spawn_task.ai_task.force_spawned + 1
 						spawned_unit:brain()._logic_data.spawned_in_phase = spawn_task.ai_task.phase
 					end
-
-					sp_data.delay_t = self._t + sp_data.interval
+					
+					if not force then
+						sp_data.delay_t = self._t + sp_data.interval
+					end
 
 					if sp_data.amount then
 						sp_data.amount = sp_data.amount - 1
@@ -1866,7 +2016,7 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 	for u_type_name, spawn_info in pairs(spawn_task.units_remaining) do
 		if not group_ai_tweak.unit_categories[u_type_name].access.acrobatic then
 			for i = spawn_info.amount, 1, -1 do
-				local success = _try_spawn_unit(u_type_name, spawn_info.spawn_entry)
+				local success = _try_spawn_unit(u_type_name, spawn_info.spawn_entry, force)
 
 				if success then
 					spawn_info.amount = spawn_info.amount - 1
@@ -1879,7 +2029,7 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 
 	for u_type_name, spawn_info in pairs(spawn_task.units_remaining) do
 		for i = spawn_info.amount, 1, -1 do
-			local success = _try_spawn_unit(u_type_name, spawn_info.spawn_entry)
+			local success = _try_spawn_unit(u_type_name, spawn_info.spawn_entry, force)
 
 			if success then
 				spawn_info.amount = spawn_info.amount - 1

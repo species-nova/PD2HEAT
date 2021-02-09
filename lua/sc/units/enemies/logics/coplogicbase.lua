@@ -1192,7 +1192,7 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention)
 			end
 				
 			if REACT_COMBAT <= attention.reaction then
-				local dis = data.internal_data.weapon_range and data.internal_data.weapon_range.optimal or 2000
+				local dis = data.unit:base()._engagement_range or data.internal_data.weapon_range and data.internal_data.weapon_range.optimal or 2000
 				local visible_softer = attention.verified_t and data.t - attention.verified_t < 7
 				if visible_softer and attention.dis <= dis then
 					return true, true

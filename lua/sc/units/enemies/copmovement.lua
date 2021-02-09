@@ -671,30 +671,28 @@ function CopMovement:do_summers_heal(t)
 		self._summers_heal_cooldown = t + 0.4
 	end
 
-	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._summers_heal_radius, self._summers_heal_slotmask)
+	local enemies = managers.enemy._registered_summers_crew
 	local healed_someone = nil
 
 	for i = 1, #enemies do
 		local enemy = enemies[i]
 
-		if summers_heal_cops_to_heal[enemy:base()._tweak_table] then
-			local dmg_ext = enemy:character_damage()
-			local health_left = dmg_ext._health
-			local max_health = dmg_ext._HEALTH_INIT
+		local dmg_ext = enemy:character_damage()
+		local health_left = dmg_ext._health
+		local max_health = dmg_ext._HEALTH_INIT
 
-			if health_left < max_health then
-				healed_someone = true
+		if health_left < max_health then
+			healed_someone = true
 
-				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
-				local contour_ext = enemy:contour()
+			local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+			local contour_ext = enemy:contour()
 
-				if contour_ext then
-					contour_ext:add("medic_heal", true)
-					contour_ext:flash("medic_heal", 0.2)
-				end
-
-				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
+			if contour_ext then
+				contour_ext:add("medic_heal", true)
+				contour_ext:flash("medic_heal", 0.2)
 			end
+
+			dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
 		end
 	end
 
@@ -1326,15 +1324,17 @@ function CopMovement:damage_clbk(my_unit, damage_info)
 		elseif self._tweak_data.ignore_medic_revive_animation then
 			return
 		end
+		
+		if self._ext_base._tweak_table == "summers" then
+			local action_data = {
+				body_part = 1,
+				type = "healed",
+				client_interrupt = Network:is_client(),
+				allow_network = true
+			}
 
-		local action_data = {
-			body_part = 1,
-			type = "healed",
-			client_interrupt = Network:is_client(),
-			allow_network = true
-		}
-
-		self:action_request(action_data)
+			self:action_request(action_data)
+		end
 
 		return
 	elseif hurt_type == "death" and damage_info.is_synced then

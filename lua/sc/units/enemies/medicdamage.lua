@@ -1,3 +1,10 @@
+local no_heal_anim = {
+	taser_summers = true,
+	boom_summers = true,
+	medic_summers = true,
+	tank_medic = true
+}
+
 function MedicDamage:heal_unit(unit, override_cooldown)
 	if self._unit:anim_data() and self._unit:anim_data().act then
 		return false
@@ -66,14 +73,29 @@ function MedicDamage:heal_unit(unit, override_cooldown)
 			self._unit:contour():add("medic_show", false)
 			self._unit:contour():flash("medic_show", 0.2)
 		end
+		
+		if no_heal_anim[my_tweak_data] then
+			local anim_data = self._unit:anim_data()
+			local acting = anim_data and anim_data.act
 
-		local action_data = {
-			body_part = 1,
-			type = "heal",
-			client_interrupt = Network:is_client()
-		}
+			if not acting then
+				local redir_res = self._unit:movement():play_redirect("cmd_get_up")
 
-		self._unit:movement():action_request(action_data)
+				if redir_res then
+					self._unit:anim_state_machine():set_speed(redir_res, 0.5)
+				end
+			end
+			
+			self._unit:sound():say("heal")
+		else
+			local action_data = {
+				body_part = 1,
+				type = "heal",
+				client_interrupt = Network:is_client()
+			}
+
+			self._unit:movement():action_request(action_data)
+		end
 	end
 
 	--temporarily disabling buffs because there's no way to sync them properly when a client locally procs the heal
