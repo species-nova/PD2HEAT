@@ -1495,14 +1495,6 @@ function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
 		--log("they're in my area")
 		return
 	end
-	
-	local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
-	local raycast = data.unit:raycast("ray", movement_ext:m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
-	
-	if raycast then
-		--log("no los")
-		return true
-	end	
 
 	local is_my_area_dangerous, is_follow_unit_area_dangerous = nil
 	local my_areas = managers.groupai:state():get_areas_from_nav_seg_id(my_nav_seg_id)
@@ -1528,4 +1520,12 @@ function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
 	if is_my_area_dangerous and not is_follow_unit_area_dangerous then
 		return true
 	end
+	
+	local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
+	local raycast = data.unit:raycast("ray", movement_ext:m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
+	
+	if raycast then
+		--log("no los")
+		return true
+	end	
 end

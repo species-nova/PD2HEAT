@@ -6,7 +6,7 @@ local math_random = math.random
 local math_min = math.min
 
 local REACT_AIM = AIAttentionObject.REACT_AIM
-TeamAILogicAssault._COVER_CHK_INTERVAL = 0.7
+TeamAILogicAssault._COVER_CHK_INTERVAL = 1
 local REACT_COMBAT = AIAttentionObject.REACT_COMBAT
 
 function TeamAILogicAssault.enter(data, new_logic_name, enter_params)
