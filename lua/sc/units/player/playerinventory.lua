@@ -47,7 +47,7 @@ function PlayerInventory:sync_net_event(event_id, peer)
 end
 
 function PlayerInventory:get_jammer_time() --checking for a player upgrade that can actually be missing (local player isn't using the perk deck or lacks the first card) is not how you do this, defaulting to 0 also isn't smart
-	return tweak_data.upgrades.values.player.pocket_ecm_jammer_base and tweak_data.upgrades.values.player.pocket_ecm_jammer_base.duration or 6
+	return tweak_data.upgrades.values.player.pocket_ecm_jammer_base and tweak_data.upgrades.values.player.pocket_ecm_jammer_base.duration or 12
 end
 
 function PlayerInventory:_send_net_event_to_host(event_id) --if only OVK made a send_to_host_synched function to avoid having to do this all the time
