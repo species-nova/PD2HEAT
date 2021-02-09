@@ -149,7 +149,6 @@ function restoration:Init()
 		"flat",
 		"dah",
 		"framing_frame_3",
-		"spa",
 		"des",	
 		"arena",
 		"shoutout_raid", --Scripted spawns out the ass, doing this just to even it out
@@ -182,6 +181,7 @@ function restoration:Init()
 		"mia_2",		
 		"fex", --Buluc's Mansion
 		"nmh",
+		"spa",
 		"nail",	--Lab Rats. Fuck this heist	
 		"hox_1",
 		"xmn_hox_1",
