@@ -18380,20 +18380,20 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			elseif difficulty_index == 4 then
 				self.besiege.assault.groups.Cap_Autumn = {
 					0,
-					0.05,
-					0.2
+					0.025,
+					0.1
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Autumn = {
 					0,
-					0.1,
-					0.2
+					0.03,
+					0.1
 				}
 			else
 				self.besiege.assault.groups.Cap_Autumn = {
 					0,
-					0.15,
-					0.2
+					0.05,
+					0.1
 				}
 			end
 			break
@@ -18411,20 +18411,20 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			elseif difficulty_index == 4 then
 				self.besiege.assault.groups.Cap_Summers = {
 					0,
-					0.05,
-					0.2
+					0.025,
+					0.1
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Summers = {
 					0,
-					0.1,
-					0.2
+					0.03,
+					0.1
 				}
 			else
 				self.besiege.assault.groups.Cap_Summers = {
 					0,
-					0.15,
-					0.2
+					0.05,
+					0.1
 				}
 			end
 			break
@@ -18442,20 +18442,20 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			elseif difficulty_index == 4 then
 				self.besiege.assault.groups.Cap_Spring = {
 					0,
-					0.05,
+					0.025,
 					0.2
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Spring = {
 					0,
-					0.1,
-					0.2
+					0.03,
+					0.1
 				}
 			else
 				self.besiege.assault.groups.Cap_Spring = {
 					0,
-					0.15,
-					0.2
+					0.05,
+					0.1
 				}
 			end
 			break
@@ -18473,20 +18473,20 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			elseif difficulty_index == 4 then
 				self.besiege.assault.groups.HVH_Boss = {
 					0,
-					0.05,
-					0.2
+					0.025,
+					0.1
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.HVH_Boss = {
 					0,
-					0.1,
-					0.2
+					0.03,
+					0.1
 				}
 			else
 				self.besiege.assault.groups.HVH_Boss = {
 					0,
-					0.15,
-					0.2
+					0.05,
+					0.1
 				}
 			end
 			break
@@ -18504,20 +18504,20 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			elseif difficulty_index == 4 then
 				self.besiege.assault.groups.Cap_Winters = {
 					0,
-					0.05,
-					0.2
+					0.025,
+					0.1
 				}
 			elseif difficulty_index == 5 then
 				self.besiege.assault.groups.Cap_Winters = {
 					0,
-					0.1,
-					0.2
+					0.03,
+					0.1
 				}
 			else
 				self.besiege.assault.groups.Cap_Winters = {
 					0,
-					0.15,
-					0.2
+					0.05,
+					0.1
 				}
 			end
 			break
