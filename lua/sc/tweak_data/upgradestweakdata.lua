@@ -547,9 +547,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 					--Basic
 						self.values.player.convert_enemies = {true}
+						--Says health multiplier, but actually multiplies damage taken.
+						self.values.player.passive_convert_enemies_health_multiplier = {
+							0.4, --Basic
+							0.2 --Ace
+						}
 					--Ace
 						self.values.player.convert_enemies_health_multiplier = {0.45}
-						self.values.player.convert_enemies_damage_multiplier = {1.45, 1.45}
+						--self.values.player.convert_enemies_damage_multiplier = {1.45, 1.45}
 
 				--Stockholm Syndrome
 					--Basic
@@ -559,16 +564,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						self.values.player.civilian_gives_ammo = {true}
 
 				--Partners in Crime--
-					--Says health multiplier, but actually multiplies damage taken.
-					self.values.player.passive_convert_enemies_health_multiplier = {
-						0.5, --Basic
-						0.2 --Ace
-					}
 					--Basic
-						self.values.player.minion_master_speed_multiplier = {1.05}
+						--Minor misname, actually applies to hostages now.
+						self.values.player.hostage_speed_multiplier = {1.03}
 					--Ace
-						self.values.player.minion_master_health_multiplier = {1.15}
-							
+						self.values.player.hostage_health_multiplier = {1.1}
+
 				--Hostage Taker
 					self.values.player.hostage_health_regen_addend = {
 						0.1, --Basic
@@ -1346,9 +1347,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		health_regen = 4,
 		health = 4,
 		stamina = 4,
+		speed = 4,
 		damage_dampener = 1
 	}
-	self.values.team.health.hostage_multiplier = {1.025}
+	self.values.team.health.hostage_multiplier = {1.05}
 	self.values.team.stamina.hostage_multiplier = {1.10}
 	self.values.player.passive_dodge_chance = {
 		0.05,
@@ -2589,6 +2591,24 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "hostage_health_regen_max_mult",
+			category = "player"
+		}
+	}
+	self.definitions.player_hostage_health_multiplier = {
+		name_id = "menu_player_hostage_health_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hostage_health_multiplier",
+			category = "player"
+		}
+	}
+	self.definitions.player_hostage_speed_multiplier = {
+		name_id = "menu_player_hostage_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hostage_speed_multiplier",
 			category = "player"
 		}
 	}
