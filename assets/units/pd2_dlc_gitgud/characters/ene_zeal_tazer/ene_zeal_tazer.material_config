@@ -10,7 +10,6 @@
 	</material>
 	
 	<material name="mtr_head_lod_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS:SKINNED_3WEIGHTS" version="2">
-		<bump_normal_texture 	file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_nm"/>
 		<diffuse_texture 		file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_df"/>
 	</material>
 	
@@ -25,7 +24,6 @@
 	</material>
 	
 	<material name="mtr_body_lod_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS:SKINNED_3WEIGHTS" version="2">
-        <bump_normal_texture    file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_nm" mip="4"/>
         <diffuse_texture        file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_df" mip="4"/>
 	</material>
 	
@@ -40,7 +38,6 @@
 	</material>
 	
 	<material name="mtr_ene_acc_swat_helmet_lod_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS" version="2">
-        <bump_normal_texture    file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_nm" mip="4"/>
         <diffuse_texture        file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_df" mip="4"/>
 	</material>
 	
@@ -50,6 +47,10 @@
         <diffuse_texture file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_df"/>
         <reflection_texture type="cubemap" global_texture="current_global_texture"/>
         <variable value="10 4000 0" type="vector3" name="opacity_fade"/>                
+    </material>
+	
+    <material name="mtr_glass_lod" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS" version="2">
+        <diffuse_texture file="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_df" mip="4"/>
     </material>
 
     <material name="shadow_caster" render_template="shadow_caster_only:SKINNED_1WEIGHT" version="2"/>

@@ -10,7 +10,6 @@
 	</material>
 	
 	<material name="mtr_head_lod_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS:SKINNED_3WEIGHTS" version="2">
-		<bump_normal_texture 	file="units/pd2_dlc_gitgud/characters/ene_zeal_medic/ene_zeal_medic_head_nm" mip="4"/>
 		<diffuse_texture 		file="units/pd2_dlc_gitgud/characters/ene_zeal_medic/ene_zeal_medic_head_df" mip="4"/>
 	</material>
 		
@@ -25,7 +24,6 @@
 	</material>
 	
 	<material name="mtr_swat_lod_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS:SKINNED_3WEIGHTS" version="2">
-		<bump_normal_texture 	file="units/pd2_dlc_gitgud/characters/ene_zeal_cloaker/zeal_cloaker_body_nm" mip="4"/>
 		<diffuse_texture 		file="units/pd2_dlc_gitgud/characters/ene_zeal_medic/ene_zeal_medic_body_df" mip="4"/>
 	</material>
 		
@@ -40,7 +38,6 @@
 	</material>
 	
 	<material name="mtr_swat_lod1_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS:SKINNED_3WEIGHTS" version="2">
-		<bump_normal_texture 	file="units/payday2/characters/shared_textures/ene_medic_nm" mip="4"/>
 		<diffuse_texture 		file="units/payday2/characters/shared_textures/ene_medic_df" mip="4"/>
 	</material>
 	
@@ -55,7 +52,6 @@
     </material>
 	
     <material render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_COPS" name="mtr_ene_acc_swat_helmet_lod_2" version="2">
-        <bump_normal_texture file="units/pd2_dlc_gitgud/characters/ene_zeal_medic/ene_zeal_medic_head_nm" mip="4"/>
         <diffuse_texture file="units/pd2_dlc_gitgud/characters/ene_zeal_medic/ene_zeal_medic_head_df" mip="4"/>
     </material>
 	
