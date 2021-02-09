@@ -8,12 +8,13 @@ local warned_mods = {
     ["PD2THHSHIN"] = "Hyper Heisting",
     ["IreNFist"] = "IreNFist",
     ["SGO"] = "Seamlink's Gameplay Overhaul",
-    ["deathvox"] = "Crackdown"
+    ["deathvox"] = "Crackdown",
+	["RestorationMod"] = "Restoration Mod"
 }
 
 Hooks:PostHook(MenuNodeGui,"_setup_item_rows","resmod_incompat_warn",function(self,node,...)
     local title = "RESTORATION MOD INCOMPATIBLIITY WARNING"
-    local desc = "Caution! You have the following mods installed, which may conflict with Restoration Mod:\n"
+    local desc = "Caution! You have the following mods installed, which may conflict with HEAT:\n"
     local has_any
     for key,mod_name in pairs(warned_mods) do 
         if rawget(_G,key) then 
