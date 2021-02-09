@@ -910,7 +910,7 @@ function PlayerManager:fixed_health_regen()
 	health_regen = health_regen + self:upgrade_value("team", "crew_health_regen", 0)
 	health_regen = health_regen + self:get_hostage_bonus_addend("health_regen")
 	local groupai = managers.groupai and managers.groupai:state()
-	if (groupai and groupai:hostage_count() + #groupai._converted_police) or 0 >= tweak_data:get_raw_value("upgrades", "hostage_max_num", "health_regen") then
+	if (groupai and groupai:hostage_count() + table.size(groupai._converted_police)) or 0 >= tweak_data:get_raw_value("upgrades", "hostage_max_num", "health_regen") then
 		health_regen = health_regen + self:get_hostage_bonus_addend("health_regen") * self:upgrade_value("player", "hostage_health_regen_max_mult", 0)
 	end
 
@@ -1106,7 +1106,7 @@ end
 function PlayerManager:get_hostage_bonus_multiplier(category)
 	local groupai = managers.groupai and managers.groupai:state()
 	local hostages = groupai and groupai:hostage_count() or 0
-	local minions = hostages + (groupai and #groupai._converted_police or self:num_local_minions() or 0)
+	local minions = hostages + (groupai and table.size(groupai._converted_police) or self:num_local_minions() or 0)
 	local multiplier = 0
 	local hostage_max_num = tweak_data:get_raw_value("upgrades", "hostage_max_num", category)
 
@@ -1121,7 +1121,7 @@ function PlayerManager:get_hostage_bonus_multiplier(category)
 	local local_player = self:local_player()
 
 	--No close to hostage boosts.
-	
+
 	return 1 + multiplier * hostages
 end
 
@@ -1129,7 +1129,7 @@ end
 function PlayerManager:get_hostage_bonus_addend(category)
 	local groupai = managers.groupai and managers.groupai:state()
 	local hostages = groupai and groupai:hostage_count() or 0
-	local minions = hostages + (groupai and #groupai._converted_police or self:num_local_minions() or 0)
+	local minions = hostages + (groupai and table.size(groupai._converted_police) or self:num_local_minions() or 0)
 	local addend = 0
 	local hostage_max_num = tweak_data:get_raw_value("upgrades", "hostage_max_num", category)
 
