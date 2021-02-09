@@ -204,6 +204,24 @@
     <object path="units/pd2_mod_lapd/characters/ene_city_swat_3/ene_city_swat_3"/>
 	<cooked_physics path="units/pd2_mod_lapd/characters/ene_city_swat_3/ene_city_swat_3"/>
 	<model path="units/pd2_mod_lapd/characters/ene_city_swat_3/ene_city_swat_3"/>
+	
+	<!--City Heavy g36-->
+    <unit path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36" load="true"/>
+    <unit path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36_husk" load="true"/>
+    <object path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36"/>
+	<cooked_physics path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36"/>
+	<model path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36"/>
+	<material_config path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36"/>
+	<material_config path="units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36_contour"/>
+	
+	<!--City Heavy r870-->
+    <unit path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc" load="true"/>
+    <unit path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc_husk" load="true"/>
+    <object path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc"/>
+	<cooked_physics path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc"/>
+	<model path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc"/>
+	<material_config path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc"/>
+	<material_config path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc_contour"/>
 
 	<!--M416 -->
 	<unit_mat path="units/pd2_mod_lapd/weapons/wpn_npc_m416/wpn_npc_m416" />
@@ -228,6 +246,8 @@
 	<unit path="units/pd2_mod_lapd/characters/ene_lapd_veteran_cop_2/ene_lapd_veteran_cop_2_husk" load="true"/>			
 	
 	<!--LAPD shared_textures crap-->
+	<texture path="units/pd2_mod_lapd/characters/shared_textures/genshill_helm_df" />	
+	<texture path="units/pd2_mod_lapd/characters/shared_textures/ene_city_heavy_df" />	
 	<texture path="units/pd2_mod_lapd/characters/shared_textures/swat_fbi_body_df" />	
 	<texture path="units/pd2_mod_lapd/characters/shared_textures/swat_city_df" />	
 	<texture path="units/pd2_mod_lapd/characters/shared_textures/swat_body_df" />	

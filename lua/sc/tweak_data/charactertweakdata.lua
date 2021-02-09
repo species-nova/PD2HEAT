@@ -15349,6 +15349,8 @@ function CharacterTweakData:character_map()
 				"ene_fbi_heavy_1",
 				"ene_fbi_heavy_r870",
 				"ene_fbi_heavy_r870_sc",
+				"ene_city_heavy_g36",
+				"ene_city_heavy_r870_sc",
 				"ene_swat_1",
 				"ene_swat_2",
 				"ene_swat_heavy_1",
