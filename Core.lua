@@ -194,6 +194,22 @@ function restoration:Init()
 		--Custom Heists below--
 		"Victor Romeo"
 	}
+
+	--For custom heists that seem to be broken with our normal spawn setup
+	restoration.bad_spawn_heists = {
+		"help",
+		"fex", --Buluc's Mansion			
+		--Custom Heists--
+		"Victor Romeo",
+		"hardware_store",
+		"tj_htsb",
+		"hntn",
+		"bookmakers_office",
+		"thechase",
+		"office_strike",
+		"santa_pain"
+	}	
+
 	--Christmas Effects Heists
 	restoration.christmas_heists = {
 		"roberts",
