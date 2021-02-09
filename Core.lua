@@ -51,6 +51,7 @@ function restoration:Init()
 		"xmn_hox_2", --Hoxout Day 2, christmas
 		"firestarter_1", --firestarter day 1
 		"arm_for",	--train heist
+		"arm_for_heat",	--train heist heat edit
 		"big", --big bank
 		"kenaz", --ggc
 		"bex", --san martin bank
