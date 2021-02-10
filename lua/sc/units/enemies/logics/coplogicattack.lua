@@ -1816,7 +1816,7 @@ function CopLogicAttack.aim_allow_fire(shoot, aim, data, my_data)
 end
 
 function CopLogicAttack.chk_should_turn(data, my_data)
-	return not my_data.turning and not my_data.has_old_action and not my_data.advancing and not my_data.moving_to_cover and not my_data.walking_to_cover_shoot_pos and not my_data.surprised and not data.unit:movement():chk_action_forbidden("walk")
+	return not my_data.turning and not my_data.has_old_action and not my_data.advancing and not my_data.moving_to_cover and not my_data.walking_to_cover_shoot_pos and not my_data.surprised and not my_data.menacing and not data.unit:movement():chk_action_forbidden("walk")
 end
 
 function CopLogicAttack._get_cover_offset_pos(data, cover_data, threat_pos)
@@ -2388,7 +2388,7 @@ function CopLogicAttack._chk_exit_attack_logic(data, new_reaction)
 end
 
 function CopLogicAttack.action_taken(data, my_data)
-	return my_data.turning or my_data.has_old_action or my_data.advancing or my_data.moving_to_cover or my_data.walking_to_cover_shoot_pos or my_data.surprised or data.unit:movement():chk_action_forbidden("walk")
+	return my_data.turning or my_data.has_old_action or my_data.advancing or my_data.moving_to_cover or my_data.walking_to_cover_shoot_pos or my_data.surprised or my_data.menacing or data.unit:movement():chk_action_forbidden("walk")
 end
 
 function CopLogicAttack._upd_stop_old_action(data, my_data)

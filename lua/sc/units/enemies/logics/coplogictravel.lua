@@ -1438,7 +1438,7 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 	return occupation
 end
 
-function CopLogicTravel._get_pos_on_wall(from_pos, max_dist, step_offset, is_recurse, pos_rsrv_id)
+function CopLogicTravel._get_pos_on_wall(from_pos, max_dist, step_offset, is_recurse, pos_rsrv_id, too_same_dis)
 	local nav_manager = managers.navigation
 	local nr_rays = 7
 	local ray_dis = max_dist or 1000
@@ -1488,14 +1488,17 @@ function CopLogicTravel._get_pos_on_wall(from_pos, max_dist, step_offset, is_rec
 
 		if ray_res then
 			rsrv_desc.position = ray_params.trace[1]
-			local is_free = nav_manager:is_pos_free(rsrv_desc)
+			
+			if not too_same_dis or too_same_dis < mvec3_dis(rsrv_desc.position, from_pos) then
+				local is_free = nav_manager:is_pos_free(rsrv_desc)
 
-			if is_free then
-				nav_manager:destroy_nav_tracker(from_tracker)
+				if is_free then
+					nav_manager:destroy_nav_tracker(from_tracker)
 
-				return ray_params.trace[1]
+					return ray_params.trace[1]
+				end
 			end
-		elseif not fail_position then
+		elseif not fail_position then --no need to check for too_same here since that means the ray didnt even hit anything which means it'll almost definitely be a different pos
 			rsrv_desc.position = ray_params.trace[1]
 			local is_free = nav_manager:is_pos_free(rsrv_desc)
 
@@ -1516,7 +1519,7 @@ function CopLogicTravel._get_pos_on_wall(from_pos, max_dist, step_offset, is_rec
 	end
 
 	if not is_recurse then
-		return CopLogicTravel._get_pos_on_wall(from_pos, ray_dis * 0.5, offset + step * 0.5, true, pos_rsrv_id)
+		return CopLogicTravel._get_pos_on_wall(from_pos, ray_dis * 0.5, offset + step * 0.5, true, pos_rsrv_id, too_same_dis and too_same_dis * 0.5 or nil)
 	end
 
 	return from_pos

@@ -1714,6 +1714,8 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 	local too_close_threshold = data.internal_data.weapon_range.close
 	local harasser = data.tactics and data.tactics.harass
 	local spoocavoider = data.tactics and data.tactics.spoocavoidance
+	local tunneler = data.tactics and data.tactics.tunnel --wow toxic noob killer
+	local tunnel_enemy = nil
 
 	for u_key, attention_data in pairs(attention_objects) do
 		local att_unit = attention_data.unit
@@ -1956,6 +1958,14 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							elseif data.t - attention_data.acquire_t < 4 then --old enemy
 								target_priority_slot = target_priority_slot - 3
 							end
+							
+							if tunneler and data.attention_obj.is_person and reaction >= REACT_COMBAT then
+								tunnel_enemy = u_key
+							end
+						end
+						
+						if tunnel_enemy and u_key ~= tunnel_enemy then
+							target_priority_slot = target_priority_slot + 10
 						end
 
 						if harasser and valid_harass then
