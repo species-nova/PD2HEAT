@@ -659,6 +659,18 @@ function CrimeSpreeTweakData:init_modifiers(tweak_data)
 					speed = {25, "add"}
 				}
 			},
+			--Longer assault waves T1
+			{
+				id = "assault_extender_1",
+				class = "ModifierAssaultExtender",
+				icon = "crime_spree_assault_extender",
+				data = {
+					duration = {25, "add"},
+					spawn_pool = {25, "add"},
+					deduction = {5, "add"},
+					max_hostages = {4, "none"}
+				}
+			},
 			--50% less likely to be staggered
 			{
 				id = "no_hurt",
@@ -696,6 +708,18 @@ function CrimeSpreeTweakData:init_modifiers(tweak_data)
 				icon = "crime_spree_heavy_sniper",
 				data = {}
 			},
+			--Longer assault waves T2
+			{
+				id = "assault_extender_2",
+				class = "ModifierAssaultExtender",
+				icon = "crime_spree_assault_extender",
+				data = {
+					duration = {25, "add"},
+					spawn_pool = {25, "add"},
+					deduction = {5, "add"},
+					max_hostages = {4, "none"}
+				}
+			},
 			--Dozer Damage on visor break
 			{
 				id = "dozer_rage",
@@ -707,6 +731,13 @@ function CrimeSpreeTweakData:init_modifiers(tweak_data)
 						"add"
 					}
 				}
+			},
+			--Cloaker melee cuffs players
+			{
+				id = "cloaker_arrest",
+				class = "ModifierCloakerArrest",
+				icon = "crime_spree_cloaker_arrest",
+				data = {}
 			},
 			--More Titan HRTs
 			{
@@ -772,6 +803,18 @@ function CrimeSpreeTweakData:init_modifiers(tweak_data)
 					inc = {1, "add"}
 				}
 			},
+			--Longer assault waves T3
+			{
+				id = "assault_extender_3",
+				class = "ModifierAssaultExtender",
+				icon = "crime_spree_assault_extender",
+				data = {
+					duration = {25, "add"},
+					spawn_pool = {25, "add"},
+					deduction = {5, "add"},
+					max_hostages = {4, "none"}
+				}
+			},
 			--Medic heals everyone around him in AoE on death
 			{
 				id = "medic_deathwish",
@@ -811,24 +854,17 @@ function CrimeSpreeTweakData:init_modifiers(tweak_data)
 				icon = "crime_spree_dozer_medic",
 				data = {}
 			},
-			--Longer assault waves
+			--Longer assault waves T4
 			{
-				id = "assault_extender",
+				id = "assault_extender_4",
 				class = "ModifierAssaultExtender",
 				icon = "crime_spree_assault_extender",
 				data = {
-					duration = {50, "add"},
-					spawn_pool = {50, "add"},
-					deduction = {8, "add"},
+					duration = {25, "add"},
+					spawn_pool = {25, "add"},
+					deduction = {5, "add"},
 					max_hostages = {4, "none"}
 				}
-			},
-			--Cloaker melee cuffs players
-			{
-				id = "cloaker_arrest",
-				class = "ModifierCloakerArrest",
-				icon = "crime_spree_cloaker_arrest",
-				data = {}
 			},
 			--Medic gets damage increase for every unit that dies near him
 			{
@@ -875,7 +911,44 @@ function CrimeSpreeTweakData:init_modifiers(tweak_data)
 				data = {
 					speed = {25, "add"}
 				}
-			}	
+			},
+			--Tear gas deals 2x damage to those out of stamina
+			{
+				id = "vx_nerve_gas",
+				class = "ModifierNerveGas",
+				icon = "crime_spree_cloaker_tear_gas",
+				data = {}
+			},
+			--Cloaker and Taser downs are real
+			{
+				id = "real_down_hours",
+				class = "ModifierKickToDieInstantly",
+				icon = "crime_spree_medic_speed",
+				data = {}
+			},
+			--Tasers require a skill to knockdown
+			{
+				id = "zappy_zap",
+				class = "ModifierNoTaserStun",
+				icon = "crime_spree_taser_overcharge",
+				data = {}
+			},
+			--Taking damage slows player by 10%
+			{
+				id = "natascha_enemies",
+				class = "ModifierNatascha",
+				icon = "crime_spree_no_hurt",
+				data = {
+					slow = {10, "add"}
+				}
+			},
+			--Diff starts at 1 (evil)
+			{
+				id = "10_seconds_response_time",
+				class = "Modifier10SecondsResponseTime",
+				icon = "crime_spree_assault_extender",
+				data = {}
+			}
 		},
 		stealth = {
 			{

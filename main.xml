@@ -320,6 +320,10 @@
 		<hook file="sc/modifiers/new/modifierdodgethis.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
 		<hook file="sc/modifiers/new/modifierfriendlyfire.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
 		<hook file="sc/modifiers/new/modifier10secondsresponsetime.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
+		<hook file="sc/modifiers/new/modifierkicktodieinstantly.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
+		<hook file="sc/modifiers/new/modifiernatascha.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
+		<hook file="sc/modifiers/new/modifiernervegas.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
+		<hook file="sc/modifiers/new/modifiernotaserstun.lua" source_file="lib/modifiers/modifierenemyhealthanddamage"/>
 		<!--///MUTATORS\\\-->
 		<hook file="sc/managers/mutatorsmanager.lua" source_file="lib/managers/mutatorsmanager"/>
 		<hook file="sc/mutators/mutatorcloakereffect.lua" source_file="lib/mutators/mutatorcloakereffect"/>
