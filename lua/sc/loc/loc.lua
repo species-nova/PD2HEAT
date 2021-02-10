@@ -1770,7 +1770,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Partners in Crime
 			["menu_control_freak_beta_sc"] = "Partners in Crime",
-			["menu_control_freak_beta_desc_sc"] = "BASIC: ##$basic##\nEach hostage increases your movement speed by ##3%##, up to ##4## times.\n\nACE: ##$pro##\nEach hostage increases your health by ##8%##, up to ##4## times.",
+			["menu_control_freak_beta_desc_sc"] = "BASIC: ##$basic##\nEach hostage increases your movement speed by ##3%##, up to ##4## times.\n\nACE: ##$pro##\nEach hostage increases your health by ##10%##, up to ##4## times.",
 
 			--Hostage Taker
 			["menu_black_marketeer_beta_sc"] = "Hostage Taker",
