@@ -850,7 +850,6 @@ function BleedBulletBase:start_dot_damage(col_ray, weapon_unit, dot_data, weapon
  	end
 end
 
-
 --Adds a blood splat effect every time the bleed deals damage.
 function BleedBulletBase:give_damage_dot(col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
 	--Movement() can return nil, but can also itself be nil. Very fun!

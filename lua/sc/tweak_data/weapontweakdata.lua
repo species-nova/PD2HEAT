@@ -3199,7 +3199,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mp9.stats = {
 		damage = 18,
 		spread = 17,
-		recoil = 23,
+		recoil = 24,
 		spread_moving = 8,
 		zoom = 1,
 		concealment = 30,
@@ -3654,7 +3654,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_mp5.supported = true
 	self.new_mp5.stats = {
 		damage = 20,
-		spread = 17,
+		spread = 16,
 		recoil = 23,
 		spread_moving = 8,
 		zoom = 1,
@@ -4080,8 +4080,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mp7.supported = true
 	self.mp7.stats = {
 		damage = 24,
-		spread = 13,
-		recoil = 18,
+		spread = 14,
+		recoil = 19,
 		spread_moving = 7,
 		zoom = 1,
 		concealment = 26,
@@ -4570,7 +4570,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.scorpion.supported = true
 	self.scorpion.stats = {
 		damage = 20,
-		spread = 15,
+		spread = 16,
 		recoil = 22,
 		spread_moving = 7,
 		zoom = 1,
@@ -4585,6 +4585,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.scorpion.stats_modifiers = nil
 	self.scorpion.timers.reload_not_empty = 1.95		
 	self.scorpion.panic_suppression_chance = 0.05
+	self.scorpion.swap_speed_multiplier = 1.1
+	self.scorpion.reload_speed_multiplier = 1.1
 
 	--Blaster 9mm
 	self.tec9.AMMO_MAX = 75
@@ -4600,7 +4602,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.tec9.supported = true
 	self.tec9.stats = {
 		damage = 24,
-		spread = 15,
+		spread = 16,
 		recoil = 18,
 		spread_moving = 10,
 		zoom = 1,
@@ -4886,7 +4888,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.sterling.supported = true
 	self.sterling.stats = {
 		damage = 24,
-		spread = 15,
+		spread = 16,
 		recoil = 24,
 		spread_moving = 8,
 		zoom = 1,
@@ -4942,7 +4944,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m1928.stats = {
 		damage = 24,
 		spread = 14,
-		recoil = 19,
+		recoil = 22,
 		spread_moving = 6,
 		zoom = 1,
 		concealment = 22,
@@ -5342,21 +5344,21 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 	--Steakout
 	self.aa12.rays = 9
-	self.aa12.AMMO_MAX = 80
+	self.aa12.AMMO_MAX = 120
 	self.aa12.CLIP_AMMO_MAX = 10
 	self.aa12.AMMO_PICKUP = self.stat_info._pickup_chance
 	self.aa12.kick = self.stat_info.kick_tables.moderate_kick
-	self.aa12.FIRE_MODE = "auto"				
+	self.aa12.FIRE_MODE = "auto"
 	self.aa12.CAN_TOGGLE_FIREMODE = false
 	self.aa12.supported = true
 	self.aa12.stats = {
-		damage = 45,
-		spread = 6,
-		recoil = 20,
+		damage = 30,
+		spread = 7,
+		recoil = 24,
 		spread_moving = 7,
 		zoom = 1,
-		concealment = 20,
-		suppression = 6,
+		concealment = 25,
+		suppression = 7,
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
@@ -5935,7 +5937,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.sr2.supported = true
 	self.sr2.stats = {
 		damage = 20,
-		spread = 18,
+		spread = 15,
 		recoil = 21,
 		spread_moving = 8,
 		zoom = 1,
@@ -5961,7 +5963,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_sr2.supported = true
 	self.x_sr2.stats = {
 		damage = 20,
-		spread = 16,
+		spread = 15,
 		recoil = 11,
 		spread_moving = 8,
 		zoom = 1,
@@ -6011,7 +6013,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_mp5.supported = true
 	self.x_mp5.stats = {
 		damage = 20,
-		spread = 15,
+		spread = 14,
 		recoil = 13,
 		spread_moving = 8,
 		zoom = 1,
@@ -6185,7 +6187,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		recoil = 23,
 		spread_moving = 14,
 		zoom = 1,
-		concealment = 23,
+		concealment = 24,
 		suppression = 7,
 		alert_size = 2,
 		extra_ammo = 101,
@@ -6496,7 +6498,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.coal.stats = {
 		damage = 18,
 		spread = 16,
-		recoil = 23,
+		recoil = 25,
 		spread_moving = 9,
 		zoom = 1,
 		concealment = 25,
@@ -8647,7 +8649,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.amr12.stats = {
 			damage = 30,
 			spread = 9,
-			recoil = 17,
+			recoil = 19,
 			zoom = 1,
 			concealment = 25,
 			suppression = 5,
@@ -8892,7 +8894,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.ak5s.supported = true
 		self.ak5s.stats = {
 			damage = 20,
-			spread = 14,
+			spread = 15,
 			recoil = 24,
 			spread_moving = 8,
 			zoom = 1,

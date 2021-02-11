@@ -1322,6 +1322,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m4", "resmod_m4", function(self)
 		damage_far_mul = 1
 	}
 	
+	--[[
 	--(CAR) Drum Magazine 
 	self.parts.wpn_fps_upg_m4_m_drum = {
 		pcs = {},
@@ -1342,6 +1343,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m4", "resmod_m4", function(self)
 		}
 	}
 	self.parts.wpn_fps_upg_m4_m_drum.third_unit = "units/payday2/weapons/wpn_third_upg_m4_reusable/wpn_third_upg_m4_m_drum"
+	]]
 	
 	--(CAR) Tactical Mag.
 	self.parts.wpn_fps_upg_m4_m_pmag.pcs = {
@@ -1369,7 +1371,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m4", "resmod_m4", function(self)
 	self.parts.wpn_fps_upg_m4_m_straight.supported = true
 	self.parts.wpn_fps_upg_m4_m_straight.stats = {
 		value = 2,
-		concealment = 1,
+		concealment = 2,
 		reload = 3,
 		extra_ammo = -10
 	}
@@ -1707,7 +1709,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m16", "resmod_m16", function(self)
 		"wpn_fps_m4_upper_reciever_round",
 		"wpn_fps_m16_s_solid_vanilla",
 		"wpn_fps_m4_uupg_m_std_vanilla",
-		"wpn_fps_upg_m4_m_drum",
+		--"wpn_fps_upg_m4_m_drum",
 		"wpn_fps_upg_m4_m_pmag",
 		"wpn_fps_upg_m4_m_straight",
 		"wpn_fps_upg_m4_g_standard_vanilla",
@@ -2062,9 +2064,9 @@ end)
 Hooks:PostHook(WeaponFactoryTweakData, "_init_akm", "resmod_akm", function(self)
 
 	--Drum Mag
-	table.insert(self.wpn_fps_ass_akm.uses_parts, "wpn_upg_ak_m_drum")
-	table.insert(self.wpn_fps_ass_akm_npc.uses_parts, "wpn_upg_ak_m_drum")
-	self.wpn_fps_ass_akm_npc.uses_parts = deep_clone(self.wpn_fps_ass_akm.uses_parts)
+	--table.insert(self.wpn_fps_ass_akm.uses_parts, "wpn_upg_ak_m_drum")
+	--table.insert(self.wpn_fps_ass_akm_npc.uses_parts, "wpn_upg_ak_m_drum")
+	--self.wpn_fps_ass_akm_npc.uses_parts = deep_clone(self.wpn_fps_ass_akm.uses_parts)
 	
 end)
 
@@ -2072,9 +2074,9 @@ end)
 Hooks:PostHook(WeaponFactoryTweakData, "_init_akm_gold", "resmod_akm_gold", function(self)
 
 	--Drum Mag
-	table.insert(self.wpn_fps_ass_akm_gold.uses_parts, "wpn_upg_ak_m_drum")
-	table.insert(self.wpn_fps_ass_akm_gold_npc.uses_parts, "wpn_upg_ak_m_drum")
-	self.wpn_fps_ass_akm_gold_npc.uses_parts = deep_clone(self.wpn_fps_ass_akm_gold.uses_parts)
+	--table.insert(self.wpn_fps_ass_akm_gold.uses_parts, "wpn_upg_ak_m_drum")
+	--table.insert(self.wpn_fps_ass_akm_gold_npc.uses_parts, "wpn_upg_ak_m_drum")
+	--self.wpn_fps_ass_akm_gold_npc.uses_parts = deep_clone(self.wpn_fps_ass_akm_gold.uses_parts)
 
 end)
 
@@ -2216,8 +2218,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_saiga", "resmod_saiga", function(s
 	
 	--Izhma Part Additions
 	--Drum Mag
-	table.insert(self.wpn_fps_shot_saiga.uses_parts, "wpn_upg_saiga_m_20rnd")
-	table.insert(self.wpn_fps_shot_saiga_npc.uses_parts, "wpn_upg_saiga_m_20rnd")	
+	--table.insert(self.wpn_fps_shot_saiga.uses_parts, "wpn_upg_saiga_m_20rnd")
+	--table.insert(self.wpn_fps_shot_saiga_npc.uses_parts, "wpn_upg_saiga_m_20rnd")	
 
 	self.wpn_fps_shot_saiga_npc.uses_parts = deep_clone(self.wpn_fps_shot_saiga.uses_parts)
 
@@ -2578,7 +2580,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_mp9", "resmod_mp9", function(self)
 	self.parts.wpn_fps_smg_mp9_m_extended.stats = {
 		value = 4,
 		concealment = -1,
-		reload = -1,
+		spread = -1,
+		reload = -2,
 		extra_ammo = 10
 	}
 	
@@ -2812,8 +2815,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_mp5", "resmod_mp5", function(self)
 			value = 9,
 			extra_ammo = 20,
 			spread = -1,
-			concealment = -2,
-			reload = -2
+			concealment = -4,
+			reload = -4
 		}
 	}
 	self.parts.wpn_fps_smg_mp5_m_drum.third_unit = "units/payday2/weapons/wpn_third_smg_mp5_pts/wpn_third_smg_mp5_m_drum"
@@ -2984,8 +2987,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_mac10", "resmod_mac10", function(s
 	self.parts.wpn_fps_smg_mac10_m_extended.stats = {
 		value = 2,
 		concealment = -1,
+		spread = -1,
 		extra_ammo = 10,
-		reload = -1
+		reload = -2
 	}
 
 	--Skeletal Stock
@@ -3979,7 +3983,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m45", "resmod_m45", function(self)
 	self.parts.wpn_fps_smg_m45_m_extended.stats = {
 		value = 4,
 		concealment = -1,
-		reload = -1,
+		spread = -1,
+		reload = -2,
 		extra_ammo = 6
 	}
 	
@@ -4219,7 +4224,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_mp7", "resmod_mp7", function(self)
 	self.parts.wpn_fps_smg_mp7_m_extended.stats = {
 		value = 1,
 		concealment = -1,
-		reload = -1,
+		spread = -1,
+		reload = -2,
 		extra_ammo = 10
 	}
 
@@ -5084,7 +5090,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_fal", "resmod_fal", function(self)
 		value = 2,
 		extra_ammo = -10,
 		concealment = 2,
-		reload = 2
+		reload = 3
 	}
 	
 	--Standard Mag (Now Extended Magazine)
@@ -5823,7 +5829,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_scorpion", "resmod_scorpion", func
 		concealment = 1
 	}
 	
-	--Extended Mag
+	--Dual Mag
 	self.parts.wpn_fps_smg_scorpion_m_extended.pcs = {}
 	self.parts.wpn_fps_smg_scorpion_m_extended.supported = true
 	self.parts.wpn_fps_smg_scorpion_m_extended.stats = {
@@ -5881,7 +5887,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_tec9", "resmod_tec9", function(sel
 	self.parts.wpn_fps_smg_tec9_m_extended.stats = {
 		value = 4,
 		extra_ammo = 12,
-		reload = -1,
+		reload = -2,
+		spread = -1,
 		concealment = -1
 	}
 	
@@ -7189,6 +7196,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_sterling", "resmod_sterling", func
 		value = 1,
 		extra_ammo = 10,
 		reload = -2,
+		spread = -1,
 		concealment = -1
 	}
 	
@@ -7198,8 +7206,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_sterling", "resmod_sterling", func
 	self.parts.wpn_fps_smg_sterling_m_short.stats = {
 		value = 1,
 		extra_ammo = -10,
-		reload = 2,
-		concealment = 1
+		reload = 3,
+		concealment = 2
 	}
 	
 	--Folded Stock
@@ -8491,7 +8499,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 		extra_ammo = 10,
 		reload = -6,
 		spread = -1,
-		concealment = -3
+		concealment = -4
 	}
 	
 	--Override tables
@@ -8503,17 +8511,18 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 			stats = {
 				value = 10,
 				concealment = -5,
-				total_ammo_mod = -25,
+				total_ammo_mod = -33,
 				damage = 15,
-				spread = 8,
-				spread_multi = {1, 1},	
 				recoil = -2,
+				spread = 8,
+				suppression = -1,
+				spread_multi = {1, 1},	
 				moving_spread = 0
 			},
 			custom_stats = {
-				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",													
 				damage_near_mul = 999,
 				damage_far_mul = 999,
+				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",					
 				rays = 1,
 				armor_piercing_add = 1,
 				can_shoot_through_enemy = true,
@@ -8525,7 +8534,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 			supported = true,
 			stats = {
 				value = 9,
-				total_ammo_mod = -25,
+				total_ammo_mod = -33,
 				damage = 15
 			},
 			custom_stats = {
@@ -8538,7 +8547,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 			supported = true,
 			stats = {
 				value = 9,
-				total_ammo_mod = -25,
+				total_ammo_mod = -33,
 				damage = 15
 			},
 			custom_stats = {
@@ -8546,16 +8555,15 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 				damage_far_mul = 0.75,
 				rays = 6
 			}
-		},			
+		},
 		wpn_fps_upg_a_explosive = {
 			supported = true,
 			stats = {
 				value = 10,
-				concealment = -5,
 				total_ammo_mod = -50,
 				recoil = -5,
 				spread_multi = {1, 1},	
-				damage = 45
+				damage = 30
 			},
 			custom_stats = {
 				ignore_statistic = true,
@@ -8566,8 +8574,8 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 				bullet_class = "InstantExplosiveBulletBase"
 			}
 		},
-		wpn_fps_upg_a_piercing = a_piercing_semi_override,
-		wpn_fps_upg_a_dragons_breath = a_dragons_breath_semi_override
+		wpn_fps_upg_a_piercing = a_piercing_auto_override,
+		wpn_fps_upg_a_dragons_breath = a_dragons_breath_auto_override
 	}
 end)
 
@@ -9939,9 +9947,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_x_mp5", "resmod_x_mp5", function(s
 		stats = {
 			value = 9,
 			extra_ammo = 40,
-			reload = -2,
+			reload = -4,
 			spread = -1,
-			concealment = -2
+			concealment = -4
 		},
 	}
 	self.wpn_fps_smg_x_mp5.override.wpn_fps_smg_mp5_m_straight = {
@@ -10964,6 +10972,7 @@ function WeaponFactoryTweakData:_init_schakal()
 			value = 1,
 			extra_ammo = 10,
 			reload = -2,
+			spread = -1,
 			concealment = -1
 		},
 		dlc = "pim",
@@ -10981,8 +10990,8 @@ function WeaponFactoryTweakData:_init_schakal()
 		stats = {
 			value = 1,
 			extra_ammo = -10,
-			reload = 2,
-			concealment = 1,
+			reload = 3,
+			concealment = 2,
 		},
 		dlc = "pim",
 		texture_bundle_folder = "pim",
@@ -15337,7 +15346,7 @@ function WeaponFactoryTweakData:_init_corgi()
 			"wpn_fps_ass_corgi_ejector_standard",
 			"wpn_fps_smg_hajk_vg_moe",
 			"wpn_fps_m4_uupg_m_std_vanilla",
-			"wpn_fps_upg_m4_m_drum",
+			--"wpn_fps_upg_m4_m_drum",
 			"wpn_fps_upg_m4_m_pmag",
 			"wpn_fps_upg_m4_m_straight",
 			"wpn_fps_upg_m4_m_quad",
@@ -15876,7 +15885,8 @@ function WeaponFactoryTweakData:_init_x_m45()
 			wpn_fps_smg_m45_m_extended = {supported = true,stats = {
 				value = 4,
 				concealment = -1,
-				reload = -1,
+				reload = -2,
+				spread = -1,
 				extra_ammo = 12
 			}}
 		},
@@ -16012,7 +16022,8 @@ function WeaponFactoryTweakData:_init_x_mac10()
 				value = 2,
 				concealment = -1,
 				extra_ammo = 20,
-				reload = -1
+				reload = -2,
+				spread = -1
 			}},
 			wpn_fps_smg_mac10_m_quick = {supported = true,stats = {
 				value = 2,
@@ -16076,7 +16087,8 @@ function WeaponFactoryTweakData:_init_x_mp7()
 		override = {wpn_fps_smg_mp7_m_extended = {supported = true,stats = {
 				value = 1,
 				concealment = -1,
-				reload = -1,
+				reload = -2,
+				spread = -1,
 				extra_ammo = 20
 		}}},
 		default_blueprint = {
@@ -16128,7 +16140,8 @@ function WeaponFactoryTweakData:_init_x_mp9()
 		override = {wpn_fps_smg_mp9_m_extended = {supported = true,stats = {
 			value = 4,
 			concealment = -1,
-			reload = -1,
+			reload = -2,
+			spread = -1,
 			extra_ammo = 20
 		}}},
 		default_blueprint = {
@@ -16201,12 +16214,12 @@ function WeaponFactoryTweakData:_init_x_olympic()
 				reload = 3,
 				concealment = 2
 			}},
-			wpn_fps_upg_m4_m_drum = {supported = true,stats = {
+			--[[wpn_fps_upg_m4_m_drum = {supported = true,stats = {
 				value = 9,
 				extra_ammo = 80,
 				reload = -6,
 				concealment = -5
-			}}				
+			}}]]
 		},
 		animations = {
 			fire = "recoil",
@@ -16406,13 +16419,14 @@ function WeaponFactoryTweakData:_init_x_schakal()
 			wpn_fps_smg_schakal_m_short = {supported = true,stats = {
 				value = 1,
 				extra_ammo = -20,
-				reload = 2,
-				concealment = 1
+				reload = 3,
+				concealment = 2
 			}},
 			wpn_fps_smg_schakal_m_long = {supported = true,stats = {
 				value = 1,
 				extra_ammo = 20,
 				reload = -2,
+				spread = -1,
 				concealment = -1
 			}}
 		},
@@ -16574,13 +16588,14 @@ function WeaponFactoryTweakData:_init_x_sterling()
 			wpn_fps_smg_sterling_m_short = {supported = true,stats = {
 				value = 1,
 				extra_ammo = -20,
-				reload = 2,
-				concealment = 1
+				reload = 3,
+				concealment = 2
 			}},
 			wpn_fps_smg_sterling_m_long = {supported = true,stats = {
 				value = 1,
 				extra_ammo = 20,
 				reload = -2,
+				spread = -1,
 				concealment = -1
 			}},
 			wpn_fps_upg_ammo_762_sterling = {
@@ -16644,7 +16659,8 @@ function WeaponFactoryTweakData:_init_x_tec9()
 		override = {wpn_fps_smg_tec9_m_extended = {supported = true,stats = {
 			value = 4,
 			extra_ammo = 24,
-			reload = -1,
+			reload = -2,
+			spread = -1,
 			concealment = -1
 		}}},
 		default_blueprint = {
@@ -18364,7 +18380,7 @@ function WeaponFactoryTweakData:_init_shepheard()
 		stats = {
 			value = 1,
 			extra_ammo = -10,
-			reload = 2,
+			reload = 3,
 			concealment = 2			
 		}
 	}
@@ -18546,7 +18562,7 @@ function WeaponFactoryTweakData:_init_x_shepheard()
 		override = {wpn_fps_smg_shepheard_mag_extended = {supported = true,stats = {
 			value = 1,
 			extra_ammo = -20,
-			reload = 2,
+			reload = 3,
 			concealment = 2		
 		}}},
 		default_blueprint = {
@@ -23705,15 +23721,17 @@ if self.wpn_fps_shot_ks23 then 	-- Pawcio's KS-23
 		self.parts.wpn_fps_smg_cobray_m_extended.stats = {
 			value = 2,
 			extra_ammo = 12,
-			concealment = -2,				
-			reload = -3
+			concealment = -1,
+			spread = -1,				
+			reload = -2
 		}
 		self.parts.wpn_fps_smg_cobray_m_extended_akimbo.supported = true
 		self.parts.wpn_fps_smg_cobray_m_extended_akimbo.stats = {
 			value = 2,
 			extra_ammo = 24,
-			concealment = -2,				
-			reload = -3
+			concealment = -1,
+			spread = -1,				
+			reload = -2
 		}
 
 		--(Eagle Heavy) Extended Magazine
@@ -24221,6 +24239,7 @@ if self.wpn_fps_shot_ks23 then 	-- Pawcio's KS-23
 			value = 1,
 			extra_ammo = 10,
 			reload = -2,
+			spread = -1,
 			concealment = -1
 		}
 
@@ -24266,7 +24285,7 @@ if self.wpn_fps_shot_ks23 then 	-- Pawcio's KS-23
 		self.parts.wpn_fps_ass_m4_m_wick.stats = {
 			value = 2,
 			concealment = 2,
-			reload = 1,
+			reload = 3,
 			extra_ammo = -10
 		}
 
