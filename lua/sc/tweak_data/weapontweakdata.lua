@@ -3654,7 +3654,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_mp5.supported = true
 	self.new_mp5.stats = {
 		damage = 20,
-		spread = 16,
+		spread = 17,
 		recoil = 23,
 		spread_moving = 8,
 		zoom = 1,
@@ -5937,7 +5937,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.sr2.supported = true
 	self.sr2.stats = {
 		damage = 20,
-		spread = 15,
+		spread = 16,
 		recoil = 21,
 		spread_moving = 8,
 		zoom = 1,
@@ -5963,7 +5963,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_sr2.supported = true
 	self.x_sr2.stats = {
 		damage = 20,
-		spread = 13,
+		spread = 14,
 		recoil = 11,
 		spread_moving = 8,
 		zoom = 1,
@@ -6013,7 +6013,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_mp5.supported = true
 	self.x_mp5.stats = {
 		damage = 20,
-		spread = 14,
+		spread = 15,
 		recoil = 13,
 		spread_moving = 8,
 		zoom = 1,
