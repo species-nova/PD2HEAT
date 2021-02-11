@@ -228,13 +228,13 @@
 	<mission path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>  <!--so actual murky dozers rappel down when the helicopters arrive. also changes the van dozer.-->
 	<continent path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>
 	
-	<!--ETERNAL SWIVELDOZER-->
-	<mission path="levels/instances/unique/hox_breakout_serverroom001/world/world" force="true" unload="true"/>
+	<!--ETERNAL SWIVELDOZER not yet :( >
+	<mission path="levels/instances/unique/hox_breakout_serverroom001/world/world" force="true" unload="true"/-->
 	
 	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	
-	<!--heisters are no longer unsettled by saaws finishing on brooklyn bank-->
+	<!--heisters are no longer unsettled by saws finishing on brooklyn bank-->
 	<mission path="levels/instances/unique/brb/single_door_large/world/world" force="true" unload="true"/>
 	<mission path="levels/instances/unique/brb/single_door/world/world" force="true" unload="true"/>
 	
