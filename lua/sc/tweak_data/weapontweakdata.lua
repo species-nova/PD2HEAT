@@ -5963,7 +5963,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_sr2.supported = true
 	self.x_sr2.stats = {
 		damage = 20,
-		spread = 15,
+		spread = 13,
 		recoil = 11,
 		spread_moving = 8,
 		zoom = 1,
