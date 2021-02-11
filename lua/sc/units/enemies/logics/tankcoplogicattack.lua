@@ -380,7 +380,7 @@ function TankCopLogicAttack._upd_combat_movement(data)
 			end
 		end
 		
-		local should_try_chase = not tactics or charge and not want_to_move_back or valid_harass or my_data.use_flank_pos_when_chasing and not want_to_move_back or not focus_enemy.verified_t or t - focus_enemy.verified_t > 5
+		local should_try_chase = not tactics or charge and not want_to_move_back or valid_harass or my_data.use_flank_pos_when_chasing and not want_to_move_back or focus_enemy.verified_t and t - focus_enemy.verified_t > 5
 		
 		if should_try_chase then
 			if not my_data.chase_path_failed_t or t - my_data.chase_path_failed_t > 1 then --helps not nuking performance if there's too many Dozers in attack logic
@@ -402,7 +402,7 @@ function TankCopLogicAttack._upd_combat_movement(data)
 							if focus_enemy.dis > 2000 or engage and focus_enemy.dis > 500 then
 								chase = true
 							end
-						elseif focus_enemy.verified_dis > 2000 or engage and focus_enemy.verified_dis > 500 or should_aggro and not focus_enemy.verified_t or t - focus_enemy.verified_t > 2 then
+						elseif focus_enemy.verified_dis > 2000 or engage and focus_enemy.verified_dis > 500 or focus_enemy.verified_t and t - focus_enemy.verified_t > 2 then
 							chase = true
 						end
 					end
