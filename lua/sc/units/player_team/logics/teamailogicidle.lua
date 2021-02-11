@@ -1462,6 +1462,10 @@ function TeamAILogicIdle.mark_sneak_char(data, criminal, to_mark, play_sound, pl
 end
 
 function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
+	if data.is_cool then
+		return
+	end
+
 	local follow_unit = objective.follow_unit
 	local movement_ext = data.unit:movement()
 	local m_field_pos = movement_ext:nav_tracker():field_position()
