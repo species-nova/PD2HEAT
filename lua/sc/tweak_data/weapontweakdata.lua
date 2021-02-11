@@ -6498,7 +6498,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.coal.stats = {
 		damage = 18,
 		spread = 16,
-		recoil = 25,
+		recoil = 24,
 		spread_moving = 9,
 		zoom = 1,
 		concealment = 25,
@@ -6896,7 +6896,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_coal.stats = {
 		damage = 18,
 		spread = 14,
-		recoil = 13,
+		recoil = 14,
 		spread_moving = 9,
 		zoom = 1,
 		concealment = 25,
