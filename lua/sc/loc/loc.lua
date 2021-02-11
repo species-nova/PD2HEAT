@@ -1321,42 +1321,86 @@ local ai_type = tweak_data.levels:get_ai_group_type()
 if ai_type == r then
 	Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Ticker", function(loc)
 		LocalizationManager:add_localized_strings({
-			["hud_assault_assault"] = "ИДЁТ ЩТУРМ НАЁМНИКОВ",
-			["hud_assault_cover"] = "ОСТАВАЙТЕСЬ В УКРЫТИИ",
 			["hud_assault_alpha"] = "ЩTУPM HAЁMHИKOB"
 		})
 	end)
 elseif ai_type == z then
 	Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Ticker", function(loc)
 		LocalizationManager:add_localized_strings({
-			["hud_assault_assault"] = "Pciloe Asuaslt in Prergoss",
-			["hud_assault_cover"] = "STYA IN COVRE...FLESH",
 			["hud_assault_alpha"] = "PCILOE ASUASLT"
 		})
 	end)
 elseif ai_type == f then
 	Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Ticker", function(loc)
 		LocalizationManager:add_localized_strings({
-			["hud_assault_assault"] = "Asalto Federal En Marcha",
-			["hud_assault_cover"] = "MANTENTE A CUBIERTO",
 			["hud_assault_alpha"] = "ASALTO FEDERAL"
 		})
 	end)
 elseif ai_type == m and difficulty_index <= 7 then
 	Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Ticker", function(loc)
 		LocalizationManager:add_localized_strings({
-			["hud_assault_assault"] = "Murkywater Assault in Progress",
 			["hud_assault_alpha"] = "MURKYWATER ASSAULT"
 		})
 	end)
 elseif ai_type == m then
 	Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Ticker", function(loc)
 		LocalizationManager:add_localized_strings({
-			["hud_assault_assault"] = "OMNIA Incursion Underway",
 			["hud_assault_alpha"] = "OMNIA INCURSION"
 		})
 	end)
 end
+
+Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function(loc)
+	LocalizationManager:add_localized_strings({
+		["hud_assault_end_line"] = "////", --this has bugged me forever, 3 bars makes the banner look uneven
+	
+		--US, interchangeable
+		["hud_assault_cover_us"] = "STAY IN COVER",
+		["hud_assault_cover_usds"] = "TRY TO SURVIVE",
+	
+		--police departments/zeals
+		["hud_assault_assault"] = "POLICE ASSAULT IN PROGRESS",
+		["hud_assault_assault_ds"] = "ZEAL FORCES DEPLOYED",
+		
+		--zombies
+		["hud_assault_assault_zm"] = "NECROCIDE IN PROGRESS",
+		["hud_assault_assault_zmds"] = "THE DEAD LIVE AGAIN...",
+		["hud_assault_cover_zm"] = "BAIN HAS STARTLED THE HORDE",
+		["hud_assault_cover_zmds"] = "WHAT A HORRIBLE NIGHT TO HAVE A CURSE",
+		
+		--federales
+		["hud_assault_assault_mex"] = "ASALTO FEDERAL EN MARCHA",
+		["hud_assault_assault_mexds"] = "ESCUADRÓN DE LA MUERTE AVANZANDO",
+		["hud_assault_cover_mex"] = "MANTENTE A CUBIERTO",
+		["hud_assault_cover_mexds"] = "INTENTA SOBREVIVIR",
+		
+		--reapers
+		["hud_assault_assault_ru"] = "ИДЕТ ШТУРМ ЖНЕЦОВ",
+		["hud_assault_cover_ru"] = "ОСТАВАЙТЕСЬ В УКРЫТИИ",
+		["hud_assault_assault_ruds"] = "ИДЕТ РЕЙД DRAK", 
+		["hud_assault_cover_ruds"] = "ПОСТАРАЙТЕСЬ ВЫЖИТЬ",
+		
+		--murkywater
+		["hud_assault_assault_murk"] = "MURKYWATER ASSAULT IN PROGRESS",
+		["hud_assault_assault_omni"] = "OMNIA INCURSION UNDERWAY",
+		
+		--easter egg cover lines, anything with "ds" after the line is used on Death Sentence because death sentence uses "try to survive" instead of "stay in cover"
+		["hud_assault_cover_bs1"] = "YOU HAVE BEEN SUCCESSFULLY DISTRACTED BY THE ASSAULT BANNER",
+		["hud_assault_cover_bs2"] = "ERROR: COVER NOT LOCATED",
+		["hud_assault_cover_bs2ds"] = "ERROR: SURVIVAL NOT LOCATED",
+		["hud_assault_cover_bs3"] = "HAPPY HOLIDAYS YA DIRTY BEAST",
+		["hud_assault_cover_bs4"] = "COVER'NT",
+		["hud_assault_cover_bs4ds"] = "LIVE'NT",
+		["hud_assault_cover_bs5"] = "SLAY IN COVER",
+		["hud_assault_cover_bs5ds"] = "TRY TO SURFIVE",
+		["hud_assault_cover_bs6"] = "DO NOT THE COVER",
+		["hud_assault_cover_bs6ds"] = "DO NOT YOUR SURVIVAL CHANCES",
+		["hud_assault_cover_bs7"] = "THE MOVIE IS ON",
+		["hud_assault_cover_bs8"] = "KEEP THOSE SAUSAGES SAFE",
+		["hud_assault_cover_bs9"] = "NON-STOP DEADLY ACTION",
+		["hud_assault_cover_bs10"] = "CHAD WAS HERE",
+	})
+end)
 
  if _G.HopLib then
 	local ai_type = tweak_data.levels:get_ai_group_type()
