@@ -316,7 +316,7 @@ local math_random = math.random
 function TankCopLogicAttack._walk_around_menacingly(data, my_data) 
 	local my_pos = data.unit:movement():nav_tracker():field_position()
 	local dis = math_lerp(200, 600, math_random())
-	local menacing_pos = CopLogicTravel._get_pos_on_wall(my_pos, 300, nil, nil, data.pos_rsrv_id, 60)
+	local menacing_pos = CopLogicTravel._get_pos_on_wall(my_pos, dis, nil, nil, data.pos_rsrv_id, 60)
 
 	if menacing_pos then
 		CopLogicAttack._cancel_cover_pathing(data, my_data)
