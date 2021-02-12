@@ -298,10 +298,16 @@ function CopBase:default_weapon_name()
 		default_weapon_id = "m60"				
 	end
 	
-	--Security Guards
-	if self._unit:name() == Idstring("units/payday2/characters/ene_security_3/ene_security_3") then
-		default_weapon_id = "r870"	
-	end
+    --Security Guards
+    if self._unit:name() == Idstring("units/payday2/characters/ene_security_3/ene_security_3") or self._unit:name() == Idstring("units/payday2/characters/ene_security_7/ene_security_7") then
+        default_weapon_id = "r870"
+    elseif self._unit:name() == Idstring("units/payday2/characters/ene_security_5/ene_security_5") then
+        default_weapon_id = "m1911_npc"        
+    elseif self._unit:name() == Idstring("units/payday2/characters/ene_security_6/ene_security_6") then
+        default_weapon_id = "mp5"
+    elseif self._unit:name() == Idstring("units/payday2/characters/ene_security_8/ene_security_8") then
+        default_weapon_id = "raging_bull"
+    end
 
 	--Giving Friendly AI guns
 	if self._unit:name() == Idstring("units/pd2_dlc_spa/characters/npc_spa/npc_spa") then

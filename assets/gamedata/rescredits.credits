@@ -13,7 +13,7 @@
 	<text text="Somnus 'Rhynne' Novus" type="name"/>
 	<text text="Fuglore" type="name"/>
 	<text text="Hoxi" type="name"/>
-	<text text="Rino" type="name"/>
+	<text text="Reno" type="name"/>
 	<text text="Jarey" type="name"/>
 	<text text="BadAtNames" type="name"/>
 	<text text="Nelson01023" type="name"/>
@@ -24,6 +24,7 @@
 	<text text="Splish" type="name"/>
 	<text text="The-Rant-Man" type="name"/>
 	<text text="Major Pyatosin" type="name"/>
+	<text text="Pink" type="name"/>
 	<br/>
 	<text text="CONTRIBUTIONS" type="title"/>
 	<text text="Rex" type="name"/>
@@ -44,7 +45,9 @@
 	<text text="SOUND CONTRIBUTIONS" type="title"/>
 	<text text="Scruffy" type="name"/>
 	<text text="VxWolf" type="name"/>
-	<text text="JimTheCookie" type="name"/>
+	<text text="Reno" type="name"/>
+	<text text="Jarey" type="name"/>
+	<text text="Major Pyatosin" type="name"/>
 	<text text="DryBittenCuticles" type="name"/>
 	<text text="MarioInATopHat" type="name"/>
 	<br/>
@@ -52,7 +55,6 @@
 	<text text="ShortonComedyGamer" type="name"/>
 	<text text="K4_Kydure" type="name"/>
 	<text text="Finale" type="name"/>
-	<text text="Derma" type="name"/>
 	<text text="Myxa" type="name"/>
 	<text text="Rhia" type="name"/>
 	<text text="Nimrod" type="name"/>

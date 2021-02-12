@@ -1,0 +1,17 @@
+{
+  "ene_la_cop" : "Cop",
+  "ene_swat" : "Light SWAT",
+  "ene_swat_heavy" : "Heavy SWAT",
+  "ene_fbi" : "HRT",
+  "ene_lapd_veteran_cop" : "SWAT Chief Mardo",
+  "ene_fbi_swat" : "Light FBI SWAT",
+  "ene_fbi_heavy" : "Heavy FBI SWAT",
+  "ene_fbi_heavy_r870_sc" : "Heavy FBI SWAT"
+  "ene_city_swat" : "Light FBI SWAT Elite",
+  "ene_city_heavy" : "Heavy FBI SWAT Elite",
+  "ene_city_heavy_r870_sc" : "Heavy FBI SWAT Elite",
+  "ene_shield" : "Shield",
+  "ene_city_shield" : "Shield",
+  "ene_sniper" : "Sniper",
+  "ene_bulldozer_3" : "Skulldozer"
+}
