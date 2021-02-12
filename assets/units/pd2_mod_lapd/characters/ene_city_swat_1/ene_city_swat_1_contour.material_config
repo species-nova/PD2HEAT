@@ -56,7 +56,7 @@
 		<variable value="0" type="scalar" name="contour_opacity"/>
 	</material>
 	
-	<material render_template="generic:generic:CONTOUR:DIFFUSE_TEXTURE:NORMALMAP:SKINNED_3WEIGHTS" unique="true" version="2" name="mtr_hat">
+	<material render_template="generic:CONTOUR:DIFFUSE_TEXTURE:NORMALMAP:SKINNED_3WEIGHTS" unique="true" version="2" name="mtr_hat">
 		<bump_normal_texture 	file="units/payday2/characters/shared_textures/helmets_atlas_nm"/>
 		<diffuse_texture 		file="units/payday2/characters/shared_textures/helmets_atlas_df"/>
 		<variable value="1 1 1" type="vector3" name="contour_color"/>
