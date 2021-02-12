@@ -6,14 +6,13 @@
 	<br/>
 	<text text="PAYDAY 2 HEAT Team" type="title"/>
 	<br/>
-	<text text="FOUNDING TEAM" type="title"/>
 	<br/>
+	<br/>
+	<br/>
+	<text text="DEVELOPMENT TEAM" type="title"/>
 	<text text="Somnus 'Rhynne' Novus" type="name"/>
 	<text text="Fuglore" type="name"/>
 	<text text="Hoxi" type="name"/>
-	<br/>
-	<text text="MAJOR CONTRIBUTIONS" type="title"/>
-	<br/>
 	<text text="Rino" type="name"/>
 	<text text="Jarey" type="name"/>
 	<text text="BadAtNames" type="name"/>
@@ -27,7 +26,6 @@
 	<text text="Major Pyatosin" type="name"/>
 	<br/>
 	<text text="CONTRIBUTIONS" type="title"/>
-	<br/>
 	<text text="Rex" type="name"/>
 	<text text="Offyerrocker" type="name"/>
 	<text text="Test1" type="name"/>
@@ -36,7 +34,6 @@
 	<text text="Porky da Corgi" type="name"/>
 	<text text="Wekk" type="name"/>
 	<text text="Hoppip" type="name"/>
-	<text text="Baddy" type="name"/>
 	<text text="Nardo" type="name"/>
 	<text text="SC" type="name"/>
 	<text text="KLEITON" type="name"/>
@@ -45,7 +42,6 @@
 	<text text="Iamgoofball" type="name"/>
 	<br/>
 	<text text="SOUND CONTRIBUTIONS" type="title"/>
-	<br/>
 	<text text="Scruffy" type="name"/>
 	<text text="VxWolf" type="name"/>
 	<text text="JimTheCookie" type="name"/>
@@ -53,7 +49,6 @@
 	<text text="MarioInATopHat" type="name"/>
 	<br/>
 	<text text="TESTERS" type="title"/>
-	<br/>
 	<text text="ShortonComedyGamer" type="name"/>
 	<text text="K4_Kydure" type="name"/>
 	<text text="Finale" type="name"/>
@@ -64,14 +59,12 @@
 	<text text="Rosetta" type="name"/>
 	<br/>
 	<text text="TRANSLATIONS" type="title"/>
-	<br/>
 	<text text="MsMarshie" type="name"/>
 	<br/>
 	<br/>
 	<br/>
 	<br/>
 	<text text="BASED ON THE ORIGINAL MOD" type="title"/>
-	<br/>
 	<text text="Restoration Mod" type="name"/>
 	<br/>
 	<br/>
