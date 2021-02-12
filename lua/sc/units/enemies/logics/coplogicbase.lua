@@ -953,7 +953,7 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 	local current_att_obj = data.attention_obj
 
 	if current_att_obj and current_att_obj.u_key == removed_key then
-		log("coplogicbase: destroyed current att_obj data, prevented acquire_t crash")
+		--[[log("coplogicbase: destroyed current att_obj data, prevented acquire_t crash")
 
 		if not alive(my_unit) then
 			log("coplogicbase: unit was destroyed!")
@@ -1028,14 +1028,6 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 			end
 		end
 
-		CopLogicBase._set_attention_obj(data, nil, nil)
-
-		if my_data and my_data.firing then
-			my_mov_ext:set_allow_fire(false)
-
-			my_data.firing = nil
-		end
-
 		local cam_pos = managers.viewport:get_current_camera_position()
 
 		if cam_pos then
@@ -1043,6 +1035,14 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 
 			local brush = Draw:brush(Color.green:with_alpha(0.5), 10)
 			brush:cylinder(from_pos, my_unit:movement():m_com(), 10)
+		end]]
+
+		CopLogicBase._set_attention_obj(data, nil, nil)
+
+		if my_data and my_data.firing then
+			my_mov_ext:set_allow_fire(false)
+
+			my_data.firing = nil
 		end
 	end
 
