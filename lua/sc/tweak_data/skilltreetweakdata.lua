@@ -39,6 +39,7 @@ function SkillTreeTweakData:init(tweak_data)
 	
 
    	self.default_upgrades = {
+   		"player_doctor_bag_health_regen",
 		"trip_mine_sensor_toggle",
 		"trip_mine_sensor_highlight",
 		"trip_mine_can_switch_on_off",

@@ -975,7 +975,7 @@ function PlayerDamage:recover_health()
 	end
 
 	self:restore_health(tweak_data.upgrades.values.doctor_bag.heal_amount) --Initial % heal.
-	managers.player:activate_db_regen() --Start heal over time.
+	managers.player:activate_temporary_upgrade("temporary", "doctor_bag_health_regen")  --Heal over time.
 end
 
 --Returns number of lives used up. Is relied on for What Doesn't Kill calcs.
