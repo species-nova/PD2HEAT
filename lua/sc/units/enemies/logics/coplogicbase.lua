@@ -36,7 +36,9 @@ local math_clamp = math.clamp
 local math_min = math.min
 
 local table_insert = table.insert
-local table_contains = table.contains
+
+local pairs_g = pairs
+local tostring_g = tostring
 
 local REACT_AIM = AIAttentionObject.REACT_AIM
 local REACT_ARREST = AIAttentionObject.REACT_ARREST
@@ -315,7 +317,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 
 	--[[if my_data.detection == tweak_data.character.presets.detection.blind then
 		if next(detected_obj) then
-			for u_key, attention_info in pairs(detected_obj) do
+			for u_key, attention_info in pairs_g(detected_obj) do
 				CopLogicBase._destroy_detected_attention_object_data(data, attention_info)
 			end
 		end
@@ -339,7 +341,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 	local all_attention_objects = groupai_state_manager:get_AI_attention_objects_by_filter(data.SO_access_str, data.team)
 	local is_detection_persistent = groupai_state_manager:is_detection_persistent()
 
-	for u_key, attention_info in pairs(all_attention_objects) do
+	for u_key, attention_info in pairs_g(all_attention_objects) do
 		if u_key ~= my_key and not detected_obj[u_key] then
 			local can_acquire = true
 
@@ -461,7 +463,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 
 	local delay = is_cool and 0 or 2
 
-	for u_key, attention_info in pairs(detected_obj) do
+	for u_key, attention_info in pairs_g(detected_obj) do
 		local can_detect = true
 
 		--[[if attention_info.is_local_player then
@@ -852,7 +854,7 @@ end
 function CopLogicBase._create_detected_attention_object_data(t, my_unit, u_key, attention_info, settings, forced, visible_data)
 	local ext_brain = my_unit:brain()
 
-	attention_info.handler:add_listener("detect_" .. tostring(my_unit:key()), callback(ext_brain, ext_brain, "on_detected_attention_obj_modified"))
+	attention_info.handler:add_listener("detect_" .. tostring_g(my_unit:key()), callback(ext_brain, ext_brain, "on_detected_attention_obj_modified"))
 
 	local att_unit = attention_info.unit
 	local m_pos = attention_info.handler:get_ground_m_pos()
@@ -922,6 +924,137 @@ function CopLogicBase._create_detected_attention_object_data(t, my_unit, u_key, 
 	end
 
 	return new_entry
+end
+
+function CopLogicBase._destroy_detected_attention_object_data(data, attention_info)
+	attention_info.handler:remove_listener("detect_" .. tostring_g(data.key))
+
+	local my_unit = data.unit
+	local settings = attention_info.settings
+
+	if settings.notice_clbk then
+		settings.notice_clbk(my_unit, false)
+	end
+
+	if REACT_SUSPICIOUS <= settings.reaction then
+		managers.groupai:state():on_criminal_suspicion_progress(attention_info.unit, my_unit, nil)
+	end
+
+	if attention_info.uncover_progress then
+		attention_info.unit:movement():on_suspicion(my_unit, false)
+	end
+
+	local removed_key = attention_info.u_key
+
+	data.detected_attention_objects[removed_key] = nil
+
+	local my_data = data.internal_data
+	local my_mov_ext = my_unit:movement()
+	local current_att_obj = data.attention_obj
+
+	if current_att_obj and current_att_obj.u_key == removed_key then
+		log("coplogicbase: destroyed current att_obj data, prevented acquire_t crash")
+
+		if not alive(my_unit) then
+			log("coplogicbase: unit was destroyed!")
+		elseif my_unit:in_slot(0) then
+			log("coplogicbase: unit is being destroyed!")
+		else
+			log("coplogicbase: unit is still intact on the C side")
+
+			local my_base_ext = my_unit:base()
+
+			if not my_base_ext then
+				log("coplogicbase: unit has no base() extension")
+			elseif my_base_ext._tweak_table then
+				log("coplogicbase: unit has tweak table: " .. tostring_g(my_base_ext._tweak_table) .. "")
+			else
+				log("coplogicbase: unit has no tweak table")
+			end
+
+			local my_dmg_ext = my_unit:character_damage()
+
+			if not my_dmg_ext then
+				log("coplogicbase: unit has no character_damage() extension")
+			elseif my_dmg_ext.dead and my_dmg_ext:dead() then
+				log("coplogicbase: unit is dead")
+			end
+		end
+
+		local cur_logic_name = data.name
+
+		if cur_logic_name then
+			log("coplogicbase: logic name: " .. tostring_g(cur_logic_name) .. "")
+		end
+
+		local att_unit = current_att_obj.unit
+
+		if not alive(att_unit) then
+			log("coplogicbase: attention unit was destroyed!")
+		elseif att_unit:in_slot(0) then
+			log("coplogicbase: attention unit is being destroyed!")
+		else
+			log("coplogicbase: attention unit is still intact on the C side")
+
+			local unit_name = att_unit.name and att_unit:name()
+
+			if unit_name then
+				--might be pure gibberish
+				log("coplogicbase: attention unit name: " .. tostring_g(unit_name) .. "")
+			end
+
+			if att_unit:id() == -1 then
+				log("coplogicbase: attention unit was detached from the network")
+			end
+
+			local att_base_ext = att_unit:base()
+
+			if not att_base_ext then
+				log("coplogicbase: attention unit has no base() extension")
+			elseif att_base_ext._tweak_table then
+				log("coplogicbase: attention unit has tweak table: " .. tostring_g(att_base_ext._tweak_table) .. "")
+			elseif att_base_ext.is_husk_player then
+				log("coplogicbase: attention unit was a player husk")
+			elseif att_base_ext.is_local_player then
+				log("coplogicbase: attention unit was the local player")
+			end
+
+			local att_dmg_ext = att_unit:character_damage()
+
+			if not att_dmg_ext then
+				log("coplogicbase: attention unit has no character_damage() extension")
+			elseif att_dmg_ext.dead and att_dmg_ext:dead() then
+				log("coplogicbase: attention unit is dead")
+			end
+		end
+
+		CopLogicBase._set_attention_obj(data, nil, nil)
+
+		if my_data and my_data.firing then
+			my_mov_ext:set_allow_fire(false)
+
+			my_data.firing = nil
+		end
+
+		local cam_pos = managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+
+			local brush = Draw:brush(Color.green:with_alpha(0.5), 10)
+			brush:cylinder(from_pos, my_unit:movement():m_com(), 10)
+		end
+	end
+
+	if my_data and my_data.arrest_targets then
+		my_data.arrest_targets[removed_key] = nil
+	end
+
+	local set_attention = my_mov_ext:attention()
+
+	if set_attention and set_attention.u_key == removed_key then
+		CopLogicBase._reset_attention(data)
+	end
 end
 
 function CopLogicBase.on_detected_attention_obj_modified(data, modified_u_key)
@@ -1404,7 +1537,7 @@ end
 function CopLogicBase.upd_suspicion_decay(data)
 	local my_data = data.internal_data
 
-	for u_key, u_data in pairs(data.detected_attention_objects) do
+	for u_key, u_data in pairs_g(data.detected_attention_objects) do
 		if not u_data.client_casing_suspicion and u_data.uncover_progress and u_data.last_suspicion_t ~= data.t then
 			local dt = data.t - u_data.last_suspicion_t
 			u_data.uncover_progress = u_data.uncover_progress - dt
@@ -1573,13 +1706,13 @@ function CopLogicBase.on_attention_obj_identified(data, attention_u_key, attenti
 	local identifier_key = data.key
 
 	if data.group then
-		for u_key, u_data in pairs(data.group.units) do
+		for u_key, u_data in pairs_g(data.group.units) do
 			if u_key ~= identifier_key and alive(u_data.unit) then
 				u_data.unit:brain():clbk_group_member_attention_identified(data.unit, attention_u_key)
 			end
 		end
 	elseif data.is_converted or data.unit:in_slot(16) then
-		for u_key, record in pairs(managers.groupai:state():all_AI_criminals()) do
+		for u_key, record in pairs_g(managers.groupai:state():all_AI_criminals()) do
 			if u_key ~= identifier_key then
 				record.unit:brain():clbk_group_member_attention_identified(data.unit, attention_u_key)
 			end
@@ -1588,7 +1721,7 @@ function CopLogicBase.on_attention_obj_identified(data, attention_u_key, attenti
 		local all_converted_enemies = managers.groupai:state():all_converted_enemies()
 
 		if all_converted_enemies then
-			for u_key, unit in pairs(all_converted_enemies) do
+			for u_key, unit in pairs_g(all_converted_enemies) do
 				if u_key ~= identifier_key then
 					unit:brain():clbk_group_member_attention_identified(data.unit, attention_u_key)
 				end
