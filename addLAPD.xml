@@ -212,8 +212,8 @@
 	<model path="units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc"/>
 	
 	<!--city shield-->
-	<unit path="units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city" load="true"/>
-	<unit path="units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city_husk" load="true"/>		
+	<unit path="units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield" load="true"/>
+	<unit path="units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield_husk" load="true"/>		
 
 	<!--M416 -->
 	<unit_mat path="units/pd2_mod_lapd/weapons/wpn_npc_m416/wpn_npc_m416" />

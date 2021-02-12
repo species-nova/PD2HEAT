@@ -8097,15 +8097,15 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 					Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1_assault/ene_phalanx_1_assault")								
 				},	
 				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_city/ene_shield_city"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
+					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield"),
 					Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1_assault/ene_phalanx_1_assault")								
 				}					
 			},
