@@ -152,7 +152,7 @@
 	<!--<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>-->
 	
 	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
-	<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>
+	<!--<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>-->
 	
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
