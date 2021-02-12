@@ -1391,9 +1391,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	
 	--Hey you're getting your grinder on my grinder
-	self.values.player.level_5_armor_addend = {-8}
+	self.values.player.armor_reduction_multiplier = {0.4}
 	self.damage_to_hot_data = {
-		armors_allowed = {"level_5"},
+		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
 		works_with_armor_kit = true,
 		tick_time = 1,
 		total_ticks = 3,
@@ -1468,6 +1468,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.loose_ammo_give_team_health_ratio = 0.5 --% of healing given to team.
 	self.values.player.loose_ammo_restore_health_give_team = {true}	
 	self.values.player.loose_ammo_give_armor = {3}
+	self.values.player.loose_ammo_give_dodge = {1}
 
 	--Create actual upgrade table for Gambler.
 	self.values.temporary.loose_ammo_restore_health = {}
@@ -2546,7 +2547,15 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}		
-	
+		self.definitions.player_loose_ammo_give_dodge = {
+		name_id = "menu_player_loose_ammo_give_dodge",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "loose_ammo_give_dodge",
+			category = "player"
+		}
+	}	
 	--Passive Perk Deck Dam increases
 	self.definitions.weapon_passive_damage_multiplier_1 = {
 		name_id = "menu_weapon_passive_damage_multiplier",
@@ -2885,6 +2894,15 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_armor_reduction_multiplier = {
+		name_id = "menu_player_armor_reduction_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "armor_reduction_multiplier",
 			category = "player"
 		}
 	}

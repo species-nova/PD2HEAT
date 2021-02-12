@@ -3159,7 +3159,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck2,
 			{
 				upgrades = {
-					"temporary_loose_ammo_give_team"
+					"temporary_loose_ammo_give_team",
+					"player_passive_dodge_chance_1"
 				},
 				cost = 400,
 				icon_xy = {5, 5},
@@ -3169,7 +3170,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck4,
 			{
 				upgrades = {
-					"temporary_loose_ammo_restore_health_2"
+					"temporary_loose_ammo_restore_health_2",
+					"player_loose_ammo_give_dodge"
 				},
 				cost = 1000,
 				icon_xy = {7, 5},
@@ -3179,7 +3181,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_loose_ammo_restore_health_give_team"
+					"player_loose_ammo_restore_health_give_team",
+					"player_passive_dodge_chance_2"
 				},
 				cost = 2400,
 				icon_xy = {6, 5},
@@ -3208,7 +3211,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_damage_to_hot_1",
-					"player_level_5_armor_addend"
+					"player_armor_reduction_multiplier"
 				},
 				cost = 200,
 				icon_xy = {1, 6},
@@ -3593,7 +3596,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck2,
 			{
 				upgrades = {
-					"player_chico_injector_speed"
+					"player_chico_injector_speed",
+					"player_passive_dodge_chance_1"
 				},
 				cost = 400,
 				icon_xy = {1, 0},
@@ -3616,7 +3620,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_chico_injector_low_health_multiplier"
+					"player_chico_injector_low_health_multiplier",
+					"player_passive_dodge_chance_2"
 				},
 				cost = 2400,
 				icon_xy = {3, 0},
