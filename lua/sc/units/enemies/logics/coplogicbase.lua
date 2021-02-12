@@ -953,90 +953,6 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 	local current_att_obj = data.attention_obj
 
 	if current_att_obj and current_att_obj.u_key == removed_key then
-		--[[log("coplogicbase: destroyed current att_obj data, prevented acquire_t crash")
-
-		if not alive(my_unit) then
-			log("coplogicbase: unit was destroyed!")
-		elseif my_unit:in_slot(0) then
-			log("coplogicbase: unit is being destroyed!")
-		else
-			log("coplogicbase: unit is still intact on the C side")
-
-			local my_base_ext = my_unit:base()
-
-			if not my_base_ext then
-				log("coplogicbase: unit has no base() extension")
-			elseif my_base_ext._tweak_table then
-				log("coplogicbase: unit has tweak table: " .. tostring_g(my_base_ext._tweak_table) .. "")
-			else
-				log("coplogicbase: unit has no tweak table")
-			end
-
-			local my_dmg_ext = my_unit:character_damage()
-
-			if not my_dmg_ext then
-				log("coplogicbase: unit has no character_damage() extension")
-			elseif my_dmg_ext.dead and my_dmg_ext:dead() then
-				log("coplogicbase: unit is dead")
-			end
-		end
-
-		local cur_logic_name = data.name
-
-		if cur_logic_name then
-			log("coplogicbase: logic name: " .. tostring_g(cur_logic_name) .. "")
-		end
-
-		local att_unit = current_att_obj.unit
-
-		if not alive(att_unit) then
-			log("coplogicbase: attention unit was destroyed!")
-		elseif att_unit:in_slot(0) then
-			log("coplogicbase: attention unit is being destroyed!")
-		else
-			log("coplogicbase: attention unit is still intact on the C side")
-
-			local unit_name = att_unit.name and att_unit:name()
-
-			if unit_name then
-				--might be pure gibberish
-				log("coplogicbase: attention unit name: " .. tostring_g(unit_name) .. "")
-			end
-
-			if att_unit:id() == -1 then
-				log("coplogicbase: attention unit was detached from the network")
-			end
-
-			local att_base_ext = att_unit:base()
-
-			if not att_base_ext then
-				log("coplogicbase: attention unit has no base() extension")
-			elseif att_base_ext._tweak_table then
-				log("coplogicbase: attention unit has tweak table: " .. tostring_g(att_base_ext._tweak_table) .. "")
-			elseif att_base_ext.is_husk_player then
-				log("coplogicbase: attention unit was a player husk")
-			elseif att_base_ext.is_local_player then
-				log("coplogicbase: attention unit was the local player")
-			end
-
-			local att_dmg_ext = att_unit:character_damage()
-
-			if not att_dmg_ext then
-				log("coplogicbase: attention unit has no character_damage() extension")
-			elseif att_dmg_ext.dead and att_dmg_ext:dead() then
-				log("coplogicbase: attention unit is dead")
-			end
-		end
-
-		local cam_pos = managers.viewport:get_current_camera_position()
-
-		if cam_pos then
-			local from_pos = cam_pos + math.DOWN * 50
-
-			local brush = Draw:brush(Color.green:with_alpha(0.5), 10)
-			brush:cylinder(from_pos, my_unit:movement():m_com(), 10)
-		end]]
-
 		CopLogicBase._set_attention_obj(data, nil, nil)
 
 		if my_data and my_data.firing then
@@ -1054,6 +970,10 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 
 	if set_attention and set_attention.u_key == removed_key then
 		CopLogicBase._reset_attention(data)
+
+		if my_data then
+			my_data.attention_unit = nil
+		end
 	end
 end
 
@@ -1128,22 +1048,6 @@ function CopLogicBase.on_detected_attention_obj_modified(data, modified_u_key)
 		end
 	else
 		CopLogicBase._destroy_detected_attention_object_data(data, attention_info)
-
-		local my_data = data.internal_data
-
-		if data.attention_obj and data.attention_obj.u_key == modified_u_key then
-			CopLogicBase._set_attention_obj(data, nil, nil)
-
-			if my_data and my_data.firing then
-				data.unit:movement():set_allow_fire(false)
-
-				my_data.firing = nil
-			end
-		end
-
-		if my_data and my_data.arrest_targets then
-			my_data.arrest_targets[modified_u_key] = nil
-		end
 	end
 
 	if old_notice_clbk then
@@ -1249,11 +1153,12 @@ function CopLogicBase.should_duck_on_alert(data, alert_data)
 	return true]]
 end
 
-function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key) ----should be better on performance
+--allows nearly_visible checks to work more consistently while still saving perfomance
+function CopLogicBase._chk_nearly_visible_chk_needed(data, attention_info, u_key)
 	local current_focus = data.attention_obj
 
 	if current_focus then
-		if current_focus.key == u_key then
+		if current_focus.u_key == u_key then
 			return true
 		elseif not current_focus.verified and not current_focus.nearly_visible then
 			if attention_info.verified_t and data.t - attention_info.verified_t < 3 or attention_info.nearly_visible_t and data.t - attention_info.nearly_visible_t < 3 then
