@@ -133,10 +133,6 @@
 	<!--NYPD PDTH model-->
 	<material_config path="units/vehicles/animated_cars/police_ny_noinstance" force="true" />
 	<material_config path="units/vehicles/animated_cars/police_ny_suburbia" force="true" />
-	<!--Pensacola / LAPD-->
-	<material_config path="units/pd2_dlc_pal/vehicles/str_vehicle_car_police_pensacola/str_vehicle_car_police_pensacola" force="true" />
-	<material_config path="units/pd2_dlc_rvd/vehicles/anim_vehicle_car_police_los_angeles" force="true" />		
-
 	
 	<texture path="units/payday2/props/off_prop_office_monitor/display_master_jewelry_il" force="true"/>
 	
@@ -156,7 +152,7 @@
 	<!--<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>-->
 	
 	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
-	<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>
+	<!--<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>-->
 	
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
@@ -424,10 +420,10 @@
 	<!--Dynamite no rolly polly-->
 	<object path="units/pd2_dlc_west/weapons/wpn_gre_dynamite/wpn_gre_dynamite" force="true" />		
 
-	<!--REMOVED CAP REQUIREMENT FOR LMG SIGHTS FOLLOWING LID-->
+	<!--REMOVED CAP REQUIREMENT FOR LMG SIGHTS FOLLOWING LID (temp commented out cause it doesn't work
 	<model path="units/pd2_dlc_gage_historical/weapons/wpn_fps_lmg_mg42_pts/wpn_fps_lmg_mg42_reciever" force="true"/>
 	<model path="units/pd2_dlc_gage_lmg/weapons/wpn_fps_lmg_m249_pts/wpn_fps_lmg_m249_upper_reciever" force="true"/>
-	<model path="units/pd2_dlc_par/weapons/wpn_fps_lmg_par_pts/wpn_fps_lmg_par_upper_reciever" force="true"/>
+	<model path="units/pd2_dlc_par/weapons/wpn_fps_lmg_par_pts/wpn_fps_lmg_par_upper_reciever" force="true"/>-->
 	
 	<!-- M60 TROPICAL FOREGRIP FIX -->
 	<model path="units/pd2_dlc_atw/weapons/wpn_fps_lmg_m60_pts/wpn_fps_lmg_m60_fg_tropical" force="true"/>
@@ -456,7 +452,7 @@
 	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_rpk/wpn_npc_rpk" force="true" load="true"/>	
 	<unit path="units/pd2_dlc_chico/weapons/wpn_npc_sg417/wpn_npc_sg417" force="true" load="true"/>		
 
-	<!--Reaper Bullet Impact Fixes-->	
+	<!--Reaper Bullet Impact Fixes (these must be loaded here for some fucking bizarre reason. I'm still puzzled to this day as to why we these don't work in the rapper package)-->	
 	<object path="units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870" force="true" />
 	<object path="units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870" force="true" />	
 	<object path="units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg" force="true" />	
@@ -585,28 +581,6 @@
 	<material_config path="units/payday2/characters/ene_security_5/ene_security_5" force="true" />
 	<material_config path="units/payday2/characters/ene_security_5/ene_security_5_contour" force="true" />	
 	
-	
-	<!--LAPD Dudes-->	
-	<object path="units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1" />	
-	<model path="units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1" />	
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1" force="true" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1_contour" force="true" />
-	
-	<object path="units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2" />
-	<model path="units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2" />		
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2" force="true" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2_contour" force="true" />
-	
-	<object path="units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3" />
-	<model path="units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3" />			
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3" force="true" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3_contour" force="true" />
-	<!-- la cop .objects-->
-	<object path="units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4" />
-	<model path="units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4" />				
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4" force="true" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4_contour" force="true" />
-
 
 	<!-- material configs-->
 	<material_config path="units/payday2/characters/ene_fbi_vars/ene_fbi_var1" />
@@ -641,19 +615,6 @@
 	<material_config path="units/payday2/characters/ene_cop_vars/ene_cop_var2_contour" />
 	<material_config path="units/payday2/characters/ene_cop_vars/ene_cop_var3" />
 	<material_config path="units/payday2/characters/ene_cop_vars/ene_cop_var3_contour" />
-	
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var1" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var1_contour" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var2" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var2_contour" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var3" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var3_contour" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var4" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var4_contour" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var5" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var5_contour" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var6" />
-	<material_config path="units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var6_contour" />
 	
 	<texture path="units/payday2/characters/shared_textures/heads_cop_df" />
 	<texture path="units/payday2/characters/shared_textures/heads_cop_nm" />
@@ -1506,7 +1467,7 @@
 	<object path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/ene_acc_shield_vip" force="true"/>	
 	<texture path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/shield_vip_df" force="true"/>	
 	
-	<!--RAPHAEL CHRIST IS EVILBOBARINO-->	
+	<!--RAPHAEL CHRIST IS Rino-->	
 	<!--LOD Vet Cop-->		
 	<object path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false"/>
 	<cooked_physics path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false"/>

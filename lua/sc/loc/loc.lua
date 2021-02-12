@@ -2290,9 +2290,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 
 		--Gambler--
 		["menu_deck10_1_desc_sc"] = "Ammo supplies you pick up also yield medical supplies that heal you for ##4## to ##8## health.\n\nCannot occur more than once every ##10## seconds, but every ammo box you pick up reduces this by ##3## to ##5## seconds.",
-		["menu_deck10_3_desc_sc"] = "When you get healed from picking up ammo packs, your teammates also gain an ammo pickup.",
-		["menu_deck10_5_desc_sc"] = "Increase health gained from ammo packs by an additional ##2##.",
-		["menu_deck10_7_desc_sc"] = "When you get healed from picking up ammo packs, your teammates also get healed for ##50%## of the amount.",
+		["menu_deck10_3_desc_sc"] = "When you get healed from picking up ammo packs, your teammates also gain an ammo pickup.\n\nYou gain ##5## dodge points.",
+		["menu_deck10_5_desc_sc"] = "Increase health gained from ammo packs by an additional ##2##.\n\nWhen you get healed from picking up ammo packs, your dodge meter is also filled up by ##100%## of your dodge.",
+		["menu_deck10_7_desc_sc"] = "When you get healed from picking up ammo packs, your teammates also get healed for ##50%## of the amount.\n\nYou gain ##5## dodge points.",
 		["menu_deck10_9_desc_sc"] = "Increase health gained from ammo packs by an additional ##2##.\n\nWhen you get healed from picking up ammo packs, you also gain ##30## armor.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Infiltrator--
@@ -2311,7 +2311,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck9_9_desc_sc"] = "Killing an enemy within ##18## meters has a ##25%## chance to spread panic among your enemies.\n\nPanic will make enemies go into short bursts of uncontrollable fear.\n\nThis cannot occur more than once every ##2## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Grinder--
-		["menu_deck11_1_desc_sc"] = "Damaging an enemy heals ##1## health every second for ##3## seconds.\n\nThis effect stacks up to ##5## times but you can only gain a stack every ##0.5## seconds and only while wearing the ##Flak Jacket##. Damaging enemies with sentries or damage over time effects does not grant stacks.\n\nYou lose ##80## armor while wearing the Flak Jacket.",
+		["menu_deck11_1_desc_sc"] = "Damaging an enemy heals ##1## health every second for ##3## seconds.\n\nThis effect stacks up to ##5## times but you can only gain a stack every ##0.5## seconds. Damaging enemies with sentries or damage over time effects does not grant stacks.\n\nYour armor is reduced by ##60%##.",
 		["menu_deck11_3_desc_sc"] = "Stacks heal an additional ##1## health every second.",
 		["menu_deck11_5_desc_sc"] = "Stacks last an additional ##2## seconds.",
 		["menu_deck11_7_desc_sc"] = "Stacks heal an additional ##1## health every second.",
@@ -2338,10 +2338,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck15_9_desc_sc"] = "Dealing damage will grant you armor - This can only occur once every ##3## seconds. Heavier armors are granted more armor.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Scarface--
-		["menu_deck17_1_desc_sc"] = "Unlocks and equips the Kingpin Injector. Changing to another perk deck will make the Injector unavailable again. The Injector replaces your current throwable, is equipped in your throwable slot and can be switched out if desired.\n\nWhile in game you can use the throwable key to activate the injector. Activating the injector will heal you for ##30%## of all damage taken for ##4## seconds.\n\nYou can still take damage during the effect. The Injector can only be used once every ##30## seconds.",
-		["menu_deck17_3_desc_sc"] = "Your movement speed is increased by ##20%## while the Kingpin Injector is active.",
-		["menu_deck17_5_desc_sc"] = "You are now healed for ##30%## of all damage taken for ##6## seconds while the Kingpin Injector is active.\n\nEnemies nearby will prefer targeting you, whenever possible, while the Injector is active.",
-		["menu_deck17_7_desc_sc"] = "The amount of health received during the Injector effect is increased by ##60%## while below ##25%## health.",
+		["menu_deck17_1_desc_sc"] = "Unlocks and equips the Kingpin Injector. Changing to another perk deck will make the Injector unavailable again. The Injector replaces your current throwable, is equipped in your throwable slot and can be switched out if desired.\n\nWhile in game you can use the throwable key to activate the injector. Activating the injector will heal you for ##30%## of all damage taken or dodged for ##4## seconds.\n\nYou can still take damage during the effect. The Injector can only be used once every ##30## seconds.",
+		["menu_deck17_3_desc_sc"] = "Your movement speed is increased by ##20%## while the Kingpin Injector is active.\n\nYou gain ##5## dodge points.",
+		["menu_deck17_5_desc_sc"] = "You are now healed for ##30%## of all damage taken or dodged for ##6## seconds while the Kingpin Injector is active.\n\nEnemies nearby will prefer targeting you, whenever possible, while the Injector is active.",
+		["menu_deck17_7_desc_sc"] = "The amount of health received during the Injector effect is increased by ##60%## while below ##25%## health.\n\nYou gain ##5## dodge points.",
 		["menu_deck17_9_desc_sc"] = "For every ##5## health gained during the injector effect while at maximum health, the recharge time of the injector is reduced by ##2## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--10 feet higher--

@@ -49,6 +49,7 @@ function PlayerManager:body_armor_skill_multiplier(override_armor)
 	multiplier = multiplier + self:upgrade_value("player", tostring(override_armor or managers.blackmarket:equipped_armor(true, true)) .. "_armor_multiplier", 1) - 1
 	multiplier = multiplier + self:upgrade_value("player", "chico_armor_multiplier", 1) - 1
 	multiplier = multiplier + self:upgrade_value("team", "crew_add_armor", 1) - 1 --Added bot armor boost.
+	multiplier = multiplier * self:upgrade_value("player", "armor_reduction_multiplier", 1) --Used by Grinder.
 
 	return multiplier
 end
@@ -910,7 +911,7 @@ function PlayerManager:fixed_health_regen()
 	health_regen = health_regen + self:upgrade_value("team", "crew_health_regen", 0)
 	health_regen = health_regen + self:get_hostage_bonus_addend("health_regen")
 	local groupai = managers.groupai and managers.groupai:state()
-	if (groupai and groupai:hostage_count() + (groupai._num_converted_police or self:num_local_minions() or 0)) or 0 >= tweak_data:get_raw_value("upgrades", "hostage_max_num", "health_regen") then
+	if (groupai and groupai:hostage_count() + (groupai._num_converted_police or self:num_local_minions()) or self:num_local_minions() or 0) >= tweak_data:get_raw_value("upgrades", "hostage_max_num", "health_regen") then
 		health_regen = health_regen + self:get_hostage_bonus_addend("health_regen") * self:upgrade_value("player", "hostage_health_regen_max_mult", 0)
 	end
 

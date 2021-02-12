@@ -683,6 +683,7 @@ function PlayerDamage:damage_bullet(attack_data, ...)
 		self._unit:sound():play("pickup_fak_skill") --PLEASE PLEASE PLEASE REPLACE WITH BETTER SOUND IN THE FUTURE!!!
 		if attack_data.damage > 0 then
 			self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
+			self:_check_chico_heal(attack_data)
 			self:_send_damage_drama(attack_data, 0)
 		end
 		self:_call_listeners(damage_info)
