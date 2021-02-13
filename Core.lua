@@ -174,7 +174,6 @@ function restoration:Init()
 		"help", --Prison Nightmare
 		"pbr2", --Birth of Sky
 		"rvd2", --Resivoir Dogs 2, has very aggressive scripted spawns.
-		"vit", --White House
 		"spa", --Brooklyn 10-10
 		"mia_2", --Hotline Miami 2
 		"nail",	--Lab Rats. Fuck this heist	
@@ -185,6 +184,7 @@ function restoration:Init()
 	}	
 	--Mostly for stuff like Cursed Killed Room and other crap puny heists
 	restoration.extremely_tiny_levels = {
+		"vit", --White House
 		"hvh", --CKR
 		"chew", --Biker day 2
 		"nmh", --No Mercy
