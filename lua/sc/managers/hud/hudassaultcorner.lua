@@ -26,6 +26,12 @@ Hooks:PostHook(HUDAssaultCorner, "init", "SCHUDAssaultInit", function(self)
 		end
 	end	
 	
+	--job specific overrides here in case the map spawns a captain
+	--white house, spring
+	if job == "vit" then
+		buff_icon = "guis/textures/pd2/hud_buff_skull"
+	end
+	
 	--Skirmish exclusive stuff
 	if managers.skirmish:is_skirmish() then		
 		buff_icon = "guis/textures/pd2/hud_buff_generic"
