@@ -909,6 +909,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["heist_skm_run_h1"] = "Uptown - Inkwell Industrial",
 
 
+		--Hint Override--
+		["hint_otherside"] = "Spring's presence prevents the airlock from closing!",
+
 		--Heist Breifings--
 		["heist_pines_briefing"] = "We need you there fast, because it's really out in the sticks, so you're going in like the paras. Find the pilot - he's probably near the wreck, and then we'll send in a chopper to extract him. Stay with him til he's safely out, Also, Vlad says that plane was loaded with product, Search the forest and get as much out as you can. We could always use a little extra cash during Christmas.\n\nNOTE FROM JACKAL:\nThe explosion from that crash alerted nearby Reaper teams. Don't expect a police response.",
 
