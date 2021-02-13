@@ -77,6 +77,9 @@ function PlayerDamage:init(unit)
 	self._in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
 	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
+	if self._can_survive_one_hit then
+		managers.hud:add_skill("survive_one_hit")
+	end
 	self._biker_armor_regen_t = 0.0 --Used to track the time until the next biker armor regen tick.
 	self._melee_push_multiplier = 1 - math.min(math.max(player_manager:upgrade_value("player", "resist_melee_push", 0.0) * self:_max_armor(), 0.0), 0.95) --Stun Resistance melee push resist.
 	self._deflection = 1 - player_manager:body_armor_value("deflection", nil, 0) - player_manager:get_deflection_from_skills() --Damage reduction for health. Crashes here mean there is a syntax error in playermanager.
@@ -938,6 +941,13 @@ function PlayerDamage:revive(silent)
 	managers.hud:pd_stop_progress()
 	self._revive_health_multiplier = nil
 	self._listener_holder:call("on_revive")
+
+	--Add Yakuza survive one hit icon.
+	--Done on revive for intuitiveness.
+	if self._can_survive_one_hit then
+		managers.hud:add_skill("survive_one_hit")
+	end
+
 	if managers.player:has_inactivate_temporary_upgrade("temporary", "revived_damage_resist") then
 		managers.player:activate_temporary_upgrade("temporary", "revived_damage_resist")
 	end
@@ -1267,6 +1277,7 @@ Hooks:PreHook(PlayerDamage, "_check_bleed_out", "ResYakuzaCaptstoneCheck", funct
 			self:change_health(0.1)
 			self._can_survive_one_hit = false
 			self:restore_armor(tweak_data.upgrades.values.survive_one_hit_armor[1])
+			managers.hud:remove_skill("survive_one_hit")
 		else
 			self._can_survive_one_hit = managers.player:has_category_upgrade("player", "survive_one_hit")
 		end
