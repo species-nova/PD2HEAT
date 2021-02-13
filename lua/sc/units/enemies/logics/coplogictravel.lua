@@ -41,6 +41,8 @@ local math_floor = math.floor
 --local m_rot_y = mrotation.y
 --local m_rot_z = mrotation.z
 
+local pairs_g = pairs
+local next_g = next
 local table_insert = table.insert
 local table_remove = table.remove
 --local table_contains = table.contains
@@ -366,7 +368,7 @@ function CopLogicTravel.upd_advance(data)
 		local action_desc = {
 			body_part = 1,
 			type = "warp",
-			position = mvec3_cpy(objective.pos),
+			position = mvec3_cpy(my_data.warp_pos),
 			rotation = objective.rot
 		}
 
@@ -1268,8 +1270,7 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 		else
 			local near_pos = objective.follow_unit and objective.follow_unit:movement():nav_tracker():field_position()
 			local dest_nav_seg = objective.nav_seg
-			local dest_area = managers.groupai:state():get_area_from_nav_seg_id(dest_nav_seg)
-			local cover = CopLogicTravel._needs_cover_at_destination(data, dest_area) and CopLogicTravel._find_cover(data, dest_nav_seg, near_pos)
+			local cover = CopLogicTravel._find_cover(data, dest_nav_seg, near_pos)
 
 			if cover then
 				local cover_entry = {
@@ -1315,11 +1316,11 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 		local my_data = data.internal_data
 		local dest_nav_seg_id = my_data.coarse_path[#my_data.coarse_path][1]
 		local dest_area = managers.groupai:state():get_area_from_nav_seg_id(dest_nav_seg_id)
-		local cover = nil
-		local follow_pos = objective.follow_unit:movement():nav_tracker():field_position()
+		local follow_pos, cover = nil
 
 		if CopLogicTravel._needs_cover_at_destination(data, dest_area) then			
 			local threat_pos, max_dist = nil
+			follow_pos = objective.follow_unit:movement():nav_tracker():field_position()
 
 			if data.attention_obj and data.attention_obj.nav_tracker and REACT_COMBAT <= data.attention_obj.reaction then
 				threat_pos = data.attention_obj.nav_tracker:field_position()
@@ -1342,14 +1343,15 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 			}
 		else
 			local max_dist = nil
+			follow_pos = follow_pos or objective.follow_unit:movement():nav_tracker():field_position()
 
-			if objective.called then
-				max_dist = 500
-			elseif my_data.called then
+			if my_data.called then
 				max_dist = 400
+			else
+				max_dist = 500
 			end
 
-			local to_pos = CopLogicTravel._get_pos_on_wall(follow_pos, max_dist, nil, nil, data.pos_rsrv_id) ----
+			local to_pos = CopLogicTravel._get_pos_on_wall(follow_pos, max_dist, nil, nil, data.pos_rsrv_id)
 			occupation = {
 				type = "defend",
 				pos = to_pos,
@@ -1704,7 +1706,7 @@ function CopLogicTravel._try_anounce(data)
 	local say_chatter_func = groupai_manager.chk_say_enemy_chatter
 	local found_announcer = nil
 
-	for u_key, u_data in pairs(managers.enemy:all_enemies()) do
+	for u_key, u_data in pairs_g(managers.enemy:all_enemies()) do
 		if u_key ~= my_key and u_data.char_tweak.chatter and u_data.char_tweak.chatter[announce_type] and mvec3_dis_sq(my_pos, u_data.m_pos) < max_dis_sq and not u_data.unit:sound():speaking(data.t) then
 			if u_data.unit:anim_data().idle or u_data.unit:anim_data().move then
 				if say_chatter_func(groupai_manager, u_data.unit, u_data.m_pos, announce_type) then
@@ -1823,7 +1825,7 @@ function CopLogicTravel.complete_coarse_path(data, my_data, coarse_path)
 		local search_seg_id = table_remove(to_search_segs, 1)
 		local search_seg = all_nav_segs[search_seg_id]
 
-		for other_seg_id, door_list in pairs(search_seg.neighbours) do
+		for other_seg_id, door_list in pairs_g(search_seg.neighbours) do
 			local other_seg = all_nav_segs[other_seg_id]
 
 			if not other_seg.disabled and not found_segs[other_seg_id] then
@@ -1853,23 +1855,73 @@ function CopLogicTravel.complete_coarse_path(data, my_data, coarse_path)
 end
 
 function CopLogicTravel._chk_close_to_criminal(data, my_data)
-	if my_data.close_to_criminal == nil then
-		if data.cool or data.is_converted or data.unit:in_slot(16) or data.team.id == tweak_data.levels:get_default_team_ID("player") or data.team.friends[tweak_data.levels:get_default_team_ID("player")] then
-			my_data.close_to_criminal = false
-		else
-			my_data.close_to_criminal = false
+	if my_data.close_to_criminal ~= nil then
+		return my_data.close_to_criminal
+	end
 
-			local my_area = managers.groupai:state():get_area_from_nav_seg_id(data.unit:movement():nav_tracker():nav_segment())
+	if data.cool then
+		my_data.close_to_criminal = false
+	else
+		local verify_u_key = nil
+		local allied_with_criminals = data.is_converted or data.unit:in_slot(16)
 
-			if next(my_area.criminal.units) then
-				my_data.close_to_criminal = true
+		if not allied_with_criminals then
+			local player_team = tweak_data.levels:get_default_team_ID("player")
+
+			if data.team.id == player_team or data.team.friends[player_team] then
+				allied_with_criminals = true
+				verify_u_key = data.key
+			end
+		end
+
+		local my_area = managers.groupai:state():get_area_from_nav_seg_id(data.unit:movement():nav_tracker():nav_segment())
+
+		if allied_with_criminals then
+			local police_units = my_area.police.units
+
+			if next_g(police_units) then
+				if not verify_u_key then
+					my_data.close_to_criminal = true
+				else
+					for u_key, u_data in pairs_g(police_units) do
+						if u_key ~= verify_u_key then
+							my_data.close_to_criminal = true
+
+							break
+						end
+					end
+				end
+			elseif verify_u_key then
+				for _, nbr in pairs_g(my_area.neighbours) do
+					local neighbor_police_units = nbr.police.units
+
+					if next_g(neighbor_police_units) then
+						for u_key, u_data in pairs_g(neighbor_police_units) do
+							if u_key ~= verify_u_key then
+								my_data.close_to_criminal = true
+
+								break
+							end
+						end
+					end
+				end
 			else
-				for _, nbr in pairs(my_area.neighbours) do
-					if next(nbr.criminal.units) then
+				for _, nbr in pairs_g(my_area.neighbours) do
+					if next_g(nbr.police.units) then
 						my_data.close_to_criminal = true
 
 						break
 					end
+				end
+			end
+		elseif next_g(my_area.criminal.units) then
+			my_data.close_to_criminal = true
+		else
+			for _, nbr in pairs_g(my_area.neighbours) do
+				if next_g(nbr.criminal.units) then
+					my_data.close_to_criminal = true
+
+					break
 				end
 			end
 		end
@@ -1893,7 +1945,7 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 
 	my_dis = my_dis * 1.15 * 1.15
 
-	for u_key, u_data in pairs(data.group.units) do
+	for u_key, u_data in pairs_g(data.group.units) do
 		if u_key ~= data.key then
 			local teammate_obj = u_data.unit:brain():objective()
 
@@ -1946,28 +1998,39 @@ function CopLogicTravel.apply_wall_offset_to_cover(data, my_data, cover, wall_fw
 	return collision and ray_params.trace[1] or mvec3_cpy(to_pos_bwd)
 end
 
-function CopLogicTravel._find_cover(data, search_nav_seg, near_pos) ----need to update
-	local cover = nil
-	local search_area = managers.groupai:state():get_area_from_nav_seg_id(search_nav_seg)
-
+function CopLogicTravel._find_cover(data, search_nav_seg, near_pos)
 	if data.cool then
-		cover = managers.navigation:find_cover_in_nav_seg_1(search_area.nav_segs)
-	else
-		local optimal_threat_dis, threat_pos = nil
+		return
+	end
 
-		if data.objective.attitude == "engage" then
-			optimal_threat_dis = data.internal_data.weapon_range.optimal
-		else
-			optimal_threat_dis = data.internal_data.weapon_range.far
+	local allied_with_criminals = data.is_converted or data.unit:in_slot(16)
+
+	if not allied_with_criminals then
+		local player_team = tweak_data.levels:get_default_team_ID("player")
+
+		if data.team.id == player_team or data.team.friends[player_team] then
+			allied_with_criminals = true
 		end
+	end
 
-		near_pos = near_pos or search_area.pos
+	local search_area = managers.groupai:state():get_area_from_nav_seg_id(search_nav_seg)
+	local optimal_threat_dis, threat_pos = nil
+
+	if data.objective and data.objective.attitude == "engage" then
+		optimal_threat_dis = data.internal_data.weapon_range.optimal
+	else
+		optimal_threat_dis = data.internal_data.weapon_range.far
+	end
+
+	near_pos = near_pos or search_area.pos
+
+	if not allied_with_criminals then
 		local groupai_manager = managers.groupai:state()
 		local all_criminals = groupai_manager:all_char_criminals()
 		local get_area_func = groupai_manager.get_area_from_nav_seg_id
 		local closest_crim_u_data, closest_crim_dis = nil
 
-		for u_key, u_data in pairs(all_criminals) do
+		for u_key, u_data in pairs_g(all_criminals) do
 			local crim_area = get_area_func(groupai_manager, u_data.tracker:nav_segment())
 
 			if crim_area == search_area then
@@ -1983,11 +2046,9 @@ function CopLogicTravel._find_cover(data, search_nav_seg, near_pos) ----need to 
 				end
 			end
 		end
-
-		cover = managers.navigation:find_cover_from_threat(search_area.nav_segs, optimal_threat_dis, near_pos, threat_pos)
 	end
 
-	return cover
+	return managers.navigation:find_cover_from_threat(search_area.nav_segs, optimal_threat_dis, near_pos, threat_pos)
 end
 
 function CopLogicTravel._get_allowed_travel_nav_segs(data, my_data, to_pos)
@@ -1999,7 +2060,7 @@ function CopLogicTravel._get_allowed_travel_nav_segs(data, my_data, to_pos)
 	for _, nav_point in ipairs(my_data.coarse_path) do
 		local area = managers.groupai:state():get_area_from_nav_seg_id(nav_point[1])
 
-		for nav_seg_id, _ in pairs(area.nav_segs) do
+		for nav_seg_id, _ in pairs_g(area.nav_segs) do
 			local id_to_add = nav_seg_id
 
 			if all_nav_segs[id_to_add].disabled then
@@ -2022,7 +2083,7 @@ function CopLogicTravel._get_allowed_travel_nav_segs(data, my_data, to_pos)
 
 	local end_area = managers.groupai:state():get_area_from_nav_seg_id(end_nav_seg)
 
-	for nav_seg_id, _ in pairs(end_area.nav_segs) do
+	for nav_seg_id, _ in pairs_g(end_area.nav_segs) do
 		local id_to_add = nav_seg_id
 
 		if all_nav_segs[id_to_add].disabled then
@@ -2057,7 +2118,7 @@ function CopLogicTravel._chk_enabled_neighbor_segs(disabled_seg)
 	local all_nav_segs = managers.navigation._nav_segments
 	local disabled_segment = all_nav_segs[disabled_seg]
 
-	for other_seg_id, _ in pairs(disabled_segment.neighbours) do
+	for other_seg_id, _ in pairs_g(disabled_segment.neighbours) do
 		local other_seg = all_nav_segs[other_seg_id]
 
 		if not other_seg.disabled and not enabled_alt_segs[other_seg_id] then
@@ -2065,7 +2126,7 @@ function CopLogicTravel._chk_enabled_neighbor_segs(disabled_seg)
 		end
 	end
 
-	if next(enabled_alt_segs) then
+	if next_g(enabled_alt_segs) then
 		if #enabled_alt_segs > 1 then
 			new_neighbor_seg = enabled_alt_segs[math_random(#enabled_alt_segs)]
 		else
@@ -2311,14 +2372,58 @@ function CopLogicTravel._needs_cover_at_destination(data, dest_area)
 		return false
 	end
 
-	local allied_with_criminals = data.is_converted or data.unit:in_slot(16) or data.team.id == tweak_data.levels:get_default_team_ID("player") or data.team.friends[tweak_data.levels:get_default_team_ID("player")]
+	local verify_u_key = nil
+	local allied_with_criminals = data.is_converted or data.unit:in_slot(16)
+
+	if not allied_with_criminals then
+		local player_team = tweak_data.levels:get_default_team_ID("player")
+
+		if data.team.id == player_team or data.team.friends[player_team] then
+			allied_with_criminals = true
+			verify_u_key = data.key
+		end
+	end
 
 	if allied_with_criminals then
-		if next(dest_area.police.units) then
-			return true
+		local police_units = dest_area.police.units
+
+		if next_g(police_units) then
+			if not verify_u_key then
+				return true
+			else
+				for u_key, u_data in pairs_g(police_units) do
+					if u_key ~= verify_u_key then
+						return true
+					end
+				end
+			end
+		elseif verify_u_key then
+			for _, nbr in pairs_g(dest_area.neighbours) do
+				local neighbor_police_units = nbr.police.units
+
+				if next_g(neighbor_police_units) then
+					for u_key, u_data in pairs_g(neighbor_police_units) do
+						if u_key ~= verify_u_key then
+							return true
+						end
+					end
+				end
+			end
+		else
+			for _, nbr in pairs_g(dest_area.neighbours) do
+				if next_g(nbr.police.units) then
+					return true
+				end
+			end
 		end
-	elseif next(dest_area.criminal.units) then
+	elseif next_g(dest_area.criminal.units) then
 		return true
+	else
+		for _, nbr in pairs_g(dest_area.neighbours) do
+			if next_g(nbr.criminal.units) then
+				return true
+			end
+		end
 	end
 
 	return false
