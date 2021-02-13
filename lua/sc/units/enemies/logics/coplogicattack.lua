@@ -205,6 +205,22 @@ function CopLogicAttack.update(data)
 		my_data.want_to_take_cover = CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 
 		CopLogicAttack._update_cover(data)
+		
+		
+		--uncomment to draw cover stuff or whatever
+		
+		--[[if my_data.want_to_take_cover then
+			if my_data.best_cover then
+				local line = Draw:brush(Color.blue:with_alpha(0.5), 0.2)
+				line:cylinder(data.m_pos, my_data.best_cover[1][1], 5)
+			end
+			
+			if my_data.in_cover then
+				local line = Draw:brush(Color.blue:with_alpha(0.5), 0.2)
+				line:cylinder(my_data.in_cover[1][1], my_data.in_cover[1][1] + math_up * 185, 100)
+			end
+		end]]
+		
 		CopLogicAttack._upd_combat_movement(data)
 		
 		if not data.char_tweak.cannot_throw_grenades and not data.is_converted and data.unit:base().has_tag and data.unit:base():has_tag("law") and groupai:is_smoke_grenade_active() then 
@@ -290,25 +306,19 @@ function CopLogicAttack._upd_combat_movement(data)
 	local remove_stay_out_time = nil
 
 	if my_data.stay_out_time then
-		if not my_data.at_cover_shoot_pos or action_taken or want_to_take_cover then
+		if enemy_visible_soft or not my_data.at_cover_shoot_pos or action_taken or want_to_take_cover then
 			remove_stay_out_time = true
 		end
 	end
 
 	if remove_stay_out_time then
 		my_data.stay_out_time = nil
-	elseif my_data.attitude == "engage" and not my_data.stay_out_time and my_data.at_cover_shoot_pos and not action_taken and not want_to_take_cover then
+	elseif not my_data.stay_out_time and not enemy_visible_soft and my_data.at_cover_shoot_pos and not action_taken then
 		my_data.stay_out_time = t + 7
 	end
 
 	local move_to_cover, want_flank_cover = nil
 	local valid_harass = nil
-	
-	if not action_taken then
-		if want_to_take_cover and want_to_take_cover ~= true then
-			action_taken = CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, my_data.attitude == "engage" and not data.is_suppressed)
-		end
-	end
 	
 	if tactics and tactics.harass then		
 		if not data.unit:in_slot(16) and not data.is_converted and focus_enemy.is_person then
@@ -463,40 +473,42 @@ function CopLogicAttack._upd_combat_movement(data)
 			
 			if not action_taken then
 				local in_cover = my_data.in_cover
+				
+				if my_data.attitude == "engage" then
+					if in_cover then
+						if my_data.cover_test_step <= 2 then
+							local height = nil
 
-				if in_cover then
-					if my_data.cover_test_step <= 2 then
-						local height = nil
+							if in_cover[4] then --has obstructed high_ray
+								height = 150
+							else
+								height = 80
+							end
 
-						if in_cover[4] then --has obstructed high_ray
-							height = 150
+							local my_tracker = unit:movement():nav_tracker()
+							local shoot_from_pos = CopLogicAttack._peek_for_pos_sideways(data, my_data, my_tracker, focus_enemy.m_head_pos, height)
+
+							if shoot_from_pos then
+								local path = {
+									mvec3_cpy(data.m_pos),
+									shoot_from_pos
+								}
+								action_taken = CopLogicAttack._chk_request_action_walk_to_cover_shoot_pos(data, my_data, path, "walk")
+							else
+								my_data.cover_test_step = my_data.cover_test_step + 1
+							end
 						else
-							height = 80
+							want_flank_cover = true
 						end
-
-						local my_tracker = unit:movement():nav_tracker()
-						local shoot_from_pos = CopLogicAttack._peek_for_pos_sideways(data, my_data, my_tracker, focus_enemy.m_head_pos, height)
-
-						if shoot_from_pos then
-							local path = {
-								mvec3_cpy(data.m_pos),
-								shoot_from_pos
-							}
-							action_taken = CopLogicAttack._chk_request_action_walk_to_cover_shoot_pos(data, my_data, path, "walk")
+					elseif not my_data.walking_to_cover_shoot_pos then
+						if my_data.at_cover_shoot_pos then
+							if my_data.stay_out_time < t then
+								move_to_cover = true
+							end
 						else
-							my_data.cover_test_step = my_data.cover_test_step + 1
-						end
-					else
-						want_flank_cover = true
-					end
-				elseif not my_data.walking_to_cover_shoot_pos then
-					if my_data.at_cover_shoot_pos then
-						if my_data.stay_out_time < t then
 							move_to_cover = true
+							want_flank_cover = true
 						end
-					else
-						move_to_cover = true
-						want_flank_cover = true
 					end
 				end
 			end
@@ -548,9 +560,12 @@ function CopLogicAttack._upd_combat_movement(data)
 							mvec3_cpy(my_pos),
 							mvec3_cpy(to_cover_pos)
 						}
-
-						--[[local line = Draw:brush(Color.blue:with_alpha(0.5), 5)
-						line:cylinder(my_pos, to_cover_pos, 25)]]
+						
+						my_data.cover_path = path
+						
+						if move_to_cover then
+							action_taken = CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
+						end
 					else
 						data.brain:add_pos_rsrv("path", {
 							radius = 60,
@@ -560,7 +575,7 @@ function CopLogicAttack._upd_combat_movement(data)
 						my_data.cover_path_search_id = tostring(data.key) .. "cover"
 						my_data.processing_cover_path = best_cover
 
-						data.brain:search_for_path_to_cover(my_data.cover_path_search_id, best_cover[1], best_cover[5])
+						data.brain:search_for_path_to_cover(my_data.cover_path_search_id, best_cover[1])
 					end
 				end
 			end
@@ -569,6 +584,12 @@ function CopLogicAttack._upd_combat_movement(data)
 
 	if not action_taken and move_to_cover and my_data.cover_path then
 		action_taken = CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
+	end
+	
+	if not action_taken then
+		if want_to_take_cover and want_to_take_cover ~= true then
+			action_taken = CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, my_data.attitude == "engage" and not data.is_suppressed)
+		end
 	end
 end
 
@@ -678,6 +699,9 @@ function CopLogicAttack._chk_start_action_move_back(data, my_data, focus_enemy, 
 					end
 				end
 			end
+			
+			my_data.at_cover_shoot_pos = nil
+			my_data.in_cover = nil
 		
 			my_data.surprised = true
 
@@ -883,22 +907,34 @@ end
 
 function CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
 	CopLogicAttack._correct_path_start_pos(data, my_data.cover_path)
-
+	
 	local haste = nil
-
-	if not data.attention_obj or data.attention_obj.reaction < REACT_COMBAT or data.attention_obj.dis > 500 then
-		if mvec3_dis_sq(my_data.cover_path[#my_data.cover_path], data.m_pos) < 90000 then
-			haste = "run"
+	local pose = nil
+	local i = 1
+	local travel_dis = 0
+	
+	repeat
+		if my_data.cover_path[i + 1] then
+			travel_dis = travel_dis + mvec3_dis(my_data.cover_path[i], my_data.cover_path[i + 1])
+			i = i + 1
+		else
+			break
 		end
-	end
-
-	if not haste and data.attention_obj and REACT_COMBAT <= data.attention_obj.reaction and math_lerp(my_data.weapon_range.optimal, my_data.weapon_range.far, 0.75) < data.attention_obj.dis then
+	until travel_dis > 800 or i >= #my_data.cover_path
+	
+	if travel_dis > 400 then
 		haste = "run"
+	end
+	
+	if travel_dis > 800 then
+		pose = "stand"
+	else
+		pose = data.unit:anim_data().crouch and "crouch"
 	end
 
 	haste = haste or "walk"
+	pose = pose or data.is_suppressed and "crouch" or "stand"
 
-	local pose = data.is_suppressed and "crouch" or "stand"
 	local end_pose = my_data.moving_to_cover and "crouch" or "stand"
 
 	if pose == "crouch" and not data.char_tweak.crouch_move then
@@ -1021,7 +1057,7 @@ end
 function CopLogicAttack._update_cover(data)
 	local my_data = data.internal_data
 	local best_cover = my_data.best_cover
-	local satisfied = true ----defined properly through the function, but currently unused
+	local satisfied = true --defined properly through the function, but currently unused
 	local my_pos = data.m_pos
 	local focus_enemy = data.attention_obj
 
@@ -1030,7 +1066,7 @@ function CopLogicAttack._update_cover(data)
 
 		if find_new_cover then
 			if my_data.processing_cover_path or my_data.charge_path_search_id or my_data.moving_to_cover or my_data.walking_to_cover_shoot_pos or my_data.surprised then
-				find_new_cover = false
+				find_new_cover = nil
 			end
 		end
 
@@ -1051,12 +1087,12 @@ function CopLogicAttack._update_cover(data)
 								found_cover
 							}
 
-							local offset_pos, yaw = CopLogicAttack._get_cover_offset_pos(data, better_cover, threat_pos)
+							--[[local offset_pos, yaw = CopLogicAttack._get_cover_offset_pos(data, better_cover, threat_pos)
 
 							if offset_pos then
 								better_cover[5] = offset_pos
 								better_cover[6] = yaw
-							end
+							end]]
 
 							if data.char_tweak.wall_fwd_offset then
 								better_cover[1][1] = CopLogicTravel.apply_wall_offset_to_cover(data, my_data, better_cover[1], data.char_tweak.wall_fwd_offset)
@@ -1074,12 +1110,49 @@ function CopLogicAttack._update_cover(data)
 				local want_to_take_cover = my_data.want_to_take_cover
 				local flank_cover = my_data.flank_cover --unit wants a flanking cover position
 				local min_dis, max_dis = nil
-
-				if want_to_take_cover then
-					min_dis = math_max(focus_enemy.dis * 0.9, focus_enemy.dis - 200)
+				local dis_mul = 0.2
+				
+				if data.objective and data.objective.attitude ~= "engage" then
+					dis_mul = dis_mul + 0.2
 				end
+				
+				if want_to_take_cover then
+					dis_mul = dis_mul + 0.4
+					
+					if want_to_take_cover == "hitnrun" then
+						dis_mul = dis_mul + 0.2
+					elseif want_to_take_cover == "reload" then
+						dis_mul = dis_mul + 0.4
+					end
+				end
+				
+				if data.tactics then
+					if data.tactics.ranged_fire or data.tactics.elite_ranged_fire then
+						dis_mul = dis_mul + 0.6
+					end	
+					
+					if data.tactics.charge then
+						dis_mul = dis_mul - 0.35
+					end
+					
+					if data.tactics.aggressor then
+						dis_mul = dis_mul * 0.2
+					end
+				end
+				
+				local min_dis = my_data.weapon_range.close * dis_mul
 
-				if not best_cover or flank_cover or not CopLogicAttack._verify_cover(best_cover[1], threat_pos, min_dis, max_dis) then
+				min_dis = math_min(min_dis - 200, my_data.weapon_range.optimal)
+				
+				local best_cover_bad_dis = nil
+				
+				if best_cover then
+					best_cover_bad_dis = not CopLogicAttack._verify_cover(best_cover[1], threat_pos, min_dis, max_dis) and mvec3_dis(best_cover[1][1], threat_pos)
+				end
+				
+				local look_for_cover = not best_cover or best_cover_bad_dis
+
+				if look_for_cover or flank_cover then
 					local my_vec = my_pos - threat_pos
 
 					if flank_cover then
@@ -1089,19 +1162,9 @@ function CopLogicAttack._update_cover(data)
 					local optimal_dis = my_vec:length()
 
 					if want_to_take_cover then
-						if optimal_dis < my_data.weapon_range.far then
-							optimal_dis = optimal_dis + 400
-
-							mvec3_set_length(my_vec, optimal_dis)
-						end
-
-						max_dis = math_max(optimal_dis + 800, my_data.weapon_range.far)
-					elseif optimal_dis > my_data.weapon_range.optimal * 1.2 then
-						optimal_dis = my_data.weapon_range.optimal
-
-						mvec3_set_length(my_vec, optimal_dis)
-
 						max_dis = my_data.weapon_range.far
+					else
+						max_dis = my_data.weapon_range.optimal
 					end
 
 					local my_side_pos = threat_pos + my_vec
@@ -1140,21 +1203,25 @@ function CopLogicAttack._update_cover(data)
 					if data.objective and data.objective.type == "defend_area" then
 						search_nav_seg = data.objective.area and data.objective.area.nav_segs or data.objective.nav_seg
 					end
-
+					
 					local found_cover = managers.navigation:find_cover_in_cone_from_threat_pos_1(threat_pos, furthest_side_pos, my_side_pos, nil, cone_angle, nil, search_nav_seg, nil, data.pos_rsrv_id)
-
-					if found_cover then
-						if not best_cover or CopLogicAttack._verify_cover(found_cover, threat_pos, min_dis, max_dis) then
+					
+					--log(tostring(i))
+					
+					if found_cover then	
+						local found_cover_threat_dis = mvec3_dis(found_cover[1], threat_pos)
+					
+						if not best_cover or best_cover_bad_dis and best_cover_bad_dis < found_cover_threat_dis or CopLogicAttack._verify_cover(found_cover, threat_pos, min_dis, max_dis) then
 							local better_cover = {
 								found_cover
 							}
 
-							local offset_pos, yaw = CopLogicAttack._get_cover_offset_pos(data, better_cover, threat_pos)
+							--[[local offset_pos, yaw = CopLogicAttack._get_cover_offset_pos(data, better_cover, threat_pos)
 
 							if offset_pos then
 								better_cover[5] = offset_pos
 								better_cover[6] = yaw
-							end
+							end]]
 
 							if data.char_tweak.wall_fwd_offset then
 								better_cover[1][1] = CopLogicTravel.apply_wall_offset_to_cover(data, my_data, better_cover[1], data.char_tweak.wall_fwd_offset)
@@ -1163,23 +1230,16 @@ function CopLogicAttack._update_cover(data)
 							CopLogicAttack._set_best_cover(data, my_data, better_cover)
 						else
 							satisfied = false
+							--log("cock")
 						end
-					else
-						satisfied = false
 					end
+				else
+					satisfied = false
 				end
 			end
 		end
-
-		local in_cover = my_data.in_cover
-
-		if in_cover then
-			local threat_pos = focus_enemy.verified_pos
-
-			in_cover[3], in_cover[4] = CopLogicAttack._chk_covered(data, my_pos, threat_pos, data.visibility_slotmask)
-		end
 	elseif best_cover then
-		local cover_release_dis_sq = 10000
+		local cover_release_dis = 100
 		local check_pos = nil
 
 		if my_data.advancing then
@@ -1192,7 +1252,7 @@ function CopLogicAttack._update_cover(data)
 			check_pos = my_pos
 		end
 
-		if cover_release_dis_sq < mvec3_dis_sq(best_cover[1][1], check_pos) then
+		if cover_release_dis < mvec3_dis(best_cover[1][1], check_pos) then
 			CopLogicAttack._set_best_cover(data, my_data, nil)
 		end
 	end
@@ -1204,12 +1264,13 @@ function CopLogicAttack._verify_cover(cover, threat_pos, min_dis, max_dis)
 	if min_dis and threat_dis < min_dis or max_dis and max_dis < threat_dis then
 		return
 	end
+	
+	--better off commenting this out bc nobody actually makes cover use unique directional placement anymore, this is more likely to get in the way
+	--local cover_dot = mvec3_dot(temp_vec1, cover[2]) 
 
-	local cover_dot = mvec3_dot(temp_vec1, cover[2])
-
-	if cover_dot < 0.67 then
-		return
-	end
+    --if cover_dot < 0.67 then
+    --    return
+    --end
 
 	return true
 end
@@ -1983,7 +2044,11 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 	local ammo_max, ammo = data.unit:inventory():equipped_unit():base():ammo_info()
 
 	if ammo / ammo_max < 0.2 then
-		return "low_ammo"
+		return true
+	end
+	
+	if my_data.moving_to_cover or data.attention_obj.dmg_t and data.attention_obj.dmg_t < 2 then
+		return true
 	end
 	
 	if data.tactics then
@@ -1997,8 +2062,8 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 			return "hitnrun"
 		end
 	end
-
-	if my_data.moving_to_cover or data.is_suppressed or my_data.attitude ~= "engage" or data.attention_obj.dmg_t and data.attention_obj.dmg_t < 2 then
+	
+	if data.is_suppressed then
 		return true
 	end
 end
