@@ -373,12 +373,10 @@ function GroupAIStateBesiege:_find_spawn_group_near_area(target_area, allowed_gr
 	local time = TimerManager:game():time()
 	local spawn_group_number = #valid_spawn_groups
 	
-	if spawn_group_number and spawn_group_number > 1 then
-		for id in pairs(valid_spawn_groups) do
-			if self._spawn_group_timers[id] and time < self._spawn_group_timers[id] then
-				valid_spawn_groups[id] = nil
-				valid_spawn_group_distances[id] = nil
-			end
+	for id in pairs(valid_spawn_groups) do
+		if self._spawn_group_timers[id] and time < self._spawn_group_timers[id] then
+			valid_spawn_groups[id] = nil
+			valid_spawn_group_distances[id] = nil
 		end
 	end
 	
