@@ -50,6 +50,9 @@ function CarryData:init(unit)
 		--clients literally don't need to update anything in this extension, no need to waste performance
 		unit:set_extension_update_enabled(carry_data_idstr, false)
 
+		--need to define this for synced links
+		self._link_body = unit:body("hinge_body_1") or unit:body(0)
+
 		return
 	end
 
