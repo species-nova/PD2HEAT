@@ -1416,6 +1416,8 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		if current_objective.moving_out then
 			if not current_objective.open_fire then
 				open_fire = true
+			elseif phase_is_anticipation then
+				pull_back = true
 			end
 		elseif not current_objective.pushed or charge and not current_objective.charge then
 			push = true
@@ -1447,12 +1449,24 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 				approach = true
 			end
 			
-			if not charge or approach or open_fire then
+			if not push or approach or open_fire then
 				if phase_is_anticipation and current_objective.open_fire then
 					pull_back = true
 				elseif group.in_place_t then
-					if group.is_chasing or not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire or self._t - group.in_place_t > 7 then
+					if group.is_chasing then
 						push = true
+					else
+						local cop_t = 0
+						
+						if self._last_killed_cop_t then
+							cop_t = self._t - self._last_killed_cop_t
+						end
+						
+						local t_to_check = 7 - cop_t
+					
+						if self._t - group.in_place_t > t_to_check then
+							push = true
+						end
 					end
 				end			
 			end
