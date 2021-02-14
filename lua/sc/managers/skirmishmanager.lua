@@ -1,12 +1,12 @@
 Hooks:PostHook(SkirmishManager, "init_finalize", "ResInitKillCounter", function(self)
 	self._required_kills = 0 --Prevents potential nil crash.
-	log("Finalizing")
 end)
 
 --Refresh kill count required to end new assault.
 Hooks:PostHook(SkirmishManager, "on_start_assault", "ResUpdateKillCounter", function(self)
 	self._captain_active = nil
 	self._required_kills = managers.groupai:state():_get_balancing_multiplier(tweak_data.skirmish.required_kills_balance_mul) * managers.groupai:state():_get_difficulty_dependent_value(tweak_data.skirmish.required_kills)
+	log("Wave " .. tostring(self:current_wave_number()) .. ", " .. tostring(self._required_kills) .. " Kills Required to advance. " .. " Captain spawn group: " .. tostring(tweak_data.skirmish.captain))
 end)
 
 --Update kill counter, end assault if kills required reached.
