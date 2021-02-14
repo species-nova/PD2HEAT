@@ -383,22 +383,6 @@ function GroupAIStateBesiege:_find_spawn_group_near_area(target_area, allowed_gr
 	end
 	
 	local delays = {15, 20}
-	
-	if spawn_group_number > 3 and spawn_group_number < 6 then
-		delays = {10, 15}
-	elseif spawn_group_number < 3 then
-		delays = {5, 10}
-	end
-	
-	if self._small_map then --higher delays on small maps
-		delays[1] = delays[1] * 2
-		delays[2] = delays[2] * 2
-	end
-	
-	if Global.game_settings.one_down then --LET'S GIVE INTO PAAAAAAIN
-		delays[1] = delays[1] * 0.5
-		delays[2] = delays[2] * 0.5
-	end
 
 	if total_dis == 0 then
 		total_dis = 1
