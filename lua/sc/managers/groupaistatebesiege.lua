@@ -1658,7 +1658,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 			local forwardmost_i_nav_point = self:_get_group_forwardmost_coarse_path_index(group)
 
 			if forwardmost_i_nav_point then
-				retreat_area = self:get_area_from_nav_seg_id(group.coarse_path[math.max(forwardmost_i_nav_point - 1, 1)][1])
+				retreat_area = self:get_area_from_nav_seg_id(current_objective.coarse_path[math.max(forwardmost_i_nav_point - 1, 1)][1])
 			end
 		end
 
