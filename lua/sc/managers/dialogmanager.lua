@@ -467,8 +467,9 @@ function DialogManager:queue_dialog(id, ...)
 			end
 		end
 	
-		--Golden Grin Casino--		
-		if id == "Play_pln_ca1_158" then
+		--Golden Grin Casino--
+		--patched out because we manually add a PONR to the level script--
+		--[[if id == "Play_pln_ca1_158" then
 			if difficulty_index <= 2 then
 				escape_time = 1200 
 			elseif difficulty_index == 3 then
@@ -482,7 +483,7 @@ function DialogManager:queue_dialog(id, ...)
 			else
 				escape_time = 1050
 			end
-		end
+		end]]--
 	
 		--Highland Mortuary--		
 		if id == "Play_loc_rvd_14" then
