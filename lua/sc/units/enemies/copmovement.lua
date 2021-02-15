@@ -20,6 +20,7 @@ local mrot_set = mrotation.set_yaw_pitch_roll
 local math_abs = math.abs
 local math_min = math.min
 local math_max = math.max
+local math_clamp = math.clamp
 local math_random = math.random
 local math_ceil = math.ceil
 local math_UP = math.UP
@@ -350,24 +351,6 @@ function CopMovement:_upd_actions(t)
 			self._need_upd = true
 		end
 	end
-
-	if not self._unit:character_damage():dead() then
-		if self._can_do_omnia then
-			self:do_omnia(t)
-		end
-
-		if self._can_do_aoe_heal then
-			self:do_aoe_heal(t)
-		end
-
-		if self._can_do_winters_aoe_heal then
-			self:do_winters_aoe_heal(t)
-		end
-
-		if self._can_do_summers_heal then
-			self:do_summers_heal(t)
-		end
-	end
 end
 
 local omnia_cops_to_heal = {
@@ -659,22 +642,34 @@ function CopMovement:do_winters_aoe_heal(t)
 	end
 end	
 
-local summers_heal_cops_to_heal = {
-	taser_summers = true,
-	boom_summers = true,
-	summers = true
-}
-
 function CopMovement:do_summers_heal(t)
+	local enemies = managers.enemy._registered_summers_crew
+	local summers = managers.enemy._summers
+	
+	if not next(summers) and not next(enemies) then
+		return
+	end
+	
 	if self._summers_heal_cooldown > t then
 		return
 	else
-		self._summers_heal_cooldown = t + 0.4
+		local cooldown = 0.4
+		
+		for i = 1, #enemies do
+			local enemy = enemies[i]
+			
+			if enemy:key() ~= self._unit:key() then
+				cooldown = cooldown - 0.15
+			end
+		end
+		
+		math_clamp(cooldown, 0.01, 0.4) --in case, either due to mutators or whatever, theres multiple summer teams
+			
+		self._summers_heal_cooldown = t + cooldown
 	end
-
-	local enemies = managers.enemy._registered_summers_crew
+	
 	local healed_someone = nil
-
+	
 	for i = 1, #enemies do
 		local enemy = enemies[i]
 
@@ -686,9 +681,36 @@ function CopMovement:do_summers_heal(t)
 			healed_someone = true
 
 			local amount_to_heal = math_ceil(((max_health - health_left) / 20))
-			local contour_ext = enemy:contour()
+			
+			if enemy:key() ~= self._unit:key() then --causes stacking contours otherwise	
+				local contour_ext = enemy:contour()
 
-			if contour_ext then
+				if contour_ext and not contour_ext:is_flashing() then
+					contour_ext:remove("medic_heal", false)
+					contour_ext:add("medic_heal", true)
+					contour_ext:flash("medic_heal", 0.2)
+				end
+			end
+
+			dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
+		end
+	end
+	
+	for i = 1, #summers do
+		local summer = summers[i]
+		
+		local dmg_ext = summer:character_damage()
+		local health_left = dmg_ext._health
+		local max_health = dmg_ext._HEALTH_INIT
+
+		if health_left < max_health then
+			healed_someone = true
+
+			local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+			local contour_ext = summer:contour()
+
+			if contour_ext and not contour_ext:is_flashing() then
+				contour_ext:remove("medic_heal", false)
 				contour_ext:add("medic_heal", true)
 				contour_ext:flash("medic_heal", 0.2)
 			end
@@ -700,7 +722,8 @@ function CopMovement:do_summers_heal(t)
 	if healed_someone then
 		local contour_ext = self._unit:contour()
 
-		if contour_ext then
+		if contour_ext and not contour_ext:is_flashing() then
+			contour_ext:remove("medic_show", false)
 			contour_ext:add("medic_show", false)
 			contour_ext:flash("medic_show", 0.2)
 		end
@@ -997,6 +1020,24 @@ function CopMovement:update(unit, t, dt)
 	self._need_upd = false
 
 	self:_upd_actions(t)
+	
+	if not self._unit:character_damage():dead() then
+		if self._can_do_omnia then
+			self:do_omnia(t)
+		end
+
+		if self._can_do_aoe_heal then
+			self:do_aoe_heal(t)
+		end
+
+		if self._can_do_winters_aoe_heal then
+			self:do_winters_aoe_heal(t)
+		end
+
+		if self._can_do_summers_heal then
+			self:do_summers_heal(t)
+		end
+	end
 
 	if self._need_upd ~= old_need_upd then
 		unit:set_extension_update_enabled(ids_movement, self._need_upd)

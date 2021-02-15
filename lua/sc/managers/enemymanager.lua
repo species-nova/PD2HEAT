@@ -21,6 +21,16 @@ function EnemyManager:init()
 	self._MAX_NR_SHIELDS = 8
 	self._queue_buffer = 0
 	self._registered_summers_crew = {}
+	self._summers = {} -- for compatibility in case multiple summersers spawn somehow.
+end
+
+function EnemyManager:register_summers(summers)
+	if self._summers then
+		self._summers[#self._summers + 1] = summers
+	else
+		self._summers = {}
+		self._summers[#self._summers + 1] = summers
+	end
 end
 
 function EnemyManager:register_summers_crew(unit)
@@ -32,55 +42,27 @@ function EnemyManager:register_summers_crew(unit)
 	end
 end
 
-local summers_tier = {
-    summers = 1,
-    taser_summers = 2,
-    boom_summers = 2
-}
-
-function EnemyManager:get_nearby_medic(unit)
-	if self:is_civilian(unit) then
-		return nil
-	end
-	
-	local summers_heal = summers_tier[unit:base()._tweak_table]
-
-	if summers_heal then
-		local summers_crew = self._registered_summers_crew
-
-		if summers_heal > 1 then
-			for i = 1, #summers_crew do
-				local enemy = summers_crew[i]
-
-				if enemy:base()._tweak_table == "medic_summers" then
-					return enemy
-				end
-			end
-		else
-			return summers_crew[math_random(#summers_crew)]
-		end
-	end
-
-	local enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.medic.radius, managers.slot:get_mask("enemies"))
-
-	for _, enemy in ipairs(enemies) do
-		if enemy:base():has_tag("medic")then
-			return enemy
-		end
-	end
-
-	return nil
-end
-
 function EnemyManager:on_enemy_unregistered(unit)
 	self._enemy_data.nr_units = self._enemy_data.nr_units - 1
 
 	managers.groupai:state():on_enemy_unregistered(unit)
 	
+	local summers = self._summers
+	
+	if summers then
+		for i = 1, #summers do
+			local summer = summers[i]
+			if summer:key() == unit:key() then --was tempted to local the unit and name it sumers just to make everyone reading this feel like i sprayed their eyes with onion liquid
+				table.remove(summers, i)
+				break
+			end
+		end
+	end
+	
 	local summers_crew = self._registered_summers_crew
 	
 	if summers_crew then
-		for i = 1, #self._registered_summers_crew do
+		for i = 1, #summers_crew do
 			local enemy = summers_crew[i]
 			if enemy:key() == unit:key() then
 				table.remove(summers_crew, i)

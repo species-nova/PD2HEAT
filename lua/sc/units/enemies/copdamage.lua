@@ -1,6 +1,24 @@
 local mvec_1 = Vector3()
 local mvec_2 = Vector3()
 
+local mvec3_set_z = mvector3.set_z
+local mvec3_sub = mvector3.subtract
+local mvec3_cpy = mvector3.copy
+local mvec3_spread = mvector3.spread
+local mvec3_set = mvector3.set
+local mvec3_dot = mvector3.dot
+local mvec3_dis = mvector3.distance
+local mvec3_norm = mvector3.normalize
+
+local math_clamp = math.clamp
+local math_ceil = math.ceil
+local math_max = math.max
+local math_min = math.min
+local math_random = math.random
+local math_rand = math.rand
+local math_lerp = math.lerp
+local math_UP = math.UP
+
 function CopDamage:_spawn_head_gadget(params)
 	if not self._head_gear then
 		return
@@ -28,17 +46,55 @@ function CopDamage:_spawn_head_gadget(params)
 
 	if not params.skip_push then
 		local true_dir = params.dir
-		local spread = math.random(6, 9)
-		mvector3.spread(true_dir, spread)
-		local dir = math.UP + true_dir
+		local spread = math_random(6, 9)
+		mvec3_spread(true_dir, spread)
+		local dir = math_UP + true_dir
 		local body = unit:body(0)
 
-		body:push_at(body:mass(), dir * math.lerp(450, 650, math.random()), unit:position() + Vector3(math.rand(1), math.rand(1), math.rand(1)))
+		body:push_at(body:mass(), dir * math_lerp(450, 650, math_random()), unit:position() + Vector3(math_rand(1), math_rand(1), math_rand(1)))
 	end
 
 	self._head_gear = false
 end
 
+function CopDamage:_apply_damage_reduction(damage)
+	local damage_reduction = self._unit:movement():team().damage_reduction or 0
+	
+	if self._unit:base()._tweak_table == "summers" then
+		local summers_crew = managers.enemy._registered_summers_crew
+		
+		if next(summers_crew) then
+			local resist = 0
+			for i = 1, #summers_crew do
+				resist = resist + 0.3
+			end
+			resist = math_clamp(resist, 0, 0.9)
+			
+			damage_reduction = damage_reduction + resist
+		end
+	end
+
+	if damage_reduction > 0 then
+		damage = damage * (1 - damage_reduction)
+	end
+
+	if self._damage_reduction_multiplier then
+		damage = damage * self._damage_reduction_multiplier
+	end
+
+	return damage
+end
+			
+function CopDamage:check_medic_heal()
+	if self._unit:anim_data() and self._unit:anim_data().act then
+		return false
+	end
+	
+	local medic = managers.enemy:get_nearby_medic(self._unit)
+
+	return medic and medic:character_damage():heal_unit(self._unit)
+end
+			
 function CopDamage:damage_fire(attack_data)
 	if self._dead or self._invulnerable then
 		return
@@ -61,7 +117,7 @@ function CopDamage:damage_fire(attack_data)
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
+				local recloak_roll = math_rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -83,10 +139,10 @@ function CopDamage:damage_fire(attack_data)
 	local head = attack_data.variant ~= "stun" and self._head_body_name and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name
 
 	if head and weap_unit and alive(weap_unit) and weap_unit:base() and not weap_unit:base().thrower_unit and attack_data.col_ray and attack_data.col_ray.ray and self._unit:base():has_tag("tank") then
-		mvector3.set(mvec_1, attack_data.col_ray.ray)
+		mvec3_set(mvec_1, attack_data.col_ray.ray)
 		mrotation.z(self._unit:movement():m_head_rot(), mvec_2)
 
-		local not_from_the_front = mvector3.dot(mvec_1, mvec_2) >= 0
+		local not_from_the_front = mvec3_dot(mvec_1, mvec_2) >= 0
 
 		if not_from_the_front then
 			head = false
@@ -164,7 +220,7 @@ function CopDamage:damage_fire(attack_data)
 		damage = damage * self._marked_dmg_mul
 
 		if not attack_data.is_fire_dot_damage and self._marked_dmg_dist_mul and alive(attacker_unit) then
-			local dst = mvector3.distance(attacker_unit:position(), self._unit:position())
+			local dst = mvec3_dis(attacker_unit:position(), self._unit:position())
 			local spott_dst = tweak_data.upgrades.values.player.marked_inc_dmg_distance[self._marked_dmg_dist_mul]
 
 			if spott_dst[1] < dst then
@@ -176,18 +232,18 @@ function CopDamage:damage_fire(attack_data)
 	damage = self:_apply_damage_reduction(damage)
 
 	if self._char_tweak.DAMAGE_CLAMP_FIRE then
-		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_FIRE)
+		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_FIRE)
 	end
 
 	attack_data.raw_damage = damage
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
+		damage = math_min(damage, self._health - 1)
 	end
 
 	local result = nil
@@ -245,7 +301,7 @@ function CopDamage:damage_fire(attack_data)
 		end
 
 		if Network:is_server() and self._char_tweak.gas_on_death then
-			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 
 		local data = {
@@ -308,18 +364,18 @@ function CopDamage:damage_fire(attack_data)
 			local hit_pos = attack_data.col_ray.hit_position
 
 			if hit_pos and attack_data.attacker_unit and alive(attack_data.attacker_unit) then
-				distance = mvector3.distance(hit_pos, attack_data.attacker_unit:position())
+				distance = mvec3_dis(hit_pos, attack_data.attacker_unit:position())
 			end
 
 			local fire_dot_max_distance = weap_base and weap_base.far_dot_distance and weap_base.far_dot_distance + weap_base.near_dot_distance or tonumber(fire_dot_data.dot_trigger_max_distance) or 3000
 
 			if distance < fire_dot_max_distance then
-				local start_dot_damage_roll = math.random(1, 100)
+				local start_dot_damage_roll = math_random(1, 100)
 				local fire_dot_trigger_chance = tonumber(fire_dot_data.dot_trigger_chance) or 30
 
 				--Dragon's breath trigger chance scales with range.
 				if weap_base and weap_base.far_dot_distance then
-					fire_dot_trigger_chance = (1 - math.min(1, math.max(0, distance - weap_base.near_dot_distance) / weap_base.far_dot_distance)) * fire_dot_trigger_chance
+					fire_dot_trigger_chance = (1 - math_min(1, math_max(0, distance - weap_base.near_dot_distance) / weap_base.far_dot_distance)) * fire_dot_trigger_chance
 				end
 
 				if start_dot_damage_roll <= fire_dot_trigger_chance then
@@ -387,7 +443,7 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
+				local recloak_roll = math_rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -423,8 +479,8 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 		weapon_unit = attacker_unit and attacker_unit:inventory() and alive(attacker_unit:inventory():equipped_unit()) and attacker_unit:inventory():equipped_unit()
 	end
 
-	local hit_pos = mvector3.copy(self._unit:position())
-	mvector3.set_z(hit_pos, hit_pos.z + 100)
+	local hit_pos = mvec3_cpy(self._unit:position())
+	mvec3_set_z(hit_pos, hit_pos.z + 100)
 
 	local attack_dir, result = nil
 
@@ -446,7 +502,7 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 		end
 
 		attack_dir = hit_pos - from_pos
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -474,7 +530,7 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 		end
 
 		if Network:is_server() and self._char_tweak.gas_on_death then
-			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 
 		result = {
@@ -564,7 +620,7 @@ function CopDamage:damage_bullet(attack_data)
 		end
 
 		if dodge_chance > 0 then
-			local roll = math.rand(1, 100)
+			local roll = math_rand(1, 100)
 
 			if roll <= dodge_chance then
 				self._unit:sound():play("pickup_fak_skill", nil, nil)
@@ -592,7 +648,7 @@ function CopDamage:damage_bullet(attack_data)
 				normal = attack_data.col_ray.ray
 			})
 		else
-			local armor_pierce_roll = math.rand(1)
+			local armor_pierce_roll = math_rand(1)
 			local armor_pierce_value = 0
 
 			if attack_data.attacker_unit == managers.player:player_unit() then
@@ -627,7 +683,7 @@ function CopDamage:damage_bullet(attack_data)
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
+				local recloak_roll = math_rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -650,10 +706,10 @@ function CopDamage:damage_bullet(attack_data)
 	local head = self._head_body_name and not self._unit:in_slot(16) and not self._char_tweak.ignore_headshot and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name
 
 	if head and not attack_data.weapon_unit:base().thrower_unit and self._unit:base():has_tag("tank") then
-		mvector3.set(mvec_1, attack_data.col_ray.ray)
+		mvec3_set(mvec_1, attack_data.col_ray.ray)
 		mrotation.z(self._unit:movement():m_head_rot(), mvec_2)
 
-		local not_from_the_front = mvector3.dot(mvec_1, mvec_2) >= 0
+		local not_from_the_front = mvec3_dot(mvec_1, mvec_2) >= 0
 
 		if not_from_the_front then
 			head = false
@@ -711,7 +767,7 @@ function CopDamage:damage_bullet(attack_data)
 		damage = damage * self._marked_dmg_mul
 
 		if self._marked_dmg_dist_mul then
-			local dst = mvector3.distance(attack_data.origin, self._unit:position())
+			local dst = mvec3_dis(attack_data.origin, self._unit:position())
 			local spott_dst = tweak_data.upgrades.values.player.marked_inc_dmg_distance[self._marked_dmg_dist_mul]
 
 			if spott_dst[1] < dst then
@@ -726,7 +782,7 @@ function CopDamage:damage_bullet(attack_data)
 		end
 
 		if attack_data.add_head_shot_mul then
-			local tweak_headshot_mul = math.max(0, self._char_tweak.headshot_dmg_mul - 1)
+			local tweak_headshot_mul = math_max(0, self._char_tweak.headshot_dmg_mul - 1)
 			local mul = tweak_headshot_mul * attack_data.add_head_shot_mul + 1
 			damage = damage * mul
 		end
@@ -738,7 +794,7 @@ function CopDamage:damage_bullet(attack_data)
 	if self._char_tweak.DAMAGE_CLAMP_BULLET then
 		if attack_data.weapon_unit:base().thrower_unit or attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("saw") then
 		else
-			damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
+			damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
 		end
 	end
 
@@ -752,13 +808,13 @@ function CopDamage:damage_bullet(attack_data)
 		managers.groupai:state():_voice_sentry() --FUCKING SCI-FI ROBOT GUNS
 	end
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
+		damage = math_min(damage, self._health - 1)
 	end
 
 	if self._health <= damage then
@@ -786,7 +842,7 @@ function CopDamage:damage_bullet(attack_data)
 					})
 				end
 			elseif Network:is_server() and self._char_tweak.gas_on_death then
-				managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+				managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 			end
 
 
@@ -894,7 +950,7 @@ function CopDamage:damage_bullet(attack_data)
 		end
 	end
 
-	local hit_offset_height = math.clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
+	local hit_offset_height = math_clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
 	local attacker = attack_data.attacker_unit
 
 	if not attacker or not alive(attacker) or attacker:id() == -1 then
@@ -935,7 +991,7 @@ function CopDamage:sync_damage_bullet(attacker_unit, damage_percent, i_body, hit
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
+				local recloak_roll = math_rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -961,14 +1017,14 @@ function CopDamage:sync_damage_bullet(attacker_unit, damage_percent, i_body, hit
 	local from_pos, attack_dir, result = nil
 	local body = self._unit:body(i_body)
 	local head = self._head_body_name and not self._unit:in_slot(16) and not self._char_tweak.ignore_headshot and body and body:name() == self._ids_head_body_name
-	local hit_pos = mvector3.copy(body:position())
+	local hit_pos = mvec3_cpy(body:position())
 	attack_data.pos = hit_pos
 
 	if attacker_unit then
 		from_pos = attacker_unit:movement().m_detect_pos and attacker_unit:movement():m_detect_pos() or attacker_unit:movement():m_head_pos()
 
 		attack_dir = hit_pos - from_pos
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -995,7 +1051,7 @@ function CopDamage:sync_damage_bullet(attacker_unit, damage_percent, i_body, hit
 				})
 			end
 		elseif Network:is_server() and self._char_tweak.gas_on_death then
-			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 
 		result = {
@@ -1128,7 +1184,7 @@ function CopDamage:damage_melee(attack_data)
 	if head and not self._damage_reduction_multiplier then
 		if self._char_tweak.headshot_dmg_mul then
 			--Use math.max to cover edge cases (mostly Capt. Summers) where cleaver type weapons would deal *less* damage on a headshot than a bodyshot.
-			headshot_multiplier = math.max(self._char_tweak.headshot_dmg_mul * headshot_multiplier, 1)
+			headshot_multiplier = math_max(self._char_tweak.headshot_dmg_mul * headshot_multiplier, 1)
 			damage = damage * headshot_multiplier
 			damage_effect = damage_effect * headshot_multiplier
 		else
@@ -1146,24 +1202,24 @@ function CopDamage:damage_melee(attack_data)
 	damage_effect = self:_apply_damage_reduction(damage_effect)
 
 	if self._char_tweak.DAMAGE_CLAMP_MELEE then
-		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_MELEE)
-		damage_effect = math.min(damage_effect, self._char_tweak.DAMAGE_CLAMP_MELEE)
+		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_MELEE)
+		damage_effect = math_min(damage_effect, self._char_tweak.DAMAGE_CLAMP_MELEE)
 	end
 
 	attack_data.raw_damage = damage
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	damage_effect = math.clamp(damage_effect, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
-	local damage_effect_percent = math.ceil(damage_effect / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	damage_effect = math_clamp(damage_effect, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+	local damage_effect_percent = math_ceil(damage_effect / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage_effect = damage_effect_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 	damage_effect, damage_effect_percent = self:_apply_min_health_limit(damage_effect, damage_effect_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
-		damage_effect = math.min(damage_effect, self._health - 1)
+		damage = math_min(damage, self._health - 1)
+		damage_effect = math_min(damage_effect, self._health - 1)
 	end
 
 	if self._health <= damage then
@@ -1216,10 +1272,10 @@ function CopDamage:damage_melee(attack_data)
 				result_type = "taser_tased"
 
 				if attack_data.charge_lerp_value then
-					local charge_power = math.lerp(0, 1, attack_data.charge_lerp_value)
+					local charge_power = math_lerp(0, 1, attack_data.charge_lerp_value)
 
 					damage_effect_percent = charge_power
-					self._tased_time = math.lerp(1, 5, charge_power)
+					self._tased_time = math_lerp(1, 5, charge_power)
 					self._tased_down_time = self._tased_time * 2
 				else
 					damage_effect_percent = 0.4
@@ -1279,12 +1335,12 @@ function CopDamage:damage_melee(attack_data)
 					managers.achievment:award_progress(tweak_data.achievement.final_rule.stat)
 				end
 
-				mvector3.set(mvec_1, self._unit:position())
-				mvector3.subtract(mvec_1, attack_data.attacker_unit:position())
-				mvector3.normalize(mvec_1)
-				mvector3.set(mvec_2, self._unit:rotation():y())
+				mvec3_set(mvec_1, self._unit:position())
+				mvec3_sub(mvec_1, attack_data.attacker_unit:position())
+				mvec3_norm(mvec_1)
+				mvec3_set(mvec_2, self._unit:rotation():y())
 
-				from_behind = mvector3.dot(mvec_1, mvec_2) >= 0
+				from_behind = mvec3_dot(mvec_1, mvec_2) >= 0
 
 				local job = Global.level_data and Global.level_data.level_id
 
@@ -1292,7 +1348,7 @@ function CopDamage:damage_melee(attack_data)
 					--Just in case, cause otherwise it apparently screws everything up
 					snatch_pager = false
 				else
-					if managers.player:upgrade_value("player", "melee_kill_snatch_pager_chance", 0) > math.rand(1) then
+					if managers.player:upgrade_value("player", "melee_kill_snatch_pager_chance", 0) > math_rand(1) then
 						if self._unit:movement():cool() then
 							snatch_pager = true
 							self._unit:unit_data().has_alarm_pager = false
@@ -1399,7 +1455,7 @@ function CopDamage:damage_melee(attack_data)
 		attack_data.attacker_unit = self._unit
 	end
 
-	local hit_offset_height = math.clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
+	local hit_offset_height = math_clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
 	local i_result = 0
 
 	if snatch_pager then
@@ -1430,14 +1486,14 @@ function CopDamage:sync_damage_melee(attacker_unit, damage_percent, damage_effec
 	local result, attack_dir = nil
 	local body = self._unit:body(i_body)
 	local head = self._head_body_name and not self._unit:in_slot(16) and not self._char_tweak.ignore_headshot and body and body:name() == self._ids_head_body_name
-	local hit_pos = mvector3.copy(body:position())
+	local hit_pos = mvec3_cpy(body:position())
 	attack_data.pos = hit_pos
 
 	if attacker_unit then
 		local from_pos = attacker_unit:movement().m_detect_pos and attacker_unit:movement():m_detect_pos() or attacker_unit:movement():m_head_pos()
 
 		attack_dir = hit_pos - from_pos
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -1511,7 +1567,7 @@ function CopDamage:sync_damage_melee(attacker_unit, damage_percent, damage_effec
 			self:_apply_damage_to_health(damage)
 
 			if i_result == 2 then
-				self._tased_time = math.lerp(1, 5, damage_effect_percent)
+				self._tased_time = math_lerp(1, 5, damage_effect_percent)
 				self._tased_down_time = self._tased_time * 2
 			end
 		end
@@ -1548,7 +1604,7 @@ function CopDamage:die(attack_data)
 
 		if attacker_unit and alive(attacker_unit) then
 			if attacker_unit:in_slot(16) then
-				local roll = math.rand(1, 100)
+				local roll = math_rand(1, 100)
 				local no_ammo_chance = 80
 
 				if roll <= no_ammo_chance then
@@ -1667,7 +1723,7 @@ function CopDamage:heal_unit(unit, override_cooldown)
 			local voicelines = _G.restoration.BufferedSounds[my_tweak_table.custom_voicework]
 
 			if voicelines["heal"] then
-				local line_to_use = voicelines.heal[math.random(#voicelines.heal)]
+				local line_to_use = voicelines.heal[math_random(#voicelines.heal)]
 
 				self._unit:base():play_voiceline(line_to_use)
 			end
@@ -1754,8 +1810,8 @@ function CopDamage:sync_damage_stun(attacker_unit, damage_percent, i_attack_vari
 		attacker_unit = attacker_unit
 	}
 
-	local hit_pos = mvector3.copy(self._unit:position())
-	mvector3.set_z(hit_pos, hit_pos.z + 100)
+	local hit_pos = mvec3_cpy(self._unit:position())
+	mvec3_set_z(hit_pos, hit_pos.z + 100)
 
 	local attack_dir = nil
 
@@ -1763,7 +1819,7 @@ function CopDamage:sync_damage_stun(attacker_unit, damage_percent, i_attack_vari
 		attack_dir = direction
 	elseif attacker_unit then
 		attack_dir = self._unit:position() - attacker_unit:position()
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -1812,7 +1868,7 @@ function CopDamage:damage_explosion(attack_data)
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
+				local recloak_roll = math_rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -1842,7 +1898,7 @@ function CopDamage:damage_explosion(attack_data)
 		damage = damage * self._marked_dmg_mul
 
 		if self._marked_dmg_dist_mul and alive(attacker_unit) then
-			local dst = mvector3.distance(attacker_unit:position(), self._unit:position())
+			local dst = mvec3_dis(attacker_unit:position(), self._unit:position())
 			local spott_dst = tweak_data.upgrades.values.player.marked_inc_dmg_distance[self._marked_dmg_dist_mul]
 
 			if spott_dst[1] < dst then
@@ -1859,18 +1915,18 @@ function CopDamage:damage_explosion(attack_data)
 	end
 
 	if self._char_tweak.DAMAGE_CLAMP_EXPLOSION then
-		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_EXPLOSION)
+		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_EXPLOSION)
 	end
 
 	attack_data.raw_damage = damage
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
+		damage = math_min(damage, self._health - 1)
 	end
 
 	if self._health <= damage then
@@ -1932,7 +1988,7 @@ function CopDamage:damage_explosion(attack_data)
 		end
 
 		if Network:is_server() and self._char_tweak.gas_on_death then
-			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 
 		if not is_civilian and managers.player:has_category_upgrade("temporary", "overkill_damage_multiplier") and attacker_unit == managers.player:player_unit() and attack_data.weapon_unit and attack_data.weapon_unit:base().weapon_tweak_data and not attack_data.weapon_unit:base().thrower_unit and attack_data.weapon_unit:base():is_category("shotgun", "saw") then
@@ -1999,7 +2055,7 @@ function CopDamage:sync_damage_explosion(attacker_unit, damage_percent, i_attack
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
+				local recloak_roll = math_rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -2043,8 +2099,8 @@ function CopDamage:sync_damage_explosion(attacker_unit, damage_percent, i_attack
 		weapon_unit = attacker_unit and attacker_unit:inventory() and alive(attacker_unit:inventory():equipped_unit()) and attacker_unit:inventory():equipped_unit()
 	end
 
-	local hit_pos = mvector3.copy(self._unit:position())
-	mvector3.set_z(hit_pos, hit_pos.z + 100)
+	local hit_pos = mvec3_cpy(self._unit:position())
+	mvec3_set_z(hit_pos, hit_pos.z + 100)
 
 	local attack_dir, result = nil
 
@@ -2066,7 +2122,7 @@ function CopDamage:sync_damage_explosion(attacker_unit, damage_percent, i_attack
 		end
 
 		attack_dir = hit_pos - from_pos
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -2096,7 +2152,7 @@ function CopDamage:sync_damage_explosion(attacker_unit, damage_percent, i_attack
 		end
 
 		if Network:is_server() and self._char_tweak.gas_on_death then
-			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 
 		result = {
@@ -2191,20 +2247,20 @@ function CopDamage:damage_simple(attack_data)
 	damage = self:_apply_damage_reduction(damage)
 
 	if self._char_tweak.DAMAGE_CLAMP_SHOCK then
-		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_SHOCK)
+		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_SHOCK)
 	elseif self._char_tweak.DAMAGE_CLAMP_BULLET then
-		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
+		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
 	end
 
 	attack_data.raw_damage = damage
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
+		damage = math_min(damage, self._health - 1)
 	end
 
 	if self._health <= damage then
@@ -2233,7 +2289,7 @@ function CopDamage:damage_simple(attack_data)
 			local weapon_base = attack_data.attacker_unit and attack_data.attacker_unit:inventory() and attack_data.attacker_unit:inventory():equipped_unit() and attack_data.attacker_unit:inventory():equipped_unit():base()
 
 			if weapon_base then
-				local knock_down = weapon_base._knock_down and weapon_base._knock_down > 0 and math.random() < weapon_base._knock_down
+				local knock_down = weapon_base._knock_down and weapon_base._knock_down > 0 and math_random() < weapon_base._knock_down
 
 				if knock_down then
 					result_type = "knock_down"
@@ -2343,8 +2399,8 @@ function CopDamage:sync_damage_simple(attacker_unit, damage_percent, i_attack_va
 		attacker_unit = attacker_unit
 	}
 
-	local hit_pos = mvector3.copy(self._unit:position())
-	mvector3.set_z(hit_pos, hit_pos.z + 100)
+	local hit_pos = mvec3_cpy(self._unit:position())
+	mvec3_set_z(hit_pos, hit_pos.z + 100)
 
 	local attack_dir, result = nil
 
@@ -2364,7 +2420,7 @@ function CopDamage:sync_damage_simple(attacker_unit, damage_percent, i_attack_va
 		end
 
 		attack_dir = hit_pos - from_pos
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -2452,18 +2508,18 @@ function CopDamage:damage_dot(attack_data)
 	damage = self:_apply_damage_reduction(damage)
 
 	if self._char_tweak.DAMAGE_CLAMP_DOT then
-		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_DOT)
+		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_DOT)
 	end
 
 	attack_data.raw_damage = damage
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
+		damage = math_min(damage, self._health - 1)
 	end
 
 	if not attack_data.variant then
@@ -2647,13 +2703,13 @@ function CopDamage:damage_tase(attack_data)
 	damage = self:_apply_damage_reduction(damage)
 	attack_data.raw_damage = damage
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math_clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math.min(damage, self._health - 1)
+		damage = math_min(damage, self._health - 1)
 	end
 
 	local tase_variant = nil
@@ -2779,8 +2835,8 @@ function CopDamage:sync_damage_tase(attacker_unit, damage_percent, i_result, dea
 		variant = "bullet"
 	}
 
-	local hit_pos = mvector3.copy(self._unit:position())
-	mvector3.set_z(hit_pos, hit_pos.z + 100)
+	local hit_pos = mvec3_cpy(self._unit:position())
+	mvec3_set_z(hit_pos, hit_pos.z + 100)
 
 	local attack_dir, result = nil
 
@@ -2800,7 +2856,7 @@ function CopDamage:sync_damage_tase(attacker_unit, damage_percent, i_result, dea
 		end
 
 		attack_dir = hit_pos - from_pos
-		mvector3.normalize(attack_dir)
+		mvec3_norm(attack_dir)
 	else
 		attack_dir = -self._unit:rotation():y()
 	end
@@ -2901,7 +2957,7 @@ function CopDamage:_on_damage_received(damage_info)
 						if self._next_allowed_burnhurt_t and self._next_allowed_burnhurt_t < t or not self._next_allowed_burnhurt_t then
 							self._unit:sound():say("burnhurt", nil, nil, nil, nil)
 							self._next_allowed_burnhurt_t = t + 8
-							self._next_allowed_hurt_t = t + math.random(1, 1.28)
+							self._next_allowed_hurt_t = t + math_random(1, 1.28)
 						end
 					else
 						self._unit:sound():say("x01a_any_3p", nil, nil, nil, nil)
@@ -2951,7 +3007,7 @@ function CopDamage:damage_mission(attack_data)
 		if CopDamage.is_civilian(self._unit:base()._tweak_table) then
 			managers.money:civilian_killed()
 		elseif Network:is_server() and self._char_tweak.gas_on_death then
-			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
+			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 	end
 
@@ -2987,7 +3043,7 @@ function CopDamage:build_suppression(amount, panic_chance)
 	local sup_tweak = self._char_tweak.suppression
 
 	if panic_chance then
-		if panic_chance == -1 or panic_chance > 0 and sup_tweak.panic_chance_mul > 0 and math.random() < panic_chance * sup_tweak.panic_chance_mul then
+		if panic_chance == -1 or panic_chance > 0 and sup_tweak.panic_chance_mul > 0 and math_random() < panic_chance * sup_tweak.panic_chance_mul then
 			amount = "panic"
 		end
 	end
@@ -3026,7 +3082,7 @@ function CopDamage:build_suppression(amount, panic_chance)
 				sync_amount_ratio = amount_val / sup_tweak.react_point[2]
 			end
 
-			sync_amount = math.clamp(math.ceil(sync_amount_ratio * 15), 1, 15)
+			sync_amount = math_clamp(math_ceil(sync_amount_ratio * 15), 1, 15)
 		end
 
 		managers.network:session():send_to_host("suppression", self._unit, sync_amount)
@@ -3035,21 +3091,21 @@ function CopDamage:build_suppression(amount, panic_chance)
 	end
 
 	if self._suppression_data then
-		self._suppression_data.value = math.min(self._suppression_data.brown_point or self._suppression_data.react_point, self._suppression_data.value + amount_val)
+		self._suppression_data.value = math_min(self._suppression_data.brown_point or self._suppression_data.react_point, self._suppression_data.value + amount_val)
 		self._suppression_data.last_build_t = t
 		self._suppression_data.decay_t = t + self._suppression_data.duration
 
 		managers.enemy:reschedule_delayed_clbk(self._suppression_data.decay_clbk_id, self._suppression_data.decay_t)
 	else
-		local duration = math.lerp(sup_tweak.duration[1], sup_tweak.duration[2], math.random())
+		local duration = math_lerp(sup_tweak.duration[1], sup_tweak.duration[2], math_random())
 		local decay_t = t + duration
 		self._suppression_data = {
 			value = amount_val,
 			last_build_t = t,
 			decay_t = decay_t,
 			duration = duration,
-			react_point = sup_tweak.react_point and math.lerp(sup_tweak.react_point[1], sup_tweak.react_point[2], math.random()),
-			brown_point = sup_tweak.brown_point and math.lerp(sup_tweak.brown_point[1], sup_tweak.brown_point[2], math.random()),
+			react_point = sup_tweak.react_point and math_lerp(sup_tweak.react_point[1], sup_tweak.react_point[2], math_random()),
+			brown_point = sup_tweak.brown_point and math_lerp(sup_tweak.brown_point[1], sup_tweak.brown_point[2], math_random()),
 			decay_clbk_id = "CopDamage_suppression" .. tostring(self._unit:key())
 		}
 
@@ -3222,7 +3278,7 @@ function CopDamage:roll_critical_hit(attack_data)
 	end
 
 	if critical_value > 0 then
-		local critical_roll = math.rand(1)
+		local critical_roll = math_rand(1)
 		critical_hit = critical_roll < critical_value
 	end
 
@@ -3241,7 +3297,7 @@ end
 
 function CopDamage:check_backstab(attack_data)
 	if self._unit.movement and self._unit:movement().m_rot then
-		local fwd_vec = mvector3.dot(self._unit:movement():m_rot():y(), managers.player:player_unit():movement():m_head_rot():y())
+		local fwd_vec = mvec3_dot(self._unit:movement():m_rot():y(), managers.player:player_unit():movement():m_head_rot():y())
 
 		--# degrees of leeway == (1-(2*number fwd_vec > than))pi radians
 		if fwd_vec > 0.15 then

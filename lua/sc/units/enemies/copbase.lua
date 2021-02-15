@@ -22,6 +22,10 @@ Hooks:PostHook(CopBase, "post_init", "postinithooksex", function(self)
 		self._unit:damage():run_sequence_simple("turn_on_spook_lights")
 	end
 	
+	if self._tweak_table == "summers" then
+		managers.enemy:register_summers(self._unit)
+	end
+	
 	if summers_crew[self._tweak_table] then
 		self._engagement_range = 1125 --manually set engagement range so these idiots can stick to summers properly without fucking up their weapon usages
 		managers.enemy:register_summers_crew(self._unit)
