@@ -949,14 +949,18 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 	data.detected_attention_objects[removed_key] = nil
 
 	local my_data = data.internal_data
-	local my_mov_ext = my_unit:movement()
+	--the fact that I need to ensure the unit exists to prevent a crash means there's a very deep issue somewhere (very likely vanilla)
+	--a listener didn't get removed when a unit was destroyed, which is really, really bad
+	local my_mov_ext = alive(my_unit) and my_unit.movement and my_unit:movement()
 	local current_att_obj = data.attention_obj
 
 	if current_att_obj and current_att_obj.u_key == removed_key then
 		CopLogicBase._set_attention_obj(data, nil, nil)
 
 		if my_data and my_data.firing then
-			my_mov_ext:set_allow_fire(false)
+			if my_mov_ext then
+				my_mov_ext:set_allow_fire(false)
+			end
 
 			my_data.firing = nil
 		end
@@ -964,6 +968,10 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 
 	if my_data and my_data.arrest_targets then
 		my_data.arrest_targets[removed_key] = nil
+	end
+
+	if not my_mov_ext then
+		return
 	end
 
 	local set_attention = my_mov_ext:attention()
