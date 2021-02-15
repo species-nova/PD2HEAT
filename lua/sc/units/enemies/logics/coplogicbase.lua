@@ -954,6 +954,85 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 	local my_mov_ext = alive(my_unit) and my_unit.movement and my_unit:movement()
 	local current_att_obj = data.attention_obj
 
+	if not my_mov_ext then
+		log("coplogicbase: no movement() extension when trying to destroy attention data!")
+
+		if not alive(my_unit) then
+			log("coplogicbase: unit was destroyed!")
+		elseif not my_unit.in_slot then
+			log("coplogicbase: no in_slot function???")
+		elseif my_unit:in_slot(0) then
+			log("coplogicbase: unit is being destroyed!")
+		else
+			log("coplogicbase: unit is still intact on the C side")
+
+			local my_base_ext = my_unit.base and my_unit:base()
+
+			if not my_base_ext then
+				log("coplogicbase: unit has no base() extension")
+			elseif my_base_ext._tweak_table then
+				log("coplogicbase: unit has tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+			else
+				log("coplogicbase: unit has no tweak table")
+			end
+
+			local my_dmg_ext = my_unit.character_damage and my_unit:character_damage()
+
+			if not my_dmg_ext then
+				log("coplogicbase: unit has no character_damage() extension")
+			elseif my_dmg_ext.dead and my_dmg_ext:dead() then
+				log("coplogicbase: unit is dead")
+			end
+		end
+
+		local cur_logic_name = data.name
+
+		if cur_logic_name then
+			log("coplogicbase: logic name: " .. tostring(cur_logic_name) .. "")
+		end
+
+		local att_unit = attention_info and attention_info.unit
+
+		if not alive(att_unit) then
+			log("coplogicbase: attention unit was destroyed!")
+		elseif att_unit:in_slot(0) then
+			log("coplogicbase: attention unit is being destroyed!")
+		else
+			log("coplogicbase: attention unit is still intact on the C side")
+
+			local unit_name = att_unit.name and att_unit:name()
+
+			if unit_name then
+				--might be pure gibberish
+				log("coplogicbase: attention unit name: " .. tostring(unit_name) .. "")
+			end
+
+			if att_unit:id() == -1 then
+				log("coplogicbase: attention unit was detached from the network")
+			end
+
+			local att_base_ext = att_unit:base()
+
+			if not att_base_ext then
+				log("coplogicbase: attention unit has no base() extension")
+			elseif att_base_ext._tweak_table then
+				log("coplogicbase: attention unit has tweak table: " .. tostring(att_base_ext._tweak_table) .. "")
+			elseif att_base_ext.is_husk_player then
+				log("coplogicbase: attention unit was a player husk")
+			elseif att_base_ext.is_local_player then
+				log("coplogicbase: attention unit was the local player")
+			end
+
+			local att_dmg_ext = att_unit:character_damage()
+
+			if not att_dmg_ext then
+				log("coplogicbase: attention unit has no character_damage() extension")
+			elseif att_dmg_ext.dead and att_dmg_ext:dead() then
+				log("coplogicbase: attention unit is dead")
+			end
+		end
+	end
+
 	if current_att_obj and current_att_obj.u_key == removed_key then
 		CopLogicBase._set_attention_obj(data, nil, nil)
 
