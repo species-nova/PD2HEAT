@@ -1045,7 +1045,9 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 		end
 	end
 
-	if my_data and my_data.arrest_targets then
+	if my_data and my_data.arrest_targets and my_data.arrest_targets[removed_key] then
+		managers.groupai:state():on_arrest_end(data.key, removed_key)
+
 		my_data.arrest_targets[removed_key] = nil
 	end
 
