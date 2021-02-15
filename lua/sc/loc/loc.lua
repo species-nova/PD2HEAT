@@ -1406,6 +1406,14 @@ Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function
 		["hud_assault_cover_bs8"] = "KEEP THOSE SAUSAGES SAFE",
 		["hud_assault_cover_bs9"] = "NON-STOP DEADLY ACTION",
 		["hud_assault_cover_bs10"] = "CHAD WAS HERE",
+		
+		["hud_assault_vip_summers"] = "VS. CAPTAIN SUMMERS & HIS CREW",
+		["hud_assault_vip_spring"] = "VS. CAPTAIN SPRING",
+		["hud_assault_vip_autumn"] = "VS. CAPTAIN AUTUMN",
+		["hud_assault_vip_winters"] = "VS. CAPTAIN WINTERS",
+		["hud_assault_vip_hvhwarn"] = "DEMONIC PRESENCE AT UNSAFE LEVELS",
+		["hud_assault_vip_hvh"] = "VS. HORSELESS HATLESS HEADLESS TITAN DOZER FROM HELL",
+		
 	})
 end)
 

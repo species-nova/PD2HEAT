@@ -513,6 +513,10 @@ function CopLogicIdle.damage_clbk(data, damage_info)
 			end
 		end
 	end
+	
+	if data.tactics and data.tactics.sneaky then
+		data.coward_t = t
+	end
 end
 
 function CopLogicIdle.on_alert(data, alert_data)

@@ -234,6 +234,10 @@ function GroupAIStateBesiege:_upd_group_spawning(use_last)
 	self:_perform_group_spawning(spawn_task, spawn_task.force, use_last)
 end
 
+function GroupAIStateBesiege:set_endless_silent()
+	self._silent_endless = true
+end
+
 -- Cache for normal spawngroups to avoid losing them when they're overwritten.
 -- Once a captain is spawned in, this gets reset back to nil.
 local cached_spawn_groups = nil
@@ -925,7 +929,7 @@ function GroupAIStateBesiege:_upd_assault_task()
 			end
 		end
 	elseif task_data.phase == "build" then
-		if task_spawn_allowance <= 0 then
+		if task_spawn_allowance <= 0 and not self._silent_endless then
 			task_data.phase = "fade"
 			task_data.phase_end_t = t + self._tweak_data.assault.fade_duration
 		elseif t > task_data.phase_end_t then
@@ -937,7 +941,7 @@ function GroupAIStateBesiege:_upd_assault_task()
 	elseif task_data.phase == "sustain" then
 		local end_t = self:assault_phase_end_time()
 		task_spawn_allowance = managers.modifiers:modify_value("GroupAIStateBesiege:SustainSpawnAllowance", task_spawn_allowance, force_pool)
-		if task_spawn_allowance <= 0 then
+		if task_spawn_allowance <= 0 and not self._silent_endless then
 			task_data.phase = "fade"
 			local time = self._t
 				self:_get_megaphone_sound_source():post_event("mga_generic_a")
@@ -953,7 +957,7 @@ function GroupAIStateBesiege:_upd_assault_task()
 					end	
 				end		
 			task_data.phase_end_t = t + self._tweak_data.assault.fade_duration
-		elseif t > end_t and not self._hunt_mode then
+		elseif t > end_t and not self._hunt_mode and not self._silent_endless then
 			task_data.phase = "fade"						
 			local time = self._t
 				for group_id, group in pairs(self._groups) do
@@ -969,7 +973,7 @@ function GroupAIStateBesiege:_upd_assault_task()
 				end		
 			task_data.phase_end_t = t + self._tweak_data.assault.fade_duration
 		end
-	elseif not self._hunt_mode then
+	elseif not self._hunt_mode and not self._silent_endless then
 		if not task_data.said_retreat then
 			task_data.said_retreat = true
 

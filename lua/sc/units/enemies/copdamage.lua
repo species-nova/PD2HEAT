@@ -1621,6 +1621,10 @@ function CopDamage:die(attack_data)
 	end
 
 	if self._char_tweak.ends_assault_on_death then
+		if managers.groupai:state()._silent_endless then
+			managers.groupai:state()._silent_endless = nil
+		end
+		
 		managers.groupai:state():force_end_assault_phase()
 		managers.hud:set_buff_enabled("vip", false)
 	end

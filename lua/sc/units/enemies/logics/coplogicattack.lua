@@ -1123,6 +1123,8 @@ function CopLogicAttack._update_cover(data)
 						dis_mul = dis_mul + 0.2
 					elseif want_to_take_cover == "reload" then
 						dis_mul = dis_mul + 0.4
+					elseif want_to_take_cover == "spoocavoidance" or want_to_take_cover == "coward" then
+						dis_mul = dis_mul + 1
 					end
 				end
 				
@@ -2041,18 +2043,10 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 		return
 	end
 	
-	local ammo_max, ammo = data.unit:inventory():equipped_unit():base():ammo_info()
-
-	if ammo / ammo_max < 0.2 then
-		return true
-	end
-	
-	if my_data.moving_to_cover or data.attention_obj.dmg_t and data.attention_obj.dmg_t < 2 then
-		return true
-	end
-	
 	if data.tactics then
-		if data.tactics.spoocavoidance and data.attention_obj.dis < 2000 and data.attention_obj.aimed_at then
+		if data.tactics.sneaky and data.coward_t and data.t - data.coward_t < 5 then
+			return "coward"
+		elseif data.tactics.spoocavoidance and data.attention_obj.dis < 2000 and data.attention_obj.aimed_at then
 			return "spoocavoidance"
 		elseif data.tactics.reloadingretreat and data.unit:anim_data().reload then
 			return "reload"
@@ -2061,6 +2055,16 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 		elseif data.tactics.hitnrun and data.attention_obj.verified_dis < 1000 then
 			return "hitnrun"
 		end
+	end
+	
+	local ammo_max, ammo = data.unit:inventory():equipped_unit():base():ammo_info()
+
+	if ammo / ammo_max < 0.2 then
+		return true
+	end
+	
+	if my_data.moving_to_cover or data.attention_obj.dmg_t and data.t - data.attention_obj.dmg_t < 2 then
+		return true
 	end
 	
 	if data.is_suppressed then

@@ -1,26 +1,31 @@
 Hooks:PostHook(HUDAssaultCorner, "init", "SCHUDAssaultInit", function(self)
+	self._captain = nil
 	local buff_icon = "guis/textures/pd2/hud_buff_shield"
 	local job = Global.level_data and Global.level_data.level_id        
 	for _,j in ipairs(restoration.captain_teamwork) do
 		if job == j then
+			self._captain = "summers"
 			buff_icon = "guis/textures/pd2/hud_buff_fire"
 			break
 		end
 	end
 	for _,j2 in ipairs(restoration.captain_murderdozer) do
 		 if job == j2 then
+			self._captain = "spring"
 			buff_icon = "guis/textures/pd2/hud_buff_skull"
 			break
 		end
 	end
 	for _,j3 in ipairs(restoration.captain_stelf) do
 		 if job == j3 then
+			self._captain = "autumn"
 			buff_icon = "guis/textures/pd2/hud_buff_spooc"
 			break
 		end
 	end		
 	for _,j4 in ipairs(restoration.what_a_horrible_heist_to_have_a_curse) do
 		if job == j4 then
+			self._captain = "hellfire"
 			buff_icon = "guis/textures/pd2/hud_buff_halloween"
 			break
 		end
@@ -35,7 +40,11 @@ Hooks:PostHook(HUDAssaultCorner, "init", "SCHUDAssaultInit", function(self)
 	--Skirmish exclusive stuff
 	if managers.skirmish:is_skirmish() then		
 		buff_icon = "guis/textures/pd2/hud_buff_generic"
-	end	
+	end
+
+	if buff_icon == "guis/textures/pd2/hud_buff_shield" then
+		self._captain = "winters"
+	end
 	
 	if alive(self._vip_bg_box) and alive(self._vip_bg_box:child("vip_icon")) then
 		self._vip_bg_box:child("vip_icon"):set_image(buff_icon)
@@ -134,27 +143,48 @@ function HUDAssaultCorner:_get_assault_strings()
 	end
 
 	if self._assault_mode == "phalanx" then
+		local captain_warn = "hud_assault_vip"
+		local vs_line = "hud_assault_vip_winters"
+		local padlock = "hud_assault_padlock"
+		
+		if self._captain == "autumn" then
+			vs_line = "hud_assault_vip_autumn"
+		elseif self._captain == "spring" then
+			vs_line = "hud_assault_vip_autumn"
+		elseif self._captain == "summers" then
+			vs_line = "hud_assault_vip_autumn"
+		elseif self._captain == "hellfire" then
+			vs_line = "hud_assault_vip_hvh"
+			captain_warn = "hud_assault_vip_hvhwarn"
+		end
+		
 		if managers.job:current_difficulty_stars() > 0 then
 			local ids_risk = Idstring("risk")
 
 			return {
-				"hud_assault_vip",
-				"hud_assault_padlock",
+				captain_warn,
+				padlock,
+				vs_line,
+				padlock,
 				ids_risk,
-				"hud_assault_padlock",
-				"hud_assault_vip",
-				"hud_assault_padlock",
+				padlock,
+				captain_warn,
+				padlock,
+				vs_line,
+				padlock,
 				ids_risk,
-				"hud_assault_padlock"
+				padlock
 			}
 		else
 			return {
-				"hud_assault_vip",
-				"hud_assault_padlock",
-				"hud_assault_vip",
-				"hud_assault_padlock",
-				"hud_assault_vip",
-				"hud_assault_padlock"
+				captain_warn,
+				padlock,
+				vs_line,
+				padlock,
+				captain_warn,
+				padlock,
+				vs_line,
+				padlock
 			}
 		end
 	end

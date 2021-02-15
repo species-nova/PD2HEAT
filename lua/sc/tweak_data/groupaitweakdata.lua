@@ -12938,6 +12938,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"charge"
 		},
 		Cap_autumn = {
+			"sneaky",
 			"flank",
 			"hunter",
 			"spoocavoidance",
