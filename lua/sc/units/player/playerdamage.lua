@@ -1167,6 +1167,11 @@ end
 Hooks:PostHook(PlayerDamage, "update" , "ResDamageInfoUpdate" , function(self, unit, t, dt)
 	local pm = managers.player
 	self._in_smoke_bomb = 0.0
+	
+	if managers.groupai:state():whisper_mode() then
+		self._unit:base():update_concealment()
+	end
+	
 	for _, smoke_screen in ipairs(pm._smoke_screen_effects or {}) do
 		if smoke_screen:is_in_smoke(self._unit) then
 			if smoke_screen:mine() then
