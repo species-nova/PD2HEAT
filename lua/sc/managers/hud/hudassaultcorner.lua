@@ -150,9 +150,9 @@ function HUDAssaultCorner:_get_assault_strings()
 		if self._captain == "autumn" then
 			vs_line = "hud_assault_vip_autumn"
 		elseif self._captain == "spring" then
-			vs_line = "hud_assault_vip_autumn"
+			vs_line = "hud_assault_vip_spring"
 		elseif self._captain == "summers" then
-			vs_line = "hud_assault_vip_autumn"
+			vs_line = "hud_assault_vip_summers"
 		elseif self._captain == "hellfire" then
 			vs_line = "hud_assault_vip_hvh"
 			captain_warn = "hud_assault_vip_hvhwarn"
