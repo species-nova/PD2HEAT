@@ -30,11 +30,11 @@ function VehicleDrivingExt:_unregister_drive_SO(seat)
 
 	seat.drive_SO_data = nil
 
-	if SO_data.SO_registered then
-		managers.groupai:state():remove_special_objective(SO_data.SO_id)
+	if so_data.SO_registered then
+		managers.groupai:state():remove_special_objective(so_data.SO_id)
 	end
 
-	local bot_unit = SO_data.unit
+	local bot_unit = so_data.unit
 
 	if alive(bot_unit) then
 		local mov_ext = bot_unit:movement()
