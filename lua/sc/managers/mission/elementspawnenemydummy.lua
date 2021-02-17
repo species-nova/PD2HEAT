@@ -1001,7 +1001,7 @@ function ElementSpawnEnemyDummy:produce(params)
 			
 			for _, name in pairs(dozers) do --have to do a loop for this, sadly.
 				local name = Idstring(name)
-				if name == params.name then
+				if name == enemy_name then
 					is_dozer = true
 				end
 			end
