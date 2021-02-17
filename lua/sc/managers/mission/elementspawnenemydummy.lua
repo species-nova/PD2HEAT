@@ -755,6 +755,7 @@ function ElementSpawnEnemyDummy:init(...)
 	local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 	local difficulty_index = tweak_data:difficulty_to_index(difficulty)
 	local job = Global.level_data and Global.level_data.level_id
+	self._needs_replacements = true --basically, this enables the replacement system for dozers, 
 
 	--Murkywater
 	if ai_type == "murkywater" then
@@ -905,4 +906,168 @@ function ElementSpawnEnemyDummy:init(...)
 	self._units = {}
 	self._events = {}
 	self:_finalize_values()
+end
+
+local dozers = {
+	"units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1",
+	"units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2",
+	"units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw",
+	"units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3",
+	"units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4",
+	"units/payday2/characters/ene_bulldozer_biker_1/ene_bulldozer_biker_1",
+	"units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic",
+	"units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic",
+	"units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun",
+	"units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic",
+	"units/pd2_dlc_vip/characters/ene_vip_2_assault/ene_vip_2_assault",
+	"units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_1/ene_bulldozer_hvh_1",
+	"units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2",
+	"units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3",
+	"units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale",
+	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870",
+	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga",
+	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249",
+	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun",
+	"units/pd2_mod_omnia/characters/ene_bulldozer_1/ene_bulldozer_1",
+	"units/pd2_mod_omnia/characters/ene_bulldozer_2/ene_bulldozer_2",
+	"units/pd2_mod_omnia/characters/ene_bulldozer_3/ene_bulldozer_3",
+	"units/pd2_mod_nypd/characters/ene_bulldozer_1/ene_bulldozer_1",
+	"units/pd2_mod_nypd/characters/ene_bulldozer_2/ene_bulldozer_2",
+	"units/pd2_mod_lapd/characters/ene_bulldozer_3/ene_bulldozer_3",
+	"units/pd2_mod_halloween/characters/ene_zeal_bulldozer/ene_zeal_bulldozer",
+	"units/pd2_mod_halloween/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2",
+	"units/pd2_mod_halloween/characters/ene_zeal_bulldozer_3/ene_zeal_bulldozer_3",
+	"units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer/ene_zeal_bulldozer",
+	"units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2",
+	"units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_3/ene_zeal_bulldozer_3",
+	"units/pd2_dlc_mad/characters/ene_akan_fbi_tank_r870/ene_akan_fbi_tank_r870",
+	"units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg",
+	"units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga",
+	"units/pd2_mod_sharks/characters/ene_murky_fbi_tank_m249/ene_murky_fbi_tank_m249",
+	"units/pd2_mod_sharks/characters/ene_murky_fbi_tank_saiga/ene_murky_fbi_tank_saiga",
+	"units/pd2_mod_sharks/characters/ene_murky_fbi_tank_r870/ene_murky_fbi_tank_r870"
+}
+
+function ElementSpawnEnemyDummy:produce(params)
+	if not managers.groupai:state():is_AI_enabled() then
+		return
+	end
+
+	local unit = nil
+	
+	--[[if self._unit_name then
+		log("spawned: " .. self._unit_name .. "")
+	end]]
+
+	if params and params.name then
+		local enemy_name = params.name
+		
+		if self._needs_replacements then --if replacements are enabled, run the checks
+			local is_dozer = nil
+			
+			for _, name in pairs(dozers) do --have to do a loop for this, sadly.
+				local name = Idstring(name)
+				if name == params.name then
+					is_dozer = true
+				end
+			end
+			
+			if is_dozer then --cant use local enemy_name for the above since it causes problems
+				--log("get funky")
+				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
+				local current_active_count = managers.groupai:state():_get_special_unit_type_count("tank") --current active dozer count
+				local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+				local diff_index = tweak_data:difficulty_to_index(difficulty)
+				
+				if spawn_limit < current_active_count + 1 then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+					if diff_index < 4 then
+						enemy_name = Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
+					else
+						enemy_name = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1") 
+					end
+				end
+			end
+		end
+		
+		unit = safe_spawn_unit(enemy_name, self:get_orientation())
+		local spawn_ai = self:_create_spawn_AI_parametric(params.stance, params.objective, self._values)
+
+		unit:brain():set_spawn_ai(spawn_ai)
+	else
+		local enemy_name = self:value("enemy") or self._enemy_name
+		
+		if self._needs_replacements then --if replacements are enabled, run the checks
+			local is_dozer = nil
+			
+			for _, name in pairs(dozers) do --have to do a loop for this, sadly.
+				local name = Idstring(name)
+				if name == params.name then
+					is_dozer = true
+				end
+			end
+			
+			if is_dozer then --cant use local enemy_name for the above since it causes problems
+				--log("get funky")
+				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
+				local current_active_count = managers.groupai:state():_get_special_unit_type_count("tank") --current active dozer count
+				local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+				local diff_index = tweak_data:difficulty_to_index(difficulty)
+				
+				if spawn_limit < current_active_count + 1 then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+					if diff_index < 4 then
+						enemy_name = Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
+					else
+						enemy_name = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1") 
+					end
+				end
+			end
+		end
+		
+		unit = safe_spawn_unit(enemy_name, self:get_orientation())
+		local objective = nil
+		local action = self._create_action_data(CopActionAct._act_redirects.enemy_spawn[self._values.spawn_action])
+		local stance = managers.groupai:state():enemy_weapons_hot() and "cbt" or "ntl"
+
+		if action.type == "act" then
+			objective = {
+				type = "act",
+				action = action,
+				stance = stance
+			}
+		end
+
+		local spawn_ai = {
+			init_state = "idle",
+			objective = objective
+		}
+
+		unit:brain():set_spawn_ai(spawn_ai)
+
+		local team_id = params and params.team or self._values.team or tweak_data.levels:get_default_team_ID(unit:base():char_tweak().access == "gangster" and "gangster" or "combatant")
+
+		if self._values.participate_to_group_ai then
+			managers.groupai:state():assign_enemy_to_group_ai(unit, team_id)
+		else
+			managers.groupai:state():set_char_team(unit, team_id)
+		end
+
+		if self._values.voice then
+			unit:sound():set_voice_prefix(self._values.voice)
+		end
+	end
+
+	unit:base():add_destroy_listener(self._unit_destroy_clbk_key, callback(self, self, "clbk_unit_destroyed"))
+
+	unit:unit_data().mission_element = self
+
+	table.insert(self._units, unit)
+	self:event("spawn", unit)
+
+	if self._values.force_pickup and self._values.force_pickup ~= "none" then
+		local pickup_name = self._values.force_pickup ~= "no_pickup" and self._values.force_pickup or nil
+
+		unit:character_damage():set_pickup(pickup_name)
+	end
+
+	return unit
 end
