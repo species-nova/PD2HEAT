@@ -64,3 +64,15 @@ function ECMJammerBase:update(...)
 
 	update_original(self, ...)
 end
+
+function ECMJammerBase:_check_body()
+	--only the server is supposed to check this and despawn the unit if needed
+	--clients have no authority to do the latter on network-attached units
+	if not Network:is_server() then
+		return
+	end
+
+	if not alive(self._attached_body) or not self._attached_body:enabled() then
+		self:_force_remove()
+	end
+end
