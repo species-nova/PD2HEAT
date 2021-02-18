@@ -67,6 +67,7 @@ end
 
 function ECMJammerBase:_check_body()
 	local attached_body = self._attached_body
+
 	--only the server is supposed to check this and despawn the unit if needed
 	--clients have no authority to do the latter on network-attached units
 	if not Network:is_server() then
@@ -79,6 +80,14 @@ function ECMJammerBase:_check_body()
 				self._attached_body = nil
 
 				log("ecmjammerbase, client: attached body is disabled")
+
+				if attached_body.name then
+					log("ecmjammerbase, client: body name is: " .. tostring(attached_body:name()) .. "")
+				end
+
+				if attached_body.unit then
+					log("ecmjammerbase, client: unit id of the body is: " .. tostring(attached_body:unit():id()) .. "")
+				end
 			end
 		end
 
@@ -87,5 +96,15 @@ function ECMJammerBase:_check_body()
 
 	if not alive(attached_body) or not attached_body:enabled() then
 		self:_force_remove()
+	elseif not self._logged_name then
+		self._logged_name = true
+
+		if attached_body.name then
+			log("ecmjammerbase, server: body name is: " .. tostring(attached_body:name()) .. "")
+		end
+
+		if attached_body.unit then
+			log("ecmjammerbase, server: unit id of the body is: " .. tostring(attached_body:unit():id()) .. "")
+		end
 	end
 end
