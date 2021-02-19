@@ -1,3 +1,8 @@
+local mvec3_set = mvector3.set
+local mvec3_set_stat = mvector3.set_static
+
+local math_random = math.random
+
 --Local functions requested elsewhere. These are vanilla code.
 local function make_double_hud_string(a, b)
 	return string.format("%01d|%01d", a, b)
@@ -973,17 +978,23 @@ function PlayerManager:_on_spawn_special_ammo_event(equipped_unit, variant, kill
 		if Network:is_client() then
 			local mov_ext = killed_unit:movement()
 			local tracker = mov_ext and mov_ext:nav_tracker()
-			local position = nil
+			local position = Vector3()
 
 			if tracker then
-				position = tracker:lost() and tracker:field_position() or tracker:position()
-			elseif mov_ext then
-				position = mov_ext:m_pos()
+				local tracker_pos = tracker:lost() and tracker:field_position() or tracker:position()
+
+				mvec3_set(position, tracker_pos)
 			else
-				position = killed_unit:position()
+				local m_pos = mov_ext and mov_ext:m_pos() or killed_unit:position()
+
+				mvec3_set(position, m_pos)
 			end
 
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", mvector3.copy(position))
+			local x_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
+			local y_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
+			mvec3_set_stat(position, position.x + x_offset, position.y + y_offset, position.z)
+
+			managers.network:session():send_to_host("sync_spawn_extra_ammo", position)
 		else
 			self:spawn_extra_ammo(killed_unit)
 		end
@@ -995,30 +1006,38 @@ function PlayerManager:_on_spawn_extra_ammo_event(equipped_unit, variant, killed
 		if Network:is_client() then
 			local mov_ext = killed_unit:movement()
 			local tracker = mov_ext and mov_ext:nav_tracker()
-			local position = nil
+			local position = Vector3()
 
 			if tracker then
-				position = tracker:lost() and tracker:field_position() or tracker:position()
-			elseif mov_ext then
-				position = mov_ext:m_pos()
+				local tracker_pos = tracker:lost() and tracker:field_position() or tracker:position()
+
+				mvec3_set(position, tracker_pos)
 			else
-				position = killed_unit:position()
+				local m_pos = mov_ext and mov_ext:m_pos() or killed_unit:position()
+
+				mvec3_set(position, m_pos)
 			end
 
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", mvector3.copy(position))
+			local x_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
+			local y_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
+			mvec3_set_stat(position, position.x + x_offset, position.y + y_offset, position.z)
+
+			managers.network:session():send_to_host("sync_spawn_extra_ammo", position)
 		else
 			self:spawn_extra_ammo(killed_unit)
 		end
 	end
 end
 
-function PlayerManager:spawn_extra_ammo_from_client(position)
-	mvector3.set_static(position, position.x + math.random(20, 50) * (math.random(1, 2) * 2 - 3), position.y + math.random(20, 50) * (math.random(1, 2) * 2 - 3), position.z)
+function PlayerManager:spawn_extra_ammo_from_client(synced_pos)
+	local pos = Vector3()
+	local rot = Rotation()
+	mvec3_set(pos, synced_pos)
 
 	managers.game_play_central:spawn_pickup({
 		name = "ammo",
-		position = position,
-		rotation = Rotation()
+		position = pos,
+		rotation = rot
 	})
 end
 
