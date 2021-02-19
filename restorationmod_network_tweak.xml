@@ -124,7 +124,7 @@
 		</search>
 		<target>
 			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="connection">
-				<param type="vector3" exact="false""/>
+				<param type="vector3" exact="false"/>
 			</message>
 		</target>
 	</tweak>
