@@ -121,6 +121,10 @@ end
 -- end
 
 function UnitNetworkHandler:sync_add_doted_enemy(enemy_unit, variant, weapon_unit, dot_length, dot_damage, user_unit, is_molotov_or_hurt_animation, rpc)
+	if not self._verify_gamestate(self._gamestate_filter.any_ingame) or not self._verify_sender(rpc) then
+		return
+	end
+
 	if variant == 0 then
 		managers.fire:sync_add_fire_dot(enemy_unit, nil, weapon_unit, dot_length, dot_damage, user_unit, is_molotov_or_hurt_animation)
 	else
@@ -482,9 +486,13 @@ function UnitNetworkHandler:sync_friendly_fire_damage(peer_id, unit, damage, var
 	end
 end
 
---Function clients invoke just tells host to do above.
-function UnitNetworkHandler:sync_spawn_extra_ammo(killed_unit)
-    managers.player:spawn_extra_ammo_peer(killed_unit)
+--function clients invoke just tells host to do above.
+function UnitNetworkHandler:sync_spawn_extra_ammo(position, sender)
+	if not self._verify_gamestate(self._gamestate_filter.any_ingame) or not self._verify_sender(sender) then
+		return
+	end
+
+	managers.player:spawn_extra_ammo_from_client(position)
 end
 
 --Syncs to match whatever captain type the host has active in skirmish.
