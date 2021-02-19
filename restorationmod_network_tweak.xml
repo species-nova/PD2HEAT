@@ -101,6 +101,43 @@
 			<attr name="max" value="4"/>
 		</target>
 	</tweak>
+	<tweak name="settings/network" extension="network_settings">
+		<search>
+			<network/>
+			<rpc/>
+		</search>
+		<target>
+			<message name="sync_contour_state" delivery="ordered" receiver="connection">
+				<param type="unit" />
+				<param type="int" min="-1" max="4094" /> <!-- in engine: MAX_UNIT_ID = 4094 -->
+				<param type="int" min="1" max="32"/> <!-- contour type -->
+				<param type="bool" /> <!-- state, add (true) or remove (false) -->
+				<param type="float" /> <!-- multiplier on the time -->
+			</message>
+		</target>
+	</tweak>
+	<tweak name="settings/network" extension="network_settings">
+		<search>
+			<network/>
+			<rpc/>
+		</search>
+		<target>
+			<message name="sync_medic_heal" delivery="ordered" receiver="connection">
+				<param type="unit"/>
+			</message>
+		</target>
+	</tweak>
+	<tweak name="settings/network" extension="network_settings">
+		<search>
+			<network/>
+			<rpc/>
+		</search>
+		<target>
+			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="connection">
+				<param type="vector3" exact="false""/>
+			</message>
+		</target>
+	</tweak>
 	<tweak version="2" name="settings/network" extension="network_settings">
 		<search>
 			<network/>
