@@ -475,7 +475,9 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 		weapon_unit = attack_data.attacker_unit
 	end
 
-	if not weapon_unit and weapon_id ~= "molotov" then
+	--environment fires are the weapon unit, and those are not network synced (yet they're still set as the weapon unit)
+	--I'll eventually rework the system to make these not despawn and set them as the weapon units just like other incendiary weapons
+	if not weapon_unit and weapon_id ~= "molotov" and weapon_id ~= "fir_com" then
 		weapon_unit = attacker_unit and attacker_unit:inventory() and alive(attacker_unit:inventory():equipped_unit()) and attacker_unit:inventory():equipped_unit()
 	end
 
