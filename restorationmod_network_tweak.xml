@@ -123,7 +123,7 @@
 			<rpc/>
 		</search>
 		<target>
-			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="connection">
+			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="connection" check="client_to_server">
 				<param type="vector3" exact="false"/>
 			</message>
 		</target>
@@ -134,7 +134,7 @@
 			<rpc/>
 		</search>
 		<target mode="attach">
-			<message name="sync_skm_captain" delivery="reliable" receiver="unit" check="server_to_client">
+			<message name="sync_skm_captain" delivery="reliable" receiver="connection" check="server_to_client">
 				<param type="string" />
 			</message>
 		</target>
