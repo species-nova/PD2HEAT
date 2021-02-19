@@ -971,12 +971,21 @@ end
 function PlayerManager:_on_spawn_special_ammo_event(equipped_unit, variant, killed_unit)
 	if killed_unit.base and tweak_data.character[killed_unit:base()._tweak_table].priority_shout and equipped_unit:base():got_silencer() and variant == "bullet" then
 		if Network:is_client() then
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
+			local mov_ext = killed_unit:movement()
+			local tracker = mov_ext and mov_ext:nav_tracker()
+			local position = nil
+
+			if tracker then
+				position = tracker:lost() and tracker:field_position() or tracker:position()
+			elseif mov_ext then
+				position = mov_ext:m_pos()
+			else
+				position = killed_unit:position()
+			end
+
+			managers.network:session():send_to_host("sync_spawn_extra_ammo", mvector3.copy(position))
 		else
-			local tracker = killed_unit:movement():nav_tracker()
-			local position = tracker:lost() and tracker:field_position() or tracker:position()
-			local rotation = killed_unit:rotation()
-			self:spawn_extra_ammo(position, rotation)
+			self:spawn_extra_ammo(killed_unit)
 		end
 	end
 end
@@ -984,39 +993,33 @@ end
 function PlayerManager:_on_spawn_extra_ammo_event(equipped_unit, variant, killed_unit)
 	if self._num_kills % self._target_kills == 0 then
 		if Network:is_client() then
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
+			local mov_ext = killed_unit:movement()
+			local tracker = mov_ext and mov_ext:nav_tracker()
+			local position = nil
+
+			if tracker then
+				position = tracker:lost() and tracker:field_position() or tracker:position()
+			elseif mov_ext then
+				position = mov_ext:m_pos()
+			else
+				position = killed_unit:position()
+			end
+
+			managers.network:session():send_to_host("sync_spawn_extra_ammo", mvector3.copy(position))
 		else
-			local tracker = killed_unit:movement():nav_tracker()
-			local position = tracker:lost() and tracker:field_position() or tracker:position()
-			local rotation = killed_unit:rotation()
-			self:spawn_extra_ammo(position, rotation)
+			self:spawn_extra_ammo(killed_unit)
 		end
 	end
 end
 
-function PlayerManager:spawn_extra_ammo_peer(killed_unit)
-	if not alive(killed_unit) then
-		return
-	end
+function PlayerManager:spawn_extra_ammo_from_client(position)
+	mvector3.set_static(position, position.x + math.random(20, 50) * (math.random(1, 2) * 2 - 3), position.y + math.random(20, 50) * (math.random(1, 2) * 2 - 3), position.z)
 
-	local tracker = killed_unit:movement():nav_tracker()
-	local position = tracker:lost() and tracker:field_position() or tracker:position()
-	local rotation = killed_unit:rotation()
-	self:spawn_extra_ammo(position, rotation)	
-end
-
-function PlayerManager:spawn_extra_ammo(position, rotation)
-	local mvec_1 = Vector3()
-	local mvec_2 = Vector3()
-	mvector3.set(mvec_1, position)
-    mvector3.set_static(mvec_2, math.random(20, 50) * (math.random(1, 2) * 2 - 3), math.random(20, 50) * (math.random(1, 2) * 2 - 3), 0)
-    mvector3.add(mvec_1, mvec_2)
-
-    managers.game_play_central:spawn_pickup({
-        name = "ammo",
-        position = mvec_1,
-        rotation = rotation
-    })
+	managers.game_play_central:spawn_pickup({
+		name = "ammo",
+		position = position,
+		rotation = Rotation()
+	})
 end
 
 function PlayerManager:_trigger_expres(equipped_unit, variant, killed_unit)
