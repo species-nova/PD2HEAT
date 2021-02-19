@@ -157,6 +157,26 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 		self:_on_enter_shock_and_awe_event()
 	end
 
+	if self:has_category_upgrade("player", "double_drop") then
+		self._target_kills = self._target_kills or self:upgrade_value("player", "double_drop", 0)
+
+		if self._num_kills % self._target_kills == 0 then
+			self:_on_spawn_extra_ammo_event(killed_unit)
+		end
+	else
+		self._target_kills = nil
+	end
+
+	--Professional aced extra ammo when killing specials while using silenced weapons.
+	if variant == "bullet" and self:has_category_upgrade("player", "special_double_drop") and equipped_unit:base():got_silencer() then
+		local killed_base_ext = killed_unit:base()
+		local killed_char_tweak = killed_base_ext and killed_base_ext:char_tweak()
+
+		if killed_char_tweak and killed_char_tweak.priority_shout then
+			self:_on_spawn_extra_ammo_event(killed_unit)
+		end
+	end
+
 	self._message_system:notify(Message.OnEnemyKilled, nil, equipped_unit, variant, killed_unit)
 
 	if self._saw_panic_when_kill and variant ~= "melee" then
@@ -539,16 +559,6 @@ function PlayerManager:check_skills()
 		self._message_system:unregister(Message.OnDoctorBagUsed, "recharge_messiah")
 	end
 
-	if self:has_category_upgrade("player", "double_drop") then
-		self._target_kills = self:upgrade_value("player", "double_drop", 0)
-
-		self._message_system:register(Message.OnEnemyKilled, "double_ammo_drop", callback(self, self, "_on_spawn_extra_ammo_event"))
-	else
-		self._target_kills = 0
-
-		self._message_system:unregister(Message.OnEnemyKilled, "double_ammo_drop")
-	end
-
 	if self:has_category_upgrade("temporary", "single_shot_fast_reload") then
 		self._message_system:register(Message.OnLethalHeadShot, "activate_aggressive_reload", callback(self, self, "_on_activate_aggressive_reload_event"))
 	else
@@ -614,12 +624,6 @@ function PlayerManager:check_skills()
 		self:register_message(Message.OnWeaponFired, "graze_damage", callback(SniperGrazeDamage, SniperGrazeDamage, "on_weapon_fired"))
 	else
 		self:unregister_message(Message.OnWeaponFired, "graze_damage")
-	end
-
-	if self:has_category_upgrade("player", "special_double_drop") then
-		self._message_system:register(Message.OnEnemyKilled, "special_double_ammo_drop", callback(self, self, "_on_spawn_special_ammo_event"))
-	else
-		self._message_system:unregister(Message.OnEnemyKilled, "special_double_ammo_drop")
 	end
 
 	if self:has_category_upgrade("temporary", "headshot_fire_rate_mult") then
@@ -972,73 +976,12 @@ function PlayerManager:check_selected_equipment_placement_valid(player)
 	end
 end
 
---Professional aced extra ammo when killing specials while using silenced weapons.
-function PlayerManager:_on_spawn_special_ammo_event(equipped_unit, variant, killed_unit)
-	if killed_unit.base and tweak_data.character[killed_unit:base()._tweak_table].priority_shout and equipped_unit:base():got_silencer() and variant == "bullet" then
-		if Network:is_client() then
-			local mov_ext = killed_unit:movement()
-			local tracker = mov_ext and mov_ext:nav_tracker()
-			local position = Vector3()
-
-			if tracker then
-				local tracker_pos = tracker:lost() and tracker:field_position() or tracker:position()
-
-				mvec3_set(position, tracker_pos)
-			else
-				local m_pos = mov_ext and mov_ext:m_pos() or killed_unit:position()
-
-				mvec3_set(position, m_pos)
-			end
-
-			local x_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
-			local y_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
-			mvec3_set_stat(position, position.x + x_offset, position.y + y_offset, position.z)
-
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", position)
-		else
-			self:spawn_extra_ammo(killed_unit)
-		end
+function PlayerManager:_on_spawn_extra_ammo_event(killed_unit)
+	if Network:is_client() then
+		managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
+	else
+		self:spawn_extra_ammo(killed_unit)
 	end
-end
-
-function PlayerManager:_on_spawn_extra_ammo_event(equipped_unit, variant, killed_unit)
-	if self._num_kills % self._target_kills == 0 then
-		if Network:is_client() then
-			local mov_ext = killed_unit:movement()
-			local tracker = mov_ext and mov_ext:nav_tracker()
-			local position = Vector3()
-
-			if tracker then
-				local tracker_pos = tracker:lost() and tracker:field_position() or tracker:position()
-
-				mvec3_set(position, tracker_pos)
-			else
-				local m_pos = mov_ext and mov_ext:m_pos() or killed_unit:position()
-
-				mvec3_set(position, m_pos)
-			end
-
-			local x_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
-			local y_offset = math_random(20, 50) * (math_random(2) * 2 - 3)
-			mvec3_set_stat(position, position.x + x_offset, position.y + y_offset, position.z)
-
-			managers.network:session():send_to_host("sync_spawn_extra_ammo", position)
-		else
-			self:spawn_extra_ammo(killed_unit)
-		end
-	end
-end
-
-function PlayerManager:spawn_extra_ammo_from_client(synced_pos)
-	local pos = Vector3()
-	local rot = Rotation()
-	mvec3_set(pos, synced_pos)
-
-	managers.game_play_central:spawn_pickup({
-		name = "ammo",
-		position = pos,
-		rotation = rot
-	})
 end
 
 function PlayerManager:_trigger_expres(equipped_unit, variant, killed_unit)
