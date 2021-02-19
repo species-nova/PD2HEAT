@@ -117,17 +117,6 @@
 			</message>
 		</target>
 	</tweak>
-	<tweak name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-		</search>
-		<target>
-			<message name="sync_spawn_extra_ammo" delivery="ordered" receiver="connection" check="client_to_server">
-				<param type="vector3" exact="false"/>
-			</message>
-		</target>
-	</tweak>
 	<tweak version="2" name="settings/network" extension="network_settings">
 		<search>
 			<network/>
