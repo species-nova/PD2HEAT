@@ -643,8 +643,8 @@ function CharacterTweakData:_init_medic(presets)
 	self.medic.is_special = true
 	table.insert(self._enemy_list, "medic")
 	self.medic_summers = deep_clone(self.medic)
-	self.medic_summers.HEALTH_INIT = 60
-	self.medic_summers.headshot_dmg_mul = 1.25
+	self.medic_summers.HEALTH_INIT = 75
+	self.medic_summers.headshot_dmg_mul = 2.2
 	self.medic_summers.tags = {"medic_summers_special", "medic_summers", "custom", "special"}
 	self.medic_summers.ignore_medic_revive_animation = false
 	self.medic_summers.surrender = nil
@@ -2536,7 +2536,11 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 		contact = true,
 		heal_chatter_winters = true,
 		entrance = true
-	}		
+	}
+	self.phalanx_vip.slowing_bullets = {
+		duration = 1.5,
+		power = 0.75
+	}
 	table.insert(self._enemy_list, "phalanx_vip")
 end
 
@@ -2632,7 +2636,8 @@ function CharacterTweakData:_init_summers(presets)
 	self.summers.melee_weapon_dmg_multiplier = 1
 	self.summers.weapon_safety_range = 1
 	self.summers.detection = presets.detection.normal
-	self.summers.HEALTH_INIT = 72
+	self.summers.HEALTH_INIT = 90.5
+	self.summers.headshot_dmg_mul = 2.2
 	self.summers.flammable = false
 	self.summers.use_animation_on_fire_damage = false
 	self.summers.damage.bullet_damage_mul = 0.75
@@ -2640,7 +2645,6 @@ function CharacterTweakData:_init_summers(presets)
 	self.summers.damage.fire_damage_mul = 0.25
 	self.summers.damage.fire_pool_damage_mul = 0.25
 	self.summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
-	self.summers.headshot_dmg_mul = 1.5
 	self.summers.bag_dmg_mul = 6
 	self.summers.move_speed = presets.move_speed.fast
 	self.summers.crouch_move = false
@@ -2840,8 +2844,8 @@ function CharacterTweakData:_init_taser(presets)
 	table.insert(self._enemy_list, "taser")
 	
 	self.taser_summers = deep_clone(self.taser)
-	self.taser_summers.HEALTH_INIT = 60
-	self.taser_summers.headshot_dmg_mul = 1.5
+	self.taser_summers.HEALTH_INIT = 75
+	self.taser_summers.headshot_dmg_mul = 2.2
 	self.taser_summers.tags = {"female_enemy","taser", "medic_summers", "custom", "special"}
 	self.taser_summers.ignore_medic_revive_animation = false
 	self.taser_summers.flammable = false
@@ -3006,8 +3010,8 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom_summers.custom_voicework = nil
 	self.boom_summers.die_sound_event = "mga_death_scream"
 	self.boom_summers.use_radio = "dsp_radio_russian"
-	self.boom_summers.HEALTH_INIT = 60
-	self.boom_summers.headshot_dmg_mul = 1.5
+	self.boom_summers.HEALTH_INIT = 75
+	self.boom_summers.headshot_dmg_mul = 2.2
 	self.boom_summers.tags = {"female_enemy", "medic_summers", "custom", "special"}
 	self.boom_summers.ignore_medic_revive_animation = false
 	self.boom_summers.can_deploy_tear_gas = false
