@@ -3,7 +3,7 @@ local job = Global.level_data and Global.level_data.level_id
 local old_init = CharacterTweakData.init
 function CharacterTweakData:init(tweak_data, presets)
 	old_init(self, tweak_data, presets)
-	restoration.log_shit("here be SC Tweak Data loading")
+	--restoration.log_shit("here be SC Tweak Data loading")--
 	local presets = self:_presets(tweak_data)
 	local func = "_init_region_" .. tostring(tweak_data.levels:get_ai_group_type())
 
@@ -10355,25 +10355,25 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}		
 	presets.weapon.gang_member.is_sniper = deep_clone(presets.weapon.gang_member.rifle)
-	restoration.log_shit("SC: normal presets")
+	--restoration.log_shit("SC: normal presets")--
 	presets.weapon.normal.akimbo_pistol = deep_clone(presets.weapon.normal.is_pistol)
 	presets.weapon.normal.mac11 = deep_clone(presets.weapon.normal.is_pistol)
 	presets.weapon.normal.rifle = deep_clone(presets.weapon.normal.is_rifle)
 	presets.weapon.normal.is_sniper = deep_clone(presets.weapon.normal.rifle)
 	
-	restoration.log_shit("SC: good presets")
+	--restoration.log_shit("SC: good presets")--
 	presets.weapon.good.akimbo_pistol = deep_clone(presets.weapon.good.is_pistol)
 	presets.weapon.good.mac11 = deep_clone(presets.weapon.good.is_pistol)
 	presets.weapon.good.rifle = deep_clone(presets.weapon.good.is_rifle)
 	presets.weapon.good.is_sniper = deep_clone(presets.weapon.good.rifle)
 	
-	restoration.log_shit("SC: expert presets")
+	--restoration.log_shit("SC: expert presets")--
 	presets.weapon.expert.akimbo_pistol = deep_clone(presets.weapon.expert.is_pistol)
 	presets.weapon.expert.mac11 = deep_clone(presets.weapon.expert.is_pistol)
 	presets.weapon.expert.rifle = deep_clone(presets.weapon.expert.is_rifle)
 	presets.weapon.expert.is_sniper = deep_clone(presets.weapon.expert.rifle)
 
-	restoration.log_shit("SC: deathwish presets")
+	--restoration.log_shit("SC: deathwish presets")--
 	presets.weapon.deathwish.akimbo_pistol = deep_clone(presets.weapon.deathwish.is_pistol)
 	presets.weapon.deathwish.mac11 = deep_clone(presets.weapon.deathwish.is_pistol)
 	presets.weapon.deathwish.rifle = deep_clone(presets.weapon.deathwish.is_rifle)
