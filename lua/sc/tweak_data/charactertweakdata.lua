@@ -2527,6 +2527,7 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 	self.phalanx_vip.speech_prefix_p2 = nil
 	self.phalanx_vip.speech_prefix_count = nil
 	self.phalanx_vip.no_damage_mission = true
+	self.phalanx_vip.weapon = deep_clone(presets.weapon.good)
 	--self.phalanx_vip.death_animation = "death_run" 
 	--self.phalanx_vip.death_animation_vars = {"var3", "heavy", "fwd", "high"}
 	self.phalanx_vip.chatter = {
@@ -13451,7 +13452,7 @@ function CharacterTweakData:_set_overkill_145()
 	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
 	if job == "tag" or job == "xmn_tag" then
 		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
+	end
 end
 
 function CharacterTweakData:_set_easy_wish()
@@ -13792,7 +13793,7 @@ function CharacterTweakData:_set_easy_wish()
 	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
 	if job == "tag" or job == "xmn_tag" then
 		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
+	end
 end
 
 function CharacterTweakData:_set_overkill_290()
