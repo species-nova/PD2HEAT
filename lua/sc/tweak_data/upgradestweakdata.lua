@@ -1586,6 +1586,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.chico_injector_speed = {
 		1.2
 	}
+	self.values.player.chico_injector_dodge = {
+		2.5,
+		5
+	}
+
 	self.values.player.chico_armor_multiplier = {
 		1.05,
 		1.1,
@@ -2507,6 +2512,24 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "chico_injector_speed",
+			category = "player"
+		}
+	}
+	self.definitions.player_chico_injector_dodge_1 = {
+		name_id = "menu_player_chico_injector_dodge",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "chico_injector_dodge",
+			category = "player"
+		}
+	}
+	self.definitions.player_chico_injector_dodge_2 = {
+		name_id = "menu_player_chico_injector_dodge",
+		category = "feature",
+		upgrade = {
+			value = 2,
+			upgrade = "chico_injector_dodge",
 			category = "player"
 		}
 	}

@@ -1012,6 +1012,30 @@ function PlayerManager:_trigger_hitman(equipped_unit, variant, killed_unit)
 	end
 end
 
+function PlayerManager:_attempt_chico_injector()
+	if self:has_activate_temporary_upgrade("temporary", "chico_injector") then
+		return false
+	end
+
+	local duration = self:upgrade_value("temporary", "chico_injector")[2]
+	local now = managers.game_play_central:get_heist_timer()
+
+	managers.network:session():send_to_peers("sync_ability_hud", now + duration, duration)
+	self:activate_temporary_upgrade("temporary", "chico_injector")
+
+	local function speed_up_on_kill()
+		managers.player:speed_up_grenade_cooldown(1)
+	end
+
+	self:register_message(Message.OnEnemyKilled, "speed_up_chico_injector", speed_up_on_kill)
+
+	--Add dodge on activation.
+	local damage_ext = self:player_unit():character_damage()
+	damage_ext:fill_dodge_meter(damage_ext:get_dodge_points() * self:upgrade_value("player", "chico_injector_dodge", 0))
+
+	return true
+end
+
 --The vanilla version of this function is actually nonfunctional. No wonder it's never used.
 --This fixes it to fulfill its intended purpose of letting active temporary upgrade durations be changed.
 function PlayerManager:extend_temporary_upgrade(category, upgrade, time)

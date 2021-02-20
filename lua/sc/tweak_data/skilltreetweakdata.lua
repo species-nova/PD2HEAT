@@ -3598,7 +3598,7 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_chico_injector_speed",
-					"player_passive_dodge_chance_1"
+					"player_chico_injector_dodge_1"
 				},
 				cost = 400,
 				icon_xy = {1, 0},
@@ -3621,8 +3621,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_chico_injector_low_health_multiplier",
-					"player_passive_dodge_chance_2"
+					"player_chico_injector_dodge_2",
+					"player_chico_injector_low_health_multiplier"
 				},
 				cost = 2400,
 				icon_xy = {3, 0},
