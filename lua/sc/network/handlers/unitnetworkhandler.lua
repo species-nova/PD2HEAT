@@ -172,12 +172,6 @@ function UnitNetworkHandler:request_throw_projectile(projectile_type_index, posi
 
 	local peer_id = peer:id()
 	local projectile_type = tweak_data.blackmarket:get_projectile_name_from_index(projectile_type_index)
-	local no_cheat_count = tweak_data.blackmarket.projectiles[projectile_type].no_cheat_count
-
-	if not no_cheat_count and not managers.player:verify_grenade(peer_id) then
-		log("projectile throw request failed: apparently went past the cheat count check")
-		return
-	end
 
 	ProjectileBase.throw_projectile(projectile_type, position, dir, peer_id)
 end
