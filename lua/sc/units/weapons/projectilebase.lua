@@ -28,9 +28,9 @@ function ProjectileBase:update(unit, t, dt)
 			table.insert(ignore_units, self._thrower_unit)
 
 			--if the thrower has a shield equipped, ignore it as well (pretty important, even if the shield throw animation is used and the throw is timed, a collision can still easily happen)
-			if alive(self._thrower_unit:inventory() and self._thrower_unit:inventory()._shield_unit) then
-				table.insert(ignore_units, self._thrower_unit:inventory()._shield_unit)
-			end
+			--if alive(self._thrower_unit:inventory() and self._thrower_unit:inventory()._shield_unit) then
+			--	table.insert(ignore_units, self._thrower_unit:inventory()._shield_unit)
+			--end
 		end
 
 		if #ignore_units > 0 then
