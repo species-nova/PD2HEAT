@@ -3246,7 +3246,7 @@ function CharacterTweakData:_init_russian(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
 	}
 	self.russian.detection = presets.detection.gang_member
-	self.russian.move_speed = presets.move_speed.gang_member
+	self.russian.move_speed = presets.move_speed.very_fast
 	self.russian.crouch_move = false
 	self.russian.speech_prefix = "rb2"
 	self.russian.weapon_voice = "1"
@@ -3272,7 +3272,7 @@ function CharacterTweakData:_init_german(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.german.detection = presets.detection.gang_member
-	self.german.move_speed = presets.move_speed.gang_member
+	self.german.move_speed = presets.move_speed.very_fast
 	self.german.crouch_move = false
 	self.german.speech_prefix = "rb2"
 	self.german.weapon_voice = "2"
@@ -3298,7 +3298,7 @@ function CharacterTweakData:_init_spanish(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.spanish.detection = presets.detection.gang_member
-	self.spanish.move_speed = presets.move_speed.gang_member
+	self.spanish.move_speed = presets.move_speed.very_fast
 	self.spanish.crouch_move = false
 	self.spanish.speech_prefix = "rb2"
 	self.spanish.weapon_voice = "3"
@@ -3324,7 +3324,7 @@ function CharacterTweakData:_init_american(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
 	}
 	self.american.detection = presets.detection.gang_member
-	self.american.move_speed = presets.move_speed.gang_member
+	self.american.move_speed = presets.move_speed.very_fast
 	self.american.crouch_move = false
 	self.american.speech_prefix = "rb2"
 	self.american.weapon_voice = "3"
@@ -3349,7 +3349,7 @@ function CharacterTweakData:_init_jowi(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.jowi.detection = presets.detection.gang_member
-	self.jowi.move_speed = presets.move_speed.gang_member
+	self.jowi.move_speed = presets.move_speed.very_fast
 	self.jowi.crouch_move = false
 	self.jowi.speech_prefix = "rb2"
 	self.jowi.weapon_voice = "3"
@@ -3374,7 +3374,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.old_hoxton.detection = presets.detection.gang_member
-	self.old_hoxton.move_speed = presets.move_speed.gang_member
+	self.old_hoxton.move_speed = presets.move_speed.very_fast
 	self.old_hoxton.crouch_move = false
 	self.old_hoxton.speech_prefix = "rb2"
 	self.old_hoxton.weapon_voice = "3"
@@ -3399,7 +3399,7 @@ function CharacterTweakData:_init_clover(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
 	}
 	self.female_1.detection = presets.detection.gang_member
-	self.female_1.move_speed = presets.move_speed.gang_member
+	self.female_1.move_speed = presets.move_speed.very_fast
 	self.female_1.crouch_move = false
 	self.female_1.speech_prefix = "rb7"
 	self.female_1.weapon_voice = "3"
@@ -3424,7 +3424,7 @@ function CharacterTweakData:_init_dragan(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker")
 	}
 	self.dragan.detection = presets.detection.gang_member
-	self.dragan.move_speed = presets.move_speed.gang_member
+	self.dragan.move_speed = presets.move_speed.very_fast
 	self.dragan.crouch_move = false
 	self.dragan.speech_prefix = "rb8"
 	self.dragan.weapon_voice = "3"
@@ -3449,7 +3449,7 @@ function CharacterTweakData:_init_jacket(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.jacket.detection = presets.detection.gang_member
-	self.jacket.move_speed = presets.move_speed.gang_member
+	self.jacket.move_speed = presets.move_speed.very_fast
 	self.jacket.crouch_move = false
 	self.jacket.speech_prefix = "rb9"
 	self.jacket.weapon_voice = "3"
@@ -3474,7 +3474,7 @@ function CharacterTweakData:_init_bonnie(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.bonnie.detection = presets.detection.gang_member
-	self.bonnie.move_speed = presets.move_speed.gang_member
+	self.bonnie.move_speed = presets.move_speed.very_fast
 	self.bonnie.dodge = nil
 	self.bonnie.crouch_move = false
 	self.bonnie.speech_prefix = "rb10"
@@ -3499,7 +3499,7 @@ function CharacterTweakData:_init_sokol(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
 	}
 	self.sokol.detection = presets.detection.gang_member
-	self.sokol.move_speed = presets.move_speed.gang_member
+	self.sokol.move_speed = presets.move_speed.very_fast
 	self.sokol.crouch_move = false
 	self.sokol.speech_prefix = "rb11"
 	self.sokol.weapon_voice = "3"
@@ -3524,7 +3524,7 @@ function CharacterTweakData:_init_dragon(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
 	}
 	self.dragon.detection = presets.detection.gang_member
-	self.dragon.move_speed = presets.move_speed.gang_member
+	self.dragon.move_speed = presets.move_speed.very_fast
 	self.dragon.crouch_move = false
 	self.dragon.speech_prefix = "rb12"
 	self.dragon.weapon_voice = "3"
@@ -3549,7 +3549,7 @@ function CharacterTweakData:_init_bodhi(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
 	}
 	self.bodhi.detection = presets.detection.gang_member
-	self.bodhi.move_speed = presets.move_speed.gang_member
+	self.bodhi.move_speed = presets.move_speed.very_fast
 	self.bodhi.crouch_move = false
 	self.bodhi.speech_prefix = "rb13"
 	self.bodhi.weapon_voice = "3"
@@ -3574,7 +3574,7 @@ function CharacterTweakData:_init_jimmy(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.jimmy.detection = presets.detection.gang_member
-	self.jimmy.move_speed = presets.move_speed.gang_member
+	self.jimmy.move_speed = presets.move_speed.very_fast
 	self.jimmy.crouch_move = false
 	self.jimmy.speech_prefix = "rb14"
 	self.jimmy.weapon_voice = "3"
@@ -3599,7 +3599,7 @@ function CharacterTweakData:_init_sydney(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_degle/wpn_npc_degle")
 	}
 	self.sydney.detection = presets.detection.gang_member
-	self.sydney.move_speed = presets.move_speed.gang_member
+	self.sydney.move_speed = presets.move_speed.very_fast
 	self.sydney.crouch_move = false
 	self.sydney.speech_prefix = "rb15"
 	self.sydney.weapon_voice = "3"
@@ -3624,7 +3624,7 @@ function CharacterTweakData:_init_wild(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.wild.detection = presets.detection.gang_member
-	self.wild.move_speed = presets.move_speed.gang_member
+	self.wild.move_speed = presets.move_speed.very_fast
 	self.wild.crouch_move = false
 	self.wild.speech_prefix = "rb16"
 	self.wild.weapon_voice = "3"
@@ -3649,7 +3649,7 @@ function CharacterTweakData:_init_chico(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.chico.detection = presets.detection.gang_member
-	self.chico.move_speed = presets.move_speed.gang_member
+	self.chico.move_speed = presets.move_speed.very_fast
 	self.chico.crouch_move = false
 	self.chico.speech_prefix = "rb17"
 	self.chico.weapon_voice = "3"
@@ -3674,7 +3674,7 @@ function CharacterTweakData:_init_max(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker")
 	}
 	self.max.detection = presets.detection.gang_member
-	self.max.move_speed = presets.move_speed.gang_member
+	self.max.move_speed = presets.move_speed.very_fast
 	self.max.crouch_move = false
 	self.max.speech_prefix = "rb18"
 	self.max.weapon_voice = "3"
@@ -3700,7 +3700,7 @@ function CharacterTweakData:_init_myh(presets)
 		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
 	}
 	self.myh.detection = presets.detection.gang_member
-	self.myh.move_speed = presets.move_speed.gang_member
+	self.myh.move_speed = presets.move_speed.very_fast
 	self.myh.crouch_move = false
 	self.myh.speech_prefix = "rb2"
 	self.myh.weapon_voice = "1"
@@ -3727,7 +3727,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_female.no_run_stop = true
 	self.ecp_female.flammable = false	
 	self.ecp_female.detection = presets.detection.gang_member
-	self.ecp_female.move_speed = presets.move_speed.gang_member
+	self.ecp_female.move_speed = presets.move_speed.very_fast 
 	self.ecp_female.crouch_move = false
 	self.ecp_female.speech_prefix = "rb21"
 	self.ecp_female.weapon_voice = "3"
@@ -3751,7 +3751,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_male.no_run_stop = true
 	self.ecp_male.flammable = false		
 	self.ecp_male.detection = presets.detection.gang_member
-	self.ecp_male.move_speed = presets.move_speed.gang_member
+	self.ecp_male.move_speed = presets.move_speed.very_fast
 	self.ecp_male.crouch_move = false
 	self.ecp_male.speech_prefix = "rb20"
 	self.ecp_male.weapon_voice = "3"
@@ -3778,7 +3778,7 @@ function CharacterTweakData:_init_joy(presets)
 	self.joy.no_run_stop = true
 	self.joy.flammable = false			
 	self.joy.detection = presets.detection.gang_member
-	self.joy.move_speed = presets.move_speed.gang_member
+	self.joy.move_speed = presets.move_speed.very_fast
 	self.joy.crouch_move = false
 	self.joy.speech_prefix = "rb19"
 	self.joy.weapon_voice = "3"
