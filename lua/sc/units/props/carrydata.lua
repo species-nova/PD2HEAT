@@ -219,7 +219,9 @@ function CarryData:_check_dye_explode()
 end
 
 function CarryData:_dye_exploded()
-	managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "carry_data", CarryData.EVENT_IDS.dye_pack_exploded)
+	local unit = self._unit
+
+	managers.network:session():send_to_peers_synched("sync_unit_event_id_16", unit, "carry_data", CarryData.EVENT_IDS.dye_pack_exploded)
 
 	local value = self._value
 	value = value * (1 - self._dye_value_multiplier / 100)
@@ -229,14 +231,27 @@ function CarryData:_dye_exploded()
 
 	self._has_dye_pack = false
 
-	world_g:effect_manager():spawn({
+	self._dye_pack_smoke = world_g:effect_manager():spawn({
 		effect = dye_pack_idstr,
-		parent = self._unit:orientation_object()
+		parent = unit:orientation_object()
 	})
+
+	self._remove_dye_smoke_id = "_remove_dye_smoke_id" .. tostring_g(unit:key())
+	managers.enemy:add_delayed_clbk(self._remove_dye_smoke_id, callback(self, self, "_remove_dye_smoke"), TimerManager:game():time() + 5)
+end
+
+function CarryData:_remove_dye_smoke()
+	local dye_pack_smoke = self._dye_pack_smoke
+
+	if dye_pack_smoke then
+		world_g:effect_manager():fade_kill(dye_pack_smoke)
+
+		self._dye_pack_smoke = nil
+	end
 end
 
 function CarryData:check_explodes_on_impact(vel_vector, air_time)
-	if not self:can_explode() or air_time < 1 then
+	if not self:can_explode() or air_time < 0.5 then
 		return
 	end
 
@@ -280,14 +295,16 @@ function CarryData:start_explosion(instant)
 	self:_start_explosion()
 
 	if not instant then
-		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "carry_data", CarryData.EVENT_IDS.will_explode)
+		local unit = self._unit
+
+		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", unit, "carry_data", CarryData.EVENT_IDS.will_explode)
 
 		local explode_t = TimerManager:game():time() + 1 + math_random() * 3
 		self._explode_t = explode_t
-		self._delayed_explode_key = "_delayed_carry_explosion" .. tostring_g(self._unit:key())
+		self._delayed_explode_id = "_delayed_carry_explosion" .. tostring_g(unit:key())
 
 		--use a delayed callback for delayed explosions rather than checking the timer frame by frame
-		managers.enemy:add_delayed_clbk(self._delayed_explode_key, callback(self, self, "_delayed_explosion"), explode_t)
+		managers.enemy:add_delayed_clbk(self._delayed_explode_id, callback(self, self, "_delayed_explosion"), explode_t)
 	else
 		self._explode_t = TimerManager:game():time()
 
@@ -296,13 +313,22 @@ function CarryData:start_explosion(instant)
 end
 
 function CarryData:_delayed_explosion()
-	self._delayed_explode_key = nil
-
-	if not alive_g(self._unit) then
-		return
-	end
+	self._delayed_explode_id = nil
 
 	self:_explode()
+end
+
+function CarryData:disarm()
+	local delayed_explode_id = self._delayed_explode_id
+
+	if delayed_explode_id then
+		managers.enemy:remove_delayed_clbk(delayed_explode_id)
+
+		self._delayed_explode_id = nil
+	end
+
+	self._explode_t = nil
+	self._disarmed = true
 end
 
 function CarryData:_explode()
@@ -313,7 +339,8 @@ function CarryData:_explode()
 	local normal = math_up
 	local range = CarryData.EXPLOSION_SETTINGS.range
 	local half_range = range / 2
-	local slot_mask = managers.slot:get_mask("explosion_targets")
+	local slotmask = managers.slot:get_mask("explosion_targets")
+	local splinter_slotmask = managers.slot:get_mask("world_geometry")
 
 	self:_local_player_explosion_damage()
 	managers.explosion:play_sound_and_effects(pos, normal, range, CarryData.EXPLOSION_CUSTOM_PARAMS)
@@ -326,7 +353,7 @@ function CarryData:_explode()
 		player_damage = 0,
 		hit_pos = pos,
 		range = range,
-		collision_slotmask = slot_mask,
+		collision_slotmask = slotmask,
 		curve_pow = CarryData.EXPLOSION_SETTINGS.curve_pow,
 		damage = CarryData.EXPLOSION_SETTINGS.damage,
 		ignore_unit = my_unit
@@ -357,7 +384,7 @@ function CarryData:_explode()
 			if chk_explode then
 				for i = 1, #splinters do
 					local s_pos = splinters[i]
-					local ray_hit = not my_unit:raycast("ray", s_pos, mvec1, "slot_mask", slot_mask, "ignore_unit", hit_unit, "report")
+					local ray_hit = not my_unit:raycast("ray", s_pos, mvec1, "slot_mask", splinter_slotmask, "report")
 
 					if ray_hit then
 						hit_carry_ext:start_explosion(true)
@@ -450,8 +477,6 @@ local set_carry_id_original = CarryData.set_carry_id
 function CarryData:set_carry_id(carry_id)
 	if carry_id then
 		--define everything related to the carry id just like in the init function
-		self._value = managers.money:get_bag_value(carry_id, self._multiplier or 1)
-
 		local carry_tweaks = tweak_data.carry
 		local carry_tweak_info = carry_tweaks.types[carry_tweaks[carry_id].type]
 
@@ -654,8 +679,8 @@ function CarryData:link_to(parent_unit, keep_collisions)
 		return
 	end
 
-	--forcing to false because the way this works is intended to make units drop bags on out of bounds borders
-	--but it's not consistent at all from testing + it can trigger with normal geometry sometimes
+	--forcing to false because the way this works is intended to make units drop bags when colliding with out of bounds borders
+	--but even when it works properly with the fixes I added, it can trigger with other invisible units due to lack of filters
 	keep_collisions = false
 
 	local is_server = self._is_server
@@ -678,6 +703,16 @@ function CarryData:link_to(parent_unit, keep_collisions)
 	end
 
 	local my_unit = self._unit
+	local int_ext = my_unit:interaction()
+	local had_modifier_timer = nil
+
+	if int_ext then
+		had_modifier_timer = int_ext._has_modified_timer and true
+
+		--allow the bag to be grabbed instantly
+		int_ext._has_modified_timer = true
+		int_ext._air_start_time = nil
+	end
 
 	--will happen after disabling collisions further below
 	call_on_next_update_g(function ()
@@ -707,22 +742,24 @@ function CarryData:link_to(parent_unit, keep_collisions)
 		end)
 	end)
 
-	if keep_collisions then
-		--don't bother using this, really
-		if is_server then
-			self._kept_collisions = true
+	if keep_collisions and is_server then
+		self._kept_collisions = true
 
-			my_unit:set_body_collision_callback(function (tag, unit, colliding_body, other_unit, other_body, position, normal, velocity)
-				if tag ~= col_throw_idstr then
-					return
-				end
+		my_unit:set_body_collision_callback(callback(self, self, "_collision_callback"))
 
-				if other_unit:visible() then
-					unit:set_disable_collision_with_unit(other_unit)
-				else
-					unit:carry_data():unlink()
-				end
-			end)
+		if int_ext and not had_modifier_timer then
+			local nr_bodies = my_unit:num_bodies()
+
+			--like when bags are spawned by players (thrown), the collision script tag neeeds to be set
+			--as hitting something before the bag is linked will set an empty idstring for the script
+			--causing it to not register collisions with the "throw" tag as intended, unless the bag can explode
+			for i_body = 0, nr_bodies - 1 do
+				local body = my_unit:body(i_body)
+
+				body:set_collision_script_tag(col_throw_idstr)
+				body:set_collision_script_filter(1)
+				body:set_collision_script_quiet_time(1)
+			end
 		end
 	else
 		local nr_bodies = my_unit:num_bodies()
@@ -765,6 +802,52 @@ function CarryData:link_to(parent_unit, keep_collisions)
 	my_unit:set_extension_update_enabled(carry_data_idstr, false)
 end
 
+function CarryData:_collision_callback(tag, unit, body, other_unit, other_body, position, normal, velocity, ...)
+	if tag ~= col_throw_idstr or other_unit:visible() then
+		return
+	end
+
+	--set_disable_collision_with_unit doesn't really do anything, so this is kinda useless
+	--[[if other_unit:visible() then
+		local to_restore = self._collisions_to_restore or {}
+
+		to_restore[#to_restore + 1] = other_unit
+
+		self._collisions_to_restore = to_restore
+
+		unit:set_disable_collision_with_unit(other_unit)
+		unit:set_body_collision_callback(callback(self, self, "_collision_callback"))
+	else]]
+		local bag_pos = mvec3_cpy(unit:position())
+		local col_pos = mvec3_cpy(position)
+		local linked_to = self._linked_to
+		local linked_mov_ext = linked_to and linked_to:movement()
+
+		if linked_mov_ext and linked_mov_ext.set_carrying_bag then
+			linked_to:movement():throw_bag()
+		else
+			unit:carry_data():unlink()
+		end
+
+		call_on_next_update_g(function ()
+			if not alive_g(unit) then
+				return
+			end
+
+			--ensure the bag actually stays in bounds by using the point of contact + inverted velocity vector
+			local inv_vel = -velocity
+			local dir = col_pos - bag_pos
+			dir = dir * inv_vel
+			local len_diff = dir:length()
+			dir = dir:normalized()
+
+			col_pos = col_pos + dir * (len_diff + 50)
+
+			self:set_position_and_throw(col_pos, Vector3(0, 0, 0), 1)
+		end)
+	--end
+end
+
 function CarryData:unlink()
 	local link_body = self._link_body
 
@@ -774,6 +857,15 @@ function CarryData:unlink()
 
 	local is_server = self._is_server
 	local my_unit = self._unit
+	local int_ext = my_unit:interaction()
+
+	if int_ext then
+		--ensure again that the bag to be grabbed instantly
+		--in this case, until it collides with something
+		int_ext._has_modified_timer = true
+		int_ext._air_start_time = nil
+	end
+
 	local linked_to = self._linked_to
 
 	if linked_to then
@@ -809,9 +901,26 @@ function CarryData:unlink()
 
 		self._disabled_collisions = nil
 	elseif self._kept_collisions then
-		self._kept_collisions = nil
+		--just like set_disable_collision_with_unit, I'm commenting this out since it doesn't do anything
+		--[[local to_restore = self._collisions_to_restore
 
-		my_unit:interaction():register_collision_callbacks()
+		if to_restore then
+			for i = 1, #to_restore do
+				local other_unit = to_restore[i]
+
+				if alive_g(other_unit) then
+					my_unit:set_enable_collision_with_unit(other_unit)
+				end
+			end
+
+			self._collisions_to_restore = nil
+		end]]
+
+		self._kept_collisions = nil
+	end
+
+	if int_ext then
+		int_ext:register_collision_callbacks()
 	end
 
 	if not is_server then
@@ -884,9 +993,31 @@ function CarryData:set_zipline_unit(zipline_unit)
 end
 
 function CarryData:destroy()
+	local dye_pack_smoke = self._dye_pack_smoke
+
+	if dye_pack_smoke then
+		world_g:effect_manager():fade_kill(dye_pack_smoke)
+
+		self._dye_pack_smoke = nil
+	end
+
+	local dye_smoke_id = self._remove_dye_smoke_id
+	local delayed_explode_id = self._delayed_explode_id
 	local so_clbk_id = self._register_steal_SO_clbk_id
 	local oow_clbk_id = self._register_out_of_world_clbk_id
 	local oow_dyn_clbk_id = self._register_out_of_world_dynamic_clbk_id
+
+	if dye_smoke_id then
+		managers.enemy:remove_delayed_clbk(dye_smoke_id)
+
+		self._remove_dye_smoke_id = nil
+	end
+
+	if delayed_explode_id then
+		managers.enemy:remove_delayed_clbk(delayed_explode_id)
+
+		self._delayed_explode_id = nil
+	end
 
 	if so_clbk_id then
 		managers.enemy:remove_delayed_clbk(so_clbk_id)
