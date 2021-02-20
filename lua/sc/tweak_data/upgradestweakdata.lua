@@ -566,7 +566,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Basic
 						self.values.player.hostage_speed_multiplier = {1.03}
 					--Ace
-						self.values.player.hostage_health_multiplier = {1.1}
+						self.values.player.hostage_health_multiplier = {1.075}
 
 				--Hostage Taker
 					self.values.player.hostage_health_regen_addend = {
