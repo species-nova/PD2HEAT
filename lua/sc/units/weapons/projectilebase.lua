@@ -1,81 +1,114 @@
+local mvec3_set = mvector3.set
+local mvec3_set_stat = mvector3.set_static
+local mvec3_add = mvector3.add
+local mvec3_dir = mvector3.direction
+local mvec3_cpy = mvector3.copy
 local mvec1 = Vector3()
 local mvec2 = Vector3()
+
+local mrot_lookat = mrotation.set_look_at
 local mrot1 = Rotation()
 
+local math_up = math.UP
+
+local alive_g = alive
+
 function ProjectileBase:update(unit, t, dt)
-	if not self._simulated and not self._collided then
-		self._unit:m_position(mvec1)
-		mvector3.set(mvec2, self._velocity * dt)
-		mvector3.add(mvec1, mvec2)
-		self._unit:set_position(mvec1)
+	if self._collided then
+		return
+	end
+
+	local unit = self._unit
+
+	if not self._simulated then
+		local velocity = self._velocity
+
+		unit:m_position(mvec1)
+		mvec3_set(mvec2, velocity * dt)
+		mvec3_add(mvec1, mvec2)
+		unit:set_position(mvec1)
 
 		if self._orient_to_vel then
-			mrotation.set_look_at(mrot1, mvec2, math.UP)
-			self._unit:set_rotation(mrot1)
+			mrot_lookat(mrot1, mvec2, math_up)
+			unit:set_rotation(mrot1)
 		end
 
-		self._velocity = Vector3(self._velocity.x, self._velocity.y, self._velocity.z - 980 * dt)
+		mvec3_set_stat(self._velocity, velocity.x, velocity.y, velocity.z - 980 * dt)
 	end
 
-	if self._sweep_data and not self._collided then
-		self._unit:m_position(self._sweep_data.current_pos)
+	local sweep_data = self._sweep_data
 
-		local col_ray = nil
-		local ignore_units = {}
+	if not sweep_data then
+		return
+	end
 
-		if self._thrower_unit then
-			--to avoid colliding with the thrower, this prevents NPCs from hitting themselves with the projectile when launching it, along with player husks when FF is enabled
-			table.insert(ignore_units, self._thrower_unit)
+	unit:m_position(sweep_data.current_pos)
 
-			--if the thrower has a shield equipped, ignore it as well (pretty important, even if the shield throw animation is used and the throw is timed, a collision can still easily happen)
-			--if alive(self._thrower_unit:inventory() and self._thrower_unit:inventory()._shield_unit) then
-			--	table.insert(ignore_units, self._thrower_unit:inventory()._shield_unit)
-			--end
-		end
+	local thrower_unit = self._thrower_unit
+	local ignore_units = nil
 
-		if #ignore_units > 0 then
-			col_ray = World:raycast("ray", self._sweep_data.last_pos, self._sweep_data.current_pos, "slot_mask", self._sweep_data.slot_mask, "ignore_unit", ignore_units) --prevent husks from hitting themselves with RPGs/grenade launchers
+	if alive_g(thrower_unit) then
+		--to avoid colliding with the thrower, this prevents NPCs from hitting themselves with some projectile when throwing/firing it
+		--this also applies to player husks when FF is enabled
+
+		local thrower_inv_ext = thrower_unit:inventory()
+		local shield_unit = thrower_inv_ext and thrower_inv_ext._shield_unit
+
+		--if the thrower has a shield equipped, ignore it as well
+		if shield_unit and alive_g(shield_unit) then
+			ignore_units = {
+				thrower_unit,
+				shield_unit
+			}
 		else
-			col_ray = World:raycast("ray", self._sweep_data.last_pos, self._sweep_data.current_pos, "slot_mask", self._sweep_data.slot_mask)
+			ignore_units = thrower_unit
 		end
-
-		if self._draw_debug_trail then
-			Draw:brush(Color(1, 0, 0, 1), nil, 3):line(self._sweep_data.last_pos, self._sweep_data.current_pos)
-		end
-
-		if col_ray and col_ray.unit then
-			mvector3.direction(mvec1, self._sweep_data.last_pos, self._sweep_data.current_pos)
-			mvector3.add(mvec1, col_ray.position)
-			self._unit:set_position(mvec1)
-			self._unit:set_position(mvec1)
-
-			if self._draw_debug_impact then
-				Draw:brush(Color(0.5, 0, 0, 1), nil, 10):sphere(col_ray.position, 4)
-				Draw:brush(Color(0.5, 1, 0, 0), nil, 10):sphere(self._unit:position(), 3)
-			end
-
-			col_ray.velocity = self._unit:velocity()
-			self._collided = true
-
-			self:_on_collision(col_ray)
-		end
-
-		self._unit:m_position(self._sweep_data.last_pos)
 	end
+
+	local col_ray = unit:raycast("ray", sweep_data.last_pos, sweep_data.current_pos, "slot_mask", sweep_data.slot_mask, ignore_units and "ignore_unit" or nil, ignore_units or nil)
+
+	--[[if self._draw_debug_trail then
+		Draw:brush(Color(1, 0, 0, 1), nil, 3):line(sweep_data.last_pos, sweep_data.current_pos)
+	end]]
+
+	if col_ray then
+		mvec3_dir(mvec1, sweep_data.last_pos, sweep_data.current_pos)
+		mvec3_add(mvec1, col_ray.position)
+		unit:set_position(mvec1)
+
+		--[[if self._draw_debug_impact then
+			Draw:brush(Color(0.5, 0, 0, 1), nil, 10):sphere(col_ray.position, 4)
+			Draw:brush(Color(0.5, 1, 0, 0), nil, 10):sphere(unit:position(), 3)
+		end]]
+
+		col_ray.velocity = unit:velocity()
+		self._collided = true
+
+		self:_on_collision(col_ray)
+	end
+
+	unit:m_position(sweep_data.last_pos)
+
+	self._sweep_data = sweep_data
 end
 
 function ProjectileBase:create_sweep_data()
-	self._sweep_data = {
-		slot_mask = self._slot_mask
-	}
+	local sweep_slot_mask = self._slot_mask
+	local game_settings = Global.game_settings
 
-	if Global.game_settings and Global.game_settings.one_down then
-		self._sweep_data.slot_mask = self._sweep_data.slot_mask + 3
+	if game_settings and game_settings.one_down then
+		sweep_slot_mask = sweep_slot_mask + 3
 	else
-		self._sweep_data.slot_mask = managers.mutators:modify_value("ProjectileBase:create_sweep_data:slot_mask", self._sweep_data.slot_mask)
-		self._sweep_data.slot_mask = managers.modifiers:modify_value("ProjectileBase:create_sweep_data:slot_mask", self._sweep_data.slot_mask)
+		sweep_slot_mask = managers.mutators:modify_value("ProjectileBase:create_sweep_data:slot_mask", sweep_slot_mask)
+		sweep_slot_mask = managers.modifiers:modify_value("ProjectileBase:create_sweep_data:slot_mask", sweep_slot_mask)
 	end
 
-	self._sweep_data.current_pos = self._unit:position()
-	self._sweep_data.last_pos = mvector3.copy(self._sweep_data.current_pos)
+	local cur_pos = self._unit:position()
+	local sweep_data = {
+		slot_mask = sweep_slot_mask,
+		current_pos = mvec3_cpy(cur_pos),
+		last_pos = mvec3_cpy(cur_pos)
+	}
+
+	self._sweep_data = sweep_data
 end
