@@ -197,3 +197,16 @@ function Drill:set_skill_upgrades(upgrades)
 	timer_gui_ext:set_background_icons(background_icons)
 	timer_gui_ext:update_sound_event()
 end
+
+local destroy_original = Drill.destroy
+function Drill:destroy()
+	destroy_original(self)
+
+	local nav_tracker = self._nav_tracker
+
+	if nav_tracker then
+		managers.navigation:destroy_nav_tracker(nav_tracker)
+
+		self._nav_tracker = nil
+	end
+end
