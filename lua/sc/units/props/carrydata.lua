@@ -711,7 +711,7 @@ function CarryData:link_to(parent_unit, keep_collisions)
 
 		--allow the bag to be grabbed instantly
 		int_ext._has_modified_timer = true
-		int_ext._air_start_time = nil
+		int_ext._air_start_time = Application:time()
 	end
 
 	--will happen after disabling collisions further below
@@ -863,7 +863,7 @@ function CarryData:unlink()
 		--ensure again that the bag to be grabbed instantly
 		--in this case, until it collides with something
 		int_ext._has_modified_timer = true
-		int_ext._air_start_time = nil
+		int_ext._air_start_time = Application:time()
 	end
 
 	local linked_to = self._linked_to
