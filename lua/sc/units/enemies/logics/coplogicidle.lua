@@ -527,11 +527,12 @@ function CopLogicIdle.on_alert(data, alert_data)
 	data.t = TimerManager:game():time()
 	local alert_type = alert_data[1]
 	local alert_unit = alert_data[5]
+	local groupai_state_manager = managers.groupai:state()
 	local was_cool = data.cool
 	local alert_is_aggressive = CopLogicBase.is_alert_aggressive(alert_type)
 
 	if was_cool and alert_is_aggressive then
-		local giveaway = managers.groupai:state().analyse_giveaway(data.unit:base()._tweak_table, alert_data[5], alert_data)
+		local giveaway = groupai_state_manager.analyse_giveaway(data.unit:base()._tweak_table, alert_data[5], alert_data)
 
 		data.unit:movement():set_cool(false, giveaway)
 	end
@@ -558,8 +559,8 @@ function CopLogicIdle.on_alert(data, alert_data)
 		end
 
 		local action_data = nil
-
-		if was_cool or not data.is_converted then
+		
+		if was_cool and not data.is_converted then
 			if not data.attention_obj or data.attention_obj.reaction < REACT_AIM then
 				if REACT_SURPRISED <= att_obj_data.reaction then
 					if not data.char_tweak.allowed_poses or data.char_tweak.allowed_poses.stand then
@@ -569,7 +570,7 @@ function CopLogicIdle.on_alert(data, alert_data)
 								body_part = 1,
 								type = "act"
 							}
-
+							
 							if not data.unit:brain():action_request(action_data) then
 								action_data = nil
 							end
@@ -579,15 +580,11 @@ function CopLogicIdle.on_alert(data, alert_data)
 			end
 		end
 
-		if not action_data and alert_type == "bullet" and data.logic.should_duck_on_alert(data, alert_data) then
-			action_data = CopLogicAttack._chk_request_action_crouch(data)
-		end
-
 		if att_obj_data.criminal_record then
-			managers.groupai:state():criminal_spotted(alert_unit)
+			groupai_state_manager:criminal_spotted(alert_unit)
 
 			if alert_is_dangerous then
-				managers.groupai:state():report_aggression(alert_unit)
+				groupai_state_manager:report_aggression(alert_unit)
 			end
 		end
 	elseif was_cool and alert_is_aggressive then
