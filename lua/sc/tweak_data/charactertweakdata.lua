@@ -15345,6 +15345,7 @@ function CharacterTweakData:character_map()
 				"ene_fbi_swat_1",
 				"ene_fbi_swat_2",
 				"ene_fbi_3",
+				"ene_city_shield",				
 				"ene_fbi_2",
 				"ene_fbi_swat_3",
 				"ene_city_swat_1",
