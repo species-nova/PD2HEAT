@@ -334,6 +334,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 	--local chk_vis_func = my_tracker.check_visibility
 	local vis_mask = data.visibility_slotmask
 	local is_cool = data.cool
+	local within_any_acquire_range = nil
 	local player_importance_wgt = data.unit:in_slot(managers.slot:get_mask("enemies")) and {}
 
 	local groupai_state_manager = managers.groupai:state()
@@ -361,6 +362,8 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 						local dis = mvec3_dir(tmp_vec1, my_pos, attention_pos)
 
 						if my_data.detection.use_uncover_range and settings.uncover_range and dis < settings.uncover_range then
+							within_any_acquire_range = is_cool and true
+
 							angle = -1
 							dis_multiplier = 0
 						else
@@ -378,6 +381,8 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 							dis_mul = dis / max_dis
 
 							if dis_mul < 1 then
+								within_any_acquire_range = is_cool and true
+
 								if settings.notice_requires_FOV then
 									my_head_fwd = my_head_fwd or data.unit:movement():m_head_rot():z()
 									local vec_angle = mvec3_angle(my_head_fwd, tmp_vec1)
@@ -461,7 +466,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 		end
 	end
 
-	local delay = is_cool and 0 or 2
+	local delay = within_any_acquire_range and 0 or 2
 
 	for u_key, attention_info in pairs_g(detected_obj) do
 		local can_detect = true
