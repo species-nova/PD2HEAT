@@ -157,8 +157,8 @@ function HuskPlayerMovement:sync_action_walk_nav_point(pos, speed, action, param
 	end
 end
 
-local draw_sync_player_newest_pos = nil
-local draw_sync_player_detect_pos = nil
+--local draw_sync_player_newest_pos = nil
+--local draw_sync_player_detect_pos = nil
 
 function HuskPlayerMovement:_update_real_pos(new_pos, new_pose_code)
 	local newest_pos = self._m_newest_pos
@@ -198,7 +198,7 @@ function HuskPlayerMovement:_update_real_pos(new_pos, new_pose_code)
 		end
 	end
 
-	if draw_sync_player_newest_pos then
+	--[[if draw_sync_player_newest_pos then
 		local m_brush = Draw:brush(Color.blue:with_alpha(0.5), 0.1)
 		m_brush:sphere(newest_pos, 15)
 	end
@@ -206,7 +206,41 @@ function HuskPlayerMovement:_update_real_pos(new_pos, new_pose_code)
 	if draw_sync_player_detect_pos then
 		local head_brush = Draw:brush(Color.yellow:with_alpha(0.5), 0.1)
 		head_brush:sphere(detect_pos, 15)
+	end]]
+end
+
+local _sync_movement_state_driving_original = HuskPlayerMovement._sync_movement_state_driving
+function HuskPlayerMovement:_sync_movement_state_driving(...)
+	_sync_movement_state_driving_original(self, ...)
+
+	local seat = self.seat_third
+
+	if not seat then
+		return
 	end
+
+	self:_update_real_pos(seat:position())
+end
+
+function HuskPlayerMovement:_upd_move_driving(t, dt)
+	local seat = self.seat_third
+	local seat_pos = seat:position()
+
+	self:set_position(seat_pos)
+	self:set_rotation(seat:rotation())
+
+	self:_update_real_pos(seat_pos)
+end
+
+local _upd_move_zipline_original = HuskPlayerMovement._upd_move_zipline
+function HuskPlayerMovement:_upd_move_zipline(t, dt)
+	_upd_move_zipline_original(self, t, dt)
+
+	if self._load_data then
+		return
+	end
+
+	self:_update_real_pos(self._unit:position())
 end
 
 function HuskPlayerMovement:set_position(pos)
