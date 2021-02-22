@@ -521,9 +521,11 @@ function SentryGunDamage:damage_explosion(attack_data)
 	end
 
 	local attacker_unit = attack_data.attacker_unit
+	local weapon_unit = attack_data.weapon_unit
 
 	if attacker_unit and attacker_unit:base() and attacker_unit:base().thrower_unit then
 		attacker_unit = attacker_unit:base():thrower_unit()
+		weapon_unit = attacker_unit
 	end
 
 	if attacker_unit and PlayerDamage.is_friendly_fire(self, attacker_unit) then
@@ -531,8 +533,11 @@ function SentryGunDamage:damage_explosion(attack_data)
 	end
 
 	local damage = attack_data.damage
+	local instakill = weapon_unit and weapon_unit:base()
+	instakill = instakill and instakill.weapon_tweak_data and instakill:weapon_tweak_data()
+	instakill = instakill and instakill.turret_instakill and true
 
-	if self._marked_dmg_mul then
+	if not instakill and self._marked_dmg_mul then
 		damage = damage * self._marked_dmg_mul
 
 		if self._marked_dmg_dist_mul and alive(attacker_unit) then
@@ -544,18 +549,16 @@ function SentryGunDamage:damage_explosion(attack_data)
 			end
 		end
 	end
-	
-	--Hack to let rocket launchers instagib turrets.
-	if damage > 100 then
-		self._shield_health = 0
-		damage = math.huge
+
+	if instakill then
+		damage = self._health
 	elseif self._char_tweak.EXPLOSION_DMG_MUL then
 		damage = damage * self._char_tweak.EXPLOSION_DMG_MUL
 	end
 
 	local dmg_shield, damage_percent = nil
 
-	if self._shield_health > 0 then
+	if not instakill and self._shield_health > 0 then
 		dmg_shield = true
 
 		if self._char_tweak.SHIELD_DMG_MUL then
@@ -572,7 +575,7 @@ function SentryGunDamage:damage_explosion(attack_data)
 		damage_percent = math.ceil(damage / self._SHIELD_HEALTH_INIT_PERCENT)
 		damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
 	else
-		if self._char_tweak.BODY_DAMAGE_CLAMP then
+		if not instakill and self._char_tweak.BODY_DAMAGE_CLAMP then
 			damage = math.min(damage, self._char_tweak.BODY_DAMAGE_CLAMP)
 		end
 
@@ -582,12 +585,6 @@ function SentryGunDamage:damage_explosion(attack_data)
 		damage_percent = math.ceil(damage / self._HEALTH_INIT_PERCENT)
 		damage = damage_percent * self._HEALTH_INIT_PERCENT
 	end
-
-	if not self._ignore_client_damage and attacker_unit == managers.player:player_unit() then
-		managers.hud:on_hit_confirmed()
-	end
-
-
 
 	local damage_post_apply = damage == 0 and 0 or self:_apply_damage(damage, dmg_shield, not dmg_shield, true, attacker_unit, "explosion")
 	attack_data.damage = damage_post_apply
@@ -601,6 +598,10 @@ function SentryGunDamage:damage_explosion(attack_data)
 
 	if damage_post_apply == 0 then
 		return result
+	end
+
+	if not self._ignore_client_damage and attacker_unit == managers.player:player_unit() then
+		managers.hud:on_hit_confirmed()
 	end
 
 	local attacker = attack_data.attacker_unit
@@ -655,21 +656,19 @@ function SentryGunDamage:sync_damage_bullet(attacker_unit, damage_percent, i_bod
 		damage = "death"
 		dmg_shield = true
 		dmg_body = true
+	elseif i_result == 1 then
+		damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
+		dmg_shield = true
+	elseif i_result == 2 then
+		damage = "death"
+		dmg_shield = true
 	else
-		if i_result == 1 then
-			damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
-			dmg_shield = true
-		elseif i_result == 2 then
-			damage = "death"
-			dmg_shield = true
-		else
-			if i_result == 3 and self._bag_hit_snd_event then
-				self._unit:sound_source():post_event(self._bag_hit_snd_event)
-			end
-
-			damage = damage_percent * self._HEALTH_INIT_PERCENT
-			dmg_body = true
+		if i_result == 3 and self._bag_hit_snd_event then
+			self._unit:sound_source():post_event(self._bag_hit_snd_event)
 		end
+
+		damage = damage_percent * self._HEALTH_INIT_PERCENT
+		dmg_body = true
 	end
 
 	self:_apply_damage(damage, dmg_shield, dmg_body, false, attacker_unit, "bullet")
@@ -696,19 +695,17 @@ function SentryGunDamage:sync_damage_fire(attacker_unit, damage_percent, hit_shi
 		damage = "death"
 		dmg_shield = true
 		dmg_body = true
-	else
-		if hit_shield then
-			if destroy_shield then
-				damage = "death"
-			else
-				damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
-			end
-
-			dmg_shield = true
+	elseif hit_shield then
+		if destroy_shield then
+			damage = "death"
 		else
-			damage = damage_percent * self._HEALTH_INIT_PERCENT
-			dmg_body = true
+			damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
 		end
+
+		dmg_shield = true
+	else
+		damage = damage_percent * self._HEALTH_INIT_PERCENT
+		dmg_body = true
 	end
 
 	self:_apply_damage(damage, dmg_shield, dmg_body, false, attacker, "fire")
@@ -729,33 +726,25 @@ function SentryGunDamage:sync_damage_explosion(attacker_unit, damage_percent, i_
 		attacker = attacker:base():thrower_unit()
 	end
 
-
-	local dmg_shield, dmg_body, damage = nil
-
 	if not self._ignore_client_damage and attacker == managers.player:player_unit() and alive(attacker) then
 		managers.hud:on_hit_confirmed()
-		--Hack to let rocket launchers instagib turrets.
-		if managers.player:get_current_state()._equipped_unit:base():weapon_tweak_data().turret_instakill then
-			death = true
-			damage = math.huge
-		end
 	end
+
+	local dmg_shield, dmg_body, damage = nil
 
 	if death then
 		damage = "death"
 		dmg_shield = true
 		dmg_body = true
+	elseif i_result == 4 then
+		damage = "death"
+		dmg_shield = true
+	elseif i_result == 2 then
+		damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
+		dmg_shield = true
 	else
-		if i_result == 4 then
-			damage = "death"
-			dmg_shield = true
-		elseif i_result == 2 then
-			damage = damage_percent * self._SHIELD_HEALTH_INIT_PERCENT
-			dmg_shield = true
-		else
-			damage = damage_percent * self._HEALTH_INIT_PERCENT
-			dmg_body = true
-		end
+		damage = damage_percent * self._HEALTH_INIT_PERCENT
+		dmg_body = true
 	end
 
 	self:_apply_damage(damage, dmg_shield, dmg_body, false, attacker, "explosion")
