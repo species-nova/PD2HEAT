@@ -17732,7 +17732,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		35,
 		30
 	}
-	end
 	
 	if difficulty_index <= 7 then
 		self.besiege.assault.hostage_hesitation_delay = {
