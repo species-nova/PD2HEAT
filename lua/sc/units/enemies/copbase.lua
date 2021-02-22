@@ -47,51 +47,35 @@ function CopBase:random_mat_seq_initialization()
     local unit_name = self._unit:name()
         	
 	--BEAT COP FACE STUFF STARTS HERE	
-	local cop1_4 = unit_name == Idstring("units/payday2/characters/ene_cop_1/ene_cop_1") -- gotta seperate these cus i don't want black heads having the hispanic face texture. it looks bad but it is what i must do
+	local cop1_4 = unit_name == Idstring("units/payday2/characters/ene_cop_1/ene_cop_1")
 	or unit_name == Idstring("units/payday2/characters/ene_cop_3/ene_cop_3")
 	
 	local cop2_3 = unit_name == Idstring("units/payday2/characters/ene_cop_2/ene_cop_2") 
 	or unit_name == Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
 	
-	local lacop1_4 = unit_name == Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_1/ene_la_cop_1") 
-	or unit_name == Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_4/ene_la_cop_4")
-	
-	local lacop2_3 = unit_name == Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_2/ene_la_cop_2") 
-	or unit_name == Idstring("units/pd2_dlc_rvd/characters/ene_la_cop_3/ene_la_cop_3")
-	
 	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_cop_1_4") and cop1_4 then
-		 -- log("cop 1 and 3 face sequences initiated")	
 		self._unit:damage():run_sequence_simple("pick_mats_for_cop_1_4")
 	elseif self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_cop_2_3") and cop2_3 then
-		 -- log("hi, cop 2 and 3 sequences are running")	
 		self._unit:damage():run_sequence_simple("pick_mats_for_cop_2_3")	
-	elseif self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_lacop_2_3") and lacop2_3 then
-		 -- log("piss! cop 1 and 4 in LA sequences are running. awesome.")		
-		self._unit:damage():run_sequence_simple("pick_mats_for_lacop_2_3")	
-	elseif self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_lacop_1_4") and lacop1_4 then
-		 -- log("hei... cop 2 and 3 sequences are nao running in LA!! WOW!!!")		
-		self._unit:damage():run_sequence_simple("pick_mats_for_lacop_1_4")	
 	end	
 	--END BEAT COP FACE STUFF
 
 	
-	--START FBI HRT FACES. fuck this useless enemy! praise jules for removing him!
+	--START FBI HRT FACES 
 	local fbi_1_2 = unit_name == Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1") 
 	or unit_name == Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
 	
 	local fbi_3 = unit_name == Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3") 
 	
 	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_fbi_1_2") and fbi_1_2 then
-		 -- log("okeez xd, run the fbi sequence for fbi 1 and 2!")
 		self._unit:damage():run_sequence_simple("pick_mats_for_fbi_1_2")	
 	elseif self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_fbi_3") and fbi_3 then
-		 -- log("radical! run the fbi sequence for fbi 3!")
 		self._unit:damage():run_sequence_simple("pick_mats_for_fbi_3")	--he is obscured so there's no need to replace him.
 	end	 	
 	--END FBI FACE NONSENSE
 
 	
-	--security $!!SLAT^* insanity	
+	--security faces 
 	local sec_2_3 = unit_name == Idstring("units/payday2/characters/ene_security_2/ene_security_2") 
 	or unit_name == Idstring("units/payday2/characters/ene_security_3/ene_security_3")
 	
@@ -99,13 +83,11 @@ function CopBase:random_mat_seq_initialization()
 	
 	
 	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_sec_1") and sec_1 then
-		 -- log("cool! run the sec sequence for tommy!")
 		self._unit:damage():run_sequence_simple("pick_mats_for_sec_1")	
 	elseif self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_sec_2_3") and sec_2_3 then
-		 -- log("where tf i be witout my slats. run the sec sequence for the alternate universe jeromes!")
 		self._unit:damage():run_sequence_simple("pick_mats_for_sec_2_3")	
 	end
-	--end security shit
+	--end security faces
 	
     local murk_sec = unit_name == Idstring("units/pd2_mod_sharks/characters/ene_murky_cs_cop_mp5/ene_murky_cs_cop_mp5") 
     or unit_name == Idstring("units/pd2_mod_sharks/characters/ene_murky_cs_cop_r870/ene_murky_cs_cop_r870")
@@ -139,12 +121,17 @@ local material_config_paths = {
   "units/payday2/characters/ene_security_vars/ene_security_var4",
   "units/payday2/characters/ene_security_vars/ene_security_var5",
   "units/payday2/characters/ene_security_vars/ene_security_var6",
-  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var1",
-  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var2",
-  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var3",
-  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var4",
-  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var5",
-  "units/pd2_dlc_rvd/characters/ene_la_cop_vars/ene_la_cop_var6",
+  "units/pd2_mod_lapd/characters/ene_la_cop_vars/ene_la_cop_var1",
+  "units/pd2_mod_lapd/characters/ene_la_cop_vars/ene_la_cop_var2",
+  "units/pd2_mod_lapd/characters/ene_la_cop_vars/ene_la_cop_var3",
+  "units/pd2_mod_lapd/characters/ene_la_cop_vars/ene_la_cop_var4",
+  "units/pd2_mod_lapd/characters/ene_la_cop_vars/ene_la_cop_var5",
+  "units/pd2_mod_lapd/characters/ene_la_cop_vars/ene_la_cop_var6",
+  "units/pd2_mod_lapd/characters/ene_fbi_vars/ene_fbi_var1",
+  "units/pd2_mod_lapd/characters/ene_fbi_vars/ene_fbi_var2",
+  "units/pd2_mod_lapd/characters/ene_fbi_vars/ene_fbi_var3",
+  "units/pd2_mod_lapd/characters/ene_fbi_vars/ene_fbi_var4",
+  "units/pd2_mod_lapd/characters/ene_fbi_vars/ene_fbi_var5",  
   "units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1_disktrasa"
 }
 

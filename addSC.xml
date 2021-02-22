@@ -251,7 +251,6 @@
 	<mission path="levels/narratives/classics/pal/world/world" force="true" unload="true"/> <!--c4 warning plays when you walk into the shelter and fbi agents can pull the power/water-->
 
 	<continent path="levels/narratives/classics/dah/world/world" force="true" unload="true"/>
-	<cover_data path="levels/narratives/classics/dah/cover_data" force="true" unload="true"/>
 	<nav_data path="levels/narratives/classics/dah/nav_manager_data" force="true" unload="true"/>
 	
 	<cover_data path="levels/narratives/h_firestarter/stage_3/cover_data" force="true" unload="true"/>
