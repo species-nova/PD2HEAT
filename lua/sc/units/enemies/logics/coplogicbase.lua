@@ -960,7 +960,7 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 	local current_att_obj = data.attention_obj
 
 	if not my_mov_ext then
-		log("coplogicbase: no movement() extension when trying to destroy attention data!")
+		log("coplogicbase: attention destroy listener wasn't removed on a unit that got destroyed!")
 
 		if not alive(my_unit) then
 			log("coplogicbase: unit was destroyed!")
@@ -1054,20 +1054,6 @@ function CopLogicBase._destroy_detected_attention_object_data(data, attention_in
 		managers.groupai:state():on_arrest_end(data.key, removed_key)
 
 		my_data.arrest_targets[removed_key] = nil
-	end
-
-	if not my_mov_ext then
-		return
-	end
-
-	local set_attention = my_mov_ext:attention()
-
-	if set_attention and set_attention.u_key == removed_key then
-		CopLogicBase._reset_attention(data)
-
-		if my_data then
-			my_data.attention_unit = nil
-		end
 	end
 end
 
