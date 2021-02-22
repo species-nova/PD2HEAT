@@ -314,6 +314,11 @@
 	<nav_data path="levels/narratives/classics/red2/nav_manager_data" force="true" unload="true"/>	
 	<cover_data path="levels/narratives/classics/red2/cover_data" force="true" unload="true"/>
 
+	<!--Green Bridge-->
+	<mission path="levels/narratives/classics/glace/world/world" force="true" unload="true"/>
+	<continent path="levels/narratives/classics/glace/world/world" force="true" unload="true"/> 
+	<continent path="levels/narratives/classics/glace/level_art/level_art" force="true" unload="true"/>
+
 	<!--UNDERCOVER-->
 	<mission path="levels/narratives/classics/man/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/classics/man/world/world" force="true" unload="true"/> 
