@@ -351,7 +351,12 @@ Hooks:Add("BeardLibCreateScriptDataMods", "RESMapsCallBeardLibSequenceFuncs", fu
 		
 		if Global.game_settings.level_id == "firestarter_3_res" then
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/dawnorange_grnhrv.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
-		end			
+		end
+
+		if Global.game_settings.level_id == "jolly" then
+			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/lxa_river_v4.custom_xml", "custom_xml", "environments/pd2_lxa_river/pd2_lxa_river", "environment")
+		end	
+		
 	end
 end)
 
@@ -377,6 +382,7 @@ Hooks:Add("BeardLibPreProcessScriptData", "RestorationCreateEnvironment", functi
 			"sky_2335_night_moon",
 			"sky_2100_moon",
 			"sky_1313_cloudy_dark",
+			"sky_2003_dusk_blue",
 			"sky_2003_dusk_blue_high_color_scale"
 			
         }

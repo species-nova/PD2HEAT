@@ -336,6 +336,14 @@
 	<!--GGC-->
 	<mission path="levels/narratives/dentist/cas/world/world" force="true" unload="true"/>
 	
+	<!--AFTERSHOCK-->
+	<world path="levels/narratives/vlad/jolly/world" force="true" unload="true"/>
+	<continent path="levels/narratives/vlad/jolly/world/world" force="true" unload="true"/>
+	<continent path="levels/narratives/vlad/jolly/lights/lights" force="true" unload="true"/>
+	<continent path="levels/narratives/vlad/jolly/jason_mkp/jason_mkp" force="true" unload="true"/>
+	<continent path="levels/narratives/vlad/jolly/backdrop/backdrop" force="true" unload="true"/>
+	<continent path="levels/narratives/vlad/jolly/rob_geo/rob_geo" force="true" unload="true"/>
+	
 	<!--Misc. Changes and Fixes to Base Game Objects-->
 	
 	<!--Ovk's Murky light beret never despawning fix-->
