@@ -209,7 +209,7 @@ function HuskPlayerMovement:_update_real_pos(new_pos, new_pose_code)
 	end]]
 end
 
-local _sync_movement_state_driving_original = _sync_movement_state_driving
+local _sync_movement_state_driving_original = HuskPlayerMovement._sync_movement_state_driving
 function HuskPlayerMovement:_sync_movement_state_driving(...)
 	_sync_movement_state_driving_original(self, ...)
 
