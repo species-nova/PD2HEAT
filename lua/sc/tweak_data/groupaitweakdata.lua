@@ -17727,42 +17727,11 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		1.3
 	}
 	self.besiege.assault.fade_duration = 35
-	if difficulty_index <= 2 then
-		self.besiege.assault.delay = {
-			80,
-			70,
-			30
-		}
-	elseif difficulty_index == 3 then
-		self.besiege.assault.delay = {
-			45,
-			35,
-			20
-		}
-	elseif difficulty_index == 4 then
-		self.besiege.assault.delay = {
-			40,
-			30,
-			20
-		}
-	elseif difficulty_index == 5 then
-		self.besiege.assault.delay = {
-			30,
-			20,
-			15
-		}
-	elseif difficulty_index == 6 then
-		self.besiege.assault.delay = {
-			30,
-			20,
-			15
-		}
-	else
-		self.besiege.assault.delay = {
-			20,
-			15,
-			10
-		}
+	self.besiege.assault.delay = {
+		45,
+		35,
+		30
+	}
 	end
 	
 	if difficulty_index <= 7 then
