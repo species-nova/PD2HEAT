@@ -1881,7 +1881,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Underdog--
 			["menu_underdog_beta_sc"] = "Underdog",
-			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nWhen three or more enemies are within ##18## meters of you, you receive a ##10%## damage bonus that lasts for ##7## seconds.\n\nACE: ##$pro##\nWhen three or more enemies are within ##18## meters of you, you also receive a ##10%## damage reduction that lasts for ##7## seconds.",
+			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nWhen three or more enemies are within ##9## meters of you, you receive a ##10%## damage bonus that lasts for ##7## seconds.\n\nACE: ##$pro##\nWhen three or more enemies are within ##9## meters of you, you also receive a ##10%## damage reduction that lasts for ##7## seconds.",
 
 			--Shotgun CQB
 			["menu_shotgun_cqb_beta_sc"] = "Shotgun CQB",
@@ -2317,9 +2317,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck10_9_desc_sc"] = "Increase health gained from ammo packs by an additional ##2##.\n\nWhen you get healed from picking up ammo packs, you also gain ##30## armor.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Infiltrator--
-		["menu_deck8_1_desc_sc"] = "When you are within ##12## meters of an enemy, you receive ##5%## less damage from enemies.",
-		["menu_deck8_3_desc_sc"] = "When you are within ##12## meters of an enemy, you receive an additional ##5%## less damage from enemies.",
-		["menu_deck8_5_desc_sc"] = "When you are within ##12## meters of an enemy, you receive an additional ##10%## less damage from enemies.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
+		["menu_deck8_1_desc_sc"] = "When you are within ##9## meters of an enemy, you receive ##5%## less damage from enemies.",
+		["menu_deck8_3_desc_sc"] = "When you are within ##9## meters of an enemy, you receive an additional ##5%## less damage from enemies.",
+		["menu_deck8_5_desc_sc"] = "When you are within ##9## meters of an enemy, you receive an additional ##10%## less damage from enemies.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
 		["menu_deck8_7_desc_sc"] = "Each successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds, this effect can stack up to ##5## times.",
 		["menu_deck8_9_desc_sc"] = "Each successful melee hit heals ##1## health every ##1.25## seconds for ##10## seconds, this effect can stack up to ##5## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
