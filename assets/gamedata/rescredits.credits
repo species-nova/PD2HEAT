@@ -31,6 +31,7 @@
 	<text text="Offyerrocker" type="name"/>
 	<text text="Test1" type="name"/>
 	<text text="Finale" type="name"/>
+	<text text="UndeadSewer" type="name"/
 	<text text="Skwuruhl" type="name"/>
 	<text text="Porky da Corgi" type="name"/>
 	<text text="Wekk" type="name"/>
@@ -59,9 +60,18 @@
 	<text text="Rhia" type="name"/>
 	<text text="Nimrod" type="name"/>
 	<text text="Rosetta" type="name"/>
+	<text text="Huron" type="name"/>
+	<text text="Lav" type="name"/>
 	<br/>
 	<text text="TRANSLATIONS" type="title"/>
 	<text text="MsMarshie" type="name"/>
+	<br/>
+	<br/>
+	<br/>
+	<text text="IN MEMORY OF" type="title"/>
+	<text text="UndeadSewer" type="name"/>
+	<text text="1998 - 2018" type="title"/>
+	<br/>
 	<br/>
 	<br/>
 	<br/>
