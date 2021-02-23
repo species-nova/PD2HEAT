@@ -80,9 +80,6 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.vit.package = {"packages/murkyassets", "packages/dlcs/vit/job_vit"}
 	self.vit.ai_group_type = murkywater 
 	
-	self.wwh.package = {"packages/murkyassets", "packages/lvl_wwh"}
-	self.wwh.ai_group_type = murkywater 
-	
 	self.arm_for.package = {"packages/murkyassets", "packages/narr_arm_for"}
 	self.arm_for.ai_group_type = murkywater 
 	self.arm_for.player_style = "sneak_suit"
@@ -120,6 +117,9 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	
 	self.flat.ai_group_type = nypd
 	self.flat.package = {"packages/narr_flat", "packages/nypdassets"}
+	
+	self.wwh.package = {"packages/nypdassets", "packages/lvl_wwh"}
+	self.wwh.ai_group_type = nypd
 	
 	if restoration and restoration.Options:GetValue("OTHER/QuietRain") then
 		self.glace.ai_group_type = nypd
