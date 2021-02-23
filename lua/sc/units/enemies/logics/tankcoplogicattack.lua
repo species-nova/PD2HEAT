@@ -117,11 +117,7 @@ function TankCopLogicAttack.update(data)
 		return
 	end
 
-	if CopLogicIdle._chk_relocate(data) then
-		return
-	end
-
-	if CopLogicAttack._chk_exit_non_walkable_area(data) then
+	if CopLogicIdle._chk_relocate(data) or CopLogicAttack._chk_exit_non_walkable_area(data) then
 		return
 	end
 
@@ -174,7 +170,7 @@ function TankCopLogicAttack._upd_enemy_detection(data, is_synchronous)
 	local old_att_obj = data.attention_obj
 
 	CopLogicBase._set_attention_obj(data, new_attention, new_reaction)
-	data.logic._chk_exit_attack_logic(data, new_reaction) ----second most common cause to exit attack
+	data.logic._chk_exit_attack_logic(data, new_reaction)
 
 	if my_data ~= data.internal_data then
 		return
@@ -182,8 +178,6 @@ function TankCopLogicAttack._upd_enemy_detection(data, is_synchronous)
 
 	if not new_attention and old_att_obj then
 		TankCopLogicAttack._cancel_chase_attempt(data, my_data)
-
-		my_data.att_chase_chk = nil
 	end
 
 	CopLogicBase._chk_call_the_police(data)
@@ -612,13 +606,13 @@ function TankCopLogicAttack.action_complete_clbk(data, action)
 		if my_data.moving_out_of_the_way then
 			my_data.moving_out_of_the_way = nil
 		end
-		
+
 		if my_data.surprised then
 			my_data.surprised = false
 		end
-		
+
 		TankCopLogicAttack._cancel_chase_attempt(data, my_data)
-		
+
 		if my_data.menacing then
 			my_data.menacing = nil
 			if action:expired() then
@@ -651,11 +645,11 @@ function TankCopLogicAttack.action_complete_clbk(data, action)
 end
 
 function TankCopLogicAttack.chk_should_turn(data, my_data)
-	return not my_data.turning and not my_data.has_old_action and not my_data.advancing and not my_data.walking_to_chase_pos and not my_data.moving_out_of_the_way and not data.unit:movement():chk_action_forbidden("walk")
+	return not my_data.turning and not my_data.has_old_action and not my_data.advancing and not my_data.walking_to_chase_pos and not my_data.moving_out_of_the_way and not my_data.menacing and not data.unit:movement():chk_action_forbidden("walk")
 end
 
 function TankCopLogicAttack.action_taken(data, my_data)
-	return my_data.turning or my_data.has_old_action or my_data.advancing or my_data.walking_to_chase_pos or my_data.moving_out_of_the_way or data.unit:movement():chk_action_forbidden("walk")
+	return my_data.turning or my_data.has_old_action or my_data.advancing or my_data.walking_to_chase_pos or my_data.moving_out_of_the_way or my_data.menacing or data.unit:movement():chk_action_forbidden("walk")
 end
 
 function TankCopLogicAttack.queue_update(data, my_data)
