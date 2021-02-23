@@ -1354,6 +1354,14 @@
 	
 	<!--Titan HRT MP9-->	
 	<unit path="units/payday2/weapons/wpn_npc_smg_mp9_titan/wpn_npc_smg_mp9_titan" load="false" force="false"/>
+	
+	<!--Titan Cloaker Anubis .45 !!placeholder!!-->
+	<!--object path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/>
+	<unit path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom" load="false" force="false"/>
+	<material_config path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/>
+	<material_config path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom_dead"/>
+	<sequence_manager path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/>
+	<cooked_physics path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/-->
 
 	<!--vivinite enhanced caps-->
 	<object path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>

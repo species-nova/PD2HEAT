@@ -12233,7 +12233,8 @@ function CharacterTweakData:_create_table_structure()
 		"ak_blue",
 		"amcar",
 		"ak102",
-		"m416_npc"
+		"m416_npc",
+		"socom_npc"
 	}
 	self.weap_unit_names = {
 		Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92"),
@@ -12308,7 +12309,8 @@ function CharacterTweakData:_create_table_structure()
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_akmsu/wpn_npc_akmsu"),
 		Idstring("units/payday2/weapons/wpn_npc_amcar/wpn_npc_amcar"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak102/wpn_npc_ak102"),
-		Idstring("units/pd2_mod_lapd/weapons/wpn_npc_m416/wpn_npc_m416")		
+		Idstring("units/pd2_mod_lapd/weapons/wpn_npc_m416/wpn_npc_m416"),
+		Idstring("units/payday2/weapons/wpn_npc_socom/wpn_npc_socom")
 	}
 end
 

@@ -1477,7 +1477,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["hud_interact_pickup_sentry_gun"] = "$AMMO_LEFT", --$AMMO_LEFT macro is a dummy macro to be replaced with desired string, since changing interaction objects is slightly cursed.
 		["hud_interact_sentry_gun_switch_fire_mode"] = "$AMMO_LEFT",
 		["hud_repair_sentry"] = "$AMMO_LEFT",
-		["hud_action_repair_sentry"] = "Repairing sentry...",
+		["hud_action_repair_sentry"] = "Repairing sentry",
 
 		--More fitting descriptions of difficulties--
 		["menu_risk_elite"] = "DEATH WISH. FOR YOU, ACTION IS THE JUICE.",
@@ -1598,7 +1598,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_equip_skills_res_22"] = "The Butterfly Knife and Switchblade deal massive damage when stabbing enemies in the back.",	
 		["loading_equip_skills_res_23"] = "The Icepick and Gold Fever do increased headshot damage in exchange for poor speed.",	
 		["loading_equip_skills_res_24"] = "Poison deals only moderate damage, but induces vomiting which interrupts other actions.",	
-		["loading_equip_skills_res_25"] = "Stun Grenades provide very potent disruption, even against bulldozers.",	
+		["loading_equip_skills_res_25"] = "Concussion Grenades provide very potent disruption, even against bulldozers.",	
 		["loading_equip_skills_res_26"] = "Aiming down sights grants significantly increased accuracy and reduced recoil, even with LMGs.",	
 		["loading_equip_skills_res_27"] = "The Pounder Nailgun melee weapon has an incredibly long range, far longer than any other melee weapon.",	
 		["loading_equip_skills_res_28"] = "Leveling up perk decks unlocks the Throwables Case.",

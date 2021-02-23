@@ -1,0 +1,14 @@
+<table>
+	<unit>
+		<sequence name="'enable_body'" triggable="true">
+			<material_config name="'units/payday2/weapons/wpn_npc_socom/wpn_npc_socom_dead'"/>
+			<body enabled="true" name="'body'"/>
+		</sequence>
+		<sequence editable_state="true" name="'decloak'" triggable="true">
+			<material_config name="'units/payday2/weapons/wpn_npc_socom/wpn_npc_socom_dead'"/>
+		</sequence>
+		<sequence editable_state="true" name="'cloak_engaged'" triggable="true">
+			<material_config name="'units/payday2/weapons/wpn_npc_socom/wpn_npc_socom'"/>
+		</sequence>
+	</unit>
+</table>
