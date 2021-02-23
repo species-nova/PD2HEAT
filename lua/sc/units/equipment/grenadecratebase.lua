@@ -14,13 +14,13 @@ function GrenadeCrateBase:take_grenade(unit)
 
 		taken_amount = pl_manager:get_max_grenades_by_peer_id(local_peer_id) - pl_manager:get_grenade_amount(local_peer_id)
 
-		pl_manager:add_grenade_amount(taken)
+		pl_manager:add_grenade_amount(taken_amount)
 
 		local send_f = session.send_to_peers_synched
 		local register_grenade_func = pl_manager.register_grenade
 		local my_unit = self._unit
 
-		for i = 1, taken do
+		for i = 1, taken_amount do
 			send_f(session, "sync_unit_event_id_16", my_unit, "base", 1)
 
 			register_grenade_func(pl_manager, local_peer_id)
