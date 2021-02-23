@@ -580,6 +580,11 @@ function WeaponTweakData:_init_data_beretta92_npc()
 	self.beretta92_npc.has_suppressor = "suppressed_a"
 	self.beretta92_primary_npc = deep_clone(self.beretta92_npc)
 	self.beretta92_primary_npc.use_data.selection_index = 2
+	
+	self.socom_npc = deep_clone(self.beretta92_npc) --needs actual stats pls--
+	self.socom_npc.usage = "is_revolver"
+	self.socom_npc.sounds.prefix = "usp45_npc"
+	self.socom_npc.has_suppressor = "suppressed_a"	
 end
 
 function WeaponTweakData:_init_data_raging_bull_npc()
