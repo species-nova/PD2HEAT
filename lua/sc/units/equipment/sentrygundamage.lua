@@ -534,8 +534,8 @@ function SentryGunDamage:damage_explosion(attack_data)
 
 	local damage = attack_data.damage
 	local instakill = weapon_unit and weapon_unit:base()
-	instakill = instakill and instakill.weapon_tweak_data and instakill:weapon_tweak_data()
-	instakill = instakill and instakill.turret_instakill and true
+	instakill = instakill and instakill._tweak_projectile_entry and tweak_data.projectiles[instakill._tweak_projectile_entry]
+	instakill = instakill and instakill.turret_instakill
 
 	if not instakill and self._marked_dmg_mul then
 		damage = damage * self._marked_dmg_mul
