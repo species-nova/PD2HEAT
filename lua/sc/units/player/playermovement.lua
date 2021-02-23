@@ -1,4 +1,3 @@
-local infiltrator_distance = tweak_data.upgrades.infiltrator_dr_range * tweak_data.upgrades.infiltrator_dr_range
 local init_original = PlayerMovement.init
 function PlayerMovement:init(...)
 	init_original(self, ...)
@@ -35,57 +34,36 @@ function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
 		return true
 	end
 end	
-	
+
+local underdog_polling_rate = 0.4 --Polling rate subject to change. 
+local underdog_distance = tweak_data.upgrades.infiltrator_dr_range
+--Underdog now checks for *any* enemies in proximity.
 function PlayerMovement:_upd_underdog_skill(t)
 	local data = self._underdog_skill_data
 
-	if not self._attackers or not data.has_dmg_dampener and not data.has_dmg_mul or t < self._underdog_skill_data.chk_t then
+	if not data.has_dmg_dampener and not data.has_dmg_mul or t < self._underdog_skill_data.chk_t then
 		return
 	end
 
-	local my_pos = self._m_pos
-	local nr_guys = 0
-	local nr_close_guys = 0
-	local activated = nil
+	self._nr_close_guys = #World:find_units_quick("sphere", self._m_pos, underdog_distance, managers.slot:get_mask("enemies"))
 
-	for u_key, attacker_unit in pairs(self._attackers) do
-		if not alive(attacker_unit) then
-			self._attackers[u_key] = nil
-
-			return
+	--Handle skills, this *will* be changed.
+	if self._nr_close_guys >= 1 then
+		managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_dampener_close_contact")
+		managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_multiplier_outnumbered")
+		if self._nr_close_guys >= 3 then
+			managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_dampener_outnumbered")
+			managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_dampener_outnumbered_strong")
+		else
+			managers.player:deactivate_temporary_upgrade("temporary", "dmg_dampener_outnumbered")
+			managers.player:deactivate_temporary_upgrade("temporary", "dmg_dampener_outnumbered_strong")
 		end
-
-		local attacker_pos = attacker_unit:movement():m_pos()
-		local dis_sq = mvector3.distance_sq(attacker_pos, my_pos)
-
-		if dis_sq < data.max_dis_sq and math.abs(attacker_pos.z - my_pos.z) < data.max_vert_dis then
-			nr_guys = nr_guys + 1
-
-			if data.nr_enemies <= nr_guys then
-				activated = true
-
-				if data.has_dmg_mul then
-					managers.player:activate_temporary_upgrade("temporary", "dmg_multiplier_outnumbered")
-				end
-
-				if data.has_dmg_dampener then
-					managers.player:activate_temporary_upgrade("temporary", "dmg_dampener_outnumbered")
-					managers.player:activate_temporary_upgrade("temporary", "dmg_dampener_outnumbered_strong")
-				end
-
-				break
-			end
-			if dis_sq < infiltrator_distance then
-				nr_close_guys = nr_close_guys + 1
-			end
-		end
+	else
+		managers.player:deactivate_temporary_upgrade("temporary", "dmg_dampener_close_contact")
+		managers.player:deactivate_temporary_upgrade("temporary", "dmg_multiplier_outnumbered")
 	end
 
-	if nr_close_guys >= 1 then
-		managers.player:activate_temporary_upgrade("temporary", "dmg_dampener_close_contact")
-	end
-
-	data.chk_t = t + (activated and data.chk_interval_active or data.chk_interval_inactive)
+	data.chk_t = t + underdog_polling_rate
 end
 
 function PlayerMovement:clbk_attention_notice_sneak(observer_unit, status, local_client_detection)

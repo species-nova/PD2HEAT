@@ -637,9 +637,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Underdog
 				--Basic
-					self.values.temporary.dmg_multiplier_outnumbered = {{1.1, 7}}
+					self.values.temporary.dmg_multiplier_outnumbered = {{1.1, 69}} --Temporary for now.
 				--Ace
-					self.values.temporary.dmg_dampener_outnumbered = {{0.9, 7}}
+					self.values.temporary.dmg_dampener_outnumbered = {{0.9, 420}}
 				
 			--Far Away
 				--Basic
@@ -1308,7 +1308,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		1.25
 	}
 	--infiltrator stuff
-	self.infiltrator_dr_range = 1200
+	self.infiltrator_dr_range = 900
 	self.values.player.melee_stacking_heal = {true}
 	self.values.temporary.melee_life_leech = {
 		{0.08, 08}

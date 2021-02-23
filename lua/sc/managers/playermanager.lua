@@ -1215,3 +1215,19 @@ function PlayerManager:activate_temporary_upgrade_indefinitely(category, upgrade
 	managers.hud:remove_skill(upgrade)
 	managers.hud:add_skill(upgrade)
 end
+
+--Adds buff tracker call.
+function PlayerManager:deactivate_temporary_upgrade(category, upgrade)
+	local upgrade_value = self:upgrade_value(category, upgrade)
+
+	if upgrade_value == 0 then
+		return
+	end
+
+	if not self._temporary_upgrades[category] then
+		return
+	end
+
+	self._temporary_upgrades[category][upgrade] = nil
+	managers.hud:remove_skill(upgrade)
+end

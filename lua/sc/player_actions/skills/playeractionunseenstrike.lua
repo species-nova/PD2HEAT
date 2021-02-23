@@ -28,6 +28,7 @@ PlayerAction.UnseenStrike = {
 			coroutine.yield(co)
 		end
 
+		managers.player:deactivate_temporary_upgrade("temporary", "unseen_strike")
 		player_manager:unregister_message(Message.OnPlayerDamage, co)
 	end
 }
