@@ -318,6 +318,9 @@
 	<mission path="levels/narratives/classics/glace/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/classics/glace/world/world" force="true" unload="true"/> 
 	<continent path="levels/narratives/classics/glace/level_art/level_art" force="true" unload="true"/>
+	<sequence_manager path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" unload="true"/>
+    <!--unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" unload="true"/>
+    <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" unload="true"/-->
 
 	<!--UNDERCOVER-->
 	<mission path="levels/narratives/classics/man/world/world" force="true" unload="true"/>
