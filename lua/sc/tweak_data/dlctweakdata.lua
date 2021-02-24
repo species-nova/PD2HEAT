@@ -261,7 +261,7 @@ function DLCTweakData:init(...)
 		}				
 	}	
 	
-	if Steam:is_user_in_source(Steam:userid(), "103582791466033055") then
+	if Steam:is_user_in_source(Steam:userid(), "103582791469447940") then
 		self.omnia = {
 			content = {},
 			free = true
@@ -280,7 +280,7 @@ function DLCTweakData:init(...)
 			}				
 		}	
 	end
-	if Steam:is_user_in_source(Steam:userid(), "103582791465743585") then
+	if Steam:is_user_in_source(Steam:userid(), "103582791469447811") then
 		self.omnia_2 = {
 			content = {},
 			free = true

@@ -217,6 +217,7 @@
 		<hook file="sc/units/props/aiattentionobject.lua" source_file="lib/units/props/aiattentionobject"/>
 		<hook file="sc/units/props/carrydata.lua" source_file="lib/units/props/carrydata"/>
 		<hook file="sc/units/props/drill.lua" source_file="lib/units/props/drill"/>
+		<hook file="sc/units/props/zipline.lua" source_file="lib/units/props/zipline"/>
 		<hook file="sc/units/pickups/ammoclip.lua" source_file="lib/units/pickups/ammoclip"/>
 		<hook file="sc/player_actions/skills/playeractiondamagecontrol.lua" source_file="lib/player_actions/skills/playeractiondamagecontrol"/>
 		<hook file="sc/player_actions/skills/playeractiontriggerhappy.lua" source_file="lib/player_actions/skills/playeractiontriggerhappy"/>
@@ -519,11 +520,6 @@
 	<Package id="packages/murkyassets" file="addmurky.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/miscassets" file="addMISC.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/outfitassets" file="addoutfit.xml" use_clbk="self:DebugLoadAssets"/>
-	<Package id="packages/addbdu" file="addbdu.xml" use_clbk="self:DebugLoadAssets"/> 
-	<Package id="packages/addscrubs" file="addscrubs.xml" use_clbk="self:DebugLoadAssets"/> 
-	<Package id="packages/addsnow" file="addsnow.xml" use_clbk="self:DebugLoadAssets"/> 
-	<Package id="packages/addslaughter" file="addslaughter.xml" use_clbk="self:DebugLoadAssets"/> 
-	<Package id="packages/addtux" file="addtux.xml" use_clbk="self:DebugLoadAssets"/> 
 	<Package id="packages/akanassetsnew" file="addakannew.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/zombieassetsnew" file="addzombienew.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/secret_stash" file="secret_stash.xml" use_clbk="self:DebugLoadAssets"/>
