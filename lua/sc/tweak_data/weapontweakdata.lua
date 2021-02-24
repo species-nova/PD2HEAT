@@ -3,7 +3,7 @@ local job = Global.level_data and Global.level_data.level_id
 function WeaponTweakData:_init_data_sentry_gun_npc()
 	self.sentry_gun.categories = {}
 	self.sentry_gun.name_id = "debug_sentry_gun"
-	self.sentry_gun.DAMAGE = 2.8
+	self.sentry_gun.DAMAGE = 3
 	self.sentry_gun.SUPPRESSION = 1
 	self.sentry_gun.SPREAD = 2
 	self.sentry_gun.FIRE_RANGE = 2500
