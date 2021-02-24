@@ -964,9 +964,16 @@ end
 function CarryData:set_zipline_unit(zipline_unit)
 	self._zipline_unit = zipline_unit
 
+	local my_unit = self._unit
+
 	if zipline_unit then
+		if self._is_server then
+			--no need to check for team AI linking while attached to a zipline
+			my_unit:set_extension_update_enabled(carry_data_idstr, false)
+		end
+
 		if zipline_unit:zipline():ai_ignores_bag() then
-			local att_ext = self._unit:attention()
+			local att_ext = my_unit:attention()
 
 			if att_ext then
 				local att_data = att_ext:attention_data()
@@ -981,14 +988,24 @@ function CarryData:set_zipline_unit(zipline_unit)
 				end
 			end
 		end
-	elseif self._saved_attention_data then
-		local att_ext = self._unit:attention()
+	else
+		if self._saved_attention_data then
+			local att_ext = self._unit:attention()
 
-		for attention_id, attention_data in pairs_g(self._saved_attention_data) do
-			att_ext:add_attention(attention_data)
+			for attention_id, attention_data in pairs_g(self._saved_attention_data) do
+				att_ext:add_attention(attention_data)
+			end
+
+			self._saved_attention_data = nil
 		end
 
-		self._saved_attention_data = nil
+		local int_ext = my_unit:interaction()
+
+		if int_ext then
+			--allow the bag to be grabbed instantly
+			int_ext._has_modified_timer = true
+			int_ext._air_start_time = Application:time()
+		end
 	end
 end
 
