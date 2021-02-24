@@ -3091,7 +3091,7 @@ function SkillTreeTweakData:init(tweak_data)
 	local sc_sociopath = {
 			name_id = "menu_st_spec_9",
 			desc_id = "menu_st_spec_9_desc",
-			--dlc = "hlm2_deluxe",
+			dlc = "hlm2_deluxe",
 			{
 				upgrades = {
 					"player_damage_dampener_outnumbered_strong",

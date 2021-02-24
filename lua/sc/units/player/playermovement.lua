@@ -66,6 +66,10 @@ function PlayerMovement:_upd_underdog_skill(t)
 	data.chk_t = t + underdog_polling_rate
 end
 
+function PlayerMovement:nr_close_guys()
+	return self._nr_close_guys
+end
+
 function PlayerMovement:clbk_attention_notice_sneak(observer_unit, status, local_client_detection)
 	if alive(observer_unit) then
 		self:on_suspicion(observer_unit, status, local_client_detection)

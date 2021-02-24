@@ -148,11 +148,11 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 
 	managers.modifiers:run_func("OnPlayerManagerKillshot", player_unit, killed_unit:base()._tweak_table, variant)
 
-	--Notify listeners. Covers majority of on-kill skills.
-	self._message_system:notify(Message.OnEnemyKilled, nil, equipped_unit, variant, killed_unit)
-
 	--Increase kill count.
 	self._num_kills = self._num_kills + 1
+
+	--Notify listeners. Covers majority of on-kill skills.
+	self._message_system:notify(Message.OnEnemyKilled, nil, equipped_unit, variant, killed_unit)
 
 	--These do not use messages since they must occur *as* the unit dies before they become detached from the network.
 	--Scavenger Aced ammo drop.
@@ -1010,7 +1010,7 @@ function PlayerManager:_trigger_sociopath_armor(equipped_unit, variant, killed_u
 	if dist_sq <= close_combat_sq then
 		armor_regen = armor_regen + data[2]
 	end
-	
+
 	damage_ext:restore_armor(armor_regen)
 end
 
