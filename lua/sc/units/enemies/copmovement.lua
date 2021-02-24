@@ -689,10 +689,10 @@ function CopMovement:do_summers_heal(t)
 					contour_ext:remove("medic_heal", false)
 					contour_ext:add("medic_heal", false)
 					contour_ext:flash("medic_heal", 0.2)
-					end
-			end
-
-			dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
+				end
+				
+				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))
+			end	
 		end
 	end
 	
