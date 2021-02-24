@@ -1333,7 +1333,7 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 				if special_weapon == "taser" then
 					action_data.variant = "taser_tased"
 				elseif special_weapon == "panic" then
-					managers.player:spread_psycho_knife_panic()
+					managers.player:spread_panic(1)
 				end
 			end
 				

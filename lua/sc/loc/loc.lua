@@ -2224,7 +2224,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Haunt--
 		["menu_haunt_sc"] = "Haunt",
-		["menu_haunt_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within ##18## meters has a ##5%## chance to spread panic for each down you are closer to custody.\n\nPanic makes enemies go into short bursts of uncontrollable fear.\n\nACE: ##$pro##\nEnemy panic chance is increased by an additional ##15%## at all times.",
+		["menu_haunt_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within ##18## meters has a ##3%## chance to spread panic for each down you are closer to custody.\n\nPanic makes enemies go into short bursts of uncontrollable fear.\n\nACE: ##$pro##\nEnemy panic chance is increased by an additional ##10%## at all times.",
 
 		--Messiah--
 		["menu_pistol_beta_messiah_sc"] = "Messiah",
@@ -2328,7 +2328,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck9_1_desc_sc"] = "When you are surrounded by three enemies or more within ##18 meters##, you take ##5%## less damage from enemies.",
 		["menu_deck9_3_desc_sc"] = "Killing an enemy regenerates ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_5_desc_sc"] = "Killing an enemy with a melee weapon regenerates ##5%## health.\n\nThis cannot occur more than once every ##3## seconds.",
-		["menu_deck9_7_desc_sc"] = "Killing an enemy within ##18## meters regenerates ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
+		["menu_deck9_7_desc_sc"] = "Killing an enemy within ##18## meters regenerates an additional ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_9_desc_sc"] = "Killing an enemy within ##18## meters has a ##25%## chance to spread panic among your enemies.\n\nPanic will make enemies go into short bursts of uncontrollable fear.\n\nThis cannot occur more than once every ##2## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Grinder--

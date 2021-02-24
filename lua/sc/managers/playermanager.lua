@@ -43,40 +43,36 @@ Hooks:PostHook(PlayerManager, "init", "ResInit", function(self)
 end)
 
 --Make armor bot boost increase armor by % instead of adding.
+--Removed unused armor multipliers.
 function PlayerManager:body_armor_skill_multiplier(override_armor)
 	local multiplier = 1
-	multiplier = multiplier + self:upgrade_value("player", "tier_armor_multiplier", 1) - 1
-	multiplier = multiplier + self:upgrade_value("player", "passive_armor_multiplier", 1) - 1
-	multiplier = multiplier + self:upgrade_value("player", "armor_multiplier", 1) - 1
-	multiplier = multiplier + self:team_upgrade_value("armor", "multiplier", 1) - 1
-	multiplier = multiplier + self:get_hostage_bonus_multiplier("armor") - 1
-	multiplier = multiplier + self:upgrade_value("player", "perk_armor_loss_multiplier", 1) - 1
-	multiplier = multiplier + self:upgrade_value("player", tostring(override_armor or managers.blackmarket:equipped_armor(true, true)) .. "_armor_multiplier", 1) - 1
-	multiplier = multiplier + self:upgrade_value("player", "chico_armor_multiplier", 1) - 1
+	multiplier = multiplier + self:upgrade_value("player", "tier_armor_multiplier", 1) - 1 --Armorer, Crew Chief
+	multiplier = multiplier + self:upgrade_value("player", tostring(override_armor or managers.blackmarket:equipped_armor(true, true)) .. "_armor_multiplier", 1) - 1 --Crook
 	multiplier = multiplier + self:upgrade_value("team", "crew_add_armor", 1) - 1 --Added bot armor boost.
 	multiplier = multiplier * self:upgrade_value("player", "armor_reduction_multiplier", 1) --Used by Grinder.
 
 	return multiplier
 end
 
-
+--Removed unused armor addends.
 function PlayerManager:body_armor_skill_addend(override_armor)
 	local addend = 0
-	addend = addend + self:upgrade_value("player", tostring(override_armor or managers.blackmarket:equipped_armor(true, true)) .. "_armor_addend", 0)
+	addend = addend + self:upgrade_value("player", tostring(override_armor or managers.blackmarket:equipped_armor(true, true)) .. "_armor_addend", 0) --Deep Pockets
 
+	--Anarchist
 	if self:has_category_upgrade("player", "armor_increase") then
 		local health_multiplier = self:health_skill_multiplier()
 		local max_health = (PlayerDamage._HEALTH_INIT + self:health_skill_addend()) * health_multiplier
 		addend = addend + max_health * self:upgrade_value("player", "armor_increase", 1)
 	end
 
-	--Removed bot armor boost.
-
 	return addend
 end
 
+
 function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, upgrade_level, health_ratio)
 	local multiplier = 1
+	--Perk Deck card 4 + armor speed penalty.
 	local armor_penalty = self:mod_movement_penalty(self:body_armor_value("movement", upgrade_level, 1))
 	multiplier = multiplier + armor_penalty - 1
 
@@ -85,11 +81,11 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	end
 
 	if speed_state then
-		multiplier = multiplier + self:upgrade_value("player", speed_state .. "_speed_multiplier", 1) - 1
+		multiplier = multiplier + self:upgrade_value("player", speed_state .. "_speed_multiplier", 1) - 1 --Burglar
 	end
 
-	multiplier = multiplier + self:get_hostage_bonus_multiplier("speed") - 1
-	multiplier = multiplier + self:upgrade_value("player", "movement_speed_multiplier", 1) - 1
+	multiplier = multiplier + self:get_hostage_bonus_multiplier("speed") - 1 --Partners in Crime
+	multiplier = multiplier + self:upgrade_value("player", "movement_speed_multiplier", 1) - 1 --Generic passive movement speed multiplier.
 
 	--Kingpin movespeed bonus.
 	if self:has_activate_temporary_upgrade("temporary", "chico_injector") then
@@ -113,24 +109,23 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 		end
 	end
 
-	--Removed unused "secured_bags_multiplier" nonsense.
-
 	--Second Wind
 	local damage_speed_multiplier = managers.player:temporary_upgrade_value("temporary", "damage_speed_multiplier", 1)
 	multiplier = multiplier + damage_speed_multiplier - 1
 
+	--Swan Song movespeed penalty.
 	if managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") then	
 		multiplier = multiplier * (tweak_data.upgrades.berserker_movement_speed_multiplier or 1)	
 	end
 
-	--Removed unused Yakuza nonsense.
-
-	--Apply any slowing debuffs.
+	--Apply slowing debuff if active.
 	multiplier = multiplier * self:_slow_debuff_mult()
 	
 	return multiplier
 end
 
+--Moved stuff that's not frame-sensitive to messages to reduce redundant checks.
+--Unified all panic chance effects to reduce redundant searches.
 function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	local player_unit = self:player_unit()
 
@@ -143,6 +138,9 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	end
 
 	local weapon_melee = weapon_id and tweak_data.blackmarket and tweak_data.blackmarket.melee_weapons and tweak_data.blackmarket.melee_weapons[weapon_id] and true
+	local t = Application:time()
+	local damage_ext = player_unit:character_damage()
+	local equipped_unit = self:get_current_state()._equipped_unit
 
 	if killed_unit:brain().surrendered and killed_unit:brain():surrendered() and (variant == "melee" or weapon_melee) then
 		managers.custom_safehouse:award("daily_honorable")
@@ -150,13 +148,14 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 
 	managers.modifiers:run_func("OnPlayerManagerKillshot", player_unit, killed_unit:base()._tweak_table, variant)
 
-	local equipped_unit = self:get_current_state()._equipped_unit
+	--Notify listeners. Covers majority of on-kill skills.
+	self._message_system:notify(Message.OnEnemyKilled, nil, equipped_unit, variant, killed_unit)
+
+	--Increase kill count.
 	self._num_kills = self._num_kills + 1
 
-	if self._num_kills % self._SHOCK_AND_AWE_TARGET_KILLS == 0 and self:has_category_upgrade("player", "automatic_faster_reload") then
-		self:_on_enter_shock_and_awe_event()
-	end
-
+	--These do not use messages since they must occur *as* the unit dies before they become detached from the network.
+	--Scavenger Aced ammo drop.
 	if self:has_category_upgrade("player", "double_drop") then
 		self._target_kills = self._target_kills or self:upgrade_value("player", "double_drop", 0)
 
@@ -177,43 +176,32 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 		end
 	end
 
-	self._message_system:notify(Message.OnEnemyKilled, nil, equipped_unit, variant, killed_unit)
+	--Spread on-kill panic.
+	local panic_chance = self:upgrade_value("player", "killshot_extra_spooky_panic_chance", 0) --Add Haunt skill to panic chance.
+			+ self:upgrade_value("player", "killshot_spooky_panic_chance", 0) * self:player_unit():character_damage():get_missing_revives()
 
+	--Add Rip and Tear Ace to panic chance.
 	if self._saw_panic_when_kill and variant ~= "melee" then
-		local equipped_unit = self:get_current_state()._equipped_unit:base()
-
-		--Allow all special weapons to spread panic with skill.
-		if equipped_unit:is_category("saw") or equipped_unit:is_category("grenade_launcher") or equipped_unit:is_category("bow") or equipped_unit:is_category("crossbow") then
-			local pos = player_unit:position()
-			local skill = self:upgrade_value("saw", "panic_when_kill")
-
-			if skill and type(skill) ~= "number" then
-				local area = skill.area
-				local chance = skill.chance
-				local amount = skill.amount
-				local enemies = World:find_units_quick("sphere", pos, area, 12, 21)
-
-				for i, unit in ipairs(enemies) do
-					if unit:character_damage() then
-						unit:character_damage():build_suppression(amount, chance)
-					end
-				end
-			end
+		if equipped_unit:is_category("saw", "grenade_launcher", "bow", "crossbow") then
+			panic_chance = panic_chance + self:upgrade_value("saw", "panic_when_kill")
 		end
 	end
 
-	local t = Application:time()
-	local damage_ext = player_unit:character_damage()
-
-	if self:has_category_upgrade("player", "kill_change_regenerate_speed") then
-		local amount = self:body_armor_value("skill_kill_change_regenerate_speed", nil, 1)
-		local multiplier = self:upgrade_value("player", "kill_change_regenerate_speed", 0)
-
-		damage_ext:change_regenerate_speed(amount * multiplier, tweak_data.upgrades.kill_change_regenerate_speed_percentage)
+	--Apply Sociopath panic chance.
+	local dist_sq = mvector3.distance_sq(player_unit:movement():m_pos(), killed_unit:movement():m_pos())
+	local close_combat_sq = tweak_data.upgrades.close_combat_distance * tweak_data.upgrades.close_combat_distance
+	if dist_sq <= close_combat_sq then
+		panic_chance = panic_chance + self:use_cooldown_upgrade("cooldown", "killshot_close_panic_chance", 0)
 	end
 
-	local gain_throwable_per_kill = managers.player:upgrade_value("team", "crew_throwable_regen", 0)
+	--Apply panic chance modifier.
+	panic_chance = managers.modifiers:modify_value("PlayerManager:GetKillshotPanicChance", panic_chance)
 
+	--Spread the panic.
+	self:spread_panic(math.min(panic_chance, 1))
+
+	--Bot boost to regain throwables.
+	local gain_throwable_per_kill = managers.player:upgrade_value("team", "crew_throwable_regen", 0)
 	if gain_throwable_per_kill ~= 0 then
 		self._throw_regen_kills = (self._throw_regen_kills or 0) + 1
 
@@ -224,72 +212,14 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 		end
 	end
 
-	--Yakuza dodge meter generation.
-	if damage_ext:health_ratio() < 0.5 then
-		if variant == "melee" then
-			damage_ext:fill_dodge_meter_yakuza(self:upgrade_value("player", "melee_kill_dodge_regen", 0) + self:upgrade_value("player", "kill_dodge_regen"))
-		else
-			damage_ext:fill_dodge_meter_yakuza(self:upgrade_value("player", "kill_dodge_regen"))
-		end
-	end
-
+	--TODO: Check if I can move this to a message.
 	if variant == "melee" then
-		--Biker Armor Regen
-		if self:has_category_upgrade("player", "biker_armor_regen") then
-			damage_ext:tick_biker_armor_regen(self:upgrade_value("player", "biker_armor_regen")[3])
-		end
 		--Boxing Glove Stamina Restore
 		local melee_weapon = tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()]
 		if melee_weapon.special_weapon and melee_weapon.special_weapon == "stamina_restore" then
 			player_unit:movement():add_stamina(player_unit:movement():_max_stamina())
 		end
 	end
-
-
-	if self._on_killshot_t and t < self._on_killshot_t then
-		return
-	end
-
-	local regen_armor_bonus = self:upgrade_value("player", "killshot_regen_armor_bonus", 0)
-	local dist_sq = mvector3.distance_sq(player_unit:movement():m_pos(), killed_unit:movement():m_pos())
-	local close_combat_sq = tweak_data.upgrades.close_combat_distance * tweak_data.upgrades.close_combat_distance
-
-	if dist_sq <= close_combat_sq then
-		regen_armor_bonus = regen_armor_bonus + self:upgrade_value("player", "killshot_close_regen_armor_bonus", 0)
-		local panic_chance = self:upgrade_value("player", "killshot_close_panic_chance", 0)
-			+ self:upgrade_value("player", "killshot_extra_spooky_panic_chance", 0) --Add Haunt skill to panic chance.
-			+ self:upgrade_value("player", "killshot_spooky_panic_chance", 0) * self:player_unit():character_damage():get_missing_revives()
-		panic_chance = managers.modifiers:modify_value("PlayerManager:GetKillshotPanicChance", panic_chance)
-
-		if panic_chance > 0 or panic_chance == -1 then
-			local slotmask = managers.slot:get_mask("enemies")
-			local units = World:find_units_quick("sphere", player_unit:movement():m_pos(), tweak_data.upgrades.killshot_close_panic_range, slotmask)
-
-			for e_key, unit in pairs(units) do
-				if alive(unit) and unit:character_damage() and not unit:character_damage():dead() then
-					unit:character_damage():build_suppression(200, panic_chance)
-				end
-			end
-		end
-	end
-
-	if damage_ext and regen_armor_bonus > 0 then
-		damage_ext:restore_armor(regen_armor_bonus)
-	end
-
-	local regen_health_bonus = 0
-
-
-	--Sociopath regen.
-	if variant == "melee" then
-		regen_health_bonus = regen_health_bonus + self:upgrade_value("player", "melee_kill_life_leech", 0)
-	end
-
-	if damage_ext and regen_health_bonus > 0 then
-		damage_ext:restore_health(regen_health_bonus)
-	end
-
-	self._on_killshot_t = t + (tweak_data.upgrades.on_killshot_cooldown or 0)
 
 	if _G.IS_VR then
 		local steelsight_multiplier = equipped_unit:base():enter_steelsight_speed_multiplier()
@@ -298,7 +228,7 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 
 		player_unit:movement():add_stamina(stamina_regen)
 	end
-end	
+end
 
 function PlayerManager:_check_damage_to_hot(t, unit, damage_info)
 	local player_unit = self:player_unit()
@@ -431,7 +361,6 @@ function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 	--Frenzy now grants deflection instead of damage reduction.
 	multiplier = multiplier * self:temporary_upgrade_value("temporary", "first_aid_damage_reduction", 1)
 	multiplier = multiplier * self:temporary_upgrade_value("temporary", "revive_damage_reduction", 1)
-	multiplier = multiplier * self:get_hostage_bonus_multiplier("damage_dampener") --Might be unused.
 	multiplier = multiplier * self._properties:get_property("revive_damage_reduction", 1)
 	multiplier = multiplier * self._temporary_properties:get_property("revived_damage_reduction", 1)
 	--Removed vanilla crew chief team DR.
@@ -642,6 +571,36 @@ function PlayerManager:check_skills()
 		self._message_system:register(Message.OnEnemyKilled, "expres_store_health", callback(self, self, "_trigger_expres"))
 	else
 		self._message_system:unregister(Message.OnEnemyKilled, "expres_store_health")
+	end
+
+	if self:has_category_upgrade("player", "kill_change_regenerate_speed") then
+		self._message_system:register(Message.OnEnemyKilled, "ex_pres_regen_armor", callback(self, self, "_trigger_expres_armor"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "ex_pres_regen_armor")
+	end
+
+	if self:has_category_upgrade("player", "kill_dodge_regen") then
+		self._message_system:register(Message.OnEnemyKilled, "yakuza_on_kill_dodge", callback(self, self, "_trigger_yakuza"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "yakuza_on_kill_dodge")
+	end
+
+	if self:has_category_upgrade("player", "biker_armor_regen") then
+		self._message_system:register(Message.OnEnemyKilled, "biker_melee_armor", callback(self, self, "_trigger_biker"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "biker_melee_armor")
+	end
+
+	if self:has_category_upgrade("cooldown", "melee_kill_life_leech") then
+		self._message_system:register(Message.OnEnemyKilled, "sociopath_melee_health", callback(self, self, "_trigger_sociopath_heal"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_melee_health")
+	end
+
+	if self:has_category_upgrade("cooldown", "killshot_regen_armor_bonus") then
+		self._message_system:register(Message.OnEnemyKilled, "sociopath_armor", callback(self, self, "_trigger_sociopath_armor"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_armor")
 	end
 end
 
@@ -948,10 +907,9 @@ function PlayerManager:_slow_debuff_mult()
 end
 
 --Called when psychoknife kills are performed.
-function PlayerManager:spread_psycho_knife_panic()
+function PlayerManager:spread_panic(chance)
 	local pos = self:player_unit():position()
 	local area = 1000
-	local chance = 1
 	local amount = 200
 	local enemies = World:find_units_quick("sphere", pos, area, 12, 21)
 
@@ -989,10 +947,33 @@ function PlayerManager:_trigger_expres(equipped_unit, variant, killed_unit)
 		return
 	end
 
-	local player_unit = self:player_unit()
+	self:player_unit():character_damage():add_armor_stored_health(self:upgrade_value("player", "armor_health_store_amount", 0))
+end
 
-	if alive(player_unit) then
-		player_unit:character_damage():add_armor_stored_health(self:upgrade_value("player", "armor_health_store_amount", 0))
+function PlayerManager:_trigger_expres_armor(equipped_unit, variant, killed_unit)
+	if self:has_category_upgrade("player", "kill_change_regenerate_speed") then
+		local amount = self:body_armor_value("skill_kill_change_regenerate_speed", nil, 1)
+		local multiplier = self:upgrade_value("player", "kill_change_regenerate_speed", 0)
+
+		self:player_unit():character_damage():change_regenerate_speed(amount * multiplier, tweak_data.upgrades.kill_change_regenerate_speed_percentage)
+	end
+end
+
+function PlayerManager:_trigger_yakuza(equipped_unit, variant, killed_unit)
+	local damage_ext = self:player_unit():character_damage()
+
+	if damage_ext:health_ratio() < 0.5 then
+		if variant == "melee" then
+			damage_ext:fill_dodge_meter_yakuza(self:upgrade_value("player", "melee_kill_dodge_regen", 0) + self:upgrade_value("player", "kill_dodge_regen"))
+		else
+			damage_ext:fill_dodge_meter_yakuza(self:upgrade_value("player", "kill_dodge_regen"))
+		end
+	end
+end
+
+function PlayerManager:_trigger_biker(equipped_unit, variant, killed_unit)
+	if self:has_category_upgrade("player", "biker_armor_regen") then
+		self:player_unit():character_damage():tick_biker_armor_regen(self:upgrade_value("player", "biker_armor_regen")[3])
 	end
 end
 
@@ -1001,15 +982,36 @@ function PlayerManager:_trigger_hitman(equipped_unit, variant, killed_unit)
 		return
 	end
 	
-	local player_unit = self:player_unit()
-
-	if alive(player_unit) then
-		if variant == "melee" then
-			player_unit:character_damage():consume_temp_stored_health()
-		else
-			player_unit:character_damage():add_armor_stored_health(self:upgrade_value("player", "store_temp_health", {0, 0})[2])
-		end
+	if variant == "melee" then
+		self:player_unit():character_damage():consume_temp_stored_health()
+	else
+		self:player_unit():character_damage():add_armor_stored_health(self:upgrade_value("player", "store_temp_health", {0, 0})[2])
 	end
+end
+
+function PlayerManager:_trigger_sociopath_heal(equipped_unit, variant, killed_unit)
+	if variant == "melee" then
+		self:player_unit():character_damage():restore_health(self:use_cooldown_upgrade("cooldown", "melee_kill_life_leech"))
+	end
+end
+
+function PlayerManager:_trigger_sociopath_armor(equipped_unit, variant, killed_unit)
+	local player_unit = self:player_unit()
+	local damage_ext = player_unit:character_damage()
+
+	if damage_ext:get_real_armor() == damage_ext:_max_armor() then
+		return
+	end
+
+	local data = self:use_cooldown_upgrade("cooldown", "killshot_regen_armor_bonus", {0, 0})
+	local armor_regen = data[1]
+	local dist_sq = mvector3.distance_sq(player_unit:movement():m_pos(), killed_unit:movement():m_pos())
+	local close_combat_sq = tweak_data.upgrades.close_combat_distance * tweak_data.upgrades.close_combat_distance
+	if dist_sq <= close_combat_sq then
+		armor_regen = armor_regen + data[2]
+	end
+	
+	damage_ext:restore_armor(armor_regen)
 end
 
 function PlayerManager:_attempt_chico_injector()
@@ -1177,6 +1179,31 @@ function PlayerManager:disable_cooldown_upgrade(category, upgrade)
 		cooldown_time = Application:time() + time
 	}
 	managers.hud:start_cooldown(upgrade, time)
+end
+
+--Gets the value of a cooldown upgrade and triggers the cooldown if the upgrade is available.
+--Otherwise, just returns 0 or default.
+function PlayerManager:use_cooldown_upgrade(category, upgrade, default)
+	local upgrade_value = self:upgrade_value(category, upgrade)
+
+	if upgrade_value == 0 then
+		return 0 or default
+	end
+
+	local cooldown_timestamp = self._global.cooldown_upgrades[category] and self._global.cooldown_upgrades[category][upgrade] and self._global.cooldown_upgrades[category][upgrade].cooldown_time or 0
+
+	if cooldown_timestamp <= Application:time() then	
+		--Does same as disable cooldown upgrade, but without redundant checks.
+		local time = upgrade_value[2]
+		self._global.cooldown_upgrades[category] = self._global.cooldown_upgrades[category] or {}
+		self._global.cooldown_upgrades[category][upgrade] = {
+			cooldown_time = Application:time() + time
+		}
+		managers.hud:start_cooldown(upgrade, time)
+		return upgrade_value[1]
+	else
+		return 0 or default
+	end
 end
 
 --Adds buff tracker call.

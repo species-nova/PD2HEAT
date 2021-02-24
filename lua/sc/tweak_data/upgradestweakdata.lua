@@ -731,13 +731,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.saw.ignore_shields = {true}
 				--Ace
-					self.values.saw.panic_when_kill = {
-						{
-							area = 1000,
-							chance = 0.5,
-							amount = 200
-						}
-					}
+					self.values.saw.panic_when_kill = {0.5}
 				
 			--Fully Loaded
 				--Basic
@@ -1182,9 +1176,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Haunt
 				--Basic
-					self.values.player.killshot_spooky_panic_chance = {0.05}
+					self.values.player.killshot_spooky_panic_chance = {0.03}
 				--Ace
-					self.values.player.killshot_extra_spooky_panic_chance = {0.15}
+					self.values.player.killshot_extra_spooky_panic_chance = {0.1}
 				
 			--Messiah
 				self.values.player.messiah_revive_from_bleed_out = {1, 3}
@@ -1309,11 +1303,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	--infiltrator stuff
 	self.infiltrator_dr_range = 900
-	self.values.player.melee_stacking_heal = {true}
-	self.values.temporary.melee_life_leech = {
-		{0.08, 08}
-	}
-	
+	self.values.player.melee_stacking_heal = {true}	
 	self.melee_to_hot_data = {
 		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
 		works_with_armor_kit = true,
@@ -1488,11 +1478,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.loose_ammo_give_team_ratio = 1 --% of ammo given to team.
 
 	--Sociopath more like SocioBAD
-	self.values.player.killshot_regen_armor_bonus = {2}
-	self.values.player.killshot_close_regen_armor_bonus = {2}
-	self.values.player.killshot_close_panic_chance = {0.25}
-	self.values.player.melee_kill_life_leech = {0.05}
-	self.on_killshot_cooldown = 3
+	self.values.cooldown.killshot_regen_armor_bonus = {
+		{{2, 0}, 3},
+		{{2, 2}, 3}
+	}
+	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
+	self.values.cooldown.melee_kill_life_leech = {{0.05, 3}}
 
 	--Anarchist stuff--
 	self.values.player.armor_grinding = {
@@ -3346,3 +3337,52 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 		}
 	}
 end)
+
+function UpgradesTweakData:_cooldown_definitions()
+	self.definitions.cooldown_long_dis_revive = {
+		name_id = "menu_cooldown_long_dis_revive",
+		category = "cooldown",
+		upgrade = {
+			value = 1,
+			upgrade = "long_dis_revive",
+			category = "cooldown"
+		}
+	}
+	self.definitions.cooldown_melee_kill_life_leech = {
+		name_id = "menu_cooldown_melee_kill_life_leech",
+		category = "cooldown",
+		upgrade = {
+			value = 1,
+			upgrade = "melee_kill_life_leech",
+			category = "cooldown"
+		}
+	}
+	self.definitions.cooldown_killshot_regen_armor_bonus_1 = {
+		name_id = "menu_cooldown_killshot_regen_armor_bonus",
+		category = "cooldown",
+		upgrade = {
+			value = 1,
+			upgrade = "killshot_regen_armor_bonus",
+			category = "cooldown"
+		}
+	}
+	self.definitions.cooldown_killshot_regen_armor_bonus_2 = {
+		name_id = "menu_cooldown_killshot_regen_armor_bonus",
+		category = "cooldown",
+		upgrade = {
+			value = 2,
+			upgrade = "killshot_regen_armor_bonus",
+			category = "cooldown"
+		}
+	}
+
+	self.definitions.cooldown_killshot_close_panic_chance = {
+		name_id = "menu_cooldown_killshot_close_panic_chance",
+		category = "cooldown",
+		upgrade = {
+			value = 1,
+			upgrade = "killshot_close_panic_chance",
+			category = "cooldown"
+		}
+	}
+end

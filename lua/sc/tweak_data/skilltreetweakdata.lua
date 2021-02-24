@@ -3091,7 +3091,7 @@ function SkillTreeTweakData:init(tweak_data)
 	local sc_sociopath = {
 			name_id = "menu_st_spec_9",
 			desc_id = "menu_st_spec_9_desc",
-			dlc = "hlm2_deluxe",
+			--dlc = "hlm2_deluxe",
 			{
 				upgrades = {
 					"player_damage_dampener_outnumbered_strong",
@@ -3104,7 +3104,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck2,
 			{
 				upgrades = {
-					"player_killshot_regen_armor_bonus"
+					"cooldown_killshot_regen_armor_bonus_1"
 				},
 				cost = 400,
 				icon_xy = {0, 5},
@@ -3114,7 +3114,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck4,
 			{
 				upgrades = {
-					"player_melee_kill_life_leech"
+					"cooldown_melee_kill_life_leech"
 				},
 				cost = 1000,
 				icon_xy = {1, 5},
@@ -3124,7 +3124,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_killshot_close_regen_armor_bonus"
+					"cooldown_killshot_regen_armor_bonus_2"
 				},
 				cost = 2400,
 				icon_xy = {2, 5},
@@ -3134,7 +3134,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck8,
 			{
 				upgrades = {
-					"player_killshot_close_panic_chance",
+					"cooldown_killshot_close_panic_chance",
 					"player_passive_loot_drop_multiplier"
 				},
 				cost = 4000,
