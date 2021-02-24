@@ -3,12 +3,12 @@
     <object file="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" />
     <network sync="spawn"/>
     <dependencies>
-        <depends_on gui="guis/timer_gui" />
+        <!-- <depends_on gui="guis/timer_gui" /> -->
         <depends_on bnk="soundbanks/regular_sfx" />
-        <depends_on effect="effects/particles/equipment/vault_drill/drill_active" />
-        <depends_on effect="effects/particles/equipment/apartment_saw/saw_active" />
+        <!-- <depends_on effect="effects/particles/equipment/vault_drill/drill_active" /> -->
+        <!-- <depends_on effect="effects/particles/equipment/apartment_saw/saw_active" /> -->
         <!--<depends_on effect="effects/particles/equipment/vault_drill/drill_jammed" />-->
-        <depends_on effect="effects/payday2/environment/drill_jammed" />
+        <!-- <depends_on effect="effects/payday2/environment/drill_jammed" /> -->
     </dependencies>
     <extensions>
         <extension name="unit_data" class="ScriptUnitData" />

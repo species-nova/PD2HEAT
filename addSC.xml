@@ -318,9 +318,17 @@
 	<mission path="levels/narratives/classics/glace/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/classics/glace/world/world" force="true" unload="true"/> 
 	<continent path="levels/narratives/classics/glace/level_art/level_art" force="true" unload="true"/>
-	<sequence_manager path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" unload="true"/>
-    <!--unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" unload="true"/>
-    <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" unload="true"/-->
+	
+    <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" load="true"/>
+    <model path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" />
+    <object path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" />
+	<sequence_manager path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" />	
+   
+	<material_config path="units/equipment/apartment_saw/apartment_saw" force="true" />	
+	
+    <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" load="true"/>	
+    <model path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" />	
+    <object path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" />
 
 	<!--UNDERCOVER-->
 	<mission path="levels/narratives/classics/man/world/world" force="true" unload="true"/>
