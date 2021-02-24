@@ -672,17 +672,17 @@ function CopMovement:do_summers_heal(t)
 	
 	for i = 1, #enemies do
 		local enemy = enemies[i]
+		
+		if enemy:key() ~= self._unit:key() then
+			local dmg_ext = enemy:character_damage()
+			local health_left = dmg_ext._health
+			local max_health = dmg_ext._HEALTH_INIT
 
-		local dmg_ext = enemy:character_damage()
-		local health_left = dmg_ext._health
-		local max_health = dmg_ext._HEALTH_INIT
+			if health_left < max_health then
+				healed_someone = true
 
-		if health_left < max_health then
-			healed_someone = true
-
-			local amount_to_heal = math_ceil(((max_health - health_left) / 20))
-			
-			if enemy:key() ~= self._unit:key() then --causes stacking contours otherwise	
+				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
+				
 				local contour_ext = enemy:contour()
 
 				if contour_ext and not contour_ext:is_flashing() then
@@ -690,9 +690,9 @@ function CopMovement:do_summers_heal(t)
 					contour_ext:add("medic_heal", false)
 					contour_ext:flash("medic_heal", 0.2)
 				end
-				
-				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))
-			end	
+					
+				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))	
+			end
 		end
 	end
 	
