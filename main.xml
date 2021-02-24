@@ -217,6 +217,7 @@
 		<hook file="sc/units/props/aiattentionobject.lua" source_file="lib/units/props/aiattentionobject"/>
 		<hook file="sc/units/props/carrydata.lua" source_file="lib/units/props/carrydata"/>
 		<hook file="sc/units/props/drill.lua" source_file="lib/units/props/drill"/>
+		<hook file="sc/units/props/zipline.lua" source_file="lib/units/props/zipline"/>
 		<hook file="sc/units/pickups/ammoclip.lua" source_file="lib/units/pickups/ammoclip"/>
 		<hook file="sc/player_actions/skills/playeractiondamagecontrol.lua" source_file="lib/player_actions/skills/playeractiondamagecontrol"/>
 		<hook file="sc/player_actions/skills/playeractiontriggerhappy.lua" source_file="lib/player_actions/skills/playeractiontriggerhappy"/>
