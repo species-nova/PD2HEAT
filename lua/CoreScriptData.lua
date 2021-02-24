@@ -301,24 +301,19 @@ Hooks:Add("BeardLibCreateScriptDataMods", "SCLECallBeardLibSequenceFuncs", funct
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/family.custom_xml", "custom_xml", "environments/pd2_env_jew_street/pd2_env_jew_street", "environment")
 		elseif level_id == "watchdogs_1_res" then 
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/brightnight.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
-			--"sky_orientation/rotation":"278.53564453125",
 		elseif level_id == "firestarter_2_res" then 
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter2.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
-			--"sky_orientation/rotation":"278.53564453125",
 		elseif level_id == "firestarter_1_res" then 
 			--if rnd == 1 or rnd == 2 then
 			--BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter1.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
 			--if rnd == 3 then
-			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/fsd1_eve.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
-			--"sky_orientation/rotation":"278.53564453125",
+			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter1_day.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
 				--end
 			--end
 		elseif level_id == "alex_1_res" then 
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/rat1.custom_xml", "custom_xml", "environments/pd2_env_rat_night/pd2_env_rat_night", "environment")
-			--"sky_orientation/rotation":"278.53564453125",
 		elseif level_id == "alex_3_res" then 
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/rat3.custom_xml", "custom_xml", "environments/pd2_env_rat_night_stage_3/pd2_env_rat_night_stage_3", "environment")
-			--"sky_orientation/rotation":"278.53564453125",
 		elseif level_id == "man" then 
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_und.custom_xml", "custom_xml", "environments/pd2_man/pd2_man_main", "environment")
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_und.custom_xml", "custom_xml", "environments/pd2_man/pd2_man_corridor", "environment")
