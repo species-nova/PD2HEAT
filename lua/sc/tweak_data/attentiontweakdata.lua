@@ -1,4 +1,4 @@
-Hooks:PostHook(AttentionTweakData, "_init_drill", "resmod_drill", function(self)
+Hooks:PostHook(AttentionTweakData, "_init_drill", "heat_drill", function(self)
 
 	self.settings.drill_civ_ene_ntl = {
 		suspicion_range = 1000,
@@ -25,11 +25,11 @@ Hooks:PostHook(AttentionTweakData, "_init_drill", "resmod_drill", function(self)
 end)
 
 --Allows civilians to trigger hud updates when detecting players with bags.
-Hooks:PostHook(AttentionTweakData, "_init_player", "resmod_civilian", function(self)
+Hooks:PostHook(AttentionTweakData, "_init_player", "heat_civilian", function(self)
 	self.settings.pl_foe_non_combatant_cbt_stand.relation = nil
 end)
 
-Hooks:PostHook(AttentionTweakData, "_init_civilian", "resmod_civilian", function(self)
+Hooks:PostHook(AttentionTweakData, "_init_civilian", "heat_civilian", function(self)
 
 	self.settings.civ_enemy_cbt = {
 		max_range = 2000,
@@ -89,7 +89,7 @@ Hooks:PostHook(AttentionTweakData, "_init_civilian", "resmod_civilian", function
 end)
 
 --Tweaks to enemy detections, mostly lowering their ranges to decrease chances of giant chain reactions
-Hooks:PostHook(AttentionTweakData, "_init_enemy", "resmod_enemy", function(self)
+Hooks:PostHook(AttentionTweakData, "_init_enemy", "heat_enemy", function(self)
 
 	self.settings.enemy_team_cbt = {
 		max_range = 20000,
@@ -133,7 +133,7 @@ Hooks:PostHook(AttentionTweakData, "_init_enemy", "resmod_enemy", function(self)
 end)
 
 --Tweaks to certain prop reactions
-Hooks:PostHook(AttentionTweakData, "_init_prop", "resmod_prop", function(self)
+Hooks:PostHook(AttentionTweakData, "_init_prop", "heat_prop", function(self)
 
 	--Regular bag I'm guessing
 	self.settings.prop_carry_bag = {
@@ -171,4 +171,16 @@ Hooks:PostHook(AttentionTweakData, "_init_prop", "resmod_prop", function(self)
 		filter = "law_enforcer"
 	}	
 
+end)
+
+Hooks:PostHook(AttentionTweakData, "_init_sentry_gun", "heat_sentry_gun", function(self)
+	self.settings.sentry_gun_enemy_cbt = {
+		uncover_range = 300,
+		reaction = "REACT_COMBAT",
+		release_delay = 1,
+		verification_interval = 1.5,
+		relation = "foe",
+		filter = "combatant",
+		weight_mul = 0.5
+	}
 end)
