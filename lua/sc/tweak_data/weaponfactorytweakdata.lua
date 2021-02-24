@@ -22794,7 +22794,7 @@ Hooks:PostHook( WeaponFactoryTweakData, "create_bonuses", "SC_mods", function(se
 			self.parts.wpn_fps_pis_g17_m_standard.unit = "units/payday2/weapons/wpn_fps_pis_g17_pts/wpn_fps_pis_g17_m_standard"
 		end		
 
-	if self.wpn_fps_shot_m590 then -- Silent Enforcer & GT's Mossberg 590
+	--[[if self.wpn_fps_shot_m590 then  
 		self.parts.wpn_fps_shot_m590_s_wood.supported = true
 		self.parts.wpn_fps_shot_m590_s_wood.stats = {			
 				value = 3,
@@ -22880,7 +22880,7 @@ Hooks:PostHook( WeaponFactoryTweakData, "create_bonuses", "SC_mods", function(se
 			}
 		}
 	}		
-	end	
+	end	--]]
 
 	if self.parts.wpn_fps_ass_ns_g_sup1 then -- Gambyt's Sneaky Suppressor Pack
 			self.parts.wpn_fps_ass_ns_g_sup1.supported = true

@@ -9168,7 +9168,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.aknato.panic_suppression_chance = 0.05
 	end
 
-	if self.m590 then --Silent Enforcer and GT's Mossberg 590
+	--[[if self.m590 then Silent Enforcer and GT's Mossberg 590 commented out cause the official 590's a thing
 		self.m590.has_description = true
 		self.m590.tactical_reload = 1
 		self.m590.desc_id = "bm_w_m590_desc"		
@@ -9206,7 +9206,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.m590.stats_modifiers = {damage = 1}
 		self.m590.panic_suppression_chance = 0.05
-	end	
+	end--]]
 
 	if self.hpb then --Gambyt's Browning HP	
 		self.hpb.tactical_reload = 1												
