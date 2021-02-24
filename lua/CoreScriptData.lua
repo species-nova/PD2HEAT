@@ -5,7 +5,7 @@ local rnd = math.random (3)
 local rnd2 = math.random (2)
 local rnd3 = math.random (4)
 local rnd4 = math.random (5)
-local mod_path = tostring(restoration._mod_path or "mods/restoration-mod-gold")
+local mod_path = tostring(restoration._mod_path or "mods/PD2HEAT")
 
 if restoration.Options:GetValue("OTHER/TimeOfDay") then
 
@@ -295,31 +295,26 @@ end
 Hooks:Add("BeardLibCreateScriptDataMods", "SCLECallBeardLibSequenceFuncs", function()
 	if Global.load_level == true then 
 		local level_id = Global.game_settings.level_id
-		if level_id == "ukrainian_job_res" then 
+		if level_id == "ukrainian_job_res" then --Ukrainian Job
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/uk_job_new.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
-		elseif level_id == "family_res" then 
+		elseif level_id == "family_res" then --Diamond Store
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/family.custom_xml", "custom_xml", "environments/pd2_env_jew_street/pd2_env_jew_street", "environment")
-		elseif level_id == "watchdogs_1_res" then 
+		elseif level_id == "watchdogs_1_res" then --Watchdogs Day 1 (Unused currently)
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/brightnight.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
-		elseif level_id == "firestarter_2_res" then 
+		elseif level_id == "firestarter_2_res" then --Firestarter Day 2
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter2.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
-		elseif level_id == "firestarter_1_res" then 
-			--if rnd == 1 or rnd == 2 then
-			--BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter1.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
-			--if rnd == 3 then
+		elseif level_id == "firestarter_1_res" then --Firestarter Day 1
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter1_day.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
-				--end
-			--end
-		elseif level_id == "alex_1_res" then 
+		elseif level_id == "alex_1_res" then --Rats Day 1 (Unused currently)
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/rat1.custom_xml", "custom_xml", "environments/pd2_env_rat_night/pd2_env_rat_night", "environment")
-		elseif level_id == "alex_3_res" then 
+		elseif level_id == "alex_3_res" then --Rats Day 3 (unused currently)
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/rat3.custom_xml", "custom_xml", "environments/pd2_env_rat_night_stage_3/pd2_env_rat_night_stage_3", "environment")
-		elseif level_id == "man" then 
+		elseif level_id == "man" then --Undercover
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_und.custom_xml", "custom_xml", "environments/pd2_man/pd2_man_main", "environment")
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_und.custom_xml", "custom_xml", "environments/pd2_man/pd2_man_corridor", "environment")
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_und.custom_xml", "custom_xml", "environments/pd2_man/pd2_man_corridor_nofog", "environment")
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_und.custom_xml", "custom_xml", "environments/pd2_man/pd2_man_rooms", "environment")
-		elseif level_id == "flat" then 
+		elseif level_id == "flat" then --Panic Room
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_flat_ext.custom_xml", "custom_xml", "environments/pd2_flat/pd2_flat", "environment")
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_flat_int.custom_xml", "custom_xml", "environments/pd2_flat_indoor/pd2_flat_indoor", "environment")
 		elseif level_id == "safehouse" then --Safehouse Booster
@@ -327,7 +322,7 @@ Hooks:Add("BeardLibCreateScriptDataMods", "SCLECallBeardLibSequenceFuncs", funct
 				BeardLib:ReplaceScriptData(mod_path .. "scriptdata/missions/safehouse.mission", "generic_xml", "levels/narratives/safehouse/world/world", "mission")
 				BeardLib:ReplaceScriptData(mod_path .. "scriptdata/missions/safehouse.continent", "custom_xml", "levels/narratives/safehouse/world/world", "continent")
 			end
-		elseif level_id == "kosugi" then 
+		elseif level_id == "kosugi" then --Shadow Raid
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/shadowraid_darker.custom_xml", "custom_xml", "environments/pd2_kosugi/pd2_kosugi", "environment")
 		end
 	end
@@ -340,21 +335,22 @@ end)
 --Restoration Levels
 Hooks:Add("BeardLibCreateScriptDataMods", "RESMapsCallBeardLibSequenceFuncs", function()
 	if Global.load_level == true then 
-		if Global.game_settings.level_id == "jackal_surface_tension" then
+		if Global.game_settings.level_id == "jackal_surface_tension" then --Surface Tension (Unused currently)
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/platinum.custom_xml", "custom_xml", "core/environments/default", "environment")
 		end
 		
-		if Global.game_settings.level_id == "firestarter_3_res" then
+		if Global.game_settings.level_id == "firestarter_3_res" then --Firestarter Day 3
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/dawnorange_grnhrv.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
 		end
 
-		if Global.game_settings.level_id == "jolly" then
+		if Global.game_settings.level_id == "jolly" then --Aftershock
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/lxa_river_v4.custom_xml", "custom_xml", "environments/pd2_lxa_river/pd2_lxa_river", "environment")
 		end	
 		
 	end
 end)
 
+--Credits
 Hooks:Add("BeardLibCreateScriptDataMods", "ResCreditsCallBeardLibSequenceFuncs", function()
 	BeardLib:ReplaceScriptData(mod_path .. "assets/gamedata/rescredits.credits", "custom_xml", "gamedata/rescredits", "credits", true)
 end)
@@ -400,8 +396,8 @@ if restoration.Options:GetValue("OTHER/Paintings") then
 end
 
 --Blue Sapphire FIX
---OVK never finished the opening animation, and it was wrongly calling for to activate the diamond (probably leftover from PD:TH), thus this fix
---probably update instances in heists where I want them to open with the PD:TH one raw
+--OVK never finished the opening animation, and it was wrongly calling for to activate the diamond (probably leftover from PD:TH), thus this fix.  fix unfinished but works well enough
+--probably update instances in heists where I want them to open with the PD:TH one raw.  someone port it correctly tyvm
 Hooks:Add("BeardLibCreateScriptDataMods", "DiamondFixCallBeardLibSequenceFuncs", function()
 	if SystemFS:exists(mod_path .. "scriptdata/diamondFIX.custom_xml") then
 		BeardLib:ReplaceScriptData(mod_path .. "scriptdata/diamondFIX.custom_xml", "custom_xml", "units/pd2_dlc_dah/props/dah_props_diamond_stands/dah_prop_diamond_stand_01", "sequence_manager", true)
