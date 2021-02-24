@@ -22,7 +22,7 @@ function Drill:start()
 			self:_set_alert_state(true)
 
 			--only allow drill warnings during stealth if the drill isn't silent
-			if not self.is_hacking_device and not self.is_saw and self._alert_radius then
+			if self.is_drill and self._alert_radius then
 				managers.dialog:queue_narrator_dialog("drl_wrn_snd", {})
 			end
 
@@ -196,6 +196,19 @@ function Drill:set_skill_upgrades(upgrades)
 
 	timer_gui_ext:set_background_icons(background_icons)
 	timer_gui_ext:update_sound_event()
+end
+
+function Drill:on_sabotage_SO_started(saboteur)
+	self._saboteur = nil
+
+	self._unit:timer_gui():set_jammed(true)
+
+	--the voiceline used here only applies to drills, so don't schedule the delayed callback unless the device is indeed a drill
+	if self.is_drill and not self._bain_report_sabotage_clbk_id then
+		self._bain_report_sabotage_clbk_id = "Drill_bain_report_sabotage" .. tostring(self._unit:key())
+
+		managers.enemy:add_delayed_clbk(self._bain_report_sabotage_clbk_id, callback(self, self, "clbk_bain_report_sabotage"), TimerManager:game():time() + 2 + 4 * math.random())
+	end
 end
 
 local destroy_original = Drill.destroy
