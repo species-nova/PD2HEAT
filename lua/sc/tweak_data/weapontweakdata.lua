@@ -9168,12 +9168,12 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.aknato.panic_suppression_chance = 0.05
 	end
 
-	--[[if self.m590 then Silent Enforcer and GT's Mossberg 590 commented out cause the official 590's a thing
-		self.m590.has_description = true
-		self.m590.tactical_reload = 1
-		self.m590.desc_id = "bm_w_m590_desc"		
-		self.m590.rays = 9
-		self.m590.timers = {
+	if self.mossberg590 then --Silent Enforcer and GT's Mossberg 590
+		self.mossberg590.has_description = true
+		self.mossberg590.tactical_reload = 1
+		self.mossberg590.desc_id = "bm_w_mossberg590_desc"		
+		self.mossberg590.rays = 9
+		self.mossberg590.timers = {
 			shotgun_reload_enter = 0.4,
 			shotgun_reload_exit_empty = 1.3,
 			shotgun_reload_exit_not_empty = 1,
@@ -9182,15 +9182,15 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.5
 		}
-		self.m590.CLIP_AMMO_MAX = 8 * 1
-		self.m590.muzzleflash = "effects/particles/shotgun/muzzleflash"
-		self.m590.kick = self.stat_info.kick_tables.vertical_kick
-		self.m590.single.fire_rate = 0.8
-		self.m590.fire_mode_data.fire_rate = 0.8
-		self.m590.AMMO_MAX = 40 
-		self.m590.AMMO_PICKUP = self.stat_info._pickup_chance
-		self.m590.supported = true
-		self.m590.stats = {
+		self.mossberg590.CLIP_AMMO_MAX = 8 * 1
+		self.mossberg590.muzzleflash = "effects/particles/shotgun/muzzleflash"
+		self.mossberg590.kick = self.stat_info.kick_tables.vertical_kick
+		self.mossberg590.single.fire_rate = 0.8
+		self.mossberg590.fire_mode_data.fire_rate = 0.8
+		self.mossberg590.AMMO_MAX = 40 
+		self.mossberg590.AMMO_PICKUP = self.stat_info._pickup_chance
+		self.mossberg590.supported = true
+		self.mossberg590.stats = {
 			damage = 90,
 			spread = 9,
 			recoil = 16,
@@ -9204,9 +9204,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			value = 1,
 			reload = 20
 		}
-		self.m590.stats_modifiers = {damage = 1}
-		self.m590.panic_suppression_chance = 0.05
-	end--]]
+		self.mossberg590.stats_modifiers = {damage = 1}
+		self.mossberg590.panic_suppression_chance = 0.05
+	end
 
 	if self.hpb then --Gambyt's Browning HP	
 		self.hpb.tactical_reload = 1												

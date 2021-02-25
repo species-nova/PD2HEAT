@@ -22794,61 +22794,61 @@ Hooks:PostHook( WeaponFactoryTweakData, "create_bonuses", "SC_mods", function(se
 			self.parts.wpn_fps_pis_g17_m_standard.unit = "units/payday2/weapons/wpn_fps_pis_g17_pts/wpn_fps_pis_g17_m_standard"
 		end		
 
-	--[[if self.wpn_fps_shot_m590 then  
-		self.parts.wpn_fps_shot_m590_s_wood.supported = true
-		self.parts.wpn_fps_shot_m590_s_wood.stats = {			
+	if self.wpn_fps_shot_mossberg590 then  --silent enforcer and gt's m590
+		self.parts.wpn_fps_shot_mossberg590_s_wood.supported = true
+		self.parts.wpn_fps_shot_mossberg590_s_wood.stats = {			
 				value = 3,
 				recoil = -1,
 				spread = 1,
 				concealment = -1
 		}
-		self.parts.wpn_fps_shot_m590_s_wood.custom_stats = {damage_near_mul = 1, damage_far_mul = 1}
-		self.parts.wpn_fps_shot_m590_s_hdtf.supported = true
-		self.parts.wpn_fps_shot_m590_s_hdtf.stats = {
+		self.parts.wpn_fps_shot_mossberg590_s_wood.custom_stats = {damage_near_mul = 1, damage_far_mul = 1}
+		self.parts.wpn_fps_shot_mossberg590_s_hdtf.supported = true
+		self.parts.wpn_fps_shot_mossberg590_s_hdtf.stats = {
 				value = 5,
 				recoil = -3,
 				concealment = 3
 		}
-		self.parts.wpn_fps_shot_m590_s_old.supported = true
-		self.parts.wpn_fps_shot_m590_s_old.stats = {
+		self.parts.wpn_fps_shot_mossberg590_s_old.supported = true
+		self.parts.wpn_fps_shot_mossberg590_s_old.stats = {
 				value = 1,
 				recoil = 2,
 				spread = -2
 		}
-		self.parts.wpn_fps_shot_m590_s_old.custom_stats = {damage_near_mul = 1, damage_far_mul = 1}
-		self.parts.wpn_fps_shot_m590_fg_wood.supported = true
-		self.parts.wpn_fps_shot_m590_fg_wood.stats = {
+		self.parts.wpn_fps_shot_mossberg590_s_old.custom_stats = {damage_near_mul = 1, damage_far_mul = 1}
+		self.parts.wpn_fps_shot_mossberg590_fg_wood.supported = true
+		self.parts.wpn_fps_shot_mossberg590_fg_wood.stats = {
 				value = 2,
 				recoil = 1,
 				spread = -1
 		}
-		self.parts.wpn_fps_shot_m590_s_old.custom_stats = {damage_near_mul = 1, damage_far_mul = 1}			
-		self.parts.wpn_fps_shot_m590_fg_wood.supported = true			
-		self.parts.wpn_fps_shot_m590_fg_wood.stats = {
+		self.parts.wpn_fps_shot_mossberg590_s_old.custom_stats = {damage_near_mul = 1, damage_far_mul = 1}			
+		self.parts.wpn_fps_shot_mossberg590_fg_wood.supported = true			
+		self.parts.wpn_fps_shot_mossberg590_fg_wood.stats = {
 				value = 2,
 				concealment = 1,
 				spread = -1
 		}
-		self.parts.wpn_fps_shot_m590_b_short.supported = true
-		self.parts.wpn_fps_shot_m590_b_short.stats = {
+		self.parts.wpn_fps_shot_mossberg590_b_short.supported = true
+		self.parts.wpn_fps_shot_mossberg590_b_short.stats = {
 				value = 0,
 				recoil = -1,
 				extra_ammo = -2,
 				concealment = 3
 		}
-		self.parts.wpn_fps_shot_m590_heat_shield.supported = true
-		self.parts.wpn_fps_shot_m590_heat_shield.stats = {
+		self.parts.wpn_fps_shot_mossberg590_heat_shield.supported = true
+		self.parts.wpn_fps_shot_mossberg590_heat_shield.stats = {
 				value = 0
 		}
-		self.parts.wpn_fps_shot_m590_b_silencer.supported = true
-		self.parts.wpn_fps_shot_m590_b_silencer.stats = {
+		self.parts.wpn_fps_shot_mossberg590_b_silencer.supported = true
+		self.parts.wpn_fps_shot_mossberg590_b_silencer.stats = {
 				value = 7,
 				suppression = 12,
 				alert_size = -1,
 				recoil = 1,
 				spread = -1
 		}
-		self.wpn_fps_shot_m590.override = { 
+		self.wpn_fps_shot_mossberg590.override = { 
 			wpn_fps_shot_r870_body_rack = {
 				supported = true,
 				stats = {				
@@ -22880,7 +22880,7 @@ Hooks:PostHook( WeaponFactoryTweakData, "create_bonuses", "SC_mods", function(se
 			}
 		}
 	}		
-	end	--]]
+	end
 
 	if self.parts.wpn_fps_ass_ns_g_sup1 then -- Gambyt's Sneaky Suppressor Pack
 			self.parts.wpn_fps_ass_ns_g_sup1.supported = true
