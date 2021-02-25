@@ -604,7 +604,7 @@ function CarryData:_chk_register_steal_SO()
 		SO_id = so_id,
 		pickup_area = pickup_area,
 		pickup_objective = pickup_objective,
-		secure_pos = drop_pos
+		bag_secure_pos = drop_pos
 	}
 
 	managers.groupai:state():add_special_objective(so_id, so_descriptor)
@@ -650,10 +650,15 @@ function CarryData:on_secure_SO_completed(thief)
 
 	self:unlink()
 
+	--this shouldn't be needed, but if the function stops here somehow, something might be fucked somewhere else
+	if not so_data.bag_secure_pos then
+		return
+	end
+
 	--ensure the bag arrives at the loot point properly for clients
 	local unit = self._unit
 	local client_teleport_pos = Vector3()
-	mvec3_set(client_teleport_pos, so_data.secure_pos)
+	mvec3_set(client_teleport_pos, so_data.bag_secure_pos)
 	mvec3_set_z(client_teleport_pos, unit:position().z)
 
 	managers.network:session():send_to_peers_synched("sync_carry_set_position_and_throw", unit, client_teleport_pos, Vector3(0, 0, 0), 0)
