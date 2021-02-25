@@ -67,20 +67,9 @@ function GrenadeCrateBase:take_grenade(unit)
 
 		taken_amount = pl_manager:get_max_grenades_by_peer_id(local_peer_id) - pl_manager:get_grenade_amount(local_peer_id)
 
-		pl_manager:add_grenade_amount(taken_amount)
+		pl_manager:add_grenade_amount(taken_amount, true)
 
-		local send_f = session.send_to_peers_synched
-		local register_grenade_func = pl_manager.register_grenade
-		local my_unit = self._unit
-
-		send_f(session, "sync_unit_event_id_16", my_unit, "base", 1)
-		register_grenade_func(pl_manager, local_peer_id)
-
-		for i = 1, taken_amount - 1 do
-			send_f(session, "sync_unit_event_id_16", my_unit, "base", 3)
-
-			register_grenade_func(pl_manager, local_peer_id)
-		end
+		session:send_to_peers_synched("sync_unit_event_id_16", self._unit, "base", 1)
 
 		self._grenade_amount = self._grenade_amount - 1
 
@@ -96,10 +85,8 @@ end
 
 local sync_net_event_original = GrenadeCrateBase.sync_net_event
 function GrenadeCrateBase:sync_net_event(event_id, peer)
-	if event_id == 3 then
-		if peer then
-			managers.player:register_grenade(peer:id())
-		end
+	if event_id == 1 then
+		self:sync_grenade_taken(1)
 
 		return
 	end
