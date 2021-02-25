@@ -112,6 +112,19 @@
 			<rpc/>
 		</search>
 		<target>
+			<message name="sync_grenades" delivery="ordered" receiver="connection">
+				<param type="string"/>	<!-- Grenade id -->
+				<param type="int" min="0" max="63"/> <!-- Amount of grenades  -->
+				<param type="int" min="0" max="15" /> <!-- Peer id -->
+			</message>
+		</target>
+	</tweak>
+	<tweak name="settings/network" extension="network_settings">
+		<search>
+			<network/>
+			<rpc/>
+		</search>
+		<target>
 			<message name="sync_medic_heal" delivery="ordered" receiver="connection">
 				<param type="unit"/>
 			</message>
