@@ -1159,101 +1159,53 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		--Safe House--
 		["dialog_safehouse_text"] = "You haven't visited the safe house yet.\n\nYou should, as you might find something new.\n\nWould you like to go there now?",
 
-		["bm_menu_custom_plural"] = "WEAPON ATTACHMENTS IN THE CUSTOM CATEGORY", --unused?--
+		["bm_menu_custom_plural"] = "WEAPON ATTACHMENTS IN THE CUSTOM CATEGORY", --was used orig. for autofire/rof attachments i think--
+	
+		["menu_es_rep_upgrade"] = "",	--bullshitted removal of you got x more skillpoints message--
 
-		----Custom Weapon Mod Descriptions----
 
 		--Is there a reason these have to be down here? If not, I'll move them up with the others (custom weapons in their own section dw)--
-
-		--Triad Chi-Revolver [Custom]--
-		["bm_wp_wpn_fps_upg_triad_bullets_44normal_desc"] = "Why would you use outdated post-Collision ammunition with Chi-Revolvers? Why the fuck do dogs lick their balls?\nMin and max ammo pickup rate: 1.33x",
-		["bm_wp_wpn_fps_upg_triad_bullets_44ap_desc"] = "Assblast your enemies through walls, armor, and shields with these rounds.\nEnables armor, shield, and wall piercing at the cost of damage.",
-		["bm_wp_wpn_fps_upg_triad_bullets_44hollow_desc"] = "Chi-fussed hollow rounds stolen from a place of unknown origin. The only thing you need to know is that this shit KICKS hard and the fact that anything on the other end of the barrel is practically vaporized after the gun kicks. Good shit, ain't it?\nThis ammunition is much harder to find in ammo drops.\nEverything else lowered in favor of damage, and pickup rate.\nMin and max ammo pickup rate: 0.33x",
-
-		--DECK-ARD [Custom]--
-		["bm_wp_wpn_fps_upg_deckard_ammo_damage_high_desc"] = "Shoot them so dead they'll die in hell.\nMassive damage at the cost of everything else.\nCapable of piercing through armor, walls and shields.\nThis ammunition is much harder to find in ammo drops.\nMin and max ammo pickup rate: 0.33x",
-		["bm_wp_wpn_fps_upg_deckard_ammo_damage_med_desc"] = "Shoot them dead.\nThis ammunition is substantially easier to find in ammo drops.\nMin and max ammo pickup rate: 1.33x",
-
-		--Unknown Weapon--
-		["bm_wp_wpn_fps_ass_tilt_a_fuerte"] = "7.62mm Conversion Kit",
-		["bm_wp_wpn_fps_ass_tilt_a_fuerte_desc"] =  "Converts the weapon's caliber to 7.62mm, which slightly decreases firerate and stability in favor of increased damage and accuracy.",
-
-		--MK18 Specialist [Custom]--
-		["bm_wp_wpn_fps_ass_mk18s_a_weak_desc"] = "An ammunition type that mimics medium tier rifles. Lowers ammo count and stability in trade for higher damage and accuracy.",
-		["bm_wp_wpn_fps_ass_mk18s_vg_magwell"] = "Magwell Grip",
-
-		--Unknown Weapon--
-		["bm_wp_wpn_fps_pis_noodle_m_8"] = "Extended Magazine",
-		["bm_wp_wpn_fps_pis_noodle_m_10"] = "Extend-o Magazine",
-
-		--Jackal SMG(these are unused though)--
-		["bm_wp_wpn_fps_upg_schakal_m_atai_desc"] = "Converts the Jackal into the Mastiff, something of the younger sister in the Jackal family. Not as stable as the Coyote, and not as deadly as the Jackal, but atleast it fires rounds that can penetrate both armor and walls.",
-
-		--Unknown weapon--
-		["bm_wp_wpn_fps_upg_am_hollow_large_desc"] = "Open-tipped rounds that, thanks to physics, create larger and more painful wound cavities in their enemies. Although HP rounds are harder to find on enemies and have more recoil, they are thankfully more effective against the head and somewhat more accurate than normal rounds.",
-		--Unknown Weapon--
-		["bm_menu_weirdmagthing"] = "Magwell Grip",
-
-		--Gecko 7.62--
-		["bm_wp_wpn_fps_ass_galil_m_drum"] = "75 Round Drum Magazine",
-
-		--Cavity 9mm--
-		["bm_wp_wpn_fps_smg_calico_body_full_desc"] = "Converts to medium pistol tier.\nMin and Max pickup rate: 0.8x",
-
-		--DP-28 [Custom]--
-		["bm_wp_wpn_fps_lmg_dp28_tripod_top_desc"] = "A tripod with additional ammo mounted on its side.\nReduces movement speed by 20% when equipped.",
-
-		--Arbiter--
-		["bm_wp_wpn_fps_gre_arbiter_o_smart_desc"] = "Experimental scope that provides airburst capabilites to the Arbiter.\nIncompatible with incendiary rounds.", --this weapon mod isn't vanilla though iirc--
-
-		--Itachi [Custom]--
-		["bm_wp_wpn_fps_upg_bajur_m_pants"] = "NO",
-		["bm_wp_wpn_fps_upg_bajur_fg_dmr_desc"] = "Replaces the upper receiver of the Itachi with a .50 Beowulf variant, making the weapon kick a hell of a lot harder, but increasing the size of bulletholes made on law enforcers ten-fold.\n Reduces all stats, except for accuracy and power.",
-
-		--Union 5.56--
-		["bm_wp_corgi_b_short"] = "MSG Barrel",
-
+		
+		----Custom Weapon Mod Descriptions----		
+		["bm_w_mossberg590"] = "Reinbeck 890 Shotgun",
+		["bm_w_mossberg590_desc"] = "The spiritual successor to the criminal syndicate's most popular shotgun has arrived. Although it retains the power of the original Reinbeck, it makes a few small deviations from the original design, making it easier to pump but less stable.",
+		["bm_w_beck_desc"] = "The criminal underworld's most popular shotgun has returned from its grave to reclaim its rightful place in the shotgun hierarchy. Originally used in the 2011 Crimewave, this shotgun has been proven extremely reliable in just about any close range situation.",
+	
+		["bm_wp_wpn_fps_lmg_shuno_body_red"] = "Red Body",
+	
 		--Bipod--
 		["bm_sc_bipod_desc_pc"] = "Deploy/Undeploy by pressing $BTN_BIPOD on a valid surface.\n\nDramatically reduces recoil while deployed.",
 		["bm_sc_bipod_desc"] = "Deploy/Undeploy by holding $BTN_BIPOD on a valid surface.\n\nDramatically reduces recoil while deployed.",
 
 		--String override for the stungun--
 		["bm_melee_taser_info"] = "Device that electrocutes and interrupts targets on touch when fully charged.",
-
+				
 		-- Renamed default weapons and mods + descriptions-- --move all these to their respective weapons--
-
-		["bm_wp_pis_usp_b_match"] = "Freeman Slide",
-		["bm_wp_1911_m_big"] = "Casket Magazine",
-		["bm_wp_usp_m_big"] = "Casket Magazine",
+		-- actually important name stuff that kinda matters--
+		["bm_w_lemming"] = "5/7 Pistol",
+		["bm_wp_g3_m_psg"] = "Präzision Magazine",
 		["bm_wp_upg_ass_ak_b_zastava"] = "Long Barrel",
 		["bm_wp_upg_ass_m4_b_beowulf"] = "Wolf Barrel",
-		["bm_wp_p90_b_ninja"] = "Ninja Barrel",
-
-		["menu_es_rep_upgrade"] = "",	--???--
-
-		["bm_w_lemming"] = "5/7 Pistol",
-
-		["bm_w_x_judge"] = "Judge & Jury", --really wish weaponlib's right_only worked w/ the Judges so that we could have the 'right' one be the reinforced frame. a real shame.
+		["bm_wp_g3_b_sniper"] = "Macro Barrel",
+		["bm_wp_g3_b_short"] = "Micro Barrel",
+		
+		-- dualie name stuff cus we originally wanted to make em more unique--
+		["bm_w_x_judge"] = "Judge & Jury",
 		["bm_w_x_shrew"] = "Barry & Paul",
 		["bm_w_x_1911"] = "Mustang & Sally",
 		["bm_w_tec9"] = "T3K Urban Submachine Gun",
 		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns",
 
+		-- default attachment name stuff		
 		["bm_wp_mp5_fg_mp5sd"] = "SPOOC Foregrip",
 		["bm_wp_hs2000_sl_long"] = "Elite Slide",
 		["bm_wp_vhs_b_sniper"] = "Hyper Barrel",
-		["bm_w_r0991"] = "AR-15 Varmint Pistol",
 		["bm_wp_vhs_b_silenced"] = "Bad Dragan Barrel",
-		["bm_wp_wpn_fps_lmg_shuno_body_red"] = "Red Body",
-		["bm_wp_g3_b_sniper"] = "Macro Barrel",
-		["bm_wp_g3_b_short"] = "Micro Barrel",
-		["bm_wp_g3_m_psg"] = "Präzision Magazine",
-
-		["bm_w_mossberg590"] = "Reinbeck 890 Shotgun",
-		["bm_w_mossberg590_desc"] = "The spiritual successor to the criminal syndicate's most popular shotgun has arrived. Although it retains the power of the original Reinbeck, it makes a few small deviations from the original design, making it easier to pump but less stable.",
-		["bm_w_beck_desc"] = "The criminal underworld's most popular shotgun has returned from its grave to reclaim its rightful place in the shotgun hierarchy. Originally used in the 2011 Crimewave, this shotgun has been proven extremely reliable in just about any close range situation.",
-
-
+		["bm_wp_corgi_b_short"] = "MSG Barrel",
+		["bm_wp_pis_usp_b_match"] = "Freeman Slide",
+		["bm_wp_1911_m_big"] = "Casket Magazine",
+		["bm_wp_usp_m_big"] = "Casket Magazine",
+		["bm_wp_p90_b_ninja"] = "Ninja Barrel",
 
 		--Modifiers-- --Let me know if I'm safe to move these up, like the other stuff--
 		["bm_menu_bonus_concealment_p1"] = "Small Concealment bonus and Accuracy/Stability penalty",
@@ -1304,16 +1256,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_wpn_prj_target_desc"] = "Capacity: 9 \nDamage: 240 \n \nA solid backup plan and a reliable tactic for a precise and silent kill.",
 		["bm_wpn_prj_jav_desc"] = "Capacity: 6 \nDamage: 360 \n \nWith its origins lost in cloudy pre-history, the javelin is a simple weapon. After all, it's a thrown stick with a pointy end that ruins someone's day.",
 		["bm_wpn_prj_hur_desc"] = "Capacity: 6 \nDamage: 360 \n \nThey say a sharp axe is never wrong. A thrown sharp axe couldn't be any more right.",
-
-		["bm_wp_wpn_fps_upg_scar_m203_buckshot"] = "40MM Buckshot Rounds",
-		["bm_wp_wpn_fps_upg_scar_m203_buckshot_desc"] = "Round loaded with 6 heavy pellets.\n\nTotal ammo: 15\nDamage: 360\nAccuracy: 40\nEffective range: 9M\nMaximum range: 18M",
-		["bm_wp_wpn_fps_upg_scar_m203_flechette"] = "40MM Flechette Rounds",
-		["bm_wp_wpn_fps_upg_scar_m203_flechette_desc"] = "Round loaded with 12 small long range darts.\n\nTotal ammo: 20\nDamage: 240\nAccuracy: 50\nEffective range: 11M\nMaximum range: 22M",
-
-		["bm_wp_wpn_fps_upg_g3m203_gre_buckshot"] = "40MM Buckshot Rounds",
-		["bm_wp_wpn_fps_upg_g3m203_gre_buckshot_desc"] = "Round loaded with 6 heavy pellets.\n\nTotal ammo: 15\nDamage: 360\nAccuracy: 40\nEffective range: 9M\nMaximum range: 18M",
-		["bm_wp_wpn_fps_upg_g3m203_gre_flechette"] = "40MM Flechette Rounds",
-		["bm_wp_wpn_fps_upg_g3m203_gre_flechette_desc"] = "Round loaded with 12 small long range darts.\n\nTotal ammo: 20\nDamage: 240\nAccuracy: 50\nEffective range: 11M\nMaximum range: 22M",
 	})
 end)
 
