@@ -802,7 +802,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["heist_nmh_new3_desc"] = "Press the button and wait for the elevator",	
 		
 		--OICW--
-		["bm_w_osipr"] = "SABR",
+		["bm_w_osipr"] = "OMNIA Technologies SABR",
 		["bm_w_osipr_gl"] = "SABR Grenade Launcher",
 		
 		--GO Bank remastered
@@ -2358,5 +2358,73 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_st_spec_00_desc"] = "This deck only has the shared skills.",
 		["menu_deck0_1"] = "",
 		["menu_deck0_1_desc"] = "",
+	})
+end)
+
+-- Consistent in-world weapon names.
+-- Structure is as follows:
+-- [Manufacturer] (Weapon Name)
+-- Avoid nicknames already present ingame, try to find names that the gun would actually be
+-- Manufacturer should reflect IRL manufacturer consistency, so don't go calling it a Corvo Bronco or some shit
+-- Try to make it also consistent w/ vanilla names, avoid name overlap, fudge some weapon name details in favor of keeping each distinct
+Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", function(loc)
+	LocalizationManager:add_localized_strings({
+	
+		--ASSAULT RIFLES--
+		["bm_w_amcar"] = "Corvo AMCAR",
+		["bm_w_s552"] = "FIK Commando 553",
+		["bm_w_scar"] = "VF Eagle 17",
+		["bm_w_corgi"] = "VF Union 2000",
+		["bm_w_ak74"] = "Kalash 47",
+		["bm_w_m4"] = "Corvo CAR-4",
+		["bm_w_aug"] = "Stiria UAR 77",
+		["bm_w_akm"] = "Kalash 7.62",
+		["bm_w_g36"] = "SG JP36", --JP63
+		["bm_w_ak12"] = "Kalash 12",
+		["bm_w_akm_gold"] = "Kalash 7.62 Golden",
+		["bm_w_tecci"] = "SG BL416C",
+		["bm_w_l85a2"] = "Monarch W85",
+		["bm_w_ching"] = "Geneseo Galant",
+		["bm_w_m14"] = "Benton M308",
+		["bm_w_famas"] = "NX Clarion C1",
+		["bm_w_vhs"] = "HS Firearms HVH",
+		["bm_w_asval"] = "CSRI AC Valkyria",
+		["bm_w_ak5"] = "FFV AK5",
+		["bm_w_galil"] = "ITI Gecko 7.62",
+		["bm_w_m16"] = "Corvo AMR-16",
+		["bm_w_contraband"] = "SG LF417D",
+		["bm_w_fal"] = "VF Falcon 58",
+		--blank space here for SABR
+		["bm_w_g3"] = "SG Gewehr 3",
+		
+		--SHOTGUNS--
+		
+		
+		--LMGS--
+		
+		
+		--SNIPERS--
+		
+		
+		--PRIMARY PISTOLS--
+		
+		
+		--AKIMBO PISTOLS--
+		
+		
+		--AKIMBO SMG'S--
+		
+		
+		--AKIMBO SHOTGUNS--
+		
+		
+		--AKIMBO ASSAULT RIFLES--
+		
+		
+		--SPECIAL--
+		
+		
+		--PRIMARY SMGS--
+
 	})
 end)
