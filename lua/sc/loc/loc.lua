@@ -1016,9 +1016,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Phoenix .500--
 		["bm_wp_shatters_fury_desc"] = "A massive .500 caliber revolver with insane kick and stopping power.\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 
-		--OICW--
-		["bm_w_osipr_desc_pc"] = "X-Generation weapon technology. Equipped with 20mm airburst grenade launcher.\nPress $BTN_BIPOD to switch to the Grenade Launcher.",
-		["bm_w_osipr_desc"] = "X-Generation weapon technology. Equipped with 20mm airburst grenade launcher.\nHold $BTN_BIPOD to switch to the Grenade Launcher.",
+		--OICW/SABR--
+		["bm_w_osipr_desc_pc"] = "X-Generation weapon technology.\nEquipped with 20mm grenade launcher.\nPress $BTN_BIPOD to switch to the Grenade Launcher.",
+		["bm_w_osipr_desc"] = "X-Generation weapon technology.\nEquipped with 20mm grenade launcher.\nHold $BTN_BIPOD to switch to the Grenade Launcher.",
 
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
@@ -2389,7 +2389,9 @@ end)
 		
 		
 		
-		(ONE ODDITY!: 'CROSSKILL' appears to be a BRANDING on some weapon parts, like some CAR parts and the Little Friend GL.  What the fuck)
+		(ODDITY!: 'CROSSKILL' appears to be a BRANDING on some weapon parts, like some CAR parts and the Little Friend GL.  What the fuck)
+		(ODDITY!: JP36 engraving states manufacturer as PG or PJ or something, and still shows G36.  You will ignore this)
+		
 
 ]]--
 
