@@ -2369,7 +2369,7 @@ end)
 -- Try to make it also consistent w/ vanilla names, avoid name overlap, fudge some weapon name details in favor of keeping each distinct
 Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", function(loc)
 	LocalizationManager:add_localized_strings({
-	
+	--///PRIMARIES\\\
 		--ASSAULT RIFLES--
 		["bm_w_amcar"] = "Corvo AMCAR",
 		["bm_w_s552"] = "FIK Commando 553",
