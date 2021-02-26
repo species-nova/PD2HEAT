@@ -2375,7 +2375,7 @@ end)
 		Colt -> Corvo
 		SIG -> FIK
 		FN -> VF
-		Automat Kalashnikov/AK -> Kalash
+		Automat Kalashnikov/AK -> [NO CHANGES]
 		Steyr -> Stiria
 		H&K -> SG (or S&G, deliberate)
 		Royal Ordnance -> Monarch
@@ -2404,7 +2404,7 @@ end)
 
 ]]--
 
---TODO: Add setting!!!
+--TODO: Make standalone ONCE FINISHED!!!
 --TODO: Add the rest of the weapons!!!
 --TODO: Built in support for VMP weapons since they're almost basically an addon for HEAT... though we should avoid any other custom weapons
 --TODO: Melee weapons?!?!  Grenades???  They aren't necessary but it might be nice
@@ -2416,13 +2416,13 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_s552"] = "FIK Commando 553",
 		["bm_w_scar"] = "VF Eagle 17",
 		["bm_w_corgi"] = "VF Union 2000",
-		["bm_w_ak74"] = "Kalash 47",
+		["bm_w_ak74"] = "AK 5.45",
 		["bm_w_m4"] = "Corvo CAR-4",
 		["bm_w_aug"] = "Stiria UAR 77",
-		["bm_w_akm"] = "Kalash 7.62",
+		["bm_w_akm"] = "AK 7.62",
 		["bm_w_g36"] = "SG JP36", --JP63
-		["bm_w_ak12"] = "Kalash 12",
-		["bm_w_akm_gold"] = "Kalash 7.62 Golden",
+		["bm_w_ak12"] = "AK-17",
+		["bm_w_akm_gold"] = "AK 7.62 Golden",
 		["bm_w_tecci"] = "SG BL416C",
 		["bm_w_l85a2"] = "Monarch W85",
 		["bm_w_ching"] = "Benton Galant",
@@ -2435,7 +2435,6 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_m16"] = "Corvo AMR-16",
 		["bm_w_contraband"] = "SG LF417D",
 		["bm_w_fal"] = "VF Falcon 58",
-		--blank space here for SABR
 		["bm_w_g3"] = "SG Gewehr 3",
 		
 		--SHOTGUN--
@@ -2445,14 +2444,14 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_r870"] = "Reinfeld 880",
 		["bm_w_benelli"] = "Giovanni M1014",
 		["bm_w_ksg"] = "Kjell-Gren Raven",
-		["bm_w_saiga"] = "Kalash IZHMA 12G",
+		["bm_w_saiga"] = "IZHMA 12G",
 		["bm_w_m1897"] = "Willard M97",
 		["bm_w_huntsman"] = "Mosconi 12G",
 		["bm_w_b682"] = "Bernetti S95 O/U",
 		["bm_w_aa12"] = "Overlord Stakeout A12",
 		
 		--LMG--
-		["bm_w_rpk"] = "Kalash RPK",
+		["bm_w_rpk"] = "RPK",
 		["bm_w_par"] = "VF Vulture 58",
 		["bm_w_m60"] = "GD Maverick 60",
 		["bm_w_m249"] = "VF Harpy 249",
