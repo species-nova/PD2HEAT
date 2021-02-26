@@ -1184,10 +1184,10 @@ end
 --Gets the value of a cooldown upgrade and triggers the cooldown if the upgrade is available.
 --Otherwise, just returns 0 or default.
 function PlayerManager:use_cooldown_upgrade(category, upgrade, default)
-	local upgrade_value = self:upgrade_value(category, upgrade)
+	local upgrade_value = self:upgrade_value(category, upgrade, default)
 
 	if upgrade_value == 0 then
-		return 0 or default
+		return default or 0
 	end
 
 	local cooldown_timestamp = self._global.cooldown_upgrades[category] and self._global.cooldown_upgrades[category][upgrade] and self._global.cooldown_upgrades[category][upgrade].cooldown_time or 0
@@ -1202,7 +1202,7 @@ function PlayerManager:use_cooldown_upgrade(category, upgrade, default)
 		managers.hud:start_cooldown(upgrade, time)
 		return upgrade_value[1]
 	else
-		return 0 or default
+		return default or 0
 	end
 end
 
