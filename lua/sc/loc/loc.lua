@@ -2398,7 +2398,7 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_g3"] = "SG Gewehr 3",
 		
 		--SHOTGUNS--
-		
+		["bm_w_spas12"] = "Ferino SP-14"
 		
 		--LMGS--
 		
