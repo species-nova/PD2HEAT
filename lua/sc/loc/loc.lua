@@ -2384,7 +2384,7 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_akm_gold"] = "Kalash 7.62 Golden",
 		["bm_w_tecci"] = "SG BL416C",
 		["bm_w_l85a2"] = "Monarch W85",
-		["bm_w_ching"] = "Geneseo Galant",
+		["bm_w_ching"] = "Benton Galant",
 		["bm_w_m14"] = "Benton M308",
 		["bm_w_famas"] = "NX Clarion C1",
 		["bm_w_vhs"] = "HS Firearms HVH",
