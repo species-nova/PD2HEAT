@@ -147,19 +147,76 @@ function TeamAIMovement:chk_action_forbidden(action_type)
 	return TeamAIMovement.super.chk_action_forbidden(self, action_type)
 end
 
---use inherited functionality from CopMovement:pre_destroy() as this function is normally outdated
-function TeamAIMovement:pre_destroy()
-	TeamAIMovement.super.pre_destroy(self)
+local math_random = math.random
 
-	if self._heat_listener_clbk then
-		managers.groupai:state():remove_listener(self._heat_listener_clbk)
+TeamAIMovement.selected_weapons = {}
 
-		self._heat_listener_clbk = nil
-	end
+function TeamAIMovement:add_weapons()
+	if Network:is_server() then
+		local char_name = self._ext_base._tweak_table
+		local loadout = managers.criminals:get_loadout_for(char_name)
+		local crafted = managers.blackmarket:get_crafted_category_slot("primaries", loadout.primary_slot)
 
-	if self._switch_to_not_cool_clbk_id then
-		managers.enemy:remove_delayed_clbk(self._switch_to_not_cool_clbk_id)
+		if crafted then
+			self._unit:inventory():add_unit_by_factory_blueprint(loadout.primary, false, false, crafted.blueprint, crafted.cosmetics)
+		elseif loadout.primary then
+			self._unit:inventory():add_unit_by_factory_name(loadout.primary, false, false, nil, "")
+		else
+			local weapon = self._ext_base:default_weapon_name("primary")
 
-		self._switch_to_not_cool_clbk_id = nil
+			if type(weapon) == "table" then
+				local already_selected = TeamAIMovement.selected_weapons[char_name]
+
+				if already_selected then
+					weapon = already_selected
+				else
+					weapon = weapon[math_random(#weapon)]
+
+					TeamAIMovement.selected_weapons[char_name] = weapon
+				end
+			end
+
+			if weapon then
+				self._unit:inventory():add_unit_by_factory_name(weapon, false, false, nil, "")
+			end
+		end
+
+		local sec_weapon = self._ext_base:default_weapon_name("secondary")
+
+		if type(sec_weapon) == "table" then
+			local already_selected = TeamAIMovement.selected_weapons[char_name]
+
+			if already_selected then
+				sec_weapon = already_selected
+			else
+				sec_weapon = sec_weapon[math_random(#sec_weapon)]
+
+				TeamAIMovement.selected_weapons[char_name] = sec_weapon
+			end
+		end
+
+		if sec_weapon then
+			self._unit:inventory():add_unit_by_factory_name(sec_weapon, false, false, nil, "")
+		end
+	else
+		local weapon = self._ext_base:default_weapon_name("primary")
+
+		if type(weapon) == "table" then
+			weapon = weapon[math_random(#weapon)]
+		end
+
+		if weapon then
+			self._unit:inventory():add_unit_by_factory_name(weapon, false, false, nil, "")
+		end
+
+		local sec_weapon = self._ext_base:default_weapon_name("secondary")
+
+		if type(sec_weapon) == "table" then
+			sec_weapon = sec_weapon[math_random(#sec_weapon)]
+		end
+
+		if sec_weapon then
+			self._unit:inventory():add_unit_by_factory_name(sec_weapon, false, false, nil, "")
+		end
 	end
 end
