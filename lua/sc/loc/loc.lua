@@ -2367,6 +2367,7 @@ end)
 -- Avoid nicknames already present ingame, try to find names that the gun would actually be
 -- Manufacturer should reflect IRL manufacturer consistency, so don't go calling it a Corvo Bronco or some shit
 -- Try to make it also consistent w/ vanilla names, avoid name overlap, fudge some weapon name details in favor of keeping each distinct
+-- ADD ENTRIES IN ORDER OF HOW THEY APPEAR IN THE WEAPON LIST!  THEY SHOULD NOT BE OUT OF PLACE!
 
 
 --[[    List of what IRL Manufacturers correspond to fictional ingame ones.  USE THIS AS YOUR REFERENCE!!!!  DON'T MAKE UP NEW ONES IF ONE ALREADY EXISTS!!!!
