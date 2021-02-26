@@ -2374,7 +2374,7 @@ end)
 		
 		Colt -> Corvo
 		SIG -> FIK
-		FN -> VF
+		FN -> VF (these guys like to name guns after birds, maybe other animals if you run out of birds)
 		Automat Kalashnikov/AK -> [NO CHANGES]
 		Steyr -> Stiria
 		H&K -> SG (or S&G, deliberate)
