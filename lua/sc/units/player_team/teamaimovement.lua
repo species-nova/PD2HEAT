@@ -220,3 +220,20 @@ function TeamAIMovement:add_weapons()
 		end
 	end
 end
+
+--use inherited functionality from CopMovement:pre_destroy() as this function is normally outdated
+function TeamAIMovement:pre_destroy()
+	TeamAIMovement.super.pre_destroy(self)
+
+	if self._heat_listener_clbk then
+		managers.groupai:state():remove_listener(self._heat_listener_clbk)
+
+		self._heat_listener_clbk = nil
+	end
+
+	if self._switch_to_not_cool_clbk_id then
+		managers.enemy:remove_delayed_clbk(self._switch_to_not_cool_clbk_id)
+
+		self._switch_to_not_cool_clbk_id = nil
+	end
+end
