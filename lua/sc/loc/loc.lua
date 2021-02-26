@@ -2367,6 +2367,26 @@ end)
 -- Avoid nicknames already present ingame, try to find names that the gun would actually be
 -- Manufacturer should reflect IRL manufacturer consistency, so don't go calling it a Corvo Bronco or some shit
 -- Try to make it also consistent w/ vanilla names, avoid name overlap, fudge some weapon name details in favor of keeping each distinct
+
+
+--[[    List of what IRL Manufacturers correspond to fictional ingame ones.  USE THIS AS YOUR REFERENCE!!!!  DON'T MAKE UP NEW ONES IF ONE ALREADY EXISTS!!!!
+		
+		Colt -> Corvo
+		SIG -> FIK
+		FN -> VF
+		Automat Kalashnikov/AK -> Kalash
+		Steyr -> Stiria
+		H&K -> SG (or S&G, deliberate)
+		Royal Ordnance -> Monarch
+		Springfield Armory -> Benton
+		GIAT/Nexter -> NX
+		HS Produkt -> HS Firearms (should this be changed further?  LEO pistol indicates it's still 'HS')
+		TsNIITochMash -> CSRI (this might be changed later)
+		Carl Gustafs Stads Gevärsfaktori -> FFV (this might be changed later)
+		IMI -> ITI
+		Franchi -> Ferino
+
+]]--
 Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", function(loc)
 	LocalizationManager:add_localized_strings({
 	--///PRIMARIES\\\
