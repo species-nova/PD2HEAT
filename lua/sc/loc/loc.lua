@@ -1009,7 +1009,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		--Kobus 90--
 		["bm_wp_p90_body_p90_tan"] = "Tan Body",
-		["bm_ap_weapon_mod_sc_desc"] = "ADDS BODY ARMOR PENETRATION, SHIELD PENETRATION, AND WALL PENETRATION.",
+		["bm_ap_weapon_mod_sc_desc"] = "ADDS BODY ARMOR PENETRATION, SHIELD PENETRATION, AND WALL PENETRATION.", --this is unused.  for a reason, i think
 		["bm_wp_90_body_boxy"] = "OMNIA Assault Frame",
 		["bm_wp_90_body_boxy_desc"] = "Recovered from the desolated remains of an old OMNIA warehouse, this frame makes no difference to the weapon's handling or its functionality whatsoever, but its block-like aesthetic surely makes it a nice thing to have.",
 
@@ -1037,8 +1037,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_upg_bonus_sc_none_desc"] = "USE THIS TO DISABLE BOOSTS FROM WEAPON SKINS.",
 
 		--Little Friend--
-		["bm_m203_weapon_sc_desc_pc"] = "Press $BTN_BIPOD to switch to the mounted Grenade Launcher.",
-		["bm_m203_weapon_sc_desc"] = "Hold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
+		["bm_m203_weapon_sc_desc_pc"] = "Equipped with M203 40mm grenade launcher.\nPress $BTN_BIPOD to switch to the mounted Grenade Launcher.",
+		["bm_m203_weapon_sc_desc"] = "Equipped with M203 40mm grenade launcher.\nHold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
 
 		--Mosin--
 		["bm_mosin_sc_desc"] = "Classic, Powerful bolt-action rifle. This weapon reloads in clips of 5 bullets at a time.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
@@ -2385,6 +2385,10 @@ end)
 		Carl Gustafs Stads Gevärsfaktori -> FFV (this might be changed later)
 		IMI -> ITI
 		Franchi -> Ferino
+		
+		
+		
+		(ONE ODDITY!: 'CROSSKILL' appears to be a BRANDING on some weapon parts, like some CAR parts and the Little Friend GL.  What the fuck)
 
 ]]--
 
