@@ -177,13 +177,14 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	end
 
 	--Spread on-kill panic.
-	local panic_chance = self:upgrade_value("player", "killshot_extra_spooky_panic_chance", 0) --Add Haunt skill to panic chance.
-			+ self:upgrade_value("player", "killshot_spooky_panic_chance", 0) * self:player_unit():character_damage():get_missing_revives()
+	local panic_chance = 0
 
 	--Add Rip and Tear Ace to panic chance.
 	if self._saw_panic_when_kill and variant ~= "melee" then
 		if equipped_unit:is_category("saw", "grenade_launcher", "bow", "crossbow") then
 			panic_chance = panic_chance + self:upgrade_value("saw", "panic_when_kill")
+			+ self:upgrade_value("player", "killshot_extra_spooky_panic_chance", 0) --Add Haunt skill to panic chance.
+			+ self:upgrade_value("player", "killshot_spooky_panic_chance", 0) * damage_ext:get_missing_revives()
 		end
 	end
 
