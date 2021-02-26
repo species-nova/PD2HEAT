@@ -2390,6 +2390,7 @@ end)
 
 --TODO: Add setting!!!
 --TODO: Add the rest of the weapons!!!
+--TODO: Built in support for VMP weapons since they're almost basically an addon for HEAT... though we should avoid any other custom weapons
 --TODO: Melee weapons?!?!  Grenades???  They aren't necessary but it might be nice
 Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", function(loc)
 	LocalizationManager:add_localized_strings({
