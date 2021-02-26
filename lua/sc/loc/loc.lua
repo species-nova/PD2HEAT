@@ -2394,7 +2394,9 @@ end)
 		Military Police Systems, Inc. -> Overlord (this might be changed later)
 		USORD -> GD
 		
+		Smith & Wesson -> J&M (according to OTWD, James & Maddison???)
 		
+		Taurus -> ???
 		
 		
 		
