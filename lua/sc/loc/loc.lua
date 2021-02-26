@@ -2386,6 +2386,15 @@ end)
 		Carl Gustafs Stads Gevärsfaktori -> FFV (this might be changed later)
 		IMI -> ITI
 		Franchi -> Ferino
+		Mossberg -> Reinbeck			~~THESE ARE
+		Remington -> Reinfeld 				BOTH ANNOYING~~
+		Winchester -> Willard
+		Benelli -> Giovanni
+		Kel-Tec -> Kjell-Gren
+		Military Police Systems, Inc. -> Overlord (this might be changed later)
+		USORD -> GD
+		
+		
 		
 		
 		
@@ -2421,7 +2430,7 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_famas"] = "NX Clarion C1",
 		["bm_w_vhs"] = "HS Firearms HVH",
 		["bm_w_asval"] = "CSRI AC Valkyria",
-		["bm_w_ak5"] = "FFV AK5",
+		["bm_w_ak5"] = "FFV Anvil K5",
 		["bm_w_galil"] = "ITI Gecko 7.62",
 		["bm_w_m16"] = "Corvo AMR-16",
 		["bm_w_contraband"] = "SG LF417D",
@@ -2430,10 +2439,25 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_g3"] = "SG Gewehr 3",
 		
 		--SHOTGUN--
-		["bm_w_spas12"] = "Ferino SP-14"
+		["bm_w_spas12"] = "Ferino SP-14",
+		["bm_w_m590"] = "Reinbeck 590",
+		["bm_w_boot"] = "Willard Breaker 1887",
+		["bm_w_r870"] = "Reinfeld 880",
+		["bm_w_benelli"] = "Giovanni M1014",
+		["bm_w_ksg"] = "Kjell-Gren Raven",
+		["bm_w_saiga"] = "Kalash IZHMA 12G",
+		["bm_w_m1897"] = "Willard M97",
+		["bm_w_huntsman"] = "Mosconi 12G",
+		["bm_w_b682"] = "Bernetti S95 O/U",
+		["bm_w_aa12"] = "Overlord Stakeout A12",
 		
 		--LMG--
-		
+		["bm_w_rpk"] = "Kalash RPK",
+		["bm_w_par"] = "VF Vulture 58",
+		["bm_w_m60"] = "GD Maverick 60",
+		["bm_w_m249"] = "VF Harpy 249",
+		["bm_w_mg42"] = "'Buzzsaw' HG42",
+		["bm_w_hk21"] = "SG Brenner-21"
 		
 		--SNIPER--
 		
