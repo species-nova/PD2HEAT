@@ -2387,6 +2387,10 @@ end)
 		Franchi -> Ferino
 
 ]]--
+
+--TODO: Add setting!!!
+--TODO: Add the rest of the weapons!!!
+--TODO: Melee weapons?!?!  Grenades???  They aren't necessary but it might be nice
 Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", function(loc)
 	LocalizationManager:add_localized_strings({
 	--///PRIMARIES\\\
@@ -2417,34 +2421,52 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		--blank space here for SABR
 		["bm_w_g3"] = "SG Gewehr 3",
 		
-		--SHOTGUNS--
+		--SHOTGUN--
 		["bm_w_spas12"] = "Ferino SP-14"
 		
-		--LMGS--
+		--LMG--
 		
 		
-		--SNIPERS--
+		--SNIPER--
 		
 		
-		--PRIMARY PISTOLS--
+		--PRIMARY PISTOL--
 		
 		
-		--AKIMBO PISTOLS--
+		--AKIMBO PISTOLS-
 		
 		
-		--AKIMBO SMG'S--
+		--AKIMBO SMG--
 		
 		
-		--AKIMBO SHOTGUNS--
+		--AKIMBO SHOTGUN--
 		
 		
-		--AKIMBO ASSAULT RIFLES--
+		--AKIMBO ASSAULT RIFLE--
 		
 		
 		--SPECIAL--
 		
 		
-		--PRIMARY SMGS--
+		--SUBMACHINE GUN--
+
+	
+	
+	--///SECONDARIES\\\--
+		
+		--PISTOLS--
+		
+		
+		--SUBMACHINE GUN--
+		
+		
+		--SPECIAL--
+		
+		
+		--SHOTGUN--
+		
+		
+		--ASSAULT RIFLE--
 
 	})
 end)
