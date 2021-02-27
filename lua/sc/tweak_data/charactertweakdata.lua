@@ -12162,221 +12162,666 @@ function CharacterTweakData:_presets(tweak_data)
 
 	self.char_wep_tables.dallas = {
 		primaries = {
-			[1] = "wpn_fps_ass_74_npc",
-			[2] = "wpn_fps_ass_amcar_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				--weapon factory id/name, found in weaponfactorytweakdata, usually at the bottom of an init function
+				--in the case of this weapon, you can find it like this: self.wpn_fps_ass_74_npc = deep_clone(self.wpn_fps_ass_74)
+				--you want the first part without the self., so wpn_fps_ass_74_npc
+				factory_name = "wpn_fps_ass_74_npc",
+				--blueprint table used to build a weapon with certain weapon mods/parts, which can be found in weaponfactorytweakdata
+				--these can be found as variables or strings, depending on where you're looking, but you need to type them as a string here
+				--if the weapon is not gonna use any mods, just leave the table empty or don't even define it
+				blueprint = {
+					"wpn_fps_upg_ak_b_ak105",
+					"wpn_fps_upg_o_ak_scopemount",
+					"wpn_fps_upg_ak_fg_tapco",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire",
+					"wpn_fps_upg_ak_g_pgrip",
+					"wpn_fps_upg_ak_m_uspalm",
+					"wpn_fps_upg_o_cmore",
+					"wpn_upg_ak_s_folding"
+				},
+				--cosmetics table used to add a skin or color to the weapon
+				--haven't fully looked into where these are stored and how this works, so leave it blank for now
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_amcar_npc",
+				blueprint = {
+					"wpn_fps_upg_o_eotech",
+					"wpn_fps_upg_m4_s_standard",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_ass_g36_npc",
+				blueprint = {
+					"wpn_fps_ass_g36_o_vintage",
+					"wpn_fps_ass_g36_s_sl8",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_pis_1911_npc",
+				blueprint = {
+					"wpn_fps_pis_1911_g_bling"
+				},
+				cosmetics = {}
+			}
 		}
 	}
-	
+
 	self.char_wep_tables.wolf = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_s552_npc"
+			[1] = {
+				factory_name = "wpn_fps_shot_r870_npc",
+				blueprint = {
+					"wpn_fps_shot_r870_s_solid_big",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_s552_npc",
+				blueprint = {
+					"wpn_fps_ass_s552_b_long",
+					"wpn_fps_ass_s552_fg_standard_green",
+					"wpn_fps_ass_s552_g_standard_green",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc",
+				blueprint = {
+					"wpn_fps_smg_mp5_fg_m5k"
+				},
+				cosmetics = {}
+			}
 		}
 	}
-	
+
 	self.char_wep_tables.chains = {
 		primaries = {
-			[1] = "wpn_fps_lmg_m249_npc",
-			[2] = "wpn_fps_ass_g3_npc",
-			[3] = "wpn_fps_ass_scar_npc",
-			[4] = "wpn_fps_lmg_hk21_npc"
+			[1] = {
+				factory_name = "wpn_fps_lmg_m249_npc",
+				blueprint = {},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_g3_npc",
+				blueprint = {
+					"wpn_fps_ass_g3_fg_railed",
+					"wpn_fps_ass_g3_g_retro",
+					"wpn_fps_ass_g3_s_sniper",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_ass_scar_npc",
+				blueprint = {
+					"wpn_fps_ass_scar_fg_railext",
+					"wpn_fps_ass_scar_s_sniper",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[4] = {
+				factory_name = "wpn_fps_lmg_hk21_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mac10_npc",
+				blueprint = {
+					"wpn_fps_smg_cobray_ns_silencer",
+					"wpn_fps_smg_mac10_m_extended",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.houston = {
 		primaries = {
-			[1] = "wpn_fps_ass_aug_npc",
-			[2] = "wpn_fps_ass_ak5_npc",
-			[3] = "wpn_fps_shot_ksg_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_aug_npc",
+				blueprint = {
+					"wpn_fps_aug_b_short",
+					"wpn_fps_upg_ns_ass_smg_medium",
+					"wpn_fps_aug_fg_a3",
+					"wpn_fps_aug_body_f90",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_ak5_npc",
+				blueprint = {
+					"wpn_fps_ass_ak5_b_short",
+					"wpn_fps_ass_ak5_fg_ak5c",
+					"wpn_fps_ass_ak5_s_ak5c",
+					"wpn_fps_upg_o_rx30",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc",
+				blueprint = {
+					"wpn_fps_smg_mp5_fg_mp5sd",
+					"wpn_fps_smg_mp5_s_adjust"
+				},
+				cosmetics = {}
+			}
 		}
 	}
-	
+
 	self.char_wep_tables.wick = {
 		primaries = {
-			[1] = "wpn_fps_snp_tti_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_snp_tti_npc"
+			[1] = {
+				factory_name = "wpn_fps_snp_tti_npc",
+				blueprint = {
+					"wpn_fps_snp_tti_g_grippy"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_snp_desertfox_npc",
+				blueprint = {
+					"wpn_fps_snp_desertfox_b_long"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_ass_m4_npc",
+				blueprint = {
+					"wpn_fps_m4_uupg_b_sd",
+					"wpn_fps_upg_ass_m4_lower_reciever_core",
+					"wpn_fps_upg_o_reflex",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_shackal_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_schakal_npc",
+				blueprint = {
+					"wpn_fps_smg_schakal_vg_surefire",
+					"wpn_fps_upg_o_reflex",
+					"wpn_fps_smg_schakal_ns_silencer",
+					"wpn_fps_smg_schakal_m_short"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_pis_packrat_npc",
+				blueprint = {
+					"wpn_fps_pis_packrat_o_expert"
+				},
+				cosmetics = {}
+			}
 		}
+	}
+
+	local hox_m14 = {
+		factory_name = "wpn_fps_ass_m14_npc",
+		blueprint = {
+			"wpn_fps_upg_o_t1micro",
+			"wpn_fps_upg_o_m14_scopemount",
+			"wpn_fps_upg_fl_ass_smg_sho_surefire"
+		},
+		cosmetics = {}
+	}
+
+	local hox_famas = {
+		factory_name = "wpn_fps_ass_famas_npc",
+		blueprint = {
+			"wpn_fps_ass_famas_b_sniper",
+			"wpn_fps_ass_famas_g_retro",
+			"wpn_fps_upg_fl_ass_smg_sho_surefire"
+		},
+		cosmetics = {}
 	}
 
 	self.char_wep_tables.hoxton = {
 		primaries = {
-			[1] = "wpn_fps_ass_m14_npc",
-			[2] = "wpn_fps_ass_m14_npc",
-			[3] = "wpn_fps_ass_famas_npc"
+			[1] = hox_m14,
+			[2] = hox_m14,
+			[3] = hox_m14,
+			[4] = hox_m14,
+			[5] = hox_m14,
+			[6] = hox_famas,
+			[7] = hox_famas,
+			[8] = hox_famas,
+			[9] = hox_famas,
+			[10] = hox_famas,
+			--cursed--
+			[11] = {
+				factory_name = "wpn_fps_ass_m14_npc",
+				blueprint = {
+					"wpn_fps_ass_m14_body_ruger",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire",
+					"wpn_fps_upg_ass_ns_surefire",
+					"wpn_fps_upg_o_spot",
+					"wpn_fps_upg_o_m14_scopemount"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.clover = {
 		primaries = {
-			[1] = "wpn_fps_ass_l85a2_npc",
-			[2] = "wpn_fps_ass_sub2000_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_l85a2_npc",
+				blueprint = {
+					"wpn_fps_ass_l85a2_fg_short",
+					"wpn_fps_ass_l85a2_b_short",
+					"wpn_fps_upg_ns_ass_smg_large",
+					"wpn_fps_ass_l85a2_g_worn",
+					"wpn_fps_ass_l85a2_m_emag",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_sub2000_npc",
+				blueprint = {
+					"wpn_fps_ass_sub2000_fg_suppressed",
+					"wpn_fps_upg_o_eotech_xps",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_sho_ksg_npc",
+				blueprint = {
+					"wpn_fps_sho_ksg_b_short",
+					"wpn_fps_upg_ns_sho_salvo_large",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc",
+				blueprint = {
+					"wpn_fps_smg_mp5_fg_mp5sd",
+					"wpn_fps_smg_mp5_s_ring"
+				},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.dragan = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_vhs_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_sho_spas12_npc",
+				blueprint = {
+					"wpn_fps_sho_s_spas12_folded",
+					"wpn_fps_sho_b_spas12_long",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.jacket = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_akm_npc",
+				blueprint = {
+					"wpn_fps_upg_ak_s_solidstock",
+					"wpn_fps_upg_ak_g_wgrip",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				}, 
+				cosmetics = {} 
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_m16_npc",
+				blueprint = {
+					"wpn_fps_m16_fg_vietnam",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_shot_huntsman_npc",
+				blueprint = {
+					"wpn_fps_shot_huntsman_b_short",
+					"wpn_fps_shot_huntsman_s_short"
+				},
+				cosmetics = {}
+			},
+			[4] = {
+				factory_name = "wpn_fps_shot_r870_npc",
+				blueprint = {
+					"wpn_fps_shot_r870_s_nostock_big",
+					"wpn_fps_shot_r870_body_rack",
+					"wpn_fps_shot_r870_fg_wood",
+					"wpn_fps_upg_ns_shot_shark",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_cobray_npc",
+				blueprint = {
+					"wpn_fps_smg_cobray_body_upper_jacket",
+					"wpn_fps_smg_cobray_ns_barrelextension",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.bonnie = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_lmg_mg42_npc",
+				blueprint = {},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_shot_b682_npc",
+				blueprint = {
+					"wpn_fps_shot_b682_s_ammopouch"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.sokol = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_asval_npc",
+				blueprint = {
+					"wpn_fps_ass_asval_s_solid",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_smg_vityaz_npc",
+				blueprint = {
+					"wpn_fps_smg_vityaz_b_supressed",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.jiro = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_polymer_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_baka_npc",
+				blueprint = {
+					"wpn_fps_smg_baka_b_comp",
+					"wpn_fps_smg_baka_s_standard"
+				},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.bodhi = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_snp_model70_npc",
+				blueprint = {
+					"wpn_fps_snp_model70_iron_sight"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_galil_npc",
+				blueprint = {
+					"wpn_fps_ass_galil_fg_sniper",
+					"wpn_fps_ass_galil_s_sniper",
+					"wpn_fps_upg_o_specter",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_pis_sparrow_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.jimmy = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_sho_ben_npc",
+				blueprint = {
+					"wpn_fps_sho_ben_b_short",
+					"wpn_fps_sho_ben_s_collapsed",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_pis_beer_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_sr2_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.sydney = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_tecci_npc",
+				blueprint = {
+					"wpn_fps_ass_tecci_b_long",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_sho_aa12_npc",
+				blueprint = {
+					"wpn_fps_sho_aa12_barrel_long",
+					"wpn_fps_upg_shot_ns_king",
+					"wpn_fps_sho_aa12_mag_drum",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.rust = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_sho_boot_npc",
+				blueprint = {
+					"wpn_fps_sho_boot_body_exotic",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.tony = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_contraband_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.sangres = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_akm_gold_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_pis_chinchilla_npc",
+				blueprint = {
+					"wpn_fps_pis_chinchilla_g_death"
+				},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.duke = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_ass_ching_npc",
+				blueprint = {
+					"wpn_fps_ass_ching_s_pouch",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_smg_erma_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_sho_m590_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_pis_shrew_npc",
+				blueprint = {
+					"wpn_fps_pis_shrew_g_bling"
+				},
+				cosmetics = {}
+			}
 		}
 	}
 
 	self.char_wep_tables.joy = {
 		primaries = {
-			[1] = "wpn_fps_shot_r870_npc",
-			[2] = "wpn_fps_ass_m4_npc",
-			[3] = "wpn_fps_ass_g36_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_shepheard_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
 		},
 		secondaries = {
-			[1] = "wpn_fps_smg_mp5_npc"
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
 		}
 	}
 
