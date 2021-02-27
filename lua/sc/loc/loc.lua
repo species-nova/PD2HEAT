@@ -2376,6 +2376,8 @@ end)
 		SIG -> FIK
 		FN -> VF (these guys like to name guns after birds, maybe other animals if you run out of birds)
 		Automat Kalashnikov/AK -> [NO CHANGES]
+		Kalashnikov Concern -> ???
+		Lebedev -> Krasota
 		Steyr -> Stiria
 		H&K -> SG (or S&G, deliberate)
 		Royal Ordnance -> Monarch
@@ -2393,6 +2395,7 @@ end)
 		Kel-Tec -> Kjell-Gren
 		Military Police Systems, Inc. -> Overlord (this might be changed later)
 		USORD -> GD
+		Glock -> Chimano
 		
 		Smith & Wesson -> J&M (according to OTWD, James & Maddison???)
 		
@@ -2458,7 +2461,7 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 		["bm_w_m60"] = "GD Maverick 60",
 		["bm_w_m249"] = "VF Harpy 249",
 		["bm_w_mg42"] = "'Buzzsaw' HG42",
-		["bm_w_hk21"] = "SG Brenner-21"
+		["bm_w_hk21"] = "SG Brenner-21",
 		
 		--SNIPER--
 		
@@ -2488,7 +2491,19 @@ Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_NewGunNames", functi
 	--///SECONDARIES\\\--
 		
 		--PISTOLS--
-		
+		["bm_w_usp"] = "SG Interceptor .45",
+		["bm_w_glock_17"] = "Chimano 88",
+		["bm_w_ppk"] = "Gruber Kurz K",
+		["bm_w_p226"] = "FIK Signature 40",
+		["bm_w_holt"] = "BOLT 9mm",
+		["bm_w_colt_1911"] = "Corvo Crosskill .45",
+		["bm_w_b92fs"] = "Bernetti B9",
+		["bm_w_raging_bull"] = "Razorback Bronco .44",
+		["bm_w_m1911"] = "Corvo Crosskill Endurance",
+		["bm_w_pl14"] = "Krasota 'White Streak'",
+		["bm_w_sparrow"] = "ITI Sparrow",
+		--["bm_w_legacy"] = "",
+		["bm_w_g22c"] = "Chimano 'Custom' .40"
 		
 		--SUBMACHINE GUN--
 		
