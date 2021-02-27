@@ -957,7 +957,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_upg_vintage_desc"] = "",
 
 		--Scorpion (get in-game-name later)--
-		["bm_wp_scorpion_m_extended_sc"] = "Double Magazine",
+		["bm_wp_scorpion_m_extended"] = "Double Magazine",
 		["bm_sc_scorpion_double_mag"] = "", --Unsure what this one is?--
 
 		--RPK--
@@ -1554,19 +1554,19 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_misc_res_3"] = "Heat has a Discord server! Join for discussion, balance feedback, and matchmaking! Check the Main Menu.",	
 		--Trivia Hints
 		["loading_fluff_res_title"] = "Heat Trivia",
-		["loading_fluff_res_1"] = "OMNIA spends a fortune reviving failed weapon projects.",	
+		["loading_fluff_res_1"] = "Nobody knows OMNIA's true goals.",	
 		["loading_fluff_res_2"] = "The LPF is owed a lot of beers.",	
 		["loading_fluff_res_3"] = "The LPF and Titan Sniper are Australian.",	
 		["loading_fluff_res_4"] = "The NYPD Bronco Cop loves donuts.",	
 		["loading_fluff_res_5"] = "The ZEAL UMP Elite SWAT's name is Chad.",	
-		["loading_fluff_res_6"] = "Titan Dozers have glowing eyes thanks to extensive genetic engineering, human experiments, and combat drugs.",	
+		["loading_fluff_res_6"] = "Titan Dozers and Titan SWAT have glowing eyes thanks to extensive genetic engineering, human experiments, and combat drugs.",	
 		["loading_fluff_res_7"] = "Captain Spring is not human. He might have been, once upon a time.",	
 		["loading_fluff_res_8"] = "guys how do you change localization strings help",	
 		["loading_fluff_res_9"] = "OMNIA has been developing reinforced security doors to protect against dinosaur attacks.",	
 		["loading_fluff_res_10"] = "The Grenadier used to work in pest control.",	
 		["loading_fluff_res_11"] = "You have never seen a Titan Cloaker.",
-		["loading_fluff_res_12"] = "Omnia is a self-described 'neoceltic pagan folk' band based in the Netherlands and whose members have had Irish, Dutch, Cornish, Belgian, Indonesian and Persian backgrounds. Connection to the organization OMNIA unconfirmed.",	
-		["loading_fluff_res_13"] = "Whatever happened that caused Jackal to get involved with Crime.Net and leave GenSec, he refuses to talk about it. He seems to have been 'disturbed' by the event.",	
+		["loading_fluff_res_12"] = "DATA MISSING . . .",	
+		["loading_fluff_res_13"] = "DATA MISSING . . .",	
 		["loading_fluff_res_14"] = "HAHAHAHAHA.",
 		["loading_fluff_res_15"] = "Captain Summers and his crew used to be a crew of four heisters, much like a multinational equivalent of the Payday Crew. They are now a strike team for OMNIA.",
 		["loading_fluff_res_16"] = "Captain Summers and his crew officially died in a building collapse while trying to rob a bank. This was a ruse.",
@@ -1577,8 +1577,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_fluff_res_21"] = "The Grenadier division spends a fortune on Diphoterine due to several friendly fire incidents.",
 		["loading_fluff_res_22"] = "You may or may not have met Captain Summers before.",
 		["loading_fluff_res_23"] = "The Policía Federal has a special chupacabra hunting division.",
-		["loading_fluff_res_24"] = "Captains don't die, they go into custody.",
-		["loading_fluff_res_25"] = "REAPER offered a 'quick and brutal crackdown on cartels' at a price cheaper than OMNIA, which led to the Policía Federal adopting their version of TITAN units. This was a ploy to get their forces closer to OMNIA and Murky operations both in Mexico and the US.",
+		["loading_fluff_res_24"] = "Captains don't die, they just pass out.",
+		["loading_fluff_res_25"] = "Russian Reapers offered a 'quick and brutal crackdown on cartels' at a price cheaper than OMNIA, which led to the Policía Federal adopting their version of TITAN units. This was a ploy to get their forces closer to OMNIA and Murky operations both in Mexico and the US.",
 
 		["menu_button_deploy_bipod"] = "BIPOD/ALT-FIRE",
 		["skill_stockholm_syndrome_trade"] = "Down Restored!",
@@ -1640,12 +1640,12 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_faction_override_longdesc"] = "",
 		["mutator_faction_override_"] = "",
 		["mutator_faction_override_select"] = "",
-		["mutator_faction_override_america"] = "America",
-		["mutator_faction_override_russia"] = "Russia",
-		["mutator_faction_override_zombie"] = "Zombie",
-		["mutator_faction_override_murkywater"] = "MurkyWater",
-		["mutator_faction_override_nypd"] = "NYPD",
-		["mutator_faction_override_lapd"] = "LAPD",
+		["mutator_faction_override_america"] = "USA - Generic",
+		["mutator_faction_override_russia"] = "Russian Reapers",
+		["mutator_faction_override_zombie"] = "Zombies",
+		["mutator_faction_override_murkywater"] = "Murkywater",
+		["mutator_faction_override_nypd"] = "USA - Classic",
+		["mutator_faction_override_lapd"] = "USA - LAPD",
 		["faction_selector_choice"] = "Faction: ",
 
 		--Crime spree modifier changes
@@ -1684,6 +1684,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_cs_modifier_10secondsresponsetime"] = "All police assaults now start at maximum intensity.",
 
 		["bm_menu_skill"] = "Crew Boosts",
+		["menu_crew_default"] = "DEFAULT SET",
 
 		["menu_crew_interact"] = "Quick",
 		["menu_crew_interact_desc"] = "Players interact 15% faster per AI controlled crew member.",
@@ -1763,8 +1764,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_triathlete_beta_sc"] = "Cable Guy",
 			["menu_triathlete_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases your supply of cable ties by ##4##.\n\nYou cable tie hostages ##75%## faster.\n\nACE: ##$pro##\nYour chance to pick up cable ties from ammo boxes is increased to ##30%.##\n\nIncreases your maximum cable ties by ##3.##",
 
-			--Clowns are Scary
-			["menu_cable_guy_beta_sc"] = "Clowns are Scary",
+			--Smooth Talker (LOL)
+			["menu_cable_guy_beta_sc"] = "Smooth Talker",
 			["menu_cable_guy_beta_desc_sc"] = "BASIC: ##$basic##\nCivilians remain intimidated ##50%## longer.\n\nACE: ##$pro##\nThe power and range of your intimidation is increased by ##50%.##",
 
 			--Stockholm Syndrome
@@ -1801,8 +1802,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_sharpshooter_sc"] = "MG Specialist",
 			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nThe movement penalty to accuracy is reduced by ##60%## for SMGs and LMGs.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
 
-			--Shock and Awe
-			["menu_spotter_teamwork_beta_sc"] = "Shock and Awe",
+			--Shock & Awe
+			["menu_spotter_teamwork_beta_sc"] = "Shock & Awe",
 			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Does not apply to Crossbows, Bows, Grenade Launchers, or Rocket Launchers.\n\nACE: ##$pro##\nYou can now hip-fire with your weapons while sprinting.\n\nYour weapons' magazine sizes are increased by an additional ##30%.##",
 
 			--Heavy Impact
@@ -1841,7 +1842,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_close_by_beta_sc"] = "Gung-Ho",
 			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now hip-fire with shotguns and flamethrowers while sprinting.\n\nACE: ##$pro##\nYour rate of fire is increased by ##35%## while hip-firing with shotguns and flamethrowers.",
 
-			--Overkill
+			--OVERKILL
 			["menu_overkill_sc"] = "OVERKILL",
 			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nKills using a shotgun, flamethrower, or the OVE9000 portable saw grants them a ##50%## damage boost for ##3## seconds.\n\nACE: ##$pro##\nThe damage bonus now applies to all weapons and lasts ##10## seconds. Skill must still be activated using a shotgun or the OVE9000 portable saw.\n\nNote: Does not apply to grenade launchers.\n\nDecreases the time it takes to pull and put away shotguns and the saw by ##50%##.",
 
@@ -1949,15 +1950,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_trip_mine_expert_beta_sc"] = "Danger Close",
 			["menu_combat_engineering_desc_sc"] = "BASIC: ##$basic##\nThe radius of trip mine explosion is increased by ##30%.##\n\nACE: ##$pro##\nYour trip mine deals ##50%## more damage.",
 
-			--Drill Sawgeant
-			["menu_drill_expert_beta_sc"] = "Drill Sawgeant",
+			--Full Bore
+			["menu_drill_expert_beta_sc"] = "Full Bore",
 			["menu_drill_expert_beta_desc_sc"] = "BASIC: ##$basic##\nYour drill and saw efficiency is increased by ##10%.##\n\nACE: ##$pro##\nFurther increases your drill and saw efficency by ##20%.##",
 
 			--Demoman--
 			["menu_more_fire_power_sc"] = "Demoman",
 			["menu_more_fire_power_desc_sc"] = "BASIC: ##$basic##\nYou can now carry ##6## shaped charges and ##6## trip mines.\n\nYou deploy shaped charges and trip mines ##20%## faster.\n\nACE: ##$pro##\nYou can now carry ##8## shaped charges and ##10## trip mines.\n\nYou deploy shaped charges and trip mines an additional ##20%## faster.",
 
-			--Kickstarter
+			--Kick Starter
 			["menu_kick_starter_beta_sc"] = "Kick Starter",
 			["menu_kick_starter_beta_desc_sc"] = "BASIC: ##$basic##\nYour drills and saws gain a ##30%## chance to automatically restart after breaking.\n\nACE: ##$pro##\nYou gain the ability to restart drills and saws by hitting them with a melee attack. You get ##1## chance for each time it breaks with a ##50%## success rate.",
 
@@ -2028,7 +2029,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   BRAWLER SUBTREE   ]]--
 			--{
 
-			--Counter-Strike--
+			--Counter Strike--
 			["menu_drop_soap_beta_sc"] = "Counter Strike",
 			["menu_drop_soap_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now parry cloaker kicks while you have your melee weapon drawn, knocking them down.\n\nYou take ##20%## less damage from cloaker kicks and taser shocks.\n\nACE: ##$pro##\nRanged damage against you is reduced by ##10%## while charging your melee weapon.\n\nYou take an additional ##30%## less damage from cloaker kicks and taser shocks.",
 
@@ -2045,8 +2046,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_thick_skin_beta_sc"] = "Deep Pockets",
 		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the concealment of melee weapons by ##2.##\n\nACE: ##$pro##\nIncreases the armor of all ballistic vests by ##20.##\n\nIncreases the concealment of all ballistic vests by ##4.##",
 
-		--Duck and Cover--
-		["menu_sprinter_beta_sc"] = "Duck and Cover",
+		--Duck & Cover--
+		["menu_sprinter_beta_sc"] = "Duck & Cover",
 		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##10%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##30%## of your dodge every second while on a zipline.",
 
 		--Sneaky Bastard--
@@ -2140,9 +2141,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_gun_fighter_sc"] = "Gunfighter",
 		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nPistols reload ##5%## faster.\n\nThe movement penalty to accuracy is reduced by ##40%## for Pistols.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nPistols reload an additional ##25%## faster.",
 
-		--Akimbo--
-		["menu_akimbo_skill_sc"] = "Akimbo",
-		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkibmo weapons gain ##8## stability.\n\nACE: ##$pro##\nAkimbo weapons gain an additional ##8## stability and ##25%## more total ammo capacity.",
+		--Maximum Action--
+		["menu_akimbo_skill_sc"] = "Maximum Action",
+		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkimbo weapons gain ##8## stability.\n\nACE: ##$pro##\nAkimbo weapons gain an additional ##8## stability and ##25%## more total ammo capacity.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",
@@ -2160,7 +2161,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_running_from_death_beta_sc"] = "Undying",
 		["menu_running_from_death_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##100%## increase to bleedout health.\n\nACE: ##$pro##\nYou gain an additional ##100%## increase to bleedout health.\n\nYou may use your primary weapon while in bleedout.",
 
-		--What Doesn't Kill You Only Makes You Stronger--
+		--What Doesn't Kill--
 		["menu_what_doesnt_kill_beta_sc"] = "What Doesn't Kill",
 		["menu_what_doesnt_kill_beta_desc_sc"] = "BASIC: ##$basic##\nIncoming damage is reduced by ##1## point for each down you are closer to custody. \n\nACE: ##$pro##\nIncoming damage is reduced by an additional ##3## points at all times.",
 
@@ -2236,7 +2237,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck1_5_desc_sc"] = "You and your crew gain ##5%## more health.\n\nNote: Crew perks do not stack.",
 		["menu_deck1_7_desc_sc"] = "You gain ##10%## more armor.",
 		["menu_deck1_9_desc_sc"] = "You and your crew gains ##5%## max health and ##10%## stamina for each hostage up to ##4## times.\n\nNote: Crew perks do not stack.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
-		--I only had to put these in to fix Overkill's shitty rebalance attempt--
+		
 		--Armorer--
 		["menu_deck3_1_desc_sc"] = "You gain ##10%## more armor.",
 		["menu_deck3_3_desc_sc"] = "You gain an additional ##10%## more armor.",
@@ -2352,10 +2353,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		--Blank Perk Deck--
 		["menu_st_spec_0"] = "Blank Deck",
 		["menu_st_spec_22"] = "Blank Deck",
-		["menu_st_spec_0_desc"] = "This deck has no benefits at all.",
+		["menu_st_spec_0_desc"] = "This deck has no benefits at all.\n\nFor the heister looking for punishment.",
 		["menu_st_spec_00"] = "Wildcard Deck",
 		["menu_st_spec_23"] = "Wildcard Deck",
-		["menu_st_spec_00_desc"] = "This deck only has the shared skills.",
+		["menu_st_spec_00_desc"] = "This deck only has the shared skills.\n\nFor the heister looking for danger.",
 		["menu_deck0_1"] = "",
 		["menu_deck0_1_desc"] = "",
 	})
