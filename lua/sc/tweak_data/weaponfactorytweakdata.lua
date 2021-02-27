@@ -2176,9 +2176,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_saiga", "resmod_saiga", function(s
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_custom_free = {
@@ -2189,9 +2189,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_saiga", "resmod_saiga", function(s
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_explosive = {
@@ -3194,9 +3194,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_r870", "resmod_r870", function(sel
 				damage = 30
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},	
 		wpn_fps_upg_a_custom_free = {
@@ -3207,9 +3207,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_r870", "resmod_r870", function(sel
 				damage = 30
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},			
 		wpn_fps_upg_a_explosive = {
@@ -3391,9 +3391,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_serbu", "resmod_serbu", function(s
 				damage = 30
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},	
 		wpn_fps_upg_a_custom_free = {
@@ -3404,9 +3404,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_serbu", "resmod_serbu", function(s
 				damage = 30
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},			
 		wpn_fps_upg_a_explosive = {
@@ -3948,9 +3948,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_judge", "resmod_judge", function(s
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}
 	self.wpn_fps_pis_judge.override.wpn_fps_upg_a_custom_free = {
@@ -3961,9 +3961,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_judge", "resmod_judge", function(s
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}			
 	
@@ -5205,9 +5205,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_ben", "resmod_ben", function(self)
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_custom_free = {
@@ -5218,9 +5218,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_ben", "resmod_ben", function(self)
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},			
 		wpn_fps_upg_a_explosive = {
@@ -5328,9 +5328,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_striker", "resmod_striker", functi
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},	
 		wpn_fps_upg_a_custom_free = {
@@ -5341,9 +5341,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_striker", "resmod_striker", functi
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},				
 		wpn_fps_upg_a_explosive = {
@@ -5434,9 +5434,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_ksg", "resmod_ksg", function(self)
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}
 	self.wpn_fps_sho_ksg.override.wpn_fps_upg_a_custom_free = {
@@ -5447,9 +5447,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_ksg", "resmod_ksg", function(self)
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}			
 	self.wpn_fps_sho_ksg.override.wpn_fps_upg_a_explosive = {
@@ -6315,9 +6315,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "create_ammunition", "resmod_create_ammun
 		damage = 30
 	}
 	self.parts.wpn_fps_upg_a_custom.custom_stats = {
-		damage_near_mul = 0.75,
-		damage_far_mul = 0.75,
-		rays = 6
+		damage_near_mul = 0.65,
+		damage_far_mul = 0.65,
+		rays = 5
 	}
 	
 	--000 Buck (Free)
@@ -6930,9 +6930,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_spas12", "resmod_spas12", function
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},		
 		wpn_fps_upg_a_custom_free = {
@@ -6943,9 +6943,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_spas12", "resmod_spas12", function
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},				
 		wpn_fps_upg_a_explosive = {
@@ -8538,9 +8538,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_custom_free = {
@@ -8551,9 +8551,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_explosive = {
@@ -9745,9 +9745,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m37", "resmod_m37", function(self)
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}
 	self.wpn_fps_shot_m37.override.wpn_fps_upg_a_custom_free = {
@@ -9758,9 +9758,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m37", "resmod_m37", function(self)
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}		
 	self.wpn_fps_shot_m37.override.wpn_fps_upg_a_explosive = {
@@ -11557,9 +11557,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_rota", "resmod_rota", function(sel
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},	
 		wpn_fps_upg_a_custom_free = {
@@ -11570,9 +11570,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_rota", "resmod_rota", function(sel
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},				
 		wpn_fps_upg_a_explosive = {
@@ -15052,9 +15052,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_basset", "resmod_basset", function
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_custom_free = {
@@ -15065,9 +15065,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_basset", "resmod_basset", function
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},					
 		wpn_fps_upg_a_explosive = {
@@ -17757,9 +17757,9 @@ function WeaponFactoryTweakData:_init_x_judge()
 					damage = 30
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},
 			wpn_fps_upg_a_custom_free = {
@@ -17770,9 +17770,9 @@ function WeaponFactoryTweakData:_init_x_judge()
 					damage = 30
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},	
 			wpn_fps_pis_judge_body_standard = {},
@@ -17926,9 +17926,9 @@ function WeaponFactoryTweakData:_init_x_rota()
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},
 		wpn_fps_upg_a_custom_free = {
@@ -17939,9 +17939,9 @@ function WeaponFactoryTweakData:_init_x_rota()
 				damage = 15
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
-				rays = 6
+				damage_near_mul = 0.65,
+				damage_far_mul = 0.65,
+				rays = 5
 			}
 		},			
 		wpn_fps_upg_a_explosive = {
@@ -19601,9 +19601,9 @@ function WeaponFactoryTweakData:_init_coach()
 					damage = 30
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},
 			wpn_fps_upg_a_custom_free = {
@@ -19614,9 +19614,9 @@ function WeaponFactoryTweakData:_init_coach()
 					damage = 30
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			}	
 		},
@@ -21599,9 +21599,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m1897", "resmod_m1897", function(s
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}
 	self.wpn_fps_shot_m1897.override.wpn_fps_upg_a_custom_free = {
@@ -21612,9 +21612,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m1897", "resmod_m1897", function(s
 			damage = 30
 		},
 		custom_stats = {
-			damage_near_mul = 0.75,
-			damage_far_mul = 0.75,
-			rays = 6
+			damage_near_mul = 0.65,
+			damage_far_mul = 0.65,
+			rays = 5
 		}
 	}		
 	self.wpn_fps_shot_m1897.override.wpn_fps_upg_a_explosive = {
@@ -24489,9 +24489,9 @@ if self.wpn_fps_shot_ks23 then 	-- Pawcio's KS-23
 					damage = 15
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},
 			wpn_fps_upg_a_custom_free = {
@@ -24502,9 +24502,9 @@ if self.wpn_fps_shot_ks23 then 	-- Pawcio's KS-23
 					damage = 15
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},			
 			wpn_fps_upg_a_explosive = {
@@ -25285,9 +25285,9 @@ if self.wpn_fps_smg_czevo then 	--Gambyt's Scorpion EVO
 					damage = 30
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},	
 			wpn_fps_upg_a_custom_free = {
@@ -25298,9 +25298,9 @@ if self.wpn_fps_smg_czevo then 	--Gambyt's Scorpion EVO
 					damage = 30
 				},
 				custom_stats = {
-					damage_near_mul = 0.75,
-					damage_far_mul = 0.75,
-					rays = 6
+					damage_near_mul = 0.65,
+					damage_far_mul = 0.65,
+					rays = 5
 				}
 			},			
 			wpn_fps_upg_a_explosive = {
