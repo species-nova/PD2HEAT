@@ -101,104 +101,107 @@ function ExplosionManager:detect_and_stun(params)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		local hit_unit_key = hit_unit:key()
-		local ray_hit, body_com, char_dmg_ext = nil
 
-		if not units_to_hit[hit_unit_key] then
-			if units_to_push then
-				units_to_push[hit_unit_key] = hit_unit
-			end
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			local hit_unit_key = hit_unit:key()
+			local ray_hit, body_com, char_dmg_ext = nil
 
-			char_dmg_ext = hit_unit:character_damage()
-			local hit_character = char_dmg_ext and char_dmg_ext.stun_hit and not char_dmg_ext:dead()
+			if not units_to_hit[hit_unit_key] then
+				if units_to_push then
+					units_to_push[hit_unit_key] = hit_unit
+				end
 
-			if hit_character then
-				local verif_clbk = params.verify_callback
-				local can_stun = not verif_clbk or verif_clbk(hit_unit)
+				char_dmg_ext = hit_unit:character_damage()
+				local hit_character = char_dmg_ext and char_dmg_ext.stun_hit and not char_dmg_ext:dead()
 
-				if can_stun then
-					if params.no_raycast_check_characters then
-						ray_hit = true
-						units_to_hit[hit_unit_key] = true
-					else
-						body_com = hit_body:center_of_mass()
+				if hit_character then
+					local verif_clbk = params.verify_callback
+					local can_stun = not verif_clbk or verif_clbk(hit_unit)
 
-						for i = 1, #splinters do
-							local s_pos = splinters[i]
+					if can_stun then
+						if params.no_raycast_check_characters then
+							ray_hit = true
+							units_to_hit[hit_unit_key] = true
+						else
+							body_com = hit_body:center_of_mass()
 
-							ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
+							for i = 1, #splinters do
+								local s_pos = splinters[i]
 
-							if ray_hit then
-								units_to_hit[hit_unit_key] = true
+								ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
 
-								if draw_splinter_hits then
+								if ray_hit then
+									units_to_hit[hit_unit_key] = true
+
+									if draw_splinter_hits then
+										local draw_duration = 3
+										local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
+										new_brush:cylinder(s_pos, body_com, 0.5)
+									end
+
+									break
+								elseif draw_obstructed_splinters then
 									local draw_duration = 3
-									local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
+									local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), draw_duration)
 									new_brush:cylinder(s_pos, body_com, 0.5)
 								end
-
-								break
-							elseif draw_obstructed_splinters then
-								local draw_duration = 3
-								local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), draw_duration)
-								new_brush:cylinder(s_pos, body_com, 0.5)
 							end
 						end
 					end
 				end
 			end
-		end
 
-		if ray_hit then
-			hit_units[hit_unit_key] = hit_unit
+			if ray_hit then
+				hit_units[hit_unit_key] = hit_unit
 
-			local tweak_name, is_civ, is_gangster, is_cop = nil
+				local tweak_name, is_civ, is_gangster, is_cop = nil
 
-			if owner then
-				local base_ext = hit_unit:base()
-				tweak_name = base_ext and base_ext._tweak_table
+				if owner then
+					local base_ext = hit_unit:base()
+					tweak_name = base_ext and base_ext._tweak_table
 
-				if tweak_name then
-					if is_civilian_func(tweak_name) then
-						count_civilians = count_civilians + 1
-						is_civ = true
-					elseif is_gangster_func(tweak_name) then
-						count_gangsters = count_gangsters + 1
-						is_gangster = true
-					elseif base_ext.has_tag and base_ext:has_tag("law") then
-						count_cops = count_cops + 1
-						is_cop = true
+					if tweak_name then
+						if is_civilian_func(tweak_name) then
+							count_civilians = count_civilians + 1
+							is_civ = true
+						elseif is_gangster_func(tweak_name) then
+							count_gangsters = count_gangsters + 1
+							is_gangster = true
+						elseif base_ext.has_tag and base_ext:has_tag("law") then
+							count_cops = count_cops + 1
+							is_cop = true
+						end
 					end
 				end
-			end
 
-			body_com = body_com or hit_body:center_of_mass()
-			local dir = body_com - hit_pos
-			dir = dir:normalized()
+				body_com = body_com or hit_body:center_of_mass()
+				local dir = body_com - hit_pos
+				dir = dir:normalized()
 
-			local attack_data = {
-				variant = "stun",
-				damage = damage,
-				attacker_unit = user_unit,
-				weapon_unit = owner,
-				col_ray = self._col_ray or {
-					position = mvec3_copy(hit_body:position()),
-					ray = dir
+				local attack_data = {
+					variant = "stun",
+					damage = damage,
+					attacker_unit = user_unit,
+					weapon_unit = owner,
+					col_ray = self._col_ray or {
+						position = mvec3_copy(hit_body:position()),
+						ray = dir
+					}
 				}
-			}
 
-			char_dmg_ext = char_dmg_ext or hit_unit:character_damage()
+				char_dmg_ext = char_dmg_ext or hit_unit:character_damage()
 
-			char_dmg_ext:stun_hit(attack_data)
+				char_dmg_ext:stun_hit(attack_data)
 
-			if tweak_name and char_dmg_ext:dead() then
-				if is_civ then
-					count_civilian_kills = count_civilian_kills + 1
-				elseif is_gangster then
-					count_gangster_kills = count_gangster_kills + 1
-				elseif is_cop then
-					count_cop_kills = count_cop_kills + 1
+				if tweak_name and char_dmg_ext:dead() then
+					if is_civ then
+						count_civilian_kills = count_civilian_kills + 1
+					elseif is_gangster then
+						count_gangster_kills = count_gangster_kills + 1
+					elseif is_cop then
+						count_cop_kills = count_cop_kills + 1
+					end
 				end
 			end
 		end
@@ -337,27 +340,130 @@ function ExplosionManager:detect_and_give_dmg(params)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		local hit_unit_key = hit_unit:key()
 
-		if units_to_push then
-			units_to_push[hit_unit_key] = hit_unit
-		end
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			local hit_unit_key = hit_unit:key()
 
-		local char_dmg_ext = hit_unit:character_damage()
-		local hit_character = char_dmg_ext and char_dmg_ext.damage_explosion and not char_dmg_ext:dead()
-		local body_ext = hit_body:extension()
-		local apply_dmg = body_ext and body_ext.damage and true
-		local ray_hit, body_com, damage_character, dmg_mul, tweak_name, is_civ, is_gangster, is_cop = nil
+			if units_to_push then
+				units_to_push[hit_unit_key] = hit_unit
+			end
 
-		if hit_character then
-			if not units_to_hit[hit_unit_key] then
-				if params.no_raycast_check_characters then
+			local char_dmg_ext = hit_unit:character_damage()
+			local hit_character = char_dmg_ext and char_dmg_ext.damage_explosion and not char_dmg_ext:dead()
+			local body_ext = hit_body:extension()
+			local apply_dmg = body_ext and body_ext.damage and true
+			local ray_hit, body_com, damage_character, dmg_mul, tweak_name, is_civ, is_gangster, is_cop = nil
+
+			if hit_character then
+				if not units_to_hit[hit_unit_key] then
+					if params.no_raycast_check_characters then
+						ray_hit = true
+						units_to_hit[hit_unit_key] = true
+						damage_character = true
+					else
+						body_com = hit_body:center_of_mass()
+
+						for i = 1, #splinters do
+							local s_pos = splinters[i]
+
+							ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
+
+							if ray_hit then
+								units_to_hit[hit_unit_key] = true
+								damage_character = true
+
+								local mov_ext = hit_unit:movement()
+
+								if mov_ext and mov_ext.m_com then
+									local e_com = mov_ext:m_com()
+									local shield_ray = world_g:raycast("ray", hit_pos, e_com, "slot_mask", shield_mask)
+									local shield_enemy = shield_ray and shield_ray.unit:parent()
+
+									if shield_enemy and alive_g(shield_enemy) then
+										if draw_shield_obstructions then
+											local draw_duration = 3
+											local new_brush = Draw:brush(Color.blue:with_alpha(0.5), draw_duration)
+											new_brush:cylinder(hit_pos, shield_ray.position, 1.5)
+										end
+
+										local s_ene_dmg = shield_enemy:character_damage()
+
+										if s_ene_dmg and s_ene_dmg.dead and not s_ene_dmg:dead() then
+											local s_base_ext = shield_enemy:base()
+											local char_tweak = s_base_ext and s_base_ext.char_tweak and s_base_ext:char_tweak()
+
+											if char_tweak then
+												local tweak_dmg = char_tweak.damage
+												local dmg_multiplier = nil
+
+												if hit_unit == shield_enemy then
+													dmg_multiplier = tweak_dmg.shield_explosion_damage_mul
+												else
+													dmg_multiplier = tweak_dmg.shield_explosion_ally_damage_mul
+												end
+
+												if dmg_multiplier == 0 then
+													ray_hit = nil
+
+													break
+												else
+													dmg_mul = dmg_multiplier
+												end
+											end
+										end
+									end
+								end
+
+								if ray_hit then
+									if draw_splinter_hits then
+										local draw_duration = 3
+										local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
+										new_brush:cylinder(s_pos, body_com, 0.5)
+									end
+
+									break
+								end
+							end
+
+							if draw_obstructed_splinters then
+								local draw_duration = 3
+								local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), draw_duration)
+								new_brush:cylinder(s_pos, body_com, 0.5)
+							end
+						end
+					end
+
+					if ray_hit and owner then
+						local base_ext = hit_unit:base()
+						tweak_name = base_ext and base_ext._tweak_table
+
+						if tweak_name then
+							if is_civilian_func(tweak_name) then
+								count_civilians = count_civilians + 1
+								is_civ = true
+							elseif is_gangster_func(tweak_name) then
+								count_gangsters = count_gangsters + 1
+								is_gangster = true
+							elseif base_ext.has_tag and base_ext:has_tag("law") then
+								count_cops = count_cops + 1
+								is_cop = true
+							end
+						end
+					end
+				end
+			elseif apply_dmg or hit_body:dynamic() then
+				if not units_to_hit[hit_unit_key] then
 					ray_hit = true
 					units_to_hit[hit_unit_key] = true
-					damage_character = true
+				end
+			end
+
+			if not ray_hit and apply_dmg and units_to_hit[hit_unit_key] and char_dmg_ext and char_dmg_ext.damage_explosion then
+				if params.no_raycast_check_characters then
+					ray_hit = true
 				else
-					body_com = hit_body:center_of_mass()
+					body_com = body_com or hit_body:center_of_mass()
 
 					for i = 1, #splinters do
 						local s_pos = splinters[i]
@@ -365,153 +471,53 @@ function ExplosionManager:detect_and_give_dmg(params)
 						ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
 
 						if ray_hit then
-							units_to_hit[hit_unit_key] = true
-							damage_character = true
-
-							local mov_ext = hit_unit:movement()
-
-							if mov_ext and mov_ext.m_com then
-								local e_com = mov_ext:m_com()
-								local shield_ray = world_g:raycast("ray", hit_pos, e_com, "slot_mask", shield_mask)
-								local shield_enemy = shield_ray and shield_ray.unit:parent()
-
-								if shield_enemy and alive_g(shield_enemy) then
-									if draw_shield_obstructions then
-										local draw_duration = 3
-										local new_brush = Draw:brush(Color.blue:with_alpha(0.5), draw_duration)
-										new_brush:cylinder(hit_pos, shield_ray.position, 1.5)
-									end
-
-									local s_ene_dmg = shield_enemy:character_damage()
-
-									if s_ene_dmg and s_ene_dmg.dead and not s_ene_dmg:dead() then
-										local s_base_ext = shield_enemy:base()
-										local char_tweak = s_base_ext and s_base_ext.char_tweak and s_base_ext:char_tweak()
-
-										if char_tweak then
-											local tweak_dmg = char_tweak.damage
-											local dmg_multiplier = nil
-
-											if hit_unit == shield_enemy then
-												dmg_multiplier = tweak_dmg.shield_explosion_damage_mul
-											else
-												dmg_multiplier = tweak_dmg.shield_explosion_ally_damage_mul
-											end
-
-											if dmg_multiplier == 0 then
-												ray_hit = nil
-
-												break
-											else
-												dmg_mul = dmg_multiplier
-											end
-										end
-									end
-								end
-							end
-
-							if ray_hit then
-								if draw_splinter_hits then
-									local draw_duration = 3
-									local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
-									new_brush:cylinder(s_pos, body_com, 0.5)
-								end
-
-								break
-							end
-						end
-
-						if draw_obstructed_splinters then
-							local draw_duration = 3
-							local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), draw_duration)
-							new_brush:cylinder(s_pos, body_com, 0.5)
-						end
-					end
-				end
-
-				if ray_hit and owner then
-					local base_ext = hit_unit:base()
-					tweak_name = base_ext and base_ext._tweak_table
-
-					if tweak_name then
-						if is_civilian_func(tweak_name) then
-							count_civilians = count_civilians + 1
-							is_civ = true
-						elseif is_gangster_func(tweak_name) then
-							count_gangsters = count_gangsters + 1
-							is_gangster = true
-						elseif base_ext.has_tag and base_ext:has_tag("law") then
-							count_cops = count_cops + 1
-							is_cop = true
+							break
 						end
 					end
 				end
 			end
-		elseif apply_dmg or hit_body:dynamic() then
-			if not units_to_hit[hit_unit_key] then
-				ray_hit = true
-				units_to_hit[hit_unit_key] = true
-			end
-		end
 
-		if not ray_hit and apply_dmg and units_to_hit[hit_unit_key] and char_dmg_ext and char_dmg_ext.damage_explosion then
-			if params.no_raycast_check_characters then
-				ray_hit = true
-			else
+			if ray_hit then
+				hit_units[hit_unit_key] = hit_unit
 				body_com = body_com or hit_body:center_of_mass()
 
-				for i = 1, #splinters do
-					local s_pos = splinters[i]
+				local dir = body_com - hit_pos
+				local length = dir:length()
+				dir = dir:normalized()
 
-					ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
+				local damage = dmg_mul and dmg * dmg_mul or dmg
+				damage = damage * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow) --apply falloff
+				damage = damage < 1 and 1 or damage --clamp to 1 (10 in-game) if less
 
-					if ray_hit then
-						break
-					end
+				if apply_dmg and damage > 0 then
+					local prop_damage = damage < 1 and 1 - length / range < -5 and 1 or damage
+
+					self:_apply_body_damage(true, hit_body, user_unit, dir, prop_damage)
 				end
-			end
-		end
 
-		if ray_hit then
-			hit_units[hit_unit_key] = hit_unit
-			body_com = body_com or hit_body:center_of_mass()
+				if damage_character then
+					local action_data = {
+						variant = "explosion",
+						damage = damage,
+						attacker_unit = user_unit,
+						weapon_unit = owner,
+						col_ray = self._col_ray or {
+							position = mvec3_copy(hit_body:position()),
+							ray = dir
+						},
+						ignite_character = params.ignite_character
+					}
 
-			local dir = body_com - hit_pos
-			local length = dir:length()
-			dir = dir:normalized()
+					char_dmg_ext:damage_explosion(action_data)
 
-			local damage = dmg_mul and dmg * dmg_mul or dmg
-			damage = damage * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow) --apply falloff
-			damage = damage < 1 and 1 or damage --clamp to 1 (10 in-game) if less
-
-			if apply_dmg and damage > 0 then
-				local prop_damage = damage < 1 and 1 - length / range < -5 and 1 or damage
-
-				self:_apply_body_damage(true, hit_body, user_unit, dir, prop_damage)
-			end
-
-			if damage_character then
-				local action_data = {
-					variant = "explosion",
-					damage = damage,
-					attacker_unit = user_unit,
-					weapon_unit = owner,
-					col_ray = self._col_ray or {
-						position = mvec3_copy(hit_body:position()),
-						ray = dir
-					},
-					ignite_character = params.ignite_character
-				}
-
-				char_dmg_ext:damage_explosion(action_data)
-
-				if tweak_name and char_dmg_ext:dead() then
-					if is_civ then
-						count_civilian_kills = count_civilian_kills + 1
-					elseif is_gangster then
-						count_gangster_kills = count_gangster_kills + 1
-					elseif is_cop then
-						count_cop_kills = count_cop_kills + 1
+					if tweak_name and char_dmg_ext:dead() then
+						if is_civ then
+							count_civilian_kills = count_civilian_kills + 1
+						elseif is_gangster then
+							count_gangster_kills = count_gangster_kills + 1
+						elseif is_cop then
+							count_cop_kills = count_cop_kills + 1
+						end
 					end
 				end
 			end
@@ -562,56 +568,58 @@ function ExplosionManager:units_to_push(units_to_push, from_pos, range)
 	end
 
 	for u_key, unit in pairs_g(units_to_push) do
-		local char_dmg_ext = unit:character_damage()
-		local is_character = char_dmg_ext and char_dmg_ext.damage_explosion
+		if alive_g(unit) then
+			local char_dmg_ext = unit:character_damage()
+			local is_character = char_dmg_ext and char_dmg_ext.damage_explosion
 
-		if not is_character or char_dmg_ext:dead() then
-			if is_character then
-				local mov_ext = unit:movement()
-				local full_body_action = mov_ext and mov_ext._active_actions and mov_ext._active_actions[1]
+			if not is_character or char_dmg_ext:dead() then
+				if is_character then
+					local mov_ext = unit:movement()
+					local full_body_action = mov_ext and mov_ext._active_actions and mov_ext._active_actions[1]
 
-				if full_body_action and full_body_action:type() == "hurt" then
-					full_body_action:force_ragdoll(true)
-				end
-			end
-
-			local nr_u_bodies = unit:num_bodies()
-			local rot_acc = Vector3(1 - math_rand(2), 1 - math_rand(2), 1 - math_rand(2)) * 10
-			local i_u_body = 0
-
-			while nr_u_bodies > i_u_body do
-				local u_body = unit:body(i_u_body)
-
-				if u_body:enabled() and u_body:dynamic() then
-					local dir_vec = u_body:center_of_mass() - from_pos
-					local length = dir_vec:length()
-					dir_vec = dir_vec:normalized()
-
-					local vel_dot = u_body:velocity():dot(dir_vec)
-					local max_vel = 800
-
-					if vel_dot < max_vel then
-						local vel_sub = vel_dot < 0 and 0 or vel_dot
-						local push_vel = (1 - length / range) * (max_vel - vel_sub)
-						dir_vec = dir_vec:with_z(dir_vec.z + 0.75) * push_vel
-
-						world_g:play_physic_effect(expl_physics_str, u_body, dir_vec, u_body:mass() / math_random(2), u_body:position(), rot_acc, 1)
+					if full_body_action and full_body_action:type() == "hurt" then
+						full_body_action:force_ragdoll(true)
 					end
 				end
 
-				i_u_body = i_u_body + 1
+				local nr_u_bodies = unit:num_bodies()
+				local rot_acc = Vector3(1 - math_rand(2), 1 - math_rand(2), 1 - math_rand(2)) * 10
+				local i_u_body = 0
+
+				while nr_u_bodies > i_u_body do
+					local u_body = unit:body(i_u_body)
+
+					if u_body:enabled() and u_body:dynamic() then
+						local dir_vec = u_body:center_of_mass() - from_pos
+						local length = dir_vec:length()
+						dir_vec = dir_vec:normalized()
+
+						local vel_dot = u_body:velocity():dot(dir_vec)
+						local max_vel = 800
+
+						if vel_dot < max_vel then
+							local vel_sub = vel_dot < 0 and 0 or vel_dot
+							local push_vel = (1 - length / range) * (max_vel - vel_sub)
+							dir_vec = dir_vec:with_z(dir_vec.z + 0.75) * push_vel
+
+							world_g:play_physic_effect(expl_physics_str, u_body, dir_vec, u_body:mass() / math_random(2), u_body:position(), rot_acc, 1)
+						end
+					end
+
+					i_u_body = i_u_body + 1
+				end
 			end
-		end
 
-		local main_body = unit:body("body")
+			local main_body = unit:body("body")
 
-		if main_body then
-			local push_vec = main_body:center_of_mass() - from_pos
-			push_vec = push_vec:normalized()
+			if main_body then
+				local push_vec = main_body:center_of_mass() - from_pos
+				push_vec = push_vec:normalized()
 
-			--5 here is 5kg, the resulting push_vec is velocity
-			--use 500 and 20000 respectively to break corpses completely
-			unit:push(5, push_vec * range * 2)
+				--5 here is 5kg, the resulting push_vec is velocity
+				--use 500 and 20000 respectively to break corpses completely
+				unit:push(5, push_vec * range * 2)
+			end
 		end
 	end
 end
@@ -676,19 +684,22 @@ function ExplosionManager:client_damage_and_push(from_pos, normal, user_unit, dm
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		units_to_push[hit_unit:key()] = hit_unit
 
-		local body_ext = hit_body:extension()
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			units_to_push[hit_unit:key()] = hit_unit
 
-		if body_ext and body_ext.damage and hit_unit:id() == -1 then
-			local dir = hit_body:center_of_mass() - from_pos
-			local length = dir:length()
-			dir = dir:normalized()
+			local body_ext = hit_body:extension()
 
-			local damage = dmg * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow)
+			if body_ext and body_ext.damage and hit_unit:id() == -1 then
+				local dir = hit_body:center_of_mass() - from_pos
+				local length = dir:length()
+				dir = dir:normalized()
 
-			self:_apply_body_damage(false, hit_body, user_unit, dir, damage)
+				local damage = dmg * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow)
+
+				self:_apply_body_damage(false, hit_body, user_unit, dir, damage)
+			end
 		end
 	end
 

@@ -15,9 +15,9 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["res_credits"] = "Heat Credits",
 		["res_credits_help"] = "View the credits for Heat.",
 
-		["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
-		["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
-		["dialog_enable_overhaul_dialog"] = "You are ENABLING the Complete Overhaul. The Overhaul should typically remain ON at all times, and only be disabled by removing the mod from your mods folder.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
+		--["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
+		--["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
+		--["dialog_enable_overhaul_dialog"] = "You are ENABLING the Complete Overhaul. The Overhaul should typically remain ON at all times, and only be disabled by removing the mod from your mods folder.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
 
 		["res_saveboost"] = "HOLD $BTN_INTERACT TO BOOST TO LEVEL 100",
 
@@ -802,7 +802,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["heist_nmh_new3_desc"] = "Press the button and wait for the elevator",	
 		
 		--OICW--
-		["bm_w_osipr"] = "SABR",
+		["bm_w_osipr"] = "OMNIA Technologies SABR",
 		["bm_w_osipr_gl"] = "SABR Grenade Launcher",
 		
 		--GO Bank remastered
@@ -827,7 +827,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["trophy_csgo01_desc"] = "And you didnt even have to buy this one",
 		["trophy_csgo01_objective"] = "Find spraypaint and spray graffiti in the vault on GO Bank Remastered.",
 
-		["END"] = "END",	
+		["END"] = "END",	--what
 		
 		--Whurr Heat Street Edit
 		["heist_heat_street_new_name"] = "Heat Street True Classic",
@@ -957,7 +957,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_upg_vintage_desc"] = "",
 
 		--Scorpion (get in-game-name later)--
-		["bm_wp_scorpion_m_extended_sc"] = "Double Magazine",
+		["bm_wp_scorpion_m_extended"] = "Double Magazine",
 		["bm_sc_scorpion_double_mag"] = "", --Unsure what this one is?--
 
 		--RPK--
@@ -1009,16 +1009,16 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		--Kobus 90--
 		["bm_wp_p90_body_p90_tan"] = "Tan Body",
-		["bm_ap_weapon_mod_sc_desc"] = "ADDS BODY ARMOR PENETRATION, SHIELD PENETRATION, AND WALL PENETRATION.",
+		["bm_ap_weapon_mod_sc_desc"] = "ADDS BODY ARMOR PENETRATION, SHIELD PENETRATION, AND WALL PENETRATION.", --this is unused.  for a reason, i think
 		["bm_wp_90_body_boxy"] = "OMNIA Assault Frame",
 		["bm_wp_90_body_boxy_desc"] = "Recovered from the desolated remains of an old OMNIA warehouse, this frame makes no difference to the weapon's handling or its functionality whatsoever, but its block-like aesthetic surely makes it a nice thing to have.",
 
 		--Phoenix .500--
 		["bm_wp_shatters_fury_desc"] = "A massive .500 caliber revolver with insane kick and stopping power.\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 
-		--OICW--
-		["bm_w_osipr_desc_pc"] = "X-Generation weapon technology. Equipped with 20mm airburst grenade launcher.\nPress $BTN_BIPOD to switch to the Grenade Launcher.",
-		["bm_w_osipr_desc"] = "X-Generation weapon technology. Equipped with 20mm airburst grenade launcher.\nHold $BTN_BIPOD to switch to the Grenade Launcher.",
+		--OICW/SABR--
+		["bm_w_osipr_desc_pc"] = "X-Generation weapon technology.\nEquipped with 20mm grenade launcher.\nPress $BTN_BIPOD to switch to the Grenade Launcher.",
+		["bm_w_osipr_desc"] = "X-Generation weapon technology.\nEquipped with 20mm grenade launcher.\nHold $BTN_BIPOD to switch to the Grenade Launcher.",
 
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
@@ -1032,16 +1032,18 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wskn_ak74_rodina_desc_sc"] = "A special-issue AK that - in war and crime - has demonstrated an unquenchable thirst for blood.",
 		["bm_wskn_deagle_bling_desc_sc"] = "A hand-crafted Deagle built as testament to the finest gaming-trained crackshot in the world.",
 
+		["bm_wp_upg_o_marksmansight_rear"] = "Steele Sight",
+
 		--Modifiers--
 		["bm_wp_upg_bonus_sc_none"] = "No Modifier",
 		["bm_wp_upg_bonus_sc_none_desc"] = "USE THIS TO DISABLE BOOSTS FROM WEAPON SKINS.",
 
 		--Little Friend--
-		["bm_m203_weapon_sc_desc_pc"] = "Press $BTN_BIPOD to switch to the mounted Grenade Launcher.",
-		["bm_m203_weapon_sc_desc"] = "Hold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
+		["bm_m203_weapon_sc_desc_pc"] = "Equipped with M203 40mm grenade launcher.\nPress $BTN_BIPOD to switch to the mounted Grenade Launcher.",
+		["bm_m203_weapon_sc_desc"] = "Equipped with M203 40mm grenade launcher.\nHold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
 
 		--Mosin--
-		["bm_mosin_sc_desc"] = "Classic, Powerful bolt-action rifle. This weapon reloads in clips of 5 bullets at a time.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
+		["bm_mosin_sc_desc"] = "Classic, powerful bolt-action rifle. This weapon reloads in clips of 5 bullets at a time.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 
 		--Broomstick--
 		["bm_c96_sc_desc"] = "Revolutionary German machine pistol. Capable of firing in full-auto at an insane rate, but will decimate your ammo reserves.\nThis weapon reloads in clips of 10 bullets at a time.",
@@ -1072,10 +1074,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_jowi"] = "Wick",
 		["menu_moving_target_sc"] = "Subtle",
 
-		["bm_wp_upg_i_singlefire_sc"] = "Slower Cyclic",
-		["bm_wp_upg_i_singlefire_sc_desc"] = "SLOWS YOUR RATE OF FIRE BY 15%", --RIP RoF mods
-		["bm_wp_upg_i_autofire_sc"] = "Faster Cyclic",
-		["bm_wp_upg_i_autofire_sc_desc"] = "INCREASES YOUR RATE OF FIRE BY 15%",
+		--["bm_wp_upg_i_singlefire_sc"] = "Slower Cyclic",
+		--["bm_wp_upg_i_singlefire_sc_desc"] = "SLOWS YOUR RATE OF FIRE BY 15%", --RIP RoF mods
+		--["bm_wp_upg_i_autofire_sc"] = "Faster Cyclic",
+		--["bm_wp_upg_i_autofire_sc_desc"] = "INCREASES YOUR RATE OF FIRE BY 15%",
 
 		["bm_hint_titan_60"] = "The Titandozer leaves in 60 seconds!",
 		["bm_hint_titan_10"] = "The Titandozer leaves in 10 seconds!",
@@ -1123,10 +1125,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_suit_jackal_track_desc"] = "A special-made tracksuit, with both the Jackal logo, and a variation on the VERITAS logo.\n\nThe crew received them in unmarked boxes, but Jackal confirms he never sent them, or has seen them before.\nIt's unknown where they came from.\n\n\n\n...Inside the packages, was one note:\n\n''##A TOKEN OF APPRECIATION, FOR THOSE WITH DEDICATION.\nXOXO\n--S.N.##''\n\n",
 
 		["bm_suit_sunny"] = "Sunny-Side Robber",
-		["bm_suit_sunny_desc"] = "Sometimes you just want to roll up your sleeves and do a little heisting.",
+		["bm_suit_sunny_desc"] = "Sometimes you just want to roll up your sleeves, and do a little heisting.",
 
-		["bm_suit_pool"] = "Bodhi's Pool Repair Uniform",
-		["bm_suit_pool_desc"] = "Sharp threads for pool repair men...",
+		--["bm_suit_pool"] = "Bodhi's Pool Repair Uniform",							    ~~R.I.P.~~
+		--["bm_suit_pool_desc"] = "Sharp threads for pool repair men...",			~~TAKEN TOO SOON~~
 
 		["bm_suit_prison"] = "Prison Suit",
 		["bm_suit_prison_desc"] = "You've been taken into custody!",
@@ -1194,7 +1196,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_w_x_shrew"] = "Barry & Paul",
 		["bm_w_x_1911"] = "Mustang & Sally",
 		["bm_w_tec9"] = "T3K Urban Submachine Gun",
-		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns",
+		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns", 
 
 		-- default attachment name stuff		
 		["bm_wp_mp5_fg_mp5sd"] = "SPOOC Foregrip",
@@ -1306,6 +1308,7 @@ Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function
 		--US, interchangeable
 		["hud_assault_cover_us"] = "STAY IN COVER",
 		["hud_assault_cover_usds"] = "TRY TO SURVIVE",
+		["hud_assault_cover_us_run"] = "STICK TO COVER", --to be used on heists that have a lot of forward movement, in place of "stay in cover".  Heat Street, HoxOut 1, etc.
 	
 		--police departments/zeals
 		["hud_assault_assault"] = "POLICE ASSAULT IN PROGRESS",
@@ -1554,19 +1557,19 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_misc_res_3"] = "Heat has a Discord server! Join for discussion, balance feedback, and matchmaking! Check the Main Menu.",	
 		--Trivia Hints
 		["loading_fluff_res_title"] = "Heat Trivia",
-		["loading_fluff_res_1"] = "OMNIA spends a fortune reviving failed weapon projects.",	
+		["loading_fluff_res_1"] = "Nobody knows OMNIA's true goals.",	
 		["loading_fluff_res_2"] = "The LPF is owed a lot of beers.",	
 		["loading_fluff_res_3"] = "The LPF and Titan Sniper are Australian.",	
 		["loading_fluff_res_4"] = "The NYPD Bronco Cop loves donuts.",	
 		["loading_fluff_res_5"] = "The ZEAL UMP Elite SWAT's name is Chad.",	
-		["loading_fluff_res_6"] = "Titan Dozers have glowing eyes thanks to extensive genetic engineering, human experiments, and combat drugs.",	
+		["loading_fluff_res_6"] = "Titan Dozers and Titan SWAT have glowing eyes thanks to extensive genetic engineering, human experiments, and combat drugs.",	
 		["loading_fluff_res_7"] = "Captain Spring is not human. He might have been, once upon a time.",	
 		["loading_fluff_res_8"] = "guys how do you change localization strings help",	
 		["loading_fluff_res_9"] = "OMNIA has been developing reinforced security doors to protect against dinosaur attacks.",	
 		["loading_fluff_res_10"] = "The Grenadier used to work in pest control.",	
 		["loading_fluff_res_11"] = "You have never seen a Titan Cloaker.",
-		["loading_fluff_res_12"] = "Omnia is a self-described 'neoceltic pagan folk' band based in the Netherlands and whose members have had Irish, Dutch, Cornish, Belgian, Indonesian and Persian backgrounds. Connection to the organization OMNIA unconfirmed.",	
-		["loading_fluff_res_13"] = "Whatever happened that caused Jackal to get involved with Crime.Net and leave GenSec, he refuses to talk about it. He seems to have been 'disturbed' by the event.",	
+		["loading_fluff_res_12"] = "DATA MISSING . . .",	
+		["loading_fluff_res_13"] = "DATA MISSING . . .",	
 		["loading_fluff_res_14"] = "HAHAHAHAHA.",
 		["loading_fluff_res_15"] = "Captain Summers and his crew used to be a crew of four heisters, much like a multinational equivalent of the Payday Crew. They are now a strike team for OMNIA.",
 		["loading_fluff_res_16"] = "Captain Summers and his crew officially died in a building collapse while trying to rob a bank. This was a ruse.",
@@ -1577,8 +1580,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_fluff_res_21"] = "The Grenadier division spends a fortune on Diphoterine due to several friendly fire incidents.",
 		["loading_fluff_res_22"] = "You may or may not have met Captain Summers before.",
 		["loading_fluff_res_23"] = "The Policía Federal has a special chupacabra hunting division.",
-		["loading_fluff_res_24"] = "Captains don't die, they go into custody.",
-		["loading_fluff_res_25"] = "REAPER offered a 'quick and brutal crackdown on cartels' at a price cheaper than OMNIA, which led to the Policía Federal adopting their version of TITAN units. This was a ploy to get their forces closer to OMNIA and Murky operations both in Mexico and the US.",
+		["loading_fluff_res_24"] = "Captains don't die, they just pass out.",
+		["loading_fluff_res_25"] = "Russian Reapers offered a 'quick and brutal crackdown on cartels' at a price cheaper than OMNIA, which led to the Policía Federal adopting their version of TITAN units. This was a ploy to get their forces closer to OMNIA and Murky operations both in Mexico and the US.",
 
 		["menu_button_deploy_bipod"] = "BIPOD/ALT-FIRE",
 		["skill_stockholm_syndrome_trade"] = "Down Restored!",
@@ -1605,7 +1608,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_medidozer_longdesc"] = "All normal enemies during assault waves are replaced with Medics, and all special units are replaced with Bulldozers.",
 		["mutator_medicdozers"] = "Medic Dozers",
 		["mutator_medicdozers_desc"] = "Medic Dozers can now spawn.",
-		["mutator_medicdozers_longdesc"] = "Whenever a Bulldozer of any variety spawns, there is a 50% chance that it will be replaced by a Medic Bulldozer. \n\nNote: If the Semi-Auto Shotgun Bulldozer mutator is enabled, then the Medic Dozer will have a 33.3% chance of replacing a Black Bulldozer.",
+		["mutator_medicdozers_longdesc"] = "Whenever a Bulldozer of any variety spawns, there is a 50% chance that it will be replaced by a Medic Bulldozer. \n\nNote: If the M1014 Bulldozer mutator is enabled, then the Medic Dozer will have a 33.3% chance of replacing an IZHMA Bulldozer.",
 
 		["mutator_notitans"] = "Budget Cuts",
 		["mutator_notitans_desc"] = "Disables Titan Units.",
@@ -1613,19 +1616,19 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		["mutator_mememanonly"] = "HAHAHA, FOOLED YOU GUYS!",
 		["mutator_mememanonly_desc"] = "SUFFERING",
-		["mutator_mememanonly_longdesc"] = "CANTRUNNOESCAPEHELPHELPHELP\n\n WARNING: This mutator may cause crashes on some maps.",
+		["mutator_mememanonly_longdesc"] = "CANTRUNNOESCAPEHELPHELPHELP\n\nWARNING: This mutator may cause crashes on some maps.",
 
 		["MutatorMoreDonutsPlus"] = "More Donuts+",
 		["MutatorMoreDonutsPlus_desc"] = "All common enemies replaced by NYPD Bronco Cops, and all specials are replaced by OMNIA LPFs.",
-		["MutatorMoreDonutsPlus_longdesc"] = "All common enemies are replaced by NYPD Bronco Cops, and all specials are replaced with OMNIA LPFs. \n\nWARNING: By enabling this mutator, you are committing an atrocity.",
+		["MutatorMoreDonutsPlus_longdesc"] = "All common enemies are replaced by NYPD Bronco Cops, and all specials are replaced with OMNIA LPFs.\n\nWARNING: You reap what you sow.",
 
 		["MutatorJungleInferno"] = "Jungle Inferno",
 		["MutatorJungleInferno_desc"] = "All enemies are replaced by Captain Summers.",
-		["MutatorJungleInferno_longdesc"] = "All non-scripted spawn enemies are replaced by clones of Captain Summers.",
+		["MutatorJungleInferno_longdesc"] = "All non-scripted spawn enemies are replaced by clones of Captain Summers.\n\nWARNING: You're in Summers' kingdom now, baby!",
 
-		["mutator_minidozers"] = "Semi-Auto Shotgun Bulldozers",
-		["mutator_minidozers_desc"] = "Semi-Auto Shotgun Bulldozers can now spawn.",
-		["mutator_minidozers_longdesc"] = "Whenever a Black Bulldozer spawns, there is a 50% chance that it will be replaced by a Bulldozer wielding an M1014.\n\nNote: If the Medic Bulldozer mutator is enabled, then the Semi-Auto Shotgun Bulldozer will have a 33.3% chance of replacing a Black Bulldozer.",
+		["mutator_minidozers"] = "M1014 Bulldozer Rush",
+		["mutator_minidozers_desc"] = "M1014 Bulldozers can now spawn.",
+		["mutator_minidozers_longdesc"] = "Whenever a IZHMA Bulldozer spawns, there is a 50% chance that it will be replaced by a Bulldozer wielding an M1014.\n\nNote: If the Medic Bulldozer mutator is enabled, then the M1014 Bulldozer will have a 33.3% chance of replacing an IZHMA Bulldozer.",
 
 		["mutator_fatroll"] = "Fat Roll",
 		["mutator_fatroll_desc"] = "Damage Grace disabled.",
@@ -1636,20 +1639,20 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_zombie_outbreak_longdesc"] = "The dead have risen! Replaces all enemies with Zombie units",
 
 		["mutator_faction_override"] = "Enemy Faction Override",
-		["mutator_faction_override_desc"] = "",
-		["mutator_faction_override_longdesc"] = "",
+		["mutator_faction_override_desc"] = "Override a level's chosen faction",
+		["mutator_faction_override_longdesc"] = "Want Murkies on Bank Heist? Or Zombies to invade Big Bank? Maybe you desire Reapers showing up to your run of Heat Street? Go ahead!",
 		["mutator_faction_override_"] = "",
 		["mutator_faction_override_select"] = "",
-		["mutator_faction_override_america"] = "America",
-		["mutator_faction_override_russia"] = "Russia",
-		["mutator_faction_override_zombie"] = "Zombie",
-		["mutator_faction_override_murkywater"] = "MurkyWater",
-		["mutator_faction_override_nypd"] = "NYPD",
-		["mutator_faction_override_lapd"] = "LAPD",
+		["mutator_faction_override_america"] = "USA - Generic",
+		["mutator_faction_override_russia"] = "Russian Reapers",
+		["mutator_faction_override_zombie"] = "Zombies",
+		["mutator_faction_override_murkywater"] = "Murkywater",
+		["mutator_faction_override_nypd"] = "USA - Classic",
+		["mutator_faction_override_lapd"] = "USA - LAPD",
 		["faction_selector_choice"] = "Faction: ",
 
 		--Crime spree modifier changes
-		["cn_crime_spree_brief"] = "A Crime Spree is an endless series of randomly selected heists, executed in succession. With each heist you complete, your Rank and Reward will increase! Each 20th or 26th rank you will need to choose a modifier and each 100th rank there is an increase to the risk level, that will make the next heists harder to complete. After risk level 600, the amount of i-frames that player have starts to decrease and bravo units begin to spawn normally.\n\n##If you invite your crew, make sure they started their own Crime Spree before joining in order to gain ranks and Rewards as well.##",
+		["cn_crime_spree_brief"] = "A Crime Spree is an endless series of randomly selected heists, executed in succession. With each heist you complete, your Rank and Reward will increase! Each 20th or 26th rank you will need to choose a modifier and each 100th rank there is an increase to the risk level, that will make the next heists harder to complete. After risk level 600, the amount of I-frames that players have -- which is the amount of time that exists between damage being able to be received -- begins to decrease, and Bravo units begin to spawn normally.\n\n##If you invite your crew, make sure they started their own Crime Spree before joining in order to gain ranks and Rewards as well.##",
 		["menu_cs_next_modifier_forced"] = "",
 		["menu_cs_modifier_dozers"] = "One additional Bulldozer is allowed into the level.",
 		["menu_cs_modifier_medics"] = "One additional Medic is allowed into the level.",
@@ -1684,6 +1687,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_cs_modifier_10secondsresponsetime"] = "All police assaults now start at maximum intensity.",
 
 		["bm_menu_skill"] = "Crew Boosts",
+		["menu_crew_default"] = "DEFAULT SET",
 
 		["menu_crew_interact"] = "Quick",
 		["menu_crew_interact_desc"] = "Players interact 15% faster per AI controlled crew member.",
@@ -1763,8 +1767,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_triathlete_beta_sc"] = "Cable Guy",
 			["menu_triathlete_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases your supply of cable ties by ##4##.\n\nYou cable tie hostages ##75%## faster.\n\nACE: ##$pro##\nYour chance to pick up cable ties from ammo boxes is increased to ##30%.##\n\nIncreases your maximum cable ties by ##3.##",
 
-			--Clowns are Scary
-			["menu_cable_guy_beta_sc"] = "Clowns are Scary",
+			--Smooth Talker (LOL)
+			["menu_cable_guy_beta_sc"] = "Smooth Talker",
 			["menu_cable_guy_beta_desc_sc"] = "BASIC: ##$basic##\nCivilians remain intimidated ##50%## longer.\n\nACE: ##$pro##\nThe power and range of your intimidation is increased by ##50%.##",
 
 			--Stockholm Syndrome
@@ -1801,8 +1805,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_sharpshooter_sc"] = "MG Specialist",
 			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nThe movement penalty to accuracy is reduced by ##60%## for SMGs and LMGs.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
 
-			--Shock and Awe
-			["menu_spotter_teamwork_beta_sc"] = "Shock and Awe",
+			--Shock & Awe
+			["menu_spotter_teamwork_beta_sc"] = "Shock & Awe",
 			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Does not apply to Crossbows, Bows, Grenade Launchers, or Rocket Launchers.\n\nACE: ##$pro##\nYou can now hip-fire with your weapons while sprinting.\n\nYour weapons' magazine sizes are increased by an additional ##30%.##",
 
 			--Heavy Impact
@@ -1841,7 +1845,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_close_by_beta_sc"] = "Gung-Ho",
 			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now hip-fire with shotguns and flamethrowers while sprinting.\n\nACE: ##$pro##\nYour rate of fire is increased by ##35%## while hip-firing with shotguns and flamethrowers.",
 
-			--Overkill
+			--OVERKILL
 			["menu_overkill_sc"] = "OVERKILL",
 			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nKills using a shotgun, flamethrower, or the OVE9000 portable saw grants them a ##50%## damage boost for ##3## seconds.\n\nACE: ##$pro##\nThe damage bonus now applies to all weapons and lasts ##10## seconds. Skill must still be activated using a shotgun or the OVE9000 portable saw.\n\nNote: Does not apply to grenade launchers.\n\nDecreases the time it takes to pull and put away shotguns and the saw by ##50%##.",
 
@@ -1949,15 +1953,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_trip_mine_expert_beta_sc"] = "Danger Close",
 			["menu_combat_engineering_desc_sc"] = "BASIC: ##$basic##\nThe radius of trip mine explosion is increased by ##30%.##\n\nACE: ##$pro##\nYour trip mine deals ##50%## more damage.",
 
-			--Drill Sawgeant
-			["menu_drill_expert_beta_sc"] = "Drill Sawgeant",
+			--Full Bore
+			["menu_drill_expert_beta_sc"] = "Full Bore",
 			["menu_drill_expert_beta_desc_sc"] = "BASIC: ##$basic##\nYour drill and saw efficiency is increased by ##10%.##\n\nACE: ##$pro##\nFurther increases your drill and saw efficency by ##20%.##",
 
 			--Demoman--
 			["menu_more_fire_power_sc"] = "Demoman",
 			["menu_more_fire_power_desc_sc"] = "BASIC: ##$basic##\nYou can now carry ##6## shaped charges and ##6## trip mines.\n\nYou deploy shaped charges and trip mines ##20%## faster.\n\nACE: ##$pro##\nYou can now carry ##8## shaped charges and ##10## trip mines.\n\nYou deploy shaped charges and trip mines an additional ##20%## faster.",
 
-			--Kickstarter
+			--Kick Starter
 			["menu_kick_starter_beta_sc"] = "Kick Starter",
 			["menu_kick_starter_beta_desc_sc"] = "BASIC: ##$basic##\nYour drills and saws gain a ##30%## chance to automatically restart after breaking.\n\nACE: ##$pro##\nYou gain the ability to restart drills and saws by hitting them with a melee attack. You get ##1## chance for each time it breaks with a ##50%## success rate.",
 
@@ -2028,7 +2032,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   BRAWLER SUBTREE   ]]--
 			--{
 
-			--Counter-Strike--
+			--Counter Strike--
 			["menu_drop_soap_beta_sc"] = "Counter Strike",
 			["menu_drop_soap_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now parry cloaker kicks while you have your melee weapon drawn, knocking them down.\n\nYou take ##20%## less damage from cloaker kicks and taser shocks.\n\nACE: ##$pro##\nRanged damage against you is reduced by ##10%## while charging your melee weapon.\n\nYou take an additional ##30%## less damage from cloaker kicks and taser shocks.",
 
@@ -2045,8 +2049,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_thick_skin_beta_sc"] = "Deep Pockets",
 		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the concealment of melee weapons by ##2.##\n\nACE: ##$pro##\nIncreases the armor of all ballistic vests by ##20.##\n\nIncreases the concealment of all ballistic vests by ##4.##",
 
-		--Duck and Cover--
-		["menu_sprinter_beta_sc"] = "Duck and Cover",
+		--Duck & Cover--
+		["menu_sprinter_beta_sc"] = "Duck & Cover",
 		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##10%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##30%## of your dodge every second while on a zipline.",
 
 		--Sneaky Bastard--
@@ -2140,9 +2144,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_gun_fighter_sc"] = "Gunfighter",
 		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nPistols reload ##5%## faster.\n\nThe movement penalty to accuracy is reduced by ##40%## for Pistols.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nPistols reload an additional ##25%## faster.",
 
-		--Akimbo--
-		["menu_akimbo_skill_sc"] = "Akimbo",
-		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkibmo weapons gain ##8## stability.\n\nACE: ##$pro##\nAkimbo weapons gain an additional ##8## stability and ##25%## more total ammo capacity.",
+		--Maximum Action--
+		["menu_akimbo_skill_sc"] = "Maximum Action",
+		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkimbo weapons gain ##8## stability.\n\nACE: ##$pro##\nAkimbo weapons gain an additional ##8## stability and ##25%## more total ammo capacity.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",
@@ -2160,7 +2164,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_running_from_death_beta_sc"] = "Undying",
 		["menu_running_from_death_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##100%## increase to bleedout health.\n\nACE: ##$pro##\nYou gain an additional ##100%## increase to bleedout health.\n\nYou may use your primary weapon while in bleedout.",
 
-		--What Doesn't Kill You Only Makes You Stronger--
+		--What Doesn't Kill--
 		["menu_what_doesnt_kill_beta_sc"] = "What Doesn't Kill",
 		["menu_what_doesnt_kill_beta_desc_sc"] = "BASIC: ##$basic##\nIncoming damage is reduced by ##1## point for each down you are closer to custody. \n\nACE: ##$pro##\nIncoming damage is reduced by an additional ##3## points at all times.",
 
@@ -2236,7 +2240,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck1_5_desc_sc"] = "You and your crew gain ##5%## more health.\n\nNote: Crew perks do not stack.",
 		["menu_deck1_7_desc_sc"] = "You gain ##10%## more armor.",
 		["menu_deck1_9_desc_sc"] = "You and your crew gains ##5%## max health and ##10%## stamina for each hostage up to ##4## times.\n\nNote: Crew perks do not stack.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
-		--I only had to put these in to fix Overkill's shitty rebalance attempt--
+		
 		--Armorer--
 		["menu_deck3_1_desc_sc"] = "You gain ##10%## more armor.",
 		["menu_deck3_3_desc_sc"] = "You gain an additional ##10%## more armor.",
@@ -2352,10 +2356,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		--Blank Perk Deck--
 		["menu_st_spec_0"] = "Blank Deck",
 		["menu_st_spec_22"] = "Blank Deck",
-		["menu_st_spec_0_desc"] = "This deck has no benefits at all.",
+		["menu_st_spec_0_desc"] = "This deck has no benefits at all.\n\nFor the heister looking for punishment.",
 		["menu_st_spec_00"] = "Wildcard Deck",
 		["menu_st_spec_23"] = "Wildcard Deck",
-		["menu_st_spec_00_desc"] = "This deck only has the shared skills.",
+		["menu_st_spec_00_desc"] = "This deck only has the shared skills.\n\nFor the heister looking for danger.",
 		["menu_deck0_1"] = "",
 		["menu_deck0_1_desc"] = "",
 	})

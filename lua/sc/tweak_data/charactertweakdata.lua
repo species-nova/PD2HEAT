@@ -3247,8 +3247,8 @@ function CharacterTweakData:_init_russian(presets)
 	self.russian.damage = presets.gang_member_damage
 	self.russian.weapon = deep_clone(presets.weapon.gang_member)
 	self.russian.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_74_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		primary = self.char_wep_tables.dallas.primaries,
+		secondary = self.char_wep_tables.dallas.secondaries
 	}
 	self.russian.detection = presets.detection.gang_member
 	self.russian.move_speed = presets.move_speed.very_fast
@@ -3273,8 +3273,8 @@ function CharacterTweakData:_init_german(presets)
 	self.german.damage = presets.gang_member_damage
 	self.german.weapon = deep_clone(presets.weapon.gang_member)
 	self.german.weapon.weapons_of_choice = {
-		primary = "wpn_fps_shot_r870_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
+		primary = self.char_wep_tables.wolf.primaries,
+		secondary = self.char_wep_tables.wolf.secondaries
 	}
 	self.german.detection = presets.detection.gang_member
 	self.german.move_speed = presets.move_speed.very_fast
@@ -3299,8 +3299,8 @@ function CharacterTweakData:_init_spanish(presets)
 	self.spanish.damage = presets.gang_member_damage
 	self.spanish.weapon = deep_clone(presets.weapon.gang_member)
 	self.spanish.weapon.weapons_of_choice = {
-		primary = "wpn_fps_lmg_m249_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+		primary = self.char_wep_tables.chains.primaries,
+		secondary = self.char_wep_tables.chains.secondaries
 	}
 	self.spanish.detection = presets.detection.gang_member
 	self.spanish.move_speed = presets.move_speed.very_fast
@@ -3325,8 +3325,8 @@ function CharacterTweakData:_init_american(presets)
 	self.american.damage = presets.gang_member_damage
 	self.american.weapon = deep_clone(presets.weapon.gang_member)
 	self.american.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_m14_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		primary = self.char_wep_tables.houston.primaries,
+		secondary = self.char_wep_tables.houston.secondaries
 	}
 	self.american.detection = presets.detection.gang_member
 	self.american.move_speed = presets.move_speed.very_fast
@@ -3350,8 +3350,8 @@ function CharacterTweakData:_init_jowi(presets)
 	self.jowi.damage = presets.gang_member_damage
 	self.jowi.weapon = deep_clone(presets.weapon.gang_member)
 	self.jowi.weapon.weapons_of_choice = {
-		primary = "wpn_fps_snp_tti_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
+		primary = self.char_wep_tables.wick.primaries,
+		secondary = self.char_wep_tables.wick.secondaries
 	}
 	self.jowi.detection = presets.detection.gang_member
 	self.jowi.move_speed = presets.move_speed.very_fast
@@ -3375,8 +3375,8 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.damage = presets.gang_member_damage
 	self.old_hoxton.weapon = deep_clone(presets.weapon.gang_member)
 	self.old_hoxton.weapon.weapons_of_choice = {
-		primary = "wpn_fps_sho_spas12_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
+		primary = self.char_wep_tables.hoxton.primaries,
+		secondary = self.char_wep_tables.hoxton.secondaries
 	}
 	self.old_hoxton.detection = presets.detection.gang_member
 	self.old_hoxton.move_speed = presets.move_speed.very_fast
@@ -3400,8 +3400,8 @@ function CharacterTweakData:_init_clover(presets)
 	self.female_1.damage = presets.gang_member_damage
 	self.female_1.weapon = deep_clone(presets.weapon.gang_member)
 	self.female_1.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_l85a2_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		primary = self.char_wep_tables.clover.primaries,
+		secondary = self.char_wep_tables.clover.secondaries
 	}
 	self.female_1.detection = presets.detection.gang_member
 	self.female_1.move_speed = presets.move_speed.very_fast
@@ -3425,8 +3425,8 @@ function CharacterTweakData:_init_dragan(presets)
 	self.dragan.damage = presets.gang_member_damage
 	self.dragan.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragan.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_vhs_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker")
+		primary = self.char_wep_tables.dragan.primaries,
+		secondary = self.char_wep_tables.dragan.secondaries
 	}
 	self.dragan.detection = presets.detection.gang_member
 	self.dragan.move_speed = presets.move_speed.very_fast
@@ -3450,8 +3450,8 @@ function CharacterTweakData:_init_jacket(presets)
 	self.jacket.damage = presets.gang_member_damage
 	self.jacket.weapon = deep_clone(presets.weapon.gang_member)
 	self.jacket.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_74_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+		primary = self.char_wep_tables.jacket.primaries,
+		secondary = self.char_wep_tables.jacket.secondaries
 	}
 	self.jacket.detection = presets.detection.gang_member
 	self.jacket.move_speed = presets.move_speed.very_fast
@@ -3475,8 +3475,8 @@ function CharacterTweakData:_init_bonnie(presets)
 	self.bonnie.damage = presets.gang_member_damage
 	self.bonnie.weapon = deep_clone(presets.weapon.gang_member)
 	self.bonnie.weapon.weapons_of_choice = {
-		primary = "wpn_fps_shot_b682_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
+		primary = self.char_wep_tables.bonnie.primaries,
+		secondary = self.char_wep_tables.bonnie.secondaries
 	}
 	self.bonnie.detection = presets.detection.gang_member
 	self.bonnie.move_speed = presets.move_speed.very_fast
@@ -3500,8 +3500,8 @@ function CharacterTweakData:_init_sokol(presets)
 	self.sokol.damage = presets.gang_member_damage
 	self.sokol.weapon = deep_clone(presets.weapon.gang_member)
 	self.sokol.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_asval_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		primary = self.char_wep_tables.sokol.primaries,
+		secondary = self.char_wep_tables.sokol.secondaries
 	}
 	self.sokol.detection = presets.detection.gang_member
 	self.sokol.move_speed = presets.move_speed.very_fast
@@ -3525,8 +3525,8 @@ function CharacterTweakData:_init_dragon(presets)
 	self.dragon.damage = presets.gang_member_damage
 	self.dragon.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragon.weapon.weapons_of_choice = {
-		primary = "wpn_fps_snp_wa2000_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		primary = self.char_wep_tables.jiro.primaries,
+		secondary = self.char_wep_tables.jiro.secondaries
 	}
 	self.dragon.detection = presets.detection.gang_member
 	self.dragon.move_speed = presets.move_speed.very_fast
@@ -3550,8 +3550,8 @@ function CharacterTweakData:_init_bodhi(presets)
 	self.bodhi.damage = presets.gang_member_damage
 	self.bodhi.weapon = deep_clone(presets.weapon.gang_member)
 	self.bodhi.weapon.weapons_of_choice = {
-		primary = "wpn_fps_snp_model70_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
+		primary = self.char_wep_tables.bodhi.primaries,
+		secondary = self.char_wep_tables.bodhi.secondaries
 	}
 	self.bodhi.detection = presets.detection.gang_member
 	self.bodhi.move_speed = presets.move_speed.very_fast
@@ -3575,8 +3575,8 @@ function CharacterTweakData:_init_jimmy(presets)
 	self.jimmy.damage = presets.gang_member_damage
 	self.jimmy.weapon = deep_clone(presets.weapon.gang_member)
 	self.jimmy.weapon.weapons_of_choice = {
-		primary = "wpn_fps_sho_ben_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+		primary = self.char_wep_tables.jimmy.primaries,
+		secondary = self.char_wep_tables.jimmy.secondaries
 	}
 	self.jimmy.detection = presets.detection.gang_member
 	self.jimmy.move_speed = presets.move_speed.very_fast
@@ -3600,8 +3600,8 @@ function CharacterTweakData:_init_sydney(presets)
 	self.sydney.damage = presets.gang_member_damage
 	self.sydney.weapon = deep_clone(presets.weapon.gang_member)
 	self.sydney.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_tecci_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_degle/wpn_npc_degle")
+		primary = self.char_wep_tables.sydney.primaries,
+		secondary = self.char_wep_tables.sydney.secondaries
 	}
 	self.sydney.detection = presets.detection.gang_member
 	self.sydney.move_speed = presets.move_speed.very_fast
@@ -3625,8 +3625,8 @@ function CharacterTweakData:_init_wild(presets)
 	self.wild.damage = presets.gang_member_damage
 	self.wild.weapon = deep_clone(presets.weapon.gang_member)
 	self.wild.weapon.weapons_of_choice = {
-		primary = "wpn_fps_sho_boot_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+		primary = self.char_wep_tables.rust.primaries,
+		secondary = self.char_wep_tables.rust.secondaries
 	}
 	self.wild.detection = presets.detection.gang_member
 	self.wild.move_speed = presets.move_speed.very_fast
@@ -3650,8 +3650,8 @@ function CharacterTweakData:_init_chico(presets)
 	self.chico.damage = presets.gang_member_damage
 	self.chico.weapon = deep_clone(presets.weapon.gang_member)
 	self.chico.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_contraband_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+		primary = self.char_wep_tables.tony.primaries,
+		secondary = self.char_wep_tables.tony.secondaries
 	}
 	self.chico.detection = presets.detection.gang_member
 	self.chico.move_speed = presets.move_speed.very_fast
@@ -3675,8 +3675,8 @@ function CharacterTweakData:_init_max(presets)
 	self.max.damage = presets.gang_member_damage
 	self.max.weapon = deep_clone(presets.weapon.gang_member)
 	self.max.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_akm_gold_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker")
+		primary = self.char_wep_tables.sangres.primaries,
+		secondary = self.char_wep_tables.sangres.secondaries
 	}
 	self.max.detection = presets.detection.gang_member
 	self.max.move_speed = presets.move_speed.very_fast
@@ -3701,8 +3701,8 @@ function CharacterTweakData:_init_myh(presets)
 	self.myh.damage = presets.gang_member_damage
 	self.myh.weapon = deep_clone(presets.weapon.gang_member)
 	self.myh.weapon.weapons_of_choice = {
-		primary = "wpn_fps_ass_ching_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+		primary = self.char_wep_tables.duke.primaries,
+		secondary = self.char_wep_tables.duke.secondaries
 	}
 	self.myh.detection = presets.detection.gang_member
 	self.myh.move_speed = presets.move_speed.very_fast
@@ -3725,7 +3725,7 @@ function CharacterTweakData:_init_ecp(presets)
 	}
 	self.ecp_female.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_m4_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = "wpn_fps_smg_mp5_npc"
 	}
 	self.ecp_female.always_face_enemy = true
 	self.ecp_female.no_run_start = true
@@ -3749,7 +3749,7 @@ function CharacterTweakData:_init_ecp(presets)
 	}
 	self.ecp_male.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_m4_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92")
+		secondary = "wpn_fps_smg_mp5_npc"
 	}
 	self.ecp_male.always_face_enemy = true
 	self.ecp_male.no_run_start = true
@@ -3775,8 +3775,8 @@ function CharacterTweakData:_init_joy(presets)
 		weapon = deep_clone(presets.weapon.gang_member)
 	}
 	self.joy.weapon.weapons_of_choice = {
-		primary = "wpn_fps_smg_shepheard_npc",
-		secondary = Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_c45")
+		primary = self.char_wep_tables.joy.primaries,
+		secondary = self.char_wep_tables.joy.secondaries
 	}
 	self.joy.always_face_enemy = true
 	self.joy.no_run_start = true
@@ -12156,6 +12156,675 @@ function CharacterTweakData:_presets(tweak_data)
 			panic_chance_mul = 0
 		}
 	}
+	
+	--bot weapon randomizer bs--
+	self.char_wep_tables = {}
+
+	self.char_wep_tables.dallas = {
+		primaries = {
+			[1] = {
+				--weapon factory id/name, found in weaponfactorytweakdata, usually at the bottom of an init function
+				--in the case of this weapon, you can find it like this: self.wpn_fps_ass_74_npc = deep_clone(self.wpn_fps_ass_74)
+				--you want the first part without the self., so wpn_fps_ass_74_npc
+				factory_name = "wpn_fps_ass_74_npc",
+				--blueprint table used to build a weapon with certain weapon mods/parts, which can be found in weaponfactorytweakdata
+				--these can be found as variables or strings, depending on where you're looking, but you need to type them as a string here
+				--if the weapon is not gonna use any mods, just leave the table empty or don't even define it
+				blueprint = {
+					"wpn_fps_upg_ak_b_ak105",
+					"wpn_fps_upg_o_ak_scopemount",
+					"wpn_fps_upg_ak_fg_tapco",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire",
+					"wpn_fps_upg_ak_g_pgrip",
+					"wpn_fps_upg_ak_m_uspalm",
+					"wpn_fps_upg_o_cmore",
+					"wpn_upg_ak_s_folding"
+				},
+				--cosmetics table used to add a skin or color to the weapon
+				--haven't fully looked into where these are stored and how this works, so leave it blank for now
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_amcar_npc",
+				blueprint = {
+					"wpn_fps_upg_o_eotech",
+					"wpn_fps_upg_m4_s_standard",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_ass_g36_npc",
+				blueprint = {
+					"wpn_fps_ass_g36_o_vintage",
+					"wpn_fps_ass_g36_s_sl8",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_pis_1911_npc",
+				blueprint = {
+					"wpn_fps_pis_1911_g_bling"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.wolf = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_shot_r870_npc",
+				blueprint = {
+					"wpn_fps_shot_r870_s_solid_big",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_s552_npc",
+				blueprint = {
+					"wpn_fps_ass_s552_b_long",
+					"wpn_fps_ass_s552_fg_standard_green",
+					"wpn_fps_ass_s552_g_standard_green",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc",
+				blueprint = {
+					"wpn_fps_smg_mp5_fg_m5k"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.chains = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_lmg_m249_npc",
+				blueprint = {},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_g3_npc",
+				blueprint = {
+					"wpn_fps_ass_g3_fg_railed",
+					"wpn_fps_ass_g3_g_retro",
+					"wpn_fps_ass_g3_s_sniper",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_ass_scar_npc",
+				blueprint = {
+					"wpn_fps_ass_scar_fg_railext",
+					"wpn_fps_ass_scar_s_sniper",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[4] = {
+				factory_name = "wpn_fps_lmg_hk21_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mac10_npc",
+				blueprint = {
+					"wpn_fps_smg_cobray_ns_silencer",
+					"wpn_fps_smg_mac10_m_extended",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.houston = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_aug_npc",
+				blueprint = {
+					"wpn_fps_aug_b_short",
+					"wpn_fps_upg_ns_ass_smg_medium",
+					"wpn_fps_aug_fg_a3",
+					"wpn_fps_aug_body_f90",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_ak5_npc",
+				blueprint = {
+					"wpn_fps_ass_ak5_b_short",
+					"wpn_fps_ass_ak5_fg_ak5c",
+					"wpn_fps_ass_ak5_s_ak5c",
+					"wpn_fps_upg_o_rx30",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc",
+				blueprint = {
+					"wpn_fps_smg_mp5_fg_mp5sd",
+					"wpn_fps_smg_mp5_s_adjust"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.wick = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_snp_tti_npc",
+				blueprint = {
+					"wpn_fps_snp_tti_g_grippy"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_snp_desertfox_npc",
+				blueprint = {
+					"wpn_fps_snp_desertfox_b_long"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_ass_m4_npc",
+				blueprint = {
+					"wpn_fps_m4_uupg_b_sd",
+					"wpn_fps_upg_ass_m4_lower_reciever_core",
+					"wpn_fps_upg_o_reflex",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_schakal_npc",
+				blueprint = {
+					"wpn_fps_smg_schakal_vg_surefire",
+					"wpn_fps_upg_o_reflex",
+					"wpn_fps_smg_schakal_ns_silencer",
+					"wpn_fps_smg_schakal_m_short"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_pis_packrat_npc",
+				blueprint = {
+					"wpn_fps_pis_packrat_o_expert"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	local hox_m14 = {
+		factory_name = "wpn_fps_ass_m14_npc",
+		blueprint = {
+			"wpn_fps_upg_o_t1micro",
+			"wpn_fps_upg_o_m14_scopemount",
+			"wpn_fps_upg_fl_ass_smg_sho_surefire"
+		},
+		cosmetics = {}
+	}
+
+	local hox_famas = {
+		factory_name = "wpn_fps_ass_famas_npc",
+		blueprint = {
+			"wpn_fps_ass_famas_b_sniper",
+			"wpn_fps_ass_famas_g_retro",
+			"wpn_fps_upg_fl_ass_smg_sho_surefire"
+		},
+		cosmetics = {}
+	}
+
+	self.char_wep_tables.hoxton = {
+		primaries = {
+			[1] = hox_m14,
+			[2] = hox_m14,
+			[3] = hox_m14,
+			[4] = hox_m14,
+			[5] = hox_m14,
+			[6] = hox_famas,
+			[7] = hox_famas,
+			[8] = hox_famas,
+			[9] = hox_famas,
+			[10] = hox_famas,
+			--cursed--
+			[11] = {
+				factory_name = "wpn_fps_ass_m14_npc",
+				blueprint = {
+					"wpn_fps_ass_m14_body_ruger",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire",
+					"wpn_fps_upg_ass_ns_surefire",
+					"wpn_fps_upg_o_spot",
+					"wpn_fps_upg_o_m14_scopemount"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.clover = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_l85a2_npc",
+				blueprint = {
+					"wpn_fps_ass_l85a2_fg_short",
+					"wpn_fps_ass_l85a2_b_short",
+					"wpn_fps_upg_ns_ass_smg_large",
+					"wpn_fps_ass_l85a2_g_worn",
+					"wpn_fps_ass_l85a2_m_emag",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_sub2000_npc",
+				blueprint = {
+					"wpn_fps_ass_sub2000_fg_suppressed",
+					"wpn_fps_upg_o_eotech_xps",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_sho_ksg_npc",
+				blueprint = {
+					"wpn_fps_sho_ksg_b_short",
+					"wpn_fps_upg_ns_sho_salvo_large",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc",
+				blueprint = {
+					"wpn_fps_smg_mp5_fg_mp5sd",
+					"wpn_fps_smg_mp5_s_ring"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.dragan = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_vhs_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_sho_spas12_npc",
+				blueprint = {
+					"wpn_fps_sho_s_spas12_folded",
+					"wpn_fps_sho_b_spas12_long",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.jacket = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_akm_npc",
+				blueprint = {
+					"wpn_fps_upg_ak_s_solidstock",
+					"wpn_fps_upg_ak_g_wgrip",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				}, 
+				cosmetics = {} 
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_m16_npc",
+				blueprint = {
+					"wpn_fps_m16_fg_vietnam",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_shot_huntsman_npc",
+				blueprint = {
+					"wpn_fps_shot_huntsman_b_short",
+					"wpn_fps_shot_huntsman_s_short"
+				},
+				cosmetics = {}
+			},
+			[4] = {
+				factory_name = "wpn_fps_shot_r870_npc",
+				blueprint = {
+					"wpn_fps_shot_r870_s_nostock_big",
+					"wpn_fps_shot_r870_body_rack",
+					"wpn_fps_shot_r870_fg_wood",
+					"wpn_fps_upg_ns_shot_shark",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_cobray_npc",
+				blueprint = {
+					"wpn_fps_smg_cobray_body_upper_jacket",
+					"wpn_fps_smg_cobray_ns_barrelextension",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.bonnie = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_lmg_mg42_npc",
+				blueprint = {},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_shot_b682_npc",
+				blueprint = {
+					"wpn_fps_shot_b682_s_ammopouch"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.sokol = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_asval_npc",
+				blueprint = {
+					"wpn_fps_ass_asval_s_solid",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_smg_vityaz_npc",
+				blueprint = {
+					"wpn_fps_smg_vityaz_b_supressed",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.jiro = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_polymer_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_baka_npc",
+				blueprint = {
+					"wpn_fps_smg_baka_b_comp",
+					"wpn_fps_smg_baka_s_standard"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.bodhi = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_snp_model70_npc",
+				blueprint = {
+					"wpn_fps_snp_model70_iron_sight"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_ass_galil_npc",
+				blueprint = {
+					"wpn_fps_ass_galil_fg_sniper",
+					"wpn_fps_ass_galil_s_sniper",
+					"wpn_fps_upg_o_specter",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_pis_sparrow_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.jimmy = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_sho_ben_npc",
+				blueprint = {
+					"wpn_fps_sho_ben_b_short",
+					"wpn_fps_sho_ben_s_collapsed",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_pis_beer_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_sr2_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.sydney = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_tecci_npc",
+				blueprint = {
+					"wpn_fps_ass_tecci_b_long",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_sho_aa12_npc",
+				blueprint = {
+					"wpn_fps_sho_aa12_barrel_long",
+					"wpn_fps_upg_shot_ns_king",
+					"wpn_fps_sho_aa12_mag_drum",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.rust = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_sho_boot_npc",
+				blueprint = {
+					"wpn_fps_sho_boot_body_exotic",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.tony = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_contraband_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.sangres = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_akm_gold_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_pis_chinchilla_npc",
+				blueprint = {
+					"wpn_fps_pis_chinchilla_g_death"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.duke = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_ass_ching_npc",
+				blueprint = {
+					"wpn_fps_ass_ching_s_pouch",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_smg_erma_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			},
+			[3] = {
+				factory_name = "wpn_fps_sho_m590_npc",
+				blueprint = {},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_pis_shrew_npc",
+				blueprint = {
+					"wpn_fps_pis_shrew_g_bling"
+				},
+				cosmetics = {}
+			}
+		}
+	}
+
+	self.char_wep_tables.joy = {
+		primaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_shepheard_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
+			}
+		},
+		secondaries = {
+			[1] = {
+				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
+				blueprint = {},
+				cosmetics = {}
+			}
+		}
+	}
+
 	return presets
 end
 

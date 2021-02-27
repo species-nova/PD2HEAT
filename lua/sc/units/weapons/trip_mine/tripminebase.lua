@@ -177,19 +177,54 @@ function TripMineBase:_explode(col_ray)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		local hit_unit_key = hit_unit:key()
-		units_to_push[hit_unit_key] = hit_unit
 
-		local char_dmg_ext = hit_unit:character_damage()
-		local hit_character = char_dmg_ext and char_dmg_ext.damage_explosion and not char_dmg_ext:dead()
-		local body_ext = hit_body:extension()
-		local body_ext_dmg = body_ext and body_ext.damage
-		local ray_hit, body_com, damage_character = nil
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			local hit_unit_key = hit_unit:key()
+			units_to_push[hit_unit_key] = hit_unit
 
-		if hit_character then
-			if not units_to_hit[hit_unit_key] then
-				body_com = hit_body:center_of_mass()
+			local char_dmg_ext = hit_unit:character_damage()
+			local hit_character = char_dmg_ext and char_dmg_ext.damage_explosion and not char_dmg_ext:dead()
+			local body_ext = hit_body:extension()
+			local body_ext_dmg = body_ext and body_ext.damage
+			local ray_hit, body_com, damage_character = nil
+
+			if hit_character then
+				if not units_to_hit[hit_unit_key] then
+					body_com = hit_body:center_of_mass()
+
+					for i = 1, #splinters do
+						local s_pos = splinters[i]
+
+						ray_hit = not unit:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
+
+						if ray_hit then
+							units_to_hit[hit_unit_key] = true
+							damage_character = true
+
+							if draw_splinter_hits then
+								local draw_duration = 3
+								local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
+								new_brush:cylinder(s_pos, body_com, 0.5)
+							end
+
+							break
+						elseif draw_obstructed_splinters then
+							local draw_duration = 3
+							local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), draw_duration)
+							new_brush:cylinder(s_pos, body_com, 0.5)
+						end
+					end
+				end
+			elseif body_ext_dmg or hit_body:dynamic() then
+				if not units_to_hit[hit_unit_key] then
+					ray_hit = true
+					units_to_hit[hit_unit_key] = true
+				end
+			end
+
+			if not ray_hit and body_ext_dmg and units_to_hit[hit_unit_key] and char_dmg_ext and char_dmg_ext.damage_explosion then
+				body_com = body_com or hit_body:center_of_mass()
 
 				for i = 1, #splinters do
 					local s_pos = splinters[i]
@@ -197,90 +232,58 @@ function TripMineBase:_explode(col_ray)
 					ray_hit = not unit:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
 
 					if ray_hit then
-						units_to_hit[hit_unit_key] = true
-						damage_character = true
-
-						if draw_splinter_hits then
-							local draw_duration = 3
-							local new_brush = Draw:brush(Color.green:with_alpha(0.5), draw_duration)
-							new_brush:cylinder(s_pos, body_com, 0.5)
-						end
-
 						break
-					elseif draw_obstructed_splinters then
-						local draw_duration = 3
-						local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), draw_duration)
-						new_brush:cylinder(s_pos, body_com, 0.5)
-					end
-				end
-			end
-		elseif body_ext_dmg or hit_body:dynamic() then
-			if not units_to_hit[hit_unit_key] then
-				ray_hit = true
-				units_to_hit[hit_unit_key] = true
-			end
-		end
-
-		if not ray_hit and body_ext_dmg and units_to_hit[hit_unit_key] and char_dmg_ext and char_dmg_ext.damage_explosion then
-			body_com = body_com or hit_body:center_of_mass()
-
-			for i = 1, #splinters do
-				local s_pos = splinters[i]
-
-				ray_hit = not unit:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
-
-				if ray_hit then
-					break
-				end
-			end
-		end
-
-		if ray_hit then
-			body_com = body_com or hit_body:center_of_mass()
-			local dir = body_com - hit_pos
-			dir = dir:normalized()
-
-			local dmg = damage
-			local base_ext = hit_unit:base()
-
-			if base_ext and base_ext.has_tag and base_ext:has_tag("tank") then
-				dmg = dmg * 7
-			end
-
-			local body_hit_pos = nil
-
-			if body_ext_dmg then
-				local normal = dir
-				local prop_damage = dmg > 200 and 200 or dmg
-				local network_damage = math_ceil(prop_damage * 163.84)
-				prop_damage = network_damage / 163.84
-
-				body_hit_pos = mvec3_copy(hit_body:position())
-
-				body_ext_dmg:damage_explosion(player, normal, body_hit_pos, dir, prop_damage)
-				body_ext_dmg:damage_damage(player, normal, body_hit_pos, dir, prop_damage)
-
-				if session and hit_unit:id() ~= -1 then
-					network_damage = network_damage > 32768 and 32768 or network_damage
-
-					if player then
-						session:send_to_peers_synched("sync_body_damage_explosion", hit_body, player, normal, body_hit_pos, dir, network_damage)
-					else
-						session:send_to_peers_synched("sync_body_damage_explosion_no_attacker", hit_body, normal, body_hit_pos, dir, network_damage)
 					end
 				end
 			end
 
-			if damage_character then
-				body_hit_pos = body_hit_pos or mvec3_copy(hit_body:position())
+			if ray_hit then
+				body_com = body_com or hit_body:center_of_mass()
+				local dir = body_com - hit_pos
+				dir = dir:normalized()
 
-				--since sending the same col_ray table for all hits actually doesn't make much sense
-				local accurate_col_ray = {
-					position = body_hit_pos,
-					ray = dir
-				}
+				local dmg = damage
+				local base_ext = hit_unit:base()
 
-				self:_give_explosion_damage(accurate_col_ray, hit_unit, dmg)
+				if base_ext and base_ext.has_tag and base_ext:has_tag("tank") then
+					dmg = dmg * 7
+				end
+
+				local body_hit_pos = nil
+
+				if body_ext_dmg then
+					local normal = dir
+					local prop_damage = dmg > 200 and 200 or dmg
+					local network_damage = math_ceil(prop_damage * 163.84)
+					prop_damage = network_damage / 163.84
+
+					body_hit_pos = mvec3_copy(hit_body:position())
+
+					body_ext_dmg:damage_explosion(player, normal, body_hit_pos, dir, prop_damage)
+					body_ext_dmg:damage_damage(player, normal, body_hit_pos, dir, prop_damage)
+
+					if session and hit_unit:id() ~= -1 then
+						network_damage = network_damage > 32768 and 32768 or network_damage
+
+						if player then
+							session:send_to_peers_synched("sync_body_damage_explosion", hit_body, player, normal, body_hit_pos, dir, network_damage)
+						else
+							session:send_to_peers_synched("sync_body_damage_explosion_no_attacker", hit_body, normal, body_hit_pos, dir, network_damage)
+						end
+					end
+				end
+
+				if damage_character then
+					body_hit_pos = body_hit_pos or mvec3_copy(hit_body:position())
+
+					--since sending the same col_ray table for all hits actually doesn't make much sense
+					local accurate_col_ray = {
+						position = body_hit_pos,
+						ray = dir
+					}
+
+					self:_give_explosion_damage(accurate_col_ray, hit_unit, dmg)
+				end
 			end
 		end
 	end
@@ -324,6 +327,12 @@ function TripMineBase:_explode(col_ray)
 		unit:set_slot(0)
 	else
 		unit:set_visible(false)
+
+		local int_ext = unit:interaction()
+
+		if int_ext then
+			int_ext:set_active(false)
+		end
 	end
 end
 
@@ -345,32 +354,35 @@ function TripMineBase:sync_trip_mine_explode(user_unit, ray_from, ray_to, damage
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		units_to_push[hit_unit:key()] = hit_unit
 
-		if hit_unit:id() == -1 then
-			local body_ext = hit_body:extension()
-			local body_ext_dmg = body_ext and body_ext.damage
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			units_to_push[hit_unit:key()] = hit_unit
 
-			if body_ext_dmg then
-				local dir = hit_body:center_of_mass() - hit_pos
-				dir = dir:normalized()
+			if hit_unit:id() == -1 then
+				local body_ext = hit_body:extension()
+				local body_ext_dmg = body_ext and body_ext.damage
 
-				local normal = dir
-				local dmg = damage
-				local base_ext = hit_unit:base()
+				if body_ext_dmg then
+					local dir = hit_body:center_of_mass() - hit_pos
+					dir = dir:normalized()
 
-				if base_ext and base_ext.has_tag and base_ext:has_tag("tank") then
-					dmg = dmg * 7
+					local normal = dir
+					local dmg = damage
+					local base_ext = hit_unit:base()
+
+					if base_ext and base_ext.has_tag and base_ext:has_tag("tank") then
+						dmg = dmg * 7
+					end
+
+					dmg = dmg > 200 and 200 or dmg
+					dmg = math_ceil(dmg * 163.84) / 163.84
+
+					local body_hit_pos = hit_body:position()
+
+					body_ext_dmg:damage_explosion(user_unit, normal, body_hit_pos, dir, dmg)
+					body_ext_dmg:damage_damage(user_unit, normal, body_hit_pos, dir, dmg)
 				end
-
-				dmg = dmg > 200 and 200 or dmg
-				dmg = math_ceil(dmg * 163.84) / 163.84
-
-				local body_hit_pos = hit_body:position()
-
-				body_ext_dmg:damage_explosion(user_unit, normal, body_hit_pos, dir, dmg)
-				body_ext_dmg:damage_damage(user_unit, normal, body_hit_pos, dir, dmg)
 			end
 		end
 	end
@@ -383,6 +395,12 @@ function TripMineBase:sync_trip_mine_explode(user_unit, ray_from, ray_to, damage
 		unit:set_slot(0)
 	else
 		unit:set_visible(false)
+
+		local int_ext = unit:interaction()
+
+		if int_ext then
+			int_ext:set_active(false)
+		end
 	end
 end
 

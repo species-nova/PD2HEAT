@@ -448,27 +448,82 @@ function FireManager:detect_and_give_dmg(params)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		local hit_unit_key = hit_unit:key()
 
-		if units_to_push then
-			units_to_push[hit_unit_key] = hit_unit
-		end
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			local hit_unit_key = hit_unit:key()
 
-		local char_dmg_ext = hit_unit:character_damage()
-		local hit_character = char_dmg_ext and char_dmg_ext.damage_fire and not char_dmg_ext:dead()
-		local body_ext = hit_body:extension()
-		local apply_dmg = body_ext and body_ext.damage and true
-		local ray_hit, body_com, damage_character, tweak_name, is_civ, is_gangster, is_cop = nil
+			if units_to_push then
+				units_to_push[hit_unit_key] = hit_unit
+			end
 
-		if hit_character then
-			if not units_to_hit[hit_unit_key] then
-				if params.no_raycast_check_characters then
+			local char_dmg_ext = hit_unit:character_damage()
+			local hit_character = char_dmg_ext and char_dmg_ext.damage_fire and not char_dmg_ext:dead()
+			local body_ext = hit_body:extension()
+			local apply_dmg = body_ext and body_ext.damage and true
+			local ray_hit, body_com, damage_character, tweak_name, is_civ, is_gangster, is_cop = nil
+
+			if hit_character then
+				if not units_to_hit[hit_unit_key] then
+					if params.no_raycast_check_characters then
+						ray_hit = true
+						units_to_hit[hit_unit_key] = true
+						damage_character = true
+					else
+						body_com = hit_body:center_of_mass()
+
+						for i = 1, #splinters do
+							local s_pos = splinters[i]
+
+							ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
+
+							if ray_hit then
+								units_to_hit[hit_unit_key] = true
+								damage_character = true
+
+								if draw_splinter_hits then
+									local new_brush = Draw:brush(Color.green:with_alpha(0.5), debug_draw_duration)
+									new_brush:cylinder(s_pos, body_com, 0.5)
+								end
+
+								break
+							elseif draw_obstructed_splinters then
+								local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), debug_draw_duration)
+								new_brush:cylinder(s_pos, body_com, 0.5)
+							end
+						end
+					end
+
+					if ray_hit and owner then
+						local base_ext = hit_unit:base()
+						tweak_name = base_ext and base_ext._tweak_table
+
+						if tweak_name then
+							if is_civilian_func(tweak_name) then
+								count_civilians = count_civilians + 1
+								is_civ = true
+							elseif is_gangster_func(tweak_name) then
+								count_gangsters = count_gangsters + 1
+								is_gangster = true
+							elseif base_ext.has_tag and base_ext:has_tag("law") then
+								count_cops = count_cops + 1
+								is_cop = true
+							end
+						end
+					end
+				end
+			elseif apply_dmg or hit_body:dynamic() then
+				if not units_to_hit[hit_unit_key] then
 					ray_hit = true
 					units_to_hit[hit_unit_key] = true
-					damage_character = true
+				end
+			end
+
+			if not ray_hit and apply_dmg and units_to_hit[hit_unit_key] and char_dmg_ext and char_dmg_ext.damage_fire then
+				if params.no_raycast_check_characters then
+					ray_hit = true
 				else
-					body_com = hit_body:center_of_mass()
+					body_com = body_com or hit_body:center_of_mass()
 
 					for i = 1, #splinters do
 						local s_pos = splinters[i]
@@ -476,104 +531,52 @@ function FireManager:detect_and_give_dmg(params)
 						ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
 
 						if ray_hit then
-							units_to_hit[hit_unit_key] = true
-							damage_character = true
-
-							if draw_splinter_hits then
-								local new_brush = Draw:brush(Color.green:with_alpha(0.5), debug_draw_duration)
-								new_brush:cylinder(s_pos, body_com, 0.5)
-							end
-
 							break
-						elseif draw_obstructed_splinters then
-							local new_brush = Draw:brush(Color.yellow:with_alpha(0.5), debug_draw_duration)
-							new_brush:cylinder(s_pos, body_com, 0.5)
-						end
-					end
-				end
-
-				if ray_hit and owner then
-					local base_ext = hit_unit:base()
-					tweak_name = base_ext and base_ext._tweak_table
-
-					if tweak_name then
-						if is_civilian_func(tweak_name) then
-							count_civilians = count_civilians + 1
-							is_civ = true
-						elseif is_gangster_func(tweak_name) then
-							count_gangsters = count_gangsters + 1
-							is_gangster = true
-						elseif base_ext.has_tag and base_ext:has_tag("law") then
-							count_cops = count_cops + 1
-							is_cop = true
 						end
 					end
 				end
 			end
-		elseif apply_dmg or hit_body:dynamic() then
-			if not units_to_hit[hit_unit_key] then
-				ray_hit = true
-				units_to_hit[hit_unit_key] = true
-			end
-		end
 
-		if not ray_hit and apply_dmg and units_to_hit[hit_unit_key] and char_dmg_ext and char_dmg_ext.damage_fire then
-			if params.no_raycast_check_characters then
-				ray_hit = true
-			else
+			if ray_hit then
+				hit_units[hit_unit_key] = hit_unit
 				body_com = body_com or hit_body:center_of_mass()
 
-				for i = 1, #splinters do
-					local s_pos = splinters[i]
+				local dir = body_com - hit_pos
+				local length = dir:length()
+				dir = dir:normalized()
 
-					ray_hit = not world_g:raycast("ray", s_pos, body_com, "slot_mask", geometry_mask, "report")
+				local damage = dmg < 1 and 1 or dmg
 
-					if ray_hit then
-						break
-					end
+				if apply_dmg then
+					self:_apply_body_damage(true, hit_body, user_unit, dir, damage)
 				end
-			end
-		end
 
-		if ray_hit then
-			hit_units[hit_unit_key] = hit_unit
-			body_com = body_com or hit_body:center_of_mass()
+				if damage_character then
+					local action_data = {
+						variant = "fire",
+						damage = damage,
+						attacker_unit = user_unit,
+						weapon_unit = owner,
+						ignite_character = params.ignite_character,
+						col_ray = self._col_ray or {
+							position = mvec3_copy(hit_body:position()),
+							ray = dir
+						},
+						is_fire_dot_damage = false,
+						fire_dot_data = fire_dot_data,
+						is_molotov = is_molotov
+					}
 
-			local dir = body_com - hit_pos
-			local length = dir:length()
-			dir = dir:normalized()
+					char_dmg_ext:damage_fire(action_data)
 
-			local damage = dmg < 1 and 1 or dmg
-
-			if apply_dmg then
-				self:_apply_body_damage(true, hit_body, user_unit, dir, damage)
-			end
-
-			if damage_character then
-				local action_data = {
-					variant = "fire",
-					damage = damage,
-					attacker_unit = user_unit,
-					weapon_unit = owner,
-					ignite_character = params.ignite_character,
-					col_ray = self._col_ray or {
-						position = mvec3_copy(hit_body:position()),
-						ray = dir
-					},
-					is_fire_dot_damage = false,
-					fire_dot_data = fire_dot_data,
-					is_molotov = is_molotov
-				}
-
-				char_dmg_ext:damage_fire(action_data)
-
-				if tweak_name and char_dmg_ext:dead() then
-					if is_civ then
-						count_civilian_kills = count_civilian_kills + 1
-					elseif is_gangster then
-						count_gangster_kills = count_gangster_kills + 1
-					elseif is_cop then
-						count_cop_kills = count_cop_kills + 1
+					if tweak_name and char_dmg_ext:dead() then
+						if is_civ then
+							count_civilian_kills = count_civilian_kills + 1
+						elseif is_gangster then
+							count_gangster_kills = count_gangster_kills + 1
+						elseif is_cop then
+							count_cop_kills = count_cop_kills + 1
+						end
 					end
 				end
 			end
@@ -678,18 +681,21 @@ function FireManager:client_damage_and_push(from_pos, normal, user_unit, dmg, ra
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
-		local hit_unit = hit_body:unit()
-		units_to_push[hit_unit:key()] = hit_unit
 
-		local body_ext = hit_body:extension()
+		if alive_g(hit_body) then
+			local hit_unit = hit_body:unit()
+			units_to_push[hit_unit:key()] = hit_unit
 
-		if body_ext and body_ext.damage and hit_unit:id() == -1 then
-			local dir = hit_body:center_of_mass() - from_pos
-			dir = dir:normalized()
+			local body_ext = hit_body:extension()
 
-			local damage = dmg
+			if body_ext and body_ext.damage and hit_unit:id() == -1 then
+				local dir = hit_body:center_of_mass() - from_pos
+				dir = dir:normalized()
 
-			self:_apply_body_damage(false, hit_body, user_unit, dir, damage)
+				local damage = dmg
+
+				self:_apply_body_damage(false, hit_body, user_unit, dir, damage)
+			end
 		end
 	end
 
