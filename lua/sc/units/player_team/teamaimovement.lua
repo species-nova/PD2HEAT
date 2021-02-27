@@ -1,10 +1,21 @@
+TeamAIMovement.selected_primaries = {}
+TeamAIMovement.selected_secondaries = {}
+
 local mvec3_set = mvector3.set
 local tmp_vec1 = Vector3()
 
 local mrot_lookat = mrotation.set_look_at
 local tmp_rot_1 = Rotation()
 
+local math_random = math.random
 local math_up = math.UP
+
+local type_g = type
+local next_g = next
+
+local clone_g = clone
+local alive_g = alive
+local call_on_next_update_g = call_on_next_update
 
 function TeamAIMovement:sync_reload_weapon(empty_reload, reload_speed_multiplier)
 	local reload_action = {
@@ -147,76 +158,215 @@ function TeamAIMovement:chk_action_forbidden(action_type)
 	return TeamAIMovement.super.chk_action_forbidden(self, action_type)
 end
 
-local math_random = math.random
-
-TeamAIMovement.selected_weapons = {}
-
 function TeamAIMovement:add_weapons()
-	if Network:is_server() then
-		local char_name = self._ext_base._tweak_table
-		local loadout = managers.criminals:get_loadout_for(char_name)
-		local crafted = managers.blackmarket:get_crafted_category_slot("primaries", loadout.primary_slot)
+	local base_ext = self._ext_base
+	local inv_ext = self._ext_inventory
 
-		if crafted then
-			self._unit:inventory():add_unit_by_factory_blueprint(loadout.primary, false, false, crafted.blueprint, crafted.cosmetics)
-		elseif loadout.primary then
-			self._unit:inventory():add_unit_by_factory_name(loadout.primary, false, false, nil, "")
-		else
-			local weapon = self._ext_base:default_weapon_name("primary")
+	if not Network:is_server() then
+		local weapon = base_ext:default_weapon_name("primary")
 
-			if type(weapon) == "table" then
-				local already_selected = TeamAIMovement.selected_weapons[char_name]
-
-				if already_selected then
-					weapon = already_selected
-				else
-					weapon = weapon[math_random(#weapon)]
-
-					TeamAIMovement.selected_weapons[char_name] = weapon
-				end
-			end
-
-			if weapon then
-				self._unit:inventory():add_unit_by_factory_name(weapon, false, false, nil, "")
-			end
-		end
-
-		local sec_weapon = self._ext_base:default_weapon_name("secondary")
-
-		if type(sec_weapon) == "table" then
-			local already_selected = TeamAIMovement.selected_weapons[char_name]
-
-			if already_selected then
-				sec_weapon = already_selected
-			else
-				sec_weapon = sec_weapon[math_random(#sec_weapon)]
-
-				TeamAIMovement.selected_weapons[char_name] = sec_weapon
-			end
-		end
-
-		if sec_weapon then
-			self._unit:inventory():add_unit_by_factory_name(sec_weapon, false, false, nil, "")
-		end
-	else
-		local weapon = self._ext_base:default_weapon_name("primary")
-
-		if type(weapon) == "table" then
-			weapon = weapon[math_random(#weapon)]
+		if type_g(weapon) == "table" then
+			weapon = weapon[1][1]
 		end
 
 		if weapon then
-			self._unit:inventory():add_unit_by_factory_name(weapon, false, false, nil, "")
+			inv_ext:add_unit_by_factory_name(weapon, false, false, nil, "")
 		end
 
-		local sec_weapon = self._ext_base:default_weapon_name("secondary")
+		local sec_weapon = base_ext:default_weapon_name("secondary")
 
-		if type(sec_weapon) == "table" then
-			sec_weapon = sec_weapon[math_random(#sec_weapon)]
+		if type_g(sec_weapon) == "table" then
+			sec_weapon = sec_weapon[1][1]
 		end
 
-		if sec_weapon then
-			self._unit:inventory():add_unit_by_factory_name(sec_weapon, false, false, nil, "")
+		if sec_weapon and sec_weapon ~= weapon then
+			inv_ext:add_unit_by_factory_name(sec_weapon, false, false, nil, "")
+		end
+
+		return
+	end
+
+	local char_name = base_ext._tweak_table
+	local loadout = managers.criminals:get_loadout_for(char_name)
+	local crafted = managers.blackmarket:get_crafted_category_slot("primaries", loadout.primary_slot)
+
+	if crafted then
+		inv_ext:add_unit_by_factory_blueprint(loadout.primary, false, false, crafted.blueprint, crafted.cosmetics)
+	elseif loadout.primary then
+		inv_ext:add_unit_by_factory_name(loadout.primary, false, false, nil, "")
+	else
+		local weapon = base_ext:default_weapon_name("primary")
+		local blueprint, cosmetics = nil
+
+		if type_g(weapon) == "table" then
+			local already_selected = TeamAIMovement.selected_primaries[char_name]
+
+			if already_selected then
+				weapon = already_selected[1]
+				blueprint = already_selected[2]
+				cosmetics = already_selected[3]
+			else
+				weapon = weapon[math_random(#weapon)]
+
+				blueprint = weapon.blueprint
+				cosmetics = weapon.cosmetics
+				weapon = weapon.factory_name
+
+				if not blueprint or not next_g(blueprint) then
+					blueprint = managers.weapon_factory:get_default_blueprint_by_factory_id(weapon)
+				else
+					local fm = managers.weapon_factory
+					local modified_default = clone_g(fm:get_default_blueprint_by_factory_id(weapon))
+					local part_data_f = fm._part_data
+
+					for i = 1, #blueprint do
+						local part_id = blueprint[i]
+						local part_data = part_data_f(fm, part_id, weapon)
+
+						if part_data then
+							for idx = 1, #modified_default do
+								local default_part_id = modified_default[idx]
+								local default_part_data = part_data_f(fm, default_part_id, weapon)
+
+								if default_part_data then
+									if part_data.type == default_part_data.type then
+										local new_default_blueprint = {}
+
+										for old_i = 1, idx - 1 do
+											new_default_blueprint[#new_default_blueprint + 1] = modified_default[old_i]
+										end
+
+										for old_i = idx + 1, #modified_default do
+											new_default_blueprint[#new_default_blueprint + 1] = modified_default[old_i]
+										end
+
+										modified_default = new_default_blueprint
+
+										break
+									end
+								end
+							end
+						end
+					end
+
+					for i = 1, #blueprint do
+						local part_id = blueprint[i]
+
+						modified_default[#modified_default + 1] = part_id
+					end
+
+					blueprint = modified_default
+				end
+
+				if cosmetics or not cosmetics.id then
+					cosmetics = nil
+				end
+
+				TeamAIMovement.selected_primaries[char_name] = {
+					[1] = weapon,
+					[2] = blueprint,
+					[3] = cosmetics
+				}
+			end
+		end
+
+		if weapon then
+			if blueprint then
+				inv_ext:add_unit_by_factory_blueprint(weapon, false, false, blueprint, cosmetics)
+			else
+				inv_ext:add_unit_by_factory_name(weapon, false, false, nil, "")
+			end
+		end
+	end
+
+	local crafted_secondary = managers.blackmarket:get_crafted_category_slot("secondaries", loadout.secondary_slot)
+
+	if crafted_secondary then
+		inv_ext:add_unit_by_factory_blueprint(loadout.secondary, false, false, crafted_secondary.blueprint, crafted_secondary.cosmetics)
+	elseif loadout.secondary then
+		inv_ext:add_unit_by_factory_name(loadout.secondary, false, false, nil, "")
+	else
+		local sec_weapon = base_ext:default_weapon_name("secondary")
+		local blueprint, cosmetics = nil
+
+		if type_g(sec_weapon) == "table" then
+			local already_selected = TeamAIMovement.selected_secondaries[char_name]
+
+			if already_selected then
+				sec_weapon = already_selected[1]
+				blueprint = already_selected[2]
+				cosmetics = already_selected[3]
+			else
+				sec_weapon = sec_weapon[math_random(#sec_weapon)]
+
+				blueprint = sec_weapon.blueprint
+				cosmetics = sec_weapon.cosmetics
+				sec_weapon = sec_weapon.factory_name
+
+				if not blueprint or not next_g(blueprint) then
+					blueprint = managers.weapon_factory:get_default_blueprint_by_factory_id(sec_weapon)
+				else
+					local fm = managers.weapon_factory
+					local modified_default = clone_g(fm:get_default_blueprint_by_factory_id(sec_weapon))
+					local part_data_f = fm._part_data
+
+					for i = 1, #blueprint do
+						local part_id = blueprint[i]
+						local part_data = part_data_f(fm, part_id, sec_weapon)
+
+						if part_data then
+							for idx = 1, #modified_default do
+								local default_part_id = modified_default[idx]
+								local default_part_data = part_data_f(fm, default_part_id, sec_weapon)
+
+								if default_part_data then
+									if part_data.type == default_part_data.type then
+										local new_default_blueprint = {}
+
+										for old_i = 1, idx - 1 do
+											new_default_blueprint[#new_default_blueprint + 1] = modified_default[old_i]
+										end
+
+										for old_i = idx + 1, #modified_default do
+											new_default_blueprint[#new_default_blueprint + 1] = modified_default[old_i]
+										end
+
+										modified_default = new_default_blueprint
+
+										break
+									end
+								end
+							end
+						end
+					end
+
+					for i = 1, #blueprint do
+						local part_id = blueprint[i]
+
+						modified_default[#modified_default + 1] = part_id
+					end
+
+					blueprint = modified_default
+				end
+
+				if cosmetics or not cosmetics.id then
+					cosmetics = nil
+				end
+
+				TeamAIMovement.selected_secondaries[char_name] = {
+					[1] = sec_weapon,
+					[2] = blueprint,
+					[3] = cosmetics
+				}
+			end
+		end
+
+		if sec_weapon ~= weapon then
+			if blueprint then
+				inv_ext:add_unit_by_factory_blueprint(sec_weapon, false, false, blueprint, cosmetics)
+			else
+				inv_ext:add_unit_by_factory_name(sec_weapon, false, false, nil, "")
+			end
 		end
 	end
 end
