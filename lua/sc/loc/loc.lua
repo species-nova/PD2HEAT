@@ -15,9 +15,9 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["res_credits"] = "Heat Credits",
 		["res_credits_help"] = "View the credits for Heat.",
 
-		["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
-		["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
-		["dialog_enable_overhaul_dialog"] = "You are ENABLING the Complete Overhaul. The Overhaul should typically remain ON at all times, and only be disabled by removing the mod from your mods folder.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
+		--["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
+		--["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
+		--["dialog_enable_overhaul_dialog"] = "You are ENABLING the Complete Overhaul. The Overhaul should typically remain ON at all times, and only be disabled by removing the mod from your mods folder.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
 
 		["res_saveboost"] = "HOLD $BTN_INTERACT TO BOOST TO LEVEL 100",
 
@@ -827,7 +827,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["trophy_csgo01_desc"] = "And you didnt even have to buy this one",
 		["trophy_csgo01_objective"] = "Find spraypaint and spray graffiti in the vault on GO Bank Remastered.",
 
-		["END"] = "END",	
+		["END"] = "END",	--what
 		
 		--Whurr Heat Street Edit
 		["heist_heat_street_new_name"] = "Heat Street True Classic",
@@ -1041,7 +1041,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_m203_weapon_sc_desc"] = "Equipped with M203 40mm grenade launcher.\nHold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
 
 		--Mosin--
-		["bm_mosin_sc_desc"] = "Classic, Powerful bolt-action rifle. This weapon reloads in clips of 5 bullets at a time.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
+		["bm_mosin_sc_desc"] = "Classic, powerful bolt-action rifle. This weapon reloads in clips of 5 bullets at a time.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 
 		--Broomstick--
 		["bm_c96_sc_desc"] = "Revolutionary German machine pistol. Capable of firing in full-auto at an insane rate, but will decimate your ammo reserves.\nThis weapon reloads in clips of 10 bullets at a time.",
@@ -1072,10 +1072,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_jowi"] = "Wick",
 		["menu_moving_target_sc"] = "Subtle",
 
-		["bm_wp_upg_i_singlefire_sc"] = "Slower Cyclic",
-		["bm_wp_upg_i_singlefire_sc_desc"] = "SLOWS YOUR RATE OF FIRE BY 15%", --RIP RoF mods
-		["bm_wp_upg_i_autofire_sc"] = "Faster Cyclic",
-		["bm_wp_upg_i_autofire_sc_desc"] = "INCREASES YOUR RATE OF FIRE BY 15%",
+		--["bm_wp_upg_i_singlefire_sc"] = "Slower Cyclic",
+		--["bm_wp_upg_i_singlefire_sc_desc"] = "SLOWS YOUR RATE OF FIRE BY 15%", --RIP RoF mods
+		--["bm_wp_upg_i_autofire_sc"] = "Faster Cyclic",
+		--["bm_wp_upg_i_autofire_sc_desc"] = "INCREASES YOUR RATE OF FIRE BY 15%",
 
 		["bm_hint_titan_60"] = "The Titandozer leaves in 60 seconds!",
 		["bm_hint_titan_10"] = "The Titandozer leaves in 10 seconds!",
@@ -1123,10 +1123,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_suit_jackal_track_desc"] = "A special-made tracksuit, with both the Jackal logo, and a variation on the VERITAS logo.\n\nThe crew received them in unmarked boxes, but Jackal confirms he never sent them, or has seen them before.\nIt's unknown where they came from.\n\n\n\n...Inside the packages, was one note:\n\n''##A TOKEN OF APPRECIATION, FOR THOSE WITH DEDICATION.\nXOXO\n--S.N.##''\n\n",
 
 		["bm_suit_sunny"] = "Sunny-Side Robber",
-		["bm_suit_sunny_desc"] = "Sometimes you just want to roll up your sleeves and do a little heisting.",
+		["bm_suit_sunny_desc"] = "Sometimes you just want to roll up your sleeves, and do a little heisting.",
 
-		["bm_suit_pool"] = "Bodhi's Pool Repair Uniform",
-		["bm_suit_pool_desc"] = "Sharp threads for pool repair men...",
+		--["bm_suit_pool"] = "Bodhi's Pool Repair Uniform",							    ~~R.I.P.~~
+		--["bm_suit_pool_desc"] = "Sharp threads for pool repair men...",			~~TAKEN TOO SOON~~
 
 		["bm_suit_prison"] = "Prison Suit",
 		["bm_suit_prison_desc"] = "You've been taken into custody!",
@@ -1194,7 +1194,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_w_x_shrew"] = "Barry & Paul",
 		["bm_w_x_1911"] = "Mustang & Sally",
 		["bm_w_tec9"] = "T3K Urban Submachine Gun",
-		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns",
+		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns", 
 
 		-- default attachment name stuff		
 		["bm_wp_mp5_fg_mp5sd"] = "SPOOC Foregrip",
@@ -1306,6 +1306,7 @@ Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function
 		--US, interchangeable
 		["hud_assault_cover_us"] = "STAY IN COVER",
 		["hud_assault_cover_usds"] = "TRY TO SURVIVE",
+		["hud_assault_cover_us_run"] = "STICK TO COVER", --to be used on heists that have a lot of forward movement, in place of "stay in cover".  Heat Street, HoxOut 1, etc.
 	
 		--police departments/zeals
 		["hud_assault_assault"] = "POLICE ASSAULT IN PROGRESS",
@@ -1605,7 +1606,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_medidozer_longdesc"] = "All normal enemies during assault waves are replaced with Medics, and all special units are replaced with Bulldozers.",
 		["mutator_medicdozers"] = "Medic Dozers",
 		["mutator_medicdozers_desc"] = "Medic Dozers can now spawn.",
-		["mutator_medicdozers_longdesc"] = "Whenever a Bulldozer of any variety spawns, there is a 50% chance that it will be replaced by a Medic Bulldozer. \n\nNote: If the Semi-Auto Shotgun Bulldozer mutator is enabled, then the Medic Dozer will have a 33.3% chance of replacing a Black Bulldozer.",
+		["mutator_medicdozers_longdesc"] = "Whenever a Bulldozer of any variety spawns, there is a 50% chance that it will be replaced by a Medic Bulldozer. \n\nNote: If the M1014 Bulldozer mutator is enabled, then the Medic Dozer will have a 33.3% chance of replacing an IZHMA Bulldozer.",
 
 		["mutator_notitans"] = "Budget Cuts",
 		["mutator_notitans_desc"] = "Disables Titan Units.",
@@ -1613,19 +1614,19 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		["mutator_mememanonly"] = "HAHAHA, FOOLED YOU GUYS!",
 		["mutator_mememanonly_desc"] = "SUFFERING",
-		["mutator_mememanonly_longdesc"] = "CANTRUNNOESCAPEHELPHELPHELP\n\n WARNING: This mutator may cause crashes on some maps.",
+		["mutator_mememanonly_longdesc"] = "CANTRUNNOESCAPEHELPHELPHELP\n\nWARNING: This mutator may cause crashes on some maps.",
 
 		["MutatorMoreDonutsPlus"] = "More Donuts+",
 		["MutatorMoreDonutsPlus_desc"] = "All common enemies replaced by NYPD Bronco Cops, and all specials are replaced by OMNIA LPFs.",
-		["MutatorMoreDonutsPlus_longdesc"] = "All common enemies are replaced by NYPD Bronco Cops, and all specials are replaced with OMNIA LPFs. \n\nWARNING: By enabling this mutator, you are committing an atrocity.",
+		["MutatorMoreDonutsPlus_longdesc"] = "All common enemies are replaced by NYPD Bronco Cops, and all specials are replaced with OMNIA LPFs.\n\nWARNING: You reap what you sow.",
 
 		["MutatorJungleInferno"] = "Jungle Inferno",
 		["MutatorJungleInferno_desc"] = "All enemies are replaced by Captain Summers.",
-		["MutatorJungleInferno_longdesc"] = "All non-scripted spawn enemies are replaced by clones of Captain Summers.",
+		["MutatorJungleInferno_longdesc"] = "All non-scripted spawn enemies are replaced by clones of Captain Summers.\n\nWARNING: You're in Summers' kingdom now, baby!",
 
-		["mutator_minidozers"] = "Semi-Auto Shotgun Bulldozers",
-		["mutator_minidozers_desc"] = "Semi-Auto Shotgun Bulldozers can now spawn.",
-		["mutator_minidozers_longdesc"] = "Whenever a Black Bulldozer spawns, there is a 50% chance that it will be replaced by a Bulldozer wielding an M1014.\n\nNote: If the Medic Bulldozer mutator is enabled, then the Semi-Auto Shotgun Bulldozer will have a 33.3% chance of replacing a Black Bulldozer.",
+		["mutator_minidozers"] = "M1014 Bulldozer Rush",
+		["mutator_minidozers_desc"] = "M1014 Bulldozers can now spawn.",
+		["mutator_minidozers_longdesc"] = "Whenever a IZHMA Bulldozer spawns, there is a 50% chance that it will be replaced by a Bulldozer wielding an M1014.\n\nNote: If the Medic Bulldozer mutator is enabled, then the M1014 Bulldozer will have a 33.3% chance of replacing an IZHMA Bulldozer.",
 
 		["mutator_fatroll"] = "Fat Roll",
 		["mutator_fatroll_desc"] = "Damage Grace disabled.",
@@ -1636,8 +1637,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_zombie_outbreak_longdesc"] = "The dead have risen! Replaces all enemies with Zombie units",
 
 		["mutator_faction_override"] = "Enemy Faction Override",
-		["mutator_faction_override_desc"] = "",
-		["mutator_faction_override_longdesc"] = "",
+		["mutator_faction_override_desc"] = "Override a level's chosen faction",
+		["mutator_faction_override_longdesc"] = "Want Murkies on Bank Heist? Or Zombies to invade Big Bank? Maybe you desire Reapers showing up to your run of Heat Street? Go ahead!",
 		["mutator_faction_override_"] = "",
 		["mutator_faction_override_select"] = "",
 		["mutator_faction_override_america"] = "USA - Generic",
