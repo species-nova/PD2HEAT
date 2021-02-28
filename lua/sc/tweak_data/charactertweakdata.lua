@@ -12333,14 +12333,17 @@ function CharacterTweakData:_presets(tweak_data)
 			[1] = {
 				factory_name = "wpn_fps_snp_tti_npc",
 				blueprint = {
-					"wpn_fps_snp_tti_g_grippy"
+					"wpn_fps_snp_tti_g_grippy",
+					"wpn_fps_snp_tti_s_vltor",
+					"wpn_fps_upg_fl_ass_peq15"
 				},
 				cosmetics = {}
 			},
 			[2] = {
 				factory_name = "wpn_fps_snp_desertfox_npc",
 				blueprint = {
-					"wpn_fps_snp_desertfox_b_long"
+					"wpn_fps_snp_desertfox_b_long",
+					"wpn_fps_upg_fl_ass_peq15"
 				},
 				cosmetics = {}
 			},
@@ -12362,14 +12365,18 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_smg_schakal_vg_surefire",
 					"wpn_fps_upg_o_reflex",
 					"wpn_fps_smg_schakal_ns_silencer",
-					"wpn_fps_smg_schakal_m_short"
+					"wpn_fps_smg_schakal_m_short",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
 			},
 			[2] = {
 				factory_name = "wpn_fps_pis_packrat_npc",
 				blueprint = {
-					"wpn_fps_pis_packrat_o_expert"
+					"wpn_fps_pis_packrat_o_expert",
+					"wpn_fps_upg_ns_pis_medium_slim",
+					"wpn_fps_upg_fl_pis_tlr1"
+					
 				},
 				cosmetics = {}
 			}
@@ -12408,8 +12415,9 @@ function CharacterTweakData:_presets(tweak_data)
 			[8] = hox_famas,
 			[9] = hox_famas,
 			[10] = hox_famas,
+			[11] = hox_famas,
 			--cursed--
-			[11] = {
+			[12] = {
 				factory_name = "wpn_fps_ass_m14_npc",
 				blueprint = {
 					"wpn_fps_ass_m14_body_ruger",
@@ -12423,8 +12431,12 @@ function CharacterTweakData:_presets(tweak_data)
 		},
 		secondaries = {
 			[1] = {
-				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
-				blueprint = {},
+				factory_name = "wpn_fps_pis_usp_npc",
+				blueprint = {
+					"wpn_fps_upg_ns_pis_ipsccomp",
+					"wpn_fps_pis_usp_b_match",
+					"wpn_fps_pis_usp_m_extended"
+				},
 				cosmetics = {}
 			}
 		}
@@ -12496,8 +12508,14 @@ function CharacterTweakData:_presets(tweak_data)
 		},
 		secondaries = {
 			[1] = {
-				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
-				blueprint = {},
+				factory_name = "wpn_fps_pis_hs2000_npc", 
+				blueprint = {
+					"wpn_fps_upg_pis_ns_flash",
+					"wpn_fps_pis_hs2000_m_extended",
+					"wpn_fps_pis_hs2000_sl_custom",
+					"wpn_fps_upg_o_rmr",
+					"wpn_fps_upg_fl_pis_tlr1"
+				},
 				cosmetics = {}
 			}
 		}
@@ -12524,10 +12542,7 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			[3] = {
 				factory_name = "wpn_fps_shot_huntsman_npc",
-				blueprint = {
-					"wpn_fps_shot_huntsman_b_short",
-					"wpn_fps_shot_huntsman_s_short"
-				},
+				blueprint = {},
 				cosmetics = {}
 			},
 			[4] = {
@@ -12559,7 +12574,11 @@ function CharacterTweakData:_presets(tweak_data)
 		primaries = {
 			[1] = {
 				factory_name = "wpn_fps_lmg_mg42_npc",
-				blueprint = {},
+				blueprint = {
+					"wpn_fps_lmg_mg42_b_mg34",
+					"wpn_fps_upg_bp_lmg_lionbipod",
+					"wpn_fps_upg_fl_ass_peq15"
+				},
 				cosmetics = {}
 			},
 			[2] = {
@@ -12572,8 +12591,10 @@ function CharacterTweakData:_presets(tweak_data)
 		},
 		secondaries = {
 			[1] = {
-				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
-				blueprint = {},
+				factory_name = "wpn_fps_pis_judge_npc", 
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
 				cosmetics = {}
 			}
 		}
@@ -12611,7 +12632,9 @@ function CharacterTweakData:_presets(tweak_data)
 		primaries = {
 			[1] = {
 				factory_name = "wpn_fps_smg_polymer_npc",
-				blueprint = {},
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
 				cosmetics = {}
 			}
 		},
@@ -12632,7 +12655,7 @@ function CharacterTweakData:_presets(tweak_data)
 			[1] = {
 				factory_name = "wpn_fps_snp_model70_npc",
 				blueprint = {
-					"wpn_fps_snp_model70_iron_sight"
+					"wpn_fps_upg_fl_ass_peq15"
 				},
 				cosmetics = {}
 			},
@@ -12650,7 +12673,12 @@ function CharacterTweakData:_presets(tweak_data)
 		secondaries = {
 			[1] = {
 				factory_name = "wpn_fps_pis_sparrow_npc",
-				blueprint = {},
+				blueprint = {
+					"wpn_fps_pis_sparrow_b_comp",
+					"wpn_fps_pis_sparrow_body_941",
+					"wpn_fps_pis_sparrow_g_cowboy",
+					"wpn_fps_upg_fl_pis_tlr1"
+				},
 				cosmetics = {}
 			}
 		}
@@ -12676,7 +12704,11 @@ function CharacterTweakData:_presets(tweak_data)
 		secondaries = {
 			[1] = {
 				factory_name = "wpn_fps_smg_sr2_npc",
-				blueprint = {},
+				blueprint = {
+				"wpn_fps_smg_sr2_ns_silencer",
+				"wpn_fps_smg_sr2_s_unfolded",
+				"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
 				cosmetics = {}
 			}
 		}
@@ -12790,8 +12822,10 @@ function CharacterTweakData:_presets(tweak_data)
 				cosmetics = {}
 			},
 			[3] = {
-				factory_name = "wpn_fps_sho_m590_npc",
-				blueprint = {},
+				factory_name = "wpn_fps_shot_m1897_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
 				cosmetics = {}
 			}
 		},
@@ -12799,7 +12833,8 @@ function CharacterTweakData:_presets(tweak_data)
 			[1] = {
 				factory_name = "wpn_fps_pis_shrew_npc",
 				blueprint = {
-					"wpn_fps_pis_shrew_g_bling"
+					"wpn_fps_pis_shrew_g_bling",
+					"wpn_fps_upg_fl_pis_tlr1"
 				},
 				cosmetics = {}
 			}
