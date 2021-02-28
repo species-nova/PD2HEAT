@@ -1799,7 +1799,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--MG Handling--
 			["menu_scavenger_sc"] = "MG Handling",
-			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##20%##\n\nACE: ##$pro##\nSMGs and LMGs reload ##25%## faster. Because of training.",
+			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##20%##\n\nACE: ##$pro##\nSMGs and LMGs reload ##25%## faster.\nBecause of training.",
 
 			--MG Specialist--
 			["menu_sharpshooter_sc"] = "MG Specialist",
@@ -2310,7 +2310,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck17_5_desc_sc"] = "You are now healed for ##30%## of all damage taken or dodged for ##6## seconds while the Kingpin Injector is active.\n\nEnemies nearby will prefer targeting you, whenever possible, while the Injector is active.",
 		["menu_deck17_7_desc_sc"] = "The amount of health received during the Injector effect is increased to ##80%## while below ##25%## health.\n\nActivating the Injector fills your dodge meter by an additional ##250%## of your dodge.",
 		["menu_deck17_9_desc_sc"] = "For every ##5## health gained during the injector effect while at maximum health, the recharge time of the injector is reduced by ##2## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
-
+		["bm_ability_chico_injector_desc"] = "A medical injection device, filled with something mysterious.\n\nUpon consumption, the user's pain reception is dulled significantly. Such an effect is potent, and those high on these stimulants are known to be extremely threatening.\n\nThe world is yours.", --i'm sorry i needed to fix it
+		
 		--Sicario--
 		["menu_deck18_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nUnlocks and equips the throwable ##Smoke Bomb.##\n\nWhen deployed, the smoke bomb creates a smoke screen that lasts for ##12## seconds. While standing inside the smoke screen, you and your allies regenerate armor ##100%## faster. Any enemies that stand in the smoke will see their accuracy reduced by ##75%##.\n\nThe Smoke Bomb has a ##40## second cooldown, but killing enemies will reduce this cooldown by ##1## second.",
 		["menu_deck18_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
