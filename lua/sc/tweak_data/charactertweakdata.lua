@@ -549,8 +549,8 @@ function CharacterTweakData:_init_fbi(presets)
 	self.meme_man.heal_cooldown = 45
 	table.insert(self._enemy_list, "meme_man")	
 	self.meme_man_shield = deep_clone(self.meme_man)		
-	self.meme_man_shield.damage.shield_explosion_damage_mul = 0
-	self.meme_man_shield.damage.shield_explosion_ally_damage_mul = 69
+	self.meme_man_shield.damage.shield_explosion_damage_mul = 1
+	self.meme_man_shield.damage.shield_explosion_ally_damage_mul = 1
 	self.meme_man_shield.tags = {"medic", "special", "shield"}		
 	self.meme_man_shield.priority_shout = "f30"
 	self.meme_man_shield.bot_priority_shout = "f30x_any"
@@ -2368,8 +2368,8 @@ function CharacterTweakData:_init_shield(presets)
 	end		
 	self.shield = deep_clone(presets.base)
 	self.shield.tags = {"law", "shield", "special"}
-	self.shield.damage.shield_explosion_ally_damage_mul = 0.5
-	self.shield.damage.shield_explosion_damage_mul = 0.5
+	self.shield.damage.shield_explosion_ally_damage_mul = 1
+	self.shield.damage.shield_explosion_damage_mul = 1
 	self.shield.experience = {}
 	self.shield.weapon = deep_clone(presets.weapon.normal)
 	self.shield.weapon.is_pistol.melee_speed = nil
@@ -2450,7 +2450,7 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	self.phalanx_minion.detection = presets.detection.normal
 	self.phalanx_minion.headshot_dmg_mul = 2.2
 	self.phalanx_minion.HEALTH_INIT = 19.5
-	self.phalanx_minion.damage.explosion_damage_mul = 0.25
+	self.phalanx_minion.damage.explosion_damage_mul = 0.4
 	self.phalanx_minion.damage.fire_pool_damage_mul = 0.25
 	self.phalanx_minion.damage.hurt_severity = presets.hurt_severities.no_hurts_no_tase
 	self.phalanx_minion.flammable = false
@@ -2503,8 +2503,8 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 	self.phalanx_vip.damage.shield_explosion_ally_damage_mul = 0
 	self.phalanx_vip.HEALTH_INIT = 80
 	self.phalanx_vip.headshot_dmg_mul = 2.5
-	self.phalanx_vip.damage.explosion_damage_mul = 0.05
-	self.phalanx_vip.damage.fire_pool_damage_mul = 0.05
+	self.phalanx_vip.damage.explosion_damage_mul = 0.4
+	self.phalanx_vip.damage.fire_pool_damage_mul = 0.25
 	self.phalanx_vip.damage.bullet_damage_mul = 0.25
 	self.phalanx_vip.damage.fire_damage_mul = 0.25
 	self.phalanx_vip.spawn_sound_event = "cpa_a02_01"	
