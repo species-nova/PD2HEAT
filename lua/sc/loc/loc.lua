@@ -781,7 +781,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		--Anubis .45--
 		--Semi-automatic pistol. Hold down ■ to aim. Release to fire.
 		["bm_w_socom"] = "Anubis .45 Pistol",
-		["bm_w_x_socom"] = "Akimbo Anubis .45 Pistol's",
+		["bm_w_x_socom"] = "Akimbo Anubis .45 Pistols",
 		["bm_wp_wpn_fps_upg_fl_pis_socomlam"] = "Ra Combined Module",
 		["bm_wp_wpn_fps_upg_fl_pis_socomlam_desc"] = "Turn it on/off by pressing $BTN_GADGET.",
 
