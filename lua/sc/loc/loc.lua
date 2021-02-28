@@ -1251,7 +1251,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_dynamite_desc"] = "Capacity: 3\nDamage: 800 \nRange: 4m \nDoes not bounce or roll from impact point, but deals less splash damage than similar explosives.\n\nDesigned to effectively blast through rock. Even more effective at blasting through people.",
 		["bm_grenade_frag_com_desc"] = "Capacity: 3 \nDamage: 800 \nRange: 5m \n \nA sleek new look to the classic hand grenade, sure to provide that OVERKILL touch to each blast.",
 		["bm_grenade_dada_com_desc"] = "Capacity: 3 \nDamage: 800 \nRange: 5m \n \nThe doll's outer layers hides its explosive inner workings. A tribute to the Motherland.",
-		["bm_grenade_molotov_desc"] = "Capacity: 3 \nDamage: 1200 per pool over 10s \nRange: 3.75m \nDuration: 10s \nDetonates on impact \n \nA breakable bottle of flammable liquid with a burning rag. It is cheap, simple and highly effective. Burn it all down.",
+		["bm_grenade_molotov_desc"] = "Capacity: 3 \nDamage: 1200 per pool over 10s \nRange: 3.75m \nDuration: 10s \nDetonates on impact \n \nA breakable bottle of flammable liquid with a burning rag. It is cheap, simple and highly effective. Light this motherf***er up!",
 		["bm_grenade_fir_com_desc"] = "Capacity: 3 \nDamage: 1440 per pool over 12s \nRange: 3.75m \nDuration: 12s \nDetonates after 2.5s \n \nA self igniting phosphorus container. Perfect for bouncing off walls and around corners towards your enemies.",
 		["bm_wpn_prj_ace_desc"] = "Capacity: 9 \nDamage: 240 \n \nThrowing cards with added weight and a razor edge. A real killer hand of cards.",
 		["bm_wpn_prj_four_desc"] = "Capacity: 9 \nDamage: 200 (Impact) \nDamage: 200 over 5s (Poison) \nInterrupts enemy actions \n \nThe throwing star has a long history filled with blood and battle. These poison coated stainless steel stars will pose a lethal threat to anyone in your way.",
@@ -1351,6 +1351,7 @@ Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function
 		["hud_assault_cover_bs8"] = "KEEP THOSE SAUSAGES SAFE",
 		["hud_assault_cover_bs9"] = "NON-STOP DEADLY ACTION",
 		["hud_assault_cover_bs10"] = "CHAD WAS HERE",
+		["hud_assault_cover_bs11"] = "YOU ARE ADVISED TO REMAIN IN CLOSE PROXIMITY TO A SOLID OBJECT THAT IS AS LEAST WAIST-HIGH AS TO OBSTRUCT YOUR SILHOUETTE FROM POTENTIAL CONTACT WITH THE ADVERSARY'S PROJECTILES",
 		
 		["hud_assault_vip_summers"] = "VS. CAPTAIN SUMMERS & HIS CREW",
 		["hud_assault_vip_spring"] = "VS. CAPTAIN SPRING",
