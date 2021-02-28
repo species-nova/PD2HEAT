@@ -16048,6 +16048,7 @@ function WeaponFactoryTweakData:_init_x_mac10()
 			"wpn_fps_smg_mac10_body_mac10",
 			"wpn_fps_smg_mac10_s_fold",
 			"wpn_fps_smg_mac10_s_skel",
+			"wpn_fps_smg_mac10_s_no",
 			"wpn_fps_upg_ns_ass_smg_large",
 			"wpn_fps_upg_ns_ass_smg_medium",
 			"wpn_fps_upg_ns_ass_smg_small",
