@@ -12340,10 +12340,10 @@ function CharacterTweakData:_presets(tweak_data)
 				cosmetics = {}
 			},
 			[2] = {
-				factory_name = "wpn_fps_snp_desertfox_npc",
+				factory_name = "wpn_fps_sho_ksg_npc",
 				blueprint = {
-					"wpn_fps_snp_desertfox_b_long",
-					"wpn_fps_upg_fl_ass_peq15"
+					"wpn_fps_sho_ksg_b_long",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
 			},
@@ -12536,6 +12536,7 @@ function CharacterTweakData:_presets(tweak_data)
 				factory_name = "wpn_fps_ass_m16_npc",
 				blueprint = {
 					"wpn_fps_m16_fg_vietnam",
+					"wpn_fps_upg_m4_m_straight",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
@@ -12772,12 +12773,23 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_shot_m37_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
 			}
 		},
 		secondaries = {
 			[1] = {
-				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
-				blueprint = {},
+				factory_name = "wpn_fps_smg_uzi_npc", 
+				blueprint = {
+					"wpn_fps_smg_uzi_s_standard",
+					"wpn_fps_smg_uzi_fg_rail",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
 				cosmetics = {}
 			}
 		}
