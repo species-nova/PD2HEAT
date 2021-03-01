@@ -751,23 +751,23 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["ch_watchdogs_d1_heavy_wpn1_hl"] = "HEAVY ARMOR, AND HEAVIER WEAPONS",
 		["ch_watchdogs_d1_heavy_wpn1"] = "Complete day one of the WATCHDOGS job, wearing an ICTV and using miniguns, the Thanatos sniper, or RPG's only, on the OVERKILL difficulty or above.  You must have played from the start of the heist to complete this challenge.",
 		
-		["test_net"] = "Fast.Net",
-		["menu_test"] = "",
-		["state_filter"] = "State",
-		["menu_state_filter"] = "State Filter",
-		["menu_state_filter_help"] = "Shows the lobby state",
-		["menu_state_lobby"] = "Lobby",
-		["menu_state_loading"] = "Loading",
-		["menu_state_ingame"] = "Ingame",
+		-- ["test_net"] = "Fast.Net",
+		-- ["menu_test"] = "",
+		-- ["state_filter"] = "State",
+		-- ["menu_state_filter"] = "State Filter",
+		-- ["menu_state_filter_help"] = "Shows the lobby state",
+		-- ["menu_state_lobby"] = "Lobby",
+		-- ["menu_state_loading"] = "Loading",
+		-- ["menu_state_ingame"] = "Ingame",
 		
 		-- ///Stuff ripped from the various locale files we had ///
 		
-		--Halloween Dozer Sword
+		--Halloween Dozer Sword--
 		["bm_melee_halloween_sword"] = "Headless Bulldozer's Sword",
 		["menu_l_global_value_halloween_sword"] = "This is a Halloween 2013 item!",
 		
-		--S&W .500
-		["bm_w_shatters_fury"] = "Phoenix .500",
+		--Phoenix .500--
+		["bm_w_shatters_fury"] = "Phoenix .500 Revolver",
 		
 		["bm_wp_wpn_fps_pis_shatters_fury_b_comp1"] = "Horus Barrel",
 		["bm_wp_wpn_fps_pis_shatters_fury_b_comp2"] = "Shatter Barrel",
@@ -780,14 +780,14 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 
 		["menu_l_global_value_shatters_fury"] = "This is a HEAT item!",
 		
-		--MK-23
+		--Anubis .45--
 		--Semi-automatic pistol. Hold down ■ to aim. Release to fire.
-		["bm_w_socom"] = "Anubis .45",
-		["bm_w_x_socom"] = "Akimbo Anubis .45's",
+		["bm_w_socom"] = "Anubis .45 Pistol",
+		["bm_w_x_socom"] = "Akimbo Anubis .45 Pistols",
 		["bm_wp_wpn_fps_upg_fl_pis_socomlam"] = "Ra Combined Module",
 		["bm_wp_wpn_fps_upg_fl_pis_socomlam_desc"] = "Turn it on/off by pressing $BTN_GADGET.",
 
-		--Ranted NMH
+		--Ranted NMH--
 		["heist_no_mercy_ranted_name"] = "No Mercy",
 		["heist_no_mercy_ranted_brief"] = "We are hitting up the Mercy Hospital in a heist for blood. The source is carrying some kind of rare virus and we need to get it out of him. Let nothing stop us as the paycheck is a hefty one. Spilling some blood for this kind of cash is not the end of the world.",
 
@@ -804,10 +804,10 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["heist_nmh_new3_desc"] = "Press the button and wait for the elevator",	
 		
 		--OICW--
-		["bm_w_osipr"] = "SABR",
+		["bm_w_osipr"] = "SABR 5.56 Rifle",
 		["bm_w_osipr_gl"] = "SABR Grenade Launcher",
 		
-		--GO Bank remastered
+		--GO Bank remastered--
 		["menu_nh_mod_gobank_v2"] = "GO Bank Remastered",
 		
 		["heist_gobank_v2_name"] = "GO Bank Remastered",
@@ -831,19 +831,19 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 
 		["END"] = "END",	--what
 		
-		--Whurr Heat Street Edit
+		--Whurr Heat Street Edit--
 		["heist_heat_street_new_name"] = "Heat Street True Classic",
 		["heist_heat_street_new_brief"] = "Someone once said there is no such thing as a sure thing, but this job looks easy: get in, get the briefcase, get out. Your trusted wheelman Matt will be waiting for you in the alley and as long as you get to the van there is no way you can fail. Is there?",
 		["heist_street_new_name"] = "Heat Street: The Heist",
 		["heist_street_new_brief"] = "Someone once said there is no such thing as a sure thing, but this job looks easy: get in, get the briefcase, get out. Your trusted wheelman Matt will be waiting for you in the alley and as long as you get to the van there is no way you can fail. Is there?",
 
-		--Heat Street, Skirmish edition
+		--Heat Street, Skirmish edition--
 		["heist_skm_heat_street_name"] = "Uptown - Inkwell Industrial",
 		["heist_skm_heat_street_brief"] = "The kerels recently interrogated a prisoner that claims to have seen the face of Bain and can identify him. While we know it isn't true, the kerels don't, and neither do our rivals, so we're going to use the situation to gain some cash. Intercept the chop while they're transferring him to witness protection, near the old factory storage yard where that dumkop Matt crashed his car while trying to get away from us.",
 		["heist_skm_street_name"] = "Skirmish: Uptown - Inkwell Industrial",
 		["heist_skm_street_brief"] = "The kerels recently interrogated a prisoner that claims to have seen the face of Bain and can identify him. While we know it isn't true, the kerels don't, and neither do our rivals, so we're going to use the situation to gain some cash. Intercept the chop while they're transferring him to witness protection, near the old factory storage yard where that dumkop Matt crashed his car while trying to get away from us.",	
 
-		--Xmas Hoxout and Breaking Feds
+		--Xmas Hoxout and Breaking Feds--
 		["heist_xmn_hox"] = "Hoxton Breakout Xmas",
 		["heist_xmn_hox1"] = "The Breakout Xmas",
 		["heist_xmn_hox_1_brief"] = "The Dentist got Hoxton a re-trial. Uh, not you, Hox - I mean Old... Look, we'll sort out names later. The trial will be quick. With his record, he ain't gonna walk, but that's not the point. The point is he's moving, and we can hit him in transit. We're going to grab him right after the hearing. A nice little screw you to the US justice system.$NL;$NL;The plan is as loud as it gets: we blast a wall in the courthouse, grab Hox and get him the hell out.$NL;$NL;Area's locked down for blocks around. They'll be expecting trouble. Have your guns ready and pack a lot of ammo.",
@@ -1247,8 +1247,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["menu_akimbo_assault_rifle"] = "Akimbo Assault Rifle",
 
 		--Throwables--
-		["bm_concussion_desc"] = "Capacity: 3 \nRange: 10m \nStuns enemy for up to 4s \nEnemy accuracy reduced by 50% for 7s \nStuns all enemies, excluding Titan-Shields, Titan-Bulldozers and Captains \n \nThis stunning little beauty will take everyone's breath away, giving you that extra moment to kill them.",
-		["bm_grenade_smoke_screen_grenade_desc"] = "Range: 8m \nDuration: 12s \n \nDrop one of these and you'll vanish in a cloud of smoke, leaving your enemies struggling to take aim at you.",
+		["bm_concussion_desc"] = "Capacity: 3 \nRange: 10m \nStuns enemy for up to 4s \nEnemy accuracy reduced by 50% for 7s \nStuns all enemies, excluding Titan-Shields, Titan-Bulldozers and Captains\n\nThis stunning little beauty will take everyone's breath away, giving you that extra moment to kill them.",
+		["bm_grenade_smoke_screen_grenade_desc"] = "Range: 8m \nDuration: 12s \n \nDrop one of these, and you'll vanish in a cloud of smoke, leaving your enemies struggling to take aim at you.",
 		["bm_grenade_frag_desc"] = "Capacity: 3\nDamage: 800 \nRange: 5m \n \nThe classic explosive hand grenade. Is there any more to say?",
 		["bm_dynamite_desc"] = "Capacity: 3\nDamage: 800 \nRange: 4m \nDoes not bounce or roll from impact point, but deals less splash damage than similar explosives.\n\nDesigned to effectively blast through rock. Even more effective at blasting through people.",
 		["bm_grenade_frag_com_desc"] = "Capacity: 3 \nDamage: 800 \nRange: 5m \n \nA sleek new look to the classic hand grenade, sure to provide that OVERKILL touch to each blast.",

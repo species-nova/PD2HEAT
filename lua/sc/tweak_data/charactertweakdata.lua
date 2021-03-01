@@ -3244,6 +3244,7 @@ function CharacterTweakData:_init_russian(presets)
 	self.russian.no_run_start = true
 	self.russian.no_run_stop = true
 	self.russian.flammable = false
+	self.russian.melee_weapon = "moneybundle"
 	self.russian.damage = presets.gang_member_damage
 	self.russian.weapon = deep_clone(presets.weapon.gang_member)
 	self.russian.weapon.weapons_of_choice = {
@@ -3270,6 +3271,7 @@ function CharacterTweakData:_init_german(presets)
 	self.german.no_run_start = true
 	self.german.no_run_stop = true
 	self.german.flammable = false
+	self.german.melee_weapon = "nin"
 	self.german.damage = presets.gang_member_damage
 	self.german.weapon = deep_clone(presets.weapon.gang_member)
 	self.german.weapon.weapons_of_choice = {
@@ -3296,6 +3298,7 @@ function CharacterTweakData:_init_spanish(presets)
 	self.spanish.no_run_start = true
 	self.spanish.no_run_stop = true
 	self.spanish.flammable = false
+	self.spanish.melee_weapon = "fists"
 	self.spanish.damage = presets.gang_member_damage
 	self.spanish.weapon = deep_clone(presets.weapon.gang_member)
 	self.spanish.weapon.weapons_of_choice = {
@@ -3322,6 +3325,7 @@ function CharacterTweakData:_init_american(presets)
 	self.american.no_run_start = true
 	self.american.no_run_stop = true
 	self.american.flammable = false
+	--self.american.melee_weapon = something--
 	self.american.damage = presets.gang_member_damage
 	self.american.weapon = deep_clone(presets.weapon.gang_member)
 	self.american.weapon.weapons_of_choice = {
@@ -3347,6 +3351,7 @@ function CharacterTweakData:_init_jowi(presets)
 	self.jowi.always_face_enemy = true
 	self.jowi.no_run_start = true
 	self.jowi.no_run_stop = true
+	self.jowi.melee_weapon = "kabartanto"
 	self.jowi.damage = presets.gang_member_damage
 	self.jowi.weapon = deep_clone(presets.weapon.gang_member)
 	self.jowi.weapon.weapons_of_choice = {
@@ -3372,6 +3377,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.always_face_enemy = true
 	self.old_hoxton.no_run_start = true
 	self.old_hoxton.no_run_stop = true
+	self.old_hoxton.melee_weapon = "toothbrush"
 	self.old_hoxton.damage = presets.gang_member_damage
 	self.old_hoxton.weapon = deep_clone(presets.weapon.gang_member)
 	self.old_hoxton.weapon.weapons_of_choice = {
@@ -3397,6 +3403,7 @@ function CharacterTweakData:_init_clover(presets)
 	self.female_1.always_face_enemy = true
 	self.female_1.no_run_start = true
 	self.female_1.no_run_stop = true
+	self.female_1.melee_weapon = "shillelagh"
 	self.female_1.damage = presets.gang_member_damage
 	self.female_1.weapon = deep_clone(presets.weapon.gang_member)
 	self.female_1.weapon.weapons_of_choice = {
@@ -3422,6 +3429,7 @@ function CharacterTweakData:_init_dragan(presets)
 	self.dragan.always_face_enemy = true
 	self.dragan.no_run_start = true
 	self.dragan.no_run_stop = true
+	self.dragan.melee_weapon = "meat_cleaver"
 	self.dragan.damage = presets.gang_member_damage
 	self.dragan.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragan.weapon.weapons_of_choice = {
@@ -3447,6 +3455,7 @@ function CharacterTweakData:_init_jacket(presets)
 	self.jacket.always_face_enemy = true
 	self.jacket.no_run_start = true
 	self.jacket.no_run_stop = true
+	self.jacket.melee_weapon = "hammer"
 	self.jacket.damage = presets.gang_member_damage
 	self.jacket.weapon = deep_clone(presets.weapon.gang_member)
 	self.jacket.weapon.weapons_of_choice = {
@@ -3472,6 +3481,7 @@ function CharacterTweakData:_init_bonnie(presets)
 	self.bonnie.always_face_enemy = true
 	self.bonnie.no_run_start = true
 	self.bonnie.no_run_stop = true
+	self.bonnie.melee_weapon = "whiskey"
 	self.bonnie.damage = presets.gang_member_damage
 	self.bonnie.weapon = deep_clone(presets.weapon.gang_member)
 	self.bonnie.weapon.weapons_of_choice = {
@@ -3497,6 +3507,7 @@ function CharacterTweakData:_init_sokol(presets)
 	self.sokol.always_face_enemy = true
 	self.sokol.no_run_start = true
 	self.sokol.no_run_stop = true
+	self.sokol.melee_weapon = "hockey"
 	self.sokol.damage = presets.gang_member_damage
 	self.sokol.weapon = deep_clone(presets.weapon.gang_member)
 	self.sokol.weapon.weapons_of_choice = {
@@ -3522,6 +3533,7 @@ function CharacterTweakData:_init_dragon(presets)
 	self.dragon.always_face_enemy = true
 	self.dragon.no_run_start = true
 	self.dragon.no_run_stop = true
+	self.dragon.melee_weapon = "sandsteel"
 	self.dragon.damage = presets.gang_member_damage
 	self.dragon.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragon.weapon.weapons_of_choice = {
@@ -3547,6 +3559,7 @@ function CharacterTweakData:_init_bodhi(presets)
 	self.bodhi.always_face_enemy = true
 	self.bodhi.no_run_start = true
 	self.bodhi.no_run_stop = true
+	self.bodhi.melee_weapon = "boxcutter"
 	self.bodhi.damage = presets.gang_member_damage
 	self.bodhi.weapon = deep_clone(presets.weapon.gang_member)
 	self.bodhi.weapon.weapons_of_choice = {
@@ -3572,6 +3585,7 @@ function CharacterTweakData:_init_jimmy(presets)
 	self.jimmy.always_face_enemy = true
 	self.jimmy.no_run_start = true
 	self.jimmy.no_run_stop = true
+	self.jimmy.melee_weapon = "ballistic"
 	self.jimmy.damage = presets.gang_member_damage
 	self.jimmy.weapon = deep_clone(presets.weapon.gang_member)
 	self.jimmy.weapon.weapons_of_choice = {
@@ -3597,6 +3611,7 @@ function CharacterTweakData:_init_sydney(presets)
 	self.sydney.always_face_enemy = true
 	self.sydney.no_run_start = true
 	self.sydney.no_run_stop = true
+	self.sydney.melee_weapon = "wing"
 	self.sydney.damage = presets.gang_member_damage
 	self.sydney.weapon = deep_clone(presets.weapon.gang_member)
 	self.sydney.weapon.weapons_of_choice = {
@@ -3622,6 +3637,7 @@ function CharacterTweakData:_init_wild(presets)
 	self.wild.always_face_enemy = true
 	self.wild.no_run_start = true
 	self.wild.no_run_stop = true
+	self.wild.melee_weapon = "road"
 	self.wild.damage = presets.gang_member_damage
 	self.wild.weapon = deep_clone(presets.weapon.gang_member)
 	self.wild.weapon.weapons_of_choice = {
@@ -3647,6 +3663,7 @@ function CharacterTweakData:_init_chico(presets)
 	self.chico.always_face_enemy = true
 	self.chico.no_run_start = true
 	self.chico.no_run_stop = true
+	self.chico.melee_weapon = "cs"
 	self.chico.damage = presets.gang_member_damage
 	self.chico.weapon = deep_clone(presets.weapon.gang_member)
 	self.chico.weapon.weapons_of_choice = {
@@ -3672,6 +3689,7 @@ function CharacterTweakData:_init_max(presets)
 	self.max.always_face_enemy = true
 	self.max.no_run_start = true
 	self.max.no_run_stop = true
+	self.max.melee_weapon = "agave"
 	self.max.damage = presets.gang_member_damage
 	self.max.weapon = deep_clone(presets.weapon.gang_member)
 	self.max.weapon.weapons_of_choice = {
@@ -3698,6 +3716,7 @@ function CharacterTweakData:_init_myh(presets)
 	self.myh.no_run_start = true
 	self.myh.no_run_stop = true
 	self.myh.flammable = false
+	self.myh.melee_weapon = "sap"
 	self.myh.damage = presets.gang_member_damage
 	self.myh.weapon = deep_clone(presets.weapon.gang_member)
 	self.myh.weapon.weapons_of_choice = {
@@ -3730,7 +3749,8 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_female.always_face_enemy = true
 	self.ecp_female.no_run_start = true
 	self.ecp_female.no_run_stop = true
-	self.ecp_female.flammable = false	
+	self.ecp_female.flammable = false
+	self.ecp_female.melee_weapon = "clean"
 	self.ecp_female.detection = presets.detection.gang_member
 	self.ecp_female.move_speed = presets.move_speed.very_fast 
 	self.ecp_female.crouch_move = false
@@ -3755,6 +3775,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_male.no_run_start = true
 	self.ecp_male.no_run_stop = true
 	self.ecp_male.flammable = false		
+	self.ecp_male.melee_weapon = "clean"
 	self.ecp_male.detection = presets.detection.gang_member
 	self.ecp_male.move_speed = presets.move_speed.very_fast
 	self.ecp_male.crouch_move = false
@@ -12340,10 +12361,10 @@ function CharacterTweakData:_presets(tweak_data)
 				cosmetics = {}
 			},
 			[2] = {
-				factory_name = "wpn_fps_snp_desertfox_npc",
+				factory_name = "wpn_fps_sho_ksg_npc",
 				blueprint = {
-					"wpn_fps_snp_desertfox_b_long",
-					"wpn_fps_upg_fl_ass_peq15"
+					"wpn_fps_sho_ksg_b_long",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
 			},
@@ -12536,6 +12557,7 @@ function CharacterTweakData:_presets(tweak_data)
 				factory_name = "wpn_fps_ass_m16_npc",
 				blueprint = {
 					"wpn_fps_m16_fg_vietnam",
+					"wpn_fps_upg_m4_m_straight",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
@@ -12772,12 +12794,23 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
+			},
+			[2] = {
+				factory_name = "wpn_fps_shot_m37_npc",
+				blueprint = {
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
+				cosmetics = {}
 			}
 		},
 		secondaries = {
 			[1] = {
-				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
-				blueprint = {},
+				factory_name = "wpn_fps_smg_uzi_npc", 
+				blueprint = {
+					"wpn_fps_smg_uzi_s_standard",
+					"wpn_fps_smg_uzi_fg_rail",
+					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+				},
 				cosmetics = {}
 			}
 		}

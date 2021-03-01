@@ -481,3 +481,44 @@ function CopBase:set_visibility_state(stage)
 
 	self:chk_freeze_anims()
 end
+
+local ids_func = Idstring
+local ids_unit = ids_func("unit")
+
+function CopBase:melee_weapon()
+	local set_melee = self._char_tweak.melee_weapon
+
+	if set_melee then
+		local ms = managers
+		local melee_weapon_data = ms.blackmarket:get_melee_weapon_data(set_melee)
+
+		if melee_weapon_data then
+			local third_unit = melee_weapon_data.third_unit
+
+			if third_unit then
+				local name = ids_func(third_unit)
+				local dr = ms.dyn_resource
+				local pack_path = "packages/dyn_resources"
+
+				if not dr:is_resource_ready(ids_unit, name, pack_path) then
+					dr:load(ids_unit, name, pack_path, false)
+				end
+			else
+				local unit = melee_weapon_data.unit
+
+				if unit then
+					local name = ids_func(unit)
+					local dr = ms.dyn_resource
+					local pack_path = "packages/dyn_resources"
+
+					if not dr:is_resource_ready(ids_unit, name, pack_path) then
+						dr:load(ids_unit, name, pack_path, false)
+					end
+				end
+			end
+		end
+	end
+
+	return set_melee or self._melee_weapon_table or "weapon"
+end
+
