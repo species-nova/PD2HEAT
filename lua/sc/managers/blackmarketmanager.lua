@@ -168,6 +168,7 @@ function BlackMarketManager:stability_index_addend(categories, silencer)
 
 	for _, category in ipairs(categories) do
 		index = index + pm:upgrade_value(category, "recoil_index_addend", 0)
+		index = index + pm:close_combat_upgrade_value(category, "close_combat_recoil_index_addend", 0)
 	end
 
 	--Teamwide buffs.

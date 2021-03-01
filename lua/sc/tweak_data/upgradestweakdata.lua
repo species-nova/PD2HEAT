@@ -279,6 +279,13 @@ end)
 
 --Upgrade Value changes for skills and such--
 Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(self)
+	--Used by Shotgun skills, Infiltrator, and Sociopath
+	self.close_combat_distance = 700
+	self.close_combat_data = {
+		distance = 700,
+		polling_rate = 0.25
+	}
+
 	--Explosives hurt--
 	self.explosive_bullet.curve_pow = 1
 	self.explosive_bullet.player_dmg_mul = 0.5
@@ -625,27 +632,29 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Shotgunner--
 			--Shotgun Impact
 				--Basic
-					self.values.shotgun.recoil_index_addend = {1}
+					self.values.shotgun.close_combat_recoil_index_addend = {{value = 2, min = 3}}
 				--Ace
 					self.values.shotgun.extra_rays = {3}
 
 			--Shotgun CQB
 				--Basic
-					self.values.shotgun.enter_steelsight_speed_multiplier = {1.75}
+					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.04, max = 5}}
 				--Ace
-					self.values.shotgun.reload_speed_multiplier = {1.25, 1.25}
+					self.values.cooldown.shotgun_reload_interrupt_stagger = {{400, 5}}
 				
 			--Underdog
 				--Basic
-					self.values.temporary.dmg_multiplier_outnumbered = {{1.1, 69}} --Temporary for now.
+					self.values.player.close_combat_damage_boost = {{value = 0.03, max = 5}}
 				--Ace
-					self.values.temporary.dmg_dampener_outnumbered = {{0.9, 420}}
+					self.values.player.close_combat_damage_reduction = {{value = 0.03, max = 5}}
 				
 			--Far Away
 				--Basic
-					self.values.shotgun.steelsight_accuracy_inc = {0.6}
+					self.values.shotgun.enter_steelsight_speed_multiplier = {1.5} --ADS speed
+					self.values.player.steelsight_speed_multiplier = {1.6} --Movement speed while ADSing.
 				--Ace
-					self.values.shotgun.steelsight_range_inc = {1.4}
+					self.values.shotgun.steelsight_range_inc = {1.35}
+					self.values.shotgun.steelsight_accuracy_inc = {0.65}
 
 			--Close By
 				--Basic
@@ -1302,7 +1311,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		1.25
 	}
 	--infiltrator stuff
-	self.infiltrator_dr_range = 900
 	self.values.player.melee_stacking_heal = {true}	
 	self.melee_to_hot_data = {
 		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
@@ -1323,6 +1331,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			sentry_gun = false,
 			civilian = false
 		}
+	}
+	self.values.player.dmg_dampener_close_contact = {
+		{value = 0.02, max = 5},
+		{value = 0.04, max = 5},
+		{value = 0.04, max = 10}
 	}
 
 	self.values.player.heal_over_time = {
@@ -1359,19 +1372,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		1.45,
 		1.5
 	}
-	self.values.temporary.dmg_dampener_close_contact = {
-		{0.95, 7},
-		{0.9, 7},
-		{0.8, 7}
-	}
 	self.max_melee_weapon_dmg_mul_stacks = 5
 	self.values.melee.stacking_hit_expire_t = {10}
 	self.values.melee.stacking_hit_damage_multiplier = {
 		0.08,
 		0.16
-	}
-	self.values.dmg_dampener_outnumbered_strong = {
-		{0.95, 7}
 	}
 	self.values.player.tier_dodge_chance = {
 		0.05,
@@ -1477,13 +1482,16 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}}
 	self.loose_ammo_give_team_ratio = 1 --% of ammo given to team.
 
-	--Sociopath more like SocioBAD
+	--Sociopath
 	self.values.cooldown.killshot_regen_armor_bonus = {
 		{{2, 0}, 3},
 		{{2, 2}, 3}
 	}
 	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
 	self.values.cooldown.melee_kill_life_leech = {{0.05, 3}}
+	self.values.player.dmg_dampener_outnumbered = {
+		{value = 0.92, min = 3}
+	}
 
 	--Anarchist stuff--
 	self.values.player.armor_grinding = {
@@ -2642,6 +2650,69 @@ function UpgradesTweakData:_player_definitions()
 			category = "temporary"
 		}
 	}
+	self.definitions.player_damage_dampener_outnumbered_strong = {
+		name_id = "menu_player_dmg_dampener_outnumbered",
+		category = "player",
+		upgrade = {
+			value = 1,
+			upgrade = "dmg_dampener_outnumbered",
+			category = "player"
+		}
+	}
+	self.definitions.player_damage_dampener_close_contact_1 = {
+		name_id = "menu_player_dmg_dampener_close_contact",
+		category = "player",
+		upgrade = {
+			value = 1,
+			upgrade = "dmg_dampener_close_contact",
+			category = "player"
+		}
+	}
+	self.definitions.player_damage_dampener_close_contact_2 = {
+		name_id = "menu_player_dmg_dampener_close_contact",
+		category = "player",
+		upgrade = {
+			value = 2,
+			upgrade = "dmg_dampener_close_contact",
+			category = "player"
+		}
+	}
+	self.definitions.player_damage_dampener_close_contact_3 = {
+		name_id = "menu_player_dmg_dampener_close_contact",
+		category = "player",
+		upgrade = {
+			value = 3,
+			upgrade = "dmg_dampener_close_contact",
+			category = "player"
+		}
+	}
+	self.definitions.player_close_combat_damage_reduction = {
+		name_id = "menu_player_close_combat_damage_reduction",
+		category = "player",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_damage_reduction",
+			category = "player"
+		}
+	}
+	self.definitions.player_close_combat_damage_boost = {
+		name_id = "menu_player_close_combat_damage_boost",
+		category = "player",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_damage_boost",
+			category = "player"
+		}
+	}
+	self.definitions.player_steelsight_speed_multiplier = {
+		name_id = "menu_player_steelsight_speed_multiplier",
+		category = "player",
+		upgrade = {
+			value = 1,
+			upgrade = "steelsight_speed_multiplier",
+			category = "player"
+		}
+	}
 end
 
 function UpgradesTweakData:_smg_definitions()
@@ -2733,6 +2804,15 @@ function UpgradesTweakData:_smg_definitions()
 			category = "smg",
 			upgrade = "recoil_index_addend",
 			value = 1
+		}
+	}
+	self.definitions.player_close_combat_damage_boost = {
+		name_id = "menu_player_close_combat_damage_boost",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_damage_boost",
+			category = "player"
 		}
 	}
 end
@@ -3336,6 +3416,24 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "pistol"
 		}
 	}
+	self.definitions.shotgun_close_combat_reload_speed_multiplier = {
+		name_id = "menu_shotgun_close_combat_reload_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_reload_speed_multiplier",
+			category = "shotgun"
+		}
+	}
+	self.definitions.shotgun_close_combat_recoil_index_addend = {
+		name_id = "menu_shotgun_close_combat_recoil_index_addend",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_recoil_index_addend",
+			category = "shotgun"
+		}
+	}
 end)
 
 function UpgradesTweakData:_cooldown_definitions()
@@ -3382,6 +3480,15 @@ function UpgradesTweakData:_cooldown_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "killshot_close_panic_chance",
+			category = "cooldown"
+		}
+	}
+	self.definitions.cooldown_shotgun_reload_interrupt_stagger = {
+		name_id = "menu_cooldown_shotgun_reload_interrupt_stagger",
+		category = "cooldown",
+		upgrade = {
+			value = 1,
+			upgrade = "shotgun_reload_interrupt_stagger",
 			category = "cooldown"
 		}
 	}

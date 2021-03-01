@@ -567,7 +567,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"shotgun_recoil_index_addend",
+						"shotgun_close_combat_recoil_index_addend"
 					},
 					cost = self.costs.default
 				},
@@ -588,14 +588,14 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"shotgun_enter_steelsight_speed_multiplier"
+						"shotgun_close_combat_reload_speed_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"shotgun_reload_speed_multiplier_1"
+						"cooldown_shotgun_reload_interrupt_stagger"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -609,14 +609,14 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"player_damage_multiplier_outnumbered"
+						"player_close_combat_damage_boost"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"player_damage_dampener_outnumbered"
+						"player_close_combat_damage_reduction"
 					},
 					cost = self.costs.pro
 				}
@@ -630,13 +630,15 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 3,
 					upgrades = {
-						"shotgun_steelsight_accuracy_inc_1"
+						"shotgun_enter_steelsight_speed_multiplier",
+						"player_steelsight_speed_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
+						"shotgun_steelsight_accuracy_inc_1",
 						"shotgun_steelsight_range_inc_1"
 					},
 					cost = self.costs.hightierpro
@@ -3094,7 +3096,7 @@ function SkillTreeTweakData:init(tweak_data)
 			dlc = "hlm2_deluxe",
 			{
 				upgrades = {
-					"player_damage_dampener_outnumbered_strong",
+					"player_damage_dampener_outnumbered",
 				},
 				cost = 200,
 				icon_xy = {3, 4},

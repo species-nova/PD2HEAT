@@ -2,10 +2,15 @@ local init_original = PlayerMovement.init
 function PlayerMovement:init(...)
 	init_original(self, ...)
 	
-	self._underdog_skill_data.has_dmg_dampener = self._underdog_skill_data.has_dmg_dampener or 
-		managers.player:has_category_upgrade("temporary", "dmg_dampener_close_contact")
-		
-	self._underdog_skill_data.chk_interval_active = 1 --temp test
+	local player_manager = managers.player
+	self._has_underdog = player_manager:has_category_upgrade("shotgun", "close_combat_damage_boost")
+		or player_manager:has_category_upgrade("shotgun", "close_combat_damage_reduction")
+		or player_manager:has_category_upgrade("shotgun", "close_combat_reload_speed_multiplier")
+		or player_manager:has_category_upgrade("shotgun", "close_combat_recoil_index_addend")
+		or player_manager:has_category_upgrade("player", "dmg_dampener_outnumbered")
+		or player_manager:has_category_upgrade("player", "dmg_dampener_close_contact")
+	self._underdog_skill_data = tweak_data.upgrades.close_combat_data
+	self._underdog_chk_t = 0
 end
 
 function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
@@ -35,35 +40,17 @@ function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
 	end
 end	
 
-local underdog_polling_rate = 0.4 --Polling rate subject to change. 
-local underdog_distance = tweak_data.upgrades.infiltrator_dr_range
 --Underdog now checks for *any* enemies in proximity.
 function PlayerMovement:_upd_underdog_skill(t)
-	local data = self._underdog_skill_data
-
-	if not data.has_dmg_dampener and not data.has_dmg_mul or t < self._underdog_skill_data.chk_t then
+	if self._has_underdog and t < self._underdog_chk_t then
 		return
 	end
 
-	self._nr_close_guys = #World:find_units_quick("sphere", self._m_pos, underdog_distance, managers.slot:get_mask("enemies"))
+	self._nr_close_guys = #World:find_units_quick("sphere", self._m_pos, self._underdog_skill_data.distance, managers.slot:get_mask("enemies"))
 
-	--Handle skills, this *will* be changed.
-	if self._nr_close_guys >= 1 then
-		managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_dampener_close_contact")
-		managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_multiplier_outnumbered")
-		if self._nr_close_guys >= 3 then
-			managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_dampener_outnumbered")
-			managers.player:activate_temporary_upgrade_indefinitely("temporary", "dmg_dampener_outnumbered_strong")
-		else
-			managers.player:deactivate_temporary_upgrade("temporary", "dmg_dampener_outnumbered")
-			managers.player:deactivate_temporary_upgrade("temporary", "dmg_dampener_outnumbered_strong")
-		end
-	else
-		managers.player:deactivate_temporary_upgrade("temporary", "dmg_dampener_close_contact")
-		managers.player:deactivate_temporary_upgrade("temporary", "dmg_multiplier_outnumbered")
-	end
+	managers.hud:set_stacks("close_combat", self._nr_close_guys)
 
-	data.chk_t = t + underdog_polling_rate
+	self._underdog_chk_t = t + self._underdog_skill_data.polling_rate
 end
 
 function PlayerMovement:nr_close_guys()

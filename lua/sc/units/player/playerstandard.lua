@@ -1,3 +1,5 @@
+local mvec3_norm = mvector3.normalize
+
 local original_init = PlayerStandard.init
 function PlayerStandard:init(unit)
 	original_init(self, unit)
@@ -1179,10 +1181,19 @@ function PlayerStandard:force_recoil_kick(weap_base, shots_fired)
 	self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier)
 end
 
---Starts minigun spinup.
+--Starts minigun spinup, lets ADS cancel reloads.
 Hooks:PostHook(PlayerStandard, "_start_action_steelsight", "ResMinigunEnterSteelsight", function(self, t, gadget_state)
+	local weapon = self._unit:inventory():equipped_unit():base()
+	if self._steelsight_wanted and self:_is_reloading() then
+		if weapon:reload_exit_expire_t() then --Per shell reloads need to finish reloading the current shell.
+			self._queue_reload_interupt = true
+		else --Otherwise instant reload cancel.
+			self:_interupt_action_reload()
+			self._ext_camera:play_redirect(self:get_animation("idle"))
+		end
+	end
+
 	if self._state_data.in_steelsight or self._steelsight_wanted then
-		local weapon = self._unit:inventory():equipped_unit():base()
 		if weapon:get_name_id() == "m134" then
 			weapon:vulcan_enter_steelsight()
 		end
@@ -1421,6 +1432,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			
 			if self._queue_reload_interupt then
 				self._queue_reload_interupt = nil
+				self:_reload_interupt_stagger() --Attempt to stagger nearby enemies if skill is owned.
 				interupt = true
 			elseif self._state_data.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
 				self._state_data.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
@@ -1818,15 +1830,17 @@ function PlayerStandard:_check_action_deploy_underbarrel(t, input)
 end
 
 function PlayerStandard:_interupt_action_reload(t)
+	local weap_base = self._equipped_unit:base()
 	if alive(self._equipped_unit) then
-		self._equipped_unit:base():check_bullet_objects()
+		weap_base:check_bullet_objects()
 	end
 
 	if self:_is_reloading() then
-		self._equipped_unit:base():tweak_data_anim_stop("reload_enter")
-		self._equipped_unit:base():tweak_data_anim_stop("reload")
-		self._equipped_unit:base():tweak_data_anim_stop("reload_not_empty")
-		self._equipped_unit:base():tweak_data_anim_stop("reload_exit")
+		weap_base:tweak_data_anim_stop("reload_enter")
+		weap_base:tweak_data_anim_stop("reload")
+		weap_base:tweak_data_anim_stop("reload_not_empty")
+		weap_base:tweak_data_anim_stop("reload_exit")
+		self:_reload_interupt_stagger() --Allow stagger interrupt skill to proc.
 	end
 
 	self._state_data.reload_enter_expire_t = nil
@@ -1837,4 +1851,35 @@ function PlayerStandard:_interupt_action_reload(t)
 
 	managers.player:remove_property("shock_and_awe_reload_multiplier")
 	self:send_reload_interupt()
+end
+
+function PlayerStandard:_reload_interupt_stagger()
+	local stagger_dis = managers.player:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
+	if self._equipped_unit:base():is_category("shotgun") and stagger_dis > 0 then
+		local knocked_targets = World:find_units_quick("sphere", self._unit:movement():m_pos(), stagger_dis, managers.slot:get_mask("enemies"))
+
+		if #knocked_targets > 0 then --Only trigger cooldown if effect did something.
+			managers.player:disable_cooldown_upgrade("cooldown", "shotgun_reload_interrupt_stagger")
+		end
+
+		--Stagger nearby enemies.
+		for _, unit in ipairs(knocked_targets) do
+			local unknockable = unit.has_tag and (unit:has_tag("tank") or unit:has_tag("captain"))
+
+			if not unknockable then
+				local attack_dir = unit:movement():m_com() - self._unit:movement():m_com()
+				mvec3_norm(attack_dir)
+
+				local stagger_data = {
+					variant = "counter_spooc",
+					stagger = true,
+					attacker_unit = self._unit,
+					attack_dir = attack_dir,
+					pos = mvector3.copy(unit:movement():m_com())
+				}
+
+				unit:character_damage():damage_simple(stagger_data)
+			end
+		end
+	end
 end

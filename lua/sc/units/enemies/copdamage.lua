@@ -2300,7 +2300,7 @@ function CopDamage:damage_simple(attack_data)
 				if knock_down then
 					result_type = "knock_down"
 				else
-					local stagger = weapon_base._stagger and not self._has_been_staggered
+					local stagger = attack_data.stagger or weapon_base._stagger and not self._has_been_staggered
 
 					if stagger then
 						result_type = "stagger"

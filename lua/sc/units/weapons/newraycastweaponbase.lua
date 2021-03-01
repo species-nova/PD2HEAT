@@ -528,16 +528,18 @@ end
 
 --[[	Reload stuff	]]--
 function NewRaycastWeaponBase:reload_speed_multiplier()
+	local player_manager = managers.player
 	if self._current_reload_speed_multiplier then
 		return self._current_reload_speed_multiplier
 	end
 	local multiplier = self._reload_speed_mult
 		
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		multiplier = multiplier * managers.player:upgrade_value(category, "reload_speed_multiplier", 1)
+		multiplier = multiplier * player_manager:upgrade_value(category, "reload_speed_multiplier", 1)
+		multiplier = multiplier * (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0))
 	end
-	multiplier = multiplier * managers.player:upgrade_value("weapon", "passive_reload_speed_multiplier", 1)
-	multiplier = multiplier * managers.player:upgrade_value(self._name_id, "reload_speed_multiplier", 1)
+	multiplier = multiplier * player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1)
+	multiplier = multiplier * player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1)
 	
 	if self._setup and alive(self._setup.user_unit) and self._setup.user_unit:movement() then
 		if self._setup.user_unit:movement():next_reload_speed_multiplier() then
@@ -546,14 +548,14 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 	end
 	
 	if managers.player:has_activate_temporary_upgrade("temporary", "reload_weapon_faster") then
-		multiplier = multiplier * managers.player:temporary_upgrade_value("temporary", "reload_weapon_faster", 1)
+		multiplier = multiplier * player_manager:temporary_upgrade_value("temporary", "reload_weapon_faster", 1)
 	end
 	if managers.player:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
-		multiplier = multiplier * managers.player:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1)
+		multiplier = multiplier * player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1)
 	end
-	multiplier = multiplier * managers.player:get_property("shock_and_awe_reload_multiplier", 1)
-	multiplier = multiplier * managers.player:get_temporary_property("bloodthirst_reload_speed", 1)
-	multiplier = multiplier * managers.player:upgrade_value("team", "crew_faster_reload", 1)
+	multiplier = multiplier * player_manager:get_property("shock_and_awe_reload_multiplier", 1)
+	multiplier = multiplier * player_manager:get_temporary_property("bloodthirst_reload_speed", 1)
+	multiplier = multiplier * player_manager:upgrade_value("team", "crew_faster_reload", 1)
 
 	multiplier = multiplier * self:reload_speed_stat()
 	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)

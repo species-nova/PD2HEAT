@@ -354,17 +354,14 @@ end
 
 function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 	local multiplier = 1
-	multiplier = multiplier * self:temporary_upgrade_value("temporary", "dmg_dampener_outnumbered", 1)
-	multiplier = multiplier * self:temporary_upgrade_value("temporary", "dmg_dampener_outnumbered_strong", 1)
-	multiplier = multiplier * self:temporary_upgrade_value("temporary", "dmg_dampener_close_contact", 1)
-	multiplier = multiplier * self:temporary_upgrade_value("temporary", "revived_damage_resist", 1)
-	multiplier = multiplier * self:upgrade_value("player", "damage_dampener", 1)
-	--Frenzy now grants deflection instead of damage reduction.
-	multiplier = multiplier * self:temporary_upgrade_value("temporary", "first_aid_damage_reduction", 1)
-	multiplier = multiplier * self:temporary_upgrade_value("temporary", "revive_damage_reduction", 1)
-	multiplier = multiplier * self._properties:get_property("revive_damage_reduction", 1)
-	multiplier = multiplier * self._temporary_properties:get_property("revived_damage_reduction", 1)
-	--Removed vanilla crew chief team DR.
+	multiplier = multiplier * self:temporary_upgrade_value("temporary", "revived_damage_resist", 1) --Running From Death Ace
+	multiplier = multiplier * self:temporary_upgrade_value("temporary", "first_aid_damage_reduction", 1) --Quick Fix Ace
+	multiplier = multiplier * self:temporary_upgrade_value("temporary", "revive_damage_reduction", 1) --Combat Medic
+	multiplier = multiplier * self._properties:get_property("revive_damage_reduction", 1) --Combat Medic
+	multiplier = multiplier * self._temporary_properties:get_property("revived_damage_reduction", 1) --Painkillers
+	multiplier = multiplier * (1 - self:close_combat_upgrade_value("player", "dmg_dampener_close_contact", 0)) --Infiltrator
+	multiplier = multiplier * self:close_combat_upgrade_value("player", "dmg_dampener_outnumbered", 1) --Sociopath
+	multiplier = multiplier * (1 - self:close_combat_upgrade_value("player", "close_combat_damage_reduction", 0)) --Underdog Ace
 
 	--Yakuza DR.
 	local health_ratio = self:player_unit():character_damage():health_ratio()
@@ -372,19 +369,17 @@ function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 		multiplier = multiplier * (1 - self:upgrade_value("player", "resistance_damage_health_ratio_multiplier", 0) * (1 - health_ratio))
 	end
 
-	--Removed vanilla crew chief self DR.
-
 	if damage_type == "melee" then
-		multiplier = multiplier * self:upgrade_value("player", "melee_damage_dampener", 1)
+		multiplier = multiplier * self:upgrade_value("player", "melee_damage_dampener", 1) --Martial Arts Basic
 	elseif damage_type == "kick_or_shock" then --Cloaker kicks/taser shocks
-		multiplier = multiplier * self:upgrade_value("player", "spooc_damage_resist", 1.0)
+		multiplier = multiplier * self:upgrade_value("player", "spooc_damage_resist", 1.0) --Counter Strike
 	end
 
 	local current_state = self:get_current_state()
 
 	if current_state then
 		if current_state:_interacting() then
-			multiplier = multiplier * self:upgrade_value("player", "interacting_damage_multiplier", 1)
+			multiplier = multiplier * self:upgrade_value("player", "interacting_damage_multiplier", 1) --Nerves of Steel Ace
 		elseif current_state:in_melee() then
 			local melee_name_id = managers.blackmarket:equipped_melee_weapon()
 			if damage_type == "bullet" then --Counter Strike
@@ -398,7 +393,7 @@ function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 	end
 	
 	if self._current_state == "bipod" then
-		multiplier = multiplier * self:upgrade_value("player", "bipod_damage_reduction", 1)
+		multiplier = multiplier * self:upgrade_value("player", "bipod_damage_reduction", 1) --Heavy Impact
 	end
 
 	return multiplier
@@ -776,6 +771,10 @@ function PlayerManager:_internal_load()
 
 	if self:has_category_upgrade("cooldown", "long_dis_revive") then
 		managers.hud:add_skill("long_dis_revive")
+	end
+
+	if self:has_category_upgrade("cooldown", "shotgun_reload_interrupt_stagger") then
+		managers.hud:add_skill("shotgun_reload_interrupt_stagger")
 	end
 
 	if self:has_category_upgrade("player", "cocaine_stacking") then
@@ -1185,7 +1184,7 @@ end
 --Gets the value of a cooldown upgrade and triggers the cooldown if the upgrade is available.
 --Otherwise, just returns 0 or default.
 function PlayerManager:use_cooldown_upgrade(category, upgrade, default)
-	local upgrade_value = self:upgrade_value(category, upgrade, default)
+	local upgrade_value = self:upgrade_value(category, upgrade)
 
 	if upgrade_value == 0 then
 		return default or 0
@@ -1258,4 +1257,25 @@ function PlayerManager:deactivate_temporary_upgrade(category, upgrade)
 
 	self._temporary_upgrades[category][upgrade] = nil
 	managers.hud:remove_skill(upgrade)
+end
+
+--Returns the value for an upgrade that scales off of the number of nearby enemies.
+function PlayerManager:close_combat_upgrade_value(category, upgrade, default)
+	local player_unit = self:player_unit()
+
+	if not alive(player_unit) or not self._global.upgrades[category] or not self._global.upgrades[category][upgrade] then
+		return default or 0
+	end
+
+	local level = self._global.upgrades[category][upgrade]
+	local data = tweak_data.upgrades.values[category][upgrade][level]
+	local value = default or 0
+	if data.max then
+		local nr_close_guys = math.min(player_unit:movement():nr_close_guys(), data.max)
+		value = data.value * nr_close_guys
+	elseif data.min and data.min <= player_unit:movement():nr_close_guys() then
+		 value = data.value
+	end
+
+	return value
 end

@@ -431,6 +431,7 @@
 					<option type="bool" default_value="true" name="Info_bloodthirst_reload_speed"/>
 					<option type="bool" default_value="true" name="Info_bullet_storm"/>
 					<option type="bool" default_value="true" name="Info_revive_damage_reduction"/> <!-- Combat Medic -->
+					<option type="bool" default_value="true" name="Info_close_combat"/> <!-- # Enemies in Close Combat -->
 					<option type="bool" default_value="true" name="Info_desperado"/>
 					<option type="bool" default_value="true" name="Info_doctor_bag_health_regen"/>
 					<option type="bool" default_value="true" name="Info_grinder"/>
@@ -444,8 +445,8 @@
 					<option type="bool" default_value="true" name="Info_rogue"/>
 					<option type="bool" default_value="true" name="Info_increased_movement_speed"/> <!-- Running From Death -->
 					<option type="bool" default_value="true" name="Info_headshot_fire_rate_mult"/> <!-- Sharpshooter -->
+					<option type="bool" default_value="true" name="Info_shotgun_reload_interrupt_stagger"/> <!-- Shotgun CQB Ace -->
 					<option type="bool" default_value="true" name="Info_trigger_happy"/>
-					<option type="bool" default_value="true" name="Info_dmg_multiplier_outnumbered"/> <!-- Underdog -->
 					<option type="bool" default_value="true" name="Info_unseen_strike"/>
 				</option_group>
 				<option type="bool" default_value="false" name="MainHUD"/>
