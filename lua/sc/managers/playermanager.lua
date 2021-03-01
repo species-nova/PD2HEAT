@@ -1271,7 +1271,6 @@ function PlayerManager:close_combat_upgrade_value(category, upgrade, default)
 	local player_unit = self:player_unit()
 
 	if not alive(player_unit) or not self._global.upgrades[category] or not self._global.upgrades[category][upgrade] then
-		log(upgrade .. " not found")
 		return default or 0
 	end
 
