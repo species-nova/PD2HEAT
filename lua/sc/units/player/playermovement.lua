@@ -42,7 +42,7 @@ end
 
 --Underdog now checks for *any* enemies in proximity.
 function PlayerMovement:_upd_underdog_skill(t)
-	if self._has_underdog and t < self._underdog_chk_t then
+	if not self._has_underdog or t < self._underdog_chk_t then
 		return
 	end
 
