@@ -1850,11 +1850,11 @@ function WeaponTweakData:_init_data_m14_crew()
 	self.m14_crew.CLIP_AMMO_MAX = 60
 	self.m14_crew.NR_CLIPS_MAX = 8
 	self.m14_crew.pull_magazine_during_reload = "rifle"
-	self.m14_crew.auto.fire_rate = 0.08571428571
+	--self.m14_crew.auto.fire_rate = 0.08571428571
 	self.m14_crew.hold = "rifle"
 	self.m14_crew.alert_size = 2500
 	self.m14_crew.suppression = 2.2
-	self.m14_crew.FIRE_MODE = "auto"
+	self.m14_crew.FIRE_MODE = "single"
 end
 
 function WeaponTweakData:_init_data_ak5_crew()
@@ -9906,8 +9906,9 @@ function WeaponTweakData:_create_table_structure()
 		usage = "rifle",
 		anim_usage = "is_rifle",
 		sounds = {},
-		use_data = {}
-	}	
+		use_data = {} --[[,
+		auto = {}]]
+	}
 	self.g3_crew = {
 		usage = "rifle",
 		anim_usage = "is_rifle",
