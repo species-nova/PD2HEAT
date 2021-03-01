@@ -1830,7 +1830,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Underdog--
 			["menu_underdog_beta_sc"] = "Underdog",
-			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##3%## more gun and melee damage for each enemy within ##7## meters, up to ##15%## faster.\n\nACE: ##$pro##\nYou take ##3%## less damage for each enemy within ##7## meters, up to ##15%## less damage.",
+			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##3%## more gun and melee damage for each enemy within ##7## meters, up to ##15%## more damage.\n\nACE: ##$pro##\nYou take ##3%## less damage for each enemy within ##7## meters, up to ##15%## less damage.",
 
 			--Shotgun CQB--
 			["menu_shotgun_cqb_beta_sc"] = "Shotgun CQB",
