@@ -1921,6 +1921,7 @@ function PlayerStandard:_reload_interupt_stagger()
 				mvec3_norm(attack_dir)
 
 				local stagger_data = {
+					damage = 0,
 					variant = "counter_spooc",
 					stagger = true,
 					attacker_unit = self._unit,
