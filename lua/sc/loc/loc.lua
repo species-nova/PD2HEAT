@@ -1307,38 +1307,38 @@ Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function
 	LocalizationManager:add_localized_strings({
 		["hud_assault_end_line"] = "////", --this has bugged me forever, 3 bars makes the banner look uneven
 	
-		--US, interchangeable
+		--USA, Interchangeable--
 		["hud_assault_cover_us"] = "STAY IN COVER",
 		["hud_assault_cover_usds"] = "TRY TO SURVIVE",
 		["hud_assault_cover_us_run"] = "STICK TO COVER", --to be used on heists that have a lot of forward movement, in place of "stay in cover".  Heat Street, HoxOut 1, etc.
 	
-		--police departments/zeals
+		--LAW-OPS/DHS ZEAL Teams--
 		["hud_assault_assault"] = "POLICE ASSAULT IN PROGRESS",
 		["hud_assault_assault_ds"] = "ZEAL FORCES DEPLOYED",
 		
-		--zombies
+		--Zombies--
 		["hud_assault_assault_zm"] = "NECROCIDE IN PROGRESS",
 		["hud_assault_assault_zmds"] = "THE DEAD LIVE AGAIN...",
 		["hud_assault_cover_zm"] = "BAIN HAS STARTLED THE HORDE",
 		["hud_assault_cover_zmds"] = "WHAT A HORRIBLE NIGHT TO HAVE A CURSE",
 		
-		--federales
+		--Federales--
 		["hud_assault_assault_mex"] = "ASALTO FEDERAL EN MARCHA",
 		["hud_assault_assault_mexds"] = "ESCUADRÓN DE LA MUERTE AVANZANDO",
 		["hud_assault_cover_mex"] = "MANTENTE A CUBIERTO",
 		["hud_assault_cover_mexds"] = "INTENTA SOBREVIVIR",
 		
-		--reapers
+		--Russian Reapers--
 		["hud_assault_assault_ru"] = "ИДЕТ ШТУРМ ЖНЕЦОВ",
 		["hud_assault_cover_ru"] = "ОСТАВАЙТЕСЬ В УКРЫТИИ",
 		["hud_assault_assault_ruds"] = "ИДЕТ РЕЙД DRAK", 
 		["hud_assault_cover_ruds"] = "ПОСТАРАЙТЕСЬ ВЫЖИТЬ",
 		
-		--murkywater
+		--Murkywater Mercenaries/OMNIA Security Task Force--
 		["hud_assault_assault_murk"] = "MURKYWATER ASSAULT IN PROGRESS",
 		["hud_assault_assault_omni"] = "OMNIA INCURSION UNDERWAY",
 		
-		--easter egg cover lines, anything with "ds" after the line is used on Death Sentence because death sentence uses "try to survive" instead of "stay in cover"
+		--easter egg cover lines, anything with "ds" after the line is used on Death Sentence because death sentence uses "try to survive" instead of "stay in cover"--
 		["hud_assault_cover_bs1"] = "YOU HAVE BEEN SUCCESSFULLY DISTRACTED BY THE ASSAULT BANNER",
 		["hud_assault_cover_bs2"] = "ERROR: COVER NOT LOCATED",
 		["hud_assault_cover_bs2ds"] = "ERROR: SURVIVAL NOT LOCATED",
@@ -1462,7 +1462,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_gameplay_res_26"] = "Pro Jobs forbid you from buying generic assets before the heist (such as the Medic Bag, Ammo Bag or the Body Bag Case), toggle friendly fire on (even with your bots) and may trigger a PONR in the final stretch of the mission with special Bravo enemies joining the ranks.",
 		["loading_gameplay_res_27"] = "Heat provides different factions, such as Murkywater mercenaries and enforcers from other states. They function the same, but add a nice flavor to heists that canonically take place away from Washington DC.",
 		["loading_gameplay_res_28"] = "Cloakers will throw smoke grenades at you before charging.",
-		--New Units Hints
+		--New Units Hints--
 		["loading_new_units_res_title"] = "Heat Unit Tips",
 		["loading_new_units_res_1"] = "Titan HRTs are lightning-fast units that will free hostages and steal loot before you know they were there. Also, they will drop a tear gas grenade when killed without a Headshot or melee.",
 		["loading_new_units_res_2"] = "LPFs are weak to melee.",
@@ -1483,7 +1483,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_new_units_res_17"] = "Bravo units can throw frag grenades. Look for the flashers and listen for the beep.",
 		["loading_new_units_res_18"] = "AKAN fields their own Titan units, which look different but behave the same way. Their overall color scheme and visual characteristics are the same, though, so that they may be easily identified.",
 		["loading_new_units_res_19"] = "The Grenadier launches tear gas grenades at range with his underbarrel attachment, damaging players that stand in the cloud. On Death Sentence he instead comes armed with deadlier, stamina-draining nerve gas grenades.",
-		--Captain Hints
+		--Captain Hints--
 		["loading_captains_res_title"] = "Heat Captain Tips",
 		["loading_captains_res_1"] = "To take Captain Summers down, target his crew first starting with Doc. He's unkillable until his entire crew is dead, and the other two are nearly invulnerable until Doc is dead.",		
 		["loading_captains_res_2"] = "Don't hug Captain Summers. He WILL melt you with his flamethrower, and he has a Buzzer that he will electrocute you with.",		
@@ -1497,7 +1497,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_captains_res_10"] = "Captain Winters is nearly immune to explosives and fire, and has strong bullet resistance, but is somewhat vulnerable to melee.",	
 		["loading_captains_res_11"] = "Captain Winters' shield is completely unpierceable.",	
 		["loading_captains_res_12"] = "Captain Winters has been overhauled. He now wanders around the map healing enemies in a large area around him while aggressively charging when the opportunity arises.",	
-		--Stealth Hints
+		--Stealth Hints--
 		["loading_stealth_res_title"] = "Heat Stealth Tips",
 		["loading_stealth_res_1"] = "Guards will no longer be instantly alerted by seeing broken cameras. A specific guard will be made to inspect the camera, allowing it to be used as a lure.",	
 		["loading_stealth_res_2"] = "Killing unalerted guards with melee or taking them hostage will not set off a pager. Melee killing a guard a split second after he was alerted will still prevent the pager from being set off.",	
@@ -1520,7 +1520,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_stealth_res_19"] = "Pager operators are less lenient on higher difficulties. Your last pager is indicated by the use of a special voice line.",	
 		["loading_stealth_res_20"] = "Answering pagers beyond your allowed limit massively increases suspicion, but not as much as dropping or not answering.",	
 		["loading_stealth_res_21"] = "Pagers take longer to answer and expire faster on the ground on higher difficulties.",	
-		--Equipment/Skill Hints
+		--Equipment/Skill Hints--
 		["loading_equip_skills_res_title"] = "Heat Equipment/Skill Tips",
 		["loading_equip_skills_res_1"] = "Shotguns lose range as their accuracy gets lower, experiment and see what works best! Be careful not to leave yourself unable to deal with snipers, though; consider a non-shotgun secondary.",	
 		["loading_equip_skills_res_2"] = "Pistols are very fast to swap to and are generally accurate and stable. They work very well as backup weapons if you aren't specialized in something else.",	
@@ -1553,12 +1553,12 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["loading_equip_skills_res_29"] = "Replenishing your throwables in the Equipment Case now refills your entire stock with each use.",	
 		["loading_equip_skills_res_30"] = "Save Inspire ace for when things have really gone sideways, it has a very long cooldown and requires line of sight.",	
 		["loading_equip_skills_res_31"] = "Heat adds two new Perk Decks (Wildcard and Blank) which provide only the common perks and no perks whatsoever, respectively. They are meant for self-imposed challenges.",
-		--Misc Hints
+		--Misc Hints--
 		["loading_misc_res_title"] = "Heat Miscellaneous Tips",
 		["loading_misc_res_1"] = "OUT OF DATE",	
 		["loading_misc_res_2"] = "Heat has a Steam Guide! This should be your resource for more detailed information. Check the Main Menu.",	
 		["loading_misc_res_3"] = "Heat has a Discord server! Join for discussion, balance feedback, and matchmaking! Check the Main Menu.",	
-		--Trivia Hints
+		--Trivia Hints--
 		["loading_fluff_res_title"] = "Heat Trivia",
 		["loading_fluff_res_1"] = "Nobody knows OMNIA's true goals.",	
 		["loading_fluff_res_2"] = "The LPF is owed a lot of beers.",	
@@ -1590,7 +1590,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["skill_stockholm_syndrome_trade"] = "Down Restored!",
 		["hint_short_max_pagers"] = "Neglecting pagers will significantly increase guard suspicion.",
 
-		--And now we're doing it again--
+		--Infamy String--
 		["menu_infamy_desc_root_new"] = "As a new arrival to the criminal elite, the first order of business is for you to get gear and fanfare befitting someone of your status.\n\nBONUSES:\nYour infamous base drop rate is increased from ##0.3%## to ##0.6%##\nExperience gained is increased by ##5%##.",
 
 		--Renaming some of the skill subtrees--
@@ -1603,10 +1603,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["hud_instruct_mask_on"] = "Press $BTN_USE_ITEM To put on Mask",
 		["hud_instruct_mask_on_alpha"] = "Press $BTN_USE_ITEM to put on your mask",
 
-		--Default Suit String
+		--Default Suit String--
 		["bm_suit_none_desc"] = "This is the heister's default outfit with the selected armor.\n\nWill automatically change from the Two-piece Suit depending on the selected heist!",
 
-		--Mutators
+		--Mutators--
 		["menu_mutators_achievement_disabled"] = "Mutators that reduce Experience and Money gained will also disable the earning of achievements, most trophies, and level completions!",
 		["mutator_medidozer_longdesc"] = "All normal enemies during assault waves are replaced with Medics, and all special units are replaced with Bulldozers.",
 		["mutator_medicdozers"] = "Medic Dozers",
@@ -1654,7 +1654,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["mutator_faction_override_lapd"] = "USA - LAPD",
 		["faction_selector_choice"] = "Faction: ",
 
-		--Crime spree modifier changes
+		--Crime spree modifier changes--
 		["cn_crime_spree_brief"] = "A Crime Spree is an endless series of randomly selected heists, executed in succession. With each heist you complete, your Rank and Reward will increase! Each 20th or 26th rank you will need to choose a modifier and each 100th rank there is an increase to the risk level, that will make the next heists harder to complete. After risk level 600, the amount of I-frames that players have -- which is the amount of time that exists between damage being able to be received -- begins to decrease, and Bravo units begin to spawn normally.\n\n##If you invite your crew, make sure they started their own Crime Spree before joining in order to gain ranks and Rewards as well.##",
 		["menu_cs_next_modifier_forced"] = "",
 		["menu_cs_modifier_dozers"] = "One additional Bulldozer is allowed into the level.",
@@ -2201,7 +2201,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 	LocalizationManager:add_localized_strings({
 		["bm_menu_dodge"] = "Dodge",
 
-		--Shared Perks--
+		--Shared Upgrades--
 		["menu_deckall_2_desc_sc"] = "Increases your headshot damage by ##25%.##\n\nYou do ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
 		["menu_deckall_4_desc_sc"] = "You gain ##+1## increased concealment.\n\nWhen wearing armor, your movement speed is ##15%## less affected.\n\nYou gain ##45%## more experience when you complete days and jobs.\n\nYou do ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
 		["menu_deckall_6_desc_sc"] = "Unlocks a Throwable Case equipment for you and your crew to use. The Throwable Case can be used to replenish throwables during a heist.\n\nIncreases your ammo pickup to ##125%## of the normal rate.\n\nYou do ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
@@ -2363,7 +2363,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_st_spec_0_desc"] = "This deck has no benefits at all.\n\nFor the heister looking for punishment.",
 		["menu_st_spec_00"] = "Wildcard Deck",
 		["menu_st_spec_23"] = "Wildcard Deck",
-		["menu_st_spec_00_desc"] = "This deck only has the shared skills.\n\nFor the heister looking for danger.",
+		["menu_st_spec_00_desc"] = "This deck only has the shared upgrades.\n\nFor the heister looking for danger.",
 		["menu_deck0_1"] = "",
 		["menu_deck0_1_desc"] = "",
 	})
