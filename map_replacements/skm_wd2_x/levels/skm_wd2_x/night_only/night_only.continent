@@ -1,0 +1,138 @@
+<table>
+	<editor_groups>
+		<table continent="night_only" name="night_cone" reference="500011">
+			<units>
+				<value_node value="500011"/>
+				<value_node value="500010"/>
+			</units>
+		</table>
+	</editor_groups>
+	<statics>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_001" position="1099 -785 1338" rotation="0 0 0 -1" unit_id="500011"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="1097 -782 1350" _prev_rot="0 0 0 -1" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_001" position="1097 -782 1350" rotation="0 0 0 -1" unit_id="500010"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_002" position="816 -501 1338" rotation="0 0 -0.707107 -0.707107" unit_id="500000"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="813 -503 1350" _prev_rot="0 0 -0.707107 -0.707107" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_002" position="813 -503 1350" rotation="0 0 -0.707107 -0.707107" unit_id="500001"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_003" position="1102 -216 1337" rotation="0 0 1 -1.19209e-007" unit_id="500002"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="1104 -219 1349" _prev_rot="0 0 1 -1.19209e-007" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_003" position="1104 -219 1349" rotation="0 0 1 -1.19209e-007" unit_id="500003"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_004" position="1386 -499 1337" rotation="0 0 0.707107 -0.707107" unit_id="500004"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="1389 -497 1349" _prev_rot="0 0 0.707107 -0.707107" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="" position="1389 -497 1349" rotation="0 0 0.707107 -0.707107" unit_id="500005"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_005" position="4405 -892 1337" rotation="0 0 0.707107 -0.707107" unit_id="500009"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="4408 -890 1349" _prev_rot="0 0 0.707107 -0.707107" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="PLEASE" position="4408 -890 1349" rotation="0 0 0.707107 -0.707107" unit_id="500012"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_006" position="4689 -1180 1337" rotation="0 0 -2.68221e-007 -1" unit_id="500013"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_006" position="4687 -1177 1349" rotation="0 0 -2.68221e-007 -1" unit_id="500014"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_007" position="4401 -1466 1337" rotation="0 0 -0.707107 -0.707107" unit_id="500015"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="4398 -1468 1349" _prev_rot="0 0 -0.707107 -0.707107" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="FUCK_YOU" position="4398 -1468 1349" rotation="0 0 -0.707107 -0.707107" unit_id="500016"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_008" position="4118 -1180 1337" rotation="0 0 1 -4.17233e-007" unit_id="500017"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="4120 -1183 1457" _prev_rot="0 0 1 -4.37114e-008" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="FUCKING_STOP" position="4120 -1183 1353" rotation="0 0 1 -4.37114e-008" unit_id="500018"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_009" position="-982 -68 1337" rotation="0 0 1 -4.17233e-007" unit_id="500019"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_009" position="-980 -71 1349" rotation="0 0 1 -4.17233e-007" unit_id="500020"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_010" position="-1268 -354 1337" rotation="0 0 1 -4.17233e-007" unit_id="500021"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_010" position="-1266 -357 1349" rotation="0 0 1 -4.17233e-007" unit_id="500022"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_011" position="-984 -641 1337" rotation="0 0 1 -4.17233e-007" unit_id="500023"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_011" position="-982 -644 1349" rotation="0 0 1 -4.17233e-007" unit_id="500024"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_012" position="-697 -354 1337" rotation="0 0 1 -4.17233e-007" unit_id="500025"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_012" position="-695 -357 1349" rotation="0 0 1 -4.17233e-007" unit_id="500026"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_013" position="-658.002 2401 1349" rotation="0 0 1 -4.17233e-007" unit_id="500027"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_013" position="-660.002 2404 1337" rotation="0 0 1 -4.17233e-007" unit_id="500028"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_014" position="-945 2688 1349" rotation="0 0 1 -4.17233e-007" unit_id="500029"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_014" position="-947 2691 1337" rotation="0 0 1 -4.17233e-007" unit_id="500030"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_015" position="-1230 2404 1349" rotation="0 0 1 -4.17233e-007" unit_id="500031"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_015" position="-1232 2407 1337" rotation="0 0 1 -4.17233e-007" unit_id="500032"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_016" position="-947 2118 1349" rotation="0 0 1 -4.17233e-007" unit_id="500033"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_016" position="-949 2121 1337" rotation="0 0 1 -4.17233e-007" unit_id="500034"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_017" position="1241 3546 1361" rotation="0 0 1 -4.17233e-007" unit_id="500035"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_017" position="1239 3549 1349" rotation="0 0 1 -4.17233e-007" unit_id="500036"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_018" position="1524 3259 1349" rotation="0 0 1 -4.17233e-007" unit_id="500037"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="1526 3256 1361" _prev_rot="0 0 1 -4.17233e-007" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_018" position="1526 3256 1361" rotation="0 0 1 -4.17233e-007" unit_id="500038"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_019" position="1237 2975 1349" rotation="0 0 1 -4.17233e-007" unit_id="500039"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/gen_prop_glow/gen_prop_glow_01" name_id="gen_prop_glow_01_020" position="951 3263 1349" rotation="0 0 1 -4.17233e-007" unit_id="500041"/>
+		</table>
+		<table>
+			<unit_data continent="night_only" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_020" position="953 3260 1361" rotation="0 0 1 -4.17233e-007" unit_id="500042"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="3308.32 2578.08 1449" _prev_rot="0 0 1 -4.17233e-007" continent="night_only" local_pos="-303.882 109.333 1349" local_rot="0 0 -1 4.17233e-007" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_021" position="3308.32 2578.08 1449" rotation="0 0 1 -4.17233e-007" unit_id="500006"/>
+		</table>
+		<table>
+			<unit_data _prev_pos="1241 3546 1361" _prev_rot="0 0 1 -4.17233e-007" continent="night_only" local_pos="0 0 0" local_rot="0 0 0 1" name="units/payday2/props/ind_prop_light_cones/ind_prop_light_cones_docks_blue_small" name_id="ind_prop_light_cones_docks_blue_small_019" position="1241 2983 1361" rotation="0 0 1 -4.17233e-007" unit_id="500007"/>
+		</table>
+	</statics>
+	<values>
+		<workviews/>
+	</values>
+</table>
