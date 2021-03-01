@@ -3205,7 +3205,7 @@ function CharacterTweakData:_init_old_hoxton_mission(presets)
 	self.old_hoxton_mission.no_arrest = true
 	self.old_hoxton_mission.chatter = presets.enemy_chatter.no_chatter
 	self.old_hoxton_mission.use_radio = nil
-	self.old_hoxton_mission.melee_weapon = "fists"
+	self.old_hoxton_mission.melee_weapon = "toothbrush"
 	self.old_hoxton_mission.melee_weapon_dmg_multiplier = 1
 	self.old_hoxton_mission.steal_loot = false
 	self.old_hoxton_mission.rescue_hostages = false
@@ -3221,6 +3221,7 @@ end
 
 function CharacterTweakData:_init_spa_vip(presets)
 	self.spa_vip = deep_clone(self.old_hoxton_mission)
+	self.spa_vip.melee_weapon = "fists"
 	self.spa_vip.spotlight_important = 100
 	self.spa_vip.is_escort = true
 	self.spa_vip.escort_idle_talk = false
@@ -3244,7 +3245,6 @@ function CharacterTweakData:_init_russian(presets)
 	self.russian.no_run_start = true
 	self.russian.no_run_stop = true
 	self.russian.flammable = false
-	self.russian.melee_weapon = "moneybundle"
 	self.russian.damage = presets.gang_member_damage
 	self.russian.weapon = deep_clone(presets.weapon.gang_member)
 	self.russian.weapon.weapons_of_choice = {
@@ -3298,7 +3298,7 @@ function CharacterTweakData:_init_spanish(presets)
 	self.spanish.no_run_start = true
 	self.spanish.no_run_stop = true
 	self.spanish.flammable = false
-	self.spanish.melee_weapon = "fists"
+	self.spanish.melee_weapon = "gerber"
 	self.spanish.damage = presets.gang_member_damage
 	self.spanish.weapon = deep_clone(presets.weapon.gang_member)
 	self.spanish.weapon.weapons_of_choice = {
@@ -3325,9 +3325,9 @@ function CharacterTweakData:_init_american(presets)
 	self.american.no_run_start = true
 	self.american.no_run_stop = true
 	self.american.flammable = false
-	--self.american.melee_weapon = something--
 	self.american.damage = presets.gang_member_damage
 	self.american.weapon = deep_clone(presets.weapon.gang_member)
+	self.american.melee_weapon = "baton"
 	self.american.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.houston.primaries,
 		secondary = self.char_wep_tables.houston.secondaries
@@ -3377,7 +3377,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.always_face_enemy = true
 	self.old_hoxton.no_run_start = true
 	self.old_hoxton.no_run_stop = true
-	self.old_hoxton.melee_weapon = "toothbrush"
+	self.old_hoxton.melee_weapon = "switchblade"
 	self.old_hoxton.damage = presets.gang_member_damage
 	self.old_hoxton.weapon = deep_clone(presets.weapon.gang_member)
 	self.old_hoxton.weapon.weapons_of_choice = {
@@ -3481,7 +3481,7 @@ function CharacterTweakData:_init_bonnie(presets)
 	self.bonnie.always_face_enemy = true
 	self.bonnie.no_run_start = true
 	self.bonnie.no_run_stop = true
-	self.bonnie.melee_weapon = "whiskey"
+	self.bonnie.melee_weapon = "croupier_rake"
 	self.bonnie.damage = presets.gang_member_damage
 	self.bonnie.weapon = deep_clone(presets.weapon.gang_member)
 	self.bonnie.weapon.weapons_of_choice = {
@@ -3559,7 +3559,7 @@ function CharacterTweakData:_init_bodhi(presets)
 	self.bodhi.always_face_enemy = true
 	self.bodhi.no_run_start = true
 	self.bodhi.no_run_stop = true
-	self.bodhi.melee_weapon = "boxcutter"
+	self.bodhi.melee_weapon = "iceaxe"
 	self.bodhi.damage = presets.gang_member_damage
 	self.bodhi.weapon = deep_clone(presets.weapon.gang_member)
 	self.bodhi.weapon.weapons_of_choice = {
@@ -3663,7 +3663,7 @@ function CharacterTweakData:_init_chico(presets)
 	self.chico.always_face_enemy = true
 	self.chico.no_run_start = true
 	self.chico.no_run_stop = true
-	self.chico.melee_weapon = "cs"
+	self.chico.melee_weapon = "brick"
 	self.chico.damage = presets.gang_member_damage
 	self.chico.weapon = deep_clone(presets.weapon.gang_member)
 	self.chico.weapon.weapons_of_choice = {
@@ -12213,7 +12213,10 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_m4_s_standard",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
-				cosmetics = {}
+				cosmetics = {
+					id = "amcar_same",
+					quality = "mint"
+				}
 			},
 			[3] = {
 				factory_name = "wpn_fps_ass_g36_npc",
