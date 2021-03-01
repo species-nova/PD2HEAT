@@ -804,7 +804,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["heist_nmh_new3_desc"] = "Press the button and wait for the elevator",	
 		
 		--OICW--
-		["bm_w_osipr"] = "SABR 5.56 Rifle",
+		["bm_w_osipr"] = "SABR Rifle",
 		["bm_w_osipr_gl"] = "SABR Grenade Launcher",
 		
 		--GO Bank remastered--
@@ -2378,3 +2378,5 @@ end)
 		
 	})
 end)]]--
+
+
