@@ -12209,6 +12209,7 @@ function CharacterTweakData:_presets(tweak_data)
 				factory_name = "wpn_fps_ass_amcar_npc",
 				blueprint = {
 					"wpn_fps_upg_o_eotech",
+					"wpn_fps_m4_uupg_m_std",
 					"wpn_fps_upg_m4_s_standard",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
@@ -12228,7 +12229,10 @@ function CharacterTweakData:_presets(tweak_data)
 			[1] = {
 				factory_name = "wpn_fps_pis_1911_npc",
 				blueprint = {
-					"wpn_fps_pis_1911_g_bling"
+					"wpn_fps_pis_1911_g_bling",
+					"wpn_fps_pis_1911_b_long",
+					"wpn_upg_o_marksmansight_rear",
+					"wpn_fps_upg_fl_pis_tlr1"
 				},
 				cosmetics = {}
 			}
@@ -12271,7 +12275,12 @@ function CharacterTweakData:_presets(tweak_data)
 		primaries = {
 			[1] = {
 				factory_name = "wpn_fps_lmg_m249_npc",
-				blueprint = {},
+				blueprint = {
+					"wpn_fps_lmg_m249_s_solid",
+					"wpn_fps_lmg_m249_b_long",
+					"wpn_fps_upg_o_eotech",
+					"wpn_fps_upg_fl_ass_peq15"
+				},
 				cosmetics = {}
 			},
 			[2] = {
@@ -12318,7 +12327,7 @@ function CharacterTweakData:_presets(tweak_data)
 				factory_name = "wpn_fps_ass_aug_npc",
 				blueprint = {
 					"wpn_fps_aug_b_short",
-					"wpn_fps_upg_ns_ass_smg_medium",
+					"wpn_fps_upg_o_acog",
 					"wpn_fps_aug_fg_a3",
 					"wpn_fps_aug_body_f90",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
@@ -12476,6 +12485,7 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_ns_ass_smg_large",
 					"wpn_fps_ass_l85a2_g_worn",
 					"wpn_fps_ass_l85a2_m_emag",
+					"wpn_fps_upg_o_eotech",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
@@ -12762,8 +12772,11 @@ function CharacterTweakData:_presets(tweak_data)
 		},
 		secondaries = {
 			[1] = {
-				factory_name = "wpn_fps_smg_mp5_npc", ----placeholder
-				blueprint = {},
+				factory_name = "wpn_fps_pis_deagle_npc", 
+				blueprint = {
+					"wpn_fps_pis_deagle_g_bling",
+					"wpn_fps_upg_fl_pis_tlr1"
+				},
 				cosmetics = {}
 			}
 		}
