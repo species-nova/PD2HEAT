@@ -191,6 +191,7 @@ function CarryData:_update_throw_link(unit, t, dt)
 						if body_oobb:point_inside(bag_center) then
 							body_oobb:shrink(oobb_mod)
 
+							ai_unit:sound():say("r03x_sin", true)
 							self:link_to(ai_unit, false)
 
 							break
@@ -797,8 +798,6 @@ function CarryData:link_to(parent_unit, keep_collisions)
 
 	if managers.groupai:state():is_unit_team_AI(parent_unit) then
 		CarryData._carrying_units[parent_unit:key()] = true
-
-		parent_unit:sound():say("r03x_sin", true)
 	end
 
 	managers.network:session():send_to_peers_synched("loot_link", my_unit, parent_unit)
