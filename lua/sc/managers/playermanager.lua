@@ -813,7 +813,7 @@ end
 --Will move everything in here soon.
 --Adds Underdog basic.
 function PlayerManager:get_melee_dmg_multiplier()
-	return self._melee_dmg_mul * (1 + self.close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
+	return self._melee_dmg_mul * (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 end
 
 --Adds rogue health regen stack on dodge.
