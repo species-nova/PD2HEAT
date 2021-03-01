@@ -22,6 +22,52 @@ local tostring_g = tostring
 
 local alive_g = alive
 
+function GroupAIStateBase:set_debug_draw_state(state)
+	if state then
+		if not self._draw_enabled then
+			local ws = Overlay:newgui():create_screen_workspace()
+			local panel = ws:panel()
+
+			if Network:is_server() then
+				self._AI_draw_data = {
+					brush_area = Draw:brush(Color(0.33, 1, 1, 1)),
+					brush_guard = Draw:brush(Color(0.5, 0, 0, 1)),
+					brush_investigate = Draw:brush(Color(0.5, 0, 1, 0)),
+					brush_defend = Draw:brush(Color(0.5, 0, 0.3, 0)),
+					brush_free = Draw:brush(Color(0.5, 0.6, 0.3, 0)),
+					brush_act = Draw:brush(Color(0.5, 1, 0.8, 0.8)),
+					brush_misc = Draw:brush(Color(0.5, 1, 1, 1)),
+					brush_suppressed = Draw:brush(Color(0.3, 0.85, 0.9, 0.2)),
+					brush_detection = Draw:brush(Color(0.6, 1, 1, 1)),
+					pen_focus_enemy = Draw:pen(Color(0.5, 1, 0.2, 0)),
+					brush_focus_player = Draw:brush(Color(0.5, 1, 0, 0)),
+					pen_group = Draw:pen(Color(1, 0.1, 0.4, 0.8)),
+					workspace = ws,
+					panel = panel,
+					logic_name_texts = {},
+					group_id_color = Color(1, 0.7, 0.1, 0),
+					group_id_texts = {}
+				}
+			else
+				self._AI_draw_data = {
+					brush_suppressed = Draw:brush(Color(0.3, 0.85, 0.9, 0.2)),
+					pen_focus_enemy = Draw:pen(Color(0.5, 1, 0.2, 0)),
+					brush_focus_player = Draw:brush(Color(0.5, 1, 0, 0)),
+					workspace = ws,
+					panel = panel,
+					logic_name_texts = {}
+				}
+			end
+		end
+	elseif self._draw_enabled then
+		Overlay:newgui():destroy_workspace(self._AI_draw_data.workspace)
+
+		self._AI_draw_data = nil
+	end
+
+	self._draw_enabled = state
+end
+
 function GroupAIStateBase:_calculate_difficulty_ratio()
 	local ramp = tweak_data.group_ai.difficulty_curve_points
 
