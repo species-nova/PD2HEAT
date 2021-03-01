@@ -12447,7 +12447,10 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_o_spot",
 					"wpn_fps_upg_o_m14_scopemount"
 				},
-				cosmetics = {}
+				cosmetics = {
+					id = "new_m14_golddigger",
+					quality = "mint"
+				}
 			}
 		},
 		secondaries = {
