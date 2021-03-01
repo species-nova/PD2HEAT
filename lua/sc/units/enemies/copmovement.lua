@@ -30,10 +30,12 @@ local table_insert = table.insert
 local table_remove = table.remove
 local next_g = next
 
+local alive_g = alive
 local world_g = World
 
-local left_hand_str = Idstring("LeftHandMiddle2")
-local ids_movement = Idstring("movement")
+local ids_func = Idstring
+local left_hand_str = ids_func("LeftHandMiddle2")
+local ids_movement = ids_func("movement")
 
 local old_init = CopMovement.init
 local action_variants = {
@@ -434,7 +436,7 @@ function CopMovement:do_autumn_blackout()	--no longer used
 			--distance = math.huge()
 		}
 		for k,unit in pairs(all_eq) do 
-			if unit and alive(unit) and unit:base() then
+			if unit and alive_g(unit) and unit:base() then
 				
 				local dis = mvector3.distance_sq(self._unit:position(),unit:position())
 				if unit:interaction() and unit:interaction()._tweak_data and unit:interaction()._tweak_data.blackout_vulnerable then 
@@ -741,9 +743,9 @@ function CopMovement:play_redirect(redirect_name, at_time)
 		end
 	end
 
-	local result = self._unit:play_redirect(Idstring(redirect_name), at_time)
+	local result = self._unit:play_redirect(ids_func(redirect_name), at_time)
 
-	return result ~= Idstring("") and result
+	return result ~= ids_func("") and result
 end
 
 function CopMovement:on_suppressed(state)
@@ -965,7 +967,7 @@ function CopMovement:synch_attention(attention)
 end
 
 function CopMovement:clbk_sync_attention(attention)
-	if not alive(self._unit) then
+	if not alive_g(self._unit) then
 		return
 	end
 
@@ -992,27 +994,52 @@ end
 
 --crash prevention
 function CopMovement:anim_clbk_enemy_spawn_melee_item()
-	if alive(self._melee_item_unit) then
+	local unit_name = self._melee_item_unit_name
+
+	if unit_name == false or unit_name and alive_g(self._melee_item_unit) then
 		return
 	end
 
-	local base_ext = self._ext_base
-	local melee_weapon = base_ext.melee_weapon and base_ext:melee_weapon()
-	local unit_name = nil
+	if unit_name == nil then
+		local base_ext = self._ext_base
+		local melee_weapon = base_ext.melee_weapon and base_ext:melee_weapon()
 
-	if melee_weapon and melee_weapon ~= "weapon" then
-		local npc_melee_tweak_data = tweak_data.weapon.npc_melee[melee_weapon]
+		if melee_weapon and melee_weapon ~= "weapon" then
+			local npc_melee_tweak_data = tweak_data.weapon.npc_melee[melee_weapon]
 
-		unit_name = npc_melee_tweak_data and npc_melee_tweak_data.unit_name
+			if npc_melee_tweak_data then
+				unit_name = npc_melee_tweak_data.unit_name
+				self._melee_item_unit_name = unit_name
+			else
+				local ms = managers
+				local melee_weapon_data = ms.blackmarket:get_melee_weapon_data(melee_weapon)
+
+				if melee_weapon_data then
+					local third_unit = melee_weapon_data.third_unit
+
+					if third_unit then
+						unit_name = ids_func(third_unit)
+						self._melee_item_unit_name = unit_name
+					end
+				end
+			end
+		end
+
+		if not unit_name then
+			self._melee_item_unit_name = false
+
+			return
+		end
 	end
 
-	if unit_name then
-		local align_obj_l_name = CopMovement._gadgets.aligns.hand_l
-		local align_obj_l = self._unit:get_object(align_obj_l_name)
+	local my_unit = self._unit
+	local align_obj_l_name = CopMovement._gadgets.aligns.hand_l
+	local align_obj_l = my_unit:get_object(align_obj_l_name)
+	local melee_unit = world_g:spawn_unit(unit_name, align_obj_l:position(), align_obj_l:rotation())
 
-		self._melee_item_unit = world_g:spawn_unit(unit_name, align_obj_l:position(), align_obj_l:rotation())
-		self._unit:link(align_obj_l:name(), self._melee_item_unit, self._melee_item_unit:orientation_object():name())
-	end
+	my_unit:link(align_obj_l:name(), melee_unit, melee_unit:orientation_object():name())
+
+	self._melee_item_unit = melee_unit
 end
 
 function CopMovement:update(unit, t, dt)
@@ -1056,9 +1083,11 @@ function CopMovement:pre_destroy()
 
 	managers.groupai:state():unregister_blackout_source(self._unit)
 
-	if alive(self._melee_item_unit) then
-		self._melee_item_unit:unlink()
-		world_g:delete_unit(self._melee_item_unit)
+	local melee_unit = self._melee_item_unit
+
+	if alive_g(melee_unit) then
+		melee_unit:unlink()
+		world_g:delete_unit(melee_unit)
 
 		self._melee_item_unit = nil
 	end
@@ -1592,7 +1621,7 @@ function CopMovement:anim_clbk_spawn_dropped_magazine()
 
 	local equipped_weapon = self._unit:inventory():equipped_unit()
 
-	if alive(equipped_weapon) and not equipped_weapon:base()._assembly_complete then
+	if alive_g(equipped_weapon) and not equipped_weapon:base()._assembly_complete then
 		return
 	end
 
@@ -1610,7 +1639,7 @@ function CopMovement:anim_clbk_spawn_dropped_magazine()
 
 		if not self._magazine_data then
 			return
-		elseif not alive(self._magazine_data.unit) then
+		elseif not alive_g(self._magazine_data.unit) then
 			self._magazine_data = nil
 
 			return
@@ -1630,7 +1659,7 @@ function CopMovement:anim_clbk_spawn_dropped_magazine()
 		allow_throw = false
 	end
 
-	if self._magazine_data and alive(self._magazine_data.unit) then
+	if self._magazine_data and alive_g(self._magazine_data.unit) then
 		ref_unit = ref_unit or self._magazine_data.unit
 
 		self._magazine_data.unit:set_visible(false)
