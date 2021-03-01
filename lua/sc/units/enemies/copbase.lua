@@ -1,10 +1,14 @@
-local ids_lod = Idstring("lod")
-local ids_lod1 = Idstring("lod1")
-local ids_ik_aim = Idstring("ik_aim")
-local ids_r_toe = Idstring("RightToeBase")
-local ids_l_toe = Idstring("LeftToeBase")
-local alive_g = alive
 local pairs_g = pairs
+
+local alive_g = alive
+
+local ids_func = Idstring
+local ids_unit = ids_func("unit")
+local ids_lod = ids_func("lod")
+local ids_lod1 = ids_func("lod1")
+local ids_ik_aim = ids_func("ik_aim")
+local ids_r_toe = ids_func("RightToeBase")
+local ids_l_toe = ids_func("LeftToeBase")
 
 Month = os.date("%m")
 local job = Global.level_data and Global.level_data.level_id
@@ -47,11 +51,11 @@ function CopBase:random_mat_seq_initialization()
     local unit_name = self._unit:name()
         	
 	--BEAT COP FACE STUFF STARTS HERE	
-	local cop1_4 = unit_name == Idstring("units/payday2/characters/ene_cop_1/ene_cop_1")
-	or unit_name == Idstring("units/payday2/characters/ene_cop_3/ene_cop_3")
+	local cop1_4 = unit_name == ids_func("units/payday2/characters/ene_cop_1/ene_cop_1")
+	or unit_name == ids_func("units/payday2/characters/ene_cop_3/ene_cop_3")
 	
-	local cop2_3 = unit_name == Idstring("units/payday2/characters/ene_cop_2/ene_cop_2") 
-	or unit_name == Idstring("units/payday2/characters/ene_cop_4/ene_cop_4")
+	local cop2_3 = unit_name == ids_func("units/payday2/characters/ene_cop_2/ene_cop_2") 
+	or unit_name == ids_func("units/payday2/characters/ene_cop_4/ene_cop_4")
 	
 	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_cop_1_4") and cop1_4 then
 		self._unit:damage():run_sequence_simple("pick_mats_for_cop_1_4")
@@ -62,10 +66,10 @@ function CopBase:random_mat_seq_initialization()
 
 	
 	--START FBI HRT FACES 
-	local fbi_1_2 = unit_name == Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1") 
-	or unit_name == Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
+	local fbi_1_2 = unit_name == ids_func("units/payday2/characters/ene_fbi_1/ene_fbi_1") 
+	or unit_name == ids_func("units/payday2/characters/ene_fbi_2/ene_fbi_2")
 	
-	local fbi_3 = unit_name == Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3") 
+	local fbi_3 = unit_name == ids_func("units/payday2/characters/ene_fbi_3/ene_fbi_3") 
 	
 	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_fbi_1_2") and fbi_1_2 then
 		self._unit:damage():run_sequence_simple("pick_mats_for_fbi_1_2")	
@@ -76,10 +80,10 @@ function CopBase:random_mat_seq_initialization()
 
 	
 	--security faces 
-	local sec_2_3 = unit_name == Idstring("units/payday2/characters/ene_security_2/ene_security_2") 
-	or unit_name == Idstring("units/payday2/characters/ene_security_3/ene_security_3")
+	local sec_2_3 = unit_name == ids_func("units/payday2/characters/ene_security_2/ene_security_2") 
+	or unit_name == ids_func("units/payday2/characters/ene_security_3/ene_security_3")
 	
-	local sec_1 = unit_name == Idstring("units/payday2/characters/ene_security_1/ene_security_1") 
+	local sec_1 = unit_name == ids_func("units/payday2/characters/ene_security_1/ene_security_1") 
 	
 	
 	if self._unit:damage() and self._unit:damage():has_sequence("pick_mats_for_sec_1") and sec_1 then
@@ -89,12 +93,12 @@ function CopBase:random_mat_seq_initialization()
 	end
 	--end security faces
 	
-    local murk_sec = unit_name == Idstring("units/pd2_mod_sharks/characters/ene_murky_cs_cop_mp5/ene_murky_cs_cop_mp5") 
-    or unit_name == Idstring("units/pd2_mod_sharks/characters/ene_murky_cs_cop_r870/ene_murky_cs_cop_r870")
-    or unit_name == Idstring("units/pd2_mod_sharks/characters/ene_murky_cs_cop_c45/ene_murky_cs_cop_c45")
-    or unit_name == Idstring("units/pd2_mod_sharks/characters/ene_murky_cs_cop_mp5/ene_murky_cs_cop_mp5")
+    local murk_sec = unit_name == ids_func("units/pd2_mod_sharks/characters/ene_murky_cs_cop_mp5/ene_murky_cs_cop_mp5") 
+    or unit_name == ids_func("units/pd2_mod_sharks/characters/ene_murky_cs_cop_r870/ene_murky_cs_cop_r870")
+    or unit_name == ids_func("units/pd2_mod_sharks/characters/ene_murky_cs_cop_c45/ene_murky_cs_cop_c45")
+    or unit_name == ids_func("units/pd2_mod_sharks/characters/ene_murky_cs_cop_mp5/ene_murky_cs_cop_mp5")
 		
-    local murkies = unit_name == Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1") 
+    local murkies = unit_name == ids_func("units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1") 
 	
 	if self._unit:damage() and self._unit:damage():has_sequence("nypdrandom") and nypd_cops then
         self._unit:damage():run_sequence_simple("nypdrandom")
@@ -136,8 +140,8 @@ local material_config_paths = {
 }
 
 for i, material_config_path in pairs(material_config_paths) do
-  local normal_ids = Idstring(material_config_path)
-  local contour_ids = Idstring(material_config_path .. "_contour")
+  local normal_ids = ids_func(material_config_path)
+  local contour_ids = ids_func(material_config_path .. "_contour")
 
   CopBase._material_translation_map[tostring(normal_ids:key())] = contour_ids
   CopBase._material_translation_map[tostring(contour_ids:key())] = normal_ids 
@@ -175,7 +179,7 @@ function CopBase:_chk_spawn_gear()
 				end
 
 				if self._headwear_unit then
-					local align_obj_name = Idstring("Head")
+					local align_obj_name = ids_func("Head")
 					local align_obj = self._unit:get_object(align_obj_name)
 
 					self._unit:link(align_obj_name, self._headwear_unit, self._headwear_unit:orientation_object():name())
@@ -192,131 +196,131 @@ function CopBase:default_weapon_name()
 	local job = Global.level_data and Global.level_data.level_id
 
 	--M1911 Users--
-	if self._unit:name() == Idstring("units/payday2/characters/ene_secret_service_1/ene_secret_service_1") 
-	or self._unit:name() == Idstring("units/payday2/characters/ene_secret_service_2/ene_secret_service_2")
-	or self._unit:name() == Idstring("units/pd2_dlc_vit/characters/ene_murkywater_secret_service/ene_murkywater_secret_service")	then
+	if self._unit:name() == ids_func("units/payday2/characters/ene_secret_service_1/ene_secret_service_1") 
+	or self._unit:name() == ids_func("units/payday2/characters/ene_secret_service_2/ene_secret_service_2")
+	or self._unit:name() == ids_func("units/pd2_dlc_vit/characters/ene_murkywater_secret_service/ene_murkywater_secret_service")	then
 		default_weapon_id = "m1911_npc"
 	end
 	
 	--Blue SWAT Weapon Changes (test)--
-	if self._unit:name() == Idstring("units/payday2/characters/ene_swat_1/ene_swat_1") then
+	if self._unit:name() == ids_func("units/payday2/characters/ene_swat_1/ene_swat_1") then
 		default_weapon_id = "m4_blue"	
-	elseif self._unit:name() == Idstring("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1") then
+	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1") then
 		default_weapon_id = "m4_blue"	
 	end		
 	
 	--Yellow Heavy SWAT Weapon Changes (test)
-	if self._unit:name() == Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass") then
+	if self._unit:name() == ids_func("units/pd2_dlc_mad/characters/ene_akan_cs_heavy_ak47_ass/ene_akan_cs_heavy_ak47_ass") then
 		default_weapon_id = "ak102"		
 	end		
 	
 	--Biker Weapon Changes--
-	if self._unit:name() == Idstring("units/payday2/characters/ene_biker_1/ene_biker_1") then
+	if self._unit:name() == ids_func("units/payday2/characters/ene_biker_1/ene_biker_1") then
 		default_weapon_id = "mac11"
-	elseif self._unit:name() == Idstring("units/payday2/characters/ene_biker_2/ene_biker_2") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_biker_2/ene_biker_2") then
 		default_weapon_id = "mossberg"
-	elseif self._unit:name() == Idstring("units/payday2/characters/ene_biker_3/ene_biker_3") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_biker_3/ene_biker_3") then
 		default_weapon_id = "ak47"
-	elseif self._unit:name() == Idstring("units/payday2/characters/ene_biker_4/ene_biker_4") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_biker_4/ene_biker_4") then
 		default_weapon_id = "raging_bull"			
 	end
 	
 	--Mendoza Weapon Changes
-	if self._unit:name() == Idstring("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1") then
+	if self._unit:name() == ids_func("units/payday2/characters/ene_gang_mexican_1/ene_gang_mexican_1") then
 		default_weapon_id = "mac11"
-	elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_mexican_2/ene_gang_mexican_2") then
 		default_weapon_id = "mossberg"
-	elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_mexican_3/ene_gang_mexican_3") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_mexican_3/ene_gang_mexican_3") then
 		default_weapon_id = "ak47"
-	elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_mexican_4/ene_gang_mexican_4") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_mexican_4/ene_gang_mexican_4") then
 		default_weapon_id = "raging_bull"			
 	end
 	
 	--Cobras Weapon Changes
 	if job == "man" then
-		if self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1") then
+		if self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_1/ene_gang_black_1") then
 			default_weapon_id = "c45"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_2/ene_gang_black_2") then
 			default_weapon_id = "raging_bull"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_3/ene_gang_black_3") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_3/ene_gang_black_3") then
 			default_weapon_id = "c45"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_4/ene_gang_black_4") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_4/ene_gang_black_4") then
 			default_weapon_id = "raging_bull"			
 		end		
 	else
-		if self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_1/ene_gang_black_1") then
+		if self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_1/ene_gang_black_1") then
 			default_weapon_id = "mac11"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_2/ene_gang_black_2") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_2/ene_gang_black_2") then
 			default_weapon_id = "mossberg"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_3/ene_gang_black_3") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_3/ene_gang_black_3") then
 			default_weapon_id = "ak47"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_black_4/ene_gang_black_4") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_black_4/ene_gang_black_4") then
 			default_weapon_id = "raging_bull"			
 		end				
 	end
 	
 	--Russian Gangster Weapon Changes
 	if job == "spa" then
-		if self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_1/ene_gang_russian_1") then
+		if self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_1/ene_gang_russian_1") then
 			default_weapon_id = "ak47"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2") then
 			default_weapon_id = "raging_bull"	
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_3/ene_gang_russian_3") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_3/ene_gang_russian_3") then
 			default_weapon_id = "mossberg"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5") then
 			default_weapon_id = "ak47"			
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4") then
 			default_weapon_id = "mac11"			
 		end		
 	else
-		if self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_1/ene_gang_russian_1") then
+		if self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_1/ene_gang_russian_1") then
 			default_weapon_id = "mossberg"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_2/ene_gang_russian_2") then
 			default_weapon_id = "raging_bull"	
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_3/ene_gang_russian_3") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_3/ene_gang_russian_3") then
 			default_weapon_id = "ak47"
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_5/ene_gang_russian_5") then
 			default_weapon_id = "ak47"			
-		elseif self._unit:name() == Idstring("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4") then
+		elseif self._unit:name() == ids_func("units/payday2/characters/ene_gang_russian_4/ene_gang_russian_4") then
 			default_weapon_id = "mac11"			
 		end				
 	end
 	
 	--Bolivian Weapons
-	if self._unit:name() == Idstring("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01") then
+	if self._unit:name() == ids_func("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01") then
 		default_weapon_id = "mossberg"	
-	elseif self._unit:name() == Idstring("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02") then
+	elseif self._unit:name() == ids_func("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02") then
 		default_weapon_id = "mac11"		
-	elseif self._unit:name() == Idstring("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager") then
+	elseif self._unit:name() == ids_func("units/pd2_dlc_friend/characters/ene_security_manager/ene_security_manager") then
 		default_weapon_id = "raging_bull"				
 	end
 	
-	if self._unit:name() == Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249") then
+	if self._unit:name() == ids_func("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249") then
 		default_weapon_id = "m60"				
 	end
 	
     --Security Guards
-    if self._unit:name() == Idstring("units/payday2/characters/ene_security_3/ene_security_3") or self._unit:name() == Idstring("units/payday2/characters/ene_security_7/ene_security_7") then
+    if self._unit:name() == ids_func("units/payday2/characters/ene_security_3/ene_security_3") or self._unit:name() == ids_func("units/payday2/characters/ene_security_7/ene_security_7") then
         default_weapon_id = "r870"
-    elseif self._unit:name() == Idstring("units/payday2/characters/ene_security_5/ene_security_5") then
+    elseif self._unit:name() == ids_func("units/payday2/characters/ene_security_5/ene_security_5") then
         default_weapon_id = "m1911_npc"        
-    elseif self._unit:name() == Idstring("units/payday2/characters/ene_security_6/ene_security_6") then
+    elseif self._unit:name() == ids_func("units/payday2/characters/ene_security_6/ene_security_6") then
         default_weapon_id = "mp5"
-    elseif self._unit:name() == Idstring("units/payday2/characters/ene_security_8/ene_security_8") then
+    elseif self._unit:name() == ids_func("units/payday2/characters/ene_security_8/ene_security_8") then
         default_weapon_id = "raging_bull"
     end
 
 	--Giving Friendly AI guns
-	if self._unit:name() == Idstring("units/pd2_dlc_spa/characters/npc_spa/npc_spa") then
+	if self._unit:name() == ids_func("units/pd2_dlc_spa/characters/npc_spa/npc_spa") then
 		default_weapon_id = "beretta92"	
-	elseif self._unit:name() == Idstring("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2") then
+	elseif self._unit:name() == ids_func("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2") then
 		default_weapon_id = "mp9"				
-	elseif self._unit:name() == Idstring("units/pd2_dlc_berry/characters/npc_locke/npc_locke") then
+	elseif self._unit:name() == ids_func("units/pd2_dlc_berry/characters/npc_locke/npc_locke") then
 		default_weapon_id = "m1911_npc"					
 	end
 	
 	--Giving Vanilla Titanshields their silent pistols
-	if self._unit:name() == Idstring("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1") then
+	if self._unit:name() == ids_func("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1") then
 		default_weapon_id = "beretta92_titan"	
 	end	
 
@@ -482,9 +486,6 @@ function CopBase:set_visibility_state(stage)
 	self:chk_freeze_anims()
 end
 
-local ids_func = Idstring
-local ids_unit = ids_func("unit")
-
 function CopBase:melee_weapon()
 	local set_melee = self._char_tweak.melee_weapon
 
@@ -503,7 +504,9 @@ function CopBase:melee_weapon()
 				if not dr:is_resource_ready(ids_unit, name, pack_path) then
 					dr:load(ids_unit, name, pack_path, false)
 				end
-			else
+			--don't want to load a first-person unit if a melee weapon lacks a third-person one
+			--leaving it here just in case
+			--[[else
 				local unit = melee_weapon_data.unit
 
 				if unit then
@@ -514,11 +517,10 @@ function CopBase:melee_weapon()
 					if not dr:is_resource_ready(ids_unit, name, pack_path) then
 						dr:load(ids_unit, name, pack_path, false)
 					end
-				end
+				end]]
 			end
 		end
 	end
 
 	return set_melee or self._melee_weapon_table or "weapon"
 end
-
