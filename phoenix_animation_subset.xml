@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<tweaks>
+	<tweak version="2" name="anims/fps/fps_spawn" extension="animation_subset">
+		<search>
+			<xml/>
+		</search>
+		<target mode="attach">
+			<anim name="phoenix_reload" 								file="anims/fps/phoenix/phoenix_reload" blend_set="all"/>
+			<anim name="phoenix_reload_not_empty" 						file="anims/fps/phoenix/phoenix_reload_not_empty" blend_set="all"/>
+			<anim name="phoenix_idle" 									file="anims/fps/phoenix/phoenix_idle" blend_set="all"/>
+			<anim name="phoenix_recoil" 								file="anims/fps/phoenix/phoenix_recoil" blend_set="all"/>
+			<anim name="phoenix_recoil_enter" 							file="anims/fps/phoenix/phoenix_recoil_enter" blend_set="all"/>
+			<anim name="phoenix_recoil_loop" 							file="anims/fps/phoenix/phoenix_recoil_loop" blend_set="all"/>
+			<anim name="phoenix_recoil_exit" 							file="anims/fps/phoenix/phoenix_recoil_exit" blend_set="all"/>
+			<anim name="phoenix_recoil_steelsight" 						file="anims/fps/phoenix/phoenix_recoil" blend_set="all"/>
+			<anim name="phoenix_equip" 									file="anims/fps/phoenix/phoenix_equip" blend_set="all"/>
+			<anim name="phoenix_unequip" 								file="anims/fps/phoenix/phoenix_unequip" blend_set="all"/>
+			<anim name="phoenix_melee" 									file="anims/fps/phoenix/phoenix_melee" blend_set="all"/>
+			<anim name="phoenix_melee_miss" 							file="anims/fps/phoenix/phoenix_melee_miss" blend_set="all"/>
+			<anim name="phoenix_use" 									file="anims/fps/phoenix/phoenix_use" blend_set="all"/>
+			<anim name="phoenix_sprint_enter" 							file="anims/fps/phoenix/phoenix_sprint_enter" blend_set="all"/>
+			<anim name="phoenix_sprint" 								file="anims/fps/phoenix/phoenix_sprint" blend_set="all"/>
+			<anim name="phoenix_sprint_exit" 							file="anims/fps/phoenix/phoenix_sprint_exit" blend_set="all"/>
+			<anim name="phoenix_com_down_var1" 							file="anims/fps/phoenix/phoenix_com_var1" blend_set="all"/>
+			<anim name="phoenix_com_stop" 								file="anims/fps/phoenix/phoenix_com_var5" blend_set="all"/>
+			<anim name="phoenix_com_come" 								file="anims/fps/phoenix/phoenix_com_var6" blend_set="all"/>
+			<anim name="phoenix_com_point" 								file="anims/fps/phoenix/phoenix_com_var7" blend_set="all"/>
+			<anim name="phoenix_get_up" 								file="anims/fps/phoenix/phoenix_get_up" blend_set="all"/>
+			<anim name="phoenix_gogo" 									file="anims/fps/phoenix/phoenix_gogo" blend_set="all"/>
+			<anim name="phoenix_tased" 									file="anims/fps/phoenix/phoenix_tased" blend_set="all"/>
+			<anim name="phoenix_tased_boost" 							file="anims/fps/phoenix/phoenix_tased_boost" blend_set="all"/>
+			<anim name="phoenix_tased_exit" 							file="anims/fps/phoenix/phoenix_tased_exit" blend_set="all"/>
+			<anim name="phoenix_inspect" 								file="anims/fps/phoenix/phoenix_inspect" blend_set="all"/>
+		</target>
+	</tweak>
+</tweaks>

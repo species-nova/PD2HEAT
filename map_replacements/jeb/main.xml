@@ -23,12 +23,12 @@
     <WeaponMod based_on="wpn_fps_pis_rage_body_smooth" id="wpn_fps_pis_shatters_fury_body_smooth" unit="units/mods/weapons/wpn_fps_pis_shatters_fury_pts/wpn_fps_pis_shatters_fury_body_smooth" type="upper_reciever" drop="false" texture_bundle_folder="mods" is_a_unlockable="true" global_value = "sc"/>
 
     <WeaponNew>
-        <weapon id="shatters_fury" based_on="new_raging_bull" unlock_level="55" texture_bundle_folder="mods" global_value="rest">            
+        <weapon id="shatters_fury" based_on="new_raging_bull" unlock_level="55" texture_bundle_folder="mods" global_value="rest" weapon_hold="phoenix">            
             <stats damage="90" concealment="21"/>
             <fire_mode_data fire_rate="0.19047619047"/>
 			<use_data selection_index="2"/>
             <sounds fire="rbull_fire" fire_single="rbull_fire"/>                
-            <animations reload_name_id="new_raging_bull" equip_id="equip_glock" recoil_steelsight="true">
+            <animations reload_name_id="phoenix" equip_id="equip_glock" recoil_steelsight="true">
             </animations>             
         </weapon>
         <factory id="wpn_fps_pis_shatters_fury" unit="units/mods/weapons/wpn_fps_pis_shatters_fury/wpn_fps_pis_shatters_fury">        
@@ -214,5 +214,30 @@
         <texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/mods/wpn_fps_pis_shatters_fury_b_short"/>
         <texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/mods/wpn_fps_pis_shatters_fury_body_smooth"/>
         <texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/mods/wpn_fps_pis_shatters_fury_g_ergo"/>
+		
+		<animation path="anims/fps/phoenix/phoenix_reload" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_reload_not_empty" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_idle" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_recoil" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_recoil_zoom" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_equip" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_unequip" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_melee" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_tased" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_tased_boost" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_tased_exit" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_melee_miss" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_use" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_sprint_enter" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_sprint" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_sprint_exit" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_com_var1" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_com_var2" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_com_var5" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_com_var6" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_com_var7" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_get_up" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_gogo" load="true"/>
+		<animation path="anims/fps/phoenix/phoenix_inspect" load="true"/>
     </AddFiles>
 </table>
