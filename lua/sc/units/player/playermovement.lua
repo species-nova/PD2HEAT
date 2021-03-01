@@ -7,8 +7,8 @@ function PlayerMovement:init(...)
 		or player_manager:has_category_upgrade("shotgun", "close_combat_damage_reduction")
 		or player_manager:has_category_upgrade("shotgun", "close_combat_reload_speed_multiplier")
 		or player_manager:has_category_upgrade("shotgun", "close_combat_recoil_index_addend")
-		or player_manager:has_category_upgrade("player", "dmg_dampener_outnumbered")
-		or player_manager:has_category_upgrade("player", "dmg_dampener_close_contact")
+		or player_manager:has_category_upgrade("player", "damage_dampener_outnumbered")
+		or player_manager:has_category_upgrade("player", "damage_dampener_close_contact")
 	self._underdog_skill_data = tweak_data.upgrades.close_combat_data
 	self._underdog_chk_t = 0
 end
@@ -48,7 +48,7 @@ function PlayerMovement:_upd_underdog_skill(t)
 
 	self._nr_close_guys = #World:find_units_quick("sphere", self._m_pos, self._underdog_skill_data.distance, managers.slot:get_mask("enemies"))
 
-	managers.hud:set_stacks("close_combat", self._nr_close_guys)
+	managers.hud:set_stacks("close_combat", math.min(self._nr_close_guys, 5))
 
 	self._underdog_chk_t = t + self._underdog_skill_data.polling_rate
 end

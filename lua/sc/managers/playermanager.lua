@@ -121,6 +121,8 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Apply slowing debuff if active.
 	multiplier = multiplier * self:_slow_debuff_mult()
 	
+	log(multiplier)
+
 	return multiplier
 end
 
@@ -359,8 +361,8 @@ function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 	multiplier = multiplier * self:temporary_upgrade_value("temporary", "revive_damage_reduction", 1) --Combat Medic
 	multiplier = multiplier * self._properties:get_property("revive_damage_reduction", 1) --Combat Medic
 	multiplier = multiplier * self._temporary_properties:get_property("revived_damage_reduction", 1) --Painkillers
-	multiplier = multiplier * (1 - self:close_combat_upgrade_value("player", "dmg_dampener_close_contact", 0)) --Infiltrator
-	multiplier = multiplier * self:close_combat_upgrade_value("player", "dmg_dampener_outnumbered", 1) --Sociopath
+	multiplier = multiplier * (1 - self:close_combat_upgrade_value("player", "damage_dampener_close_contact", 0)) --Infiltrator
+	multiplier = multiplier * self:close_combat_upgrade_value("player", "damage_dampener_outnumbered", 1) --Sociopath
 	multiplier = multiplier * (1 - self:close_combat_upgrade_value("player", "close_combat_damage_reduction", 0)) --Underdog Ace
 
 	--Yakuza DR.
@@ -1271,6 +1273,7 @@ function PlayerManager:close_combat_upgrade_value(category, upgrade, default)
 	local player_unit = self:player_unit()
 
 	if not alive(player_unit) or not self._global.upgrades[category] or not self._global.upgrades[category][upgrade] then
+		log(upgrade .. " not found")
 		return default or 0
 	end
 

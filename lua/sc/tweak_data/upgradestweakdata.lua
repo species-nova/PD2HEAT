@@ -1332,10 +1332,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			civilian = false
 		}
 	}
-	self.values.player.dmg_dampener_close_contact = {
-		{value = 0.02, max = 5},
+	self.values.player.damage_dampener_close_contact = {
+		{value = 0.03, max = 5},
 		{value = 0.04, max = 5},
-		{value = 0.04, max = 10}
+		{value = 0.05, max = 5}
 	}
 
 	self.values.player.heal_over_time = {
@@ -1489,8 +1489,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
 	self.values.cooldown.melee_kill_life_leech = {{0.05, 3}}
-	self.values.player.dmg_dampener_outnumbered = {
-		{value = 0.92, min = 3}
+	self.values.player.damage_dampener_outnumbered = {
+		{value = 0.9, min = 3}
 	}
 
 	--Anarchist stuff--
@@ -2650,45 +2650,45 @@ function UpgradesTweakData:_player_definitions()
 			category = "temporary"
 		}
 	}
-	self.definitions.player_damage_dampener_outnumbered_strong = {
-		name_id = "menu_player_dmg_dampener_outnumbered",
-		category = "player",
+	self.definitions.player_damage_dampener_outnumbered = {
+		name_id = "menu_player_damage_dampener_outnumbered",
+		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "dmg_dampener_outnumbered",
+			upgrade = "damage_dampener_outnumbered",
 			category = "player"
 		}
 	}
 	self.definitions.player_damage_dampener_close_contact_1 = {
-		name_id = "menu_player_dmg_dampener_close_contact",
-		category = "player",
+		name_id = "menu_player_damage_dampener_close_contact",
+		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "dmg_dampener_close_contact",
+			upgrade = "damage_dampener_close_contact",
 			category = "player"
 		}
 	}
 	self.definitions.player_damage_dampener_close_contact_2 = {
-		name_id = "menu_player_dmg_dampener_close_contact",
-		category = "player",
+		name_id = "menu_player_damage_dampener_close_contact",
+		category = "feature",
 		upgrade = {
 			value = 2,
-			upgrade = "dmg_dampener_close_contact",
+			upgrade = "damage_dampener_close_contact",
 			category = "player"
 		}
 	}
 	self.definitions.player_damage_dampener_close_contact_3 = {
-		name_id = "menu_player_dmg_dampener_close_contact",
-		category = "player",
+		name_id = "menu_player_damage_dampener_close_contact",
+		category = "feature",
 		upgrade = {
 			value = 3,
-			upgrade = "dmg_dampener_close_contact",
+			upgrade = "damage_dampener_close_contact",
 			category = "player"
 		}
 	}
 	self.definitions.player_close_combat_damage_reduction = {
 		name_id = "menu_player_close_combat_damage_reduction",
-		category = "player",
+		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "close_combat_damage_reduction",
@@ -2697,7 +2697,7 @@ function UpgradesTweakData:_player_definitions()
 	}
 	self.definitions.player_close_combat_damage_boost = {
 		name_id = "menu_player_close_combat_damage_boost",
-		category = "player",
+		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "close_combat_damage_boost",
@@ -2706,7 +2706,7 @@ function UpgradesTweakData:_player_definitions()
 	}
 	self.definitions.player_steelsight_speed_multiplier = {
 		name_id = "menu_player_steelsight_speed_multiplier",
-		category = "player",
+		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "steelsight_speed_multiplier",

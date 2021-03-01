@@ -2267,15 +2267,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck10_9_desc_sc"] = "Increase health gained from ammo packs by an additional ##2##.\n\nWhen you get healed from picking up ammo packs, you also gain ##30## armor.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Infiltrator--
-		["menu_deck8_1_desc_sc"] = "##2%## less damage from enemies for each enemy within ##7## meters, up to ##10%## less damage.",
+		["menu_deck8_1_desc_sc"] = "##3%## less damage from enemies for each enemy within ##7## meters, up to ##15%## less damage.",
 		["menu_deck8_3_desc_sc"] = "##4%## less damage from enemies for each enemy within ##7## meters, up to ##20%## less damage.",
-		["menu_deck8_5_desc_sc"] = "##4%## less damage from enemies for each enemy within ##7## meters, up to ##40%## less damage.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
+		["menu_deck8_5_desc_sc"] = "##5%## less damage from enemies for each enemy within ##7## meters, up to ##25%## less damage.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
 		["menu_deck8_7_desc_sc"] = "Each successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds, this effect can stack up to ##5## times.",
 		["menu_deck8_9_desc_sc"] = "Each successful melee hit heals ##1## health every ##1.25## seconds for ##10## seconds, this effect can stack up to ##5## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Sociopath--
 		["menu_deck9_1_sc"] = "No Talk",
-		["menu_deck9_1_desc_sc"] = "When there are ##3## or more enemies within ##7## meters, you take ##8%## less damage.",
+		["menu_deck9_1_desc_sc"] = "When there are ##3## or more enemies within ##7## meters, you take ##10%## less damage.",
 		["menu_deck9_3_desc_sc"] = "Killing an enemy regenerates ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_5_desc_sc"] = "Killing an enemy with a melee weapon regenerates ##5%## health.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_7_desc_sc"] = "Killing an enemy within ##18## meters regenerates an additional ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
