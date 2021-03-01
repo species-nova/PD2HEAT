@@ -120,8 +120,6 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 
 	--Apply slowing debuff if active.
 	multiplier = multiplier * self:_slow_debuff_mult()
-	
-	log(multiplier)
 
 	return multiplier
 end
