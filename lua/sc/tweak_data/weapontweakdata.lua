@@ -505,6 +505,121 @@ function WeaponTweakData:_init_data_npc_melee()
 	self.npc_melee.bite.player_blood_effect = true
 	self.npc_melee.bite.armor_piercing = true	
 	self.npc_melee.bite.lethal = true
+	
+	self.npc_melee.moneybundle = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_million/weapons/wpn_third_mel_moneybundle/wpn_third_mel_moneybundle"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.nin = {
+		animation_param = "melee_nin",
+		unit_name = Idstring("units/pd2_dlc_lupus/weapons/wpn_fps_mel_nin/wpn_third_mel_nin"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.kabartanto = {
+		animation_param = "melee_knife",
+		unit_name = Idstring("units/pd2_crimefest_2014/oct22/weapons/wpn_fps_mel_kabar_tanto/wpn_third_mel_kabar_tanto"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.toothbrush = {
+		animation_param = "melee_freedom",
+		unit_name = Idstring("units/pd2_crimefest_2014/oct27/weapons/wpn_fps_mel_toothbrush_shiv/wpn_third_mel_toothbrush_shiv"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.shillelagh = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_clover/weapons/wpn_fps_mel_shillelagh/wpn_third_mel_shillelagh"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.meat_cleaver = {
+		animation_param = "melee_cleaver",
+		unit_name = Idstring("units/pd2_dlc_dragan/weapons/wpn_fps_mel_meat_cleaver/wpn_third_mel_meat_cleaver"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.hammer = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_hotline2/weapons/wpn_fps_mel_hammer/wpn_third_mel_hammer"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.whiskey = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_bonnie/weapons/wpn_fps_mel_whiskey/wpn_third_mel_whiskey"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.hockey = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_character_sokol/weapons/wpn_third_mel_hockey/wpn_third_mel_hockey"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.sandsteel = {
+		animation_param = "melee_sandsteel",
+		unit_name = Idstring("units/pd2_dlc_dragon/weapons/wpn_fps_mel_sandsteel/wpn_third_mel_sandsteel"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.boxcutter = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_rip/weapons/wpn_fps_mel_boxcutter/wpn_third_mel_boxcutter"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.ballistic = {
+		animation_param = "melee_knife",
+		unit_name = Idstring("units/pd2_dlc_coco/weapons/wpn_fps_mel_ballistic/wpn_third_mel_ballistic"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.wing = {
+		animation_param = "melee_wing",
+		unit_name = Idstring("units/pd2_dlc_opera/weapons/wpn_fps_mel_wing/wpn_third_mel_wing"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.road = {
+		animation_param = "melee_road",
+		unit_name = Idstring("units/pd2_dlc_wild/weapons/wpn_fps_mel_road/wpn_third_mel_road"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.cs = {
+		animation_param = "melee_cs",
+		unit_name = Idstring("units/pd2_dlc_chico/weapons/wpn_fps_mel_cs/wpn_third_mel_cs"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.agave = {
+		animation_param = "melee_agave",
+		unit_name = Idstring("units/pd2_dlc_max/weapons/wpn_fps_mel_agave/wpn_third_mel_agave"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.happy = {
+		animation_param = "melee_baton",
+		unit_name = Idstring("units/pd2_dlc_joy/weapons/wpn_fps_mel_happy/wpn_third_mel_happy"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.sap = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_myh/weapons/wpn_fps_mel_sap/wpn_third_mel_sap"),
+		--damage = 8,
+		player_blood_effect = true
+	}
+	self.npc_melee.clean = {
+		animation_param = "melee_axe",
+		unit_name = Idstring("units/pd2_dlc_rvd/weapons/wpn_fps_mel_clean/wpn_third_mel_clean"),
+		--damage = 8,
+		player_blood_effect = true
+	}
 end
 
 function WeaponTweakData:_set_npc_weapon_damage_multiplier(mul)
@@ -9791,8 +9906,7 @@ function WeaponTweakData:_create_table_structure()
 		usage = "rifle",
 		anim_usage = "is_rifle",
 		sounds = {},
-		use_data = {},
-		auto = {}
+		use_data = {}
 	}	
 	self.g3_crew = {
 		usage = "rifle",
