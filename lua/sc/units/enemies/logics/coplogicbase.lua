@@ -1197,6 +1197,12 @@ function CopLogicBase._set_attention_obj(data, new_att_obj, new_reaction)
 			new_att_obj.acquire_t = data.t
 		end
 
+		local tactics = data.tactics
+
+		if tactics and tactics.tunnel then
+			data.tunnel_focus = new_reaction >= REACT_COMBAT and new_att_obj.u_key or nil
+		end
+
 		--[[if contact_chatter_time_ok then
 			if data.char_tweak.chatter.contact or data.unit:base().has_tag and data.unit:base():has_tag("spooc") then
 				if new_att_obj.is_person and new_att_obj.verified and REACT_SHOOT <= new_reaction then
@@ -1212,8 +1218,16 @@ function CopLogicBase._set_attention_obj(data, new_att_obj, new_reaction)
 				data.unit:sound():say("c01", true)
 			end
 		end
-	elseif old_att_obj and old_att_obj.criminal_record then
-		managers.groupai:state():on_enemy_disengaging(data.unit, old_att_obj.u_key)
+	elseif old_att_obj then
+		local tactics = data.tactics
+
+		if tactics and tactics.tunnel then
+			data.tunnel_focus = nil
+		end
+
+		if old_att_obj.criminal_record then
+			managers.groupai:state():on_enemy_disengaging(data.unit, old_att_obj.u_key)
+		end
 	end
 end
 
