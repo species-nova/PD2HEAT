@@ -75,55 +75,53 @@ function AmmoClip:_pickup(unit)
 		end
 	else
 		local projectile_category = self._weapon_category
+		local ammo_count = self._ammo_count
 		is_projectile_or_throwable = projectile_category and true
 
-		local valid_weapons = {}
-
-		for id, weapon in pairs_g(inventory:available_selections()) do
-			if inventory:is_equipped(id) then
-				if not projectile_category or projectile_category == weapon.unit:base():weapon_tweak_data().categories[1] then
-					if #valid_weapons > 0 then
-						local new_table = {
-							weapon
-						}
-
-						for idx = 1, #valid_weapons do
-							new_table[#new_table + 1] = valid_weapons[idx]
-						end
-
-						valid_weapons = new_table
-					else
-						valid_weapons[#valid_weapons + 1] = weapon
-					end
-				end
-			elseif not projectile_category or projectile_category == weapon.unit:base():weapon_tweak_data().categories[1] then
-				valid_weapons[#valid_weapons + 1] = weapon
-			end
-		end
-
-		local ammo_count = self._ammo_count
-
 		if ammo_count then
+			local valid_weapons = {}
+
+			for id, weapon in pairs_g(inventory:available_selections()) do
+				if inventory:is_equipped(id) then
+					if not projectile_category or projectile_category == weapon.unit:base():weapon_tweak_data().categories[1] then
+						if #valid_weapons > 0 then
+							local new_table = {
+								weapon
+							}
+
+							for idx = 1, #valid_weapons do
+								new_table[#new_table + 1] = valid_weapons[idx]
+							end
+
+							valid_weapons = new_table
+						else
+							valid_weapons[#valid_weapons + 1] = weapon
+						end
+					end
+				elseif not projectile_category or projectile_category == weapon.unit:base():weapon_tweak_data().categories[1] then
+					valid_weapons[#valid_weapons + 1] = weapon
+				end
+			end
+
 			for i = 1, #valid_weapons do
 				local weapon = valid_weapons[i]
+				local success, add_amount = weapon.unit:base():add_ammo(1, ammo_count)
 
-				if ammo_count > 0 then
-					local success, add_amount = weapon.unit:base():add_ammo(1, ammo_count)
+				if success then
+					picked_up = true
 
-					if success then
-						picked_up = true
+					ammo_count = math_floor(ammo_count - add_amount)
+					ammo_count = ammo_count < 0 and 0 or ammo_count
 
-						ammo_count = math_floor(ammo_count - add_amount)
-						ammo_count = ammo_count < 0 and 0 or ammo_count
+					if ammo_count <= 0 then
+						break
 					end
 				end
 			end
 
 			self._ammo_count = ammo_count
 		else
-			for i = 1, #valid_weapons do
-				local weapon = valid_weapons[i]
-
+			for id, weapon in pairs_g(inventory:available_selections()) do
 				if weapon.unit:base():add_ammo(1) then
 					picked_up = true
 				end
