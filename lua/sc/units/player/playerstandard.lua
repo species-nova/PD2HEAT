@@ -1,4 +1,7 @@
 local mvec3_norm = mvector3.normalize
+local mvec3_cpy = mvector3.copy
+
+local world_g = World
 
 local original_init = PlayerStandard.init
 function PlayerStandard:init(unit)
@@ -634,7 +637,7 @@ function PlayerStandard:_update_omniscience(t, dt)
 	self._state_data.omniscience_t = self._state_data.omniscience_t or t + tweak_data.player.omniscience.start_t
 
 	if self._state_data.omniscience_t <= t then
-		local sensed_targets = World:find_units_quick("sphere", self._unit:movement():m_pos(), tweak_data.player.omniscience.sense_radius, managers.slot:get_mask("trip_mine_targets"))
+		local sensed_targets = world_g:find_units_quick("sphere", self._unit:movement():m_pos(), tweak_data.player.omniscience.sense_radius, managers.slot:get_mask("trip_mine_targets"))
 
 		for _, unit in ipairs(sensed_targets) do
 			if alive(unit) and not unit:base():char_tweak().is_escort then
@@ -1777,7 +1780,7 @@ end
 
 --Replace coroutine with a playermanager function. The coroutine had issues with randomly not being called- or not having values get reset, and overall being jank???
 function PlayerStandard:_find_pickups(t)
-	local pickups = World:find_units_quick("sphere", self._unit:movement():m_pos(), self._pickup_area, self._slotmask_pickups)
+	local pickups = world_g:find_units_quick("sphere", self._unit:movement():m_pos(), self._pickup_area, self._slotmask_pickups)
 	local grenade_tweak = tweak_data.blackmarket.projectiles[managers.blackmarket:equipped_grenade()]
 	local may_find_grenade = not grenade_tweak.base_cooldown and managers.player:has_category_upgrade("player", "regain_throwable_from_ammo")
 
@@ -1904,33 +1907,59 @@ function PlayerStandard:_interupt_action_reload(t)
 end
 
 function PlayerStandard:_reload_interupt_stagger()
-	local stagger_dis = managers.player:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
-	if self._equipped_unit:base():is_category("shotgun") and stagger_dis > 0 then
-		local knocked_targets = World:find_units_quick("sphere", self._unit:movement():m_pos(), stagger_dis, managers.slot:get_mask("enemies"))
+	if not self._equipped_unit:base():is_category("shotgun") then
+		return
+	end
 
-		if #knocked_targets > 0 then --Only trigger cooldown if effect did something.
-			managers.player:disable_cooldown_upgrade("cooldown", "shotgun_reload_interrupt_stagger")
-		end
+	local m = managers
+	local pm = m.player
+	local stagger_dis = pm:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
 
-		--Stagger nearby enemies.
-		for _, unit in ipairs(knocked_targets) do
-			local unknockable = unit.has_tag and (unit:has_tag("tank") or unit:has_tag("captain"))
+	if not stagger_dis or stagger_dis <= 0 then
+		return
+	end
 
-			if not unknockable then
-				local attack_dir = unit:movement():m_com() - self._unit:movement():m_com()
+	local my_unit = self._unit
+	local my_mov_ext = my_unit:movement()
+	local nearby_enemies = world_g:find_units_quick("sphere", my_mov_ext:m_pos(), stagger_dis, m.slot:get_mask("enemies"))
+	local staggered_anyone = nil
+
+	--Stagger valid nearby enemies.
+	for i = 1, #nearby_enemies do
+		local enemy = nearby_enemies[i]
+		local dmg_ext = enemy:character_damage()
+
+		if dmg_ext and dmg_ext.damage_simple then
+			local base_ext = enemy:base()
+			local char_tweak = base_ext and base_ext.char_tweak
+			local immune_to_stagger = char_tweak and base_ext:char_tweak().immune_to_knock_down
+
+			if not immune_to_stagger and base_ext.has_tag then
+				immune_to_stagger = base_ext:has_tag("tank") or base_ext:has_tag("captain")
+			end
+
+			if not immune_to_stagger then
+				local m_com = enemy:movement():m_com()
+				local attack_dir = m_com - my_mov_ext:m_head_pos()
 				mvec3_norm(attack_dir)
 
 				local stagger_data = {
 					damage = 0,
 					variant = "counter_spooc",
 					stagger = true,
-					attacker_unit = self._unit,
+					attacker_unit = my_unit,
 					attack_dir = attack_dir,
-					pos = mvector3.copy(unit:movement():m_com())
+					pos = mvec3_cpy(m_com)
 				}
 
-				unit:character_damage():damage_simple(stagger_data)
+				if dmg_ext:damage_simple(stagger_data) then
+					staggered_anyone = true
+				end
 			end
 		end
+	end
+
+	if staggered_anyone then --Only trigger cooldown if the effect did something.
+		pm:disable_cooldown_upgrade("cooldown", "shotgun_reload_interrupt_stagger")
 	end
 end
