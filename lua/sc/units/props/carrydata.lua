@@ -12,6 +12,7 @@ local math_up = math.UP
 local math_round = math.round
 local math_lerp = math.lerp
 
+local ids_empty = Idstring()
 local ids_g_bag = Idstring("g_bag")
 local ids_g_canvasbag = Idstring("g_canvasbag")
 local ids_g_g = Idstring("g_g")
@@ -187,6 +188,7 @@ function CarryData:_update_throw_link(unit, t, dt)
 					if body then
 						local body_oobb = body:oobb()
 						body_oobb:grow(oobb_mod)
+						--body_oobb:debug_draw(1, 1, 1)
 
 						if body_oobb:point_inside(bag_center) then
 							body_oobb:shrink(oobb_mod)
@@ -474,6 +476,55 @@ function CarryData:clbk_out_of_world()
 	end)
 end
 
+--if the bag goes out of world bounds without triggering the OUT_OF_WORLD_Z check, teleport it back using the same method
+function CarryData:outside_worlds_bounding_box()
+	local unit = self._unit
+	local nr_bodies = unit:num_bodies()
+	local dynamic_bodies = {}
+
+	for i = 0, nr_bodies - 1 do
+		local body = unit:body(i)
+
+		if body:dynamic() then
+			body:set_keyframed()
+
+			dynamic_bodies[#dynamic_bodies + 1] = body
+		end
+	end
+
+	call_on_next_update_g(function ()
+		if not alive_g(unit) then
+			return
+		end
+
+		local temp_tracker = managers.navigation:create_nav_tracker(unit:position(), false)
+
+		unit:set_position(temp_tracker:field_position())
+		managers.navigation:destroy_nav_tracker(temp_tracker)
+
+		unit:set_velocity(zero_vel_vec)
+		unit:set_rotation(teleport_rot)
+
+		call_on_next_update_g(function ()
+			if not alive_g(unit) then
+				return
+			end
+
+			for i = 1, #dynamic_bodies do
+				local body = dynamic_bodies[i]
+
+				body:set_dynamic()
+			end
+		end)
+	end)
+
+	local oow_clbk_id = self._register_out_of_world_clbk_id
+
+	if oow_clbk_id then
+		managers.enemy:reschedule_delayed_clbk(oow_clbk_id, TimerManager:game():time() + 2)
+	end
+end
+
 local set_carry_id_original = CarryData.set_carry_id
 function CarryData:set_carry_id(carry_id)
 	if carry_id then
@@ -498,11 +549,12 @@ function CarryData:_chk_register_steal_SO()
 	local link_body = self._link_body
 
 	if not self._has_body_activation_clbk then
+		local clbk = callback(self, self, "clbk_body_active_state")
 		self._has_body_activation_clbk = {
-			[link_body:key()] = true
+			[link_body:key()] = clbk
 		}
 
-		my_unit:add_body_activation_callback(callback(self, self, "clbk_body_active_state"))
+		my_unit:add_body_activation_callback(clbk)
 		link_body:set_activate_tag(bag_moving_idstr)
 		link_body:set_deactivate_tag(bag_still_idstr)
 	end
@@ -605,7 +657,7 @@ function CarryData:_chk_register_steal_SO()
 		SO_id = so_id,
 		pickup_area = pickup_area,
 		pickup_objective = pickup_objective,
-		bag_secure_pos = drop_pos
+		secure_pos = drop_pos
 	}
 
 	managers.groupai:state():add_special_objective(so_id, so_descriptor)
@@ -651,15 +703,10 @@ function CarryData:on_secure_SO_completed(thief)
 
 	self:unlink()
 
-	--this shouldn't be needed, but if the function stops here somehow, something might be fucked somewhere else
-	if not so_data.bag_secure_pos then
-		return
-	end
-
 	--ensure the bag arrives at the loot point properly for clients
 	local unit = self._unit
 	local client_teleport_pos = Vector3()
-	mvec3_set(client_teleport_pos, so_data.bag_secure_pos)
+	mvec3_set(client_teleport_pos, so_data.secure_pos)
 	mvec3_set_z(client_teleport_pos, unit:position().z)
 
 	managers.network:session():send_to_peers_synched("sync_carry_set_position_and_throw", unit, client_teleport_pos, Vector3(0, 0, 0), 0)
@@ -690,6 +737,7 @@ function CarryData:link_to(parent_unit, keep_collisions)
 	keep_collisions = false
 
 	local is_server = self._is_server
+	local my_unit = self._unit
 	local already_linked_to = self._linked_to
 
 	if already_linked_to then
@@ -699,6 +747,8 @@ function CarryData:link_to(parent_unit, keep_collisions)
 			already_linked_to:movement():set_carrying_bag(nil)
 		end
 
+		my_unit:unlink()
+
 		if is_server and managers.groupai:state():is_unit_team_AI(already_linked_to) then
 			local link_key = already_linked_to:key()
 
@@ -706,9 +756,10 @@ function CarryData:link_to(parent_unit, keep_collisions)
 
 			self._linked_ai[link_key] = TimerManager:game():time()
 		end
+	else
+		link_body:set_keyframed()
 	end
 
-	local my_unit = self._unit
 	local int_ext = my_unit:interaction()
 	local had_modifier_timer = nil
 
@@ -720,35 +771,76 @@ function CarryData:link_to(parent_unit, keep_collisions)
 		int_ext._air_start_time = Application:time()
 	end
 
-	--will happen after disabling collisions further below
+	local body_active_clbk = self._has_body_activation_clbk
+	body_active_clbk = body_active_clbk and body_active_clbk[link_body:key()]
+
+	--check if an ongoing SO as well as active body and out of world callbacks need to be removed
+	if body_active_clbk then
+		my_unit:remove_body_activation_callback(body_active_clbk)
+
+		link_body:set_activate_tag(ids_empty)
+		link_body:set_deactivate_tag(ids_empty)
+
+		local so_data = self._steal_SO_data
+
+		if so_data and not so_data.picked_up then
+			self:_unregister_steal_SO()
+		end
+
+		local oow_clbk_id = self._register_out_of_world_clbk_id
+
+		if oow_clbk_id then
+			managers.enemy:remove_delayed_clbk(oow_clbk_id)
+
+			self._register_out_of_world_clbk_id = nil
+		end
+
+		self._has_body_activation_clbk = nil
+	end
+
+	local so_clbk_id = self._register_steal_SO_clbk_id
+
+	--also remove scheduled SO register checks
+	if so_clbk_id then
+		managers.enemy:remove_delayed_clbk(so_clbk_id)
+
+		self._register_steal_SO_clbk_id = nil
+	end
+
+	--we want to move and link the bag after setting its link body to not be dynamic
 	call_on_next_update_g(function ()
 		if not alive_g(my_unit) or not alive(parent_unit) then
 			return
 		end
 
-		link_body:set_keyframed()
+		parent_unit:link(parent_obj_name, my_unit)
 
-		call_on_next_update_g(function ()
-			if not alive_g(my_unit) or not alive(parent_unit) then
-				return
-			end
+		local parent_obj = parent_unit:get_object(parent_obj_name)
+		local parent_obj_rot = parent_obj:rotation()
+		local world_pos = parent_obj:position() - parent_obj_rot:z() * 30 - parent_obj_rot:y() * 10
 
-			parent_unit:link(parent_obj_name, my_unit)
+		my_unit:set_position(world_pos)
+		my_unit:set_velocity(zero_vel_vec)
 
-			local parent_obj = parent_unit:get_object(parent_obj_name)
-			local parent_obj_rot = parent_obj:rotation()
-			local world_pos = parent_obj:position() - parent_obj_rot:z() * 30 - parent_obj_rot:y() * 10
+		local world_rot = Rotation(parent_obj_rot:x(), -parent_obj_rot:z())
 
-			my_unit:set_position(world_pos)
-			my_unit:set_velocity(zero_vel_vec)
-
-			local world_rot = Rotation(parent_obj_rot:x(), -parent_obj_rot:z())
-
-			my_unit:set_rotation(world_rot)
-		end)
+		my_unit:set_rotation(world_rot)
 	end)
 
 	if keep_collisions and is_server then
+		--ensure collisions are enabled again if they were disabled through a previous link
+		local disabled_collisions = self._disabled_collisions
+
+		if disabled_collisions then
+			for i = 1, #disabled_collisions do
+				local body = disabled_collisions[i]
+
+				body:set_collisions_enabled(true)
+			end
+
+			self._disabled_collisions = nil
+		end
+
 		self._kept_collisions = true
 
 		my_unit:set_body_collision_callback(callback(self, self, "_collision_callback"))
@@ -769,7 +861,7 @@ function CarryData:link_to(parent_unit, keep_collisions)
 		end
 	else
 		local nr_bodies = my_unit:num_bodies()
-		local disabled_collisions = {}
+		local disabled_collisions = self._disabled_collisions or {}
 
 		for i_body = 0, nr_bodies - 1 do
 			local body = my_unit:body(i_body)
@@ -927,6 +1019,14 @@ function CarryData:unlink()
 		int_ext:register_collision_callbacks()
 	end
 
+	call_on_next_update_g(function ()
+		if not alive_g(my_unit) then
+			return
+		end
+
+		self:_chk_register_steal_SO()
+	end)
+
 	if not is_server then
 		return
 	end
@@ -944,8 +1044,16 @@ function CarryData:clbk_body_active_state(tag, unit, body, activated)
 	if activated then
 		local so_data = self._steal_SO_data
 
-		if not so_data or not so_data.picked_up then
+		if so_data and not so_data.picked_up then
 			self:_unregister_steal_SO()
+		end
+
+		local so_clbk_id = self._register_steal_SO_clbk_id
+
+		if so_clbk_id then
+			managers.enemy:remove_delayed_clbk(so_clbk_id)
+
+			self._register_steal_SO_clbk_id = nil
 		end
 
 		if not oow_clbk_id then
