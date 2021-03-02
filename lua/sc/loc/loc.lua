@@ -2148,8 +2148,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_gun_fighter_sc"] = "Gunfighter",
 		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nPistols reload ##5%## faster.\n\nThe movement penalty to accuracy is reduced by ##40%## for Pistols.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nPistols reload an additional ##25%## faster.",
 
-		--Maximum Action--
-		["menu_akimbo_skill_sc"] = "Maximum Action",
+		--Tequila Time--
+		["menu_akimbo_skill_sc"] = "Tequila Time",
 		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkimbo weapons gain ##8## stability.\n\nACE: ##$pro##\nAkimbo weapons gain an additional ##8## stability and ##25%## more total ammo capacity.",
 
 		--Desperado--
