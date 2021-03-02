@@ -1911,9 +1911,8 @@ function PlayerStandard:_reload_interupt_stagger()
 		return
 	end
 
-	local m = managers
-	local pm = m.player
-	local stagger_dis = pm:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
+	local player_manager = managers.player
+	local stagger_dis = player_manager:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
 
 	if stagger_dis <= 0 then
 		return
@@ -1921,7 +1920,8 @@ function PlayerStandard:_reload_interupt_stagger()
 
 	local my_unit = self._unit
 	local my_mov_ext = my_unit:movement()
-	local nearby_enemies = world_g:find_units_quick("sphere", my_mov_ext:m_pos(), stagger_dis, m.slot:get_mask("enemies"))
+	local my_head_pos = my_mov_ext:m_head_pos()
+	local nearby_enemies = world_g:find_units_quick("sphere", my_mov_ext:m_pos(), stagger_dis, managers.slot:get_mask("enemies"))
 	local staggered_anyone = nil
 
 	--Stagger valid nearby enemies.
@@ -1940,7 +1940,7 @@ function PlayerStandard:_reload_interupt_stagger()
 
 			if not immune_to_stagger then
 				local m_com = enemy:movement():m_com()
-				local attack_dir = m_com - my_mov_ext:m_head_pos()
+				local attack_dir = m_com - my_head_pos
 				mvec3_norm(attack_dir)
 
 				local stagger_data = {
@@ -1960,6 +1960,6 @@ function PlayerStandard:_reload_interupt_stagger()
 	end
 
 	if staggered_anyone then --Only trigger cooldown if the effect did something.
-		pm:disable_cooldown_upgrade("cooldown", "shotgun_reload_interrupt_stagger")
+		player_manager:disable_cooldown_upgrade("cooldown", "shotgun_reload_interrupt_stagger")
 	end
 end
