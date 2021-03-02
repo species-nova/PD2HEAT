@@ -1713,10 +1713,10 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 
 	local near_threshold = data.internal_data.weapon_range.optimal
 	local too_close_threshold = data.internal_data.weapon_range.close
-	local harasser = data.tactics and data.tactics.harass
-	local spoocavoider = data.tactics and data.tactics.spoocavoidance
-	local tunneler = data.tactics and data.tactics.tunnel --wow toxic noob killer
-	local tunnel_enemy = nil
+	local tactics = data.tactics
+	local harasser = tactics and tactics.harass
+	local spoocavoider = tactics and tactics.spoocavoidance
+	local tunnel_enemy = data.tunnel_focus
 
 	for u_key, attention_data in pairs(attention_objects) do
 		local att_unit = attention_data.unit
@@ -1795,11 +1795,13 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							end
 						elseif attention_data.is_husk_player then
 							local att_base_ext = att_unit:base()
-							
-							local anim_data = att_unit:anim_data()
 
-							if harasser and anim_data.reload then
-								valid_harass = true
+							if harasser then
+								local anim_data = att_unit:anim_data()
+
+								if anim_data and anim_data.reload then
+									valid_harass = true
+								end
 							end
 
 							if att_base_ext and att_base_ext.upgrade_value then
@@ -1862,7 +1864,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 								target_priority_slot = target_priority_slot - 1
 							end
 						end
-						
+
 						if spoocavoider then
 							if aimed_at and distance < 2000 then
 								target_priority_slot = target_priority_slot - 2
@@ -1959,23 +1961,19 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							elseif data.t - attention_data.acquire_t < 4 then --old enemy
 								target_priority_slot = target_priority_slot - 3
 							end
-							
-							if tunneler and data.attention_obj.is_person and reaction >= REACT_COMBAT then
-								tunnel_enemy = u_key
-							end
 						end
-						
+
 						if tunnel_enemy and u_key ~= tunnel_enemy then
 							target_priority_slot = target_priority_slot + 10
 						end
 
-						if harasser and valid_harass then
-							target_priority_slot = target_priority_slot - 3
-						end
-						
-						if not harasser then					
+						if harasser then
+							if valid_harass then
+								target_priority_slot = target_priority_slot - 3
+							end
+						else
 							local reviving = nil
-						
+
 							if attention_data.is_local_player then
 								local iparams = att_unit:movement():current_state()._interact_params
 
@@ -1985,7 +1983,7 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 							else
 								reviving = att_unit:anim_data() and att_unit:anim_data().revive
 							end
-							
+
 							if reviving then
 								target_priority_slot = target_priority_slot + 2
 							end
@@ -2006,27 +2004,22 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 						target_priority_slot = math_clamp(target_priority_slot, 1, 10)
 					else
 						target_priority_slot = 10
-						
+
 						if harasser then
 							if attention_data.is_local_player then
 								local cur_state = att_unit:movement():current_state()
-								
+
 								if cur_state:_is_reloading() then
-									valid_harass = true
+									target_priority_slot = target_priority_slot - 3
 								end
 							elseif attention_data.is_husk_player then							
 								local anim_data = att_unit:anim_data()
 
 								if anim_data.reload then
-									valid_harass = true
+									target_priority_slot = target_priority_slot - 3
 								end
 							end
 						end
-						
-						if valid_harass then
-							target_priority_slot = target_priority_slot - 3
-						end
-
 
 						if weight_mul and weight_mul ~= 1 then
 							weight_mul = 1 / weight_mul
@@ -2048,6 +2041,8 @@ function CopLogicIdle._get_priority_attention(data, attention_objects, reaction_
 								target_priority_slot = target_priority_slot - 1
 							end
 						end
+
+						target_priority_slot = math_clamp(target_priority_slot, 1, 10)
 					end
 
 					if reaction < REACT_COMBAT then
