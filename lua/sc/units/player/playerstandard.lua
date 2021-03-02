@@ -1915,7 +1915,7 @@ function PlayerStandard:_reload_interupt_stagger()
 	local pm = m.player
 	local stagger_dis = pm:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
 
-	if not stagger_dis or stagger_dis <= 0 then
+	if stagger_dis <= 0 then
 		return
 	end
 
