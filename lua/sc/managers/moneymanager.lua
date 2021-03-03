@@ -189,7 +189,6 @@ function MoneyManager:get_money_by_params(params)
 	
 	local stage_risk = math.round(stage_value * contract_money_multiplier)
 	local job_risk = math.round(job_value * contract_money_multiplier)
-	local bag_risk = math.round(bag_value * money_multiplier)
 	local small_risk = math.round(small_value * small_loot_multiplier)
 	total_payout = stage_value + job_value + bonus_bag_value + mandatory_bag_value + small_value
 	total_payout = total_payout + stage_risk + job_risk + bag_risk + small_risk
@@ -247,4 +246,27 @@ end
 function MoneyManager:get_contract_difficulty_multiplier(stars)
 	local multiplier = tweak_data:get_value("money_manager", "difficulty_multiplier", stars)
 	return multiplier or 0
+end
+
+function MoneyManager:get_secured_bonus_bag_value(carry_id, multiplier)
+    local carry_value = managers.money:get_bag_value(carry_id, multiplier)
+    local bag_value = 0
+    local bag_risk = 0
+    local bag_skill_bonus = managers.player:upgrade_value("player", "secured_bags_money_multiplier", 1)
+
+    local job_id = managers.job:current_job_id()
+    local stars = managers.job:has_active_job() and managers.job:current_difficulty_stars() or 0
+    local money_multiplier = self:get_contract_difficulty_multiplier(stars)
+    local total_stages = job_id and #tweak_data.narrative:job_chain(job_id) or 1
+    bag_value = carry_value
+    bag_risk = math.round(bag_value * money_multiplier)
+
+    local pro_job_bonus = self:get_tweak_value("money_manager", "pro_job_new") or 1
+
+    if pro_job_bonus > 1 then
+        bag_value = bag_value * pro_job_bonus
+        bag_risk = bag_risk * pro_job_bonus
+    end
+
+    return math.round((bag_value + bag_risk) * bag_skill_bonus / self:get_tweak_value("money_manager", "offshore_rate"))
 end
