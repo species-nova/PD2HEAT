@@ -189,7 +189,7 @@ function MoneyManager:get_money_by_params(params)
 	
 	local stage_risk = math.round(stage_value * contract_money_multiplier)
 	local job_risk = math.round(job_value * contract_money_multiplier)
-	local bag_risk = math.round(bag_value * contract_money_multiplier)
+	local bag_risk = math.round(bag_value * money_multiplier)
 	local small_risk = math.round(small_value * small_loot_multiplier)
 	total_payout = stage_value + job_value + bonus_bag_value + mandatory_bag_value + small_value
 	total_payout = total_payout + stage_risk + job_risk + bag_risk + small_risk
@@ -204,9 +204,6 @@ function MoneyManager:get_money_by_params(params)
 		total_payout = total_payout + tweak_data:get_value("money_manager", "flat_job_completion")
 		job_value = job_value + tweak_data:get_value("money_manager", "flat_job_completion")
 	end
-	
-	local bag_value = math.round((bonus_bag_value + mandatory_bag_value) / offshore_rate)
-	bag_risk = math.round(bag_risk / offshore_rate)
 
 	local mutators_multiplier = managers.mutators:get_cash_multiplier()
 	local original_total_payout = total_payout
