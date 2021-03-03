@@ -1305,8 +1305,8 @@
 	<unit path="units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3" force="false" load="true"/>
 	<unit path="units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3_husk" force="false" load="true"/>	
 
-	<!-- FBI 3 :))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
-	<model path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/>	
+	<!-- FBI 3 :))))))))))))))))))))))))))))))))))))))))))))))))))))))>
+	<model path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/-->	
 	<unit path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/>
 	<unit path="units/payday2/characters/ene_fbi_3/ene_fbi_3_husk" force="true"/>		
 	

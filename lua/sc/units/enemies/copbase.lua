@@ -310,6 +310,18 @@ function CopBase:default_weapon_name()
         default_weapon_id = "raging_bull"
     end
 
+	--Cops--
+	if self._unit:name() == ids_func("units/payday2/characters/ene_cop_3/ene_cop_3") then
+		default_weapon_id = "r870"
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_cop_4/ene_cop_4") then
+		default_weapon_id = "mp5"
+	end
+	
+	--FBI 1--
+	if self._unit:name() == ids_func("units/payday2/characters/ene_fbi_1/ene_fbi_1") then
+		default_weapon_id = "mp5"
+	end
+	
 	--Giving Friendly AI guns
 	if self._unit:name() == ids_func("units/pd2_dlc_spa/characters/npc_spa/npc_spa") then
 		default_weapon_id = "beretta92"	
