@@ -672,6 +672,9 @@
 	
 	<!--More Cop Facial Variety END-->	
 	
+	<!--restored uniforms for security_6, welcome back home buddy :)-->
+	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true" />
+	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true" />		
 
 	<!--Risk Level-->
 	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_4_sc" force="false"/>
