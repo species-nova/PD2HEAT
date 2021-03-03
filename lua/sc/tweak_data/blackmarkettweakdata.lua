@@ -1499,6 +1499,8 @@ function BlackMarketTweakData:_init_weapon_skins(tweak_data)
 			}
 		}
 	}
+
+	--Legendary Part Additions
 	self.weapon_skins.model70_baaah.default_blueprint = {
 		"wpn_fps_snp_model70_b_standard",
 		"wpn_fps_snp_model70_body_standard",
@@ -2205,7 +2207,8 @@ function BlackMarketTweakData:_init_weapon_skins(tweak_data)
 			}
 		}
 	}
---Demon--
+	
+	--Demon--
 	self.weapon_skins.serbu_lones.default_blueprint = {
 		"wpn_fps_shot_r870_body_standard",
 		"wpn_fps_shot_r870_b_short",
@@ -2216,6 +2219,7 @@ function BlackMarketTweakData:_init_weapon_skins(tweak_data)
 		"wpn_fps_upg_a_custom_free",
 		"wpn_fps_upg_o_reflex"
 	}
+
 	self.weapon_skins.serbu_lones.parts = {
 		wpn_fps_shot_shorty_s_legendary = {
 			[Idstring("mtr_grip"):key()] = {
@@ -2340,6 +2344,7 @@ function BlackMarketTweakData:_init_weapon_skins(tweak_data)
 			}
 		}
 	}
+
 	self.weapon_skins.ching_wwt = {
 		name_id = "bm_wskn_ching_wwt",
 		desc_id = "bm_wskn_ching_wwt_desc",
@@ -2405,6 +2410,29 @@ function BlackMarketTweakData:_init_weapon_skins(tweak_data)
 			base_gradient = Idstring("units/payday2_cash/safes/cola/base_gradient/base_cola_005_df"),
 			pattern = Idstring("units/payday2_cash/safes/default/pattern/pattern_default_df")
 		}}
+	}
+
+	--Croupier blueprint/sticker fix
+	self.weapon_skins.m16_ait.default_blueprint = {
+		"wpn_fps_m4_uupg_draghandle",
+		"wpn_fps_amcar_bolt_standard",
+		"wpn_fps_upg_fl_ass_smg_sho_peqbox",
+		"wpn_fps_upg_ass_m4_lower_reciever_core",
+		"wpn_fps_upg_ass_m4_upper_reciever_core",
+		"wpn_fps_m4_uupg_m_std_vanilla",
+		"wpn_fps_snp_tti_s_vltor",
+		"wpn_fps_upg_m4_g_mgrip",
+		"wpn_fps_m16_fg_standard",
+		"wpn_fps_m4_uupg_b_medium_vanilla",
+		"wpn_fps_upg_ass_ns_battle",
+		"wpn_fps_upg_o_cmore"
+	}
+
+	self.weapon_skins.m16_ait.parts.wpn_fps_m4_uupg_m_std_vanilla = {
+		[Idstring("m4_mag_std"):key()] = {
+			pattern = "units/payday2_cash/safes/ait/pattern/ait_pattern_024_g_df",
+			pattern_gradient = "units/payday2_cash/safes/ait/pattern_gradient/gradient_ait_024_b_df"
+		}
 	}	
 end
 
