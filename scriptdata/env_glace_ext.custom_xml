@@ -9,7 +9,7 @@
 			<param key="sky_texture" value="core/environments/skies/sky_1313_cloudy_dark/sky_1313_cloudy_darker_df"/>
 			<param key="global_world_overlay_mask_texture" value=""/>
 			<param key="underlay" value="core/environments/skies/sky_1313_cloudy_dark/sky_1313_cloudy_dark"/>
-			<param key="sun_ray_color_scale" value="0.80000001192093"/>
+			<param key="sun_ray_color_scale" value="0.800"/>
 			<param key="global_world_overlay_texture" value=""/>
 			<param key="sun_ray_color" value="0.17254902422428 0.3137255012989 0.43137255311012"/>
 			<param key="global_texture" value="environments/cubemaps/cubemap_greenbridge_wet_df"/>
@@ -18,7 +18,7 @@
 			<deferred>
 				<deferred_lighting>
 					<apply_ambient>
-						<param key="ambient_scale" value="0.60000002384186"/>
+						<param key="ambient_scale" value="0.150"/>
 						<param key="sky_bottom_color" value="0.23137255012989 0.32549020648003 0.45882353186607"/>
 						<param key="fog_start_color" value="0.2549019753933 0.39215686917305 0.44705882668495"/>
 						<param key="effect_light_scale" value="1"/>
