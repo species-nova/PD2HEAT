@@ -144,7 +144,7 @@
 	<texture path="units/pd2_dlc_mad/characters/shared_textures/compound_test_subject_nm" force="false"/>
 	<texture path="units/pd2_dlc_mad/characters/shared_textures/compound_test_subject_head_nm" force="false"/>
 					
-	<!--Russian Medic bob-->
+	<!--Russian Medic RENORENORENORENO-->
 	<unit path="units/pd2_dlc_mad/characters/ene_akan_medic_bob/ene_akan_medic_bob" force="false" load="true"/>
 	<unit path="units/pd2_dlc_mad/characters/ene_akan_medic_bob/ene_akan_medic_bob_husk" force="false" load="true"/>
 	<object path="units/pd2_dlc_mad/characters/ene_akan_medic_bob/ene_akan_medic_bob" force="false" />
@@ -317,5 +317,9 @@
 	
 	<!--AK102-->	
 	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_ak102/wpn_npc_ak102" load="false" force="false"/>		
+	
+	<!--White Streak what is it called in the real world-->
+	<unit_mat path="units/pd2_dlc_mad/weapons/wpn_npc_pl14/wpn_npc_pl14" load="true"/>	
+	<cooked_physics path="units/pd2_dlc_mad/weapons/wpn_npc_pl14/wpn_npc_pl14"/>
 	
 </table>
