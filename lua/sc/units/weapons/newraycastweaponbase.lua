@@ -542,6 +542,12 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 	multiplier = multiplier * player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1)
 	
 	if self._setup and alive(self._setup.user_unit) and self._setup.user_unit:movement() then
+		local morale_boost_bonus = self._setup.user_unit:movement():morale_boost()
+
+		if morale_boost_bonus then
+			multiplier = multiplier + 1 - morale_boost_bonus.reload_speed_bonus
+		end
+		
 		if self._setup.user_unit:movement():next_reload_speed_multiplier() then
 			multiplier = multiplier * self._setup.user_unit:movement():next_reload_speed_multiplier()
 		end
