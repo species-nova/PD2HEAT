@@ -317,6 +317,9 @@ Hooks:Add("BeardLibCreateScriptDataMods", "SCLECallBeardLibSequenceFuncs", funct
 		elseif level_id == "flat" then --Panic Room
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_flat_ext.custom_xml", "custom_xml", "environments/pd2_flat/pd2_flat", "environment")
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_flat_int.custom_xml", "custom_xml", "environments/pd2_flat_indoor/pd2_flat_indoor", "environment")
+		elseif level_id == "glace" then --Green Bridge
+			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_glace_ext.custom_xml", "custom_xml", "environments/pd2_glace/glace_outside", "environment")
+			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/env_glace_int.custom_xml", "custom_xml", "environments/pd2_glace/glace_inside", "environment")
 		elseif level_id == "safehouse" then --Safehouse Booster
 			if SystemFS:exists(mod_path .. "scriptdata/missions/safehouse.mission") and SystemFS:exists(mod_path .. "scriptdata/missions/safehouse.continent") then
 				BeardLib:ReplaceScriptData(mod_path .. "scriptdata/missions/safehouse.mission", "generic_xml", "levels/narratives/safehouse/world/world", "mission")

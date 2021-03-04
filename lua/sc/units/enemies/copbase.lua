@@ -286,7 +286,7 @@ function CopBase:default_weapon_name()
 		end				
 	end
 	
-	--Bolivian Weapons
+	--Bolivian Weapons--
 	if self._unit:name() == ids_func("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01") then
 		default_weapon_id = "mossberg"	
 	elseif self._unit:name() == ids_func("units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_02/ene_bolivian_thug_outdoor_02") then
@@ -295,34 +295,37 @@ function CopBase:default_weapon_name()
 		default_weapon_id = "raging_bull"				
 	end
 	
+	--Federale Skulldozer--
 	if self._unit:name() == ids_func("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249") then
 		default_weapon_id = "m60"				
 	end
 	
-    --Security Guards
+    --Security Guards--
     if self._unit:name() == ids_func("units/payday2/characters/ene_security_3/ene_security_3") or self._unit:name() == ids_func("units/payday2/characters/ene_security_7/ene_security_7") then
         default_weapon_id = "r870"
-    elseif self._unit:name() == ids_func("units/payday2/characters/ene_security_5/ene_security_5") then
-        default_weapon_id = "m1911_npc"        
     elseif self._unit:name() == ids_func("units/payday2/characters/ene_security_6/ene_security_6") then
         default_weapon_id = "mp5"
     elseif self._unit:name() == ids_func("units/payday2/characters/ene_security_8/ene_security_8") then
         default_weapon_id = "raging_bull"
     end
-
-	--Cops--
-	if self._unit:name() == ids_func("units/payday2/characters/ene_cop_3/ene_cop_3") then
-		default_weapon_id = "r870"
-	elseif self._unit:name() == ids_func("units/payday2/characters/ene_cop_4/ene_cop_4") then
-		default_weapon_id = "mp5"
-	end
 	
-	--FBI 1--
+	--FBI Guys--
 	if self._unit:name() == ids_func("units/payday2/characters/ene_fbi_1/ene_fbi_1") then
+		default_weapon_id = "m1911_npc"
+	elseif self._unit:name() == ids_func("units/payday2/characters/ene_fbi_2/ene_fbi_2") then
 		default_weapon_id = "mp5"
 	end
 	
-	--Giving Friendly AI guns
+	--Undead Federal Beauro of Intervention Intellectuals-- 
+	if self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1") then 
+		default_weapon_id = "m1911_npc"
+	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2") then
+		deafult_weapon_id = "mp5"
+	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3") then
+		default_weapon_id = "r870"
+	end
+	
+	--Giving Friendly AI guns--
 	if self._unit:name() == ids_func("units/pd2_dlc_spa/characters/npc_spa/npc_spa") then
 		default_weapon_id = "beretta92"	
 	elseif self._unit:name() == ids_func("units/payday2/characters/npc_old_hoxton_prisonsuit_2/npc_old_hoxton_prisonsuit_2") then
