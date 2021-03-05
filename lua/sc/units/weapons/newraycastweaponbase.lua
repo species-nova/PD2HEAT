@@ -451,8 +451,6 @@ function NewRaycastWeaponBase:precalculate_ammo_pickup()
 		--self._ammo_data.ammo_pickup_xxx_mul corresponds to a multiplier from weapon mods, especially ones that may modify total ammo without changing damage tiers or add DOT effects.
 		self._ammo_pickup[1] = (self._ammo_pickup[1] + stat_info.pickup_exponents.min * math.sqrt(self._damage * damage_multiplier)) * pickup_multiplier * total_ammo * ((self._ammo_data and self._ammo_data.ammo_pickup_min_mul) or 1)
 		self._ammo_pickup[2] = math.max((self._ammo_pickup[2] + stat_info.pickup_exponents.max * math.sqrt(self._damage * damage_multiplier)) * pickup_multiplier * total_ammo * ((self._ammo_data and self._ammo_data.ammo_pickup_max_mul) or 1), self._ammo_pickup[1])
-	
-		log(self._name_id .. " pickup: " .. tostring(self._ammo_pickup[1]) .. " - " .. tostring(self._ammo_pickup[2]))
 	end
 end
 					
