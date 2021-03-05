@@ -676,52 +676,52 @@
 	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true" />
 	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true" />		
 
-	<!--force loading these guys, 'specially cuz sec_8 is only in *one* package>
-	<object path="units/payday2/characters/ene_security_4/ene_security_4" load="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_4/ene_security_4" load="true"/>
-	<model path="units/payday2/characters/ene_security_4/ene_security_4" load="true"/>
-	<unit path="units/payday2/characters/ene_security_4/ene_security_4" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_4/ene_security_4" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_4/ene_security_4_contour" load="true"/>
-	<unit path="units/payday2/characters/ene_security_4/ene_security_4_husk" load="true"/> 
-	<texture path="units/payday2/characters/shared_textures/security_2_df" load="true"/>
+	<!--force loading these guys, 'specially cuz sec_8 is only in *one* package-->
+	<object path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
+	<cooked_physics path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
+	<model path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
+	<unit path="units/payday2/characters/ene_security_4/ene_security_4" force="true" load="true"/>
+	<material_config path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
+	<material_config path="units/payday2/characters/ene_security_4/ene_security_4_contour" force="true"/>
+	<unit path="units/payday2/characters/ene_security_4/ene_security_4_husk" force="true" load="true"/> 
+	<texture path="units/payday2/characters/shared_textures/security_2_df" force="true"/>
 
-	<object path="units/payday2/characters/ene_security_5/ene_security_5" load="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_5/ene_security_5" load="true"/>
-	<model path="units/payday2/characters/ene_security_5/ene_security_5" load="true"/>
-	<unit path="units/payday2/characters/ene_security_5/ene_security_5" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_5/ene_security_5" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_5/ene_security_5_contour" load="true"/>
-	<unit path="units/payday2/characters/ene_security_5/ene_security_5_husk" load="true"/> 
+	<object path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
+	<cooked_physics path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
+	<model path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
+	<unit path="units/payday2/characters/ene_security_5/ene_security_5" force="true" load="true"/>
+	<material_config path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
+	<material_config path="units/payday2/characters/ene_security_5/ene_security_5_contour" force="true"/>
+	<unit path="units/payday2/characters/ene_security_5/ene_security_5_husk" force="true" load="true"/> 
 
-	<object path="units/payday2/characters/ene_security_6/ene_security_6" load="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_6/ene_security_6" load="true"/>
-	<model path="units/payday2/characters/ene_security_6/ene_security_6" load="true"/>
-	<unit path="units/payday2/characters/ene_security_6/ene_security_6" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" load="true"/>
-	<unit path="units/payday2/characters/ene_security_6/ene_security_6_husk" load="true"/> 
+	<object path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
+	<cooked_physics path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
+	<model path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
+	<unit path="units/payday2/characters/ene_security_6/ene_security_6" force="true" load="true"/>
+	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
+	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true"/>
+	<unit path="units/payday2/characters/ene_security_6/ene_security_6_husk" force="true" load="true"/> 
 	
-	<object path="units/payday2/characters/ene_security_7/ene_security_7" load="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_7/ene_security_7" load="true"/>
-	<model path="units/payday2/characters/ene_security_7/ene_security_7" load="true"/>
-	<unit path="units/payday2/characters/ene_security_7/ene_security_7" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_7/ene_security_7" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_7/ene_security_7_contour" load="true"/>
-	<unit path="units/payday2/characters/ene_security_7/ene_security_7_husk" load="true"/> 
+	<object path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
+	<cooked_physics path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
+	<model path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
+	<unit path="units/payday2/characters/ene_security_7/ene_security_7" force="true" load="true"/>
+	<material_config path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
+	<material_config path="units/payday2/characters/ene_security_7/ene_security_7_contour" force="true"/>
+	<unit path="units/payday2/characters/ene_security_7/ene_security_7_husk" force="true" load="true"/> 
 	
-	<material_config path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" load="true"/>
-	<model path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" load="true"/>
-	<unit path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" load="true"/>
-	<object path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" load="true"/>
+	<material_config path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true"/>
+	<model path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true"/>
+	<unit path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true" load="true"/>
+	<object path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true"/>
 	
-	<object path="units/payday2/characters/ene_security_8/ene_security_8" load="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_8/ene_security_8" load="true"/>
-	<model path="units/payday2/characters/ene_security_8/ene_security_8" load="true"/>
-	<unit path="units/payday2/characters/ene_security_8/ene_security_8" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_8/ene_security_8" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_8/ene_security_8_contour" load="true"/>
-	<unit path="units/payday2/characters/ene_security_8/ene_security_8_husk" load="true"/--> 
+	<object path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
+	<cooked_physics path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
+	<model path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
+	<unit path="units/payday2/characters/ene_security_8/ene_security_8" force="true" load="true"/>
+	<material_config path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
+	<material_config path="units/payday2/characters/ene_security_8/ene_security_8_contour" force="true"/>
+	<unit path="units/payday2/characters/ene_security_8/ene_security_8_husk" force="true" load="true"/> 
 
 	<!--Risk Level-->
 	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_4_sc" force="false"/>
