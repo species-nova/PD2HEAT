@@ -1260,7 +1260,12 @@ end
 
 --Ends minigun spinup.
 Hooks:PostHook(PlayerStandard, "_end_action_steelsight", "ResMinigunExitSteelsight", function(self, t, gadget_state)
-
+	if not self._state_data.in_steelsight then
+		local weapon = self._unit:inventory():equipped_unit():base()
+		if weapon:get_name_id() == "m134" then
+			weapon:vulcan_exit_steelsight()
+		end
+	end
 end)
 
 local melee_vars = {
