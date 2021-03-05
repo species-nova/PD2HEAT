@@ -278,15 +278,19 @@ function CarryData:check_explodes_on_impact(vel_vector, air_time)
 end
 
 function CarryData:can_explode()
-	if not self._is_server or self._disarmed or self._linked_to or self._explode_t then
+	if not self._is_server or not self._can_explode or self._disarmed or self._linked_to or self._explode_t then
 		return false
 	end
 
-	return self._can_explode
+	return true
 end
 
 function CarryData:can_poof()
-	return self._can_poof
+	if not self._is_server or not self._can_poof or self._linked_to or self._explode_t then
+		return false
+	end
+
+	return true
 end
 
 function CarryData:start_explosion(instant)
@@ -403,11 +407,20 @@ end
 --synced poofs normally execute server-only code, which as you'd guess, it's bad
 --just play the effects instead (the unit will be despawned right after by the host)
 function CarryData:_sync_poof()
-	local pos = self._unit:position()
+	local my_unit = self._unit
+	local pos = my_unit:position()
 	local normal = math_up
 	local range = CarryData.POOF_SETTINGS.range
 
 	managers.explosion:play_sound_and_effects(pos, normal, range, CarryData.POOF_CUSTOM_PARAMS)
+
+	my_unit:set_visible(false)
+
+	local int_ext = my_unit:interaction()
+
+	if int_ext then
+		int_ext:set_active(false)
+	end
 end
 
 local sync_net_event_original = CarryData.sync_net_event
@@ -690,10 +703,518 @@ function CarryData:clbk_pickup_SO_verification(candidate_unit)
 	return true
 end
 
+function CarryData:on_pickup_SO_administered(thief)
+	local so_data = self._steal_SO_data
+	local stored_thief = so_data.thief
+
+	if stored_thief then
+		log("CarryData:on_pickup_SO_administered: already had a stored thief!")
+
+		if not alive_g(stored_thief) then
+			log("CarryData:on_pickup_SO_administered: stored thief unit was destroyed!")
+		elseif stored_thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_administered: stored thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_administered: stored thief unit is still intact on the C side")
+
+			local base_ext = stored_thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_administered: stored thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_administered: stored thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_administered: stored thief unit has no tweak table")
+			end
+
+			local dmg_ext = stored_thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_administered: stored thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_administered: stored thief unit is dead")
+			end
+
+			local brain_ext = stored_thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_administered: stored thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_administered: stored thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		if not thief then
+			log("CarryData:on_pickup_SO_administered: no thief unit sent!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_pickup_SO_administered: sent thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_administered: sent thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_administered: sent thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_administered: sent thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_administered: sent thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_administered: sent thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_administered: sent thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_administered: sent thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_administered: sent thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_administered: sent thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+	end
+
+	self._steal_SO_data.thief = thief
+	self._steal_SO_data.SO_registered = false
+
+	managers.groupai:state():unregister_loot(self._unit:key())
+end
+
+function CarryData:on_pickup_SO_completed(thief)
+	local so_data = self._steal_SO_data
+
+	if not so_data then
+		log("CarryData:on_pickup_SO_completed: no so_data")
+
+		if not thief then
+			log("CarryData:on_pickup_SO_completed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_pickup_SO_completed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_completed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_completed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_completed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_completed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_completed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_completed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_completed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_completed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_completed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		return
+	end
+
+	if thief ~= so_data.thief then
+		log("CarryData:on_pickup_SO_completed: thief who completed the objective and assigned thief don't match")
+
+		if not thief then
+			log("CarryData:on_pickup_SO_completed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_pickup_SO_completed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_completed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_completed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_completed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_completed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_completed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_completed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_completed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_completed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_completed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		local stored_thief = so_data.thief
+
+		if not stored_thief then
+			log("CarryData:on_pickup_SO_completed: no stored thief unit!")
+		elseif not alive_g(stored_thief) then
+			log("CarryData:on_pickup_SO_completed: stored thief unit was destroyed!")
+		elseif stored_thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_completed: stored thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_completed: stored thief unit is still intact on the C side")
+
+			local base_ext = stored_thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_completed: stored thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_completed: stored thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_completed: stored thief unit has no tweak table")
+			end
+
+			local dmg_ext = stored_thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_completed: stored thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_completed: stored thief unit is dead")
+			end
+
+			local brain_ext = stored_thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_completed: stored thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_completed: stored thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		return
+	end
+
+	self._steal_SO_data.picked_up = true
+
+	self:link_to(thief)
+end
+
+function CarryData:on_pickup_SO_failed(thief)
+	local so_data = self._steal_SO_data
+
+	if not so_data then
+		log("CarryData:on_pickup_SO_failed: no so_data")
+
+		if not thief then
+			log("CarryData:on_pickup_SO_failed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_pickup_SO_failed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_failed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_failed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_failed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_failed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_failed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_failed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_failed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_failed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_failed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		return
+	end
+
+	if not so_data.thief or thief ~= so_data.thief then
+		log("CarryData:on_pickup_SO_failed: no assigned thief, or thief who failed the objective and assigned thief don't match")
+
+		if not thief then
+			log("CarryData:on_pickup_SO_failed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_pickup_SO_failed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_failed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_failed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_failed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_failed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_failed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_failed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_failed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_failed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_failed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		local stored_thief = so_data.thief
+
+		if not stored_thief then
+			log("CarryData:on_pickup_SO_failed: no stored thief unit!")
+		elseif not alive_g(stored_thief) then
+			log("CarryData:on_pickup_SO_failed: stored thief unit was destroyed!")
+		elseif stored_thief:in_slot(0) then
+			log("CarryData:on_pickup_SO_failed: stored thief unit is being destroyed!")
+		else
+			log("CarryData:on_pickup_SO_failed: stored thief unit is still intact on the C side")
+
+			local base_ext = stored_thief:base()
+
+			if not base_ext then
+				log("CarryData:on_pickup_SO_failed: stored thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_pickup_SO_failed: stored thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_pickup_SO_failed: stored thief unit has no tweak table")
+			end
+
+			local dmg_ext = stored_thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_pickup_SO_failed: stored thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_pickup_SO_failed: stored thief unit is dead")
+			end
+
+			local brain_ext = stored_thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_pickup_SO_failed: stored thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_pickup_SO_failed: stored thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		return
+
+		return
+	end
+
+	self._steal_SO_data = nil
+
+	self:_chk_register_steal_SO()
+end
+
 function CarryData:on_secure_SO_completed(thief)
 	local so_data = self._steal_SO_data
 
+	if not so_data then
+		log("CarryData:on_secure_SO_completed: no so_data")
+
+		if not thief then
+			log("CarryData:on_secure_SO_completed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_secure_SO_completed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_secure_SO_completed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_secure_SO_completed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_secure_SO_completed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_secure_SO_completed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_secure_SO_completed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_secure_SO_completed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_secure_SO_completed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_secure_SO_completed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_secure_SO_completed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		return
+	end
+
 	if thief ~= so_data.thief then
+		log("CarryData:on_secure_SO_completed: thief who completed the objective and assigned thief don't match")
+
+		if not thief then
+			log("CarryData:on_secure_SO_completed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_secure_SO_completed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_secure_SO_completed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_secure_SO_completed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_secure_SO_completed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_secure_SO_completed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_secure_SO_completed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_secure_SO_completed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_secure_SO_completed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_secure_SO_completed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_secure_SO_completed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		local stored_thief = so_data.thief
+
+		if not stored_thief then
+			log("CarryData:on_secure_SO_completed: no stored thief unit!")
+		elseif not alive_g(stored_thief) then
+			log("CarryData:on_secure_SO_completed: stored thief unit was destroyed!")
+		elseif stored_thief:in_slot(0) then
+			log("CarryData:on_secure_SO_completed: stored thief unit is being destroyed!")
+		else
+			log("CarryData:on_secure_SO_completed: stored thief unit is still intact on the C side")
+
+			local base_ext = stored_thief:base()
+
+			if not base_ext then
+				log("CarryData:on_secure_SO_completed: stored thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_secure_SO_completed: stored thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_secure_SO_completed: stored thief unit has no tweak table")
+			end
+
+			local dmg_ext = stored_thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_secure_SO_completed: stored thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_secure_SO_completed: stored thief unit is dead")
+			end
+
+			local brain_ext = stored_thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_secure_SO_completed: stored thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_secure_SO_completed: stored thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
 		return
 	end
 
@@ -715,7 +1236,137 @@ end
 function CarryData:on_secure_SO_failed(thief)
 	local so_data = self._steal_SO_data
 
+	if not so_data then
+		log("CarryData:on_secure_SO_failed: no so_data")
+
+		if not thief then
+			log("CarryData:on_secure_SO_failed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_secure_SO_failed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_secure_SO_failed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_secure_SO_failed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_secure_SO_failed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_secure_SO_failed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_secure_SO_failed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_secure_SO_failed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_secure_SO_failed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_secure_SO_failed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_secure_SO_failed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		return
+	end
+
 	if not so_data.thief or thief ~= so_data.thief then
+		log("CarryData:on_secure_SO_failed: no assigned thief, or thief who failed the objective and assigned thief don't match")
+
+		if not thief then
+			log("CarryData:on_secure_SO_failed: no thief unit!")
+		elseif not alive_g(thief) then
+			log("CarryData:on_secure_SO_failed: thief unit was destroyed!")
+		elseif thief:in_slot(0) then
+			log("CarryData:on_secure_SO_failed: thief unit is being destroyed!")
+		else
+			log("CarryData:on_secure_SO_failed: thief unit is still intact on the C side")
+
+			local base_ext = thief:base()
+
+			if not base_ext then
+				log("CarryData:on_secure_SO_failed: thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_secure_SO_failed: thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_secure_SO_failed: thief unit has no tweak table")
+			end
+
+			local dmg_ext = thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_secure_SO_failed: thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_secure_SO_failed: thief unit is dead")
+			end
+
+			local brain_ext = thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_secure_SO_failed: thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_secure_SO_failed: thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
+		local stored_thief = so_data.thief
+
+		if not stored_thief then
+			log("CarryData:on_secure_SO_failed: no stored thief unit!")
+		elseif not alive_g(stored_thief) then
+			log("CarryData:on_secure_SO_failed: stored thief unit was destroyed!")
+		elseif stored_thief:in_slot(0) then
+			log("CarryData:on_secure_SO_failed: stored thief unit is being destroyed!")
+		else
+			log("CarryData:on_secure_SO_failed: stored thief unit is still intact on the C side")
+
+			local base_ext = stored_thief:base()
+
+			if not base_ext then
+				log("CarryData:on_secure_SO_failed: stored thief unit has no base() extension")
+			elseif base_ext._tweak_table then
+				log("CarryData:on_secure_SO_failed: stored thief unit has tweak table: " .. tostring(base_ext._tweak_table) .. "")
+			else
+				log("CarryData:on_secure_SO_failed: stored thief unit has no tweak table")
+			end
+
+			local dmg_ext = stored_thief:character_damage()
+
+			if not dmg_ext then
+				log("CarryData:on_secure_SO_failed: stored thief unit has no character_damage() extension")
+			elseif dmg_ext.dead and my_dmg_ext:dead() then
+				log("CarryData:on_secure_SO_failed: stored thief unit is dead")
+			end
+
+			local brain_ext = stored_thief:brain()
+
+			if not brain_ext then
+				log("CarryData:on_secure_SO_failed: stored thief unit has no brain() extension")
+			else
+				local objective = brain_ext.objective and brain_ext:objective()
+
+				if objective then
+					log("CarryData:on_secure_SO_failed: stored thief objective type was:" .. tostring_g(objective.type) .. "")
+				end
+			end
+		end
+
 		return
 	end
 
