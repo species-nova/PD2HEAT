@@ -1141,19 +1141,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Desperado
 				self.values.pistol.stacked_accuracy_bonus = {
-					{accuracy_bonus = 0.9, max_stacks = 5, max_time = 5}, --Basic
+					{accuracy_bonus = 0.9, max_stacks = 5, max_time = 4}, --Basic
 					{accuracy_bonus = 0.9, max_stacks = 5, max_time = 10} --Ace
 				}
-				--Ace
-					self.values.player.desperado_bodyshot_refresh = {true}
 				
 			--Trigger Happy
 				self.values.pistol.stacking_hit_damage_multiplier = {
-					{damage_bonus = 1.1, max_stacks = 5, max_time = 5}, --Basic
+					{damage_bonus = 1.1, max_stacks = 5, max_time = 4}, --Basic
 					{damage_bonus = 1.1, max_stacks = 5, max_time = 10} --Ace
 				}
-				--Ace
-					self.values.player.trigger_happy_bodyshot_refresh = {true}
 			
 		--Revenant
 			--Running From Death
@@ -3095,24 +3091,6 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 2,
 			upgrade = "spooc_damage_resist",
-			category = "player"
-		}
-	}	
-	self.definitions.player_trigger_happy_bodyshot_refresh = {
-		name_id = "menu_player_trigger_happy_bodyshot_refresh",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "trigger_happy_bodyshot_refresh",
-			category = "player"
-		}
-	}
-	self.definitions.player_desperado_bodyshot_refresh = {
-		name_id = "menu_player_desperado_bodyshot_refresh",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "desperado_bodyshot_refresh",
 			category = "player"
 		}
 	}

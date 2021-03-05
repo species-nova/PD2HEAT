@@ -1900,8 +1900,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"pistol_stacked_accuracy_bonus_2",
-						"player_desperado_bodyshot_refresh"
+						"pistol_stacked_accuracy_bonus_2"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1922,8 +1921,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 8,
 					upgrades = {
-						"pistol_stacking_hit_damage_multiplier_2",
-						"player_trigger_happy_bodyshot_refresh"
+						"pistol_stacking_hit_damage_multiplier_2"
 					},
 					cost = self.costs.hightierpro
 				}
