@@ -563,7 +563,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.meme_man_shield.unintimidateable = true
 	self.meme_man_shield.allowed_poses = {crouch = true}
 	self.meme_man_shield.always_face_enemy = true
-	self.meme_man_shield.move_speed = presets.move_speed.fast
+	self.meme_man_shield.move_speed = presets.move_speed.lightning
 	self.meme_man_shield.no_run_start = true
 	self.meme_man_shield.no_run_stop = true
 	self.meme_man_shield.no_retreat = true
