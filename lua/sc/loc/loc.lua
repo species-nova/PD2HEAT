@@ -1831,15 +1831,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Underdog--
 			["menu_underdog_beta_sc"] = "Underdog",
-			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##3%## more gun and melee damage for each enemy within ##7## meters, up to ##15%## more damage.\n\nACE: ##$pro##\nYou take ##3%## less damage for each enemy within ##7## meters, up to ##15%## less damage.",
+			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##3%## more gun and melee damage for each enemy within ##8## meters, up to ##15%## more damage.\n\nACE: ##$pro##\nYou take ##3%## less damage for each enemy within ##8## meters, up to ##15%## less damage.",
 
 			--Shotgun CQB--
 			["menu_shotgun_cqb_beta_sc"] = "Shotgun CQB",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nYou reload shotguns and flamethrowers ##4%## faster for each enemy within ##7## meters, up to ##20%## faster.\n\nACE: ##$pro##\nInterrupting a shotgun or flamethrower reload staggers nearby enemies. This can only occur once every ##5## seconds.",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nYou reload shotguns and flamethrowers ##4%## faster for each enemy within ##8## meters, up to ##20%## faster.\n\nACE: ##$pro##\nInterrupting a shotgun or flamethrower reload staggers nearby enemies. This can only occur once every ##5## seconds.",
 
 			--Shotgun Impact--
 			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
-			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##7## meters, shotguns and flamethrowers gain ##8## stability.\n\nACE: ##$pro##\nShotguns fire ##3## extra pellets.\n\nNote: Does not apply to slugs or explosive rounds.",
+			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, shotguns and flamethrowers gain ##8## stability.\n\nACE: ##$pro##\nShotguns fire ##3## extra pellets.\n\nNote: Does not apply to slugs or explosive rounds.",
 
 			--Pigeon Shooting--
 			["menu_far_away_beta_sc"] = "Pigeon Shooter",
@@ -2267,15 +2267,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck10_9_desc_sc"] = "Increase health gained from ammo packs by an additional ##2##.\n\nWhen you get healed from picking up ammo packs, you also gain ##30## armor.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Infiltrator--
-		["menu_deck8_1_desc_sc"] = "##3%## less damage from enemies for each enemy within ##7## meters, up to ##15%## less damage.",
-		["menu_deck8_3_desc_sc"] = "##4%## less damage from enemies for each enemy within ##7## meters, up to ##20%## less damage.",
-		["menu_deck8_5_desc_sc"] = "##5%## less damage from enemies for each enemy within ##7## meters, up to ##25%## less damage.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
+		["menu_deck8_1_desc_sc"] = "##3%## less damage from enemies for each enemy within ##8## meters, up to ##15%## less damage.",
+		["menu_deck8_3_desc_sc"] = "##4%## less damage from enemies for each enemy within ##8## meters, up to ##20%## less damage.",
+		["menu_deck8_5_desc_sc"] = "##5%## less damage from enemies for each enemy within ##8## meters, up to ##25%## less damage.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
 		["menu_deck8_7_desc_sc"] = "Each successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds, this effect can stack up to ##5## times.",
 		["menu_deck8_9_desc_sc"] = "Each successful melee hit heals ##1## health every ##1.25## seconds for ##10## seconds, this effect can stack up to ##5## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Sociopath--
 		["menu_deck9_1_sc"] = "No Talk",
-		["menu_deck9_1_desc_sc"] = "When there are ##3## or more enemies within ##7## meters, you take ##10%## less damage.",
+		["menu_deck9_1_desc_sc"] = "When there are ##3## or more enemies within ##8## meters, you take ##10%## less damage.",
 		["menu_deck9_3_desc_sc"] = "Killing an enemy regenerates ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_5_desc_sc"] = "Killing an enemy with a melee weapon regenerates ##5%## health.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_7_desc_sc"] = "Killing an enemy within ##18## meters regenerates an additional ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",

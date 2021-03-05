@@ -280,9 +280,8 @@ end)
 --Upgrade Value changes for skills and such--
 Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(self)
 	--Used by Shotgun skills, Infiltrator, and Sociopath
-	self.close_combat_distance = 700
 	self.close_combat_data = {
-		distance = 700,
+		distance = 800,
 		polling_rate = 0.25
 	}
 
