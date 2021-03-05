@@ -2640,6 +2640,9 @@ function WeaponTweakData:_init_stats()
 		0.026, 0.052
 	}
 
+	--Reduce pickup on shotguns to compensate for ease of use.
+	self.stat_info.shotgun_pickup_penalty = 0.65
+
 	--Multiplier for spread on multi-pellet shotguns. This compensates for linear spread scaling which would otherwise cripple their multikill potential.
 	self.stat_info.shotgun_spread_increase = 2.5
 

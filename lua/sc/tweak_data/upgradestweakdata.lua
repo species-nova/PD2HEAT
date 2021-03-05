@@ -653,8 +653,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.shotgun.enter_steelsight_speed_multiplier = {1.5} --ADS speed
 					self.values.player.steelsight_speed_multiplier = {1.6} --Movement speed while ADSing.
 				--Ace
-					self.values.shotgun.steelsight_range_inc = {1.35}
-					self.values.shotgun.steelsight_accuracy_inc = {0.65}
+					self.values.shotgun.steelsight_range_inc = {1.25}
+					self.values.shotgun.steelsight_accuracy_inc = {0.75}
 
 			--Close By
 				--Basic
