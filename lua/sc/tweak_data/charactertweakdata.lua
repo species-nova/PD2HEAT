@@ -2703,10 +2703,10 @@ function CharacterTweakData:_init_autumn(presets)
 	self.autumn.damage.immune_to_knockback = true
 	self.autumn.immune_to_knock_down = true		
 	self.autumn.immune_to_concussion = true		
-	self.autumn.HEALTH_INIT = 240
+	self.autumn.HEALTH_INIT = 360
 	self.autumn.headshot_dmg_mul = normal_headshot
 	self.autumn.flammable = false
-	self.autumn.damage.explosion_damage_mul = 1
+	self.autumn.damage.explosion_damage_mul = 2
 	self.autumn.move_speed = presets.move_speed.lightning
 	self.autumn.can_cloak = true
 	self.autumn.no_retreat = true
