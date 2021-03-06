@@ -708,6 +708,17 @@ function CarryData:on_pickup_SO_administered(thief)
 	local stored_thief = so_data.thief
 
 	if stored_thief then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_pickup_SO_administered: already had a stored thief!")
 
 		if not alive_g(stored_thief) then
@@ -799,6 +810,17 @@ function CarryData:on_pickup_SO_completed(thief)
 	local so_data = self._steal_SO_data
 
 	if not so_data then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_pickup_SO_completed: no so_data")
 
 		if not thief then
@@ -845,6 +867,17 @@ function CarryData:on_pickup_SO_completed(thief)
 	end
 
 	if thief ~= so_data.thief then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_pickup_SO_completed: thief who completed the objective and assigned thief don't match")
 
 		if not thief then
@@ -941,6 +974,17 @@ function CarryData:on_pickup_SO_failed(thief)
 	local so_data = self._steal_SO_data
 
 	if not so_data then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_pickup_SO_failed: no so_data")
 
 		if not thief then
@@ -987,6 +1031,17 @@ function CarryData:on_pickup_SO_failed(thief)
 	end
 
 	if not so_data.thief or thief ~= so_data.thief then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_pickup_SO_failed: no assigned thief, or thief who failed the objective and assigned thief don't match")
 
 		if not thief then
@@ -1072,8 +1127,6 @@ function CarryData:on_pickup_SO_failed(thief)
 		end
 
 		return
-
-		return
 	end
 
 	self._steal_SO_data = nil
@@ -1085,6 +1138,17 @@ function CarryData:on_secure_SO_completed(thief)
 	local so_data = self._steal_SO_data
 
 	if not so_data then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_secure_SO_completed: no so_data")
 
 		if not thief then
@@ -1131,6 +1195,17 @@ function CarryData:on_secure_SO_completed(thief)
 	end
 
 	if thief ~= so_data.thief then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_secure_SO_completed: thief who completed the objective and assigned thief don't match")
 
 		if not thief then
@@ -1237,6 +1312,17 @@ function CarryData:on_secure_SO_failed(thief)
 	local so_data = self._steal_SO_data
 
 	if not so_data then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_secure_SO_failed: no so_data")
 
 		if not thief then
@@ -1283,6 +1369,17 @@ function CarryData:on_secure_SO_failed(thief)
 	end
 
 	if not so_data.thief or thief ~= so_data.thief then
+		local bag_unit = self._unit
+		local cam_pos = alive_g(bag_unit) and managers.viewport:get_current_camera_position()
+
+		if cam_pos then
+			local from_pos = cam_pos + math.DOWN * 50
+			local color = nil
+
+			local brush = Draw:brush(Color.red:with_alpha(0.5), 5)
+			brush:cylinder(from_pos, bag_unit:position(), 10)
+		end
+
 		log("CarryData:on_secure_SO_failed: no assigned thief, or thief who failed the objective and assigned thief don't match")
 
 		if not thief then
