@@ -92,7 +92,7 @@
 			muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 			fire_dot_data = {
 				dot_damage = 1.6,
-				dot_trigger_chance = 60,
+				dot_trigger_chance = 50,
 				dot_length = 3.1,
 				dot_tick_period = 0.5
 			}
@@ -115,7 +115,7 @@
 			muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 			fire_dot_data = {
 				dot_damage = 3,
-				dot_trigger_chance = 60,
+				dot_trigger_chance = 50,
 				dot_length = 3.1,
 				dot_tick_period = 0.5
 			}
@@ -139,7 +139,7 @@
 			muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 			fire_dot_data = {
 				dot_damage = 3,
-				dot_trigger_chance = 60,
+				dot_trigger_chance = 50,
 				dot_length = 3.1,
 				dot_tick_period = 0.5
 			}
@@ -6621,9 +6621,9 @@ Hooks:PostHook(WeaponFactoryTweakData, "create_ammunition", "resmod_create_ammun
 		dot_data = { 
 			type = "bleed",
 			custom_data = {
-				dot_damage = "4",
-				dot_length = "3.1",
-				dot_tick_period = "0.5"
+				dot_damage = 4,
+				dot_length = 3.1,
+				dot_tick_period = 0.5
 			}
 		}
 	}
@@ -6647,10 +6647,10 @@ Hooks:PostHook(WeaponFactoryTweakData, "create_ammunition", "resmod_create_ammun
 		can_shoot_through_shield = false,
 		muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 		fire_dot_data = {
-			dot_damage = "4",
-			dot_trigger_chance = "60",
-			dot_length = "3.1",
-			dot_tick_period = "0.5"
+			dot_damage = 4,
+			dot_trigger_chance = 50,
+			dot_length = 3.1,
+			dot_tick_period = 0.5
 		}
 	}
 	self.parts.wpn_fps_upg_a_dragons_breath.forbids = {
@@ -25893,49 +25893,6 @@ for _, part in pairs(self.parts) do
 end
 	
 --SC mod shit below--
-
-	self.parts.wpn_fps_upg_a_slug_fire = {
-		type = "ammo",
-		name_id = "bm_wp_upg_a_slug_sc_fire",
-		desc_id = "bm_wp_upg_a_slug_fire_desc",
-		a_obj = "a_body",
-		alt_icon = "guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_a_slug_fire",
-		unit = "units/payday2/weapons/wpn_upg_dummy/wpn_upg_dummy",
-		third_unit = "units/payday2/weapons/wpn_upg_dummy/wpn_upg_dummy",
-		dlc = "sc",
-		supported = true,
-		stats = {
-			value = 10,
-			concealment = -5,
-			total_ammo_mod = -5,
-			damage = 74,	
-			recoil = -2,
-			spread = 12,
-			suppression = -1,
-			moving_spread = 0
-		},
-		custom_stats = {
-			damage_near_mul = 1,
-			damage_far_mul = 1,
-			rays = 1,
-			armor_piercing_add = 1,
-			can_shoot_through_enemy = true,
-			can_shoot_through_shield = true,
-			can_shoot_through_wall = true,
-			bullet_class = "FlameBulletBase",
-			muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
-			fire_dot_data = {
-				dot_damage = "0",
-				dot_trigger_chance = "100",
-				dot_length = "3",
-				dot_tick_period = "0.5"
-			}
-		},
-		muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
-		hit_effect = "dragonsbreath",
-		internal_part = true,
-		sub_type = "ammo_dragons_breath"
-	}
 	self.parts.wpn_fps_upg_ammo_half_that = {
 		pcs = {},
 		type = "ammo",
@@ -26199,11 +26156,4 @@ end
 		"wpn_fps_shot_m37",
 		"wpn_fps_sho_boot"
 	}
-	--for _, factory_id in ipairs(weapons) do
-		--if self[factory_id] and self[factory_id].uses_parts then
-		--	table.insert(self[factory_id].uses_parts, "wpn_fps_upg_a_slug_fire")
-		--	table.insert(self[factory_id .. "_npc"].uses_parts, "wpn_fps_upg_a_slug_fire")
-		--end
-	--end
-
 end)

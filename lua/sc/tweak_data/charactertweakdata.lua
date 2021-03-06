@@ -15094,8 +15094,11 @@ function CharacterTweakData:_multiply_all_hp(health_mul, headshot_index)
 			if enemy.DAMAGE_CLAMP_BULLET then
 				enemy.DAMAGE_CLAMP_BULLET = enemy.DAMAGE_CLAMP_BULLET * hp_mul
 			end
+			
+			--REMOVE THESE EXTRA MULS ONCE PERK DECKS ALLOW FOR THESE TYPES OF DAMAGE TO SCALE!
 			enemy.damage.explosion_damage_mul = (enemy.damage.explosion_damage_mul or 1) * hp_mul --Explosives deal same relative damage on all difficulties until perk deck damage boost works on them.
 			enemy.damage.fire_pool_damage_mul = (enemy.damage.fire_pool_damage_mul or 1) * hp_mul --Ditto for fire pools.
+			enemy.damage.dot_damage_mul = (enemy.damage.dot_damage_mul or 1) * hp_mul --Ditto for DOT
 		end
 	end
 end

@@ -202,19 +202,19 @@ function CopDamage:damage_fire(attack_data)
 		end
 	end
 
-	--Allows seperate damage mults for fire pools and fire damage.
+	local weap_base = nil
 	if alive(weap_unit) then
-		local weap_base = weap_unit:base()
-		if weap_base.thrower_unit or weap_base.get_name_id and weap_base:get_name_id() == "environment_fire" then
-			if self._char_tweak.damage.fire_pool_damage_mul then
-				damage = damage * self._char_tweak.damage.fire_pool_damage_mul
-			end	
-		else
-			if self._char_tweak.damage.fire_damage_mul then
-				damage = damage * self._char_tweak.damage.fire_damage_mul
-			end	
-		end	
+		weap_base = weap_unit:base()
 	end
+
+	--Allows seperate damage mults for fire pools, dot, and fire damage.
+	if weap_base and self._char_tweak.damage.fire_pool_damage_mul and (weap_base.thrower_unit or weap_base.get_name_id and weap_base:get_name_id() == "environment_fire") then
+		damage = damage * self._char_tweak.damage.fire_pool_damage_mul
+	elseif attack_data.is_fire_dot_damage and self._char_tweak.damage.dot_damage_mul then --Is Fire DOT
+		damage = damage * self._char_tweak.damage.dot_damage_mul
+	elseif self._char_tweak.damage.fire_damage_mul then --Is direct fire damage.
+		damage = damage * self._char_tweak.damage.fire_damage_mul
+	end	
 		
 	if self._marked_dmg_mul then
 		damage = damage * self._marked_dmg_mul
@@ -338,15 +338,9 @@ function CopDamage:damage_fire(attack_data)
 			end
 		end
 	end
-
-	local weapon_unit = weap_unit
-	local weap_base = nil
 	
-	if alive(weapon_unit) and weapon_unit.base then
-		weap_base = weapon_unit:base() 
-		if weap_base and weap_base.add_damage_result then
-			weapon_unit:base():add_damage_result(self._unit, result.type == "death", damage_percent)
-		end
+	if weap_base and weap_base.add_damage_result then
+		weapon_unit:base():add_damage_result(self._unit, result.type == "death", damage_percent)
 	end
 
 	if not attack_data.is_fire_dot_damage and attack_data.fire_dot_data and result.type ~= "death" then --DoT never triggers an animation so it shouldn't constantly micro-stun enemies that are vulnerable to fire
@@ -382,7 +376,7 @@ function CopDamage:damage_fire(attack_data)
 					local dot_damage = fire_dot_data.dot_damage or 25
 					local t = TimerManager:game():time()
 
-					managers.fire:add_doted_enemy(self._unit, t, weap_unit, fire_dot_data.dot_length, dot_damage, attacker_unit, attack_data.is_molotov)
+					managers.fire:add_doted_enemy(self._unit, t, weapon_unit, fire_dot_data.dot_length, dot_damage, attacker_unit, attack_data.is_molotov)
 
 					local use_animation_on_fire_damage = nil
 
