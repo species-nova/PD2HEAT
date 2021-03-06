@@ -1067,7 +1067,7 @@ function CarryData:on_pickup_SO_failed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_failed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_failed: thief unit is dead")
 			end
 
