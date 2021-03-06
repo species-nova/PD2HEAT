@@ -2939,7 +2939,7 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom.melee_weapon_dmg_multiplier = 1
 	self.boom.weapon_safety_range = 1000
 	self.boom.detection = presets.detection.normal
-	self.boom.HEALTH_INIT = 55
+	self.boom.HEALTH_INIT = 60
 	self.boom.headshot_dmg_mul = normal_headshot
 	self.boom.HEALTH_SUICIDE_LIMIT = 0.25
 	self.boom.flammable = true
