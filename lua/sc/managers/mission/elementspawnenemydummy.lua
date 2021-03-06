@@ -34,11 +34,11 @@ local america_dw = {
 		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
 		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
 		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",		
-		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",
-		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2"
+		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
+		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
+		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_security_kh_2/ene_security_kh_2",
+		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_security_kh_3/ene_security_kh_3",
+		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1"
 
 	}		
 local america_zeal = {
@@ -576,13 +576,13 @@ local nypd_dw = {
 		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3",
 		--Security tier upgrade
 		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-        ["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-        ["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",
-        ["units/payday2/characters/ene_security_4/ene_security_4"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-        ["units/payday2/characters/ene_security_5/ene_security_5"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-        ["units/payday2/characters/ene_security_6/ene_security_6"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-        ["units/payday2/characters/ene_security_7/ene_security_7"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",
-        ["units/payday2/characters/ene_security_8/ene_security_8"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2"	
+		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
+		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",		
+		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
+		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
+		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_security_kh_2/ene_security_kh_2",
+		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_security_kh_3/ene_security_kh_3",
+		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1"
 	}	
 local nypd_ds = {
 		["units/payday2/characters/ene_spook_1/ene_spook_1"] = "units/pd2_mod_nypd/characters/ene_spook_1/ene_spook_1",
@@ -720,13 +720,13 @@ local lapd_dw = {
 		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_2/ene_nypd_murky_2",
 		--Security tier upgrade
 		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-        ["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-        ["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",
-        ["units/payday2/characters/ene_security_4/ene_security_4"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-        ["units/payday2/characters/ene_security_5/ene_security_5"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-        ["units/payday2/characters/ene_security_6/ene_security_6"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-        ["units/payday2/characters/ene_security_7/ene_security_7"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",
-        ["units/payday2/characters/ene_security_8/ene_security_8"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2"
+		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
+		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",		
+		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
+		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
+		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_security_kh_2/ene_security_kh_2",
+		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_security_kh_3/ene_security_kh_3",
+		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1"
 	}		
 local lapd_ds = {
 		["units/payday2/characters/ene_cop_1/ene_cop_1"] = "units/pd2_mod_lapd/characters/ene_cop_1/ene_cop_1",

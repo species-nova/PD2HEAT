@@ -571,7 +571,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.meme_man_shield.unintimidateable = true
 	self.meme_man_shield.allowed_poses = {crouch = true}
 	self.meme_man_shield.always_face_enemy = true
-	self.meme_man_shield.move_speed = presets.move_speed.fast
+	self.meme_man_shield.move_speed = presets.move_speed.lightning
 	self.meme_man_shield.no_run_start = true
 	self.meme_man_shield.no_run_stop = true
 	self.meme_man_shield.no_retreat = true
@@ -1810,6 +1810,7 @@ function CharacterTweakData:_init_drug_lord_boss(presets)
 	self.drug_lord_boss = deep_clone(presets.base)
 	self.drug_lord_boss.experience = {}
 	self.drug_lord_boss.tags = {"custom", "special"}
+	self.drug_lord_boss.can_throw_frag = true	
 	self.drug_lord_boss.weapon = deep_clone(presets.weapon.normal)
 	self.drug_lord_boss.detection = presets.detection.normal
 	self.drug_lord_boss.HEALTH_INIT = 720
@@ -15331,6 +15332,9 @@ function CharacterTweakData:character_map()
 				"ene_security_6",
 				"ene_security_7",
 				"ene_security_8",
+				"ene_security_kh_1",
+				"ene_security_kh_2",
+				"ene_security_kh_3",
 				"ene_shield_1",
 				"ene_shield_2",
 				"ene_city_shield",
