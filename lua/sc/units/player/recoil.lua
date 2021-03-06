@@ -170,3 +170,56 @@ function FPCameraPlayerBase:_horizonatal_recoil_kick(t, dt)
 
 	return r_value
 end
+
+function FPCameraPlayerBase:update(unit, t, dt)
+	if self._tweak_data.aim_assist_use_sticky_aim then
+		self:_update_aim_assist_sticky(t, dt)
+	end
+
+	if _G.IS_VR and self._hmd_tracking and not self._block_input then
+		self._output_data.rotation = self._base_rotation * VRManager:hmd_rotation()
+	end
+
+	if not _G.IS_VR then
+		self._parent_unit:base():controller():get_input_axis_clbk("look", callback(self, self, "_update_rot"))
+	end
+	
+	if not self._has_set_far_range then
+		self._has_set_far_range = true
+		self._parent_unit:camera()._camera_object:set_far_range(500000)
+	end
+
+	self:_update_stance(t, dt)
+	self:_update_movement(t, dt)
+
+	if managers.player:current_state() ~= "driving" then
+		self._parent_unit:camera():set_position(self._output_data.position)
+		self._parent_unit:camera():set_rotation(self._output_data.rotation)
+	else
+		self:_set_camera_position_in_vehicle()
+	end
+
+	if _G.IS_VR then
+		self:_update_fadeout(self._output_data.mover_position, self._output_data.position, self._output_data.rotation, t, dt)
+		self._parent_unit:camera():update_transform()
+	end
+
+	if self._fov.dirty then
+		self._parent_unit:camera():set_FOV(self._fov.fov)
+
+		self._fov.dirty = nil
+	end
+
+	if alive(self._light) then
+		local weapon = self._parent_unit:inventory():equipped_unit()
+
+		if weapon then
+			local object = weapon:get_object(Idstring("fire"))
+			local pos = object:position() + object:rotation():y() * 10 + object:rotation():x() * 0 + object:rotation():z() * -2
+
+			self._light:set_position(pos)
+			self._light:set_rotation(Rotation(object:rotation():z(), object:rotation():x(), object:rotation():y()))
+			World:effect_manager():move_rotate(self._light_effect, pos, Rotation(object:rotation():x(), -object:rotation():y(), -object:rotation():z()))
+		end
+	end
+end
