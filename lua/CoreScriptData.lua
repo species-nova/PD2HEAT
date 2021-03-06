@@ -304,7 +304,7 @@ Hooks:Add("BeardLibCreateScriptDataMods", "SCLECallBeardLibSequenceFuncs", funct
 		elseif level_id == "firestarter_2_res" then --Firestarter Day 2
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter2.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
 		elseif level_id == "firestarter_1_res" then --Firestarter Day 1
-			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter1_day.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
+			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter1_sunset.custom_xml", "custom_xml", "environments/pd2_env_night/pd2_env_night", "environment")
 		elseif level_id == "alex_1_res" then --Rats Day 1 (Unused currently)
 			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/rat1.custom_xml", "custom_xml", "environments/pd2_env_rat_night/pd2_env_rat_night", "environment")
 		elseif level_id == "alex_3_res" then --Rats Day 3 (unused currently)
@@ -343,7 +343,7 @@ Hooks:Add("BeardLibCreateScriptDataMods", "RESMapsCallBeardLibSequenceFuncs", fu
 		end
 		
 		if Global.game_settings.level_id == "firestarter_3_res" then --Firestarter Day 3
-			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/dawnorange_grnhrv.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
+			BeardLib:ReplaceScriptData(mod_path .. "scriptdata/firestarter3_v2.custom_xml", "custom_xml", "environments/pd2_env_mid_day/pd2_env_mid_day", "environment")
 		end
 
 		if Global.game_settings.level_id == "jolly" then --Aftershock
