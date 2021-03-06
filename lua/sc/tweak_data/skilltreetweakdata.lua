@@ -39,6 +39,7 @@ function SkillTreeTweakData:init(tweak_data)
 	
 
    	self.default_upgrades = {
+		"armor_kit",
    		"player_doctor_bag_health_regen",
 		"trip_mine_sensor_toggle",
 		"trip_mine_sensor_highlight",
@@ -2550,53 +2551,46 @@ function SkillTreeTweakData:init(tweak_data)
 
 	local deck2 = {
 		upgrades = {
-			"weapon_passive_headshot_damage_multiplier",
 			"weapon_passive_damage_multiplier_1",
 			"player_non_special_melee_multiplier_1", --This bonus doesn't actually do anything, but it is what's displayed in menus.
 			"player_melee_damage_multiplier_1"
 		},
 		cost = 300,
-		icon_xy = {1, 0},
-		name_id = "menu_deckall_2",
+		icon_xy = {7, 0},
+		name_id = "menu_deckall_name_sc",
 		desc_id = "menu_deckall_2_desc_sc"
 	}
 	local deck4 = {
 		upgrades = {
-			"passive_player_xp_multiplier",
-			"player_passive_suspicion_bonus",
-			"player_passive_armor_movement_penalty_multiplier",
 			"weapon_passive_damage_multiplier_2",
 			"player_non_special_melee_multiplier_2",
 			"player_melee_damage_multiplier_2"			
 		},
 		cost = 600,
-		icon_xy = {3, 0},
-		name_id = "menu_deckall_4",
+		icon_xy = {7, 0},
+		name_id = "menu_deckall_name_sc",
 		desc_id = "menu_deckall_4_desc_sc"
 	}
 	local deck6 = {
 		upgrades = {
-			"armor_kit",
-			"player_pick_up_ammo_multiplier",
 			"weapon_passive_damage_multiplier_3",
 			"player_non_special_melee_multiplier_3",
 			"player_melee_damage_multiplier_3"			
 		},
 		cost = 1600,
-		icon_xy = {5, 0},
-		name_id = "menu_deckall_6",
+		icon_xy = {7, 0},
+		name_id = "menu_deckall_name_sc",
 		desc_id = "menu_deckall_6_desc_sc"
 	}
 	local deck8 = {
 		upgrades = {
 			"weapon_passive_damage_multiplier_4",
-			"passive_doctor_bag_interaction_speed_multiplier",
 			"player_non_special_melee_multiplier_4",
 			"player_melee_damage_multiplier_4"
 		},
 		cost = 3200,
 		icon_xy = {7, 0},
-		name_id = "menu_deckall_8",
+		name_id = "menu_deckall_name_sc",
 		desc_id = "menu_deckall_8_desc_sc"
 	}
 	

@@ -681,9 +681,10 @@ function CopActionShoot:update(t)
 			end
 
 			if proceed_as_usual and self._throw_molotov and self._ext_brain._throw_molotov_t < t then
-				self._ext_brain._throw_molotov_t = t + 10
 				local is_hatman = self._ext_base._tweak_table == "headless_hatman"
 				local grenade_type = is_hatman and "hatman_molotov" or "molotov"	--Really should be handled by tweakdata.
+				local molotov_cooldown = is_hatman and 10 or 4
+				self._ext_brain._throw_molotov_t = t + molotov_cooldown
 
 				if self:throw_grenade(mvec3_copy(shoot_from_pos) + projectile_throw_pos_offset, mvec3_copy(target_vec), mvec3_copy(target_pos), grenade_type) then
 					self._ext_movement:play_redirect("throw_grenade")

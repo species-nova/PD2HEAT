@@ -355,14 +355,6 @@ function CopMovement:_upd_actions(t)
 	end
 end
 
-local omnia_cops_to_heal = {
-	cop = true,
-	cop_scared = true,
-	cop_female = true,
-	fbi = true,
-	swat = true
-}
-
 function CopMovement:do_omnia(t)
 	if self._omnia_cooldown > t then
 		return
@@ -376,7 +368,7 @@ function CopMovement:do_omnia(t)
 	for i = 1, #enemies do
 		local enemy = enemies[i]
 
-		if omnia_cops_to_heal[enemy:base()._tweak_table] then
+		if not enemy:base():char_tweak().is_special then
 			local dmg_ext = enemy:character_damage()
 			local health_left = dmg_ext._health
 			local max_health = dmg_ext._HEALTH_INIT * 2

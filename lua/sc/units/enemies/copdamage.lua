@@ -1200,6 +1200,11 @@ function CopDamage:damage_melee(attack_data)
 		damage_effect = damage_effect * self._marked_dmg_mul
 	end
 
+	if self._char_tweak.damage.melee_damage_mul then
+		damage = damage * self._char_tweak.damage.melee_damage_mul
+		damage_effect = damage_effect * self._char_tweak.damage.melee_damage_mul
+	end
+
 	damage = self:_apply_damage_reduction(damage)
 	damage_effect = self:_apply_damage_reduction(damage_effect)
 
