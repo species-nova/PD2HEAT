@@ -196,7 +196,7 @@ function CharacterTweakData:_init_security(presets)
 	self.security.surrender = presets.surrender.easy
 	self.security.ecm_vulnerability = 1
 	self.security.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.security.weapon_voice = "3"
 	self.security.melee_weapon = "baton"
@@ -296,7 +296,7 @@ function CharacterTweakData:_init_gensec(presets)
 	self.gensec.surrender = presets.surrender.easy
 	self.gensec.ecm_vulnerability = 1
 	self.gensec.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.gensec.weapon_voice = "3"
 	self.gensec.experience.cable_tie = "tie_swat"
@@ -352,7 +352,7 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop.surrender = presets.surrender.easy
 	self.cop.ecm_vulnerability = 1
 	self.cop.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.cop.weapon_voice = "1"
 	self.cop.experience.cable_tie = "tie_swat"
@@ -620,7 +620,7 @@ function CharacterTweakData:_init_medic(presets)
 	self.medic.surrender_break_time = {7, 12}
 	self.medic.ecm_vulnerability = 1
 	self.medic.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.medic.weapon_voice = "2"
 	self.medic.experience.cable_tie = "tie_swat"
@@ -714,7 +714,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	self.omnia_lpf.surrender = nil
 	self.omnia_lpf.ecm_vulnerability = 1
 	self.omnia_lpf.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.omnia_lpf.weapon_voice = "2"
 	self.omnia_lpf.experience.cable_tie = "tie_swat"	
@@ -784,7 +784,7 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat.surrender = presets.surrender.hard
 	self.swat.ecm_vulnerability = 1
 	self.swat.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.swat.weapon_voice = "2"
 	self.swat.experience.cable_tie = "tie_swat"
@@ -872,7 +872,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat.damage.hurt_severity = presets.hurt_severities.heavy
 	self.heavy_swat.ecm_vulnerability = 1
 	self.heavy_swat.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.heavy_swat.weapon_voice = "2"
 	self.heavy_swat.experience.cable_tie = "tie_swat"
@@ -996,7 +996,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat_sniper.no_arrest = true
 	self.heavy_swat_sniper.ecm_vulnerability = 1
 	self.heavy_swat_sniper.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.heavy_swat_sniper.experience.cable_tie = "tie_swat"
 	self.heavy_swat_sniper.speech_prefix_p1 = "fug"
@@ -1081,7 +1081,7 @@ function CharacterTweakData:_init_fbi_swat(presets)
 	self.fbi_swat.surrender = presets.surrender.hard
 	self.fbi_swat.ecm_vulnerability = 1
 	self.fbi_swat.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.fbi_swat.weapon_voice = "2"
 	self.fbi_swat.experience.cable_tie = "tie_swat"
@@ -1141,7 +1141,7 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets)
 	self.fbi_heavy_swat.damage.hurt_severity = presets.hurt_severities.heavy
 	self.fbi_heavy_swat.ecm_vulnerability = 1
 	self.fbi_heavy_swat.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.fbi_heavy_swat.weapon_voice = "2"
 	self.fbi_heavy_swat.experience.cable_tie = "tie_swat"
@@ -1199,7 +1199,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat.no_arrest = false
 	self.city_swat.ecm_vulnerability = 1
 	self.city_swat.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.city_swat.weapon_voice = "2"
 	self.city_swat.experience.cable_tie = "tie_swat"
@@ -1360,7 +1360,7 @@ function CharacterTweakData:_init_sniper(presets)
 	self.sniper.melee_weapon = nil
 	self.sniper.ecm_vulnerability = 1
 	self.sniper.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.sniper.weapon_voice = "1"
 	self.sniper.experience.cable_tie = "tie_swat"
@@ -1401,7 +1401,7 @@ function CharacterTweakData:_init_gangster(presets)
 	self.gangster.surrender = nil
 	self.gangster.ecm_vulnerability = 1
 	self.gangster.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.gangster.no_arrest = true
 	self.gangster.no_retreat = true
@@ -1489,7 +1489,7 @@ function CharacterTweakData:_init_biker(presets)
 	self.biker_guard.ecm_vulnerability = 1
 	self.biker_guard.no_arrest = false
 	self.biker_guard.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.biker_guard.speech_prefix_p1 = "bik"
 	self.biker_guard.speech_prefix_p2 = nil
@@ -1779,7 +1779,7 @@ function CharacterTweakData:_init_bolivians(presets)
 	self.bolivian_indoors.ecm_vulnerability = 1
 	self.bolivian_indoors.no_arrest = false
 	self.bolivian_indoors.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.bolivian_indoors.speech_prefix_p1 = "lt"
 	self.bolivian_indoors.speech_prefix_p2 = nil
@@ -2399,7 +2399,7 @@ function CharacterTweakData:_init_shield(presets)
 	self.shield.ecm_vulnerability = 1
 	self.shield.suppression = nil
 	self.shield.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.shield.priority_shout = "f31"
 	self.shield.bot_priority_shout = "f31x_any"
@@ -2477,7 +2477,7 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	self.phalanx_minion.ignore_medic_revive_animation = true
 	self.phalanx_minion.ecm_vulnerability = 1
 	self.phalanx_minion.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.phalanx_minion.use_animation_on_fire_damage = false
 	self.phalanx_minion.can_be_tased = false
@@ -2803,7 +2803,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser.surrender = presets.surrender.special
 	self.taser.ecm_vulnerability = 1
 	self.taser.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.taser.surrender_break_time = {4, 6}
 	self.taser.suppression = nil
@@ -2953,7 +2953,7 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom.surrender = nil
 	self.boom.ecm_vulnerability = 1
 	self.boom.ecm_hurts = {
-		ears = {min_duration = 10, max_duration = 10}
+		ears = {min_duration = 3, max_duration = 3}
 	}
 	self.boom.surrender_break_time = {4, 6}
 	self.boom.suppression = nil
@@ -14225,7 +14225,7 @@ function CharacterTweakData:_set_easy_wish()
 	self.fbi.can_slide_on_suppress = true		
 	self.swat.can_slide_on_suppress = true		
 	self.hrt.can_slide_on_suppress = true	
-	self.fbi_swat.can_slide_on_suppress = true		
+	self.fbi_swat.can_slide_on_suppress = true		 
 	self.city_swat.can_slide_on_suppress = true		
 	self.city_swat_guard.can_slide_on_suppress = true	
 	self:_set_characters_melee_preset("2.8", "2")
@@ -15094,7 +15094,7 @@ function CharacterTweakData:_multiply_all_hp(health_mul, headshot_index)
 			if enemy.DAMAGE_CLAMP_BULLET then
 				enemy.DAMAGE_CLAMP_BULLET = enemy.DAMAGE_CLAMP_BULLET * hp_mul
 			end
-			
+
 			--REMOVE THESE EXTRA MULS ONCE PERK DECKS ALLOW FOR THESE TYPES OF DAMAGE TO SCALE!
 			enemy.damage.explosion_damage_mul = (enemy.damage.explosion_damage_mul or 1) * hp_mul --Explosives deal same relative damage on all difficulties until perk deck damage boost works on them.
 			enemy.damage.fire_pool_damage_mul = (enemy.damage.fire_pool_damage_mul or 1) * hp_mul --Ditto for fire pools.
