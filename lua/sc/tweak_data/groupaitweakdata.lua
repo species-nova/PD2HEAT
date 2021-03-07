@@ -12607,14 +12607,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		--death sentence assaults below, intentionally very mean
 		self.besiege.assault.groups = {
 			GS_swats = {
-				0.4,
-				0.36,
-				0.35
+				0.35,
+				0.26,
+				0.2
+			},
+			Titan_HRT = {
+				0.05,
+				0.10,
+				0.15
 			},
 			GS_Heavys = {
-				0.20,
-				0.14,
-				0.11
+				0.16,
+				0.1,
+				0.07
 			},			
 			Titan_sniper = {
 				0.05,
@@ -12670,9 +12675,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.085
 			},		
 			Titan_taser_shotguns = {
-				0.005,
-				0.01,
-				0.015
+				0.045,
+				0.041,
+				0.055
 			},
 			GS_Booms = {
 				0.06,
@@ -12681,13 +12686,13 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			},			
 			FBI_spoocs = {
 				0,
-				0.075,
-				0.09
+				0.065,
+				0.07
 			},		
 			Titan_spooc = {
 				0,
-				0.005,
-				0.01
+				0.015,
+				0.03
 			}
 		}
 	end
