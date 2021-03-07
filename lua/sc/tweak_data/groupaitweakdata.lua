@@ -6738,17 +6738,45 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield"
 		},
 		--set up to use passive suppressive fire against players :)
+		--harass removed here so titandozers are more passive outside of ds
 		TIT_tank = {
 			"obstacle",
 			"hitnrun",
 			"reloadingretreat",
 			"spoocavoidance",
 			"murder",
-			"elite_ranged_fire",
-			"harass"
+			"elite_ranged_fire"
 		},
 		
 		--mean DS tactics below
+		--extremely aggressive and mean version of the titandozer that will charge the player
+		ELITE_TIT_tank = {
+			"obstacle",
+			"hitnrun",
+			"reloadingretreat",
+			"charge",
+			"murder",
+			"elite_ranged_fire",
+			"harass"
+		},
+		ELITE_spooc = {
+			"hunter",
+			"flank",
+			"elite_ranged_fire",
+			"lonewolf",
+			"spoocavoidance",
+			"smoke_grenade",
+			"flash_grenade",
+			"deathguard"
+		},	
+		ELITE_spooc_tac = {
+			"hunter",
+			"lonewolf",
+			"spoocavoidance",
+			"smoke_grenade",
+			"flash_grenade",
+			"harass"
+		},	
 		ELITE_suit_stealth = { --sneaky as fuck
 			"flank",
 			"smoke_grenade",
@@ -8333,84 +8361,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 	end
-	if difficulty_index <= 6 then
-		self.enemy_spawn_groups.TIT_tanks = {
-			amount = {2, 3},
-			spawn = {
-				{
-					unit = "TIT_tank",
-					freq = 1,
-					amount_min = 1,
-					amount_max = 1,
-					tactics = self._tactics.TIT_tank,
-					rank = 2
-				},
-				{
-					unit = "FBI_heavy_G36_w",
-					freq = 1,
-					amount_min = 1,
-					tactics = self._tactics.FBI_shield_ranged_support,
-					rank = 1
-				}
-			}
-		}
-	elseif difficulty_index == 7 then	
-		self.enemy_spawn_groups.TIT_tanks = {
-			amount = {2, 3},
-			spawn = {
-				{
-					unit = "TIT_tank",
-					freq = 1,
-					amount_min = 1,
-					amount_max = 1,
-					tactics = self._tactics.TIT_tank,
-					rank = 3
-				},
-				{
-					unit = "FBI_heavy_G36_w",
-					freq = 1,
-					amount_min = 1,
-					tactics = self._tactics.MH_shield_ranged_support,
-					rank = 1
-				},
-				{
-					unit = "medic_M4",
-					freq = 0.75,
-					amount_max = 2,
-					tactics = self._tactics.FBI_medic_flank,
-					rank = 2
-				}
-			}
-		}		
-	else
-		self.enemy_spawn_groups.TIT_tanks = {
-			amount = {3, 4},
-			spawn = {
-				{
-					unit = "TIT_tank",
-					freq = 1,
-					amount_min = 1,
-					amount_max = 1,
-					tactics = self._tactics.TIT_tank,
-					rank = 3
-				},
-				{
-					unit = "FBI_heavy_R870",
-					freq = 1,
-					amount_min = 1,
-					tactics = self._tactics.ELITE_heavy_shotgun,
-					rank = 1
-				},
-				{
-					unit = "medic_M4",
-					freq = 0.75,
-					amount_max = 2,
-					tactics = self._tactics.FBI_medic_flank,
-					rank = 2
-				}
-			}
-		}
-	end	
 	
 	--GS/Zeal Light SWATs
 	if difficulty_index <= 6 then	
@@ -9161,7 +9111,436 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 	}
+
 	self.enemy_spawn_groups.FBI_spoocs = self.enemy_spawn_groups.single_spooc
+
+	---------------------------
+	--TITAN SPAWNGROUPS BELOW--
+	---------------------------
+	
+	--Titan Cloaker
+	--Greater variety in AI behavior here including some meaner tactics
+	self.enemy_spawn_groups.Titan_spooc = {
+		amount = {1, 2},
+		spawn = {
+			{
+				unit = "Titan_spooc",
+				freq = 0.5,
+				tactics = self._tactics.ELITE_spooc,
+				rank = 1
+			},
+			{
+				unit = "Titan_spooc",
+				freq = 0.5,
+				tactics = self._tactics.ELITE_spooc_tac,
+				rank = 1
+			}
+		}
+	}
+
+	--Titan dozer
+	if difficulty_index <= 6 then
+		self.enemy_spawn_groups.TIT_tanks = {
+			amount = {2, 3},
+			spawn = {
+				{
+					unit = "TIT_tank",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.TIT_tank,
+					rank = 2
+				},
+				{
+					unit = "FBI_heavy_G36_w",
+					freq = 1,
+					amount_min = 1,
+					tactics = self._tactics.FBI_shield_ranged_support,
+					rank = 1
+				}
+			}
+		}
+	elseif difficulty_index == 7 then	
+		self.enemy_spawn_groups.TIT_tanks = {
+			amount = {2, 3},
+			spawn = {
+				{
+					unit = "TIT_tank",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.TIT_tank,
+					rank = 3
+				},
+				{
+					unit = "FBI_heavy_G36_w",
+					freq = 1,
+					amount_min = 1,
+					tactics = self._tactics.MH_shield_ranged_support,
+					rank = 1
+				},
+				{
+					unit = "medic_M4",
+					freq = 0.75,
+					amount_max = 2,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 2
+				}
+			}
+		}		
+	else
+		--kill squad
+		self.enemy_spawn_groups.TIT_tanks = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "TIT_tank",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.ELITE_TIT_tank,
+					rank = 3
+				},
+				{
+					unit = "FBI_heavy_R870",
+					freq = 1,
+					amount_min = 1,
+					tactics = self._tactics.ELITE_heavy_shotgun,
+					rank = 1
+				},
+				{
+					unit = "medic_M4",
+					freq = 0.75,
+					amount_max = 2,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 2
+				}
+			}
+		}
+	end	
+
+	
+	--Titan DMR
+	if difficulty_index <= 7 then
+		self.enemy_spawn_groups.Titan_sniper = {
+			amount = {4, 6},
+			spawn = {
+				{
+					unit = "Titan_sniper",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.DW_swat_rifle,
+					rank = 2
+				},
+				{
+					unit = "Titan_shield",
+					freq = 1,
+					amount_min = 2,
+					amount_max = 4,
+					tactics = self._tactics.MH_shield,
+					rank = 1
+				}			
+			}
+		}
+	else
+		self.enemy_spawn_groups.Titan_sniper = {
+			amount = {5, 7},
+			spawn = {
+				{
+					unit = "Titan_sniper",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.ELITE_swat_rifle,
+					rank = 2
+				},
+				{
+					unit = "Titan_shield",
+					freq = 1,
+					amount_min = 2,
+					amount_max = 4,
+					tactics = self._tactics.MH_shield,
+					rank = 1
+				},	
+				{
+					unit = "medic_M4",
+					freq = 1,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
+				}			
+			}
+		}
+	end
+
+	--Elite Search and Rescue	
+	if difficulty_index <= 6 then
+		self.enemy_spawn_groups.Titan_HRT = {
+			amount = {2, 3},
+			spawn = {
+				{
+					unit = "FBI_suit_stealth_MP5",
+					freq = 0.8,
+					tactics = self._tactics.FBI_suit_stealth,
+					rank = 1
+				},
+				{
+					unit = "Titan_HRT",
+					freq = 0.2,
+					amount_max = 1,
+					tactics = self._tactics.FBI_suit_stealth,
+					rank = 1
+				},
+				{
+					unit = "boom_m4203",
+					freq = 1,
+					tactics = self._tactics.ELITE_boom,
+					rank = 2
+				},					
+				{
+					unit = "medic_M4",
+					freq = 0.2,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				}
+			}
+		}
+	elseif difficulty_index == 7 then
+		self.enemy_spawn_groups.Titan_HRT = {
+			amount = {2, 3},
+			spawn = {
+				{
+					unit = "FBI_suit_stealth_MP5",
+					freq = 0.8,
+					tactics = self._tactics.FBI_suit_stealth,
+					rank = 1
+				},
+				{
+					unit = "Titan_HRT",
+					freq = 0.2,
+					amount_max = 2,
+					tactics = self._tactics.FBI_suit_stealth,
+					rank = 1
+				},
+				{
+					unit = "boom_m4203",
+					freq = 1,
+					tactics = self._tactics.ELITE_boom,
+					rank = 2
+				},						
+				{
+					unit = "medic_M4",
+					freq = 0.3,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				},							
+				{
+					unit = "omnia_LPF",
+					freq = 0.1,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				}
+			}
+		}		
+	else
+		self.enemy_spawn_groups.Titan_HRT = {
+			amount = {4, 5},
+			spawn = {
+				{
+					unit = "FBI_suit_stealth_MP5",
+					freq = 0.8,
+					tactics = self._tactics.ELITE_suit_stealth,
+					rank = 1
+				},
+				{
+					unit = "Titan_HRT",
+					freq = 0.2,
+					tactics = self._tactics.ELITE_suit_stealth,
+					rank = 1
+				},
+				{
+					unit = "boom_m4203",
+					freq = 1,
+					tactics = self._tactics.ELITE_boom,
+					rank = 2
+				},	
+				{
+					unit = "fbi_vet",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.FBI_suit,
+					rank = 2
+				},							
+				{
+					unit = "medic_M4",
+					freq = 0.25,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				},							
+				{
+					unit = "omnia_LPF",
+					freq = 0.15,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				}
+			}
+		}
+	end
+	
+	--Titan SWAT + Gren
+	if difficulty_index <= 7 then	
+		self.enemy_spawn_groups.Titan_swat_boom = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "Titan_swat_rifle",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.DW_swat_rifle,
+					rank = 3
+				},
+				{
+					unit = "Titan_shield",
+					freq = 0.15,
+					amount_max = 1,
+					tactics = self._tactics.MH_shield,
+					rank = 3
+				},
+				{
+					unit = "boom_M4203",
+					freq = 0.75,
+					amount_max = 2,
+					tactics = self._tactics.ELITE_boom,
+					rank = 2
+				},				
+				{
+					unit = "medic_M4",
+					freq = 0.5,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				},				
+				{
+					unit = "omnia_lpf",
+					freq = 0.1,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				}
+			}
+		}	
+	else
+		--very mean spawn group below
+		self.enemy_spawn_groups.Titan_swat_boom = {
+			amount = {4, 5},
+			spawn = {
+				{
+					unit = "Titan_swat_rifle",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.ELITE_swat_rifle,
+					rank = 3
+				},
+				{
+					unit = "Titan_shield",
+					freq = 0.25,
+					amount_max = 2,
+					tactics = self._tactics.MH_shield,
+					rank = 3
+				},
+				{
+					unit = "boom_M4203",
+					freq = 0.75,
+					amount_max = 2,
+					tactics = self._tactics.ELITE_boom,
+					rank = 2
+				},				
+				{
+					unit = "medic_M4",
+					freq = 0.4,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				},				
+				{
+					unit = "omnia_lpf",
+					freq = 0.2,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic_flank,
+					rank = 1
+				},				
+				{
+					unit = "Titan_taser",
+					freq = 0.1,
+					amount_max = 1,
+					tactics = self._tactics.DW_tazer,
+					rank = 1
+				}
+			}
+		}
+	end
+
+	
+	--Titan Taser + Titan Shotgunners
+	if difficulty_index <= 7 then	
+		self.enemy_spawn_groups.Titan_taser_shotguns = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "Titan_swat_shotgun",
+					freq = 1,
+					amount_max = 2,
+					tactics = self._tactics.DW_swat_rifle,
+					rank = 1
+				},
+				{
+					unit = "Titan_taser",
+					freq = 0.75,
+					amount_max = 1,
+					tactics = self._tactics.DW_tazer,
+					rank = 2
+				},			
+				{
+					unit = "medic_m4",
+					freq = 0.25,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
+				}
+			}
+		}	
+	else
+		--die
+		self.enemy_spawn_groups.Titan_taser_shotguns = {
+			amount = {4, 5},
+			spawn = {
+				{
+					unit = "Titan_swat_shotgun",
+					freq = 1,
+					amount_max = 3,
+					tactics = self._tactics.ELITE_swat_shotgun,
+					rank = 3
+				},			
+				{
+					unit = "Titan_taser",
+					freq = 1,
+					amount_max = 1,
+					tactics = self._tactics.DW_tazer,
+					rank = 1
+				},			
+				{
+					unit = "omnia_LPF",
+					freq = 0.3,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
+				}
+			}
+		}
+	end
 	
 	--Skirmish Spawngroups Below
 	
@@ -12225,6 +12604,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			}
 		}
 	else
+		--death sentence assaults below, intentionally very mean
 		self.besiege.assault.groups = {
 			GS_swats = {
 				0.4,
@@ -12232,19 +12612,29 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.35
 			},
 			GS_Heavys = {
-				0.25,
-				0.2,
-				0.18
+				0.20,
+				0.14,
+				0.11
 			},			
+			Titan_sniper = {
+				0.05,
+				0.06,
+				0.07
+			},		
 			GS_shields = {
 				0.14,
 				0.14,
 				0.14
 			},
 			GS_shields_boom = {
+				0.01,
 				0.02,
-				0.04,
-				0.06
+				0.03
+			},	
+			Titan_swat_boom = {
+				0.01,
+				0.02,
+				0.03
 			},	
 			--[[
 			--Baseline numbers to think about, work from this as an array for determining dozer types
@@ -12275,9 +12665,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.005
 			},					
 			CS_tazers = {
-				0.1,
-				0.1,
-				0.1
+				0.095,
+				0.09,
+				0.085
+			},		
+			Titan_taser_shotguns = {
+				0.005,
+				0.01,
+				0.015
 			},
 			GS_Booms = {
 				0.06,
@@ -12286,8 +12681,13 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			},			
 			FBI_spoocs = {
 				0,
-				0.08,
-				0.1
+				0.075,
+				0.09
+			},		
+			Titan_spooc = {
+				0,
+				0.005,
+				0.01
 			}
 		}
 	end
@@ -12708,9 +13108,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	else
 		self.besiege.recon.groups = {
 			FBI_stealth_a = {
-				0.4,
-				0.4,
-				0.3
+				0.375,
+				0.35,
+				0.2
+			},
+			Titan_HRT = {
+				0.025,
+				0.05,
+				0.1
 			},
 			FBI_stealth_a_boom = {
 				0.267,
