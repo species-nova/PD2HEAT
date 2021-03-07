@@ -25,6 +25,7 @@ local bag_moving_idstr = Idstring("bag_moving")
 local bag_still_idstr = Idstring("bag_still")
 local dye_pack_idstr = Idstring("effects/payday2/particles/dye_pack/dye_pack_smoke")
 
+local next_g = next
 local pairs_g = pairs
 local tostring_g = tostring
 
@@ -75,7 +76,7 @@ function CarryData:init(unit)
 		return
 	end
 
-	self._linked_ai = {}
+	--self._linked_ai = {}
 
 	if unit:interaction() then
 		local has_no_dynamic_body = true
@@ -168,7 +169,7 @@ function CarryData:_update_throw_link(unit, t, dt)
 	end
 
 	local bag_center = link_object:oobb():center()
-	local linked_ai = self._linked_ai
+	--local linked_ai = self._linked_ai
 	local get_carry_body_f = self._get_carry_body
 	local carrying_units = CarryData._carrying_units --bots carrying bags, stored globally
 	local last_peer_id = self:latest_peer_id()
@@ -178,7 +179,7 @@ function CarryData:_update_throw_link(unit, t, dt)
 
 	for key, ai in pairs_g(managers.groupai:state():all_AI_criminals()) do
 		if not carrying_units[key] then --infinitely faster than checking each linked unit of the bot and if one of them has a carry_data extension
-			if not linked_ai[key] or t > linked_ai[key] + 1 then --ignore this bot if the bag was recently thrown by them
+			--if not linked_ai[key] or t > linked_ai[key] + 1 then --ignore this bot if the bag was recently thrown by them
 				local ai_unit = ai.unit
 				local mov_ext = ai_unit:movement()
 
@@ -202,7 +203,7 @@ function CarryData:_update_throw_link(unit, t, dt)
 						body_oobb:shrink(oobb_mod)
 					end
 				end
-			end
+			--end
 		end
 	end
 end
@@ -1502,11 +1503,16 @@ function CarryData:link_to(parent_unit, keep_collisions)
 
 			CarryData._carrying_units[link_key] = nil
 
-			self._linked_ai[link_key] = TimerManager:game():time()
+			--reset the table to reduce its size due to empty elements
+			if not next_g(CarryData._carrying_units) then
+				CarryData._carrying_units = {}
+			end
+
+			--self._linked_ai[link_key] = TimerManager:game():time()
 		end
-	else
-		link_body:set_keyframed()
 	end
+
+	link_body:set_keyframed()
 
 	local int_ext = my_unit:interaction()
 	local had_modifier_timer = nil
@@ -1699,7 +1705,35 @@ function CarryData:unlink()
 		return
 	end
 
+	local linked_to = self._linked_to
+
+	if not linked_to then
+		return
+	end
+
+	self._linked_to = nil
+
 	local is_server = self._is_server
+
+	if is_server and managers.groupai:state():is_unit_team_AI(linked_to) then
+		local link_key = linked_to:key()
+
+		CarryData._carrying_units[link_key] = nil
+
+		--reset the table to reduce its size due to empty elements
+		if not next_g(CarryData._carrying_units) then
+			CarryData._carrying_units = {}
+		end
+
+		--self._linked_ai[link_key] = TimerManager:game():time()
+	end
+
+	local linked_mov_ext = linked_to:movement()
+
+	if linked_mov_ext and linked_mov_ext.set_carrying_bag then
+		linked_mov_ext:set_carrying_bag(nil)
+	end
+
 	local my_unit = self._unit
 	local int_ext = my_unit:interaction()
 
@@ -1709,26 +1743,6 @@ function CarryData:unlink()
 		int_ext._has_modified_timer = true
 		int_ext._air_start_time = Application:time()
 	end
-
-	local linked_to = self._linked_to
-
-	if linked_to then
-		if is_server and managers.groupai:state():is_unit_team_AI(linked_to) then
-			local link_key = linked_to:key()
-
-			CarryData._carrying_units[link_key] = nil
-
-			self._linked_ai[link_key] = TimerManager:game():time()
-		end
-
-		local linked_mov_ext = linked_to:movement()
-
-		if linked_mov_ext and linked_mov_ext.set_carrying_bag then
-			linked_mov_ext:set_carrying_bag(nil)
-		end
-	end
-
-	self._linked_to = nil
 
 	my_unit:unlink()
 
@@ -1929,6 +1943,11 @@ function CarryData:destroy()
 			local link_key = linked_to:key()
 
 			CarryData._carrying_units[link_key] = nil
+
+			--reset the table to reduce its size due to empty elements
+			if not next_g(CarryData._carrying_units) then
+				CarryData._carrying_units = {}
+			end
 		end
 	end
 
