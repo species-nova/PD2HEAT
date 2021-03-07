@@ -9200,16 +9200,16 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_heavy_R870",
+					unit = "Titan_swat_shotgun",
 					freq = 1,
-					amount_min = 1,
+					amount_max = 1,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 1
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.75,
-					amount_max = 2,
+					freq = 1,
+					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
 					rank = 2
 				}
