@@ -9221,7 +9221,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	--Titan DMR
 	if difficulty_index <= 7 then
 		self.enemy_spawn_groups.Titan_sniper = {
-			amount = {4, 6},
+			amount = {3, 4},
 			spawn = {
 				{
 					unit = "Titan_sniper",
@@ -9233,8 +9233,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "Titan_shield",
 					freq = 1,
-					amount_min = 2,
-					amount_max = 4,
+					amount_max = 2,
 					tactics = self._tactics.MH_shield,
 					rank = 2
 				}			
@@ -9242,7 +9241,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 	else
 		self.enemy_spawn_groups.Titan_sniper = {
-			amount = {5, 7},
+			amount = {4, 5},
 			spawn = {
 				{
 					unit = "Titan_sniper",
@@ -9254,8 +9253,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "Titan_shield",
 					freq = 1,
-					amount_min = 2,
-					amount_max = 4,
+					amount_max = 2,
 					tactics = self._tactics.MH_shield,
 					rank = 2
 				},	
