@@ -6760,7 +6760,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"harass"
 		},
 		ELITE_spooc = {
-			"hunter",
 			"flank",
 			"elite_ranged_fire",
 			"lonewolf",
