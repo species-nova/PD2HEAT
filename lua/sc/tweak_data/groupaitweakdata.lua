@@ -9119,18 +9119,18 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	
 	--Titan Cloaker
 	--Greater variety in AI behavior here including some meaner tactics
-	self.enemy_spawn_groups.Titan_spooc = {
+	self.enemy_spawn_groups.cloak_spooc = {
 		amount = {1, 2},
 		spawn = {
 			{
 				unit = "Titan_spooc",
-				freq = 0.5,
+				freq = 1,
 				tactics = self._tactics.ELITE_spooc,
 				rank = 1
 			},
 			{
 				unit = "Titan_spooc",
-				freq = 0.5,
+				freq = 1,
 				tactics = self._tactics.ELITE_spooc_tac,
 				rank = 1
 			}
@@ -9229,14 +9229,21 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_max = 2,
 					tactics = self._tactics.DW_swat_rifle,
 					rank = 1
-				},
+				}
 				{
 					unit = "Titan_shield",
-					freq = 1,
+					freq = 0.5,
 					amount_max = 2,
 					tactics = self._tactics.MH_shield,
 					rank = 2
-				}			
+				},	
+				{
+					unit = "FBI_shield",
+					freq = 0.5,
+					amount_max = 2,
+					tactics = self._tactics.MH_shield,
+					rank = 2
+				}		
 			}
 		}
 	else
@@ -9252,7 +9259,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "Titan_shield",
-					freq = 1,
+					freq = 0.5,
+					amount_max = 2,
+					tactics = self._tactics.MH_shield,
+					rank = 2
+				},	
+				{
+					unit = "FBI_shield",
+					freq = 0.5,
 					amount_max = 2,
 					tactics = self._tactics.MH_shield,
 					rank = 2
@@ -9270,28 +9284,30 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 	--Elite Search and Rescue	
 	if difficulty_index <= 6 then
-		self.enemy_spawn_groups.Titan_HRT = {
-			amount = {2, 3},
+		self.enemy_spawn_groups.Titan_search_and_rescue = {
+			amount = {3, 4},
 			spawn = {
 				{
-					unit = "FBI_suit_stealth_MP5",
-					freq = 0.8,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
-				},
-				{
 					unit = "Titan_HRT",
-					freq = 0.2,
-					amount_max = 1,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
-				},
-				{
-					unit = "boom_m4203",
 					freq = 1,
-					tactics = self._tactics.ELITE_boom,
-					rank = 1
+					amount_min = 1,
+					tactics = self._tactics.HRT_attack,
+					rank = 3
+				},				
+				{
+					unit = "fbi_vet",
+					freq = 1,
+					amount_max = 1,
+					tactics = self._tactics.HRT_attack,
+					rank = 2
 				},					
+				{
+					unit = "CS_swat_MP5",
+					freq = 1,
+					amount_max = 1,
+					tactics = self._tactics.HRT_attack,
+					rank = 2
+				},		
 				{
 					unit = "medic_M4",
 					freq = 0.2,
@@ -9302,38 +9318,33 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 	elseif difficulty_index == 7 then
-		self.enemy_spawn_groups.Titan_HRT = {
-			amount = {2, 3},
+		self.enemy_spawn_groups.Titan_search_and_rescue = {
+			amount = {3, 4},
 			spawn = {
 				{
-					unit = "FBI_suit_stealth_MP5",
-					freq = 0.75,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
-				},
-				{
 					unit = "Titan_HRT",
-					freq = 0.25,
-					amount_max = 2,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
+					freq = 1,
+					amount_min = 1,
+					tactics = self._tactics.HRT_attack,
+					rank = 3
 				},
 				{
-					unit = "boom_m4203",
+					unit = "fbi_vet",
 					freq = 1,
-					tactics = self._tactics.ELITE_boom,
-					rank = 1
-				},						
+					amount_max = 2,
+					tactics = self._tactics.HRT_attack,
+					rank = 2
+				},		
+				{
+					unit = "CS_swat_MP5",
+					freq = 1,
+					amount_min = 1,
+					tactics = self._tactics.HRT_attack,
+					rank = 2
+				},		
 				{
 					unit = "medic_M4",
-					freq = 0.3,
-					amount_max = 1,
-					tactics = self._tactics.FBI_medic_flank,
-					rank = 1
-				},							
-				{
-					unit = "omnia_LPF",
-					freq = 0.1,
+					freq = 0.35,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
 					rank = 1
@@ -9341,47 +9352,39 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}		
 	else
-		self.enemy_spawn_groups.Titan_HRT = {
+		self.enemy_spawn_groups.Titan_search_and_rescue = {
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "FBI_suit_stealth_MP5",
-					freq = 0.7,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 2
-				},
-				{
 					unit = "Titan_HRT",
-					freq = 0.3,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 2
-				},
-				{
-					unit = "boom_m4203",
 					freq = 1,
 					amount_max = 1,
-					tactics = self._tactics.ELITE_boom,
-					rank = 1
-				},	
+					tactics = self._tactics.HRT_attack,
+					rank = 3
+				},
 				{
 					unit = "fbi_vet",
 					freq = 1,
 					amount_max = 2,
-					tactics = self._tactics.FBI_suit,
-					rank = 1
-				},							
+					tactics = self._tactics.HRT_attack,
+					rank = 2
+				},		
+				{
+					unit = "CS_swat_MP5",
+					freq = 1,
+					tactics = self._tactics.HRT_attack,
+					rank = 2
+				},	
 				{
 					unit = "medic_M4",
 					freq = 0.25,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
 					rank = 1
-				},							
+				},			
 				{
-					unit = "omnia_LPF",
-					freq = 0.15,
+					unit = "omnia_lpf",
+					freq = 0.10,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
 					rank = 1
@@ -12611,7 +12614,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.26,
 				0.2
 			},
-			Titan_HRT = {
+			Titan_search_and_rescue = {
 				0.05,
 				0.10,
 				0.15
@@ -12689,7 +12692,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.065,
 				0.07
 			},		
-			Titan_spooc = {
+			cloak_spooc = {
 				0,
 				0.015,
 				0.03
@@ -13117,7 +13120,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.35,
 				0.2
 			},
-			Titan_HRT = {
+			Titan_search_and_rescue = {
 				0.025,
 				0.05,
 				0.1
