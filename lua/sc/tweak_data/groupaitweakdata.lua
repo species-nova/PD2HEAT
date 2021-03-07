@@ -6744,7 +6744,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"hitnrun",
 			"reloadingretreat",
 			"spoocavoidance",
-			"murder",
 			"elite_ranged_fire"
 		},
 		
@@ -9228,7 +9227,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_max = 2,
 					tactics = self._tactics.DW_swat_rifle,
-					rank = 2
+					rank = 1
 				},
 				{
 					unit = "Titan_shield",
@@ -9236,7 +9235,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_min = 2,
 					amount_max = 4,
 					tactics = self._tactics.MH_shield,
-					rank = 1
+					rank = 2
 				}			
 			}
 		}
@@ -9249,7 +9248,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_max = 2,
 					tactics = self._tactics.ELITE_swat_rifle,
-					rank = 2
+					rank = 1
 				},
 				{
 					unit = "Titan_shield",
@@ -9257,7 +9256,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_min = 2,
 					amount_max = 4,
 					tactics = self._tactics.MH_shield,
-					rank = 1
+					rank = 2
 				},	
 				{
 					unit = "medic_M4",
@@ -9279,20 +9278,20 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					unit = "FBI_suit_stealth_MP5",
 					freq = 0.8,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 1
+					rank = 2
 				},
 				{
 					unit = "Titan_HRT",
 					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 1
+					rank = 2
 				},
 				{
 					unit = "boom_m4203",
 					freq = 1,
 					tactics = self._tactics.ELITE_boom,
-					rank = 2
+					rank = 1
 				},					
 				{
 					unit = "medic_M4",
@@ -9309,22 +9308,22 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_suit_stealth_MP5",
-					freq = 0.8,
+					freq = 0.75,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 1
+					rank = 2
 				},
 				{
 					unit = "Titan_HRT",
-					freq = 0.2,
+					freq = 0.25,
 					amount_max = 2,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 1
+					rank = 2
 				},
 				{
 					unit = "boom_m4203",
 					freq = 1,
 					tactics = self._tactics.ELITE_boom,
-					rank = 2
+					rank = 1
 				},						
 				{
 					unit = "medic_M4",
@@ -9348,28 +9347,31 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_suit_stealth_MP5",
-					freq = 0.8,
+					freq = 0.7,
+					amount_max = 2
 					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 1
+					rank = 2
 				},
 				{
 					unit = "Titan_HRT",
-					freq = 0.2,
+					freq = 0.3,
+					amount_max = 2,
 					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 1
+					rank = 2
 				},
 				{
 					unit = "boom_m4203",
 					freq = 1,
+					amount_max = 1,
 					tactics = self._tactics.ELITE_boom,
-					rank = 2
+					rank = 1
 				},	
 				{
 					unit = "fbi_vet",
 					freq = 1,
 					amount_max = 2,
 					tactics = self._tactics.FBI_suit,
-					rank = 2
+					rank = 1
 				},							
 				{
 					unit = "medic_M4",
@@ -9399,21 +9401,21 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_max = 2,
 					tactics = self._tactics.DW_swat_rifle,
-					rank = 3
+					rank = 2
 				},
 				{
 					unit = "Titan_shield",
 					freq = 0.15,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
-					rank = 3
+					rank = 2
 				},
 				{
 					unit = "boom_M4203",
 					freq = 0.75,
 					amount_max = 2,
 					tactics = self._tactics.ELITE_boom,
-					rank = 2
+					rank = 3
 				},				
 				{
 					unit = "medic_M4",
@@ -9441,21 +9443,21 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_max = 2,
 					tactics = self._tactics.ELITE_swat_rifle,
-					rank = 3
+					rank = 2
 				},
 				{
 					unit = "Titan_shield",
 					freq = 0.25,
 					amount_max = 2,
 					tactics = self._tactics.MH_shield,
-					rank = 3
+					rank = 2
 				},
 				{
 					unit = "boom_M4203",
 					freq = 0.75,
 					amount_max = 2,
 					tactics = self._tactics.ELITE_boom,
-					rank = 2
+					rank = 3
 				},				
 				{
 					unit = "medic_M4",
@@ -9521,14 +9523,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_max = 3,
 					tactics = self._tactics.ELITE_swat_shotgun,
-					rank = 3
+					rank = 1
 				},			
 				{
 					unit = "Titan_taser",
 					freq = 1,
 					amount_max = 1,
 					tactics = self._tactics.DW_tazer,
-					rank = 1
+					rank = 2
 				},			
 				{
 					unit = "omnia_LPF",
