@@ -111,6 +111,7 @@
 			<value_node value="levels/narratives/h_firestarter/stage_3/pc_only/pc_only"/>
 			<value_node value="levels/narratives/h_firestarter/stage_3/world/world"/>
 			<value_node value="levels/narratives/h_firestarter/stage_3/editor_only/editor_only"/>
+			<value_node value="levels/narratives/short1/stage2/background/background"/>
 		</packages>
 		<script_data_mods directory="scriptdata"/>
 	</level>
