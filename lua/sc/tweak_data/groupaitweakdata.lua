@@ -9348,7 +9348,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_suit_stealth_MP5",
 					freq = 0.7,
-					amount_max = 2
+					amount_max = 2,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
