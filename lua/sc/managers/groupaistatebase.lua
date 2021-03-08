@@ -1328,6 +1328,15 @@ function GroupAIStateBase:on_enemy_unregistered(unit)
 		return
 	end
 
+	local objective = unit:brain():objective()
+
+	if objective and objective.fail_clbk then
+		local fail_clbk = objective.fail_clbk
+		objective.fail_clbk = nil
+
+		fail_clbk(unit)
+	end
+
 	local e_data = self._police[u_key]
 
 	if e_data.importance > 0 then
@@ -1423,15 +1432,6 @@ function GroupAIStateBase:on_enemy_unregistered(unit)
 				end
 			end
 		end
-	end
-
-	local objective = unit:brain():objective()
-
-	if objective and objective.fail_clbk then
-		local fail_clbk = objective.fail_clbk
-		objective.fail_clbk = nil
-
-		fail_clbk(unit)
 	end
 end
 
