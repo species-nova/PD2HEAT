@@ -1,15 +1,11 @@
 local alive_g = alive
 
 function CopInventory:drop_weapon()
-	local selection_index = self._equipped_selection
-	local selection = self._available_selections[selection_index]
+	local selection = self._available_selections[self._equipped_selection]
 	local unit = selection and selection.unit
 
 	if not alive_g(unit) then
-		if selection_index then
-			self._available_selections[selection_index] = nil
-			self._equipped_selection = nil
-		end
+		self._equipped_selection = nil
 
 		return
 	end
@@ -37,7 +33,7 @@ function CopInventory:drop_weapon()
 		end
 	end
 
-	self._available_selections[selection_index] = nil
 	self._equipped_selection = nil
+
 	self:_call_listeners("unequip")
 end
