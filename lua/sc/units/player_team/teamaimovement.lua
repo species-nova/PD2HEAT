@@ -258,7 +258,7 @@ function TeamAIMovement:add_weapons()
 					blueprint = modified_default
 				end
 
-				if cosmetics or not cosmetics.id then
+				if cosmetics and not cosmetics.id then
 					cosmetics = nil
 				end
 
@@ -349,7 +349,7 @@ function TeamAIMovement:add_weapons()
 					blueprint = modified_default
 				end
 
-				if cosmetics or not cosmetics.id then
+				if cosmetics and not cosmetics.id then
 					cosmetics = nil
 				end
 
