@@ -9229,7 +9229,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_max = 2,
 					tactics = self._tactics.DW_swat_rifle,
 					rank = 1
-				}
+				},
 				{
 					unit = "Titan_shield",
 					freq = 0.5,
