@@ -175,7 +175,7 @@ function PlayerEquipment:valid_shape_placement(equipment_id, equipment_data)
 			local find_end_pos = dummy_pos + math_up * find_params[2]
 			local find_radius = find_params[3]
 
-			local bodies = dummy_unit:find_bodies(unit, "intersect", "capsule", find_start_pos, find_end_pos, find_radius, slotmask + 14 + 25)
+			local bodies = dummy_unit:find_bodies("intersect", "capsule", find_start_pos, find_end_pos, find_radius, slotmask + 14 + 25)
 
 			for i = 1, #bodies do
 				local body = bodies[i]

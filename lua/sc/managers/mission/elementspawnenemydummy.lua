@@ -492,7 +492,7 @@ local russia_2 = {
 			["units/payday2/characters/ene_sniper_2/ene_sniper_2"] = "units/pd2_dlc_hvh/characters/ene_sniper_hvh_2/ene_sniper_hvh_2",
 			--Scripted Spawns Only
 			["units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"] = "units/pd2_mod_halloween/characters/ene_skele_swat/ene_skele_swat",
-			["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = "units/pd2_mod_halloween/characters/ene_skele_swat/ene_skele_swat",
+			["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = "units/pd2_mod_halloween/characters/ene_skele_swat/ene_skele_swat"
 		}				
 	
 --NYPD Scripted Spawn Replacements
