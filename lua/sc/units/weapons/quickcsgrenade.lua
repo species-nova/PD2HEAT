@@ -6,7 +6,7 @@ function QuickCsGrenade:_setup_from_tweak_data()
 	self._radius = self._tweak_data.radius or 300
 	self._radius_blurzone_multiplier = self._tweak_data.radius_blurzone_multiplier or 1.3
 	self._damage_per_tick = 0.6
-	self._stamina_per_tick = 0.0
+	self._stamina_per_tick = 2.5
 	if difficulty_index <= 2 then
 		self._damage_tick_period = 0.5
 	elseif difficulty_index == 3 then
@@ -21,7 +21,7 @@ function QuickCsGrenade:_setup_from_tweak_data()
 		self._damage_tick_period = 0.3	
 	else
 		self._damage_tick_period = 0.25
-		self._stamina_per_tick = 2.5
+		self._no_stamina_damage_mul = 2
 	end
 end
 
@@ -65,10 +65,13 @@ function QuickCsGrenade:_play_sound_and_effects()
 	end
 end	
 
+--Add stamina related mechanics.
 function QuickCsGrenade:_do_damage()
 	local player_unit = managers.player:player_unit()
 
 	if player_unit and mvector3.distance_sq(self._unit:position(), player_unit:position()) < self._tweak_data.radius * self._tweak_data.radius then
+		local movement_ext = player_unit:movement()
+
 		local attack_data = {
 			damage = self._damage_per_tick,
 			col_ray = {
@@ -76,12 +79,15 @@ function QuickCsGrenade:_do_damage()
 			}
 		}
 
-		player_unit:character_damage():damage_killzone(attack_data)
-
-		if self._stamina_per_tick > 0.0 then
-			player_unit:movement():subtract_stamina(self._stamina_per_tick)
-			player_unit:movement():_restart_stamina_regen_timer()
+		--Boost damage when out of stamina if nerve gast.
+		if self._no_stamina_damage_mul and movement_ext:is_stamina_drained() then
+			attack_data.damage = attack_data.damage * self._no_stamina_damage_mul
 		end
+
+		--Deal damage and stamina damage.
+		player_unit:character_damage():damage_killzone(attack_data)
+		movement_ext:subtract_stamina(self._stamina_per_tick)
+		movement_ext:_restart_stamina_regen_timer()
 
 		if not self._has_played_VO then
 			PlayerStandard.say_line(player_unit:sound(), "g42x_any")
