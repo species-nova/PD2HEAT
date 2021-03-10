@@ -1,10 +1,10 @@
 local job = Global.level_data and Global.level_data.level_id
 
 --Headshot damage tiers.
-local headshot_difficulty_array = {1.5, 2, 2.5}
-local normal_headshot = 1 --1.5 below Overkill, 2 on Mayhem-Deathwish, 2.5 on DS
-local bravo_headshot = 1.5 --2.25 below Overkill, 3 on Mayhem-Deathwish, 3.75 on DS
-local strong_headshot = 2 --3 below Overkill, 4 on Mayhem-Deathwish, 5 on DS
+local headshot_difficulty_array = {2, 2.5, 3}
+local normal_headshot = 1 --2 below Overkill, 2.5 on Mayhem-Deathwish, 3 on DS
+local bravo_headshot = 1.5 --3 below Overkill, 3.75 on Mayhem-Deathwish, 4.5 on DS
+local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 
 local old_init = CharacterTweakData.init
 function CharacterTweakData:init(tweak_data, presets)
@@ -187,7 +187,7 @@ function CharacterTweakData:_init_security(presets)
 	self.security.experience = {}
 	self.security.weapon = presets.weapon.normal
 	self.security.detection = presets.detection.guard
-	self.security.HEALTH_INIT = 10
+	self.security.HEALTH_INIT = 12
 	self.security.headshot_dmg_mul = normal_headshot
 	self.security.move_speed = presets.move_speed.normal
 	self.security.crouch_move = nil
@@ -287,7 +287,7 @@ function CharacterTweakData:_init_gensec(presets)
 	self.gensec.experience = {}
 	self.gensec.weapon = presets.weapon.normal
 	self.gensec.detection = presets.detection.guard
-	self.gensec.HEALTH_INIT = 15
+	self.gensec.HEALTH_INIT = 18
 	self.gensec.headshot_dmg_mul = bravo_headshot
 	self.gensec.move_speed = presets.move_speed.very_fast
 	self.gensec.crouch_move = nil
@@ -344,7 +344,7 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop.experience = {}
 	self.cop.weapon = presets.weapon.normal
 	self.cop.detection = presets.detection.normal
-	self.cop.HEALTH_INIT = 10
+	self.cop.HEALTH_INIT = 12
 	self.cop.headshot_dmg_mul = normal_headshot
 	self.cop.move_speed = presets.move_speed.normal
 	self.cop.surrender_break_time = {10, 15}
@@ -413,7 +413,7 @@ function CharacterTweakData:_init_cop(presets)
 	self.dave.weapon = deep_clone(presets.weapon.expert)
 	self.dave.detection = presets.detection.normal
 	self.dave.dodge = presets.dodge.elite
-	self.dave.HEALTH_INIT = 20
+	self.dave.HEALTH_INIT = 24
 	self.dave.headshot_dmg_mul = 2
 	self.dave.silent_priority_shout = nil
 	self.dave.melee_weapon = "fists_dozer"
@@ -450,7 +450,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi.experience = {}
 	self.fbi.weapon = presets.weapon.normal
 	self.fbi.detection = presets.detection.normal
-	self.fbi.HEALTH_INIT = 18
+	self.fbi.HEALTH_INIT = 21.6
 	self.fbi.headshot_dmg_mul = normal_headshot
 	self.fbi.move_speed = presets.move_speed.very_fast
 	self.fbi.surrender_break_time = {7, 12}
@@ -484,7 +484,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet = deep_clone(self.fbi)
 	self.fbi_vet.can_shoot_while_dodging = true
 	self.fbi_vet.can_slide_on_suppress = true
-	self.fbi_vet.HEALTH_INIT = 30
+	self.fbi_vet.HEALTH_INIT = 36
 	self.fbi_vet.headshot_dmg_mul = normal_headshot
 	self.fbi_vet.damage.melee_damage_mul = 2
 	self.fbi_vet.DAMAGE_CLAMP_BULLET = 6
@@ -529,7 +529,7 @@ function CharacterTweakData:_init_fbi(presets)
 	table.insert(self._enemy_list, "fbi_vet")	
 
 	self.fbi_vet_boss = deep_clone(self.fbi_vet)
-	self.fbi_vet_boss.HEALTH_INIT = 60
+	self.fbi_vet_boss.HEALTH_INIT = 72
 	self.fbi_vet_boss.headshot_dmg_mul = normal_headshot	
 	self.fbi_vet_boss.melee_weapon = "buzzer_summer"
 	self.fbi_vet_boss.tase_on_melee = true
@@ -538,7 +538,7 @@ function CharacterTweakData:_init_fbi(presets)
 	
 	self.meme_man = deep_clone(self.fbi_vet)		
 	self.meme_man.tags = {"law", "tank", "special"}		
-	self.meme_man.HEALTH_INIT = 450
+	self.meme_man.HEALTH_INIT = 540
 	self.meme_man.damage.explosion_damage_mul = 2
 	self.meme_man.headshot_dmg_mul = strong_headshot		
 	self.meme_man.can_shoot_while_dodging = true
@@ -612,7 +612,7 @@ function CharacterTweakData:_init_medic(presets)
 	self.medic.experience = {}
 	self.medic.weapon = deep_clone(presets.weapon.normal)
 	self.medic.detection = presets.detection.normal
-	self.medic.HEALTH_INIT = 48
+	self.medic.HEALTH_INIT = 57.6
 	self.medic.headshot_dmg_mul = normal_headshot
 	self.medic.suppression = nil
 	self.medic.surrender = presets.surrender.special
@@ -651,7 +651,7 @@ function CharacterTweakData:_init_medic(presets)
 	self.medic.is_special = true
 	table.insert(self._enemy_list, "medic")
 	self.medic_summers = deep_clone(self.medic)
-	self.medic_summers.HEALTH_INIT = 150
+	self.medic_summers.HEALTH_INIT = 180
 	self.medic_summers.headshot_dmg_mul = normal_headshot
 	self.medic_summers.tags = {"medic_summers_special", "medic_summers", "custom", "special"}
 	self.medic_summers.ignore_medic_revive_animation = false
@@ -705,7 +705,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	self.omnia_lpf.experience = {}
 	self.omnia_lpf.weapon = deep_clone(presets.weapon.normal)
 	self.omnia_lpf.detection = presets.detection.normal
-	self.omnia_lpf.HEALTH_INIT = 200
+	self.omnia_lpf.HEALTH_INIT = 240
 	self.omnia_lpf.headshot_dmg_mul = strong_headshot
 	self.omnia_lpf.damage.melee_damage_mul = 2
 	self.omnia_lpf.move_speed = presets.move_speed.fast
@@ -776,7 +776,7 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat.experience = {}
 	self.swat.weapon = presets.weapon.normal
 	self.swat.detection = presets.detection.normal
-	self.swat.HEALTH_INIT = 18
+	self.swat.HEALTH_INIT = 21.6
 	self.swat.headshot_dmg_mul = normal_headshot
 	self.swat.move_speed = presets.move_speed.very_fast
 	self.swat.surrender_break_time = {6, 10}
@@ -830,7 +830,7 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat_titan.use_animation_on_fire_damage = true
 	self.swat_titan.move_speed = presets.move_speed.very_fast
 	self.swat_titan.dodge = presets.dodge.elite
-	self.swat_titan.HEALTH_INIT = 20
+	self.swat_titan.HEALTH_INIT = 24
 	self.swat_titan.headshot_dmg_mul = normal_headshot
 	self.swat_titan.damage.melee_damage_mul = 2
 	self.swat_titan.surrender = nil
@@ -863,7 +863,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat.experience = {}
 	self.heavy_swat.weapon = presets.weapon.normal
 	self.heavy_swat.detection = presets.detection.normal
-	self.heavy_swat.HEALTH_INIT = 27
+	self.heavy_swat.HEALTH_INIT = 32.4
 	self.heavy_swat.headshot_dmg_mul = normal_headshot
 	self.heavy_swat.move_speed = presets.move_speed.fast
 	self.heavy_swat.surrender_break_time = {6, 8}
@@ -988,7 +988,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 			}
 		}
 	}	
-	self.heavy_swat_sniper.HEALTH_INIT = 22.5
+	self.heavy_swat_sniper.HEALTH_INIT = 27
 	self.heavy_swat_sniper.headshot_dmg_mul = normal_headshot
 	self.heavy_swat_sniper.surrender_break_time = {6, 10}
 	self.heavy_swat_sniper.suppression = nil
@@ -1042,7 +1042,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	else
 		self.weekend_dmr.custom_voicework = "bravo_elite"
 	end	
-	self.weekend_dmr.HEALTH_INIT = 33.75
+	self.weekend_dmr.HEALTH_INIT = 40.5
 	self.weekend_dmr.headshot_dmg_mul = bravo_headshot 
 	self.weekend_dmr.damage.explosion_damage_mul = 1.5
 	self.weekend_dmr.damage.fire_pool_damage_mul = 1.5
@@ -1073,7 +1073,7 @@ function CharacterTweakData:_init_fbi_swat(presets)
 	self.fbi_swat.experience = {}
 	self.fbi_swat.weapon = deep_clone(presets.weapon.good)
 	self.fbi_swat.detection = presets.detection.normal
-	self.fbi_swat.HEALTH_INIT = 27
+	self.fbi_swat.HEALTH_INIT = 32.4
 	self.fbi_swat.headshot_dmg_mul = normal_headshot
 	self.fbi_swat.move_speed = presets.move_speed.very_fast
 	self.fbi_swat.surrender_break_time = {6, 10}
@@ -1132,7 +1132,7 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets)
 	self.fbi_heavy_swat.experience = {}
 	self.fbi_heavy_swat.weapon = deep_clone(presets.weapon.normal)
 	self.fbi_heavy_swat.detection = presets.detection.normal
-	self.fbi_heavy_swat.HEALTH_INIT = 42
+	self.fbi_heavy_swat.HEALTH_INIT = 50.4
 	self.fbi_heavy_swat.headshot_dmg_mul = normal_headshot
 	self.fbi_heavy_swat.move_speed = presets.move_speed.fast
 	self.fbi_heavy_swat.surrender_break_time = {6, 8}
@@ -1190,7 +1190,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat.weapon.is_shotgun_pump = deep_clone(presets.weapon.expert.is_shotgun_mag)
 	self.city_swat.weapon.is_shotgun_pump.RELOAD_SPEED = 0.25
 	self.city_swat.detection = presets.detection.normal
-	self.city_swat.HEALTH_INIT = 27
+	self.city_swat.HEALTH_INIT = 32.4
 	self.city_swat.headshot_dmg_mul = normal_headshot
 	self.city_swat.move_speed = presets.move_speed.very_fast
 	self.city_swat.surrender_break_time = {6, 10}
@@ -1235,7 +1235,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	
 	--Guard variant, different entry type as a failsafe
 	self.city_swat_guard = deep_clone(self.city_swat)
-	self.city_swat_guard.HEALTH_INIT = 20
+	self.city_swat_guard.HEALTH_INIT = 24
 	self.city_swat_guard.headshot_dmg_mul = strong_headshot
 	self.city_swat_guard.access = "security"
 	self.city_swat_guard.chatter = presets.enemy_chatter.guard
@@ -1254,7 +1254,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	else
 		self.weekend.custom_voicework = "bravo"
 	end	
-	self.weekend.HEALTH_INIT = 40.5
+	self.weekend.HEALTH_INIT = 48.6
 	self.weekend.damage.explosion_damage_mul = 1.5
 	self.weekend.damage.fire_pool_damage_mul = 1.5
 	self.weekend.headshot_dmg_mul = bravo_headshot		
@@ -1276,7 +1276,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	else
 		self.city_swat_titan.custom_voicework = "pdth"
 	end				
-	self.city_swat_titan.HEALTH_INIT = 36
+	self.city_swat_titan.HEALTH_INIT = 43.2
 	self.city_swat_titan.headshot_dmg_mul = normal_headshot
 	self.city_swat_titan.damage.hurt_severity = presets.hurt_severities.elite_easy
 	self.city_swat_titan.damage.explosion_damage_mul = 0.5
@@ -1312,7 +1312,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend_lmg.speech_prefix_p1 = "cum"
 	self.weekend_lmg.speech_prefix_p2 = nil
 	self.weekend_lmg.speech_prefix_count = nil
-	self.weekend_lmg.HEALTH_INIT = 54
+	self.weekend_lmg.HEALTH_INIT = 64.8
 	self.weekend_lmg.headshot_dmg_mul = bravo_headshot
 	self.weekend_lmg.damage.explosion_damage_mul = 0.75
 	self.weekend_lmg.damage.fire_pool_damage_mul = 1.5	
@@ -1348,7 +1348,7 @@ function CharacterTweakData:_init_sniper(presets)
 	self.sniper.experience = {}
 	self.sniper.weapon = presets.weapon.sniper
 	self.sniper.detection = presets.detection.sniper
-	self.sniper.HEALTH_INIT = 9
+	self.sniper.HEALTH_INIT = 10.8
 	self.sniper.headshot_dmg_mul = normal_headshot
 	self.sniper.damage.hurt_severity = presets.hurt_severities.no_hurts
 	self.sniper.allowed_poses = {stand = true}
@@ -1392,7 +1392,7 @@ function CharacterTweakData:_init_gangster(presets)
 	self.gangster.experience = {}
 	self.gangster.weapon = presets.weapon.normal
 	self.gangster.detection = presets.detection.normal
-	self.gangster.HEALTH_INIT = 9
+	self.gangster.HEALTH_INIT = 10.8
 	self.gangster.headshot_dmg_mul = normal_headshot
 	self.gangster.damage.melee_damage_mul = 0.5
 	self.gangster.move_speed = presets.move_speed.normal
@@ -1419,7 +1419,6 @@ function CharacterTweakData:_init_gangster(presets)
 		self.gangster.speech_prefix_count = 2
 	elseif job == "man" then	
 		self.gangster.speech_prefix_p1 = self._prefix_data_p1.cop()
-		self.gangster.HEALTH_INIT = 4
 		self.gangster.speech_prefix_p2 = "n"
 		self.gangster.speech_prefix_count = 4	
 		self.gangster.no_arrest = false
@@ -1558,10 +1557,10 @@ function CharacterTweakData:_init_mobster_boss(presets)
 	self.mobster_boss.experience = {}
 	self.mobster_boss.detection = presets.detection.normal
 	self.mobster_boss.weapon = deep_clone(presets.weapon.normal)
-	self.mobster_boss.HEALTH_INIT = 720
+	self.mobster_boss.HEALTH_INIT = 864
 	self.mobster_boss.headshot_dmg_mul = strong_headshot
 	self.mobster_boss.damage.hurt_severity = presets.hurt_severities.boss
-	self.mobster_boss.damage.explosion_damage_mul = 3
+	self.mobster_boss.damage.explosion_damage_mul = 2
 	self.mobster_boss.move_speed = presets.move_speed.slow
 	self.mobster_boss.allowed_poses = {stand = true}
 	self.mobster_boss.crouch_move = false
@@ -1610,10 +1609,10 @@ function CharacterTweakData:_init_biker_boss(presets)
 	self.biker_boss.experience = {}
 	self.biker_boss.weapon = deep_clone(presets.weapon.normal)
 	self.biker_boss.detection = presets.detection.normal
-	self.biker_boss.HEALTH_INIT = 720
+	self.biker_boss.HEALTH_INIT = 864
 	self.biker_boss.headshot_dmg_mul = strong_headshot
 	self.biker_boss.damage.hurt_severity = presets.hurt_severities.boss
-	self.biker_boss.damage.explosion_damage_mul = 3
+	self.biker_boss.damage.explosion_damage_mul = 2
 	self.biker_boss.move_speed = presets.move_speed.very_slow
 	self.biker_boss.allowed_poses = {stand = true}
 	self.biker_boss.no_retreat = true
@@ -1704,10 +1703,10 @@ function CharacterTweakData:_init_chavez_boss(presets)
 	self.chavez_boss.custom_shout = true
 	self.chavez_boss.priority_shout_max_dis = 3000
 	self.chavez_boss.damage.hurt_severity = presets.hurt_severities.boss
-	self.chavez_boss.HEALTH_INIT = 720
+	self.chavez_boss.HEALTH_INIT = 864
 	self.chavez_boss.headshot_dmg_mul = strong_headshot
 	self.chavez_boss.damage.hurt_severity = presets.hurt_severities.boss
-	self.chavez_boss.damage.explosion_damage_mul = 3
+	self.chavez_boss.damage.explosion_damage_mul = 2
 	self.chavez_boss.move_speed = presets.move_speed.very_slow
 	self.chavez_boss.allowed_poses = {stand = true}
 	self.chavez_boss.no_retreat = true
@@ -1813,10 +1812,10 @@ function CharacterTweakData:_init_drug_lord_boss(presets)
 	self.drug_lord_boss.can_throw_frag = true	
 	self.drug_lord_boss.weapon = deep_clone(presets.weapon.normal)
 	self.drug_lord_boss.detection = presets.detection.normal
-	self.drug_lord_boss.HEALTH_INIT = 720
+	self.drug_lord_boss.HEALTH_INIT = 864
 	self.drug_lord_boss.headshot_dmg_mul = strong_headshot
 	self.drug_lord_boss.damage.hurt_severity = presets.hurt_severities.boss
-	self.drug_lord_boss.damage.explosion_damage_mul = 3
+	self.drug_lord_boss.damage.explosion_damage_mul = 2
 	self.drug_lord_boss.move_speed = presets.move_speed.very_slow
 	self.drug_lord_boss.allowed_poses = {stand = true}
 	self.drug_lord_boss.crouch_move = false
@@ -1866,7 +1865,7 @@ function CharacterTweakData:_init_drug_lord_boss_stealth(presets)
 	self.drug_lord_boss_stealth.experience = {}
 	self.drug_lord_boss_stealth.weapon = deep_clone(presets.weapon.normal)
 	self.drug_lord_boss_stealth.detection = presets.detection.normal
-	self.drug_lord_boss_stealth.HEALTH_INIT = 20
+	self.drug_lord_boss_stealth.HEALTH_INIT = 24
 	self.drug_lord_boss_stealth.headshot_dmg_mul = strong_headshot
 	self.drug_lord_boss_stealth.move_speed = presets.move_speed.very_fast
 	self.drug_lord_boss_stealth.no_retreat = true
@@ -1930,7 +1929,7 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank.damage.explosion_damage_mul = 2
 	self.tank.weapon = deep_clone(presets.weapon.normal)
 	self.tank.detection = presets.detection.normal
-	self.tank.HEALTH_INIT = 450
+	self.tank.HEALTH_INIT = 540
 	self.tank.headshot_dmg_mul = strong_headshot
 	self.tank.move_speed = presets.move_speed.slow
 	self.tank.allowed_stances = {cbt = true}
@@ -2063,7 +2062,7 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo"}	
 	self.tank_titan.move_speed = presets.move_speed.very_slow
 	self.tank_titan.damage.hurt_severity = presets.hurt_severities.titan	
-	self.tank_titan.HEALTH_INIT = 720
+	self.tank_titan.HEALTH_INIT = 864
 	self.tank_titan.headshot_dmg_mul = strong_headshot
 	self.tank_titan.damage.explosion_damage_mul = 2
 	self.tank_titan.immune_to_concussion = true
@@ -2214,7 +2213,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc.damage.hurt_severity = presets.hurt_severities.spooc
 	self.spooc.weapon = deep_clone(presets.weapon.normal)
 	self.spooc.detection = presets.detection.normal
-	self.spooc.HEALTH_INIT = 96
+	self.spooc.HEALTH_INIT = 115.2
 	self.spooc.headshot_dmg_mul = strong_headshot
 	self.spooc.damage.melee_damage_mul = 0.5
 	self.spooc.move_speed = presets.move_speed.lightning
@@ -2272,7 +2271,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan = deep_clone(self.spooc)
 	self.spooc_titan.tags = {"law", "custom", "special", "spooc"}
 	self.spooc_titan.special_deaths = nil
-	self.spooc_titan.HEALTH_INIT = 120
+	self.spooc_titan.HEALTH_INIT = 144
 	self.spooc_titan.headshot_dmg_mul = strong_headshot	
 	self.spooc_titan.damage.melee_damage_mul = 1
 	self.spooc_titan.damage.explosion_damage_mul = 2
@@ -2308,9 +2307,10 @@ function CharacterTweakData:_init_shadow_spooc(presets)
 	self.shadow_spooc.damage.hurt_severity = presets.hurt_severities.spooc
 	self.shadow_spooc.weapon = deep_clone(presets.weapon.normal)
 	self.shadow_spooc.detection = presets.detection.normal
-	self.shadow_spooc.HEALTH_INIT = 96
-	self.shadow_spooc.headshot_dmg_mul = strong_headshot
-	self.shadow_spooc.damage.melee_damage_mul = 0.5
+	self.shadow_spooc.HEALTH_INIT = 144
+	self.shadow_spooc.headshot_dmg_mul = strong_headshot	
+	self.shadow_spooc.damage.melee_damage_mul = 1
+	self.shadow_spooc.damage.explosion_damage_mul = 2
 	self.shadow_spooc.move_speed = presets.move_speed.lightning
 	self.shadow_spooc.no_retreat = true
 	self.shadow_spooc.no_arrest = true
@@ -2375,16 +2375,16 @@ function CharacterTweakData:_init_shield(presets)
 	self.shield.tags = {"law", "shield", "special"}
 	self.shield.damage.shield_explosion_ally_damage_mul = 1
 	self.shield.damage.shield_explosion_damage_mul = 1
+	self.shield.damage.explosion_damage_mul = 0.75
+	self.shield.damage.fire_pool_damage_mul = 0.75
+	self.shield.headshot_dmg_mul = normal_headshot
 	self.shield.experience = {}
 	self.shield.weapon = deep_clone(presets.weapon.normal)
 	self.shield.weapon.is_pistol.melee_speed = nil
 	self.shield.weapon.is_pistol.melee_dmg = nil
 	self.shield.weapon.is_pistol.melee_retry_delay = nil
 	self.shield.detection = presets.detection.normal
-	self.shield.HEALTH_INIT = 30
-	self.shield.headshot_dmg_mul = normal_headshot
-	self.shield.damage.explosion_damage_mul = 0.75
-	self.shield.damage.fire_pool_damage_mul = 0.75
+	self.shield.HEALTH_INIT = 36
 	self.shield.damage.melee_damage_mul = 2
 	self.shield.allowed_stances = {cbt = true}
 	self.shield.allowed_poses = {crouch = true}
@@ -2457,9 +2457,9 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	self.phalanx_minion.weapon = deep_clone(presets.weapon.normal)
 	self.phalanx_minion.detection = presets.detection.normal
 	self.phalanx_minion.headshot_dmg_mul = normal_headshot
-	self.phalanx_minion.HEALTH_INIT = 40
-	self.phalanx_minion.damage.explosion_damage_mul = 0.4
-	self.phalanx_minion.damage.fire_pool_damage_mul = 0.4
+	self.phalanx_minion.HEALTH_INIT = 48
+	self.phalanx_minion.damage.explosion_damage_mul = 0.5
+	self.phalanx_minion.damage.fire_pool_damage_mul = 0.5
 	self.phalanx_minion.damage.melee_damage_mul = 2
 	self.phalanx_minion.damage.hurt_severity = presets.hurt_severities.no_hurts_no_tase
 	self.phalanx_minion.flammable = false
@@ -2510,9 +2510,9 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 	self.phalanx_vip.immune_to_knock_down = true
 	self.phalanx_vip.damage.shield_explosion_damage_mul = 0
 	self.phalanx_vip.damage.shield_explosion_ally_damage_mul = 0
-	self.phalanx_vip.HEALTH_INIT = 1250
+	self.phalanx_vip.HEALTH_INIT = 1500
 	self.phalanx_vip.headshot_dmg_mul = strong_headshot
-	self.phalanx_vip.damage.explosion_damage_mul = 2.5
+	self.phalanx_vip.damage.explosion_damage_mul = 2
 	self.phalanx_vip.damage.melee_damage_mul = 2
 	self.phalanx_vip.spawn_sound_event = "cpa_a02_01"	
 	self.phalanx_vip.priority_shout = "f45"
@@ -2568,9 +2568,9 @@ function CharacterTweakData:_init_spring(presets)
 	self.spring.ends_assault_on_death = true
 	self.spring.no_damage_mission = true
 	self.spring.immune_to_knock_down = true
-	self.spring.HEALTH_INIT = 1350
+	self.spring.HEALTH_INIT = 1620
 	self.spring.EXTRA_HEALTH_BALANCE = 50
-	self.spring.headshot_dmg_mul = strong_headshot
+	self.spring.headshot_dmg_mul = normal_headshot
 	self.spring.damage.explosion_damage_mul = 2
 	self.spring.priority_shout = "f45"
 	self.spring.bot_priority_shout = "f45x_any"
@@ -2642,11 +2642,10 @@ function CharacterTweakData:_init_summers(presets)
 	self.summers.melee_weapon_dmg_multiplier = 1
 	self.summers.weapon_safety_range = 1
 	self.summers.detection = presets.detection.normal
-	self.summers.HEALTH_INIT = 180
+	self.summers.HEALTH_INIT = 216
 	self.summers.headshot_dmg_mul = normal_headshot
 	self.summers.flammable = false
 	self.summers.use_animation_on_fire_damage = false
-	self.summers.damage.explosion_damage_mul = 0.8
 	self.summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
 	self.summers.bag_dmg_mul = 6
 	self.summers.move_speed = presets.move_speed.fast
@@ -2703,7 +2702,7 @@ function CharacterTweakData:_init_autumn(presets)
 	self.autumn.damage.immune_to_knockback = true
 	self.autumn.immune_to_knock_down = true		
 	self.autumn.immune_to_concussion = true		
-	self.autumn.HEALTH_INIT = 360
+	self.autumn.HEALTH_INIT = 432
 	self.autumn.headshot_dmg_mul = normal_headshot
 	self.autumn.flammable = false
 	self.autumn.damage.explosion_damage_mul = 2
@@ -2795,7 +2794,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser.weapon.is_rifle.aim_delay_tase = {0.75, 0.75}
 	self.taser.weapon.is_rifle.tase_sphere_cast_radius = 30
 	self.taser.detection = presets.detection.normal
-	self.taser.HEALTH_INIT = 60
+	self.taser.HEALTH_INIT = 72
 	self.taser.headshot_dmg_mul = normal_headshot
 	self.taser.move_speed = presets.move_speed.fast
 	self.taser.no_retreat = true
@@ -2844,7 +2843,7 @@ function CharacterTweakData:_init_taser(presets)
 	table.insert(self._enemy_list, "taser")
 	
 	self.taser_summers = deep_clone(self.taser)
-	self.taser_summers.HEALTH_INIT = 150
+	self.taser_summers.HEALTH_INIT = 180
 	self.taser_summers.headshot_dmg_mul = normal_headshot
 	self.taser_summers.tags = {"female_enemy","taser", "medic_summers", "custom", "special"}
 	self.taser_summers.ignore_medic_revive_animation = false
@@ -2883,7 +2882,7 @@ function CharacterTweakData:_init_taser(presets)
 	
 	self.taser_titan = deep_clone(self.taser)
 	self.taser_titan.tags = {"taser", "taser_titan", "custom", "special"}
-	self.taser_titan.HEALTH_INIT = 67.5
+	self.taser_titan.HEALTH_INIT = 81
 	self.taser_titan.headshot_dmg_mul = normal_headshot
 	self.taser_titan.priority_shout = "f32"
 	self.taser_titan.bot_priority_shout = "f32x_any"	
@@ -2939,12 +2938,12 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom.melee_weapon_dmg_multiplier = 1
 	self.boom.weapon_safety_range = 1000
 	self.boom.detection = presets.detection.normal
-	self.boom.HEALTH_INIT = 60
+	self.boom.HEALTH_INIT = 72
 	self.boom.headshot_dmg_mul = normal_headshot
 	self.boom.HEALTH_SUICIDE_LIMIT = 0.25
 	self.boom.flammable = true
 	self.boom.use_animation_on_fire_damage = true
-	self.boom.damage.explosion_damage_mul = 0.4
+	self.boom.damage.explosion_damage_mul = 0.5
 	self.boom.damage.hurt_severity = presets.hurt_severities.boom
 	self.boom.bag_dmg_mul = 6
 	self.boom.move_speed = presets.move_speed.fast
@@ -2996,8 +2995,8 @@ function CharacterTweakData:_init_boom(presets)
 	
 	self.boom_summers = deep_clone(self.boom)
 	self.boom_summers.use_animation_on_fire_damage = false
-	self.boom_summers.damage.explosion_damage_mul = 0.25
-	self.boom_summers.damage.fire_damage_mul = 0.25
+	self.boom_summers.damage.explosion_damage_mul = 1
+	self.boom_summers.damage.fire_damage_mul = 1
 	self.boom_summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
 	self.boom_summers.chatter = presets.enemy_chatter.summers
 	self.boom_summers.speech_prefix_p1 = "fl"
@@ -3006,7 +3005,7 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom_summers.custom_voicework = nil
 	self.boom_summers.die_sound_event = "mga_death_scream"
 	self.boom_summers.use_radio = "dsp_radio_russian"
-	self.boom_summers.HEALTH_INIT = 150
+	self.boom_summers.HEALTH_INIT = 180
 	self.boom_summers.headshot_dmg_mul = normal_headshot
 	self.boom_summers.tags = {"female_enemy", "medic_summers", "custom", "special"}
 	self.boom_summers.ignore_medic_revive_animation = false
