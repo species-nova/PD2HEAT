@@ -3555,66 +3555,39 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		special_type = "tank_titan",
 		is_captain = true
 	}
-	--Benelli Dozers that spawn with Spring (Also ignores spawncaps)
-	if difficulty_index <= 7 then
-		self.unit_categories.Tank_Ben = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},					
-				russia = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},
-				murkywater = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun")
-				},					
-				nypd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},	
-				lapd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				}				
+	
+	--titan tasers that spawn with spring
+	self.unit_categories.Titan_taser_boss = {
+		unit_types = {
+			america = {
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")							
 			},
-			access = access_type_all,
-			special_type = "tank",
-			is_captain = true
-		}	
-	else
-		self.unit_categories.Tank_Ben = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},					
-				russia = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},
-				murkywater = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun")
-				},						
-				nypd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun")
-				},	
-				lapd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun")
-				}				
+			russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_titan_taser/ene_titan_taser")							
 			},
-			access = access_type_all,
-			special_type = "tank",
-			is_captain = true
-		}		
-	end
+			zombie = {		
+				Idstring("units/pd2_mod_halloween/characters/ene_titan_taser/ene_titan_taser")							
+			},						
+			murkywater = {			
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")							
+			},
+			federales = {				
+				Idstring("units/pd2_dlc_mad/characters/ene_titan_taser/ene_titan_taser")								
+			},					
+			nypd = {
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")						
+			},
+			lapd = {			
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")							
+			},
+			omnia_skm = {
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")
+			}				
+		},
+		access = access_type_all,
+		special_type = "taser_titan",
+		is_captain = true
+	}	
 if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
 		self.unit_categories.Tank_Titan = {
 			unit_types = {
@@ -8933,7 +8906,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Tank_Ben",
+					unit = "Titan_taser_boss",
 					freq = 1,
 					amount_min = 2,
 					amount_max = 2,
