@@ -1057,7 +1057,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all
 		}
-	end
 		
 	self.unit_categories.Titan_HRT = {
 		unit_types = {
@@ -1085,7 +1084,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all
 	}	
-
 	self.unit_categories.CS_swat_R870 = {
 		unit_types = {
 			america = {
@@ -1115,7 +1113,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all
 	}		
-
 	self.unit_categories.CS_heavy_M4 = {
 		unit_types = {
 			america = {
@@ -1145,7 +1142,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all
 	}	
-
 	--5% titan swat shotgun chance
 	self.unit_categories.CS_heavy_R870 = {
 		unit_types = {
@@ -1176,7 +1172,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all
 	}
-
 	self.unit_categories.CS_heavy_M4_w = {
 		unit_types = {
 			america = {
@@ -1259,7 +1254,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all
 	}	
-
 	if difficulty_index <= 3 then
 		--5% titan taser chance
 		self.unit_categories.CS_tazer = {
@@ -1760,8 +1754,8 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all
 		}
+		end
 	end		
-
 	if difficulty_index <= 3 then
 		self.unit_categories.FBI_suit_stealth_MP5 = {
 			unit_types = {
@@ -1901,7 +1895,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all
 		}
-	end
 	
 	--FBI SWATs (Rifle)
 	if difficulty_index <= 4 then
@@ -2355,7 +2348,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			access = access_type_all
 		}
 	end
-
 	if difficulty_index <= 4 then
 		--5% titan sniper chance
 		self.unit_categories.FBI_heavy_R870 = {
@@ -2841,7 +2833,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "tank"
 		}
 	end
-
 	if difficulty_index <= 7 then
 		self.unit_categories.BLACK_tank = {
 			unit_types = {
@@ -2957,7 +2948,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "tank"
 		}
 	end
-
 	self.unit_categories.TIT_tank = {
 		unit_types = {
 			america = {
@@ -2985,67 +2975,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		access = access_type_all,
 		special_type = "tank_titan"
 	}
-
-	
-	--Medic Dozer
-	if difficulty_index <= 7 then
-		self.unit_categories.Tank_Med = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},					
-				russia = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_fbi_tank_medic/ene_murky_fbi_tank_medic")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_medic/ene_swat_dozer_policia_federale_medic")
-				},					
-				nypd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},	
-				lapd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				}				
-			},
-			access = access_type_all,
-			special_type = "tank_medic"
-		}	
-	else
-		self.unit_categories.Tank_Med = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},					
-				russia = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_fbi_tank_medic/ene_murky_fbi_tank_medic")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_medic/ene_swat_dozer_policia_federale_medic")
-				},						
-				nypd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},	
-				lapd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				}				
-			},
-			access = access_type_all,
-			special_type = "tank_medic"
-		}		
-	end
-
 	if difficulty_index <= 7 then 
 	    self.unit_categories.boom_M4203 = {
 		    unit_types = {
@@ -3103,7 +3032,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		    special_type = "boom"
 	    }
 	end
-
 	if difficulty_index <= 5 then
 		self.unit_categories.medic_M4 = {
 			unit_types = {
@@ -3220,7 +3148,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "medic"
 		}
 	end
-
 	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
 		self.unit_categories.TIT_tank = {
 			unit_types = {
@@ -3256,8 +3183,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			access = access_type_all,
 			special_type = "tank"
 		}		
-	end		
-
+	end			
 	self.unit_categories.medic_R870 = {
 		unit_types = {
 			america = {
@@ -3629,68 +3555,40 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		special_type = "tank_titan",
 		is_captain = true
 	}
-
-	--Medic Dozers that spawn with Spring
-	if difficulty_index <= 7 then
-		self.unit_categories.Tank_Med_Boss = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},					
-				russia = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_fbi_tank_medic/ene_murky_fbi_tank_medic")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_medic/ene_swat_dozer_policia_federale_medic")
-				},					
-				nypd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				},	
-				lapd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic")
-				}				
+	
+	--titan tasers that spawn with spring
+	self.unit_categories.Titan_taser_boss = {
+		unit_types = {
+			america = {
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")							
 			},
-			access = access_type_all,
-			special_type = "tank_medic",
-			is_captain = true
-		}	
-	else
-		self.unit_categories.Tank_Med_Boss = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},					
-				russia = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_fbi_tank_medic/ene_murky_fbi_tank_medic")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_medic/ene_swat_dozer_policia_federale_medic")
-				},						
-				nypd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				},	
-				lapd = {
-					Idstring("units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic")
-				}				
+			russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_titan_taser/ene_titan_taser")							
 			},
-			access = access_type_all,
-			special_type = "tank_medic",
-			is_captain = true
-		}		
-	end
-	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
+			zombie = {		
+				Idstring("units/pd2_mod_halloween/characters/ene_titan_taser/ene_titan_taser")							
+			},						
+			murkywater = {			
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")							
+			},
+			federales = {				
+				Idstring("units/pd2_dlc_mad/characters/ene_titan_taser/ene_titan_taser")								
+			},					
+			nypd = {
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")						
+			},
+			lapd = {			
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")							
+			},
+			omnia_skm = {
+				Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser")
+			}				
+		},
+		access = access_type_all,
+		special_type = "taser_titan",
+		is_captain = true
+	}	
+if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
 		self.unit_categories.Tank_Titan = {
 			unit_types = {
 				america = {
@@ -9008,7 +8906,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Tank_Med_Boss",
+					unit = "Titan_taser_boss",
 					freq = 1,
 					amount_min = 2,
 					amount_max = 2,
@@ -9434,20 +9332,20 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					unit = "Titan_HRT",
 					freq = 1,
 					amount_max = 1,
-					tactics = self._tactics.ELITE_suit_stealth,
+					tactics = self._tactics.HRT_attack,
 					rank = 3
 				},
 				{
 					unit = "fbi_vet",
 					freq = 1,
 					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
+					tactics = self._tactics.HRT_attack,
 					rank = 2
 				},		
 				{
 					unit = "CS_swat_MP5",
 					freq = 1,
-					tactics = self._tactics.ELITE_suit_stealth,
+					tactics = self._tactics.HRT_attack,
 					rank = 2
 				},	
 				{
@@ -12201,7 +12099,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		self.special_unit_spawn_limits = {
 			tank = 1,
 			tank_titan = 0,
-			tank_medic = 0,
 			taser = math.max(math.round(2 * map_scale_factor), 1),
 			taser_titan = 0,
 			boom = 0,
@@ -12231,7 +12128,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
 			tank_titan = 0,
-			tank_medic = 0,
 			taser = math.max(math.round(3 * map_scale_factor), 1),
 			taser_titan = 0,
 			boom = 0,
@@ -12261,7 +12157,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			tank_titan = 0,
-			tank_medic = 0,
 			taser = math.max(math.round(4 * map_scale_factor), 1),
 			taser_titan = 0,
 			boom = math.max(math.round(0 * map_scale_factor), 1),
@@ -12291,7 +12186,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			tank_titan = 1,
-			tank_medic = 0,
 			taser = math.max(math.round(4 * map_scale_factor), 1),
 			taser_titan = 1,
 			boom = math.max(math.round(2 * map_scale_factor), 1),
@@ -12321,7 +12215,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			tank_titan = 1,
-			tank_medic = 0,
 			taser = math.max(math.round(4 * map_scale_factor), 1),
 			taser_titan = 2,
 			boom = math.max(math.round(2 * map_scale_factor), 1),
@@ -12351,7 +12244,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			tank_titan = 2,
-			tank_medic = 1,
 			taser = math.max(math.round(4 * map_scale_factor), 1),
 			taser_titan = 2,
 			boom = math.max(math.round(2 * map_scale_factor), 1),
@@ -13365,4 +13257,5 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		respawn_delay = 120
 	}
 	self.safehouse = deep_clone(self.besiege)	
+	end
 end
