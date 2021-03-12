@@ -2,9 +2,11 @@
 <unit type="being" slot="12" >
 	<anim_state_machine name="anims/units/enemies/cop/cop_machine" />
 	<object file="units/pd2_dlc_mad/characters/ene_akan_fbi_1/ene_akan_fbi_1" />
+	
 	<dependencies>
 		
 		<depends_on bnk="soundbanks/regular_vox" />
+		<depends_on bnk="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" />
 	</dependencies>
 
 	<extensions>

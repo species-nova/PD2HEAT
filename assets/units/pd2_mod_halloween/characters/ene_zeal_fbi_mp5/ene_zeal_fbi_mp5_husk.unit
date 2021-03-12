@@ -6,13 +6,14 @@
 	<dependencies>
 		
 		<depends_on unit="units/pd2_dlc_gitgud/characters/ene_acc_zeal_fbi_mask/ene_acc_zeal_fbi_mask" />
+		<depends_on bnk="units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92" />
 	</dependencies>
 
 	<extensions>
 		<extension name="unit_data" class="ScriptUnitData" />
 		<extension name="base" class="HuskCopBase" >
 			<var name="_tweak_table" value="swat" />
-			<var name="_default_weapon_id" value="r870" />
+			<var name="_default_weapon_id" value="beretta92_titan" />
 		</extension>
 		<extension name="inventory" class="HuskCopInventory" />
 		<extension name="brain" class="HuskCopBrain" />
