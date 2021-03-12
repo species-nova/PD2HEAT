@@ -310,19 +310,15 @@ function CopBase:default_weapon_name()
     end
 	
 	--FBI Guys--
-	if self._unit:name() == ids_func("units/payday2/characters/ene_fbi_1/ene_fbi_1") then
+	if self._unit:name() == ids_func("units/payday2/characters/ene_fbi_2/ene_fbi_2") then
 		default_weapon_id = "m1911_npc"
-	elseif self._unit:name() == ids_func("units/payday2/characters/ene_fbi_2/ene_fbi_2") then
-		default_weapon_id = "mp5"
 	end
 	
 	--Undead Federal Beauro of Intervention Intellectuals-- 
-	if self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1") then 
-		default_weapon_id = "m1911_npc"
-	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2") then
-		deafult_weapon_id = "mp5"
+	if self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2") then
+		deafult_weapon_id = "m1911_npc"
 	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3") then
-		default_weapon_id = "r870"
+		default_weapon_id = "beretta92_titan"
 	end
 	
 	--Giving Friendly AI guns--
