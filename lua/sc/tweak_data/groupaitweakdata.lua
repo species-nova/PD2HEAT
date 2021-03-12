@@ -6727,7 +6727,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"obstacle",
 			"hitnrun",
 			"reloadingretreat",
-			"charge",
 			"murder",
 			"elite_ranged_fire",
 			"harass"
