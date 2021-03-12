@@ -9332,20 +9332,20 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					unit = "Titan_HRT",
 					freq = 1,
 					amount_max = 1,
-					tactics = self._tactics.HRT_attack,
+					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 3
 				},
 				{
 					unit = "fbi_vet",
 					freq = 1,
 					amount_max = 2,
-					tactics = self._tactics.HRT_attack,
+					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},		
 				{
 					unit = "CS_swat_MP5",
 					freq = 1,
-					tactics = self._tactics.HRT_attack,
+					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},	
 				{
