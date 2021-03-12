@@ -7,6 +7,7 @@
 		
 		<depends_on bnk="soundbanks/regular_vox" />
 		<depends_on bnk="soundbanks/npc_russian_mercenaries" />
+		<depends_on bnk="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" />
 	</dependencies>
 
 	<extensions>
