@@ -9275,7 +9275,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},					
 				{
-					unit = "CS_swat_MP5",
+					unit = "FBI_suit_M4_MP5",
 					freq = 1,
 					amount_max = 1,
 					tactics = self._tactics.HRT_attack,
@@ -9309,7 +9309,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},		
 				{
-					unit = "CS_swat_MP5",
+					unit = "FBI_suit_M4_MP5",
 					freq = 1,
 					amount_min = 1,
 					tactics = self._tactics.HRT_attack,
@@ -9343,7 +9343,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},		
 				{
-					unit = "CS_swat_MP5",
+					unit = "FBI_suit_M4_MP5",
 					freq = 1,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
