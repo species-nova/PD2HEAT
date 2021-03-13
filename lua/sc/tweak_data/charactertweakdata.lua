@@ -821,6 +821,13 @@ function CharacterTweakData:_init_swat(presets)
 	
 	self.hrt = deep_clone(self.swat)
 	self.hrt.access = "fbi"
+	self.hrt.weapon.is_pistol.FALLOFF = {
+			mode = {
+				0,
+				0,
+				1,
+				0
+	}
 	table.insert(self._enemy_list, "hrt")
 	
 	self.swat_titan = deep_clone(self.swat)
