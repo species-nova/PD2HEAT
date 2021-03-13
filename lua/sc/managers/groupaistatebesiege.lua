@@ -686,7 +686,7 @@ if not spawn_debug_level then
 		if type(spawn_group_desc.amount) == "number" then
 			wanted_nr_units = spawn_group_desc.amount
 		else
-			wanted_nr_units = math.random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+			wanted_nr_units = math_random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
 		end
 
 		local unit_types = spawn_group_desc.spawn --All units in spawn group.
@@ -708,11 +708,11 @@ if not spawn_debug_level then
 				end
 				
 				if remaining_special_pools[cat_data.special_type] > 0 then --If special unit doesn't go above cap, then add to valid table.
-					table.insert(valid_unit_types, spawn_entry)
+					table_insert(valid_unit_types, spawn_entry)
 					total_wgt = total_wgt + spawn_entry.freq
 				end
 			else --Unit not special, add it to valid table.
-				table.insert(valid_unit_types, spawn_entry)
+				table_insert(valid_unit_types, spawn_entry)
 				total_wgt = total_wgt + spawn_entry.freq
 			end
 		end
@@ -793,7 +793,7 @@ if not spawn_debug_level then
 
 		--Spawn random units.
 		while wanted_nr_units > nr_units and total_wgt > 0 do
-			local rand_wgt = math.random() * total_wgt
+			local rand_wgt = math_random() * total_wgt
 			local rand_i = 1
 			local rand_entry = valid_unit_types[rand_i]
 
@@ -823,7 +823,7 @@ if not spawn_debug_level then
 		group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
 		spawn_task.group = group
 		group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
-		table.insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
+		table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
 
 		return group
 	end
@@ -838,7 +838,7 @@ else
 		if type(spawn_group_desc.amount) == "number" then
 			wanted_nr_units = spawn_group_desc.amount
 		else
-			wanted_nr_units = math.random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+			wanted_nr_units = math_random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
 		end
 
 		local unit_types = spawn_group_desc.spawn --All units in spawn group.
@@ -860,11 +860,11 @@ else
 				end
 				
 				if remaining_special_pools[cat_data.special_type] > 0 then --If special unit doesn't go above cap, then add to valid table.
-					table.insert(valid_unit_types, spawn_entry)
+					table_insert(valid_unit_types, spawn_entry)
 					total_wgt = total_wgt + spawn_entry.freq
 				end
 			else --Unit not special, add it to valid table.
-				table.insert(valid_unit_types, spawn_entry)
+				table_insert(valid_unit_types, spawn_entry)
 				total_wgt = total_wgt + spawn_entry.freq
 			end
 		end
@@ -945,7 +945,7 @@ else
 
 		--Spawn random units.
 		while wanted_nr_units > nr_units and total_wgt > 0 do
-			local rand_wgt = math.random() * total_wgt
+			local rand_wgt = math_random() * total_wgt
 			local rand_i = 1
 			local rand_entry = valid_unit_types[rand_i]
 
@@ -975,7 +975,7 @@ else
 		group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
 		spawn_task.group = group
 		group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
-		table.insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
+		table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
 
 		if spawn_debug_level > 1 then
 			log("Spawning group: " .. spawn_group_type)
@@ -1459,7 +1459,7 @@ end
 --Generate table used to find spawn-in voicelines.
 function GroupAIStateBesiege:_init_group_entry_lines()
 	local function random_cs()
-		local randomgroupcallout = math.random(1, 100)
+		local randomgroupcallout = math_random(1, 100)
 		if randomgroupcallout < 25 then
 			return "csalpha"
 		elseif randomgroupcallout < 50 then
@@ -1472,7 +1472,7 @@ function GroupAIStateBesiege:_init_group_entry_lines()
 	end
 
 	local function random_hrt()
-		local randomgroupcallout = math.random(1, 100)
+		local randomgroupcallout = math_random(1, 100)
 		if randomgroupcallout < 25 then
 			return "hrtalpha"
 		elseif randomgroupcallout < 50 then
@@ -2280,7 +2280,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 							if u_data.group and u_data.group ~= group and u_data.group.objective.type == "assault_area" then
 								assault_from_here = false
 
-								if not alternate_assault_area or math.random() < 0.5 then
+								if not alternate_assault_area or math_random() < 0.5 then
 									local search_params = {
 										id = "GroupAI_assault",
 										from_seg = current_objective.area.pos_nav_seg,
@@ -2327,7 +2327,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 			else
 				for other_area_id, other_area in pairs(search_area.neighbours) do
 					if not found_areas[other_area] then
-						table.insert(to_search_areas, other_area)
+						table_insert(to_search_areas, other_area)
 
 						found_areas[other_area] = search_area
 					end
