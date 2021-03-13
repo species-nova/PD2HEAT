@@ -666,7 +666,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 	end
 	
 	--Titan Cloakers 
-	self.unit_categories.Titan_Spooc = {
+	self.unit_categories.Titan_spooc = {
 		unit_types = {
 			america = {
 				Idstring("units/payday2/characters/ene_spook_cloak_1/ene_spook_cloak_1")
@@ -9355,7 +9355,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 1
 				},			
 				{
-					unit = "omnia_lpf",
+					unit = "omnia_LPF",
 					freq = 0.10,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
@@ -9399,7 +9399,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 1
 				},				
 				{
-					unit = "omnia_lpf",
+					unit = "omnia_LPF",
 					freq = 0.1,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
@@ -9441,7 +9441,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 1
 				},				
 				{
-					unit = "omnia_lpf",
+					unit = "omnia_LPF",
 					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic_flank,
