@@ -845,7 +845,7 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 	group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
 	table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
 
-	if spawn_debug_level > 1 then
+	if spawn_debug_level and spawn_debug_level > 1 then
 		log("Spawning group: " .. spawn_group_type)
 		for name, spawn_info in pairs(spawn_task.units_remaining) do
 			log("     " .. name .. "x" .. tostring(spawn_info.amount))
