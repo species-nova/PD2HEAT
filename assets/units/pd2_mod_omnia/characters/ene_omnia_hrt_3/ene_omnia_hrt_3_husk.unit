@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <unit type="being" slot="12">
 	<anim_state_machine name="anims/units/enemies/cop/cop_machine" />
-	<object file="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2" />
+	<object file="units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2" />
 
 	<dependencies>
-		
-		<depends_on unit="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" />
+		<depends_on bnk="soundbanks/npc_russian_mercenaries" />
+		<depends_on unit="units/payday2/weapons/wpn_npc_beretta92_titan/wpn_npc_beretta92_titan" />
 	</dependencies>
 
 	<extensions>
 		<extension name="unit_data" class="ScriptUnitData" />
 		<extension name="base" class="HuskCopBase" >
-			<var name="_tweak_table" value="fbi" />
-			<var name="_default_weapon_id" value="m1911_npc" />
+			<var name="_tweak_table" value="hrt" />
+			<var name="_default_weapon_id" value="beretta92_titan" />
+			<var name="_stats_name" value="hostage_rescue" />
 		</extension>
 		<extension name="inventory" class="HuskCopInventory" />
 		<extension name="brain" class="HuskCopBrain" />
@@ -26,6 +27,12 @@
 		</extension>
 		<extension name="interaction" class="IntimitateInteractionExt" >
 			<var name="tweak_data" value="intimidate" />
+			<var name="_ray_object_names" type="table" >
+				<var value="Hips"/>
+				<var value="Head"/>
+				<var value="LeftFoot"/>
+				<var value="RightFoot"/>
+			</var>
 		</extension>
 		<extension name="network" class="NetworkBaseExtension" />
 		<extension name="damage" class="UnitDamage" >

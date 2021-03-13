@@ -7,15 +7,13 @@
 		
 		<depends_on bnk="soundbanks/regular_vox" />
 		<depends_on bnk="soundbanks/npc_russian_mercenaries" />
-		<depends_on bnk="units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92" />
 	</dependencies>
 
 	<extensions>
 		<extension name="unit_data" class="ScriptUnitData" />
 		<extension name="base" class="CopBase" >
-			<var name="_tweak_table" value="hrt" />
-			<var name="_default_weapon_id" value="beretta92_titan" />
-			<var name="_stats_name" value="hostage_rescue" />
+			<var name="_tweak_table" value="fbi" />
+			<var name="_default_weapon_id" value="c45" />
 		</extension>
 		<extension name="inventory" class="CopInventory" />
 		<extension name="brain" class="CopBrain" />
