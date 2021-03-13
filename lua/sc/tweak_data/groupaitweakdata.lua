@@ -1,4 +1,6 @@
 local job = Global.level_data and Global.level_data.level_id
+local debug_spawngroups = false --Set to true to use _debug_spawn_frequencies
+
 function GroupAITweakData:_init_chatter_data()
 	self.enemy_chatter = {}
 	--[[
@@ -3588,7 +3590,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		special_type = "taser_titan",
 		is_captain = true
 	}	
-if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
+	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
 		self.unit_categories.Tank_Titan = {
 			unit_types = {
 				america = {
@@ -13255,6 +13257,189 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		max = 0,
 		respawn_delay = 120
 	}
-	self.safehouse = deep_clone(self.besiege)	
+	self.safehouse = deep_clone(self.besiege)
+	end
+end
+
+if debug_spawngroups then
+	function GroupAITweakData:_debug_spawn_frequencies()
+		--Simulates spawning 1,000,000 spawn groups at diffs 0, 0.5, and 1. Not 100% accurate, but generally close enough.
+		--Ignores special spawn caps (unless they'd apply to a single group spamming specials), constraints, and cooldowns. For simplicity.
+		--Adds significant overhead to loading screens.
+		if self.besiege.group_constraints then
+			local group_weights = self.besiege.assault.groups
+
+			for i = 1, 3 do
+				log("DIFF: " .. tostring(0.5 * (1 - i)))
+				local total_units = 0
+				local units_spawned = {}
+				for j = 1, 1000000 do
+					--Get spawn group weights.
+					local total_group_weight = 0
+					for k, v in pairs(group_weights) do
+						total_group_weight = total_group_weight + v[i]
+					end
+
+					local spawn_group = nil
+					local random_weight = math.random() * total_group_weight
+					for k, v in pairs(group_weights) do
+						spawn_group = k
+						if random_weight <= 0 then
+							break
+						else
+							random_weight = random_weight - v[i]
+						end
+					end
+	 
+					local spawn_group_desc = self.enemy_spawn_groups[spawn_group]
+					local wanted_nr_units = nil
+					local nr_units = 0
+
+					--Determine number of units to spawn.
+					if type(spawn_group_desc.amount) == "number" then
+						wanted_nr_units = spawn_group_desc.amount
+					else
+						wanted_nr_units = math.random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+					end
+
+					local unit_types = spawn_group_desc.spawn --All units in spawn group.
+					local valid_unit_types = {} --All units in the spawn group that are able to spawn.
+					local remaining_special_pools = {} --Tracks remaining room in special spawn caps.
+					local unit_categories = self.unit_categories
+					local total_wgt = 0 --Freqs of all valid unit types all added together.
+
+					for k, v in pairs(self.special_unit_spawn_limits) do
+						remaining_special_pools[k] = v
+					end
+
+					--Determine which unit types in spawn group are valid. Delay spawns if required units are above cap.
+					for k = 1, #unit_types do
+						local spawn_entry = unit_types[k]
+						local cat_data = unit_categories[spawn_entry.unit]
+
+						if not spawn_entry.unit then
+							log("ERROR IN GROUP: " .. spawn_group_type .. " no unit defined in index " .. tostring(k))
+							return
+						end
+
+						if not spawn_entry.freq then
+							log("ERROR IN GROUP: " .. spawn_group_type .. " no freq defined for unit " .. spawn_entry.unit)
+							return
+						end
+
+						if spawn_entry.amount_min and spawn_entry.amount_max and spawn_entry.amount_min > spawn_entry.amount_max then
+							log("WARNING IN GROUP: " .. spawn_group_type .. " amount_max is smaller than amount_min for " .. spawn_entry.unit)
+						end
+
+						local cat_data = unit_categories[spawn_entry.unit]
+						if not cat_data then
+							log("ERROR IN GROUP: " .. spawn_group_type .. " contains fictional made up imaginary good-for-nothing unit " .. spawn_entry.unit)
+							return
+						end
+
+						table.insert(valid_unit_types, spawn_entry)
+						total_wgt = total_wgt + spawn_entry.freq
+					end
+
+					local total_wgt_orig = total_wgt
+					local spawn_group_spawned = {}
+
+					--Adds as many as needed to meet requirements. Removes any valid units it turns invalid.
+					local function _add_unit_type_to_spawn_task(m, spawn_entry)
+						local unit_invalidated = false
+						local prev_amount = nil --Previous number of these guys in the spawn task.
+						local new_amount = nil --New number of these guys in the spawn task.
+						if not spawn_group_spawned[spawn_entry.unit] then --If unit isn't part of spawn task yet, add the minimum amount to start.
+							prev_amount = 0
+							new_amount = spawn_entry.amount_min or 1
+						else --Otherwise just add 1.
+							prev_amount = spawn_group_spawned[spawn_entry.unit].amount
+							new_amount = 1 + prev_amount
+						end
+						local amount_increase = new_amount - prev_amount --Amount the number of this unit would increase.
+
+						if spawn_entry.amount_max and new_amount >= spawn_entry.amount_max then --Max unit count reached, removing unit from valid units for future spawns.
+							table.remove(valid_unit_types, m)
+							total_wgt = total_wgt - spawn_entry.freq
+							unit_invalidated = true
+						end
+
+						--Update special unit spawn caps.
+						local cat_data = unit_categories[spawn_entry.unit]
+						if cat_data.special_type then
+							if remaining_special_pools[cat_data.special_type] and remaining_special_pools[cat_data.special_type] >= amount_increase then
+								remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
+								if remaining_special_pools[cat_data.special_type] == 0 and not unit_invalidated then --Special spawn cap reached, removing unit from valid units for future spawns.
+									table.remove(valid_unit_types, m)
+									total_wgt = total_wgt - spawn_entry.freq
+									unit_invalidated = true
+								end
+							end
+						end
+
+						--Add unit to spawn task.
+						spawn_group_spawned[spawn_entry.unit] = {
+							amount = new_amount,
+							spawn_entry = spawn_entry
+						}
+						nr_units = nr_units + amount_increase
+
+						return unit_invalidated
+					end
+
+					--Add required units to spawn group.
+					local k = 1
+					local req_entry = valid_unit_types[k]
+					while req_entry do --Array size changes, so iteration finishes when the current entry is nil.
+						if wanted_nr_units > nr_units and req_entry.amount_min and req_entry.amount_min > 0 then
+							if _add_unit_type_to_spawn_task(k, req_entry) then --Don't increment to next value if a unit was invalidated.
+								k = k + 1
+							end
+						else
+							k = k + 1
+						end
+
+						req_entry = valid_unit_types[k]
+					end
+
+					--Spawn random units.
+					while wanted_nr_units > nr_units and total_wgt > 0 do
+						local rand_wgt = math.random() * total_wgt
+						local rand_i = 1
+						local rand_entry = valid_unit_types[rand_i]
+
+						--Loop until the unit corresponding to rand_wgt is found.
+						while true do
+							rand_wgt = rand_wgt - rand_entry.freq
+
+							if rand_wgt <= 0 then
+								break --Random unit entry found!
+							else
+								rand_i = rand_i + 1 --Move onto next unit entry.
+								rand_entry = valid_unit_types[rand_i]
+							end
+						end
+
+						_add_unit_type_to_spawn_task(rand_i, rand_entry) --Add our random boi.
+					end
+
+					for name, v in pairs(spawn_group_spawned) do
+						units_spawned[name] = (units_spawned[name] or 0) + v.amount
+					end
+
+					total_units = total_units + nr_units
+				end
+
+				for unit, count in pairs(units_spawned) do
+					log("     " .. unit .. " = " .. string.format("%.3f", tostring(count/total_units)) .. "%  Spawned:" .. tostring(count) .. " out of " .. tostring(total_units))
+				end
+			end
+		end
+	end
+
+	local group_ai_init = GroupAITweakData.init
+	function GroupAITweakData:init(tweak_data)
+		group_ai_init(self, tweak_data)
+		self:_debug_spawn_frequencies()
 	end
 end
