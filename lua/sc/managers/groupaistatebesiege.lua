@@ -25,7 +25,7 @@ local table_remove = table.remove
 --Nil = No logging, removes some error checking.
 --1 = Logging to record malformed tweakdata.
 --2 = Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
-local spawn_debug_level = nil
+local spawn_debug_level = 2
 
 function GroupAIStateBesiege:init(group_ai_state)
 	GroupAIStateBesiege.super.init(self)
@@ -850,7 +850,25 @@ else
 		--Determine which unit types in spawn group are valid. Delay spawns if required units are above cap.
 		for i = 1, #unit_types do
 			local spawn_entry = unit_types[i]
+			if not spawn_entry.unit then
+				log("ERROR IN GROUP: " .. spawn_group_type .. " no unit defined in index " .. tostring(i))
+				return
+			end
+
+			if not spawn_entry.freq then
+				log("ERROR IN GROUP: " .. spawn_group_type .. " no freq defined for unit " .. spawn_entry.unit)
+				return
+			end
+
+			if spawn_entry.amount_min and spawn_entry.amount_max and spawn_entry.amount_min > spawn_entry.amount_max then
+				log("WARNING IN GROUP: " .. spawn_group_type .. " amount_max is smaller than amount_min for " .. spawn_entry.unit)
+			end
+
 			local cat_data = unit_categories[spawn_entry.unit]
+			if not cat_data then
+				log("ERROR IN GROUP: " .. spawn_group_type .. " contains fictional made up imaginary good-for-nothing unit " .. spawn_entry.unit)
+				return
+			end
 
 			if cat_data.special_type then --Determine if special unit is valid, or if spawning needs to be delayed.
 				remaining_special_pools[cat_data.special_type] = managers.job:current_spawn_limit(cat_data.special_type) - self:_get_special_unit_type_count(cat_data.special_type)
