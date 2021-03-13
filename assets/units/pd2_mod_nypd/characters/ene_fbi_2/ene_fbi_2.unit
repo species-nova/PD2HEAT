@@ -7,7 +7,7 @@
 		
 		<depends_on bnk="soundbanks/regular_vox" />
 		<depends_on unit="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" />
-		<depends_on bnk="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" />
+		<depends_on unit="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" />
 	</dependencies>
 
 	<extensions>

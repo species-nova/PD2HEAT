@@ -15657,6 +15657,7 @@ function CharacterTweakData:character_map()
 				"ene_zeal_swat_shield",
 				"ene_zeal_tazer",
 				"ene_grenadier_1",
+				"ene_zeal_fbi_1",
 				"ene_zeal_fbi_m4",
 				"ene_zeal_fbi_mp5",
 				"ene_zeal_swat_heavy_sc",
@@ -16024,7 +16025,8 @@ function CharacterTweakData:character_map()
 			path = "units/pd2_mod_omnia/characters/",
 			list = {
 				"ene_omnia_hrt_1",
-				"ene_omnia_hrt_2",				
+				"ene_omnia_hrt_2",		
+				"ene_omnia_hrt_3",
 				"ene_omnia_crew",
 				"ene_omnia_crew_2",
 				"ene_omnia_city",
