@@ -748,7 +748,7 @@ if not spawn_debug_level then
 			local amount_increase = new_amount - prev_amount --Amount the number of this unit would increase.
 
 			if spawn_entry.amount_max and new_amount >= spawn_entry.amount_max then --Max unit count reached, removing unit from valid units for future spawns.
-				table.remove(valid_unit_types, i)
+				table_remove(valid_unit_types, i)
 				total_wgt = total_wgt - spawn_entry.freq
 				unit_invalidated = true
 			end
@@ -759,7 +759,7 @@ if not spawn_debug_level then
 				if remaining_special_pools[cat_data.special_type] >= amount_increase then
 					remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
 					if remaining_special_pools[cat_data.special_type] == 0 then --Special spawn cap reached, removing unit from valid units for future spawns.
-						table.remove(valid_unit_types, i)
+						table_remove(valid_unit_types, i)
 						total_wgt = total_wgt - spawn_entry.freq
 						unit_invalidated = true
 					end
@@ -900,7 +900,7 @@ else
 			local amount_increase = new_amount - prev_amount --Amount the number of this unit would increase.
 
 			if spawn_entry.amount_max and new_amount >= spawn_entry.amount_max then --Max unit count reached, removing unit from valid units for future spawns.
-				table.remove(valid_unit_types, i)
+				table_remove(valid_unit_types, i)
 				total_wgt = total_wgt - spawn_entry.freq
 				unit_invalidated = true
 			end
@@ -911,7 +911,7 @@ else
 				if remaining_special_pools[cat_data.special_type] >= amount_increase then
 					remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
 					if remaining_special_pools[cat_data.special_type] == 0 then --Special spawn cap reached, removing unit from valid units for future spawns.
-						table.remove(valid_unit_types, i)
+						table_remove(valid_unit_types, i)
 						total_wgt = total_wgt - spawn_entry.freq
 						unit_invalidated = true
 					end
@@ -2265,7 +2265,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		}
 
 		repeat
-			local search_area = table.remove(to_search_areas, 1)
+			local search_area = table_remove(to_search_areas, 1)
 
 			if next(search_area.criminal.units) then
 				local assault_from_here = true
@@ -2345,7 +2345,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 			local assault_area = push and assault_area or found_areas[assault_area] == "init" and objective_area or found_areas[assault_area]
 
 			if #assault_path > 2 and assault_area.nav_segs[assault_path[#assault_path - 1][1]] then
-				table.remove(assault_path)
+				table_remove(assault_path)
 			end
 
 			local grp_objective = {
