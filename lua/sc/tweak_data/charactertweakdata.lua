@@ -821,13 +821,6 @@ function CharacterTweakData:_init_swat(presets)
 	
 	self.hrt = deep_clone(self.swat)
 	self.hrt.access = "fbi"
-	self.hrt.weapon.is_pistol.FALLOFF = {
-			mode = {
-				0,
-				0,
-				1,
-				0
-	}
 	table.insert(self._enemy_list, "hrt")
 	
 	self.swat_titan = deep_clone(self.swat)
@@ -15156,6 +15149,12 @@ function CharacterTweakData:_set_characters_weapon_preset(preset, special_preset
 			end
 		end
 	end
+	
+	for i = 1, #self.hrt.weapon.is_pistol.FALLOFF do
+		self.hrt.weapon.is_pistol.FALLOFF[i].mode = {0, 0, 1, 0}
+	end	
+	
+	self.hrt.weapon.is_pistol.autofire_rounds = {3, 3}
 end
 
 function CharacterTweakData:_set_characters_dodge_preset(preset)
