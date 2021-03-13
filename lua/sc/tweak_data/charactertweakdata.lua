@@ -473,7 +473,6 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi.steal_loot = true
 	self.fbi.no_arrest = false
 	self.fbi.heal_cooldown = 2
-	self.fbi.rescue_hostages = true
 	table.insert(self._enemy_list, "fbi")
 	self.fbi_female = deep_clone(self.fbi)
 	self.fbi_female.speech_prefix_p1 = "fl"
@@ -490,7 +489,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet.damage.melee_damage_mul = 2
 	self.fbi_vet.DAMAGE_CLAMP_BULLET = 6
 	self.fbi_vet.dodge = presets.dodge.veteran
-	self.fbi_vet.access = "fbi"
+	self.fbi_vet.access = "spooc"
 	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.elite
 	self.fbi_vet.use_animation_on_fire_damage = false
 	self.fbi_vet.move_speed = presets.move_speed.lightning
@@ -822,15 +821,6 @@ function CharacterTweakData:_init_swat(presets)
 	
 	self.hrt = deep_clone(self.swat)
 	self.hrt.access = "fbi"
-	self.hrt.rescue_hostages = true
-	self.hrt.weapon.is_pistol.FALLOFF = {
-			mode = {
-				0,
-				0,
-				1,
-				0
-			}
-		}
 	table.insert(self._enemy_list, "hrt")
 	
 	self.swat_titan = deep_clone(self.swat)
@@ -848,7 +838,6 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat_titan.custom_voicework = nil
 	self.swat_titan.static_dodge_preset = true
 	self.swat_titan.heal_cooldown = 3.75
-	self.swat_titan.rescue_hostages = true
 	table.insert(self._enemy_list, "swat_titan")
 end
 
@@ -1275,8 +1264,6 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend.heal_cooldown = 2.5
 	self.weekend.can_throw_frag = true
 	self.weekend.surrender = presets.surrender.bravo
-	self.weekend.rescue_hostages = true
-	self.weekend.access = "fbi"
 	table.insert(self._enemy_list, "weekend")				
 	
 	self.city_swat_titan = deep_clone(self.city_swat)
@@ -4571,7 +4558,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.base.speech_prefix = "po"
 	presets.base.speech_prefix_count = 1
 	presets.base.follower = false
-	presets.base.rescue_hostages = false
+	presets.base.rescue_hostages = true
 	presets.base.use_radio = self._default_chatter
 	presets.base.dodge = nil
 	presets.base.challenges = {type = "law"}
@@ -15162,6 +15149,12 @@ function CharacterTweakData:_set_characters_weapon_preset(preset, special_preset
 			end
 		end
 	end
+	
+	for i = 1, #self.hrt.weapon.is_pistol.FALLOFF do
+		self.hrt.weapon.is_pistol.FALLOFF[i].mode = {0, 0, 1, 0}
+	end	
+	
+	self.hrt.weapon.is_pistol.autofire_rounds = {3, 3}
 end
 
 function CharacterTweakData:_set_characters_dodge_preset(preset)
