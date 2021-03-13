@@ -758,7 +758,7 @@ if not spawn_debug_level then
 			if cat_data.special_type then
 				if remaining_special_pools[cat_data.special_type] >= amount_increase then
 					remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
-					if remaining_special_pools[cat_data.special_type] == 0 then --Special spawn cap reached, removing unit from valid units for future spawns.
+					if remaining_special_pools[cat_data.special_type] == 0 and not unit_invalidated then --Special spawn cap reached, removing unit from valid units for future spawns.
 						table_remove(valid_unit_types, i)
 						total_wgt = total_wgt - spawn_entry.freq
 						unit_invalidated = true
@@ -928,7 +928,7 @@ else
 			if cat_data.special_type then
 				if remaining_special_pools[cat_data.special_type] >= amount_increase then
 					remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
-					if remaining_special_pools[cat_data.special_type] == 0 then --Special spawn cap reached, removing unit from valid units for future spawns.
+					if remaining_special_pools[cat_data.special_type] == 0 and not unit_invalidated then --Special spawn cap reached, removing unit from valid units for future spawns.
 						table_remove(valid_unit_types, i)
 						total_wgt = total_wgt - spawn_entry.freq
 						unit_invalidated = true
