@@ -12275,6 +12275,10 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			min_diff = captain_min_diff,
 			sustain_only = true
 		},
+		hurtstage_zerg_rush = {
+			cooldown = 60,
+			min_diff = 0.5
+		},
 		GREEN_tanks = {
 			cooldown = dozer_cooldown
 		},
