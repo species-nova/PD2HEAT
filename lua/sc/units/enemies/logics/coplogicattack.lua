@@ -347,7 +347,7 @@ function CopLogicAttack._upd_combat_movement(data)
 			move_to_cover = true
 		elseif not enemy_visible_soft then
 			if tactics then			
-				if data.objective and data.objective.grp_objective and data.objective.grp_objective.charge or valid_harass then
+				if data.objective and data.objective.grp_objective and data.objective.grp_objective.moving_in or valid_harass then
 					if not my_data.charge_path_failed_t or t - my_data.charge_path_failed_t > 3 then
 						if my_data.charge_path then
 							local path = my_data.charge_path

@@ -1310,24 +1310,41 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention)
 	end
 	
 	if attention and REACT_COMBAT <= attention.reaction then
-		local bad_types = {
-			recon_area = true,
-			retire = true
+		local good_types = {
+			free = true,
+			defend_area = true
 		}
 			
-		if objective.type == "defend_area" and objective.grp_objective and not bad_types[objective.grp_objective.type] then
-			local my_nav_seg = data.unit:movement():nav_tracker():nav_segment()
-			local my_area = managers.groupai:state():get_area_from_nav_seg_id(data.unit:movement():nav_tracker():nav_segment())
+		if good_types[objective.type] then
+			local good_grp_types = {
+				recon_area = true,
+				assault_area = true,
+				reenforce_area = true,
+				defend_area = true
+			}
+			
+			if not objective.grp_objective or good_grp_types[objective.grp_objective.type] then 
+				local my_nav_seg = data.unit:movement():nav_tracker():nav_segment()
+				local my_area = managers.groupai:state():get_area_from_nav_seg_id(data.unit:movement():nav_tracker():nav_segment())
 				
-			if next(my_area.criminal.units) then
-				return true, true
-			end
+				if objective.area and objective.area.nav_segs[my_nav_seg] and next(objective.area.criminal.units) then
+					return true, false
+				end
 				
-			if REACT_COMBAT <= attention.reaction then
-				local dis = data.unit:base()._engagement_range or data.internal_data.weapon_range and data.internal_data.weapon_range.optimal or 2000
-				local visible_softer = attention.verified_t and data.t - attention.verified_t < 7
-				if visible_softer and attention.dis <= dis then
-					return true, true
+				if REACT_COMBAT <= attention.reaction then
+					if not data.tactics or not data.tactics.charge or objective.area and next(objective.area.police.units) then
+						local grp_objective = objective.grp_objective
+						local dis = data.unit:base()._engagement_range or data.internal_data.weapon_range and data.internal_data.weapon_range.optimal or 500
+						local my_data = data.internal_data
+						if grp_objective and not grp_objective.open_fire then
+							dis = dis * 0.5
+						end
+						
+						local visible_softer = attention.verified_t and data.t - attention.verified_t < 3.5
+						if visible_softer and attention.dis <= dis then
+							return true, false
+						end
+					end
 				end
 			end
 		end
