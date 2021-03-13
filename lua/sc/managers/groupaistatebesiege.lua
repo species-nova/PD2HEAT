@@ -25,7 +25,7 @@ local table_remove = table.remove
 --Nil = No logging, removes some error checking.
 --1 = Logging to record malformed tweakdata.
 --2 = Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
-local spawn_debug_level = 2
+local spawn_debug_level = nil
 
 function GroupAIStateBesiege:init(group_ai_state)
 	GroupAIStateBesiege.super.init(self)
