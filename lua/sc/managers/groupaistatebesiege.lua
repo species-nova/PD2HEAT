@@ -809,7 +809,7 @@ if not spawn_debug_level then
 				end
 			end
 
-			_add_unit_type_to_spawn_task(i, rand_entry) --Add our random boi.
+			_add_unit_type_to_spawn_task(rand_i, rand_entry) --Add our random boi.
 		end
 
 		--Create group object and finalize.
@@ -979,7 +979,7 @@ else
 				end
 			end
 
-			_add_unit_type_to_spawn_task(i, rand_entry) --Add our random boi.
+			_add_unit_type_to_spawn_task(rand_i, rand_entry) --Add our random boi.
 		end
 
 		--Create group object and finalize.
