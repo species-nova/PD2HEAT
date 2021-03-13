@@ -1726,7 +1726,8 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			unit_types = {
 				america = {
 					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4"),
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")							
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"),
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")							
 				},
 				russia = {
 					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2"),
@@ -1734,9 +1735,11 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 				},
 				zombie = {
 					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4"),
-					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")							
+					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"),
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")							
 				},							
 				murkywater = {
+					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_3/ene_omnia_hrt_3"),
 					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2"),
 					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_1/ene_omnia_hrt_1")						
 				},
@@ -1746,12 +1749,14 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 				},					
 				nypd = {
 					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4"),
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")						
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"),
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")						
 				},	
 				lapd = {
 					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4"),
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")							
-				}					
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"),
+					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")				
+				}
 			},
 			access = access_type_all
 		}
