@@ -829,7 +829,8 @@ function CharacterTweakData:_init_swat(presets)
 				0,
 				1,
 				0
-	}
+			}
+		}
 	table.insert(self._enemy_list, "hrt")
 	
 	self.swat_titan = deep_clone(self.swat)

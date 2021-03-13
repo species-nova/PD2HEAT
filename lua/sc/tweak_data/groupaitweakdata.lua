@@ -8484,7 +8484,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 0.2,
 					amount_min = 1,
 					amount_max = 2,
-					tactics = self._tactics.ELITE_swat_rifle,
+					tactics = self._tactics.ELITE_swat_rifle_flank,
 					rank = 1
 				},
 				{
