@@ -1949,41 +1949,70 @@ end
 function GroupAIStateBase:_set_rescue_state(state)
 end
 
---setup for host to set diff based on events
---probably fine if clients run it, but better safe than sorry
-if Network:is_server() then
-	--increase diff by x amount for each hostage killed (only by players)
-	local hostage_killed = GroupAIStateBase.hostage_killed
-	function GroupAIStateBase:hostage_killed(killer_unit)
-		hostage_killed(self, killer_unit)
-			--vanilla checks to make sure its a player
-			if not alive(killer_unit) then
-				return
-			end
+function GroupAIStateBase:hostage_killed(killer_unit)
+	if not alive(killer_unit) then
+		return
+	end
 
-			if killer_unit:base() and killer_unit:base().thrower_unit then
-				killer_unit = killer_unit:base():thrower_unit()
+	if killer_unit:base() and killer_unit:base().thrower_unit then
+		killer_unit = killer_unit:base():thrower_unit()
 
-				if not alive(killer_unit) then
-					return
-				end
-			end
+		if not alive(killer_unit) then
+			return
+		end
+	end
 
-			local key = killer_unit:key()
-			local criminal = self._criminals[key]
+	local key = killer_unit:key()
+	local criminal = self._criminals[key]
 
-			if not criminal then
-				return
-			end
-			self:set_difficulty(nil, 0.1)
+	if not criminal then
+		return
+	end
+
+	self:set_difficulty(nil, 0.1)
 			
-		    if is_first or self._assault_number and self._assault_number >= 1 then
-				local roll = math.rand(1, 100)
-				local chance_civ = 50
-			    if roll <= chance_civ then
-			        self:_get_megaphone_sound_source():post_event("mga_killed_civ_1st")
-				end	
+	if is_first or self._assault_number and self._assault_number >= 1 then
+		local roll = math.rand(1, 100)
+		local chance_civ = 50
+		if roll <= chance_civ then
+			 self:_get_megaphone_sound_source():post_event("mga_killed_civ_1st")
+		end	
+	end
+
+	self._hostages_killed = (self._hostages_killed or 0) + 1
+
+	if not self._hunt_mode then
+		if self._hostages_killed >= 1 and not self._hostage_killed_warning_lines then
+			if self:sync_hostage_killed_warning(1) then
+				managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 1)
+
+				self._hostage_killed_warning_lines = 1
 			end
+		elseif self._hostages_killed >= 3 and self._hostage_killed_warning_lines == 1 then
+			if self:sync_hostage_killed_warning(2) then
+				managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 2)
+
+				self._hostage_killed_warning_lines = 2
+			end
+		elseif self._hostages_killed >= 7 and self._hostage_killed_warning_lines == 2 and self:sync_hostage_killed_warning(3) then
+			managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 3)
+
+			self._hostage_killed_warning_lines = 3
+		end
+	end
+
+	if not criminal.is_deployable then
+		local tweak = nil
+
+		if killer_unit:base().is_local_player or killer_unit:base().is_husk_player then
+			tweak = tweak_data.player.damage
+		else
+			tweak = tweak_data.character[killer_unit:base()._tweak_table].damage
+		end
+
+		local respawn_penalty = criminal.respawn_penalty or tweak.base_respawn_time_penalty
+		criminal.respawn_penalty = respawn_penalty + tweak.respawn_time_penalty
+		criminal.hostages_killed = (criminal.hostages_killed or 0) + 1
 	end
 end
 
