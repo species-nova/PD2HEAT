@@ -743,7 +743,7 @@ function CarryData:on_pickup_SO_administered(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_administered: stored thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_administered: stored thief unit is dead")
 			end
 
@@ -783,7 +783,7 @@ function CarryData:on_pickup_SO_administered(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_administered: sent thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_administered: sent thief unit is dead")
 			end
 
@@ -847,7 +847,7 @@ function CarryData:on_pickup_SO_completed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_completed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_completed: thief unit is dead")
 			end
 
@@ -904,7 +904,7 @@ function CarryData:on_pickup_SO_completed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_completed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_completed: thief unit is dead")
 			end
 
@@ -946,7 +946,7 @@ function CarryData:on_pickup_SO_completed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_completed: stored thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_completed: stored thief unit is dead")
 			end
 
@@ -1011,7 +1011,7 @@ function CarryData:on_pickup_SO_failed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_failed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_failed: thief unit is dead")
 			end
 
@@ -1110,7 +1110,7 @@ function CarryData:on_pickup_SO_failed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_pickup_SO_failed: stored thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_pickup_SO_failed: stored thief unit is dead")
 			end
 
@@ -1175,7 +1175,7 @@ function CarryData:on_secure_SO_completed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_secure_SO_completed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_secure_SO_completed: thief unit is dead")
 			end
 
@@ -1232,7 +1232,7 @@ function CarryData:on_secure_SO_completed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_secure_SO_completed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_secure_SO_completed: thief unit is dead")
 			end
 
@@ -1274,7 +1274,7 @@ function CarryData:on_secure_SO_completed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_secure_SO_completed: stored thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_secure_SO_completed: stored thief unit is dead")
 			end
 
@@ -1349,7 +1349,7 @@ function CarryData:on_secure_SO_failed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_secure_SO_failed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_secure_SO_failed: thief unit is dead")
 			end
 
@@ -1406,7 +1406,7 @@ function CarryData:on_secure_SO_failed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_secure_SO_failed: thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_secure_SO_failed: thief unit is dead")
 			end
 
@@ -1448,7 +1448,7 @@ function CarryData:on_secure_SO_failed(thief)
 
 			if not dmg_ext then
 				log("CarryData:on_secure_SO_failed: stored thief unit has no character_damage() extension")
-			elseif dmg_ext.dead and my_dmg_ext:dead() then
+			elseif dmg_ext.dead and dmg_ext:dead() then
 				log("CarryData:on_secure_SO_failed: stored thief unit is dead")
 			end
 
