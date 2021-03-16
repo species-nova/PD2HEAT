@@ -1781,7 +1781,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all
 		}
-		end
 	end		
 	if difficulty_index <= 3 then
 		self.unit_categories.FBI_suit_stealth_MP5 = {
@@ -1922,6 +1921,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all
 		}
+	end
 	
 	--FBI SWATs (Rifle)
 	if difficulty_index <= 4 then
