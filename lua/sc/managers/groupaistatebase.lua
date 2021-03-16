@@ -1949,17 +1949,18 @@ end
 function GroupAIStateBase:_set_rescue_state(state)
 end
 
+
 function GroupAIStateBase:sync_hostage_killed_warning(warning)
 	if not self:bain_state() then
 		return
 	end
 
 	if warning == 1 then
-		return managers.dialog:queue_dialog("Play_ban_c01", {})
+		managers.dialog:queue_narrator_dialog("c01", {})
 	elseif warning == 2 then
-		return managers.dialog:queue_dialog("Play_ban_c02", {})
+		managers.dialog:queue_narrator_dialog("c02", {})
 	elseif warning == 3 then
-		return managers.dialog:queue_dialog("Play_ban_c03", {})
+		managers.dialog:queue_narrator_dialog("c03", {})
 	end
 end
 
@@ -1997,18 +1998,17 @@ function GroupAIStateBase:hostage_killed(killer_unit)
 
 	if not self._hunt_mode then
 		if self._hostages_killed >= 1 and not self._hostage_killed_warning_lines then
-			if self:sync_hostage_killed_warning(1) then
-				managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 1)
+			self:sync_hostage_killed_warning(1)
+			managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 1)
 
-				self._hostage_killed_warning_lines = 1
-			end
+			self._hostage_killed_warning_lines = 1
 		elseif self._hostages_killed >= 3 and self._hostage_killed_warning_lines == 1 then
-			if self:sync_hostage_killed_warning(2) then
-				managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 2)
+			self:sync_hostage_killed_warning(2)
+			managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 2)
 
-				self._hostage_killed_warning_lines = 2
-			end
-		elseif self._hostages_killed >= 7 and self._hostage_killed_warning_lines == 2 and self:sync_hostage_killed_warning(3) then
+			self._hostage_killed_warning_lines = 2
+		elseif self._hostages_killed >= 7 and self._hostage_killed_warning_lines == 2 then
+			self:sync_hostage_killed_warning(3)
 			managers.network:session():send_to_peers_synched("sync_hostage_killed_warning", 3)
 
 			self._hostage_killed_warning_lines = 3
