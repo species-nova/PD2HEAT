@@ -23,6 +23,63 @@ local next_g = next
 local table_insert = table.insert
 local table_remove = table.remove
 
+function GroupAIStateBesiege:_upd_groups()
+	for group_id, group in pairs(self._groups) do
+		self:_verify_group_objective(group)
+
+		for u_key, u_data in pairs(group.units) do
+			local brain = u_data.unit:brain()
+			
+			if not brain then
+				local my_unit = u_data.unit
+				
+				
+				if not alive(my_unit) then
+					log("coplogicidle: unit was destroyed!")
+				elseif my_unit:in_slot(0) then
+					log("coplogicidle: unit is being destroyed!")
+				else
+
+					local my_base_ext = my_unit:base()
+
+					if not my_base_ext then
+						log("upd_groups: unit has no base() extension which is insane")
+					elseif my_base_ext._tweak_table then
+						log("upd_groups: tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+					else
+						log("upd_groups: how")
+					end
+
+					local my_dmg_ext = my_unit:character_damage()
+
+					if not my_dmg_ext then
+						log("upd_groups: no dmg extension???")
+					elseif my_dmg_ext.dead and my_dmg_ext:dead() then
+						log("upd_groups: dead cop walking")
+					end
+				end
+			else
+			
+				local current_objective = brain:objective()
+
+				if (not current_objective or current_objective.is_default or current_objective.grp_objective and current_objective.grp_objective ~= group.objective and not current_objective.grp_objective.no_retry) and (not group.objective.follow_unit or alive(group.objective.follow_unit)) then
+					local objective = self._create_objective_from_group_objective(group.objective, u_data.unit)
+
+					if objective and brain:is_available_for_assignment(objective) then
+						self:set_enemy_assigned(objective.area or group.objective.area, u_key)
+
+						if objective.element then
+							objective.element:clbk_objective_administered(u_data.unit)
+						end
+
+						u_data.unit:brain():set_objective(objective)
+					end
+				end
+			end
+		end
+	end
+end
+
 --If set to true, logs every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
 local debug_spawn_groups = nil
 
@@ -768,6 +825,23 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 			sp_data.delay_t = self._t + math.rand(0.5)
 		end
 	end
+	
+	if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations
+		local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
+		local search_params = {
+			id = "GroupAI_spawn",
+			from_seg = spawn_group.nav_seg,
+			to_seg = end_nav_seg,
+			access_pos = "swat"
+		}
+		local coarse_path = managers.navigation:search_coarse(search_params)
+		
+		if coarse_path then
+			grp_objective.coarse_path = coarse_path
+		else
+			grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
+		end
+	end
 
 	local spawn_task = {
 		objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
@@ -777,6 +851,8 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 		spawn_group_type = spawn_group_type,
 		ai_task = ai_task
 	}
+	
+	table_insert(self._spawning_groups, spawn_task)
 
 	--Adds as many as needed to meet requirements. Removes any valid units it turns invalid.
 	local function _add_unit_type_to_spawn_task(i, spawn_entry)
@@ -864,28 +940,11 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 	}
 	local group = self:_create_group(group_desc)
 	
-	if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations
-		local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
-		local search_params = {
-			id = "GroupAI_spawn",
-			from_seg = spawn_group.nav_seg,
-			to_seg = end_nav_seg,
-			access_pos = self._get_group_acces_mask(group)
-		}
-		local coarse_path = managers.navigation:search_coarse(search_params)
-		
-		if coarse_path then
-			grp_objective.coarse_path = coarse_path
-		else
-			grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
-		end
-	end
-	
 	self:_set_objective_to_enemy_group(group, grp_objective)
 	group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
 	spawn_task.group = group
 	group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
-	table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
+	--table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
 
 	if debug_spawn_groups then
 		log("Spawning group: " .. spawn_group_type)
@@ -1868,24 +1927,55 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 				local done_moving = nil
 
 				for u_key, u_data in pairs_g(group.units) do
-					local objective = u_data.unit:brain():objective()
-					local move
+					local brain = u_data.unit:brain()
+			
+					if not brain then
+						local my_unit = u_data.unit
+						
+						
+						if not alive(my_unit) then
+							log("coplogicidle: unit was destroyed!")
+						elseif my_unit:in_slot(0) then
+							log("coplogicidle: unit is being destroyed!")
+						else
 
-					if objective then
-						if objective.grp_objective ~= grp_objective then
-							-- Nothing
-						elseif not objective.in_place then
-							if objective.area.nav_segs[u_data.unit:movement():nav_tracker():nav_segment()] then
-								done_moving = true --due to how enemy pathing works, it'd be unescessary to check for all units in the group here.
+							local my_base_ext = my_unit:base()
+
+							if not my_base_ext then
+								log("upd_groups: unit has no base() extension which is insane")
+							elseif my_base_ext._tweak_table then
+								log("upd_groups: tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+							else
+								log("upd_groups: how")
+							end
+
+							local my_dmg_ext = my_unit:character_damage()
+
+							if not my_dmg_ext then
+								log("upd_groups: no dmg extension???")
+							elseif my_dmg_ext.dead and my_dmg_ext:dead() then
+								log("upd_groups: dead cop walking")
+							end
+						end
+					else
+						local objective = brain:objective()
+
+						if objective then
+							if objective.grp_objective ~= grp_objective then
+								-- Nothing
+							elseif not objective.in_place then
+								if objective.area.nav_segs[u_data.unit:movement():nav_tracker():nav_segment()] then
+									done_moving = true --due to how enemy pathing works, it'd be unescessary to check for all units in the group here.
+									
+									break
+								else
+									done_moving = false
+								end
+							elseif done_moving == nil then
+								done_moving = true
 								
 								break
-							else
-								done_moving = false
 							end
-						elseif done_moving == nil then
-							done_moving = true
-							
-							break
 						end
 					end
 				end

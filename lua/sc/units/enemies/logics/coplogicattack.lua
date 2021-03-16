@@ -280,7 +280,7 @@ function CopLogicAttack._upd_combat_movement(data)
 		end
 	end
 
-	action_taken = action_taken or data.logic.action_taken(data, my_data) or CopLogicAttack._upd_pose(data, my_data)
+	action_taken = action_taken or data.logic.action_taken(data, my_data)
 	
 	local tactics = data.tactics
 	local soft_t = 2
@@ -1515,7 +1515,7 @@ function CopLogicAttack.action_complete_clbk(data, action)
 		CopLogicAttack._cancel_charge(data, my_data)
 
 		if my_data.surprised then
-			my_data.surprised = false
+			my_data.surprised = nil
 		elseif my_data.moving_to_cover then
 			if action:expired() then
 				my_data.in_cover = my_data.moving_to_cover
@@ -1550,6 +1550,9 @@ function CopLogicAttack.action_complete_clbk(data, action)
 
 		if action:expired() and not CopLogicBase.chk_start_action_dodge(data, "hit") then
 			data.logic._upd_aim(data, my_data)
+			if data.important then
+				CopLogicAttack._upd_pose(data, my_data)
+			end
 		end
 	elseif action_type == "dodge" then
 		local timeout = action:timeout()
@@ -1562,6 +1565,9 @@ function CopLogicAttack.action_complete_clbk(data, action)
 
 		if action:expired() then
 			data.logic._upd_aim(data, my_data)
+			if data.important then
+				CopLogicAttack._upd_pose(data, my_data)
+			end
 		end
 	end
 end

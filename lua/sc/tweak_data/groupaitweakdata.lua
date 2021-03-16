@@ -11933,7 +11933,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		6 * map_scale_factor,
 		8 * map_scale_factor
 	}
-	if difficulty_index <= 7 then
+	if difficulty_index <= 2 then
+		--normal
 		self.besiege.recon.groups = {
 			CS_stealth_a = {
 				1,
@@ -11946,7 +11947,56 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				1
 			}
 		}
-	else
+	elseif difficulty_index == 3 then
+		--hard
+		self.besiege.recon.groups = {
+			CS_stealth_a = {
+				1,
+				0.5,
+				0
+			},
+			CS_cops = {
+				0,
+				0.5,
+				1
+			}
+		}
+	elseif difficulty_index == 4 then
+		--very hard
+		self.besiege.recon.groups = {
+			CS_stealth_a = {
+				1,
+				0.5,
+				0
+			},
+			CS_cops = {
+				0,
+				0.5,
+				1
+			}
+		}
+	elseif difficulty_index == 5 then
+		--overkill
+		self.besiege.recon.groups = {
+			FBI_stealth = {
+				0.65,
+				0.6,
+				0.5
+			},
+			GS_hostage_rescue = {
+				0.3,
+				0.3,
+				0.3
+			},
+			FBI_stealth_hard = {
+				0.05,
+				0.1,
+				0.2
+			}
+		}
+	elseif difficulty_index == 6 then
+		--mayhem
+		--gets recon cloakers
 		self.besiege.recon.groups = {
 			FBI_stealth = {
 				0.6,
@@ -11967,6 +12017,60 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.0,
 				0.1,
 				0.2
+			}
+		}
+	elseif difficulty_index == 7 then
+		--death wish
+		self.besiege.recon.groups = {
+			FBI_stealth = {
+				0.6,
+				0.4,
+				0.1
+			},
+			GS_hostage_rescue = {
+				0.3,
+				0.3,
+				0.3
+			},
+			FBI_stealth_hard = {
+				0.1,
+				0.2,
+				0.4
+			},
+			single_spooc = {
+				0.0,
+				0.1,
+				0.2
+			}
+		}
+	else
+		--death sentence
+		--gets rare titan cloakers
+		self.besiege.recon.groups = {
+			FBI_stealth = {
+				0.6,
+				0.4,
+				0.1
+			},
+			GS_hostage_rescue = {
+				0.3,
+				0.3,
+				0.3
+			},
+			FBI_stealth_hard = {
+				0.1,
+				0.2,
+				0.4
+			},
+			single_spooc = {
+				0.0,
+				0.08,
+				0.15
+			},
+			cloak_spooc = {
+				0.0,
+				0.02,
+				0.05
 			}
 		}
 	end
