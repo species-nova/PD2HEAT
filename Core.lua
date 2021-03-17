@@ -56,6 +56,7 @@ function restoration:Init()
 		"kenaz", --ggc
 		"bex", --san martin bank
 		"dinner", --Slaughterhouse
+		"chas", --Dragon Heist
 		--custom heists		
 		"firestarter_1_res", --firestarter day 1 res edit version
 		"lvl_friday" --Crashing Capitol
