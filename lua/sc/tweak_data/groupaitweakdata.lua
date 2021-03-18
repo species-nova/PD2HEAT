@@ -11464,12 +11464,12 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			GS_swats = {
 				0.22,
 				0.19,
-				0.17
+				0.18
 			},
 			GS_heavys = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			GS_hostage_rescue = {
 				0.08,
@@ -11484,7 +11484,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			GS_shotguns = {
 				0.1,
 				0.1,
-				0.08
+				0.09
 			},
 			shield = {
 				0.1,
@@ -11519,17 +11519,17 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			GREEN_tanks = {
 				0.01,
 				0.02,
-				0.04
+				0.03
 			},
 			BLACK_tanks = {
 				0.01,
 				0.02,
-				0.04
+				0.03
 			},
 			SKULL_tanks = {
 				0.01,
 				0.02,
-				0.04
+				0.03
 			},
 			TIT_tanks = {
 				0.0,
