@@ -1963,16 +1963,15 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 				local done_moving = nil
 
 				for u_key, u_data in pairs_g(group.units) do
-					local brain = u_data.unit:brain()
 			
-					if not brain then
+					if not alive(u_data.unit) or not u_data.unit:brain() then
 						local my_unit = u_data.unit
 						
 						
 						if not alive(my_unit) then
-							log("coplogicidle: unit was destroyed!")
+							log("upd_groups: unit was destroyed!")
 						elseif my_unit:in_slot(0) then
-							log("coplogicidle: unit is being destroyed!")
+							log("upd_groups: unit is being destroyed!")
 						else
 
 							local my_base_ext = my_unit:base()
@@ -1994,7 +1993,7 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 							end
 						end
 					else
-						local objective = brain:objective()
+						local objective = u_data.unit:brain():objective()
 
 						if objective then
 							if objective.grp_objective ~= grp_objective then
@@ -2025,7 +2024,9 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 				end
 			end
 			
-			self:_set_assault_objective_to_group(group, phase)
+			if not grp_objective.moving_in then
+				self:_set_assault_objective_to_group(group, phase)
+			end
 		end
 	end
 end
