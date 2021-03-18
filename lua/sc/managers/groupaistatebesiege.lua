@@ -753,6 +753,39 @@ if not spawn_debug_level then
 				sp_data.delay_t = self._t + math.rand(0.5)
 			end
 		end
+		
+		if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations, need to set this up for recon and reenforce groups still, but this is a start
+			local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
+			local search_params = {
+				id = "GroupAI_spawn",
+				from_seg = spawn_group.nav_seg,
+				to_seg = end_nav_seg,
+				access_pos = "swat",
+				verify_clbk = callback(self, self, "is_nav_seg_safe") --spawned in groups will try to path safely (avoiding direct contact) to sorround it if at all possible, in order to execute viable flanks as much as possible
+			}
+			local coarse_path = managers.navigation:search_coarse(search_params)
+			
+			if coarse_path then
+				grp_objective.coarse_path = coarse_path
+			else
+				--if it fails, try without the verify_clbk and go head-first anyway, with a chance to take a much longer and wider path instead.
+				local search_params = {
+					id = "GroupAI_spawn",
+					from_seg = spawn_group.nav_seg,
+					to_seg = end_nav_seg,
+					access_pos = "swat",
+					long_path = math_random() < 0.5 and true
+					--no verify_clbk
+				}
+				local coarse_path = managers.navigation:search_coarse(search_params)
+				
+				if coarse_path then
+					grp_objective.coarse_path = coarse_path
+				else
+					grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
+				end
+			end
+		end
 
 		local spawn_task = {
 			objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
@@ -848,38 +881,7 @@ if not spawn_debug_level then
 			type = spawn_group_type
 		}
 		local group = self:_create_group(group_desc)
-		if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations, need to set this up for recon and reenforce groups still, but this is a start
-			local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
-			local search_params = {
-				id = "GroupAI_spawn",
-				from_seg = spawn_group.nav_seg,
-				to_seg = end_nav_seg,
-				access_pos = self._get_group_acces_mask(group),
-				verify_clbk = callback(self, self, "is_nav_seg_safe") --spawned in groups will try to path safely (avoiding direct contact) to sorround it if at all possible, in order to execute viable flanks as much as possible
-			}
-			local coarse_path = managers.navigation:search_coarse(search_params)
-			
-			if coarse_path then
-				grp_objective.coarse_path = coarse_path
-			else
-				--if it fails, try without the verify_clbk and go head-first anyway, with a chance to take a much longer and wider path instead.
-				local search_params = {
-					id = "GroupAI_spawn",
-					from_seg = spawn_group.nav_seg,
-					to_seg = end_nav_seg,
-					access_pos = self._get_group_acces_mask(group),
-					long_path = math_random() < 0.5 and true
-					--no verify_clbk
-				}
-				local coarse_path = managers.navigation:search_coarse(search_params)
-				
-				if coarse_path then
-					grp_objective.coarse_path = coarse_path
-				else
-					grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
-				end
-			end
-		end
+
 		
 		self:_set_objective_to_enemy_group(group, grp_objective)
 		group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
