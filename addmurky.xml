@@ -10,6 +10,10 @@
 	<texture path="units/payday2/weapons/wpn_npc_m60/wpn_npc_m60_df" force="false"/>
 	<texture path="units/payday2/weapons/wpn_npc_m60/wpn_npc_m60_nm" force="false"/>	
 	
+	<!--Keeping those helmets flying again and again and again;)-->	
+	<unit_obj path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>
+	<cooked_physics path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>
+	
 	<!--bravo M60-->
 	<unit path="units/pd2_mod_bravo/weapons/wpn_npc_m60_bravo/wpn_npc_m60_bravo"  load="true"/>
 	
@@ -298,7 +302,7 @@
 	
 	<unit path="units/pd2_mod_omnia/characters/ene_omnia_hrt_3/ene_omnia_hrt_3" force="false" load="true"/>
 	<unit path="units/pd2_mod_omnia/characters/ene_omnia_hrt_3/ene_omnia_hrt_3_husk" force="false" load="true"/>
-
+	
 	<texture path="units/pd2_mod_omnia/characters/shared_textures/omnia_hrt_df" force="false"/>	
 
 	<unit_mat path="units/pd2_mod_omnia/characters/ene_acc_omnia_crew_cap/ene_acc_omnia_crew_cap" force="false" load="true"/>

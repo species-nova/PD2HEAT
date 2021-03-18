@@ -1,13 +1,4 @@
-<table directory="assets">	
-	<!--Murky Taser Helmet -->
-	<object path="units/pd2_mod_sharks/characters/ene_acc_murkytazer_helmet/ene_acc_murkytazer_helmet" force="false"/>
-	<sequence_manager path="units/pd2_mod_sharks/characters/ene_acc_murkytazer_helmet/ene_acc_murkytazer_helmet" force="false"/>	
-	<cooked_physics path="units/pd2_mod_sharks/characters/ene_acc_murkytazer_helmet/ene_acc_murkytazer_helmet" force="false"/>
-	<model path="units/pd2_mod_sharks/characters/ene_acc_murkytazer_helmet/ene_acc_murkytazer_helmet" force="false"/>
-	<unit path="units/pd2_mod_sharks/characters/ene_acc_murkytazer_helmet/ene_acc_murkytazer_helmet" force="false" load="true"/>
-	<material_config path="units/pd2_mod_sharks/characters/ene_acc_murkytazer_helmet/ene_acc_murkytazer_helmet" force="false"/>
-	<texture path="units/pd2_mod_sharks/characters/ene_murky_tazer/helmets_heavy_taser_atlas_df" force="false"/>	
-	
+<table directory="assets">		
 	<!--these guys have to be in here or you get stuck on the blackscreen idfk anymore-->
     <unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36" load="true"/>
     <unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36_husk" load="true"/>
@@ -99,19 +90,9 @@
 	<object path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" />	
 	<texture path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/spook_hvh_df" force="true" />	
 
-	<!--zshield helmet accessory-->
-	<sequence_manager path="units/pd2_mod_halloween/characters/ene_acc_zeal_tazer_helmet/ene_acc_zeal_tazer_helmet"/>
-	<object path="units/pd2_mod_halloween/characters/ene_acc_zeal_tazer_helmet/ene_acc_zeal_tazer_helmet"/>
-	<cooked_physics path="units/pd2_mod_halloween/characters/ene_acc_zeal_tazer_helmet/ene_acc_zeal_tazer_helmet"/>
-	<model path="units/pd2_mod_halloween/characters/ene_acc_zeal_tazer_helmet/ene_acc_zeal_tazer_helmet"/>
-	<material_config path="units/pd2_mod_halloween/characters/ene_acc_zeal_tazer_helmet/ene_acc_zeal_tazer_helmet"/>	
-	<unit path="units/pd2_mod_halloween/characters/ene_acc_zeal_tazer_helmet/ene_acc_zeal_tazer_helmet" load="true"/>	
-
-
 	<!--Updated Assets-->
 	<!-- <object	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> -->
 	<!-- <sequence_manager	path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera" force="true"/> --> <!--what was this for?-->
-	<texture path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera_df" force="true"/>
 	
 	<environment path="environments/pd2_env_night/pd2_env_night" force="true"/>
 	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
@@ -178,6 +159,7 @@
 	<texture path="guis/textures/pd2/skilltree/info_unseen_strike" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_survive_one_hit" force="false" load="false"/> <!-- Yakuza Oni Irezumi -->
 
+
 	<model path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container" force="true"/>
 	<texture path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_df" force="true"/>
 	<texture path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_nm" force="true"/>
@@ -218,7 +200,8 @@
 		
 		<physic_effect		force="true" path="physic_effects/push_sphere" unload="true"/> -->
 		<!--<bnk				force="true" path="soundbanks/regular_sfx" unload="true"/>-->
-		
+	<texture path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera_df" force="true"/>
+	
 	<!--Tiny Heist Edits that Change like a few things-->	
 	<mission path="levels/narratives/pbr/jerry/world/world" force="true" unload="true"/> <!--removes scripted sewer spawns. might have messed something up on the sewer part, so uh pls test kthx.-->		
 	<mission path="levels/instances/unique/pbr/pbr_plane_cargo/world/world" force="true" unload="true"/> <!--makes the murkydozers use their actual models on the plane. not gonna touch the other instance, 
@@ -226,16 +209,13 @@
 	<mission path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>  <!--so actual murky dozers rappel down when the helicopters arrive. also changes the van dozer.-->
 	<continent path="levels/narratives/classics/dinner/world/world" force="true" unload="true"/>
 	
-	<!--ETERNAL SWIVELDOZER not yet :( >
-	<mission path="levels/instances/unique/hox_breakout_serverroom001/world/world" force="true" unload="true"/-->
-	
-	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
-	
-	<!--heisters are no longer unsettled by saws finishing on brooklyn bank-->
+	<!--heisters are no longer unsettled by saws finishing on brooklyn bank-->	
 	<mission path="levels/instances/unique/brb/single_door_large/world/world" force="true" unload="true"/>
 	<mission path="levels/instances/unique/brb/single_door/world/world" force="true" unload="true"/>
-	
+
+	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
+	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
+		
 	<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--adds a bikerdozer to the bunker, removes swat turret.-->	
 	<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--fixes cars clipping into ground-->
 
@@ -248,9 +228,9 @@
 	<mission path="levels/instances/shared/skm_negotiator/world/world" force="true" unload="true"/> <!-- disables modifier dialogue and re-enables an unused negotiator line for players going in custody.-->
 	
 	<continent path="levels/narratives/bain/big/world/world" force="true" unload="true"/> <!--you can now drill the small cashbox, money cassettes spawn-->
-	
-	<mission path="levels/narratives/classics/pal/world/world" force="true" unload="true"/> <!--c4 warning plays when you walk into the shelter and fbi agents can pull the power/water-->
 
+	<mission path="levels/narratives/classics/pal/world/world" force="true" unload="true"/> <!--c4 warning plays when you walk into the shelter and fbi agents can pull the power/water-->
+	
 	<continent path="levels/narratives/classics/dah/world/world" force="true" unload="true"/>
 	<nav_data path="levels/narratives/classics/dah/nav_manager_data" force="true" unload="true"/>
 	
@@ -304,10 +284,10 @@
 	<!--ffs ovk, dont load the entire map if you force the players in one area-->
 	<continent path="levels/narratives/skm/skm_cas/world/world" force="true" unload="true"/>
 
-	<!--mm yes H&K on [insert heist]-->
+	<!--mm yes H&K on [insert heist]-->	
 	<mission path="levels/narratives/e_framing_frame/stage_1/world/world" force="true" unload="true"/>
 	<mission path="levels/narratives/vlad/four_stores/world/world" force="true" unload="true"/>
-
+	
 	<!--fuck your powerboxes-->
 	<mission path="levels/narratives/e_framing_frame/stage_3/world/world" force="true" unload="true"/>
 
@@ -319,7 +299,7 @@
 	<continent path="levels/narratives/classics/red2/world/world" force="true" unload="true"/> 
 	<nav_data path="levels/narratives/classics/red2/nav_manager_data" force="true" unload="true"/>	
 	<cover_data path="levels/narratives/classics/red2/cover_data" force="true" unload="true"/>
-
+	
 	<!--Green Bridge-->
 	<mission path="levels/narratives/classics/glace/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/classics/glace/world/world" force="true" unload="true"/> 
@@ -336,7 +316,7 @@
     <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" load="true"/>	
     <model path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" />	
     <object path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" />
-
+	
 	<!--UNDERCOVER-->
 	<mission path="levels/narratives/classics/man/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/classics/man/world/world" force="true" unload="true"/> 
@@ -454,11 +434,11 @@
 	<!--Dynamite no rolly polly-->
 	<object path="units/pd2_dlc_west/weapons/wpn_gre_dynamite/wpn_gre_dynamite" force="true" />		
 
-	<!--REMOVED CAP REQUIREMENT FOR LMG SIGHTS FOLLOWING LID (temp commented out cause it doesn't work
+	<!--REMOVED CAP REQUIREMENT FOR LMG SIGHTS FOLLOWING LID
 	<model path="units/pd2_dlc_gage_historical/weapons/wpn_fps_lmg_mg42_pts/wpn_fps_lmg_mg42_reciever" force="true"/>
 	<model path="units/pd2_dlc_gage_lmg/weapons/wpn_fps_lmg_m249_pts/wpn_fps_lmg_m249_upper_reciever" force="true"/>
-	<model path="units/pd2_dlc_par/weapons/wpn_fps_lmg_par_pts/wpn_fps_lmg_par_upper_reciever" force="true"/>-->
-	
+	<model path="units/pd2_dlc_par/weapons/wpn_fps_lmg_par_pts/wpn_fps_lmg_par_upper_reciever" force="true"/>
+	-->
 	<!-- M60 TROPICAL FOREGRIP FIX -->
 	<model path="units/pd2_dlc_atw/weapons/wpn_fps_lmg_m60_pts/wpn_fps_lmg_m60_fg_tropical" force="true"/>
 	
@@ -486,7 +466,7 @@
 	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_rpk/wpn_npc_rpk" force="true" load="true"/>	
 	<unit path="units/pd2_dlc_chico/weapons/wpn_npc_sg417/wpn_npc_sg417" force="true" load="true"/>		
 
-	<!--Reaper Bullet Impact Fixes (these must be loaded here for some fucking bizarre reason. I'm still puzzled to this day as to why we these don't work in the rapper package)-->	
+	<!--Reaper Bullet Impact Fixes-->	
 	<object path="units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870" force="true" />
 	<object path="units/pd2_dlc_mad/characters/ene_akan_cs_cop_r870/ene_akan_cs_cop_r870" force="true" />	
 	<object path="units/pd2_dlc_mad/characters/ene_akan_cs_cop_akmsu_smg/ene_akan_cs_cop_akmsu_smg" force="true" />	
@@ -614,7 +594,6 @@
 	
 	<material_config path="units/payday2/characters/ene_security_5/ene_security_5" force="true" />
 	<material_config path="units/payday2/characters/ene_security_5/ene_security_5_contour" force="true" />	
-	
 
 	<!-- material configs-->
 	<material_config path="units/payday2/characters/ene_fbi_vars/ene_fbi_var1" />
@@ -1369,8 +1348,8 @@
 	<unit path="units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3" force="false" load="true"/>
 	<unit path="units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3_husk" force="false" load="true"/>	
 
-	<!-- FBI 3 :))))))))))))))))))))))))))))))))))))))))))))))))))))))>
-	<model path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/-->	
+	<!-- FBI 3 :))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+	<model path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/>	
 	<unit path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/>
 	<unit path="units/payday2/characters/ene_fbi_3/ene_fbi_3_husk" force="true"/>		
 	
@@ -1682,13 +1661,11 @@
 	<texture path="units/payday2/characters/ene_acc_shield_city/shield_nm" force="false"/>	
 	
 	<!--Gensec Shield-->
-	<material_config path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" force="false"/>
-	<material_config path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec_contour" force="false"/>
+	<unit path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" load="true" force="false"/>
+	<unit path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec_husk" load="true" force="false"/>	
 	<model path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" force="false"/>
 	<object path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" force="false"/>
 	<cooked_physics path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" force="false"/>
-	<unit path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" load="true" force="false"/>
-	<unit path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec_husk" load="true" force="false"/>
 
 	<!--Unshootable Flashbangs-->
 	<sequence_manager path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" force="false"/>
@@ -2192,15 +2169,7 @@
 	<cooked_physics path="units/payday2/weapons/wpn_npc_mp5_cloak/wpn_npc_mp5_cloak"/>
 	<!--OVERKILL removed this at somepoint-->
 	<texture path="units/characters/enemies/textures/police_force_nm" />
-	
-	<!--Keeping those helmets flying again and again and again;)-->	
-	<object path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>
-	<cooked_physics path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>
-	<model path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>
-	<material_config path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>
-	<unit path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" load="false"/>
-	<sequence_manager path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet/ene_acc_murky_helmet" force="false"/>	
-	
+		
 	<!--glass shatter helmet but invisible-->
 	<object path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet_invisible/ene_acc_murky_helmet_invisible" force="false"/>
 	<cooked_physics path="units/pd2_mod_sharks/characters/ene_acc_murky_helmet_invisible/ene_acc_murky_helmet_invisible" force="false"/>
@@ -2299,21 +2268,19 @@
 	<texture path="units/payday2/characters/shared_textures/swat_city_df_sc" />	
 	<texture path="units/payday2/characters/shared_textures/swat_city_df_guard" />	
 	<texture path="units/payday2/characters/shared_textures/helmets_city_df" />	
+	<texture path="units/payday2/characters/shared_textures/heads_atlas_city_df" />	
 
 		
 	<!--ben and ump override since ovenkill forgot about them-->
-	<material_config path="units/payday2/characters/ene_city_swat_3/ene_city_swat_3" force="true"/>
-	<material_config path="units/payday2/characters/ene_city_swat_3/ene_city_swat_3_contour" force="true"/>
 	<object path="units/payday2/characters/ene_city_swat_3/ene_city_swat_3" force="true"/>			
 	<unit path="units/payday2/characters/ene_city_swat_3/ene_city_swat_3" load="true" force="true"/>	
 	<unit path="units/payday2/characters/ene_city_swat_3/ene_city_swat_3_husk" load="true" force="true"/>		
 	<model path="units/payday2/characters/ene_city_swat_3/ene_city_swat_3" force="true"/>	
 	
-	<material_config path="units/payday2/characters/ene_city_swat_2/ene_city_swat_2" force="true"/>
 	<unit path="units/payday2/characters/ene_city_swat_2/ene_city_swat_2_husk" load="true" force="true"/>		
 	<unit path="units/payday2/characters/ene_city_swat_2/ene_city_swat_2" load="true" force="true"/>				
-	<material_config path="units/payday2/characters/ene_city_swat_2/ene_city_swat_2_contour" force="true"/>
 	<model path="units/payday2/characters/ene_city_swat_2/ene_city_swat_2" force="true"/>	
+	<object path="units/payday2/characters/ene_city_swat_2/ene_city_swat_2" force="true"/>			
 	
 	<texture path="units/payday2/characters/shared_textures/mask_df" force="true"/>	
 	
@@ -2414,10 +2381,7 @@
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_zeal_city_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_zeal_city_head_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/helmets_shotgun_df" />	
-	
-	
 	<!--zeal fbi-->
-	
 	<!--zeal fbi 1-->
 	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1" load="true"/>
 	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1_husk" load="true"/>	
@@ -2430,7 +2394,6 @@
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4"/>
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4_contour"/>
 	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4_husk" load="true"/>	
-	
 	<!--zeal fbi mp5-->
 	<object path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"/>
 	<cooked_physics path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"/>
@@ -2439,14 +2402,12 @@
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5"/>
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5_contour"/>
 	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5_husk" load="true"/>	
-	
 	<!--mask acc-->
 	<object path="units/pd2_dlc_gitgud/characters/ene_acc_zeal_fbi_mask/ene_acc_zeal_fbi_mask"/>
 	<cooked_physics path="units/pd2_dlc_gitgud/characters/ene_acc_zeal_fbi_mask/ene_acc_zeal_fbi_mask"/>
 	<model path="units/pd2_dlc_gitgud/characters/ene_acc_zeal_fbi_mask/ene_acc_zeal_fbi_mask"/>
 	<unit path="units/pd2_dlc_gitgud/characters/ene_acc_zeal_fbi_mask/ene_acc_zeal_fbi_mask" load="false"/>
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_acc_zeal_fbi_mask/ene_acc_zeal_fbi_mask"/>
-	
 	<!--textures fbi -->
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_soldier_zeal_head_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_soldier_zeal_head_nm" />	
@@ -2454,7 +2415,6 @@
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_zeal_fbi_head_nm" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_zeal_fbi_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/ene_zeal_fbi_nm" />	
-	
 	<!--zeal heavy m4-->
     <object path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc"/>
 	<cooked_physics path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc"/>
@@ -2462,11 +2422,9 @@
 	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc" load="true"/>
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc"/>
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc_contour"/>
-	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc_husk" load="true"/>	
-	
+	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc_husk" load="true"/>		
 	<!--imagine getting your head blown off by 4 dumbass invincible robbers-->
 	<material_config path="units/pd2_dlc_gitgud/characters/ene_acc_zeal_swat_heavy_helmet/ene_acc_zeal_swat_heavy_helmet" force="true" />
-	
 	<!--zeal heavy r870-->
     <object path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"/>
 	<cooked_physics path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"/>
@@ -2477,14 +2435,12 @@
 	<unit path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc_husk" load="true"/>	
 	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/swat_heavy_head_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/swat_heavy_head_nm" />	
-	
 	<!--textures heavy -->
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/swat_heavy_helmet_nm" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/swat_heavy_helmet_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/swat_heavy_head_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/swat_heavy_df" />	
-	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/swat_heavy_nm" />
-	
+	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/swat_heavy_nm" />	
 	<!--fbi ready team 1 -->
 	<!--
     <object path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1"/>
@@ -2535,8 +2491,6 @@
     <object path="units/payday2/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc"/>
 	<cooked_physics path="units/payday2/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc"/>
 	<model path="units/payday2/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc"/>
-	<material_config path="units/payday2/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc"/>
-	<material_config path="units/payday2/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc_contour"/>
 	<!--city heavy r870-->
     <unit path="units/payday2/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc" load="true"/>
     <unit path="units/payday2/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc_husk" load="true"/>
@@ -2633,10 +2587,19 @@
 	<texture path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun_df" force="true"/>	
 	<model path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun" force="true"/>
 	<object path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun" force="true"/>	
+	<material_config path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun" force="true"/>	
+	<material_config path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun_contour" force="true"/>	
 	<sequence_manager path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun" force="true"/>	
+	
+	<!--minidozer clasik-->
+	<object path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic" force="true"/>	
+	<material_config path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic" force="true"/>	
+	<material_config path="units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic_contour" force="true"/>	
 	
 	<!--medic dosr-->
 	<object path="units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic" force="true"/>	
+	<material_config path="units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic" force="true"/>	
+	<material_config path="units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic_contour" force="true"/>	
 	<model path="units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic" force="true"/>	
 	<sequence_manager path="units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic" force="true"/>	
 	
@@ -2661,7 +2624,7 @@
 	<object path="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer" force="true"/>	
 	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_df" force="true"/>	
 	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_head_df" force="true"/>	
-	
+
 	<!--zeal grenadier-->
 	<unit path="units/pd2_dlc_gitgud/characters/ene_grenadier_1/ene_grenadier_1" load="true"/>
 	<unit path="units/pd2_dlc_gitgud/characters/ene_grenadier_1/ene_grenadier_1_husk"  load="true"/>	
@@ -2703,7 +2666,9 @@
 	<!--swat dozers-->
 	<object path="units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1" force="true"/>	
 	<object path="units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2" force="true"/>	
+	<model path="units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2" force="true"/>	
 	<object path="units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3" force="true"/>
+	<model path="units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3" force="true"/>
 	<material_config path="units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1" force="true"/>	
 	<material_config path="units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1_contour" force="true"/>
 	<material_config path="units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2" force="true"/>	
@@ -2716,16 +2681,13 @@
 	<unit path="units/payday2/characters/ene_shield_2/ene_shield_2_husk" force="true" load="true"/>
 	<object path="units/payday2/characters/ene_shield_2/ene_shield_2" force="true"/>	
 	<model path="units/payday2/characters/ene_shield_2/ene_shield_2" force="true"/>	
-	<material_config path="units/payday2/characters/ene_shield_2/ene_shield_2" force="true"/>	
-	<material_config path="units/payday2/characters/ene_shield_2/ene_shield_2_contour" force="true"/>
 	
-	<!--FBI Shield guy-->
+	<!--FBI Shield -->
+	<unit path="units/payday2/characters/ene_shield_1/ene_shield_1" load="true" force="true"/>
+	<unit path="units/payday2/characters/ene_shield_1/ene_shield_1_husk" load="true" force="true"/>		
+	<model path="units/payday2/characters/ene_shield_1/ene_shield_1" force="true"/>
 	<material_config path="units/payday2/characters/ene_shield_1/ene_shield_1" force="true"/>
 	<material_config path="units/payday2/characters/ene_shield_1/ene_shield_1_contour" force="true"/>
-	<model path="units/payday2/characters/ene_shield_1/ene_shield_1" force="true"/>
-	<object path="units/payday2/characters/ene_shield_1/ene_shield_1" force="true"/>		
-	<unit path="units/payday2/characters/ene_shield_1/ene_shield_1" load="true" force="true"/>
-	<unit path="units/payday2/characters/ene_shield_1/ene_shield_1_husk" load="true" force="true"/>	
 	
 	<!--swat taser-->
 	<unit path="units/payday2/characters/ene_tazer_1/ene_tazer_1" force="true"  load="true"/>
@@ -2734,9 +2696,6 @@
 	<model path="units/payday2/characters/ene_tazer_1/ene_tazer_1" force="true"/>	
 	<material_config path="units/payday2/characters/ene_tazer_1/ene_tazer_1" force="true"/>	
 	<material_config path="units/payday2/characters/ene_tazer_1/ene_tazer_1_contour" force="true"/>
-
-	<!--Taser Helmet-->
-	<unit_mat_seq path="units/pd2_dlc_bex/characters/ene_acc_bextazer_helmet/ene_acc_bextazer_helmet" force="false" load="true"/>
 	
 	<!--gensec heavy g36-->
 	<unit path="units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36" force="true"  load="true"/>
@@ -2746,8 +2705,9 @@
 	<material_config path="units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36" force="true"/>	
 	<material_config path="units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36_contour" force="true"/>
 	
-	<!--genfuck heavy-->
-	<unit_mat_seq path="units/payday2/characters/ene_acc_genfucker/ene_acc_genfucker" load="true" />
+	<!-- heavy swat helmet-->
+	<object path="units/payday2/characters/ene_acc_city_heavy_helmet/ene_acc_city_heavy_helmet" />
+	<model path="units/payday2/characters/ene_acc_city_heavy_helmet/ene_acc_city_heavy_helmet" />
 	
 	<!--fbi heavy 1-->
 	<unit path="units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1" force="true"  load="true"/>
@@ -2791,7 +2751,8 @@
 	<model path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>	
 	<object path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>		
 	
-	<!--vanilla unit texture overrides-->	
+	<!--vanilla unit texture overrides and other new stuff-->
+	<texture path="units/payday2/characters/shared_textures/fbi_heads_atlas_df" />		
 	<texture path="units/payday2/characters/shared_textures/genshill_helm_df"/>
 	<texture path="units/payday2/characters/shared_textures/genshill_helm_nm"/>
 	<texture path="units/payday2/characters/shared_textures/police_df" force="true"/>
@@ -2799,7 +2760,6 @@
 	<texture path="units/payday2/characters/shared_textures/spook_heavy_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/swat_body_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/swat_fbi_body_df" force="true"/>
-	<texture path="units/payday2/characters/shared_textures/helmets_atlas_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/helmets_atlas_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/bulldozer_city_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/bulldozer_saiga_df" force="true"/>

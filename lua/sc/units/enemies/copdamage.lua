@@ -19,6 +19,68 @@ local math_rand = math.rand
 local math_lerp = math.lerp
 local math_UP = math.UP
 
+local ids_func = Idstring
+local table_contains = table.contains
+
+local big_enemy_visor_shattering_table = {
+	ids_func("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1"),
+	ids_func("units/payday2/characters/ene_swat_heavy_1/ene_swat_heavy_1_husk"),
+	ids_func("units/payday2/characters/ene_swat_heavy_r870_sc/ene_swat_heavy_r870_sc"),    
+	ids_func("units/payday2/characters/ene_swat_heavy_r870_sc/ene_swat_heavy_r870_sc_husk"),    
+	ids_func("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36"),
+	ids_func("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36_husk"),
+	ids_func("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1"),
+	ids_func("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_1/ene_swat_heavy_hvh_1_husk"),
+	ids_func("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870"),
+	ids_func("units/pd2_dlc_hvh/characters/ene_swat_heavy_hvh_r870/ene_swat_heavy_hvh_r870_husk"),
+	ids_func("units/pd2_mod_halloween/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc"),
+	ids_func("units/pd2_mod_halloween/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc_husk"),                 	
+	ids_func("units/pd2_mod_halloween/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
+	ids_func("units/pd2_mod_halloween/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc_husk"),                 	
+	ids_func("units/pd2_mod_halloween/characters/ene_zeal_tazer/ene_zeal_tazer"),
+	ids_func("units/pd2_mod_halloween/characters/ene_zeal_tazer/ene_zeal_tazer_husk"),                 	
+	ids_func("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"),
+	ids_func("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1_husk"),
+	ids_func("units/payday2/characters/ene_shield_2/ene_shield_2"),
+	ids_func("units/payday2/characters/ene_shield_2/ene_shield_2_husk"),
+	ids_func("units/payday2/characters/ene_tazer_1/ene_tazer_1"),
+	ids_func("units/payday2/characters/ene_tazer_1/ene_tazer_1_husk"),     
+	ids_func("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale"),
+	ids_func("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale_husk"),                 
+	ids_func("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_zeal_g36/ene_swat_heavy_policia_federale_zeal_g36"),
+	ids_func("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_zeal_g36/ene_swat_heavy_policia_federale_zeal_g36_husk"),                 
+	ids_func("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer"),
+	ids_func("units/pd2_dlc_gitgud/characters/ene_zeal_tazer/ene_zeal_tazer_husk"),                 
+	ids_func("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc"),
+	ids_func("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_sc/ene_zeal_swat_heavy_sc_husk"),                 
+	ids_func("units/pd2_mod_lapd/characters/ene_swat_heavy_1/ene_swat_heavy_1"),
+	ids_func("units/pd2_mod_lapd/characters/ene_swat_heavy_1/ene_swat_heavy_1_husk"),                 
+	ids_func("units/pd2_mod_lapd/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"),
+	ids_func("units/pd2_mod_lapd/characters/ene_swat_heavy_r870/ene_swat_heavy_r870_husk"),                 
+	ids_func("units/pd2_mod_lapd/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"),
+	ids_func("units/pd2_mod_lapd/characters/ene_fbi_heavy_1/ene_fbi_heavy_1_husk"),                 
+	ids_func("units/pd2_mod_lapd/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc"),
+	ids_func("units/pd2_mod_lapd/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc_husk"),                 
+	ids_func("units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36"),
+	ids_func("units/pd2_mod_lapd/characters/ene_city_heavy_g36/ene_city_heavy_g36_husk"),                 
+	ids_func("units/pd2_mod_sharks/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"),
+	ids_func("units/pd2_mod_sharks/characters/ene_fbi_heavy_1/ene_fbi_heavy_1_husk"),                 
+	ids_func("units/pd2_mod_sharks/characters/ene_murky_tazer/ene_murky_tazer"),
+	ids_func("units/pd2_mod_sharks/characters/ene_murky_tazer/ene_murky_tazer_husk"),                 
+	ids_func("units/pd2_mod_sharks/characters/ene_swat_heavy_1/ene_swat_heavy_1"),                 
+	ids_func("units/pd2_mod_sharks/characters/ene_swat_heavy_1/ene_swat_heavy_1_husk"),               
+	ids_func("units/pd2_mod_sharks/characters/ene_swat_heavy_r870/ene_swat_heavy_r870"),                 
+	ids_func("units/pd2_mod_sharks/characters/ene_swat_heavy_r870/ene_swat_heavy_r870_husk"),
+	ids_func("units/pd2_mod_nypd/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"),
+	ids_func("units/pd2_mod_nypd/characters/ene_fbi_heavy_1/ene_fbi_heavy_1_husk"),                 	
+	ids_func("units/pd2_mod_nypd/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc"),
+	ids_func("units/pd2_mod_nypd/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc_husk"),                 	
+	ids_func("units/pd2_mod_nypd/characters/ene_nypd_heavy_m4/ene_nypd_heavy_m4"),
+	ids_func("units/pd2_mod_nypd/characters/ene_nypd_heavy_m4/ene_nypd_heavy_m4_husk"),                 
+	ids_func("units/pd2_mod_nypd/characters/ene_nypd_heavy_r870/ene_nypd_heavy_r870"),
+	ids_func("units/pd2_mod_nypd/characters/ene_nypd_heavy_r870/ene_nypd_heavy_r870_husk"),                 	
+}
+
 function CopDamage:_spawn_head_gadget(params)
 	if not self._head_gear then
 		return
@@ -52,6 +114,18 @@ function CopDamage:_spawn_head_gadget(params)
 		local body = unit:body(0)
 
 		body:push_at(body:mass(), dir * math_lerp(450, 650, math_random()), unit:position() + Vector3(math_rand(1), math_rand(1), math_rand(1)))
+	end
+	
+	local my_unit = self._unit
+
+	if not table_contains(big_enemy_visor_shattering_table, my_unit:name()) then
+		return
+	end
+
+	local u_dmg = my_unit:damage()
+
+	if u_dmg and u_dmg:has_sequence("shatter") then
+		u_dmg:run_sequence_simple("shatter")
 	end
 
 	self._head_gear = false
