@@ -28,39 +28,43 @@ function GroupAIStateBesiege:_upd_groups()
 		self:_verify_group_objective(group)
 
 		for u_key, u_data in pairs(group.units) do
-			local brain = u_data.unit:brain()
-			
-			if not brain then
-				local my_unit = u_data.unit
-				
-				
-				if not alive(my_unit) then
-					log("coplogicidle: unit was destroyed!")
-				elseif my_unit:in_slot(0) then
-					log("coplogicidle: unit is being destroyed!")
-				else
-
-					local my_base_ext = my_unit:base()
-
-					if not my_base_ext then
-						log("upd_groups: unit has no base() extension which is insane")
-					elseif my_base_ext._tweak_table then
-						log("upd_groups: tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
-					else
-						log("upd_groups: how")
-					end
-
-					local my_dmg_ext = my_unit:character_damage()
-
-					if not my_dmg_ext then
-						log("upd_groups: no dmg extension???")
-					elseif my_dmg_ext.dead and my_dmg_ext:dead() then
-						log("upd_groups: dead cop walking")
-					end
-				end
+			local proceed = true
+			local my_unit = u_data.unit
+					
+			if not alive(my_unit) then
+				log("upd_groups: unit was destroyed!")
+				proceed = nil
+			elseif my_unit:in_slot(0) then
+				log("upd_groups: unit is being destroyed!")
+				proceed = nil
 			else
+
+				local my_base_ext = my_unit:base()
+
+				if not my_base_ext then
+					log("upd_groups: unit has no base() extension which is insane")
+					proceed = nil
+				elseif my_base_ext._tweak_table then
+					log("upd_groups: tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+					proceed = nil
+				else
+					log("upd_groups: how")
+					proceed = nil
+				end
+
+				local my_dmg_ext = my_unit:character_damage()
+
+				if not my_dmg_ext then
+					log("upd_groups: no dmg extension???")
+					proceed = nil
+				elseif my_dmg_ext.dead and my_dmg_ext:dead() then
+					log("upd_groups: dead cop walking")
+					proceed = nil
+				end
+			end
 			
-				local current_objective = brain:objective()
+			if proceed then
+				local current_objective = u_data.unit:brain():objective()
 
 				if (not current_objective or current_objective.is_default or current_objective.grp_objective and current_objective.grp_objective ~= group.objective and not current_objective.grp_objective.no_retry) and (not group.objective.follow_unit or alive(group.objective.follow_unit)) then
 					local objective = self._create_objective_from_group_objective(group.objective, u_data.unit)
@@ -1963,36 +1967,42 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 				local done_moving = nil
 
 				for u_key, u_data in pairs_g(group.units) do
-			
-					if not alive(u_data.unit) or not u_data.unit:brain() then
-						local my_unit = u_data.unit
-						
-						
-						if not alive(my_unit) then
-							log("upd_groups: unit was destroyed!")
-						elseif my_unit:in_slot(0) then
-							log("upd_groups: unit is being destroyed!")
-						else
-
-							local my_base_ext = my_unit:base()
-
-							if not my_base_ext then
-								log("upd_groups: unit has no base() extension which is insane")
-							elseif my_base_ext._tweak_table then
-								log("upd_groups: tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
-							else
-								log("upd_groups: how")
-							end
-
-							local my_dmg_ext = my_unit:character_damage()
-
-							if not my_dmg_ext then
-								log("upd_groups: no dmg extension???")
-							elseif my_dmg_ext.dead and my_dmg_ext:dead() then
-								log("upd_groups: dead cop walking")
-							end
-						end
+					local proceed = true
+					local my_unit = u_data.unit
+							
+					if not alive(my_unit) then
+						log("upd_groups: unit was destroyed!")
+						proceed = nil
+					elseif my_unit:in_slot(0) then
+						log("upd_groups: unit is being destroyed!")
+						proceed = nil
 					else
+
+						local my_base_ext = my_unit:base()
+
+						if not my_base_ext then
+							log("upd_groups: unit has no base() extension which is insane")
+							proceed = nil
+						elseif my_base_ext._tweak_table then
+							log("upd_groups: tweak table: " .. tostring(my_base_ext._tweak_table) .. "")
+							proceed = nil
+						else
+							log("upd_groups: how")
+							proceed = nil
+						end
+
+						local my_dmg_ext = my_unit:character_damage()
+
+						if not my_dmg_ext then
+							log("upd_groups: no dmg extension???")
+							proceed = nil
+						elseif my_dmg_ext.dead and my_dmg_ext:dead() then
+							log("upd_groups: dead cop walking")
+							proceed = nil
+						end
+					end
+					
+					if proceed then
 						local objective = u_data.unit:brain():objective()
 
 						if objective then
