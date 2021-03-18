@@ -1953,24 +1953,18 @@ function GroupAIStateBesiege:_upd_assault_task()
 			
 			local area_to_approach = nil
 			
-			if #primary_target_area.neighbours > 0 then
-				local chance_add = 1 / #primary_target_area.neighbours
-				local chance = 0
+			if primary_target_area.neighbours then
+				local areas = {}
+				local i = 1
 				--sorround and lockdown the current target area with the power of RNG!
-				for area_id, neighbour_area in pairs(primary_target_area.neighbours) do
-					if chance <= 0 then
-						chance = chance + chance_add
-					end
-						
-					if math_random() <= chance then
-						area_to_approach = neighbour_area
-						break
-					else
-						chance = chance + chance_add
-					end
+				for area_id, neighbour_area in pairs_g(primary_target_area.neighbours) do
+					areas[i] = neighbour_area
+					i = i + 1
 				end
+				
+				area_to_approach = areas[math_random(#areas)]
 			end
-			
+		
 			if spawn_group then
 				local grp_objective = {
 					type = "assault_area",
