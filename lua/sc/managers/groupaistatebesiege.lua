@@ -760,37 +760,36 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 	return _choose_best_groups_actual(self, best_groups, group, group_types, new_allowed_groups, weight, ...)
 end
 
-function GroupAIStateBesiege:_pregenerate_coarse_path(grp_objective)
-	if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations, need to set this up for recon and reenforce groups still, but this is a start
-		local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
+function GroupAIStateBesiege:_pregenerate_coarse_path(grp_objective, spawn_group)
+	--allows groups to preemptively generate coarse_paths as they spawn to their intended destinations, need to set this up for recon and reenforce groups still, but this is a start
+	local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
+	local search_params = {
+		id = "GroupAI_spawn",
+		from_seg = spawn_group.nav_seg,
+		to_seg = end_nav_seg,
+		access_pos = "swat",
+		verify_clbk = callback(self, self, "is_nav_seg_safe") --spawned in groups will try to path safely (avoiding direct contact) to sorround it if at all possible, in order to execute viable flanks as much as possible
+	}
+	local coarse_path = managers.navigation:search_coarse(search_params)
+	
+	if coarse_path then
+		grp_objective.coarse_path = coarse_path
+	else
+		--if it fails, try without the verify_clbk and go head-first anyway, with a chance to take a much longer and wider path instead.
 		local search_params = {
 			id = "GroupAI_spawn",
 			from_seg = spawn_group.nav_seg,
 			to_seg = end_nav_seg,
 			access_pos = "swat",
-			verify_clbk = callback(self, self, "is_nav_seg_safe") --spawned in groups will try to path safely (avoiding direct contact) to sorround it if at all possible, in order to execute viable flanks as much as possible
+			long_path = math_random() < 0.5 and true
+			--no verify_clbk
 		}
 		local coarse_path = managers.navigation:search_coarse(search_params)
 		
 		if coarse_path then
 			grp_objective.coarse_path = coarse_path
 		else
-			--if it fails, try without the verify_clbk and go head-first anyway, with a chance to take a much longer and wider path instead.
-			local search_params = {
-				id = "GroupAI_spawn",
-				from_seg = spawn_group.nav_seg,
-				to_seg = end_nav_seg,
-				access_pos = "swat",
-				long_path = math_random() < 0.5 and true
-				--no verify_clbk
-			}
-			local coarse_path = managers.navigation:search_coarse(search_params)
-			
-			if coarse_path then
-				grp_objective.coarse_path = coarse_path
-			else
-				grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
-			end
+			grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
 		end
 	end
 end
@@ -862,7 +861,7 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 	end
 	
 	if grp_objective.area and not grp_objective.coarse_path then
-		self:_pregenerate_coarse_path(grp_objective)
+		self:_pregenerate_coarse_path(grp_objective, spawn_group)
 	end
 
 	local spawn_task = {
