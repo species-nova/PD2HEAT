@@ -435,15 +435,15 @@ function CopDamage:damage_fire(attack_data)
 				distance = mvec3_dis(hit_pos, attack_data.attacker_unit:position())
 			end
 
-			local fire_dot_max_distance = weap_base and weap_base.far_dot_distance and weap_base.far_dot_distance + weap_base.near_dot_distance or tonumber(fire_dot_data.dot_trigger_max_distance) or 3000
+			local fire_dot_max_distance = weap_base and weap_base.far_falloff_distance and weap_base.far_falloff_distance + weap_base.near_falloff_distance or tonumber(fire_dot_data.dot_trigger_max_distance) or 3000
 
 			if distance < fire_dot_max_distance then
 				local start_dot_damage_roll = math_random(1, 100)
 				local fire_dot_trigger_chance = tonumber(fire_dot_data.dot_trigger_chance) or 30
 
 				--Dragon's breath trigger chance scales with range.
-				if weap_base and weap_base.far_dot_distance then
-					fire_dot_trigger_chance = (1 - math_min(1, math_max(0, distance - weap_base.near_dot_distance) / weap_base.far_dot_distance)) * fire_dot_trigger_chance
+				if weap_base and weap_base.far_falloff_distance then
+					fire_dot_trigger_chance = (1 - math.min(1, math.max(0, distance - weap_base.near_falloff_distance) / weap_base.far_falloff_distance)) * fire_dot_trigger_chance
 				end
 
 				if start_dot_damage_roll <= fire_dot_trigger_chance then
@@ -680,17 +680,18 @@ function CopDamage:damage_bullet(attack_data)
 		end
 	end
 
+	local weap_base = attack_data.weapon_unit:base()
 	if self._char_tweak.damage.bullet_dodge_chance then
 		local dodge_chance = self._char_tweak.damage.bullet_dodge_chance
 		if self._unit:base()._tweak_table == "fbi_vet" then
 			dodge_chance = managers.modifiers and managers.modifiers:modify_value("CopDamage:CheckingDodge", dodge_chance)
 		end
-		if attack_data.weapon_unit:base().thrower_unit or attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("saw") then
+		if weap_base.thrower_unit or weap_base.is_category and weap_base:is_category("saw") then
 			dodge_chance = 0
 		end
 
 		if dodge_chance > 0 then
-			local roll = math_rand(1, 100)
+			local roll = math.rand(1, 100)
 
 			if roll <= dodge_chance then
 				self._unit:sound():play("pickup_fak_skill", nil, nil)
@@ -705,9 +706,7 @@ function CopDamage:damage_bullet(attack_data)
 	if self._has_plate and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_plate_name then
 		local pierce_armor = nil
 
-		if attack_data.armor_piercing then
-			pierce_armor = true
-		elseif attack_data.weapon_unit:base().thrower_unit or attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("bow", "crossbow", "saw") then
+		if attack_data.armor_piercing or weap_base.thrower_unit or weap_base.is_category and weap_base:is_category("bow", "crossbow", "saw") then
 			pierce_armor = true
 		end
 
@@ -718,42 +717,22 @@ function CopDamage:damage_bullet(attack_data)
 				normal = attack_data.col_ray.ray
 			})
 		else
-			local armor_pierce_roll = math_rand(1)
-			local armor_pierce_value = 0
-
-			if attack_data.attacker_unit == managers.player:player_unit() then
-				armor_pierce_value = armor_pierce_value + attack_data.weapon_unit:base():armor_piercing_chance()
-				armor_pierce_value = armor_pierce_value + managers.player:upgrade_value("player", "armor_piercing_chance", 0)
-				armor_pierce_value = armor_pierce_value + managers.player:upgrade_value("weapon", "armor_piercing_chance", 0)
-				armor_pierce_value = armor_pierce_value + managers.player:upgrade_value("weapon", "armor_piercing_chance_2", 0)
-
-				if attack_data.weapon_unit:base():got_silencer() then
-					armor_pierce_value = armor_pierce_value + managers.player:upgrade_value("weapon", "armor_piercing_chance_silencer", 0)
-				end
-			end
-
-			if armor_pierce_value <= armor_pierce_roll then
-				World:effect_manager():spawn({
-					effect = Idstring("effects/payday2/particles/impacts/steel_no_decal_impact_pd2"),
-					position = attack_data.col_ray.position,
-					normal = attack_data.col_ray.ray
-				})			
-				
-				return
-			end
-
 			World:effect_manager():spawn({
-				effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
+				effect = Idstring("effects/payday2/particles/impacts/steel_no_decal_impact_pd2"),
 				position = attack_data.col_ray.position,
 				normal = attack_data.col_ray.ray
-			})
+			})			
+			--Fucking loud, can be subject to change. Just the only sound ID I found on short notice
+			self._unit:sound():play("swatturret_weakspot_hit", nil, nil)
+		
+			return
 		end
 	end
 
 	if Network:is_server() then
 		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
 			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math_rand(1, 100)
+				local recloak_roll = math.rand(1, 100)
 				local chance_recloak = 75
 
 				if recloak_roll <= chance_recloak then
@@ -775,11 +754,11 @@ function CopDamage:damage_bullet(attack_data)
 	local body_index = self._unit:get_body_index(attack_data.col_ray.body:name())
 	local head = self._head_body_name and not self._unit:in_slot(16) and not self._char_tweak.ignore_headshot and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name
 
-	if head and not attack_data.weapon_unit:base().thrower_unit and self._unit:base():has_tag("tank") then
-		mvec3_set(mvec_1, attack_data.col_ray.ray)
+	if head and not weap_base.thrower_unit and self._unit:base():has_tag("tank") then
+		mvector3.set(mvec_1, attack_data.col_ray.ray)
 		mrotation.z(self._unit:movement():m_head_rot(), mvec_2)
 
-		local not_from_the_front = mvec3_dot(mvec_1, mvec_2) >= 0
+		local not_from_the_front = mvector3.dot(mvec_1, mvec_2) >= 0
 
 		if not_from_the_front then
 			head = false
@@ -791,9 +770,17 @@ function CopDamage:damage_bullet(attack_data)
 	local damage = attack_data.damage
 	local headshot_by_player = false
 	local headshot_multiplier = 1
+	local distance = attack_data.col_ray and attack_data.col_ray.distance or mvector3.distance(attack_data.origin, self._unit:position()) or 0
 
 	if attack_data.attacker_unit == managers.player:player_unit() then
 		attack_data.backstab = self:check_backstab(attack_data)
+		
+		local damage_scale = nil
+
+		if weap_base.near_falloff_distance and weap_base.far_falloff_distance then
+			damage_scale = distance >= weap_base.far_falloff_distance + weap_base.near_falloff_distance and 0 or distance >= weap_base.near_falloff_distance and 0.5 or 1
+		end		
+		
 		local critical_hit, crit_damage = self:roll_critical_hit(attack_data)
 
 		if critical_hit then
@@ -801,11 +788,11 @@ function CopDamage:damage_bullet(attack_data)
 			attack_data.critical_hit = true
 
 			if damage > 0 then
-				managers.hud:on_crit_confirmed()
+				managers.hud:on_crit_confirmed(damage_scale)
 			end
 		else
 			if damage > 0 then
-				managers.hud:on_hit_confirmed()
+				managers.hud:on_hit_confirmed(damage_scale)
 			end
 		end
 
@@ -837,22 +824,21 @@ function CopDamage:damage_bullet(attack_data)
 		damage = damage * self._marked_dmg_mul
 
 		if self._marked_dmg_dist_mul then
-			local dst = mvec3_dis(attack_data.origin, self._unit:position())
 			local spott_dst = tweak_data.upgrades.values.player.marked_inc_dmg_distance[self._marked_dmg_dist_mul]
 
-			if spott_dst[1] < dst then
+			if spott_dst[1] < distance then
 				damage = damage * spott_dst[2]
 			end
 		end
 	end
 
 	if not head and attack_data.attacker_unit == managers.player:player_unit() and not self._char_tweak.must_headshot and self._char_tweak.headshot_dmg_mul then
-		if attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("smg", "lmg", "minigun") and managers.player:has_category_upgrade("weapon", "automatic_head_shot_add") or managers.player:has_category_upgrade("player", "universal_body_expertise") then
+		if weap_base.is_category and weap_base:is_category("smg", "lmg", "minigun") and managers.player:has_category_upgrade("weapon", "automatic_head_shot_add") or managers.player:has_category_upgrade("player", "universal_body_expertise") then
 			attack_data.add_head_shot_mul = managers.player:upgrade_value("weapon", "automatic_head_shot_add", nil)
 		end
 
 		if attack_data.add_head_shot_mul then
-			local tweak_headshot_mul = math_max(0, self._char_tweak.headshot_dmg_mul - 1)
+			local tweak_headshot_mul = math.max(0, self._char_tweak.headshot_dmg_mul - 1)
 			local mul = tweak_headshot_mul * attack_data.add_head_shot_mul + 1
 			damage = damage * mul
 		end
@@ -862,15 +848,15 @@ function CopDamage:damage_bullet(attack_data)
 
 	--Saw+Throwables ignore clamps
 	if self._char_tweak.DAMAGE_CLAMP_BULLET then
-		if attack_data.weapon_unit:base().thrower_unit or attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("saw") then
+		if weap_base.thrower_unit or weap_base.is_category and weap_base:is_category("saw") then
 		else
-			damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
+			damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
 		end
 	end
 
 	attack_data.raw_damage = damage
 
-	if attack_data.weapon_unit and attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("saw") then
+	if attack_data.weapon_unit and weap_base.is_category and weap_base:is_category("saw") then
 		managers.groupai:state():_voice_saw() --THAT MADMAN HAS A FUCKIN' SAW
 	end
 
@@ -878,13 +864,13 @@ function CopDamage:damage_bullet(attack_data)
 		managers.groupai:state():_voice_sentry() --FUCKING SCI-FI ROBOT GUNS
 	end
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+	damage = math.clamp(damage, 0, self._HEALTH_INIT)
+	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
 	damage = damage_percent * self._HEALTH_INIT_PRECENT
 	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
 
 	if self._immortal then
-		damage = math_min(damage, self._health - 1)
+		damage = math.min(damage, self._health - 1)
 	end
 
 	if self._health <= damage then
@@ -912,7 +898,7 @@ function CopDamage:damage_bullet(attack_data)
 					})
 				end
 			elseif Network:is_server() and self._char_tweak.gas_on_death then
-				managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
+				managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
 			end
 
 
@@ -979,7 +965,7 @@ function CopDamage:damage_bullet(attack_data)
 			managers.statistics:killed(data)
 			self:_check_damage_achievements(attack_data, head)
 
-			if not is_civilian and managers.player:has_category_upgrade("temporary", "overkill_damage_multiplier") and not attack_data.weapon_unit:base().thrower_unit and attack_data.weapon_unit:base():is_category("shotgun", "saw") then
+			if not is_civilian and managers.player:has_category_upgrade("temporary", "overkill_damage_multiplier") and not weap_base.thrower_unit and weap_base:is_category("shotgun", "saw") then
 				managers.player:activate_temporary_upgrade("temporary", "overkill_damage_multiplier")
 			end
 
@@ -988,7 +974,7 @@ function CopDamage:damage_bullet(attack_data)
 			end
 		elseif attack_data.attacker_unit:base().sentry_gun then
 			if Network:is_server() then
-				local server_info = attack_data.weapon_unit:base():server_information()
+				local server_info = weap_base:server_information()
 
 				if server_info and server_info.owner_peer_id ~= managers.network:session():local_peer():id() then
 					local owner_peer = managers.network:session():peer(server_info.owner_peer_id)
@@ -1020,17 +1006,15 @@ function CopDamage:damage_bullet(attack_data)
 		end
 	end
 
-	local hit_offset_height = math_clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
+	local hit_offset_height = math.clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
 	local attacker = attack_data.attacker_unit
 
 	if not attacker or not alive(attacker) or attacker:id() == -1 then
 		attacker = self._unit
 	end
 
-	local weapon_unit = attack_data.weapon_unit
-
-	if alive(weapon_unit) and weapon_unit:base() and weapon_unit:base().add_damage_result then
-		weapon_unit:base():add_damage_result(self._unit, result.type == "death", attacker, damage_percent) --add bow and arrow base checks
+	if weap_base.add_damage_result then
+		weap_base:add_damage_result(self._unit, result.type == "death", attacker, damage_percent) --add bow and arrow base checks
 	end
 
 	local i_result = nil
