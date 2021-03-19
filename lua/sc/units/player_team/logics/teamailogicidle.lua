@@ -1579,7 +1579,7 @@ function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
 	end
 
 	local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
-	local raycast = data.unit:raycast("ray", data.unit:movement():m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
+	local raycast = data.unit:raycast("ray", data.unit:movement():m_head_pos(), follow_unit:movement():m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
 
 	if raycast then
 		return true
