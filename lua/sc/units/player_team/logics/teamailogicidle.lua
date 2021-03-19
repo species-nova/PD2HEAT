@@ -2,6 +2,7 @@ local mvec3_dot = mvector3.dot
 local mvec3_dist_sq = mvector3.distance_sq
 local mvec3_dist = mvector3.distance
 local mvec3_norm = mvector3.normalize
+local mvec3_cpy = mvector3.copy
 local math_abs = math.abs
 local math_max = math.max
 local math_min = math.min
@@ -173,6 +174,68 @@ function TeamAILogicIdle.enter(data, new_logic_name, enter_params)
 			end
 		end
 	end
+end
+
+function TeamAILogicIdle.exit(data, new_logic_name, enter_params)
+	TeamAILogicBase.exit(data, new_logic_name, enter_params)
+
+	local my_data = data.internal_data
+
+	if my_data.delayed_clbks and my_data.delayed_clbks[my_data.revive_complete_clbk_id] then
+		local revive_unit = my_data.reviving
+
+		if alive(revive_unit) then
+			if revive_unit:interaction() then
+				revive_unit:interaction():interact_interupt(data.unit)
+			elseif revive_unit:character_damage():arrested() then
+				revive_unit:character_damage():unpause_arrested_timer()
+			elseif revive_unit:character_damage():need_revive() then
+				revive_unit:character_damage():unpause_downed_timer()
+			end
+		end
+
+		my_data.performing_act_objective = nil
+		local crouch_action = {
+			variant = "crouch",
+			body_part = 1,
+			type = "act",
+			blocks = {
+				heavy_hurt = -1,
+				hurt = -1,
+				action = -1,
+				aim = -1,
+				walk = -1
+			}
+		}
+
+		data.unit:movement():action_request(crouch_action)
+	end
+
+	data.brain:cancel_all_pathing_searches()
+	CopLogicBase.cancel_queued_tasks(my_data)
+	CopLogicBase.cancel_delayed_clbks(my_data)
+
+	if my_data.best_cover then
+		managers.navigation:release_cover(my_data.best_cover[1])
+	end
+
+	if my_data.nearest_cover then
+		managers.navigation:release_cover(my_data.nearest_cover[1])
+	end
+
+	local current_attention = data.unit:movement():attention()
+
+	if current_attention then
+		if current_attention.pos then
+			my_data.attention_unit = mvec3_cpy(current_attention.pos)
+		elseif current_attention.u_key then
+			my_data.attention_unit = current_attention.u_key
+		elseif current_attention.unit then
+			my_data.attention_unit = current_attention.unit:key()
+		end
+	end
+
+	data.brain:rem_pos_rsrv("path")
 end
 
 function TeamAILogicIdle.on_long_dis_interacted(data, other_unit, secondary)
@@ -1514,11 +1577,11 @@ function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
 			return true
 		end
 	end
-	
+
 	local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
-	local raycast = data.unit:raycast("ray", movement_ext:m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
-	
+	local raycast = data.unit:raycast("ray", data.unit:movement():m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
+
 	if raycast then
 		return true
-	end	
+	end
 end
