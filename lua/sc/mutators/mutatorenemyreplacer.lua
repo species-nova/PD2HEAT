@@ -1077,7 +1077,7 @@ function MutatorNoTitans:setup(data)
 	end
 	
 	--Titan Tank--
-	tweak_data.group_ai.unit_categories.TIT_tank = {
+	tweak_data.group_ai.unit_categories.Titan_tank = {
 		unit_types = {
 			america = {
 				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer/ene_zeal_bulldozer")								
