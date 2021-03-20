@@ -535,13 +535,14 @@ function WeaponTweakData:_init_data_c45_npc()
 	self.colt_1911_primary_npc.DAMAGE = 4.5	
 
 	self.beretta92_titan_npc = deep_clone(self.c45_npc)
-	self.beretta92_titan_npc.usage = "is_revolver"
-	self.beretta92_titan_npc.sounds.prefix = "beretta_npc"
+	self.beretta92_titan_npc.sounds.prefix = "beer_npc"
 	self.beretta92_titan_npc.DAMAGE = 2
 	self.beretta92_titan_npc.CLIP_AMMO_MAX = 14
 	self.beretta92_titan_npc.alert_size = 0
 	self.beretta92_titan_npc.suppression = 0.1
-	self.beretta92_titan_npc.has_suppressor = "suppressed_a"	
+	self.beretta92_titan_npc.has_suppressor = "suppressed_b"	
+	self.beretta92_titan_npc.auto = {fire_rate = 0.075}
+	self.beretta92_titan_npc.FIRE_MODE = "auto"
 end
 
 function WeaponTweakData:_init_data_x_c45_npc()
