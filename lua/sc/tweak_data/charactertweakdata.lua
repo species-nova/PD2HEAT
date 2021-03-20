@@ -471,6 +471,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi.deathguard = true
 	self.fbi.chatter = presets.enemy_chatter.cop
 	self.fbi.steal_loot = true
+	self.fbi.rescue_hostages = true
 	self.fbi.no_arrest = false
 	self.fbi.heal_cooldown = 2
 	table.insert(self._enemy_list, "fbi")
@@ -821,6 +822,7 @@ function CharacterTweakData:_init_swat(presets)
 	
 	self.hrt = deep_clone(self.swat)
 	self.hrt.access = "fbi"
+	self.hrt.rescue_hostages = true
 	table.insert(self._enemy_list, "hrt")
 	
 	self.swat_titan = deep_clone(self.swat)
@@ -838,6 +840,7 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat_titan.custom_voicework = nil
 	self.swat_titan.static_dodge_preset = true
 	self.swat_titan.heal_cooldown = 3.75
+	self.swat_titan.rescue_hostages = true
 	table.insert(self._enemy_list, "swat_titan")
 end
 
@@ -4558,7 +4561,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.base.speech_prefix = "po"
 	presets.base.speech_prefix_count = 1
 	presets.base.follower = false
-	presets.base.rescue_hostages = true
+	presets.base.rescue_hostages = false
 	presets.base.use_radio = self._default_chatter
 	presets.base.dodge = nil
 	presets.base.challenges = {type = "law"}

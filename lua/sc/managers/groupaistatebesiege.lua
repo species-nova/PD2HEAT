@@ -23,9 +23,7 @@ local next_g = next
 local table_insert = table.insert
 local table_remove = table.remove
 
---Nil = No logging, removes some error checking.
---1 = Logging to record malformed tweakdata.
---2 = Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
+--Set to true to Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
 local spawn_debug_level = nil
 
 function GroupAIStateBesiege:init(group_ai_state)
@@ -705,386 +703,221 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 	return _choose_best_groups_actual(self, best_groups, group, group_types, new_allowed_groups, weight, ...)
 end
 
-if not spawn_debug_level then
-	--Refactored from vanilla code to be a bit easier to read and debug. Also adds timestamp support.
-	function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_objective, ai_task)
-		local spawn_group_desc = tweak_data.group_ai.enemy_spawn_groups[spawn_group_type]
-		local wanted_nr_units = nil
-		local nr_units = 0
-
-		--Determine number of units to spawn.
-		if type(spawn_group_desc.amount) == "number" then
-			wanted_nr_units = spawn_group_desc.amount
+function GroupAIStateBesiege:_pregenerate_coarse_path(grp_objective, spawn_group)
+	--allows groups to preemptively generate coarse_paths as they spawn to their intended destinations, need to set this up for recon and reenforce groups still, but this is a start
+	local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
+	local search_params = {
+		id = "GroupAI_spawn",
+		from_seg = spawn_group.nav_seg,
+		to_seg = end_nav_seg,
+		access_pos = "swat",
+		verify_clbk = callback(self, self, "is_nav_seg_safe") --spawned in groups will try to path safely (avoiding direct contact) to sorround it if at all possible, in order to execute viable flanks as much as possible
+	}
+	local coarse_path = managers.navigation:search_coarse(search_params)
+	
+	if coarse_path then
+		grp_objective.coarse_path = coarse_path
+	else
+		--if it fails, try without the verify_clbk and go head-first anyway, with a chance to take a much longer and wider path instead.
+		local search_params = {
+			id = "GroupAI_spawn",
+			from_seg = spawn_group.nav_seg,
+			to_seg = end_nav_seg,
+			access_pos = "swat",
+			long_path = math_random() < 0.5 and true
+			--no verify_clbk
+		}
+		local coarse_path = managers.navigation:search_coarse(search_params)
+		
+		if coarse_path then
+			grp_objective.coarse_path = coarse_path
 		else
-			wanted_nr_units = math_random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+			grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
+		end
+	end
+end
+
+--Refactored from vanilla code to be a bit easier to read and debug. Also adds timestamp support.
+function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_objective, ai_task)
+	local spawn_group_desc = tweak_data.group_ai.enemy_spawn_groups[spawn_group_type]
+	local wanted_nr_units = nil
+	local nr_units = 0
+
+	--Determine number of units to spawn.
+	if type(spawn_group_desc.amount) == "number" then
+		wanted_nr_units = spawn_group_desc.amount
+	else
+		wanted_nr_units = math_random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+	end
+
+	local unit_types = spawn_group_desc.spawn --All units in spawn group.
+	local valid_unit_types = {} --All units in the spawn group that are able to spawn.
+	local remaining_special_pools = {} --Tracks remaining room in special spawn caps.
+	local unit_categories = tweak_data.group_ai.unit_categories
+	local total_wgt = 0 --Freqs of all valid unit types all added together.
+
+	--Determine which unit types in spawn group are valid. Delay spawns if required units are above cap.
+	for i = 1, #unit_types do
+		local spawn_entry = unit_types[i]
+		if not spawn_entry.unit then
+			log("ERROR IN GROUP: " .. spawn_group_type .. " no unit defined in index " .. tostring(i))
+			return
 		end
 
-		local unit_types = spawn_group_desc.spawn --All units in spawn group.
-		local valid_unit_types = {} --All units in the spawn group that are able to spawn.
-		local remaining_special_pools = {} --Tracks remaining room in special spawn caps.
-		local unit_categories = tweak_data.group_ai.unit_categories
-		local total_wgt = 0 --Freqs of all valid unit types all added together.
+		if not spawn_entry.freq then
+			log("ERROR IN GROUP: " .. spawn_group_type .. " no freq defined for unit " .. spawn_entry.unit)
+			return
+		end
 
-		--Determine which unit types in spawn group are valid. Delay spawns if required units are above cap.
-		for i = 1, #unit_types do
-			local spawn_entry = unit_types[i]
-			local cat_data = unit_categories[spawn_entry.unit]
+		if spawn_entry.amount_min and spawn_entry.amount_max and spawn_entry.amount_min > spawn_entry.amount_max then
+			log("WARNING IN GROUP: " .. spawn_group_type .. " amount_max is smaller than amount_min for " .. spawn_entry.unit)
+		end
 
-			if cat_data.special_type then --Determine if special unit is valid, or if spawning needs to be delayed.
-				remaining_special_pools[cat_data.special_type] = managers.job:current_spawn_limit(cat_data.special_type) - self:_get_special_unit_type_count(cat_data.special_type)
-				if remaining_special_pools[cat_data.special_type] < (spawn_entry.amount_min or 0) then --If essential spawn would go above cap, then delay spawn group and return.
-					spawn_group.delay_t = self._t + 10
-					return
-				end
-				
-				if remaining_special_pools[cat_data.special_type] > 0 then --If special unit doesn't go above cap, then add to valid table.
-					table_insert(valid_unit_types, spawn_entry)
-					total_wgt = total_wgt + spawn_entry.freq
-				end
-			else --Unit not special, add it to valid table.
+		local cat_data = unit_categories[spawn_entry.unit]
+		if not cat_data then
+			log("ERROR IN GROUP: " .. spawn_group_type .. " contains fictional made up imaginary good-for-nothing unit " .. spawn_entry.unit)
+			return
+		end
+
+		if cat_data.special_type then --Determine if special unit is valid, or if spawning needs to be delayed.
+			remaining_special_pools[cat_data.special_type] = managers.job:current_spawn_limit(cat_data.special_type) - self:_get_special_unit_type_count(cat_data.special_type)
+			if remaining_special_pools[cat_data.special_type] < (spawn_entry.amount_min or 0) then --If essential spawn would go above cap, then delay spawn group and return.
+				spawn_group.delay_t = self._t + 10
+				return
+			end
+			
+			if remaining_special_pools[cat_data.special_type] > 0 then --If special unit doesn't go above cap, then add to valid table.
 				table_insert(valid_unit_types, spawn_entry)
 				total_wgt = total_wgt + spawn_entry.freq
 			end
+		else --Unit not special, add it to valid table.
+			table_insert(valid_unit_types, spawn_entry)
+			total_wgt = total_wgt + spawn_entry.freq
 		end
-		
-		--Forced groups (mostly captains) spawn instantly.
-		if not spawn_group_desc.force then
-			for _, sp_data in ipairs(spawn_group.spawn_pts) do
-				sp_data.delay_t = self._t + math.rand(0.5)
-			end
+	end
+	
+	--Forced groups (mostly captains) spawn instantly.
+	if not spawn_group_desc.force then
+		for _, sp_data in ipairs(spawn_group.spawn_pts) do
+			sp_data.delay_t = self._t + math.rand(0.5)
 		end
-		
-		if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations, need to set this up for recon and reenforce groups still, but this is a start
-			local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
-			local search_params = {
-				id = "GroupAI_spawn",
-				from_seg = spawn_group.nav_seg,
-				to_seg = end_nav_seg,
-				access_pos = "swat",
-				verify_clbk = callback(self, self, "is_nav_seg_safe") --spawned in groups will try to path safely (avoiding direct contact) to sorround it if at all possible, in order to execute viable flanks as much as possible
-			}
-			local coarse_path = managers.navigation:search_coarse(search_params)
-			
-			if coarse_path then
-				grp_objective.coarse_path = coarse_path
-			else
-				--if it fails, try without the verify_clbk and go head-first anyway, with a chance to take a much longer and wider path instead.
-				local search_params = {
-					id = "GroupAI_spawn",
-					from_seg = spawn_group.nav_seg,
-					to_seg = end_nav_seg,
-					access_pos = "swat",
-					long_path = math_random() < 0.5 and true
-					--no verify_clbk
-				}
-				local coarse_path = managers.navigation:search_coarse(search_params)
-				
-				if coarse_path then
-					grp_objective.coarse_path = coarse_path
-				else
-					grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
+	end
+	
+	if grp_objective.area and not grp_objective.coarse_path then
+		self:_pregenerate_coarse_path(grp_objective, spawn_group)
+	end
+
+	local spawn_task = {
+		objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
+		units_remaining = {},
+		spawn_group = spawn_group,
+		force = spawn_group_desc.force,
+		spawn_group_type = spawn_group_type,
+		ai_task = ai_task
+	}
+	
+	table_insert(self._spawning_groups, spawn_task)
+
+	--Adds as many as needed to meet requirements. Removes any valid units it turns invalid.
+	local function _add_unit_type_to_spawn_task(i, spawn_entry)
+		local unit_invalidated = false
+		local prev_amount = nil --Previous number of these guys in the spawn task.
+		local new_amount = nil --New number of these guys in the spawn task.
+		if not spawn_task.units_remaining[spawn_entry.unit] then --If unit isn't part of spawn task yet, add the minimum amount to start.
+			prev_amount = 0
+			new_amount = spawn_entry.amount_min or 1
+		else --Otherwise just add 1.
+			prev_amount = spawn_task.units_remaining[spawn_entry.unit].amount
+			new_amount = 1 + prev_amount
+		end
+		local amount_increase = new_amount - prev_amount --Amount the number of this unit would increase.
+
+		if spawn_entry.amount_max and new_amount >= spawn_entry.amount_max then --Max unit count reached, removing unit from valid units for future spawns.
+			table_remove(valid_unit_types, i)
+			total_wgt = total_wgt - spawn_entry.freq
+			unit_invalidated = true
+		end
+
+		--Update special unit spawn caps.
+		local cat_data = unit_categories[spawn_entry.unit]
+		if cat_data.special_type then
+			if remaining_special_pools[cat_data.special_type] >= amount_increase then
+				remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
+				if remaining_special_pools[cat_data.special_type] == 0 and not unit_invalidated then --Special spawn cap reached, removing unit from valid units for future spawns.
+					table_remove(valid_unit_types, i)
+					total_wgt = total_wgt - spawn_entry.freq
+					unit_invalidated = true
 				end
 			end
 		end
 
-		local spawn_task = {
-			objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
-			units_remaining = {},
-			spawn_group = spawn_group,
-			force = spawn_group_desc.force,
-			spawn_group_type = spawn_group_type,
-			ai_task = ai_task
+		--Add unit to spawn task.
+		spawn_task.units_remaining[spawn_entry.unit] = {
+			amount = new_amount,
+			spawn_entry = spawn_entry
 		}
+		nr_units = nr_units + amount_increase
 
-		--Adds as many as needed to meet requirements. Removes any valid units it turns invalid.
-		local function _add_unit_type_to_spawn_task(i, spawn_entry)
-			local unit_invalidated = false
-			local prev_amount = nil --Previous number of these guys in the spawn task.
-			local new_amount = nil --New number of these guys in the spawn task.
-			if not spawn_task.units_remaining[spawn_entry.unit] then --If unit isn't part of spawn task yet, add the minimum amount to start.
-				prev_amount = 0
-				new_amount = spawn_entry.amount_min or 1
-			else --Otherwise just add 1.
-				prev_amount = spawn_task.units_remaining[spawn_entry.unit].amount
-				new_amount = 1 + prev_amount
-			end
-			local amount_increase = new_amount - prev_amount --Amount the number of this unit would increase.
+		return unit_invalidated
+	end
 
-			if spawn_entry.amount_max and new_amount >= spawn_entry.amount_max then --Max unit count reached, removing unit from valid units for future spawns.
-				table_remove(valid_unit_types, i)
-				total_wgt = total_wgt - spawn_entry.freq
-				unit_invalidated = true
-			end
-
-			--Update special unit spawn caps.
-			local cat_data = unit_categories[spawn_entry.unit]
-			if cat_data.special_type then
-				if remaining_special_pools[cat_data.special_type] >= amount_increase then
-					remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
-					if remaining_special_pools[cat_data.special_type] == 0 and not unit_invalidated then --Special spawn cap reached, removing unit from valid units for future spawns.
-						table_remove(valid_unit_types, i)
-						total_wgt = total_wgt - spawn_entry.freq
-						unit_invalidated = true
-					end
-				end
-			end
-
-			--Add unit to spawn task.
-			spawn_task.units_remaining[spawn_entry.unit] = {
-				amount = new_amount,
-				spawn_entry = spawn_entry
-			}
-			nr_units = nr_units + amount_increase
-
-			return unit_invalidated
-		end
-
-		--Add required units to spawn group.
-		local i = 1
-		local req_entry = valid_unit_types[i]
-		while req_entry do --Array size changes, so iteration finishes when the current entry is nil.
-			if wanted_nr_units > nr_units and req_entry.amount_min and req_entry.amount_min > 0 then
-				if _add_unit_type_to_spawn_task(i, req_entry) then --Don't increment to next value if a unit was invalidated.
-					i = i + 1
-				end
-			else
+	--Add required units to spawn group.
+	local i = 1
+	local req_entry = valid_unit_types[i]
+	while req_entry do --Array size changes, so iteration finishes when the current entry is nil.
+		if wanted_nr_units > nr_units and req_entry.amount_min and req_entry.amount_min > 0 then
+			if _add_unit_type_to_spawn_task(i, req_entry) then --Don't increment to next value if a unit was invalidated.
 				i = i + 1
 			end
-
-			req_entry = valid_unit_types[i]
-		end
-
-		--Spawn random units.
-		while wanted_nr_units > nr_units and total_wgt > 0 do
-			local rand_wgt = math_random() * total_wgt
-			local rand_i = 1
-			local rand_entry = valid_unit_types[rand_i]
-
-			--Loop until the unit corresponding to rand_wgt is found.
-			while true do
-				rand_wgt = rand_wgt - rand_entry.freq
-
-				if rand_wgt <= 0 then
-					break --Random unit entry found!
-				else
-					rand_i = rand_i + 1 --Move onto next unit entry.
-					rand_entry = valid_unit_types[rand_i]
-				end
-			end
-
-			_add_unit_type_to_spawn_task(rand_i, rand_entry) --Add our random boi.
-		end
-
-		--Create group object and finalize.
-		local group_desc = {
-			size = nr_units,
-			type = spawn_group_type
-		}
-		local group = self:_create_group(group_desc)
-
-		
-		self:_set_objective_to_enemy_group(group, grp_objective)
-		group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
-		spawn_task.group = group
-		group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
-		table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
-
-		return group
-	end
-else
-	--Refactored from vanilla code to be a bit easier to read and debug. Also adds timestamp support.
-	function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_objective, ai_task)
-		local spawn_group_desc = tweak_data.group_ai.enemy_spawn_groups[spawn_group_type]
-		local wanted_nr_units = nil
-		local nr_units = 0
-
-		--Determine number of units to spawn.
-		if type(spawn_group_desc.amount) == "number" then
-			wanted_nr_units = spawn_group_desc.amount
 		else
-			wanted_nr_units = math_random(spawn_group_desc.amount[1], spawn_group_desc.amount[2])
+			i = i + 1
 		end
 
-		local unit_types = spawn_group_desc.spawn --All units in spawn group.
-		local valid_unit_types = {} --All units in the spawn group that are able to spawn.
-		local remaining_special_pools = {} --Tracks remaining room in special spawn caps.
-		local unit_categories = tweak_data.group_ai.unit_categories
-		local total_wgt = 0 --Freqs of all valid unit types all added together.
-
-		--Determine which unit types in spawn group are valid. Delay spawns if required units are above cap.
-		for i = 1, #unit_types do
-			local spawn_entry = unit_types[i]
-			if not spawn_entry.unit then
-				log("ERROR IN GROUP: " .. spawn_group_type .. " no unit defined in index " .. tostring(i))
-				return
-			end
-
-			if not spawn_entry.freq then
-				log("ERROR IN GROUP: " .. spawn_group_type .. " no freq defined for unit " .. spawn_entry.unit)
-				return
-			end
-
-			if spawn_entry.amount_min and spawn_entry.amount_max and spawn_entry.amount_min > spawn_entry.amount_max then
-				log("WARNING IN GROUP: " .. spawn_group_type .. " amount_max is smaller than amount_min for " .. spawn_entry.unit)
-			end
-
-			local cat_data = unit_categories[spawn_entry.unit]
-			if not cat_data then
-				log("ERROR IN GROUP: " .. spawn_group_type .. " contains fictional made up imaginary good-for-nothing unit " .. spawn_entry.unit)
-				return
-			end
-
-			if cat_data.special_type then --Determine if special unit is valid, or if spawning needs to be delayed.
-				remaining_special_pools[cat_data.special_type] = managers.job:current_spawn_limit(cat_data.special_type) - self:_get_special_unit_type_count(cat_data.special_type)
-				if remaining_special_pools[cat_data.special_type] < (spawn_entry.amount_min or 0) then --If essential spawn would go above cap, then delay spawn group and return.
-					spawn_group.delay_t = self._t + 10
-					return
-				end
-				
-				if remaining_special_pools[cat_data.special_type] > 0 then --If special unit doesn't go above cap, then add to valid table.
-					table_insert(valid_unit_types, spawn_entry)
-					total_wgt = total_wgt + spawn_entry.freq
-				end
-			else --Unit not special, add it to valid table.
-				table_insert(valid_unit_types, spawn_entry)
-				total_wgt = total_wgt + spawn_entry.freq
-			end
-		end
-		
-		--Forced groups (mostly captains) spawn instantly.
-		if not spawn_group_desc.force then
-			for _, sp_data in ipairs(spawn_group.spawn_pts) do
-				sp_data.delay_t = self._t + math.rand(0.5)
-			end
-		end
-
-		local spawn_task = {
-			objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
-			units_remaining = {},
-			spawn_group = spawn_group,
-			force = spawn_group_desc.force,
-			spawn_group_type = spawn_group_type,
-			ai_task = ai_task
-		}
-
-		--Adds as many as needed to meet requirements. Removes any valid units it turns invalid.
-		local function _add_unit_type_to_spawn_task(i, spawn_entry)
-			local unit_invalidated = false
-			local prev_amount = nil --Previous number of these guys in the spawn task.
-			local new_amount = nil --New number of these guys in the spawn task.
-			if not spawn_task.units_remaining[spawn_entry.unit] then --If unit isn't part of spawn task yet, add the minimum amount to start.
-				prev_amount = 0
-				new_amount = spawn_entry.amount_min or 1
-			else --Otherwise just add 1.
-				prev_amount = spawn_task.units_remaining[spawn_entry.unit].amount
-				new_amount = 1 + prev_amount
-			end
-			local amount_increase = new_amount - prev_amount --Amount the number of this unit would increase.
-
-			if spawn_entry.amount_max and new_amount >= spawn_entry.amount_max then --Max unit count reached, removing unit from valid units for future spawns.
-				table_remove(valid_unit_types, i)
-				total_wgt = total_wgt - spawn_entry.freq
-				unit_invalidated = true
-			end
-
-			--Update special unit spawn caps.
-			local cat_data = unit_categories[spawn_entry.unit]
-			if cat_data.special_type then
-				if remaining_special_pools[cat_data.special_type] >= amount_increase then
-					remaining_special_pools[cat_data.special_type] = remaining_special_pools[cat_data.special_type] - amount_increase
-					if remaining_special_pools[cat_data.special_type] == 0 and not unit_invalidated then --Special spawn cap reached, removing unit from valid units for future spawns.
-						table_remove(valid_unit_types, i)
-						total_wgt = total_wgt - spawn_entry.freq
-						unit_invalidated = true
-					end
-				end
-			end
-
-			--Add unit to spawn task.
-			spawn_task.units_remaining[spawn_entry.unit] = {
-				amount = new_amount,
-				spawn_entry = spawn_entry
-			}
-			nr_units = nr_units + amount_increase
-
-			return unit_invalidated
-		end
-
-		--Add required units to spawn group.
-		local i = 1
-		local req_entry = valid_unit_types[i]
-		while req_entry do --Array size changes, so iteration finishes when the current entry is nil.
-			if wanted_nr_units > nr_units and req_entry.amount_min and req_entry.amount_min > 0 then
-				if _add_unit_type_to_spawn_task(i, req_entry) then --Don't increment to next value if a unit was invalidated.
-					i = i + 1
-				end
-			else
-				i = i + 1
-			end
-
-			req_entry = valid_unit_types[i]
-		end
-
-		--Spawn random units.
-		while wanted_nr_units > nr_units and total_wgt > 0 do
-			local rand_wgt = math_random() * total_wgt
-			local rand_i = 1
-			local rand_entry = valid_unit_types[rand_i]
-
-			--Loop until the unit corresponding to rand_wgt is found.
-			while true do
-				rand_wgt = rand_wgt - rand_entry.freq
-
-				if rand_wgt <= 0 then
-					break --Random unit entry found!
-				else
-					rand_i = rand_i + 1 --Move onto next unit entry.
-					rand_entry = valid_unit_types[rand_i]
-				end
-			end
-
-			_add_unit_type_to_spawn_task(rand_i, rand_entry) --Add our random boi.
-		end
-
-		--Create group object and finalize.
-		local group_desc = {
-			size = nr_units,
-			type = spawn_group_type
-		}
-		local group = self:_create_group(group_desc)
-		
-		if grp_objective.area and not grp_objective.coarse_path then --allows groups to preemptively generate coarse_paths as they spawn to their intended destinations
-			local end_nav_seg = managers.navigation:get_nav_seg_from_pos(grp_objective.area.pos, true)
-			local search_params = {
-				id = "GroupAI_spawn",
-				from_seg = spawn_group.nav_seg,
-				to_seg = end_nav_seg,
-				access_pos = self._get_group_acces_mask(group)
-			}
-			local coarse_path = managers.navigation:search_coarse(search_params)
-			
-			if coarse_path then
-				grp_objective.coarse_path = coarse_path
-			else
-				grp_objective.coarse_path = {{spawn_group.nav_seg, spawn_group.area.pos}}
-			end
-		end
-		
-		self:_set_objective_to_enemy_group(group, grp_objective)
-		group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
-		spawn_task.group = group
-		group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
-		table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
-
-		if spawn_debug_level > 1 then
-			log("Spawning group: " .. spawn_group_type)
-			for name, spawn_info in pairs(spawn_task.units_remaining) do
-				log("     " .. name .. "x" .. tostring(spawn_info.amount))
-			end
-		end
-
-		return group
+		req_entry = valid_unit_types[i]
 	end
+
+	--Spawn random units.
+	while wanted_nr_units > nr_units and total_wgt > 0 do
+		local rand_wgt = math_random() * total_wgt
+		local rand_i = 1
+		local rand_entry = valid_unit_types[rand_i]
+
+		--Loop until the unit corresponding to rand_wgt is found.
+		while true do
+			rand_wgt = rand_wgt - rand_entry.freq
+
+			if rand_wgt <= 0 then
+				break --Random unit entry found!
+			else
+				rand_i = rand_i + 1 --Move onto next unit entry.
+				rand_entry = valid_unit_types[rand_i]
+			end
+		end
+
+		_add_unit_type_to_spawn_task(rand_i, rand_entry) --Add our random boi.
+	end
+
+	--Create group object and finalize.
+	local group_desc = {
+		size = nr_units,
+		type = spawn_group_type
+	}
+	local group = self:_create_group(group_desc)
+	
+	self:_set_objective_to_enemy_group(group, grp_objective)
+	group.team = self._teams[spawn_group.team_id or tweak_data.levels:get_default_team_ID("combatant")]
+	spawn_task.group = group
+	group_timestamps[spawn_group_type] = self._t --Set timestamp for whatever spawngroup was just spawned in to allow for cooldown tracking.
+	--table_insert(self._spawning_groups, spawn_task) --Add group to spawning_groups once task is finalized.
+
+	if debug_spawn_groups then
+		log("Spawning group: " .. spawn_group_type)
+		for name, spawn_info in pairs(spawn_task.units_remaining) do
+			log("     " .. name .. "x" .. tostring(spawn_info.amount))
+		end
+	end
+
+	return group
 end
 
 function GroupAIStateBesiege:_upd_group_spawning(use_last)

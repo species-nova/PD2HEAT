@@ -56,6 +56,7 @@ function restoration:Init()
 		"kenaz", --ggc
 		"bex", --san martin bank
 		"dinner", --Slaughterhouse
+		"chas", --Dragon Heist
 		--custom heists		
 		"firestarter_1_res", --firestarter day 1 res edit version
 		"lvl_friday" --Crashing Capitol
@@ -119,8 +120,9 @@ function restoration:Init()
 			"arm_for",	--train heist
 			"big", --big bank
 			"dinner", --Slaughterhouse
-			"branchbank", --Gets Branchbank from Autumn		
+			"branchbank", --Gets Branchbank from Autumn
 			"help", --Prison Nightmare			
+			"chas", --Dragon Heist
 			--custom heists		
 			"firestarter_1_res", --firestarter day 1 res edit version
 			"lvl_friday" --Crashing Capitol
@@ -133,6 +135,7 @@ function restoration:Init()
 	}]]--
 	--Increased spawns, should only be reserved for larger maps.
 	restoration.large_levels = {
+		"friend" --Scarface Mansion
 	}			
 	--Slightly reduced spawns, generally use for heists with lengthy sections where players typically hold out in one smallish position, or 'early game' heists.
 	restoration.tiny_levels = {
