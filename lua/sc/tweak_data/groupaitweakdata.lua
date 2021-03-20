@@ -5126,7 +5126,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 		--GS/Zeal Heavys. More general purpose cannon fodder.
 		if difficulty_index <= 6 then
-			amount = {3, 4},
+			self.enemy_spawn_groups.GS_heavys = {
+				amount = {3, 4},
 				spawn = {
 					{
 						unit = "FBI_heavy_G36_w",
