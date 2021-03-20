@@ -1,4 +1,4 @@
-lif not tweak_data then 
+if not tweak_data then 
 	return 
 end
 
