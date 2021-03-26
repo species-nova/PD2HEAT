@@ -12191,7 +12191,7 @@ function CharacterTweakData:_presets(tweak_data)
 				blueprint = {
 					"wpn_fps_upg_ak_b_ak105",
 					"wpn_fps_upg_o_ak_scopemount",
-					"wpn_fps_upg_ak_fg_tapco",
+					"wpn_fps_upg_fg_midwest",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire",
 					"wpn_fps_upg_ak_g_pgrip",
 					"wpn_fps_upg_ak_m_uspalm",
@@ -12219,7 +12219,6 @@ function CharacterTweakData:_presets(tweak_data)
 				factory_name = "wpn_fps_ass_g36_npc",
 				blueprint = {
 					"wpn_fps_ass_g36_o_vintage",
-					"wpn_fps_ass_g36_s_sl8",
 					"wpn_fps_upg_fl_ass_smg_sho_surefire"
 				},
 				cosmetics = {}
