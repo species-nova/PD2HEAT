@@ -1837,7 +1837,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shotgun CQB--
 			["menu_shotgun_cqb_beta_sc"] = "Shotgun CQB",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nYou reload shotguns and flamethrowers ##4%## faster for each enemy within ##8## meters, up to ##20%## faster.\n\nACE: ##$pro##\nInterrupting a shotgun or flamethrower reload staggers nearby enemies. This can only occur once every ##5## seconds.",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##15%## faster.\n\nACE: ##$pro##\nInterrupting a shotgun or flamethrower reload staggers nearby enemies. This can only occur once every ##5## seconds.",
 
 			--Shotgun Impact--
 			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
