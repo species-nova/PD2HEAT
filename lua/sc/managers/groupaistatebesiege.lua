@@ -48,7 +48,7 @@ function GroupAIStateBesiege:update(t, dt)
 	if Network:is_server() then
 		self:_queue_police_upd_task()
 
-		if managers.navigation:is_data_ready() and self._draw_enabled then
+		if self._draw_enabled and managers.navigation:is_data_ready() then
 			self:_draw_enemy_activity(t)
 			self:_draw_spawn_points()
 		end
@@ -61,7 +61,7 @@ function GroupAIStateBesiege:paused_update(t, dt)
 	GroupAIStateBesiege.super.paused_update(self, t, dt)
 
 	if Network:is_server() then
-		if managers.navigation:is_data_ready() and self._draw_enabled then
+		if self._draw_enabled and managers.navigation:is_data_ready() then
 			self:_draw_enemy_activity(t)
 			self:_draw_spawn_points()
 		end
@@ -433,6 +433,8 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 		revive = "brush_act"
 	}
 
+	local all_nav_segs = managers.navigation._nav_segments
+
 	local function _f_draw_obj_pos(unit)
 		local ext_brain = unit:brain()
 		local objective = ext_brain:objective()
@@ -455,7 +457,7 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 						obj_pos = obj_pos + math_up * -30
 					end
 				elseif objective.nav_seg then
-					obj_pos = managers.navigation._nav_segments[objective.nav_seg].pos
+					obj_pos = all_nav_segs[objective.nav_seg].pos
 				elseif objective.area then
 					obj_pos = objective.area.pos
 				end
@@ -519,11 +521,11 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 						move_type = ":" .. "open_fire"
 					end
 				end
-				
+
 				local phase = ""
-				
+
 				local task_data = self._task_data.assault
-				
+
 				if task_data and task_data.active then
 					phase = ":" .. task_data.phase
 				end
@@ -560,9 +562,9 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 
 				draw_data.pen_group:line(group_center, m_com)
 			end
-		end
 
-		mvec3_set_zero(group_center)
+			mvec3_set_zero(group_center)
+		end
 	end
 
 	local function _f_draw_attention(l_data)
@@ -608,12 +610,10 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 		for u_key, u_data in pairs_g(group_data.group) do
 			_f_draw_obj_pos(u_data.unit)
 
-			--[[if camera then
-				local l_data = u_data.unit:brain()._logic_data
+			local l_data = u_data.unit:brain()._logic_data
 
-				_f_draw_logic_name(u_key, l_data, group_data.color)
-				_f_draw_attention(l_data)
-			end]]
+			_f_draw_logic_name(u_key, l_data, group_data.color)
+			_f_draw_attention(l_data)
 		end
 	end
 
