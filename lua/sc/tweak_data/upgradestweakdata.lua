@@ -637,9 +637,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Shotgun CQB
 				--Basic
-					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.04, max = 5}}
+					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.15, min = 3}}
 				--Ace
-					self.values.cooldown.shotgun_reload_interrupt_stagger = {{400, 5}}
+					self.values.cooldown.shotgun_reload_interrupt_stagger = {{600, 5}}
 				
 			--Underdog
 				--Basic
