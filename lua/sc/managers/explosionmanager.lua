@@ -97,7 +97,8 @@ function ExplosionManager:detect_and_stun(params)
 	local is_civilian_func, is_gangster_func = CopDamage.is_civilian, CopDamage.is_gangster
 	local units_to_hit, hit_units, units_to_push = {}, {}, push_units == true and {} or nil
 
-	local bodies = world_g:find_bodies(ignore_unit or nil, "intersect", "sphere", hit_pos, range, slotmask)
+	local cast = alive_g(ignore_unit) and ignore_unit or world_g
+	local bodies = cast:find_bodies("intersect", "sphere", hit_pos, range, slotmask)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
@@ -336,7 +337,8 @@ function ExplosionManager:detect_and_give_dmg(params)
 	local is_civilian_func, is_gangster_func = CopDamage.is_civilian, CopDamage.is_gangster
 	local units_to_hit, hit_units, units_to_push = {}, {}, push_units == true and {} or nil
 
-	local bodies = world_g:find_bodies(ignore_unit or nil, "intersect", "sphere", hit_pos, range, slotmask)
+	local cast = alive_g(ignore_unit) and ignore_unit or world_g
+	local bodies = cast:find_bodies("intersect", "sphere", hit_pos, range, slotmask)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]

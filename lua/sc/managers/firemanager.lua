@@ -444,7 +444,8 @@ function FireManager:detect_and_give_dmg(params)
 		units_to_push = {}
 	end
 
-	local bodies = world_g:find_bodies(ignore_unit or nil, "intersect", "sphere", hit_pos, range, slotmask)
+	local cast = alive_g(ignore_unit) and ignore_unit or world_g
+	local bodies = cast:find_bodies("intersect", "sphere", hit_pos, range, slotmask)
 
 	for i = 1, #bodies do
 		local hit_body = bodies[i]
