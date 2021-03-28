@@ -8274,7 +8274,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--Raze's Fury
 	self.shatters_fury.fire_mode_data.fire_rate = 0.25
 	self.shatters_fury.single.fire_rate = 0.25	
-	self.shatters_fury.AMMO_MAX = 30
+	self.shatters_fury.AMMO_MAX = 40
 	self.shatters_fury.CLIP_AMMO_MAX = 5
 	self.shatters_fury.kick = self.stat_info.kick_tables.vertical_kick
 	self.shatters_fury.supported = true
