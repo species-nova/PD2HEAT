@@ -2161,6 +2161,9 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 					stat_name = "total_ammo_mod"
 				},
 				{
+					name = "pickup"
+				},
+				{
 					round_value = true,
 					name = "fire_rate"
 				},
@@ -2208,7 +2211,7 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 				x = 10,
 				layer = 1,
 				w = self._weapon_info_panel:w() - 20,
-				h = self._weapon_info_panel:h() - 64
+				h = self._weapon_info_panel:h() - 48
 			})
 			local panel = self._stats_panel:panel({
 				h = 20,
@@ -3002,6 +3005,7 @@ function BlackMarketGui:show_stats()
 			local base = base_stats[stat.name].value
 			local append = stat.append or ""
 
+			self._stats_texts[stat.name].equip:set_alpha(1)
 			self._stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. append)
 			self._stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. append)
 			self._stats_texts[stat.name].mods:set_text(mods_stats[stat.name].value == 0 and "" or (mods_stats[stat.name].value > 0 and "+" or "") .. format_round(mods_stats[stat.name].value, stat.round_value) .. append)
@@ -3010,7 +3014,7 @@ function BlackMarketGui:show_stats()
 			self._stats_texts[stat.name].base:set_alpha(0.75)
 			self._stats_texts[stat.name].mods:set_alpha(0.75)
 			self._stats_texts[stat.name].skill:set_alpha(0.75)
-
+			
 			--Temporaryish until I can figure out how remove_stats is set up.
 			if base_stats[stat.name].value == -1 then
 				self._stats_texts[stat.name].equip:set_text("")
@@ -3623,6 +3627,7 @@ function BlackMarketGui:show_stats()
 
 		--Minimal but hacky way to add custom stats to weapon mod stat changes.
 		--Checks if the weapon stats with the mod (and no skills) change, and if they do, displays the difference.
+		--Would write a better solution, but I hate this file.
 		for name, data in pairs(unaltered_total_mods_stats) do
 			if unaltered_total_mods_stats[name].value ~= total_mods_stats[name].value then
 				mod_stats.chosen[name] = (total_base_stats[name].value + total_mods_stats[name].value)

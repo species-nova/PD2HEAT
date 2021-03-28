@@ -1299,7 +1299,9 @@ function SkillTreeTweakData:init(tweak_data)
 					skill_cost = 4,
 					upgrades = {
 						"assault_rifle_steelsight_accuracy_inc_1",
-						"snp_steelsight_accuracy_inc_1"
+						"snp_steelsight_accuracy_inc_1",
+						"assault_rifle_steelsight_range_inc_1",
+						"snp_steelsight_range_inc_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1880,7 +1882,7 @@ function SkillTreeTweakData:init(tweak_data)
 					skill_cost = 6,
 					upgrades = {
 						"akimbo_extra_ammo_multiplier_1",
-						"akimbo_recoil_index_addend_3"
+						"akimbo_pick_up_multiplier"
 					},
 					cost = self.costs.hightierpro
 				}	

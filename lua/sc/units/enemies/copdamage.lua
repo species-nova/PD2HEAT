@@ -225,9 +225,15 @@ function CopDamage:damage_fire(attack_data)
 
 	local headshot_multiplier = 1
 	local damage = attack_data.damage
+	local distance = 1000
+	local hit_pos = attack_data.col_ray.hit_position
 
 	if attack_data.attacker_unit == managers.player:player_unit() then
 		if weap_unit and alive(weap_unit) and attack_data.variant ~= "stun" then
+			if hit_pos then
+				distance = mvector3.distance(hit_pos, attack_data.attacker_unit:position())
+			end
+
 			local weap_base = weap_unit:base()
 			local is_grenade_or_ground_fire = nil
 
@@ -257,11 +263,16 @@ function CopDamage:damage_fire(attack_data)
 					damage = damage * managers.player:upgrade_value("weapon", "special_damage_taken_multiplier", 1)
 				end
 
+				local damage_scale = nil
+				if weap_base.near_falloff_distance and weap_base.far_falloff_distance then
+					damage_scale = distance >= weap_base.far_falloff_distance + weap_base.near_falloff_distance and 0 or distance >= weap_base.near_falloff_distance and 0.5 or 1
+				end		
+
 				if not attack_data.is_fire_dot_damage and damage > 0 then
 					if critical_hit then
-						managers.hud:on_crit_confirmed()
+						managers.hud:on_crit_confirmed(damage_scale)
 					else
-						managers.hud:on_hit_confirmed()
+						managers.hud:on_hit_confirmed(damage_scale)
 					end
 				end
 			end
@@ -428,13 +439,6 @@ function CopDamage:damage_fire(attack_data)
 		end
 
 		if flammable then
-			local distance = 1000
-			local hit_pos = attack_data.col_ray.hit_position
-
-			if hit_pos and attack_data.attacker_unit and alive(attack_data.attacker_unit) then
-				distance = mvec3_dis(hit_pos, attack_data.attacker_unit:position())
-			end
-
 			local fire_dot_max_distance = weap_base and weap_base.far_falloff_distance and weap_base.far_falloff_distance + weap_base.near_falloff_distance or tonumber(fire_dot_data.dot_trigger_max_distance) or 3000
 
 			if distance < fire_dot_max_distance then
