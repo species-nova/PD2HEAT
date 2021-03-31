@@ -611,15 +611,17 @@ function PlayerManager:enemy_shot(unit, attack_data)
 
 	--Do Overheat stuff if player has the skill.
 	if self:has_category_upgrade("player", "overheat") then
+		--Filter out invalid attacks.
 		local weapon_unit = attack_data.weapon_unit
 		local player_unit = attack_data.attacker_unit
 		if player_unit ~= self:player_unit()
-			or not attack_data.weapon_unit
-			or attack_data.weapon_unit ~= self:equipped_weapon_unit()
+			or not weapon_unit
+			or weapon_unit ~= self:equipped_weapon_unit()
 			or not self:equipped_weapon_unit():base():is_category("shotgun", "flamethrower") then
 			return
 		end
 
+		--Filter out attacks from too far away.
 		local overheat_data = self:upgrade_value("player", "overheat")
 		local player_pos = player_unit:movement():m_pos()
 		local source_pos = unit:movement():m_pos()
@@ -628,12 +630,13 @@ function PlayerManager:enemy_shot(unit, attack_data)
 			return
 		end
 
+		--Do the random roll and see if it procs.
 		local chance = overheat_data.chance + self:get_temporary_property("overheat_stacks", 0)
 		local roll = math.random()
 		if roll <= chance then
 			local hit_enemies = World:find_units_quick("sphere", source_pos, overheat_data.aoe_radius, managers.slot:get_mask("enemies"))
 
-			--Stagger valid nearby enemies.
+			--Damage nearby enemies.
 			for i = 1, #hit_enemies do
 				local enemy = hit_enemies[i]
 				local dmg_ext = enemy:character_damage()
