@@ -598,6 +598,67 @@ function PlayerManager:check_skills()
 	else
 		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_armor")
 	end
+
+	if self:has_category_upgrade("player", "overheat_stacking") then
+		self._message_system:register(Message.OnEnemyKilled, "overheat_stacking", callback(self, self, "_trigger_overheat_stack"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "overheat_stacking")
+	end
+end
+
+function PlayerManager:enemy_shot(unit, attack_data)
+	self._message_system:notify(Message.OnEnemyShot, nil, self._unit, attack_data)
+
+	--Do Overheat stuff if player has the skill.
+	if self:has_category_upgrade("player", "overheat") then
+		--Filter out invalid attacks.
+		local weapon_unit = attack_data.weapon_unit
+		local player_unit = attack_data.attacker_unit
+		if player_unit ~= self:player_unit()
+			or not weapon_unit
+			or weapon_unit ~= self:equipped_weapon_unit()
+			or not self:equipped_weapon_unit():base():is_category("shotgun", "flamethrower") then
+			return
+		end
+
+		--Filter out attacks from too far away.
+		local overheat_data = self:upgrade_value("player", "overheat")
+		local player_pos = player_unit:movement():m_pos()
+		local source_pos = unit:movement():m_pos()
+		local distance = mvector3.distance_sq(player_pos, source_pos)
+		if distance > overheat_data.range * overheat_data.range then
+			return
+		end
+
+		--Do the random roll and see if it procs.
+		local chance = overheat_data.chance + self:get_temporary_property("overheat_stacks", 0)
+		local roll = math.random()
+		if roll <= chance then
+			local hit_enemies = World:find_units_quick("sphere", source_pos, overheat_data.aoe_radius, managers.slot:get_mask("enemies"))
+
+			--Damage nearby enemies.
+			for i = 1, #hit_enemies do
+				local enemy = hit_enemies[i]
+				local dmg_ext = enemy:character_damage()
+
+				if dmg_ext and dmg_ext.damage_simple then
+					local m_com = enemy:movement():m_com()
+					local attack_dir = m_com - player_unit:movement():m_head_pos()
+					mvector3.normalize(attack_dir)
+
+					local overheat_attack_data = {
+						variant = "overheat",
+						damage = attack_data.damage * overheat_data.damage,
+						attacker_unit = player_unit,
+						pos = mvector3.copy(m_com),
+						attack_dir = attack_dir
+					}
+
+					dmg_ext:damage_simple(overheat_attack_data)
+				end
+			end
+		end
+	end
 end
 
 --The OnHeadShot message must now pass in attack data and unit info to let certains skills work as expected.
@@ -1019,6 +1080,20 @@ function PlayerManager:_trigger_sociopath_armor(equipped_unit, variant, killed_u
 	end
 
 	damage_ext:restore_armor(armor_regen)
+end
+
+--Adds another stack of Overheat chance.
+function PlayerManager:_trigger_overheat_stack(equipped_unit, variant, killed_unit)
+	local stacking_data = self:upgrade_value("player", "overheat_stacking")
+	local distance = mvector3.distance_sq(self:player_unit():movement():m_pos(), killed_unit:movement():m_pos())
+	if distance > stacking_data.range * stacking_data.range then
+		return
+	end
+
+	self:add_to_temporary_property("overheat_stacks", stacking_data.time, stacking_data.chance_inc)
+	self._temporary_properties:set_time("overheat_stacks", stacking_data.time) --Workaround to a dumb bug(?) in TemporaryPropertyManager, will fix later.
+	managers.hud:start_buff("overheat_stacks", stacking_data.time)
+	managers.hud:add_stack("overheat_stacks")
 end
 
 function PlayerManager:_attempt_chico_injector()

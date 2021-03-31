@@ -1490,7 +1490,6 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			
 			if self._queue_reload_interupt then
 				self._queue_reload_interupt = nil
-				self:_reload_interupt_stagger() --Attempt to stagger nearby enemies if skill is owned.
 				interupt = true
 			elseif self._state_data.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
 				self._state_data.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
@@ -1515,7 +1514,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 					self._ext_camera:play_redirect(self:get_animation("reload_not_empty_exit"), speed_multiplier)
 					self._equipped_unit:base():tweak_data_anim_play("reload_not_empty_exit", speed_multiplier)
 				end
-			elseif self._equipped_unit then
+			else
 				if not interupt then
 					self._equipped_unit:base():on_reload()
 				end
@@ -1529,6 +1528,9 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 					self._ext_camera:play_redirect(self:get_animation("start_running"))
 				end
 			end
+
+			--Reset Shell Shocked
+			self._equipped_unit:base():check_last_bullet_stagger()
 		end
 	end
 
@@ -1898,7 +1900,6 @@ function PlayerStandard:_interupt_action_reload(t)
 		weap_base:tweak_data_anim_stop("reload")
 		weap_base:tweak_data_anim_stop("reload_not_empty")
 		weap_base:tweak_data_anim_stop("reload_exit")
-		self:_reload_interupt_stagger() --Allow stagger interrupt skill to proc.
 	end
 
 	self._state_data.reload_enter_expire_t = nil
@@ -1909,62 +1910,4 @@ function PlayerStandard:_interupt_action_reload(t)
 
 	managers.player:remove_property("shock_and_awe_reload_multiplier")
 	self:send_reload_interupt()
-end
-
-function PlayerStandard:_reload_interupt_stagger()
-	if not self._equipped_unit:base():is_category("shotgun") then
-		return
-	end
-
-	local player_manager = managers.player
-	local stagger_dis = player_manager:cooldown_upgrade_value("cooldown", "shotgun_reload_interrupt_stagger")
-
-	if stagger_dis <= 0 then
-		return
-	end
-
-	local my_unit = self._unit
-	local my_mov_ext = my_unit:movement()
-	local my_head_pos = my_mov_ext:m_head_pos()
-	local nearby_enemies = world_g:find_units_quick("sphere", my_mov_ext:m_pos(), stagger_dis, managers.slot:get_mask("enemies"))
-	local staggered_anyone = nil
-
-	--Stagger valid nearby enemies.
-	for i = 1, #nearby_enemies do
-		local enemy = nearby_enemies[i]
-		local dmg_ext = enemy:character_damage()
-
-		if dmg_ext and dmg_ext.damage_simple then
-			local base_ext = enemy:base()
-			local char_tweak = base_ext and base_ext.char_tweak
-			local immune_to_stagger = char_tweak and base_ext:char_tweak().immune_to_knock_down
-
-			if not immune_to_stagger and base_ext.has_tag then
-				immune_to_stagger = base_ext:has_tag("tank") or base_ext:has_tag("captain")
-			end
-
-			if not immune_to_stagger then
-				local m_com = enemy:movement():m_com()
-				local attack_dir = m_com - my_head_pos
-				mvec3_norm(attack_dir)
-
-				local stagger_data = {
-					damage = 0,
-					variant = "counter_spooc",
-					stagger = true,
-					attacker_unit = my_unit,
-					attack_dir = attack_dir,
-					pos = mvec3_cpy(m_com)
-				}
-
-				if dmg_ext:damage_simple(stagger_data) then
-					staggered_anyone = true
-				end
-			end
-		end
-	end
-
-	if staggered_anyone then --Only trigger cooldown if the effect did something.
-		player_manager:disable_cooldown_upgrade("cooldown", "shotgun_reload_interrupt_stagger")
-	end
 end

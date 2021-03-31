@@ -103,8 +103,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModInfo_long_dis_reviveDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_messiahTitleID"] = "Messiah",
 		["RestorationModInfo_messiahDescID"] = "Enables or disables tracking of this specific skill.",
-		["RestorationModInfo_overkill_damage_multiplierTitleID"] = "Overkill",
-		["RestorationModInfo_overkill_damage_multiplierDescID"] = "Enables or disables tracking of this specific skill.",
+		["RestorationModInfo_overheat_stacksTitleID"] = "Overheat",
+		["RestorationModInfo_overheat_stacksDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_revived_damage_reductionTitleID"] = "Painkillers",
 		["RestorationModInfo_revived_damage_reductionDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_first_aid_damage_reductionTitleID"] = "Quick Fix",
@@ -115,8 +115,6 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModInfo_increased_movement_speedDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_headshot_fire_rate_multTitleID"] = "Sharpshooter",
 		["RestorationModInfo_headshot_fire_rate_multDescID"] = "Enables or disables tracking of this specific skill.",
-		["RestorationModInfo_shotgun_reload_interrupt_staggerTitleID"] = "Shotgun CQB",
-		["RestorationModInfo_shotgun_reload_interrupt_staggerDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_trigger_happyTitleID"] = "Trigger Happy",
 		["RestorationModInfo_trigger_happyDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_unseen_strikeTitleID"] = "Unseen Strike",
@@ -1814,7 +1812,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shock & Awe--
 			["menu_spotter_teamwork_beta_sc"] = "Shock & Awe",
-			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Does not apply to Crossbows, Bows, Grenade Launchers, or Rocket Launchers.\n\nACE: ##$pro##\nYou can now hip-fire with your weapons while sprinting.\n\nYour weapons' magazine sizes are increased by an additional ##30%.##",
+			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Does not apply to Crossbows, Bows, Grenade Launchers, or Rocket Launchers.\n\nACE: ##$pro##\nYour weapons' magazine sizes are increased by an additional ##30%.##",
 
 			--Heavy Impact--
 			["menu_speedy_reload_sc"] = "Heavy Impact",
@@ -1834,13 +1832,17 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Underdog--
 			["menu_underdog_beta_sc"] = "Underdog",
-			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##3%## more gun and melee damage for each enemy within ##8## meters, up to ##15%## more damage.\n\nACE: ##$pro##\nYou take ##3%## less damage for each enemy within ##8## meters, up to ##15%## less damage.",
+			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##4%## more gun and melee damage for each enemy within ##8## meters, up to ##20%## more damage.\n\nACE: ##$pro##\nYou take ##4%## less damage for each enemy within ##8## meters, up to ##20%## less damage.",
 
-			--Shotgun CQB--
-			["menu_shotgun_cqb_beta_sc"] = "Shotgun CQB",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##15%## faster.\n\nACE: ##$pro##\nInterrupting a shotgun or flamethrower reload staggers nearby enemies. This can only occur once every ##5## seconds.",
+			--Gung-Ho--
+			["menu_close_by_beta_sc"] = "Gung-Ho",
+			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.\n\nACE: ##$pro##\nYou can now hip-fire while sprinting.",
 
-			--Shotgun Impact--
+			--Shell Shocked--
+			["menu_shotgun_cqb_beta_sc"] = "Shell Shocked",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last bullet in your shotgun staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##35%## faster.",
+
+			--Underdog--
 			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
 			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, shotguns and flamethrowers gain ##8## stability.\n\nACE: ##$pro##\nShotguns fire ##3## extra pellets.\n\nNote: Does not apply to slugs or explosive rounds.",
 
@@ -1848,13 +1850,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_far_away_beta_sc"] = "Pigeon Shooter",
 			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and Flamethrowers aim down sights ##75%## faster.\n\nYou move ##60%## faster while aiming down sights.\n\nACE: ##$pro##\nShotguns and Flamethrowers gain ##30%## more accuracy and range while aiming down sights.",
 
-			--Gung-Ho--
-			["menu_close_by_beta_sc"] = "Gung-Ho",
-			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now hip-fire with shotguns and flamethrowers while sprinting.\n\nACE: ##$pro##\nYour rate of fire is increased by ##35%## while hip-firing with shotguns and flamethrowers.",
-
-			--OVERKILL--
-			["menu_overkill_sc"] = "OVERKILL",
-			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nKills using a shotgun, flamethrower, or the OVE9000 portable saw grants them a ##50%## damage boost for ##3## seconds.\n\nACE: ##$pro##\nThe damage bonus now applies to all weapons and lasts ##10## seconds. Skill must still be activated using a shotgun or the OVE9000 portable saw.\n\nNote: Does not apply to grenade launchers.\n\nDecreases the time it takes to pull and put away shotguns and the saw by ##50%##.",
+			--OVERHEAT--
+			["menu_overkill_sc"] = "OVERHEAT",
+			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##30%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##14%## for ##8## seconds. This effect stacks.",
 
 			--}
 

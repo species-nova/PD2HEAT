@@ -41,7 +41,6 @@ function RaycastWeaponBase:setup(...)
 	end
 
 	--Trackers for MG Specialist Ace
-	self._bullets_until_free = nil
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
 		if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
 			self._bullets_until_free = managers.player:upgrade_value(category, "full_auto_free_ammo")
@@ -51,6 +50,14 @@ function RaycastWeaponBase:setup(...)
 	self._shots_without_releasing_trigger = 0
 
 	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
+
+	--Flag for Shell Shocked
+	for _, category in ipairs(self:weapon_tweak_data().categories) do
+		if managers.player:has_category_upgrade(category, "last_shot_stagger") then
+			self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
+			break
+		end
+	end
 end
 
 --Fire no longer memes on shields.
@@ -592,7 +599,20 @@ function RaycastWeaponBase:_fire_sound(...)
 	end
 end
 
---Adds auto fire sound fix and MG Specialist skill.
+--Shell Shocked Skill Reset
+function RaycastWeaponBase:check_last_bullet_stagger()
+	if self:get_ammo_remaining_in_clip() >= self:get_ammo_max_per_clip() then
+		for _, category in ipairs(self:weapon_tweak_data().categories) do
+			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
+				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
+				break
+			end
+		end
+	end
+end
+
+
+--Adds auto fire sound fix, Shell Shocked skill, and MG Specialist skill.
 function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, target_unit)
 	if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then
 		managers.player:deactivate_temporary_upgrade("temporary", "no_ammo_cost_buff")
@@ -606,7 +626,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) or not is_player
 
 	--MG Specialist Skill
-	if self._shots_without_releasing_trigger then
+	if is_player and self._shots_without_releasing_trigger then
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 		if self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0 then
 			consume_ammo = false
@@ -660,6 +680,11 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			end
 
 			self:set_magazine_empty(true)
+
+			if is_player and self._stagger_on_last_shot then
+				self._setup.user_unit:movement():_stagger_in_aoe(self._stagger_on_last_shot)
+				self._stagger_on_last_shot = nil
+			end
 		end
 
 		base:set_ammo_remaining_in_clip(base:get_ammo_remaining_in_clip() - ammo_usage)
