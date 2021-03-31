@@ -8772,7 +8772,7 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_aa12", "resmod_aa12", function(sel
 	self.parts.wpn_fps_sho_aa12_mag_drum.stats = {
 		value = 1,
 		extra_ammo = 10,
-		reload = -6,
+		reload = -7,
 		spread = -1,
 		concealment = -4
 	}

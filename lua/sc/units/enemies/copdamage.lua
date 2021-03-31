@@ -501,7 +501,7 @@ function CopDamage:damage_fire(attack_data)
 	self:_on_damage_received(attack_data)
 
 	if not attack_data.is_fire_dot_damage and not is_civilian and attacker_unit and alive(attacker_unit) then
-		managers.player:send_message(Message.OnEnemyShot, nil, self._unit, attack_data)
+		managers.player:enemy_shot(self._unit, attack_data)
 	end
 
 	return result
@@ -1033,7 +1033,7 @@ function CopDamage:damage_bullet(attack_data)
 	self:_on_damage_received(attack_data)
 
 	if not is_civilian then
-		managers.player:send_message(Message.OnEnemyShot, nil, self._unit, attack_data)
+		managers.player:enemy_shot(self._unit, attack_data)
 	end
 
 	result.attack_data = attack_data
@@ -2108,7 +2108,7 @@ function CopDamage:damage_explosion(attack_data)
 	self:_on_damage_received(attack_data)
 
 	if not is_civilian and attacker_unit and alive(attacker_unit) then
-		managers.player:send_message(Message.OnEnemyShot, nil, self._unit, attack_data)
+		managers.player:enemy_shot(self._unit, attack_data)
 	end
 
 	return result
@@ -2449,7 +2449,7 @@ function CopDamage:damage_simple(attack_data)
 	self:_on_damage_received(attack_data)
 
 	if not is_civilian and attacker_unit and alive(attacker_unit) then
-		managers.player:send_message(Message.OnEnemyShot, nil, self._unit, attack_data)
+		managers.player:enemy_shot(self._unit, attack_data)
 	end
 
 	return result

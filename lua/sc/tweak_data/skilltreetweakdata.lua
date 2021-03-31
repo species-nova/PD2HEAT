@@ -501,7 +501,6 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"player_run_and_shoot_1",
 						"weapon_clip_ammo_increase_2"
 					},
 					cost = self.costs.hightierpro
@@ -581,7 +580,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}			
 
-			--Shotgun CQB--
+			--Gung-Ho--
 			self.skills.shotgun_cqb = {
 				["name_id"] = "menu_shotgun_cqb_beta_sc",
 				["desc_id"] = "menu_shotgun_cqb_beta_desc_sc",
@@ -589,37 +588,37 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"shotgun_close_combat_reload_speed_multiplier"
+						"shotgun_last_shot_stagger"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"cooldown_shotgun_reload_interrupt_stagger"
+						"shotgun_close_combat_reload_speed_multiplier"
 					},
 					cost = self.costs.hightierpro
 				}
 			}
 			
-			--Underdog--
+			--Shell Shocked--
 			self.skills.shotgun_impact = {
-				["name_id"] = "menu_underdog_beta_sc",
-				["desc_id"] = "menu_underdog_beta_desc_sc",
-				["icon_xy"] = {2, 1},
+				["name_id"] = "menu_close_by_beta_sc",
+				["desc_id"] = "menu_close_by_beta_desc_sc",
+				["icon_xy"] = {8, 6},
 				[1] = {
-					skill_cost = 2,
+					skill_cost = 3,
 					upgrades = {
-						"player_close_combat_damage_boost"
+						"shotgun_hip_rate_of_fire_1"
 					},
-					cost = self.costs.default
+					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 4,
+					skill_cost = 6,
 					upgrades = {
-						"player_close_combat_damage_reduction"
+						"player_run_and_shoot_1"
 					},
-					cost = self.costs.pro
+					cost = self.costs.hightierpro
 				}
 			}			
 			
@@ -646,24 +645,24 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Gung Ho--
+			--Underdog--
 			self.skills.close_by = {
-				["name_id"] = "menu_close_by_beta_sc",
-				["desc_id"] = "menu_close_by_beta_desc_sc",
-				["icon_xy"] = {8, 6},
+				["name_id"] = "menu_underdog_beta_sc",
+				["desc_id"] = "menu_underdog_beta_desc_sc",
+				["icon_xy"] = {2, 1},
 				[1] = {
-					skill_cost = 3,
+					skill_cost = 2,
 					upgrades = {
-						"shotgun_hip_run_and_shoot_1"
+						"player_close_combat_damage_boost"
 					},
-					cost = self.costs.hightier
+					cost = self.costs.default
 				},
 				[2] = {
-					skill_cost = 6,
+					skill_cost = 4,
 					upgrades = {
-						"shotgun_hip_rate_of_fire_1"
+						"player_close_combat_damage_reduction"
 					},
-					cost = self.costs.hightierpro
+					cost = self.costs.pro
 				}
 			}
 
@@ -675,17 +674,14 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 4,
 					upgrades = {
-						"player_overkill_damage_multiplier"
+						"player_overheat"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 8,
 					upgrades = {
-						"player_overkill_all_weapons",
-						"player_overkill_damage_multiplier_2",
-						"saw_swap_speed_multiplier",
-						"shotgun_swap_speed_multiplier"
+						"player_overheat_stacking"
 					},
 					cost = self.costs.hightierpro
 				}

@@ -635,17 +635,23 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.shotgun.extra_rays = {3}
 
-			--Shotgun CQB
-				--Basic
-					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.15, min = 3}}
+			--Shell Shocked
 				--Ace
-					self.values.cooldown.shotgun_reload_interrupt_stagger = {{600, 5}}
+					self.values.shotgun.last_shot_stagger = {800}
+				--Ace
+					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.35, min = 3}}
+
+			--Gung-Ho
+				--Basic
+					self.values.shotgun.hip_rate_of_fire = {1.20}
+				--Ace
+					self.values.player.hip_run_and_shoot = {true}
 				
 			--Underdog
 				--Basic
-					self.values.player.close_combat_damage_boost = {{value = 0.03, max = 5}}
+					self.values.player.close_combat_damage_boost = {{value = 0.04, max = 5}}
 				--Ace
-					self.values.player.close_combat_damage_reduction = {{value = 0.03, max = 5}}
+					self.values.player.close_combat_damage_reduction = {{value = 0.04, max = 5}}
 				
 			--Pigeon Shooter
 				--Basic
@@ -654,21 +660,20 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.shotgun.steelsight_range_inc = {1.3}
 					self.values.shotgun.steelsight_accuracy_inc = {0.7}
-
-			--Close By
-				--Basic
-					self.values.shotgun.hip_run_and_shoot = {true}
-				--Ace
-					self.values.shotgun.hip_rate_of_fire = {1.35}
 				
-			--Overkill
-				self.values.temporary.overkill_damage_multiplier = {
-					{1.5, 3}, --Basic
-					{1.5, 10} --Ace
-				}
-				--Ace
-					self.values.shotgun.swap_speed_multiplier = {1.5}
-					self.values.saw.swap_speed_multiplier = {1.5}
+			--Overheat
+				self.values.player.overheat = {{
+					range = 800,
+					aoe_radius = 500,
+					damage = 0.5,
+					chance = 0.3
+				}}
+
+				self.values.player.overheat_stacking = {{
+					range = 800,
+					chance_inc = 0.14,
+					time = 8
+				}}
 			
 		--Juggernaut--
 			--Stun Resistance
@@ -3366,6 +3371,24 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_overheat = {
+		name_id = "menu_player_overheat",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "overheat",
+			category = "player"
+		}
+	}
+	self.definitions.player_overheat_stacking = {
+		name_id = "menu_player_overheat_stacking",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "overheat_stacking",
+			category = "player"
+		}
+	}
 end
 
 Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", function(self)
@@ -3432,6 +3455,15 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "shotgun"
 		}
 	}
+	self.definitions.shotgun_last_shot_stagger = {
+		name_id = "menu_shotgun_last_shot_stagger",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "last_shot_stagger",
+			category = "shotgun"
+		}
+	}
 	self.definitions.akimbo_pick_up_multiplier = {
 		name_id = "menu_akimbo_pick_up_multiplier",
 		category = "feature",
@@ -3487,15 +3519,6 @@ function UpgradesTweakData:_cooldown_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "killshot_close_panic_chance",
-			category = "cooldown"
-		}
-	}
-	self.definitions.cooldown_shotgun_reload_interrupt_stagger = {
-		name_id = "menu_cooldown_shotgun_reload_interrupt_stagger",
-		category = "cooldown",
-		upgrade = {
-			value = 1,
-			upgrade = "shotgun_reload_interrupt_stagger",
 			category = "cooldown"
 		}
 	}

@@ -5290,6 +5290,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.aa12.stats_modifiers = nil
 	self.aa12.panic_suppression_chance = 0.05
+	self.aa12.reload_speed_multiplier = 1.15
 
 	--Wow wow (Peacemaker)
 	self.peacemaker.AMMO_MAX = 20
