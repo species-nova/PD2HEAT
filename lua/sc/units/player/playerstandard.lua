@@ -1602,31 +1602,32 @@ function PlayerStandard:_start_action_reload(t)
 end
 
 function PlayerStandard:_get_swap_speed_multiplier()
-	local multiplier = 1
 	local weapon_tweak_data = self._equipped_unit:base():weapon_tweak_data()
-	multiplier = multiplier * managers.player:upgrade_value("weapon", "swap_speed_multiplier", 1)
-	multiplier = multiplier * managers.player:upgrade_value("weapon", "passive_swap_speed_multiplier", 1)
-	multiplier = multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment() + 1] --Get concealment bonus/penalty.
+	local player_manager = managers.player
+	local base_multiplier = (weapon_tweak_data.swap_speed_multiplier or 1) --Base Multiplier reflects weapon base stats, and uses multiplicative values.
+	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment() + 1] --Get concealment bonus/penalty.
+	local skill_multiplier = 1 --Skill multiplier reflects bonuses from skills, and has additive scaling to match other skills.
+	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
+	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "passive_swap_speed_multiplier", 1) - 1
 
 	--Get per category multipliers (IE: Pistols swap faster, Akimbos swap slower, ect).
 	for _, category in ipairs(weapon_tweak_data.categories) do
-		multiplier = multiplier * managers.player:upgrade_value(category, "swap_speed_multiplier", 1)
-		multiplier = multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
+		base_multiplier = base_multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
+		skill_multiplier = skill_multiplier + player_manager:upgrade_value(category, "swap_speed_multiplier", 1) - 1
+		skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value(category, "close_combat_swap_speed_multiplier", 1) - 1
 	end
 
 	if self._equipped_unit:base():got_silencer() then
-		multiplier = multiplier * managers.player:upgrade_value("player", "silencer_swap_increase", 1)
+		skill_multiplier = skill_multiplier + player_manager:upgrade_value("player", "silencer_swap_increase", 1) - 1
 	end
 
-	--Get per weapon multiplier.
-	multiplier = multiplier * (weapon_tweak_data.swap_speed_multiplier or 1)
-
-	multiplier = multiplier * managers.player:upgrade_value("team", "crew_faster_swap", 1)
+	skill_multiplier = skill_multiplier + player_manager:upgrade_value("team", "crew_faster_swap", 1) - 1
 
 	if managers.player:has_activate_temporary_upgrade("temporary", "swap_weapon_faster") then
-		multiplier = multiplier * managers.player:temporary_upgrade_value("temporary", "swap_weapon_faster", 1)
+		skill_multiplier = skill_multiplier * player_manager:temporary_upgrade_value("temporary", "swap_weapon_faster", 1)
 	end
 
+	local multiplier = base_multiplier * skill_multiplier
 	multiplier = managers.modifiers:modify_value("PlayerStandard:GetSwapSpeedMultiplier", multiplier)
 	return multiplier
 end

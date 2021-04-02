@@ -359,23 +359,22 @@ end
 
 function WeaponDescription._get_skill_swap_speed(name, base_stats, mods_stats, skill_stats, silencer)
 	local weapon_tweak = tweak_data.weapon[name]
-	local multiplier = 1
-	multiplier = multiplier * managers.player:upgrade_value("weapon", "swap_speed_multiplier", 1)
-	multiplier = multiplier * managers.player:upgrade_value("weapon", "passive_swap_speed_multiplier", 1)
+	local base_multiplier = (weapon_tweak.swap_speed_multiplier or 1)
+	local skill_multiplier = 1
+	skill_multiplier = skill_multiplier + managers.player:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
+	skill_multiplier = skill_multiplier + managers.player:upgrade_value("weapon", "passive_swap_speed_multiplier", 1) - 1
 
 	--Get per category multipliers (IE: Pistols swap faster, Akimbos swap slower, ect).
 	for _, category in ipairs(weapon_tweak.categories) do
-		multiplier = multiplier * managers.player:upgrade_value(category, "swap_speed_multiplier", 1)
-		multiplier = multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
+		skill_multiplier = skill_multiplier + managers.player:upgrade_value(category, "swap_speed_multiplier", 1) - 1
+		base_multiplier = base_multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
 	end
 
 	if silencer then
-		multiplier = multiplier * managers.player:upgrade_value("player", "silencer_swap_increase", 1)
+		skill_multiplier = skill_multiplier + managers.player:upgrade_value("player", "silencer_swap_increase", 1) - 1
 	end
 
-	multiplier = multiplier * (weapon_tweak.swap_speed_multiplier or 1)
-
-	local multiplier = multiplier * tweak_data.weapon.stats.mobility[math.max(base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value, 0) + 1]
+	local multiplier = base_multiplier * skill_multiplier * tweak_data.weapon.stats.mobility[math.max(base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value, 0) + 1]
 	local skill_swap_speed = (tweak_data.weapon[name].timers.equip + tweak_data.weapon[name].timers.unequip) / multiplier - base_stats.swap_speed.value - mods_stats.swap_speed.value
 	
 	if skill_swap_speed >= 0 then
