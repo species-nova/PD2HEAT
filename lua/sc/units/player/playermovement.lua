@@ -6,11 +6,12 @@ function PlayerMovement:init(...)
 	self._has_underdog = player_manager:has_category_upgrade("shotgun", "close_combat_damage_boost")
 		or player_manager:has_category_upgrade("shotgun", "close_combat_damage_reduction")
 		or player_manager:has_category_upgrade("shotgun", "close_combat_reload_speed_multiplier")
-		or player_manager:has_category_upgrade("shotgun", "close_combat_recoil_index_addend")
+		or player_manager:has_category_upgrade("shotgun", "close_combat_swap_speed_multiplier")
 		or player_manager:has_category_upgrade("player", "damage_dampener_outnumbered")
 		or player_manager:has_category_upgrade("player", "damage_dampener_close_contact")
 	self._underdog_skill_data = tweak_data.upgrades.close_combat_data
 	self._underdog_chk_t = 0
+	self._nr_close_guys = 0
 end
 
 function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
