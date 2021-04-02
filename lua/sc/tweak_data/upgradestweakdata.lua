@@ -591,9 +591,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Assault--
 			--Sturdy Arm--
 				--Basic
-					self.values.smg.hip_fire_recoil_multiplier = {0.85}
-				--Ace
 					self.values.team.weapon.recoil_index_addend = {1}
+				--Ace
+					self.values.smg.hip_fire_recoil_multiplier = {0.75}
 
 			--None in the Chamber
 				--Basic
@@ -625,17 +625,17 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	
 			--Bullet Hell
 				--Basic
-					self.values.weapon.multikill_free_ammo_chance = {0.35}
+					self.values.weapon.multikill_free_ammo_chance = {0.4}
 				--Ace
-					self.values.weapon.multikill_recoil_multiplier = {0.65}
-					self.values.weapon.multikill_fire_rate_multiplier = {1.35}
+					self.values.weapon.multikill_recoil_multiplier = {0.6}
+					self.values.weapon.multikill_fire_rate_multiplier = {1.4}
 					self.values.weapon.universal_multikill_buffs = {true}
 						
 	--ENFORCER--
 		--Shotgunner--
 			--Shotgun Impact
 				--Basic
-					self.values.shotgun.close_combat_recoil_index_addend = {{value = 2, min = 3}}
+					self.values.shotgun.close_combat_swap_speed_multiplier = {{value = 1.3, min = 3}}
 				--Ace
 					self.values.shotgun.extra_rays = {3}
 
@@ -1045,7 +1045,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						2 --Ace
 					}
 					--Ace
-					self.values.player.silencer_swap_increase = {1.25}
+					self.values.player.silencer_swap_increase = {1.3}
 
 			--The Professional
 				--Basic
@@ -1454,7 +1454,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.dodge_stacking_heal = {true}
 	self.values.player.dodge_on_revive = {true}
 	self.values.weapon.passive_swap_speed_multiplier = {
-		1.3,
+		1.5,
 		2 --Unused
 	}
 
@@ -3423,12 +3423,12 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "shotgun"
 		}
 	}
-	self.definitions.shotgun_close_combat_recoil_index_addend = {
-		name_id = "menu_shotgun_close_combat_recoil_index_addend",
+	self.definitions.shotgun_close_combat_swap_speed_multiplier = {
+		name_id = "menu_shotgun_close_combat_swap_speed_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "close_combat_recoil_index_addend",
+			upgrade = "close_combat_swap_speed_multiplier",
 			category = "shotgun"
 		}
 	}

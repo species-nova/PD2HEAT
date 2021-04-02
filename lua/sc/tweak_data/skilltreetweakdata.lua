@@ -430,14 +430,14 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"smg_hip_fire_recoil_multiplier"
+						"team_weapon_recoil_index_addend"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 3,
 					upgrades = {
-						"team_weapon_recoil_index_addend"
+						"smg_hip_fire_recoil_multiplier"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -567,7 +567,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"shotgun_close_combat_recoil_index_addend"
+						"shotgun_close_combat_swap_speed_multiplier"
 					},
 					cost = self.costs.default
 				},

@@ -1802,7 +1802,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Sturdy Arm--
 			["menu_stable_shot_beta_sc"] = "Sturdy Arm",
-			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nReduces the hipfire recoil of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nYou and your crews' stability rating for all weapons is increased by ##4.##",
+			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nYou and your crews' stability rating for all weapons is increased by ##4.##\n\nACE: ##$pro##\nReduces the hipfire recoil of SMGs and LMGs by ##25%.##",
 
 			--None in the Chamber--
 			["menu_scavenger_sc"] = "None in the Chamber",
@@ -1822,7 +1822,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",
-			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nKilling multiple enemies without releasing the trigger using an SMG or LMG grants that gun a ##35%## chance to not consume ammo when fired until it's reloaded.\n\nACE: ##$pro##\nBullet Hell can now be triggered by any gun fired in full auto.\n\nKilling multiple enemies without releasing the trigger also increases the gun's rate of fire and reduces its recoil by ##35%## until it's reloaded.",
+			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nKilling multiple enemies without releasing the trigger using an SMG or LMG grants that gun a ##40%## chance to not consume ammo when fired until it's reloaded.\n\nACE: ##$pro##\nBullet Hell can now be triggered by any gun fired in full auto.\n\nKilling multiple enemies without releasing the trigger also increases the gun's rate of fire and reduces its recoil by ##40%## until it's reloaded.",
 
 			--}
 		--}
@@ -1846,7 +1846,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Underdog--
 			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
-			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, shotguns and flamethrowers gain ##8## stability.\n\nACE: ##$pro##\nShotguns fire ##3## extra pellets.\n\nNote: Does not apply to slugs or explosive rounds.",
+			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw and holster shotguns and flamethrowers ##30%## faster.\n\nACE: ##$pro##\nShotguns fire ##3## extra pellets.\n\nNote: Does not apply to slugs or explosive rounds.",
 
 			--Pigeon Shooting--
 			["menu_far_away_beta_sc"] = "Pigeon Shooter",
@@ -2121,7 +2121,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Optical Illusions--
 		["menu_optic_illusions_sc"] = "Optical Illusions",
-		["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nSilenced weapons gain ##1## concealment.\n\nACE: ##$pro##\nSilenced weapons gain an additional ##1## concealment.\n\nYou draw and holster silenced weapons ##25%## faster.",
+		["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nSilenced weapons gain ##1## concealment.\n\nACE: ##$pro##\nSilenced weapons gain an additional ##1## concealment.\n\nYou draw and holster silenced weapons ##30%## faster.",
 
 		--The Professional--
 		["menu_silence_expert_beta_sc"] = "The Professional",
@@ -2220,7 +2220,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck6_9_desc_sc"] = "Your armor is increased by an additional ##20%## for ballistic vests.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		--Rogue
-		["menu_deck4_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nYou swap between your weapons ##30%## faster.",
+		["menu_deck4_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nYou swap between your weapons ##50%## faster.",
 		["menu_deck4_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
 		["menu_deck4_5_desc_sc"] = "Your dodge meter will be filled to ##200%## of its normal maximum when you are revived.",
 		["menu_deck4_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
