@@ -87,6 +87,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModInfo_ammo_efficiencyDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_bloodthirst_reload_speedTitleID"] = "Bloodthirst",
 		["RestorationModInfo_bloodthirst_reload_speedDescID"] = "Enables or disables tracking of this specific skill.",
+		["RestorationModInfo_bullet_hellTitleID"] = "Bullet Hell",
+		["RestorationModInfo_bullet_hellDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_bullet_stormTitleID"] = "Bullet Storm",
 		["RestorationModInfo_bullet_stormDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_close_combatTitleID"] = "Close Combat Counter",
@@ -1798,29 +1800,29 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   ASSAULT SUBTREE, FORMERLY SHARPSHOOTER   ]]--
 			--{
 
-			--Military Grade--
-			["menu_stable_shot_beta_sc"] = "Military Grade",
-			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nSMGs and LMGs gain ##4## stability.\n\nACE: ##$pro##\nYou and your crews' stability rating for all weapons is increased by ##4.##",
+			--Sturdy Arm--
+			["menu_stable_shot_beta_sc"] = "Sturdy Arm",
+			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nReduces the hipfire recoil of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nYou and your crews' stability rating for all weapons is increased by ##4.##",
 
-			--MG Handling--
-			["menu_scavenger_sc"] = "MG Handling",
-			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##20%##\n\nACE: ##$pro##\nSMGs and LMGs reload ##25%## faster.\nBecause of training.",
+			--None in the Chamber--
+			["menu_scavenger_sc"] = "None in the Chamber",
+			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##35%## faster when your magazine is completely empty.",
 
-			--MG Specialist--
-			["menu_sharpshooter_sc"] = "MG Specialist",
-			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nThe movement penalty to accuracy is reduced by ##60%## for SMGs and LMGs.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
+			--Mag-Dumper--
+			["menu_sharpshooter_sc"] = "Spray 'n Pray",
+			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nThe movement penalty to accuracy is reduced by ##40%## for SMGs and LMGs.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
 
-			--Shock & Awe--
-			["menu_spotter_teamwork_beta_sc"] = "Shock & Awe",
+			--Quintstacked Mags--
+			["menu_spotter_teamwork_beta_sc"] = "Quintstacked Mags",
 			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Does not apply to Crossbows, Bows, Grenade Launchers, or Rocket Launchers.\n\nACE: ##$pro##\nYour weapons' magazine sizes are increased by an additional ##30%.##",
 
 			--Heavy Impact--
 			["menu_speedy_reload_sc"] = "Heavy Impact",
-			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nLMGs have a ##40%## chance to knock down enemies while using a bipod.\n\nNote: Stagger effects do not apply to Captains, Bulldozers, and Shields.\n\nACE: ##$pro##\nYou take ##50%## less damage while using a bipod.",
+			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nYou take ##50%## less damage while using a bipod.",
 
-			--Body Expertise--
-			["menu_body_expertise_beta_sc"] = "Body Expertise",
-			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nSMGs and LMGs fired in full auto apply ##30%## of the enemy's headshot damage multiplier to their body.\n\nNote: Does not apply to Bulldozers.\n\nACE: ##$pro##\nAll guns fired in full auto apply ##100%## of the enemy's headshot damage multiplier to their body.",
+			--Bullet Hell--
+			["menu_body_expertise_beta_sc"] = "Bullet Hell",
+			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nKilling multiple enemies without releasing the trigger using an SMG or LMG grants that gun a ##35%## chance to not consume ammo when fired until it's reloaded.\n\nACE: ##$pro##\nBullet Hell can now be triggered by any gun fired in full auto.\n\nKilling multiple enemies without releasing the trigger also increases the gun's rate of fire and reduces its recoil by ##35%## until it's reloaded.",
 
 			--}
 		--}
@@ -1840,7 +1842,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shell Shocked--
 			["menu_shotgun_cqb_beta_sc"] = "Shell Shocked",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last bullet in your shotgun staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##35%## faster.",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last shot in your shotgun or flamethrower staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##35%## faster.",
 
 			--Underdog--
 			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
@@ -2043,7 +2045,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Bloodthirst--
 			["menu_bloodthirst_sc"] = "Bloodthirst",
-			["menu_bloodthirst_desc_sc"] = "BASIC: ##$basic##\nWhenever you kill an enemy with a melee attack, you will gain a ##25%## increase in reload speed for ##10## seconds.\n\nACE: ##$pro##\nEvery kill you get will increase your next melee attack damage by ##25%##, up to a maximum of ##100%.##\n\nThis effect gets reset when striking an enemy with a melee attack.",
+			["menu_bloodthirst_desc_sc"] = "BASIC: ##$basic##\nWhenever you kill an enemy with a melee attack, you will gain a ##30%## increase in reload speed for ##10## seconds.\n\nACE: ##$pro##\nEvery kill you get will increase your next melee attack damage by ##25%##, up to a maximum of ##100%.##\n\nThis effect gets reset when striking an enemy with a melee attack.",
 
 
 			--}
@@ -2083,7 +2085,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Aggressive Reload--
 		["menu_engineering_beta_sc"] = "Aggressive Reload",
-		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##25%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##50%##, and can be triggered regardless of fire mode.",
+		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##30%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##60%##, and can be triggered regardless of fire mode.",
 
 		--Cleaner--
 		["menu_jail_workout_sc"] = "Cleaner",

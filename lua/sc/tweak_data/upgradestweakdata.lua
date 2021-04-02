@@ -589,43 +589,47 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			
 		--Assault--
-			--Leadership--
+			--Sturdy Arm--
 				--Basic
-					self.values.smg.recoil_index_addend = {1}
+					self.values.smg.hip_fire_recoil_multiplier = {0.85}
 				--Ace
 					self.values.team.weapon.recoil_index_addend = {1}
 
-			--MG Handling
+			--None in the Chamber
 				--Basic
-					self.values.smg.hip_fire_spread_multiplier = {0.8}
+					self.values.smg.hip_fire_spread_multiplier = {0.85}
 				--Ace
-					self.values.smg.reload_speed_multiplier = {1.25}
+
+					self.values.smg.empty_reload_speed_multiplier = {1.35}
 				
-			--Shock and Awe
+			--Quintstacked Mags
 				self.values.weapon.clip_ammo_increase = {
 					1.2, --Basic
 					1.5 --Ace
 				}
 
-			--MG Specialist
+			--Spray 'n Pray
 				--Basic
-					self.values.smg.move_spread_multiplier = {0.4}
+					self.values.smg.move_spread_multiplier = {0.6}
 				--Ace
 					self.values.smg.fire_rate_multiplier = {1.15, 1.15}
 					self.values.smg.full_auto_free_ammo = {5}
 				
 			--Heavy Impact
 				--Basic
-					self.values.weapon.knock_down = {
-						0.4, --Ace
-						0.4 --Unused
+					self.values.player.ap_bullets = {
+						true
 					}
 				--Ace
 					self.values.player.bipod_damage_reduction = {0.5}
 	
-			--Body Expertise
-				self.values.weapon.automatic_head_shot_add = {0.3, 1}
-				self.values.player.universal_body_expertise = {true}
+			--Bullet Hell
+				--Basic
+					self.values.weapon.multikill_free_ammo_chance = {0.35}
+				--Ace
+					self.values.weapon.multikill_recoil_multiplier = {0.65}
+					self.values.weapon.multikill_fire_rate_multiplier = {1.35}
+					self.values.weapon.universal_multikill_buffs = {true}
 						
 	--ENFORCER--
 		--Shotgunner--
@@ -891,12 +895,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Aggressive Reload
 				self.values.temporary.single_shot_fast_reload = {
 					{ --Basic
-						1.25,
+						1.3,
 						10,
 						false --Whether or not to allow full-auto
 					},
 					{ --Ace
-						1.5,
+						1.6,
 						10,
 						true
 					},
@@ -1207,9 +1211,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Bloodthirst
 				--Basic
-					self.values.player.melee_damage_stacking = {{melee_multiplier = 0.25, max_multiplier = 2}}
+					self.values.temporary.melee_kill_increase_reload_speed = {{1.3, 10}}
 				--Ace
-					self.values.temporary.melee_kill_increase_reload_speed = {{1.25, 10}}
+					self.values.player.melee_damage_stacking = {{melee_multiplier = 0.25, max_multiplier = 2}}
 
 			--Pumping Iron
 				self.values.player.melee_swing_multiplier = {1.2, 1.5}
@@ -2716,24 +2720,42 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_close_combat_damage_boost = {
+		name_id = "menu_player_close_combat_damage_boost",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_damage_boost",
+			category = "player"
+		}
+	}
 end
 
 function UpgradesTweakData:_smg_definitions()
-	self.definitions.smg_reload_speed_multiplier = {
+	self.definitions.smg_hip_fire_recoil_multiplier = {
+		name_id = "menu_smg_hip_fire_recoil_multiplier",
 		category = "feature",
-		name_id = "menu_reload_speed_multiplier",
 		upgrade = {
-			category = "smg",
-			upgrade = "reload_speed_multiplier",
-			value = 1
+			value = 1,
+			upgrade = "hip_fire_recoil_multiplier",
+			category = "smg"
 		}
 	}
-	self.definitions.smg_recoil_multiplier = {
+	self.definitions.smg_full_auto_free_ammo = {
+		name_id = "menu_smg_full_auto_free_ammo",
 		category = "feature",
-		name_id = "menu_smg_recoil_multiplier",
+		upgrade = {
+			value = 1,
+			upgrade = "full_auto_free_ammo",
+			category = "smg"
+		}
+	}
+	self.definitions.smg_empty_reload_speed_multiplier = {
+		category = "feature",
+		name_id = "menu_smg_empty_reload_speed_multiplier",
 		upgrade = {
 			category = "smg",
-			upgrade = "recoil_multiplier",
+			upgrade = "empty_reload_speed_multiplier",
 			value = 1
 		}
 	}
@@ -2746,33 +2768,6 @@ function UpgradesTweakData:_smg_definitions()
 			value = 1
 		}
 	}
-	self.definitions.smg_fire_rate_multiplier_2 = {
-		category = "feature",
-		name_id = "menu_smg_fire_rate_multiplier",
-		upgrade = {
-			category = "smg",
-			upgrade = "fire_rate_multiplier",
-			value = 2
-		}
-	}
-	self.definitions.smg_full_auto_free_ammo = {
-		category = "feature",
-		name_id = "menu_smg_full_auto_free_ammo",
-		upgrade = {
-			category = "smg",
-			upgrade = "full_auto_free_ammo",
-			value = 1
-		}
-	}
-	self.definitions.smg_damage_multiplier = {
-		category = "feature",
-		name_id = "menu_smg_fire_rate_multiplier",
-		upgrade = {
-			category = "smg",
-			upgrade = "damage_multiplier",
-			value = 1
-		}
-	}
 	self.definitions.smg_hip_fire_spread_multiplier = {
 		category = "feature",
 		name_id = "menu_smg_hip_fire_spread_multiplier",
@@ -2782,40 +2777,31 @@ function UpgradesTweakData:_smg_definitions()
 			value = 1
 		}
 	}
-	self.definitions.smg_hip_fire_damage_multiplier = {
-		category = "feature",
-		name_id = "menu_smg_hip_fire_damage_multiplier",
-		upgrade = {
-			category = "smg",
-			upgrade = "hip_fire_damage_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.smg_move_spread_multiplier = {
-		name_id = "menu_snp_move_spread_multiplier",
+	self.definitions.weapon_multikill_free_ammo_chance = {
+		name_id = "menu_weapon_multikill_free_ammo_chance",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "move_spread_multiplier",
-			category = "smg"
-		}
-	}	
-	self.definitions.smg_recoil_index_addend = {
-		category = "feature",
-		name_id = "menu_smg_recoil_index_addend",
-		upgrade = {
-			category = "smg",
-			upgrade = "recoil_index_addend",
-			value = 1
+			upgrade = "multikill_free_ammo_chance",
+			category = "weapon"
 		}
 	}
-	self.definitions.player_close_combat_damage_boost = {
-		name_id = "menu_player_close_combat_damage_boost",
+		self.definitions.weapon_multikill_recoil_multiplier = {
+		name_id = "menu_weapon_multikill_recoil_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "close_combat_damage_boost",
-			category = "player"
+			upgrade = "multikill_recoil_multiplier",
+			category = "weapon"
+		}
+	}
+		self.definitions.weapon_multikill_fire_rate_multiplier = {
+		name_id = "menu_weapon_multikill_fire_rate_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "multikill_fire_rate_multiplier",
+			category = "weapon"
 		}
 	}
 end
@@ -3353,15 +3339,6 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_universal_body_expertise = {
-		name_id = "menu_player_universal_body_expertise",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "universal_body_expertise",
-			category = "player"
-		}
-	}
 	self.definitions.player_revive_reload = {
 		name_id = "menu_player_revive_reload",
 		category = "feature",
@@ -3471,6 +3448,15 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			value = 1,
 			upgrade = "pick_up_multiplier",
 			category = "akimbo"
+		}
+	}
+	self.definitions.weapon_universal_multikill_buffs = {
+		name_id = "menu_weapon_universal_multikill_buffs",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "universal_multikill_buffs",
+			category = "weapon"
 		}
 	}
 end)

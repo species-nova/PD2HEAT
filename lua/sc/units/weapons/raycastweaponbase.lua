@@ -60,6 +60,23 @@ function RaycastWeaponBase:setup(...)
 	end
 end
 
+function RaycastWeaponBase:set_bullet_hell_active(activate)
+	if activate then
+		self._multikill_this_magazine = true
+		managers.hud:add_skill("bullet_hell")
+	else
+		self._multikill_this_magazine = nil
+		managers.hud:remove_skill("bullet_hell")
+	end
+end
+
+--Clear multikill flag.
+local on_reload_original = RaycastWeaponBase.on_reload
+function RaycastWeaponBase:on_reload(...)
+	self:set_bullet_hell_active(false)
+	on_reload_original(self, ...)
+end
+
 --Fire no longer memes on shields.
 function FlameBulletBase:bullet_slotmask()
 	return managers.slot:get_mask("bullet_impact_targets")
@@ -212,14 +229,6 @@ function RaycastWeaponBase:_collect_hits(from, to)
 
 	return unique_hits, hit_enemy
 end	
-
-local raycast_current_damage_orig = RaycastWeaponBase._get_current_damage
-function RaycastWeaponBase:_get_current_damage(dmg_mul)
-   if self._ammo_data and (self._ammo_data.bullet_class == "InstantExplosiveBulletBase") then
-	   dmg_mul = dmg_mul / managers.player:temporary_upgrade_value("temporary", "overkill_damage_multiplier", 1)
-   end
-   return raycast_current_damage_orig(self, dmg_mul)
-end
 
 function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound, already_ricocheted)
 	if Network:is_client() and not blank and user_unit ~= managers.player:player_unit() then
@@ -457,11 +466,17 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 				cop_kill_count = cop_kill_count + 1
 			end
 
-			if self:is_category(tweak_data.achievement.easy_as_breathing.weapon_type) and not is_civilian then
+			if not is_civilian then
 				self._kills_without_releasing_trigger = (self._kills_without_releasing_trigger or 0) + 1
 
-				if tweak_data.achievement.easy_as_breathing.count <= self._kills_without_releasing_trigger then
-					managers.achievment:award(tweak_data.achievement.easy_as_breathing.award)
+				if self._kills_without_releasing_trigger and self._kills_without_releasing_trigger > 1 and self:fire_mode() == "auto" then
+					self:set_bullet_hell_active(true)
+				end
+
+				if self:is_category(tweak_data.achievement.easy_as_breathing.weapon_type) then
+					if tweak_data.achievement.easy_as_breathing.count <= self._kills_without_releasing_trigger then
+						managers.achievment:award(tweak_data.achievement.easy_as_breathing.award)
+					end
 				end
 			end
 		end
@@ -625,11 +640,20 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local is_player = self._setup.user_unit == managers.player:player_unit()
 	local consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) or not is_player
 
-	--MG Specialist Skill
-	if is_player and self._shots_without_releasing_trigger then
+	if is_player then
+		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 		if self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0 then
+			log("Spray 'n Pray")
 			consume_ammo = false
+		end
+
+		--Bullet Hell
+		if consume_ammo and self._multikill_this_magazine and (self:is_category("smg") or managers.player:has_category_upgrade("weapon", "universal_multikill_buffs")) then
+			if math.random() < managers.player:upgrade_value("weapon", "multikill_free_ammo_chance", 0) then
+				log("BULLET HELL")
+				consume_ammo = false
+			end
 		end
 	end
 
@@ -638,6 +662,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 
 	if consume_ammo and (is_player or Network:is_server()) then
+		log("consumed")
 		local base = self:ammo_base()
 
 		if base:get_ammo_remaining_in_clip() == 0 then
@@ -645,22 +670,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		end
 
 		local ammo_usage = 1
-
-		if is_player then
-			for _, category in ipairs(self:weapon_tweak_data().categories) do
-				if managers.player:has_category_upgrade(category, "consume_no_ammo_chance") then
-					local roll = math.rand(1)
-					local chance = managers.player:upgrade_value(category, "consume_no_ammo_chance", 0)
-
-					if roll < chance then
-						ammo_usage = 0
-
-						print("NO AMMO COST")
-					end
-				end
-			end
-		end
-
 		local mag = base:get_ammo_remaining_in_clip()
 		local remaining_ammo = mag - ammo_usage
 
@@ -730,14 +739,14 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	return ray_res
 end
 
-local orig_stop_shooting = RaycastWeaponBase.stop_shooting
-function RaycastWeaponBase:stop_shooting(...)
-	if self._shots_without_releasing_trigger then
-		self._shots_without_releasing_trigger = 0
-	end
+function RaycastWeaponBase:stop_shooting()
+	self._shots_without_releasing_trigger = 0
+	self._shooting = nil
+	self._kills_without_releasing_trigger = nil
+	self._bullets_fired = nil
 
 	if self:_soundfix_should_play_normal() then
-		orig_stop_shooting(self,...)
+		self:play_tweak_data_sound("stop_fire")
 	end
 end
 
@@ -811,6 +820,21 @@ function RaycastWeaponBase:_get_spread(user_unit)
 	local spread_y = spread_x
 
 	return spread_x, spread_y
+end
+
+function RaycastWeaponBase:on_equip(user_unit)
+	self:_check_magazine_empty()
+	if self._multikill_this_magazine then
+		managers.hud:add_skill("bullet_hell")
+	end
+end
+
+function RaycastWeaponBase:on_unequip(user_unit)
+	if self._tango_4_data then
+		self._tango_4_data = nil
+	end
+
+	managers.hud:remove_skill("bullet_hell")
 end
 
 function RaycastWeaponBase:remove_ammo(percent)

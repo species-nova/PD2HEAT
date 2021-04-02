@@ -422,7 +422,7 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   ASSAULT SUBTREE, FORMERLY SHARPSHOOTER   ]]--
 			--{
 
-			--Leadership, you always have less recoils ;)--
+			--Sturdy Arm--
 			self.skills.stable_shot = {
 				["name_id"] = "menu_stable_shot_beta_sc",
 				["desc_id"] = "menu_stable_shot_beta_desc_sc",
@@ -430,7 +430,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"smg_recoil_index_addend"
+						"smg_hip_fire_recoil_multiplier"
 					},
 					cost = self.costs.hightier
 				},
@@ -443,7 +443,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--MG Handling--
+			--None in the Chamber--
 			self.skills.rifleman = {
 				["name_id"] = "menu_scavenger_sc",
 				["desc_id"] = "menu_scavenger_desc_sc",
@@ -458,13 +458,13 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"smg_reload_speed_multiplier"
+						"smg_empty_reload_speed_multiplier"
 					},
 					cost = self.costs.pro
 				}
 			}
 
-			--MG Specialist--
+			--Mag-Dumper--
 			self.skills.sharpshooter = {
 				["name_id"] = "menu_sharpshooter_sc",
 				["desc_id"] = "menu_sharpshooter_desc_sc",
@@ -486,7 +486,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Shock and Awe--
+			--Quintstacked Mags--
 			self.skills.spotter_teamwork = {
 				["name_id"] = "menu_spotter_teamwork_beta_sc",
 				["desc_id"] = "menu_spotter_teamwork_beta_desc_sc",
@@ -515,7 +515,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 3,
 					upgrades = {
-						"weapon_knock_down_1"
+						"player_ap_bullets_1"
 					},
 					cost = self.costs.hightier
 				},
@@ -528,7 +528,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Body Expertise--
+			--Bullet Hell--
 			self.skills.single_shot_ammo_return = {
 				["name_id"] = "menu_body_expertise_beta_sc",
 				["desc_id"] = "menu_body_expertise_beta_desc_sc",
@@ -536,16 +536,16 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 4,
 					upgrades = {
-						"player_ap_bullets_1",
-						"weapon_automatic_head_shot_add_1"
+						"weapon_multikill_free_ammo_chance"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
-					skill_cost = 8, --just kill like 90% of the enemy roster near instantly its fine
-					upgrades = { --Or learn to aim and not waste 12 skill points 4head
-						"weapon_automatic_head_shot_add_2",
-						"player_universal_body_expertise"
+					skill_cost = 8,
+					upgrades = {
+						"weapon_universal_multikill_buffs",
+						"weapon_multikill_fire_rate_multiplier",
+						"weapon_multikill_recoil_multiplier"
 					},
 					cost = self.costs.hightierpro
 				}

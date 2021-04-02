@@ -166,7 +166,6 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 					multiplier = managers.blackmarket:accuracy_multiplier(name, weapon_tweak.categories, silencer, nil, nil, fire_mode, blueprint, nil, is_single_shot)
 					modifier = managers.blackmarket:accuracy_addend(name, weapon_tweak.categories, base_index, silencer, nil, fire_mode, blueprint, nil, is_single_shot) * tweak_data.gui.stats_present_multiplier
 				elseif stat.name == "recoil" then
-					multiplier = managers.blackmarket:recoil_multiplier(name, weapon_tweak.categories, silencer, blueprint)
 					modifier = managers.blackmarket:recoil_addend(name, weapon_tweak.categories, base_index, silencer, blueprint, nil, is_single_shot) * tweak_data.gui.stats_present_multiplier
 				elseif stat.name == "suppression" then
 					multiplier = managers.blackmarket:threat_multiplier(name, weapon_tweak.categories, silencer)

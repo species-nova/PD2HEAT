@@ -28,6 +28,8 @@ else
 			return
 		end
 
+		self:set_bullet_hell_active(false)
+
 		local ammo_base = self._reload_ammo_base or self:ammo_base()
 
 		if ammo_base:weapon_tweak_data().uses_clip == true then
@@ -175,7 +177,6 @@ local start_shooting_original = RaycastWeaponBase.start_shooting
 local stop_shooting_original = RaycastWeaponBase.stop_shooting
 local _fire_sound_original = RaycastWeaponBase._fire_sound
 local trigger_held_original = RaycastWeaponBase.trigger_held
-local recoil_multiplier_original = NewRaycastWeaponBase.recoil_multiplier
 
 RaycastWeaponBase._SPIN_UP_T = 0.5
 RaycastWeaponBase._SPIN_DOWN_T = 0.75
@@ -226,16 +227,39 @@ function RaycastWeaponBase:trigger_held(...)
 end
 
 function NewRaycastWeaponBase:recoil_multiplier(...)
-	local mult = 1
-	if self._delayed_burst_recoil and self:in_burst_mode() and self:burst_rounds_remaining() then
-		mult = 0
+	local rounds = 1
+	if self._delayed_burst_recoil and self:in_burst_mode() then
+		if self:burst_rounds_remaining() then
+			return 0
+		else
+			rounds = self._burst_size
+		end
 	end
 	
 	if self._name_id == "m134" and not self._vulcan_firing then
 		return 0
 	end
 
-	return recoil_multiplier_original(self, ...)
+	local user_unit = self._setup and self._setup.user_unit
+	local current_state = user_unit:movement()._current_state
+	local mul = 1
+	local player_manager = managers.player
+
+	if not self._in_steelsight then
+		for _, category in ipairs(self:categories()) do
+			mul = mul + player_manager:upgrade_value(category, "hip_fire_recoil_multiplier", 1) - 1
+		end
+	else
+		for _, category in ipairs(self:categories()) do
+			mul = mul + player_manager:upgrade_value(category, "steelsight_recoil_mul", 1) - 1
+		end
+	end
+
+	if self._multikill_this_magazine and (self:is_category("smg") or player_manager:has_category_upgrade("weapon", "universal_multikill_buffs")) then
+		mul = mul + player_manager:upgrade_value("weapon", "multikill_recoil_multiplier", 1) - 1
+	end
+
+	return rounds * self:_convert_add_to_mul(mul)
 end
 
 local on_enabled_original = NewRaycastWeaponBase.on_enabled
@@ -459,17 +483,22 @@ end
 					
 --[[	fire rate multipler in-game stuff	]]--
 function NewRaycastWeaponBase:fire_rate_multiplier()
-	local multiplier = self._fire_rate_multiplier or 1
-	
-	if self:in_burst_mode() then
-		multiplier = multiplier * (self._burst_fire_rate_multiplier or 1)
-	end		
-	
+	local mul = 1
+	local player_manager = managers.player
+
 	if managers.player:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
-		multiplier = multiplier * managers.player:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1)
+		mul = mul + player_manager:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1) - 1
 	end 
 
-	return multiplier
+	if self._multikill_this_magazine and (self:is_category("smg") or player_manager:has_category_upgrade("weapon", "universal_multikill_buffs")) then
+		mul = mul + player_manager:upgrade_value("weapon", "multikill_fire_rate_multiplier", 1) - 1
+	end
+
+	if self:in_burst_mode() then
+		mul = mul * (self._burst_fire_rate_multiplier or 1)
+	end		
+
+	return mul * (self._fire_rate_multiplier or 1)
 end
 
 local fire_original = NewRaycastWeaponBase.fire
@@ -542,42 +571,43 @@ end
 
 --[[	Reload stuff	]]--
 function NewRaycastWeaponBase:reload_speed_multiplier()
-	local player_manager = managers.player
 	if self._current_reload_speed_multiplier then
 		return self._current_reload_speed_multiplier
 	end
-	local multiplier = self._reload_speed_mult
+
+	local player_manager = managers.player
+	local multiplier = 1
 		
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		multiplier = multiplier * player_manager:upgrade_value(category, "reload_speed_multiplier", 1)
-		multiplier = multiplier * (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0))
+		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
+		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
+		multiplier = multiplier + (1 - math.min(self:get_ammo_remaining_in_clip() / self:get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
 	end
-	multiplier = multiplier * player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1)
-	multiplier = multiplier * player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1)
+	multiplier = multiplier + player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1) - 1
+	multiplier = multiplier + player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1) - 1
 	
 	if self._setup and alive(self._setup.user_unit) and self._setup.user_unit:movement() then
 		local morale_boost_bonus = self._setup.user_unit:movement():morale_boost()
 
 		if morale_boost_bonus then
-			multiplier = multiplier * morale_boost_bonus.reload_speed_bonus
+			multiplier = multiplier + morale_boost_bonus.reload_speed_bonus - 1
 		end
 
 		if self._setup.user_unit:movement():next_reload_speed_multiplier() then
-			multiplier = multiplier * self._setup.user_unit:movement():next_reload_speed_multiplier()
+			multiplier = multiplier + self._setup.user_unit:movement():next_reload_speed_multiplier() - 1
 		end
 	end
 	
 	if managers.player:has_activate_temporary_upgrade("temporary", "reload_weapon_faster") then
-		multiplier = multiplier * player_manager:temporary_upgrade_value("temporary", "reload_weapon_faster", 1)
+		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "reload_weapon_faster", 1) - 1
 	end
 	if managers.player:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
-		multiplier = multiplier * player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1)
+		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1) - 1
 	end
-	multiplier = multiplier * player_manager:get_property("shock_and_awe_reload_multiplier", 1)
-	multiplier = multiplier * player_manager:get_temporary_property("bloodthirst_reload_speed", 1)
-	multiplier = multiplier * player_manager:upgrade_value("team", "crew_faster_reload", 1)
+	multiplier = multiplier + player_manager:get_temporary_property("bloodthirst_reload_speed", 1) - 1
+	multiplier = multiplier + player_manager:upgrade_value("team", "crew_faster_reload", 1) - 1
 
-	multiplier = multiplier * self:reload_speed_stat()
+	multiplier = multiplier * self:reload_speed_stat()  * self._reload_speed_mult
 	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)
 
 	return multiplier

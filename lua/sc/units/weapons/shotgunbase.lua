@@ -118,6 +118,31 @@ end
 function SaigaShotgun:update_reloading(t, dt, time_left)
 end
 
+function NewRaycastWeaponBase:fire_rate_multiplier()
+	local mul = 1
+	local player_manager = managers.player
+
+	if managers.player:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
+		mul = mul + player_manager:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1) - 1
+	end 
+
+	if self._multikill_this_magazine and (self:is_category("smg") or player_manager:has_category_upgrade("weapon", "universal_multikill_buffs")) then
+		mul = mul + player_manager:upgrade_value("weapon", "multikill_fire_rate_multiplier", 1) - 1
+	end
+
+	local user_unit = self._setup and self._setup.user_unit
+	local current_state = alive(user_unit) and user_unit:movement() and user_unit:movement()._current_state
+	if current_state and not current_state:in_steelsight() then
+		mul = mul + 1 - player_manager:upgrade_value("shotgun", "hip_rate_of_fire", 1)
+	end
+
+	if self:in_burst_mode() then
+		mul = mul * (self._burst_fire_rate_multiplier or 1)
+	end	
+
+	return mul * (self._fire_rate_multiplier or 1)
+end
+
 local mvec_temp = Vector3()
 local mvec_to = Vector3()
 local mvec_direction = Vector3()
@@ -291,8 +316,16 @@ function ShotgunBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoo
 					kill_data.headshots = kill_data.headshots + 1
 				end
 
-				if col_ray.unit and col_ray.unit:base() and (col_ray.unit:base()._tweak_table == "civilian" or col_ray.unit:base()._tweak_table == "civilian_female") then
-					kill_data.civilian_kills = kill_data.civilian_kills + 1
+				if col_ray.unit and col_ray.unit:base() then
+					if col_ray.unit:base()._tweak_table == "civilian" or col_ray.unit:base()._tweak_table == "civilian_female" then
+						kill_data.civilian_kills = kill_data.civilian_kills + 1
+					else
+						self._kills_without_releasing_trigger = (self._kills_without_releasing_trigger or 0) + 1
+
+						if self._kills_without_releasing_trigger and self._kills_without_releasing_trigger > 1 and self:fire_mode() == "auto" then
+							self:set_bullet_hell_active(false)
+						end
+					end
 				end
 			end
 		end
