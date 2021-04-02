@@ -431,6 +431,7 @@
 					<option type="bool" default_value="true" name="Info_ammo_efficiency"/>
 					<option type="bool" default_value="true" name="Info_single_shot_fast_reload"/> <!-- aggressive reload -->
 					<option type="bool" default_value="true" name="Info_bloodthirst_reload_speed"/>
+					<option type="bool" default_value="true" name="Info_bullet_hell"/>
 					<option type="bool" default_value="true" name="Info_bullet_storm"/>
 					<option type="bool" default_value="true" name="Info_revive_damage_reduction"/> <!-- Combat Medic -->
 					<option type="bool" default_value="true" name="Info_close_combat"/> <!-- # Enemies in Close Combat -->
