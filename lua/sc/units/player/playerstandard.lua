@@ -1624,7 +1624,7 @@ function PlayerStandard:_get_swap_speed_multiplier()
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("team", "crew_faster_swap", 1) - 1
 
 	if managers.player:has_activate_temporary_upgrade("temporary", "swap_weapon_faster") then
-		skill_multiplier = skill_multiplier * player_manager:temporary_upgrade_value("temporary", "swap_weapon_faster", 1)
+		skill_multiplier = skill_multiplier + player_manager:temporary_upgrade_value("temporary", "swap_weapon_faster", 1) - 1
 	end
 
 	local multiplier = base_multiplier * skill_multiplier
