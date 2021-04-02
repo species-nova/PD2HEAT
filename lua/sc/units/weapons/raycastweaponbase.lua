@@ -644,14 +644,12 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 		if self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0 then
-			log("Spray 'n Pray")
 			consume_ammo = false
 		end
 
 		--Bullet Hell
 		if consume_ammo and self._multikill_this_magazine and (self:is_category("smg") or managers.player:has_category_upgrade("weapon", "universal_multikill_buffs")) then
 			if math.random() < managers.player:upgrade_value("weapon", "multikill_free_ammo_chance", 0) then
-				log("BULLET HELL")
 				consume_ammo = false
 			end
 		end
@@ -662,7 +660,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 
 	if consume_ammo and (is_player or Network:is_server()) then
-		log("consumed")
 		local base = self:ammo_base()
 
 		if base:get_ammo_remaining_in_clip() == 0 then
