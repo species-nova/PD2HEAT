@@ -4126,7 +4126,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.hk21.supported = true
 	self.hk21.stats = {
 		damage = 20,
-		spread = 13,
+		spread = 12,
 		recoil = 24,
 		spread_moving = 8,
 		zoom = 1,
@@ -4155,7 +4155,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m249.supported = true
 	self.m249.stats = {
 		damage = 18,
-		spread = 14,
+		spread = 13,
 		recoil = 23,
 		spread_moving = 9,
 		zoom = 1,
@@ -4188,7 +4188,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.rpk.supported = true
 	self.rpk.stats = {
 		damage = 24,
-		spread = 13,
+		spread = 12,
 		recoil = 24,
 		spread_moving = 6,
 		zoom = 1,
@@ -4761,7 +4761,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mg42.supported = true
 	self.mg42.stats = {
 		damage = 24,
-		spread = 17,
+		spread = 16,
 		recoil = 16,
 		spread_moving = 9,
 		zoom = 1,
@@ -5710,7 +5710,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.par.supported = true
 	self.par.stats = {
 		damage = 20,
-		spread = 14,
+		spread = 13,
 		recoil = 24,
 		spread_moving = 9,
 		zoom = 1,
@@ -8035,7 +8035,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m60.supported = true
 	self.m60.stats = {
 		damage = 30,
-		spread = 15,
+		spread = 14,
 		recoil = 22,
 		spread_moving = 9,
 		zoom = 1,

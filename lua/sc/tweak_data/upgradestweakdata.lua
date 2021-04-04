@@ -625,10 +625,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	
 			--Bullet Hell
 				--Basic
-					self.values.weapon.multikill_free_ammo_chance = {0.4}
+					self.values.weapon.multikill_free_ammo_chance = {0.5}
 				--Ace
-					self.values.weapon.multikill_recoil_multiplier = {0.6}
-					self.values.weapon.multikill_fire_rate_multiplier = {1.4}
+					self.values.weapon.multikill_recoil_multiplier = {0.5}
+					self.values.weapon.multikill_fire_rate_multiplier = {1.5}
 					self.values.weapon.universal_multikill_buffs = {true}
 						
 	--ENFORCER--
