@@ -298,33 +298,3 @@ function restoration:LoadFonts()
 		return true
 	end
 end
-
-Hooks:Register("restoration_on_synced_peer")
-Hooks:Add("restoration_on_synced_peer","restoration_do_sync_peer_stuff",function(peer,peer_id)
-	restoration:send_sync_environment(peer,peer_id)
-end)
-
-function restoration:get_env_setting(name)
-	local value = restoration.Environment_Settings_Table[name]
-	if value ~= nil then 
-		return value
-	end
-	return restoration.Options:GetValue(name)
-end
-
-function restoration:send_sync_environment(to)
-	if Network:is_server() then 
-		local env_data = restoration.Environment_Settings_Table
-		local env_string = env_data and LuaNetworking:TableToString(env_data)
-		if env_string and env_string ~= "" then 
-			if to and managers.network:session():peer(to) then 
-				LuaNetworking:SendToPeer(to,"environments_all",env_string)
-			else
-				LuaNetworking:SendToPeers("environments_all",env_string)
-			end
-			log("**********************************************************Sent EnvironmentSync with results: ")
-			PrintTable(env_data)
-			log("**********************************************************End")
-		end
-	end
-end
