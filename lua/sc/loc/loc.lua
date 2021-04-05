@@ -1806,7 +1806,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--None in the Chamber--
 			["menu_scavenger_sc"] = "None in the Chamber",
-			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##35%## faster when your magazine is completely empty.",
+			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##30%## faster when your magazine is completely empty.",
 
 			--Mag-Dumper--
 			["menu_sharpshooter_sc"] = "Spray 'n Pray",
@@ -1842,7 +1842,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shell Shocked--
 			["menu_shotgun_cqb_beta_sc"] = "Shell Shocked",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last shot in your shotgun or flamethrower staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##35%## faster.",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last shot in your shotgun or flamethrower staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##40%## faster.",
 
 			--Underdog--
 			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
