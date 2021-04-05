@@ -600,7 +600,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.smg.hip_fire_spread_multiplier = {0.85}
 				--Ace
 
-					self.values.smg.empty_reload_speed_multiplier = {1.35}
+					self.values.smg.empty_reload_speed_multiplier = {1.3}
 				
 			--Quintstacked Mags
 				self.values.weapon.clip_ammo_increase = {
@@ -643,7 +643,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.shotgun.last_shot_stagger = {800}
 				--Ace
-					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.35, min = 3}}
+					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.4, min = 3}}
 
 			--Gung-Ho
 				--Basic
