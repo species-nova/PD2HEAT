@@ -15,8 +15,8 @@ function HUDSkill:init(hud)
 		y = self._hud_panel:center_y() * 0.3
 	})
 
-	self._icon_size = math.floor(restoration.Options:GetValue("HUD/INFOHUD/Info_Size")) --The "step" field doesn't seem to work???
-	self._row_count = math.floor(restoration.Options:GetValue("HUD/INFOHUD/Info_Count"))
+	self._icon_size = math.floor(restoration.Options:GetValue("INFOHUD/Info_Size")) --The "step" field doesn't seem to work???
+	self._row_count = math.floor(restoration.Options:GetValue("INFOHUD/Info_Count"))
 	self._padding = 2
 	self._active_skills = {}
 	self._durations = {}
@@ -45,7 +45,7 @@ function HUDSkill:add_skill(name)
 		y = y_offset --Move posit
 	})
 	local background = self._skill_panel:bitmap({
-		texture = 'guis/textures/restoration/hud_radialbg',
+		texture = 'guis/textures/restoration/hud_skillbg',
 		name = name .. "_back",
 		layer = 1,
 		render_template = "VertexColorTexturedRadial",

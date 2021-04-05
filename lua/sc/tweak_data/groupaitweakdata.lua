@@ -1611,7 +1611,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all
 		}
-	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then
+	if Month == "04" and Day == "01" and restoration.Options:GetValue("Holiday") then
 		self.unit_categories.CS_swat_MP5 = {
 			unit_types = {
 				america = {
@@ -3827,7 +3827,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			access = access_type_all
 		}
 		end
-	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") and difficulty_index <= 3 then		
+	if Month == "04" and Day == "01" and restoration.Options:GetValue("Holiday") and difficulty_index <= 3 then		
 	if difficulty_index <= 3 then
 		self.unit_categories.FBI_suit_M4_MP5 = {
 			unit_types = {
@@ -9223,7 +9223,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "medic"
 		}
 	end
-	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
+	if Month == "04" and Day == "01" and restoration.Options:GetValue("Holiday") then		
 		self.unit_categories.TIT_tank = {
 			unit_types = {
 				america = {
@@ -9690,7 +9690,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			is_captain = true
 		}		
 	end
-if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then		
+if Month == "04" and Day == "01" and restoration.Options:GetValue("Holiday") then		
 		self.unit_categories.Tank_Titan = {
 			unit_types = {
 				america = {

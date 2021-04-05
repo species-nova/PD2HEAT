@@ -153,7 +153,7 @@ function CopBase:_chk_spawn_gear()
 	local difficulty_index = tweak_data:difficulty_to_index(Global and Global.game_settings and Global.game_settings.difficulty or "overkill")
 
 	--Using this only so we can slap this on custom heists
-	if restoration and restoration.Options:GetValue("OTHER/Holiday") then
+	if restoration and restoration.Options:GetValue("Holiday") then
 		for _,x in pairs(restoration.christmas_heists) do
 			if job == x or Month == "12" then
 				if self._tweak_table == "tank_hw" or self._tweak_table == "spooc_titan" or self._tweak_table == "autumn" then

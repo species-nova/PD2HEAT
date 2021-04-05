@@ -324,12 +324,8 @@ function PlayerStandard:_end_action_ladder(t, input)
 	self._unit:movement():on_exit_ladder()
 end	
 
---If stop bots option is enabled, replace vanilla version with a version with bot stopping support.
-local orig_check_interact = PlayerStandard._check_action_interact
+--Allow for stopping all bots.
 function PlayerStandard:_check_action_interact(t, input,...)
-	if not (self._start_shout_all_ai_t or (input and input.btn_interact_secondary_press)) or not restoration.Options:GetValue("OTHER/StopAllBots") then
-		return orig_check_interact(self,t,input,...)
-	end
 	local keyboard = self._controller.TYPE == "pc" or managers.controller:get_default_wrapper_type() == "pc"
 	local new_action, timer, interact_object = nil
 

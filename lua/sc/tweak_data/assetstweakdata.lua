@@ -217,27 +217,7 @@ function AssetsTweakData:_init_risk_assets(tweak_data)
 		"bex",
 		"pex",
 		"fex"
-	}			
-	
-	--[[
-	
-	--Holiday Exclusive Stuff--
-	if Month == "10" and restoration.Options:GetValue("OTHER/Holiday") then
-
-		--Zombies on Bank Heist (H&T)
-		table.insert(self.risk_pd.exclude_stages, "branchbank")
-		table.insert(self.risk_swat.exclude_stages, "branchbank")
-		table.insert(self.risk_fbi.exclude_stages, "branchbank")
-		table.insert(self.risk_death_squad.exclude_stages, "branchbank")
-		table.insert(self.risk_easy_wish.exclude_stages, "branchbank")
-		table.insert(self.risk_death_wish.exclude_stages, "branchbank")
-		table.insert(self.risk_sm_wish.exclude_stages, "branchbank")
-		
-		table.insert(self.risk_zombie.stages, "branchbank")
-	
-	end	
-	
-	]]--
+	}
 
 	--Adding Bikers to Biker heist cause it makes sense--
 	self.jungle_1_bikers.stages = {

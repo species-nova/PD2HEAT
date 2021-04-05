@@ -1,5 +1,4 @@
 if not ModCore then
-	restoration.log_shit("[ERROR] Unable to find ModCore from BeardLib! Is BeardLib installed correctly?")
 	return
 end
 
@@ -8,7 +7,6 @@ Day = os.date("%d")
 
 restoration._mod_path = restoration:GetPath()
 function restoration:Init()
-	restoration.log_shit("SC: LOADING: " .. self.ModPath)
 	restoration.captain_camper = {
 		"arena", --Alesso
 		"welcome_to_the_jungle_1", --Big Oil Day 1
@@ -91,8 +89,7 @@ function restoration:Init()
 
 	}
 	
-	if Month == "10" and restoration.Options:GetValue("OTHER/Holiday") then
-	
+	if Month == "10" and restoration.Options:GetValue("Holiday") then
 		--No Spring During holidays
 		restoration.captain_murderdozer = {}
 		--Autumn loses a few heists
@@ -127,7 +124,6 @@ function restoration:Init()
 			"firestarter_1_res", --firestarter day 1 res edit version
 			"lvl_friday" --Crashing Capitol
 		}		
-	
 	end
 	
 	--[[restoration.captain_viper = {
@@ -234,36 +230,6 @@ function restoration:Init()
 		--"hox_1", --Hoxout D1
 		--"xmn_hox_1" --Xmas edition
 	}	
-	
-	restoration.Environment_Settings_Table = {} --leave blank, it will generate contents based on the table below
-	
-	local environment_settings = { --edit this one
-		["OTHER/Env_Banks"] = true,
-		["OTHER/Env_RVD1"] = true,
-		["OTHER/Env_RVD2"] = true,
-		["OTHER/Env_FSD1"] = true,
-		["OTHER/Env_PBR2"] = true,
-		["OTHER/Env_CJ2"] = true,
-		["OTHER/Env_FRIEND"] = true,
-		["OTHER/Env_UnderPass"] = true,
-		["OTHER/Env_MallCrasher"] = true,
-		["OTHER/Env_Mia_1"] = true,
-		["OTHER/Env_FSD3"] = true,
-		["OTHER/Env_WDD1N"] = true,
-		["OTHER/Env_WDD1D"] = true,
-		["OTHER/Env_WDD2D"] = true,
-		["OTHER/Env_Alex3"] = true,
-		["OTHER/Env_Big"] = true,
-		["OTHER/Env_FS"] = true,
-		["OTHER/Env_Ukra"] = true,
-		["OTHER/Env_Peta"] = true
-		-- ["OTHER/Env_Kosugi"] = true
-	}
-	for name,enabled in pairs(environment_settings) do 
-		if enabled then 
-			restoration.Environment_Settings_Table[name] = restoration.Options:GetValue(name)
-		end
-	end
 
 	_G.SC = _G.SC or {}
 	SC._path = self.ModPath
@@ -323,20 +289,8 @@ function restoration:all_enabled(...)
 	return true
 end
 
-function restoration.log_shit(to_log)
-	if restoration.we_log then
-		log(to_log)
-	end
-end
-
 function restoration:LoadSCAssets()
 	return true
-end
---don't load the fucking classic movies if setting is on.  memory hog
-function restoration:LoadClassicMovies()
-	if restoration and restoration.Options:GetValue("OTHER/ClassicMovies") then
-		return true
-	end
 end
 
 function restoration:LoadFonts()
@@ -344,175 +298,6 @@ function restoration:LoadFonts()
 		return true
 	end
 end
-
-restoration.assault_style = {
-	"beta_assault",
-	"alpha_assault"
-}
-
-restoration.environments_choice_bank = {
-	"default",
-	"random",
-	"mellowday",
-	"xbox_bank",
-	"bank_day",
-	"env_trailer_bank"
-}
-
-restoration.environments_choice_rvd1 = {
-	"default",
-	"random",
-	"rvd1_alt1",
-	"rvd1_alt2"
-}
-
-restoration.environments_choice_rvd2 = {
-	"default",
-	"random",
-	"rvd2_alt"
-}
-
-restoration.environments_choice_firestarter_1 = {
-	"default",
-	"random",
-	"fsd1_eve"
-}
-
-restoration.environments_choice_pbr2 = {
-	"default",
-	"random",
-	"bos_alt"
-}
-
-restoration.environments_choice_friend = {
-	"default",
-	"random",
-	"friend_pink",
-	"friend_night",
-}
-
-restoration.environments_choice_crojob2 = {
-	"default",
-	"random",
-	"dockyard_alt"
-}
-
-restoration.environments_choice_arm_und = {
-	"default",
-	"random",
-	"underpass_foggyday"
-}
-
-restoration.environments_choice_mallcrasher = {
-	"default",
-	"random",
-	"mall_alt"
-}
-
-restoration.environments_choice_mia_1 = {
-	"default",
-	"random",
-	"hlm_morn",
-	"funny_and_epic_synthwave_very_eighties"
-}
-
-restoration.environments_choice_firestarter_3 = {
-	"default",
-	"env_trailer_bank"
-}
-
-restoration.environments_choice_watchdogs_1_night = {
-	"default",
-	"brightnight"
-}
-
-restoration.environments_choice_watchdogs_1_day = {
-	"default",
-	"cloudy_day"
-}
-
-restoration.environments_choice_watchdogs_2_day = {
-	"default",
-	"random",
-	"docks"
-}
-
-restoration.environments_choice_alex_3 = {
-	"default",
-	"random",
-	"docks"
-}
-
-restoration.environments_choice_big = {
-	"default",
-	"random",
-	"xbox_bank"
-}
-
-restoration.environments_choice_four_stores = {
-	"default",
-	"random",
-	"mellowday",
-	"xbox_bank",
-	"bank_day",
-	"bank_green"
-}
-
-restoration.environments_choice_ukrainian_job = {
-	"default",
-	"cloudy_day"
-}
-
-restoration.environments_choice_peta = {
-	"default",
-	"cloudy_day"
-}
-
-restoration.ponrtracks = {
-	"off",
-	"windowofoppurtunity",
-	"wheresthevan",
-	"random"
-}
-
--- restoration.environments_choice_shadow_raid = {
--- 	"default",
--- 	"random",
--- 	"shadowraiud_darker",
--- 	"shadowraid_day"
--- }
-
--- These tables show the network messages we've modified in the network settings pdmod
--- We will use them for switching to RestorationMod prefixed messages when in SC Mode.
--- local connection_network_handler_funcs = {
-	-- 'sync_player_installed_mod'
---}
-
--- local unit_network_handler_funcs = {
-	-- 'sync_grenades',
-	-- 'place_grenade_crate'
---}
-
--- Builds a single table from our two string based keys for each handler above
--- restoration.network_handler_funcs = {}
--- function restoration:add_handler_funcs(handler_funcs)
--- 	for i = 1, #handler_funcs do
--- 		self.network_handler_funcs[handler_funcs[i]] = true
--- 	end
--- end
-
--- restoration:add_handler_funcs(connection_network_handler_funcs)
--- restoration:add_handler_funcs(unit_network_handler_funcs)
-
-
--- Takes the network keys we defined above and prefixes any matches on the given handler
--- function restoration:rename_handler_funcs(NetworkHandler)
--- 	for key, value in pairs(restoration.network_handler_funcs) do
--- 		if NetworkHandler[key] then
--- 			NetworkHandler['RestorationMod__' .. key] = NetworkHandler[key]
--- 		end
--- 	end
--- end
 
 Hooks:Register("restoration_on_synced_peer")
 Hooks:Add("restoration_on_synced_peer","restoration_do_sync_peer_stuff",function(peer,peer_id)

@@ -31,7 +31,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.ai_groups.lapd = lapd
 	
 	--Christmas Dozer/Cloaker jingle bells
-	if restoration and restoration.Options:GetValue("OTHER/Holiday") then
+	if restoration and restoration.Options:GetValue("Holiday") then
 		if Month == 12 then
 			if not PackageManager:loaded("packages/event_xmas") then
 				PackageManager:load("packages/event_xmas")
@@ -121,7 +121,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.wwh.package = {"packages/nypdassets", "packages/lvl_wwh"}
 	self.wwh.ai_group_type = nypd
 	
-	if restoration and restoration.Options:GetValue("OTHER/QuietRain") then
+	if restoration and restoration.Options:GetValue("QuietRain") then
 		self.glace.ai_group_type = nypd
 		self.glace.package = {"packages/narr_glace", "packages/addrain", "packages/nypdassets"}
 	else
@@ -435,16 +435,6 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.help.package = {"packages/zombieassets", "packages/lvl_help", "packages/narr_hvh", "levels/narratives/bain/hvh/world_sounds"}
 	self.hvh.package = {"packages/zombieassets", "packages/narr_hvh"}
 	
-	--[[
-	
-	--Zombies on H&T for the holidays--
-	if Month == "10" and restoration.Options:GetValue("OTHER/Holiday") then
-		self.branchbank.package = {"packages/zombieassets", "packages/narr_hvh", "levels/narratives/bain/hvh/world_sounds", "packages/narr_firestarter3"}
-		self.branchbank.ai_group_type = zombie
-	end
-	
-	]]--
-	
 	self.haunted.ai_group_type = zombie		
 	self.nail.ai_group_type = zombie
 	self.help.ai_group_type = zombie
@@ -486,6 +476,8 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	
 	--///SKIRMISH FIXES\\\--
 	self.skm_cas.package = {"packages/dlcs/skm/job_skm"}
+
+	self.ukrainian_job.env_params = {color_grading = "color_nice"}
 end)
 
 function LevelsTweakData:get_ai_group_type()

@@ -7,7 +7,7 @@ local haunted_range = 10000 --default 10000
 local normal_range = 2000 --default 1000
 
 function WeaponFlashLight:is_haunted()
-	if restoration and restoration.Options:GetValue("OTHER/Holiday") then
+	if restoration and restoration.Options:GetValue("Holiday") then
 		local job_id = managers.job and managers.job:current_job_id()
 		local tweak = job_id and tweak_data.narrative.jobs[job_id]
 		Month = os.date("%m")
