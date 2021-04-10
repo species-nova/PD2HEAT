@@ -131,7 +131,8 @@ function restoration:Init()
 	}]]--
 	--Increased spawns, should only be reserved for larger maps.
 	restoration.large_levels = {
-		"friend" --Scarface Mansion
+		"friend", --Scarface Mansion
+		"dah", --diamond heist
 	}			
 	--Slightly reduced spawns, generally use for heists with lengthy sections where players typically hold out in one smallish position, or 'early game' heists.
 	restoration.tiny_levels = {
