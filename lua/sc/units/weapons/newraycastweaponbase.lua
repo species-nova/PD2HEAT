@@ -480,13 +480,13 @@ function NewRaycastWeaponBase:precalculate_ammo_pickup()
 		self._ammo_pickup[2] = self._ammo_pickup[2] * pickup_multiplier * ((self._ammo_data and self._ammo_data.ammo_pickup_max_mul) or 1)
 	end
 end
-					
+
 --[[	fire rate multipler in-game stuff	]]--
 function NewRaycastWeaponBase:fire_rate_multiplier()
 	local mul = 1
 	local player_manager = managers.player
 
-	if managers.player:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
+	if player_manager:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
 		mul = mul + player_manager:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1) - 1
 	end 
 
@@ -494,9 +494,11 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 		mul = mul + player_manager:upgrade_value("weapon", "multikill_fire_rate_multiplier", 1) - 1
 	end
 
+	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
+	
 	if self:in_burst_mode() then
 		mul = mul * (self._burst_fire_rate_multiplier or 1)
-	end		
+	end
 
 	return mul * (self._fire_rate_multiplier or 1)
 end
