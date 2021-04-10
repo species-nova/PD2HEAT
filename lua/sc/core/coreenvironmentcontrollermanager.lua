@@ -14,7 +14,7 @@ local ids_LUT_contrast = Idstring("contrast")
 
 function CoreEnvironmentControllerManager:set_post_composite(t, dt)
     set_post_composite_orig(self, t, dt)
-    if not restoration.Options:GetValue("OTHER/AltLastDownColor") then
+    if not restoration.Options:GetValue("AltLastDownColor") then
         return set_post_composite_orig(self, t, dt)
     end
     local vp = managers.viewport:first_active_viewport()

@@ -1,6 +1,3 @@
-if restoration.Options:GetValue("HUD/MainHUD") then
-    require("lib/managers/menu/MenuBackdropGUI")
-end
 local idealVersion = Application:version()
 local GameVersion = Application:version()
 

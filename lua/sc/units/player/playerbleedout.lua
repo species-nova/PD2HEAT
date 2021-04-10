@@ -206,7 +206,7 @@ function PlayerBleedOut:_get_unit_intimidation_action(intimidate_enemies, intimi
 end
 local update_orig = PlayerBleedOut.update
 function PlayerBleedOut:update(t, dt)
-	if restoration.Options:GetValue("OTHER/NoBleedoutTilt") then
+	if restoration.Options:GetValue("NoBleedoutTilt") then
 		PlayerBleedOut.super.update(self, t, dt)
 	else 
 		return update_orig(self, t, dt)

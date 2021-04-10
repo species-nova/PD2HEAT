@@ -1,16 +1,10 @@
 <mod name="RestorationMod" global_key="restoration" core_class="Core.lua">
 	<!--///MOD CONFIG FILE\\\-->
     <Classes directory="classes">
-		<class file="callbacks.lua"/>
-		<class file="hooks.lua"/>
-		<class file="ChallengesManager.lua"/>
-        <class file="ChallengesTweakData.lua"/>
-		<class file="Networking.lua"/>
-		<!-- <class file="radialmousemenu.lua"/> -->
+    	<class file="callbacks.lua"/>
     </Classes>
 	<ScriptMods directory="scriptdata/menus">
 		<mod file="start_menu.xml" type="custom_xml" target_file="gamedata/menus/start_menu" target_type="menu" merge_mode="script_merge"/>
-		<mod file="pause_menu.xml" type="custom_xml" target_file="gamedata/menus/pause_menu" target_type="menu" merge_mode="script_merge"/>
 		<mod file="faces.xml" type="custom_xml" target_file="units/payday2/characters/ragdoll" target_type="sequence_manager" merge_mode="script_merge"/>		
 		
 		<!-- i'm not recompiling every single fuckingsequence manager for these guys, fuck off i already dealt with the modded ones-->
@@ -39,50 +33,16 @@
 	</ScriptMods>	
 	
     <Hooks directory="lua">
-		<!--///RESTORATION HUD & UI\\\-->
-	    <hook file="tweak_data/tweakdata.lua" source_file="lib/tweak_data/tweakdata"/>
-		<hook file="tweak_data/levelstweakdata.lua" source_file="lib/tweak_data/levelstweakdata"/>
-		<hook file="managers/HUDManager.lua" source_file="lib/managers/HUDManager"/>
-		<hook file="managers/HUDManagerpd2.lua" source_file="lib/managers/HUDManagerpd2"/>
-		<hook file="managers/GUIDataManager.lua" source_file="core/lib/managers/coreguidatamanager"/>
-		<hook file="managers/ChatManager.lua" source_file="lib/managers/ChatManager"/>
-        <hook file="managers/hud/hudassaultcorner.lua" source_file="lib/managers/hud/hudassaultcorner"/>
-        <hook file="managers/hud/HUDObjectives.lua" source_file="lib/managers/hud/HUDObjectives"/>
-        <hook file="managers/hud/HUDSkills.lua" source_file="lib/managers/hud/HUDTemp"/>
-        <hook file="managers/hud/HUDEffect.lua" source_file="lib/managers/hud/HUDTemp"/>
-        <hook file="managers/hud/HUDDodge.lua" source_file="lib/managers/hud/HUDTemp"/>
-        <hook file="managers/hud/HUDTemp.lua" source_file="lib/managers/hud/HUDTemp"/>
-        <hook file="managers/hud/HUDBlackScreen.lua" source_file="lib/managers/hud/HUDBlackScreen"/>
-        <hook file="managers/hud/HUDTeammate.lua" source_file="lib/managers/hud/HUDTeammate"/>
-		<hook file="managers/hud/HUDInteraction.lua" source_file="lib/managers/hud/HUDInteraction"/>
-		<hook file="managers/hud/HUDChat.lua" source_file="lib/managers/hud/HUDChat"/>
-		<hook file="managers/hud/HUDHeistTimer.lua" source_file="lib/managers/hud/HUDHeistTimer"/>
-		<hook file="managers/hud/HUDHint.lua" source_file="lib/managers/hud/HUDHint"/>
-		<hook file="managers/hud/HUDPlayerDowned.lua" source_file="lib/managers/hud/HUDPlayerDowned"/>
-		<hook file="managers/hud/HUDPresenter.lua" source_file="lib/managers/hud/HUDPresenter"/>
-		<hook file="managers/hud/HUDSuspicion.lua" source_file="lib/managers/hud/HUDSuspicion"/>
-		<hook file="managers/hud/hudplayercustody.lua" source_file="lib/managers/hud/HUDPlayerCustody"/>
-		<!--<hook file="managers/hud/HUDStageEndScreen.lua" source_file="lib/managers/hud/HUDStageEndScreen"/>-->
-		<hook file="managers/hud/HUDMissionBriefing.lua" source_file="lib/managers/hud/HUDMissionBriefing"/>
-		<hook file="managers/menu/CircleGUIObject.lua" source_file="lib/managers/menu/CircleGUIObject"/>
-		<hook file="managers/menu/StageEndScreenGUI.lua" source_file="lib/managers/menu/StageEndScreenGUI"/>
-		<hook file="managers/menu/MissionBriefingGUI.lua" source_file="lib/managers/menu/MissionBriefingGUI"/>
-		<hook file="managers/menu/MenuBackdropGUI.lua" source_file="lib/managers/menu/MenuBackdropGUI"/>
-		<hook file="managers/menu/MenuPauseRenderer.lua" source_file="lib/managers/menu/MenuPauseRenderer"/>
-		<hook file="managers/menu/playerinventorygui.lua" source_file="lib/managers/menu/playerinventorygui"/>
-		<hook file="managers/menu/renderers/menunodejukeboxgui.lua" source_file="lib/managers/menu/renderers/menunodejukeboxgui"/>
-		<hook file="managers/menu/PlayerProfileGUIObject.lua" source_file="lib/managers/menu/playerprofileguiobject"/>
-		<hook file="managers/menu/renderers/MenuNodeCrimeNetGUI.lua" source_file="lib/managers/menu/renderers/menunodecrimenetgui"/>
-		<hook file="managers/CrimeNetManager.lua" source_file="lib/managers/CrimeNetManager"/>
-		<hook file="managers/menu/MenuComponentManager.lua" source_file="lib/managers/menu/menucomponentmanager"/>
-		<hook file="managers/menu/NewsFeedGUI.lua" source_file="lib/managers/menu/NewsFeedGUI"/>
-		<hook file="managers/UserManager.lua" source_file="lib/managers/usermanager"/>
 		<hook file="managers/musicmanager.lua" source_file="lib/managers/musicmanager"/>
-		<hook file="managers/hud/HUDArmorFix.lua" source_file="lib/managers/hud/HUDTeammate"/>
 		<!--///SCRIPTDATA\\\-->
 		<hook file="CoreScriptData.lua" source_file="core/lib/managers/coresequencemanager"/>
 		<!--///NOTIFICATIONS\\\-->
 		<hook file="notify.lua" source_file="lib/managers/menu/menunodegui"/>
+		<!--///HUD\\\-->
+		<hook file="sc/managers/hudmanager.lua" source_file="lib/managers/HUDManager"/>
+		<hook file="sc/managers/hud/hudskills.lua" source_file="lib/managers/hud/HUDTemp"/>
+		<hook file="sc/managers/hud/huddodge.lua" source_file="lib/managers/hud/HUDTemp"/>
+        <hook file="sc/managers/hud/hudeffect.lua" source_file="lib/managers/hud/HUDTemp"/>
         <!--///OVERHAUL\\\-->
 		<hook file="sc/network/base/hostnetworksession.lua" source_file="lib/network/base/hostnetworksession"/>
 		<hook file="sc/states/missionendstate.lua" source_file="lib/states/missionendstate"/>
@@ -341,7 +301,6 @@
 		<hook file="sc/mutators/mutatorenemyreplacer.lua" source_file="lib/mutators/mutatorenemyreplacer"/>
 		<hook file="sc/mutators/mutatorexplodingenemies.lua" source_file="lib/mutators/mutatorexplodingenemies"/>
 		<!--///NETWORKING\\\-->
-		<hook file="sc/network/base/handlers/connectionnetworkhandler.lua" source_file="lib/network/base/handlers/connectionnetworkhandler"/>
 		<hook file="sc/network/base/networkmanager.lua" source_file="lib/network/base/networkmanager"/>
 		<hook file="sc/network/base/clientnetworksession.lua" source_file="lib/network/base/clientnetworksession"/>
 		<hook file="sc/network/base/basenetworksession.lua" source_file="lib/network/base/basenetworksession"/>
@@ -353,11 +312,6 @@
 		<hook file="sc/managers/menu/CrimeNetContractGUI.lua" source_file="lib/managers/menu/crimenetcontractgui"/>
 		<hook file="sc/managers/menu/ingamecontractgui.lua" source_file="lib/managers/menu/ingamecontractgui"/>
 		<hook file="sc/managers/menu/ContractBoxGUI.lua" source_file="lib/managers/menu/ContractBoxGUI"/>
-		<!--///PDTH Challenges\\\-->
-		<hook file="sc/managers/menu/items/CoreItemChallenges.lua" source_file="lib/managers/menu/items/menuitemchallenge"/>
-		<hook file="sc/setups/Setup.lua" source_file="lib/setups/setup"/>
-		<!--///INGAME MANUAL\\\-->
-		<hook file="managers/menu/IngameManualGUI.lua" source_file="lib/managers/menu/IngameManualGUI"/>
 		<!--///Comptatibility.\\\-->
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
 		<hook file="sc/compatibility/WeaponStatGenerator.lua" source_file="lib/tweak_data/weapontweakdata"/>
@@ -373,145 +327,40 @@
     <!-- <Localization directory="loc" default="english.json">
     </Localization> -->
 	<!--///MOD SETTINGS\\\-->
-	<!-- <<Keybind keybind_id="radialmousemenu_keybind" name="menu_utility_radial_menu_name" description="menu_utility_radial_menu_desc" localized="true" script_path="menu/radialmousemenu_keybind.lua"/> -->
     <Options name="Options" auto_build_menu="true" auto_load="true" save_file="restoration.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
 	    <options>
-			<option_group name="HUD">
-				<option_group name="Colors">
-					<merge_data area_bg="half"/>
-					<option type="color" default_value="Color(0.3, 0.77, 1)" name="ObjectivesBG" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.black" name="ObjectivesFG" desc_id="RestorationModColorOption"/>
-
-					<option type="color" default_value="Color(1, 0.8, 0)" name="AssaultBG" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color(1, 0.5, 0)" name="AssaultEndlessBG" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color(0.12, 0.9, 0.12)" name="AssaultSurvivedBG" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.black" name="AssaultFG" desc_id="RestorationModColorOption"/>
-
-					<option type="color" default_value="Color(0.6, 0.6, 0.6)" name="Stamina" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.white" name="StaminaThreshold" desc_id="RestorationModColorOption"/>
-
-					<option type="color" default_value="Color.white" name="BagBitmap" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.black" name="BagText" desc_id="RestorationModColorOption"/>
-
-					<option type="color" default_value="Color.red" name="NoReturnText" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.white" name="HostagesText" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.white" name="TimerText" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.white" name="HintText" desc_id="RestorationModColorOption"/>
-					<option type="color" default_value="Color.white" name="MaskOnText" desc_id="RestorationModColorOption"/>
-				</option_group>
-				<option_group name="Extra">
-					<merge_data area_bg="half"/>
-					<option type="number" default_value="1" min="0.1" max="1.5" step="0.01" show_value="true" name="Scale"/>
-					<option type="number" default_value="0.936" min="0.1" max="1" step="0.01" show_value="true" name="SizeOnScreen"/>
-					<option type="bool" default_value="false" name="RealAmmo"/>
-					<option type="bool" default_value="false" name="StealthOrigPos"/>
-					<option type="bool" default_value="false" name="LowerBag"/>
-					<option type="bool" default_value="false" name="ArmorFix"/>
-					<option type="bool" default_value="false" name="VoiceIcon"/>
-					<!-- <option type="bool" default_value="false" name="CasingTicker"/> -->
-				</option_group>
-				<option_group name="UI">
-					<merge_data area_bg="half"/>
-						<option type="bool" default_value="false" name="Pause"/>
-						<option type="bool" default_value="false" name="Profile"/>
-						<option type="bool" default_value="false" name="Crimenet"/>
-						<option type="bool" default_value="false" name="Newsfeed"/>
-						<option type="bool" default_value="false" name="DifficultyMarkers"/>
-						<option type="bool" default_value="false" name="BlackScreen"/>
-						<option type="bool" default_value="false" name="Loadouts"/>
-						<option type="bool" default_value="false" name="District"/>
-						<option type="bool" default_value="false" name="PeerColors"/>
-						<option type="bool" default_value="false" name="PocoCrimenetAlignSort"/>
-						<option type="number" default_value="1" min="0.7" max="1.2" step="0.1" show_value="true" name="PocoCrimenetScale"/>
-				</option_group>
-				<option_group name="INFOHUD">
-					<option type="bool" default_value="false" name="Info_Hud"/>
-					<option type="number" default_value="36" min="24" max="48" step="2" show_value="true" name="Info_Size"/>
-					<option type="number" default_value="8" min="1" max="8" step="1" show_value="true" name="Info_Count"/>
-					<option type="bool" default_value="true" name="Info_ammo_efficiency"/>
-					<option type="bool" default_value="true" name="Info_single_shot_fast_reload"/> <!-- aggressive reload -->
-					<option type="bool" default_value="true" name="Info_bloodthirst_reload_speed"/>
-					<option type="bool" default_value="true" name="Info_bullet_hell"/>
-					<option type="bool" default_value="true" name="Info_bullet_storm"/>
-					<option type="bool" default_value="true" name="Info_revive_damage_reduction"/> <!-- Combat Medic -->
-					<option type="bool" default_value="true" name="Info_close_combat"/> <!-- # Enemies in Close Combat -->
-					<option type="bool" default_value="true" name="Info_desperado"/>
-					<option type="bool" default_value="true" name="Info_doctor_bag_health_regen"/>
-					<option type="bool" default_value="true" name="Info_grinder"/>
-					<option type="bool" default_value="true" name="Info_infiltrator"/>
-					<option type="bool" default_value="true" name="Info_long_dis_revive"/> <!-- inspire -->
-					<option type="bool" default_value="true" name="Info_messiah"/>
-					<option type="bool" default_value="true" name="Info_survive_one_hit"/> <!-- Yakuza Oni Irezumi -->
-					<option type="bool" default_value="true" name="Info_overheat_stacks"/>
-					<option type="bool" default_value="true" name="Info_revived_damage_reduction"/> <!-- Painkillers -->
-					<option type="bool" default_value="true" name="Info_first_aid_damage_reduction"/> <!-- Quick Fix -->
-					<option type="bool" default_value="true" name="Info_rogue"/>
-					<option type="bool" default_value="true" name="Info_increased_movement_speed"/> <!-- Running From Death -->
-					<option type="bool" default_value="true" name="Info_headshot_fire_rate_mult"/> <!-- Sharpshooter -->
-					<option type="bool" default_value="true" name="Info_trigger_happy"/>
-					<option type="bool" default_value="true" name="Info_unseen_strike"/>
-				</option_group>
-				<option type="bool" default_value="false" name="MainHUD"/>
-				<option type="bool" default_value="true" name="Teammate"/>
-				<option type="bool" default_value="true" name="ObjectivesPanel"/>
-				<option type="bool" default_value="true" name="AssaultPanel"/>
-				<option type="multichoice" default_value="1" name="AssaultStyle" values_tbl="restoration.assault_style"/>
-				<option type="bool" default_value="true" name="StaminaIndicator"/>
-				<option type="bool" default_value="true" name="Waypoints"/>
-				<option type="bool" default_value="true" name="NameLabels"/>
-				<option type="bool" default_value="true" name="Presenter"/>
-				<option type="bool" default_value="true" name="Interaction"/>
-				<option type="bool" default_value="true" name="Stealth"/>
-				<option type="bool" default_value="true" name="Down"/>
-				<option type="bool" default_value="true" name="Bag"/>
-				<option type="bool" default_value="true" name="HeistTimer"/>
-				<option type="bool" default_value="true" name="Hint"/>
-				<option type="bool" default_value="true" name="MaskOn"/>
-				<option type="bool" default_value="false" name="Hostage"/>
-				<option type="bool" default_value="false" name="Custody"/>
-				<option type="bool" default_value="true" name="UppercaseNames"/>				
-			</option_group>
-			<!--<option_group name="SC">>-->
-				<!--<option type="bool" default_value="false" name="SC" value_changed="RestorationCoreCallbacks:Restart"/>-->
-				<!--<option type="bool" default_value="false" name="Save"/>-->
-			<!--</option_group>-->
-			<option_group name="OTHER">
-				<option type="bool" default_value="false" name="AltLastDownColor"/>
-				<option type="bool" default_value="false" name="NoBleedoutTilt"/>
-				<option type="bool" default_value="false" name="StopAllBots"/>
-				<!-- <option type="multichoice" default_value="1" name="PONRTracks" values_tbl="restoration.ponrtracks"/> -->
-				<option type="bool" default_value="true" name="PONRTrack"/>
-				<option type="bool" default_value="false" name="MusicShuffle"/>
-				<option type="bool" default_value="true" name="TimeOfDay"/>
-				<option type="bool" default_value="true" name="Holiday"/>
-				<option type="bool" default_value="false" name="ClassicMovies"/>
-				<option type="bool" default_value="false" name="RestoreHitFlash"/>
-				<option type="bool" default_value="true" hidden="true" name="ResModChallenges"/>
-				<option type="bool" default_value="true" name="QuietRain"/>
-				<divider name="tod_divider" size="15"/>
-				<option type="multichoice" default_value="2" name="Env_Banks" values_tbl="restoration.environments_choice_bank"/>
-				<option type="multichoice" default_value="2" name="Env_RVD1" values_tbl="restoration.environments_choice_rvd1"/>
-				<option type="multichoice" default_value="2" name="Env_RVD2" values_tbl="restoration.environments_choice_rvd2"/>
-				<option type="multichoice" default_value="2" name="Env_FSD1" values_tbl="restoration.environments_choice_firestarter_1"/>
-				<option type="multichoice" default_value="2" name="Env_PBR2" values_tbl="restoration.environments_choice_pbr2"/>
-				<option type="multichoice" default_value="2" name="Env_FRIEND" values_tbl="restoration.environments_choice_friend"/>
-				<option type="multichoice" default_value="2" name="Env_CJ2" values_tbl="restoration.environments_choice_crojob2"/>
-				<option type="multichoice" default_value="2" name="Env_UnderPass" values_tbl="restoration.environments_choice_arm_und"/>
-				<option type="multichoice" default_value="2" name="Env_MallCrasher" values_tbl="restoration.environments_choice_mallcrasher"/>
-				<option type="multichoice" default_value="2" name="Env_Mia_1" values_tbl="restoration.environments_choice_mia_1"/>
-				<option type="multichoice" default_value="2" name="Env_FSD3" values_tbl="restoration.environments_choice_firestarter_3"/>
-				<option type="multichoice" default_value="2" name="Env_WDD1N" values_tbl="restoration.environments_choice_watchdogs_1_night"/>
-				<option type="multichoice" default_value="2" name="Env_WDD1D" values_tbl="restoration.environments_choice_watchdogs_1_day"/>
-				<option type="multichoice" default_value="2" name="Env_WDD2D" values_tbl="restoration.environments_choice_watchdogs_2_day"/>
-				<option type="multichoice" default_value="2" name="Env_Alex3" values_tbl="restoration.environments_choice_alex_3"/>
-				<option type="multichoice" default_value="2" name="Env_Big" values_tbl="restoration.environments_choice_big"/>
-				<option type="multichoice" default_value="2" name="Env_FS" values_tbl="restoration.environments_choice_four_stores"/>
-				<option type="multichoice" default_value="2" name="Env_Ukra" values_tbl="restoration.environments_choice_ukrainian_job"/>
-				<!-- <option type="multichoice" default_value="2" name="Env_Kosugi" values_tbl="restoration.environments_choice_shadow_raid"/> -->
-				<option type="multichoice" default_value="2" name="Env_Peta" values_tbl="restoration.environments_choice_peta"/>
-				<divider name="tod_divider" size="15"/>
-				<option type="bool" default_value="true" name="Paintings"/>
-				<!--<option type="bool" default_value="false" name="Notify"/> -->
+			<option type="bool" default_value="false" name="RealAmmo"/>
+			<option type="bool" default_value="false" name="AltLastDownColor"/>
+			<option type="bool" default_value="false" name="NoBleedoutTilt"/>
+			<option type="bool" default_value="true" name="PONRTrack"/>
+			<option type="bool" default_value="true" name="Holiday"/>
+			<option type="bool" default_value="true" name="QuietRain"/>
+			<option_group name="INFOHUD">
+				<option type="bool" default_value="false" name="Info_Hud"/>
+				<option type="number" default_value="36" min="24" max="48" step="2" show_value="true" name="Info_Size"/>
+				<option type="number" default_value="8" min="1" max="8" step="1" show_value="true" name="Info_Count"/>
+				<option type="bool" default_value="true" name="Info_ammo_efficiency"/>
+				<option type="bool" default_value="true" name="Info_single_shot_fast_reload"/> <!-- aggressive reload -->
+				<option type="bool" default_value="true" name="Info_bloodthirst_reload_speed"/>
+				<option type="bool" default_value="true" name="Info_bullet_hell"/>
+				<option type="bool" default_value="true" name="Info_bullet_storm"/>
+				<option type="bool" default_value="true" name="Info_revive_damage_reduction"/> <!-- Combat Medic -->
+				<option type="bool" default_value="true" name="Info_close_combat"/> <!-- # Enemies in Close Combat -->
+				<option type="bool" default_value="true" name="Info_desperado"/>
+				<option type="bool" default_value="true" name="Info_doctor_bag_health_regen"/>
+				<option type="bool" default_value="true" name="Info_grinder"/>
+				<option type="bool" default_value="true" name="Info_infiltrator"/>
+				<option type="bool" default_value="true" name="Info_long_dis_revive"/> <!-- inspire -->
+				<option type="bool" default_value="true" name="Info_messiah"/>
+				<option type="bool" default_value="true" name="Info_survive_one_hit"/> <!-- Yakuza Oni Irezumi -->
+				<option type="bool" default_value="true" name="Info_overheat_stacks"/>
+				<option type="bool" default_value="true" name="Info_revived_damage_reduction"/> <!-- Painkillers -->
+				<option type="bool" default_value="true" name="Info_first_aid_damage_reduction"/> <!-- Quick Fix -->
+				<option type="bool" default_value="true" name="Info_rogue"/>
+				<option type="bool" default_value="true" name="Info_increased_movement_speed"/> <!-- Running From Death -->
+				<option type="bool" default_value="true" name="Info_headshot_fire_rate_mult"/> <!-- Sharpshooter -->
+				<option type="bool" default_value="true" name="Info_trigger_happy"/>
+				<option type="bool" default_value="true" name="Info_unseen_strike"/>
 			</option_group>
         </options>
     </Options>

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <mod name="Restoration" global_key="restoration">
-	<tweak definition="restorationmod_network_tweak.xml"/>
-	<tweak definition="restorationmod_postprocessor_tweak.xml"/>
-	<tweak definition="restorationmod_deferred_postprocessor_tweak.xml"/>
-	<tweak definition="restorationmod_defaultrendertemplates_tweak.xml"/>
+	<tweak definition="heat_network_tweak.xml"/>
+	<tweak definition="heat_deferred_postprocessor_tweak.xml"/>
+	<tweak definition="heat_defaultrendertemplates_tweak.xml"/>
+	<tweak definition="heat_postprocessor_tweak.xml"/>
 	<tweak definition="oicw_animation_state_machine.xml" />
 	<tweak definition="oicw_animation_states.xml" />
 	<tweak definition="oicw_animation_subset.xml" />

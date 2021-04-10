@@ -2507,7 +2507,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 	}
 
 	--April 1st, sucker!
-	if Month == "04" and Day == "01" and restoration.Options:GetValue("OTHER/Holiday") then
+	if Month == "04" and Day == "01" and restoration.Options:GetValue("Holiday") then
 		self.unit_categories.Titan_tank = {
 			unit_types = {
 				america = {
