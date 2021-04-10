@@ -136,6 +136,8 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 		mul = mul + 1 - player_manager:upgrade_value("shotgun", "hip_rate_of_fire", 1)
 	end
 
+	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
+	
 	if self:in_burst_mode() then
 		mul = mul * (self._burst_fire_rate_multiplier or 1)
 	end	
