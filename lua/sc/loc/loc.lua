@@ -117,6 +117,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModInfo_increased_movement_speedDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_headshot_fire_rate_multTitleID"] = "Sharpshooter",
 		["RestorationModInfo_headshot_fire_rate_multDescID"] = "Enables or disables tracking of this specific skill.",
+		["RestorationModInfo_shotgun_last_shot_staggerTitleID"] = "Shell Shocked",
+		["RestorationModInfo_shotgun_last_shot_staggerDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_trigger_happyTitleID"] = "Trigger Happy",
 		["RestorationModInfo_trigger_happyDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_unseen_strikeTitleID"] = "Unseen Strike",
@@ -1854,7 +1856,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",
-			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##30%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##14%## for ##8## seconds. This effect stacks.",
+			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##30%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##10%## for ##10## seconds. This effect stacks up to ##7## times.",
 
 			--}
 

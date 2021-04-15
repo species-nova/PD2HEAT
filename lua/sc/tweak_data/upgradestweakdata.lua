@@ -593,7 +593,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.team.weapon.recoil_index_addend = {1}
 				--Ace
-					self.values.smg.hip_fire_recoil_multiplier = {0.75}
+					self.values.smg.hip_fire_recoil_multiplier = {1.25}
 
 			--None in the Chamber
 				--Basic
@@ -627,7 +627,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.weapon.multikill_free_ammo_chance = {0.5}
 				--Ace
-					self.values.weapon.multikill_recoil_multiplier = {0.5}
+					self.values.weapon.multikill_recoil_multiplier = {1.5}
 					self.values.weapon.multikill_fire_rate_multiplier = {1.5}
 					self.values.weapon.universal_multikill_buffs = {true}
 						
@@ -675,8 +675,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 				self.values.player.overheat_stacking = {{
 					range = 800,
-					chance_inc = 0.14,
-					time = 8
+					chance_inc = 0.12,
+					time = 10
 				}}
 			
 		--Juggernaut--
