@@ -675,7 +675,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 				self.values.player.overheat_stacking = {{
 					range = 800,
-					chance_inc = 0.12,
+					chance_inc = 0.1,
 					time = 10
 				}}
 			
