@@ -55,6 +55,7 @@ function RaycastWeaponBase:setup(...)
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
 		if managers.player:has_category_upgrade(category, "last_shot_stagger") then
 			self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
+			managers.hud:add_skill(category .. "_last_shot_stagger")
 			break
 		end
 	end
@@ -73,7 +74,7 @@ end
 --Clear multikill flag.
 local on_reload_original = RaycastWeaponBase.on_reload
 function RaycastWeaponBase:on_reload(...)
-	self:set_bullet_hell_active(false)
+	self:check_last_bullet_stagger()
 	on_reload_original(self, ...)
 end
 
@@ -620,6 +621,7 @@ function RaycastWeaponBase:check_last_bullet_stagger()
 		for _, category in ipairs(self:weapon_tweak_data().categories) do
 			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
 				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
+				managers.hud:add_skill(category .. "_last_shot_stagger")
 				break
 			end
 		end
@@ -689,6 +691,8 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 
 			if is_player and self._stagger_on_last_shot then
 				self._setup.user_unit:movement():_stagger_in_aoe(self._stagger_on_last_shot)
+				local categories = self:categories()
+				managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
 				self._stagger_on_last_shot = nil
 			end
 		end
@@ -824,6 +828,11 @@ function RaycastWeaponBase:on_equip(user_unit)
 	if self._multikill_this_magazine then
 		managers.hud:add_skill("bullet_hell")
 	end
+
+	if self._stagger_on_last_shot then
+		local categories = self:categories()
+		managers.hud:add_skill(categories[1] .. "_last_shot_stagger")
+	end
 end
 
 function RaycastWeaponBase:on_unequip(user_unit)
@@ -832,6 +841,9 @@ function RaycastWeaponBase:on_unequip(user_unit)
 	end
 
 	managers.hud:remove_skill("bullet_hell")
+	
+	local categories = self:categories()
+	managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
 end
 
 function RaycastWeaponBase:remove_ammo(percent)

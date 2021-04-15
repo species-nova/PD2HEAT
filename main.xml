@@ -359,6 +359,7 @@
 				<option type="bool" default_value="true" name="Info_rogue"/>
 				<option type="bool" default_value="true" name="Info_increased_movement_speed"/> <!-- Running From Death -->
 				<option type="bool" default_value="true" name="Info_headshot_fire_rate_mult"/> <!-- Sharpshooter -->
+				<option type="bool" default_value="true" name="Info_shotgun_last_shot_stagger"/> <!-- Shell Shocked -->
 				<option type="bool" default_value="true" name="Info_trigger_happy"/>
 				<option type="bool" default_value="true" name="Info_unseen_strike"/>
 			</option_group>

@@ -28,7 +28,7 @@ else
 			return
 		end
 
-		self:set_bullet_hell_active(false)
+		self:check_last_bullet_stagger()
 
 		local ammo_base = self._reload_ammo_base or self:ammo_base()
 
@@ -248,10 +248,6 @@ function NewRaycastWeaponBase:recoil_multiplier(...)
 	if not self._in_steelsight then
 		for _, category in ipairs(self:categories()) do
 			mul = mul + player_manager:upgrade_value(category, "hip_fire_recoil_multiplier", 1) - 1
-		end
-	else
-		for _, category in ipairs(self:categories()) do
-			mul = mul + player_manager:upgrade_value(category, "steelsight_recoil_mul", 1) - 1
 		end
 	end
 
