@@ -4,6 +4,11 @@ local mvec3_cpy = mvector3.copy
 local world_g = World
 
 local original_init = PlayerStandard.init
+
+local RELOAD_INTERRUPTED = 2
+local RELOAD_INTERRUPT_QUEUED = 1
+local RELOADING = 0
+
 function PlayerStandard:init(unit)
 	original_init(self, unit)
 
@@ -664,6 +669,11 @@ function PlayerStandard:_start_action_running(t)
 		self._running_wanted = true
 		return
 	end
+
+	if not self.RUN_AND_RELOAD and self:_soft_interrupt_action_reload(t) ~= RELOAD_INTERRUPTED then
+		self._running_wanted = true
+		return
+	end
 				
 	self._running_wanted = false
 
@@ -676,17 +686,13 @@ function PlayerStandard:_start_action_running(t)
 	self._end_running_expire_t = nil
 	self._start_running_t = t
 	
-	--Skip sprinting animations of player is doing melee things.
+	--Skip sprinting animations if player is doing melee things.
 	if not self:_is_charging_weapon() and not self:_is_meleeing() and (not self:_is_reloading() or not self.RUN_AND_RELOAD) then
 		if not self._equipped_unit:base():run_and_shoot_allowed() then
 			self._ext_camera:play_redirect(self:get_animation("start_running"))	
 		else
 			self._ext_camera:play_redirect(self:get_animation("idle"))	
 		end	
-	end
-	
-	if not self.RUN_AND_RELOAD then
-		self:_interupt_action_reload(t)
 	end
 				
 	self:_interupt_action_steelsight(t)
@@ -984,7 +990,7 @@ end)
 function PlayerStandard:_start_action_jump(t, action_start_data)
 	--Don't interrupt melee sprinting.
 	if self._running and not self.RUN_AND_RELOAD and not self._equipped_unit:base():run_and_shoot_allowed() and not self._is_meleeing then
-		self:_interupt_action_reload(t)
+		self:_soft_interrupt_action_reload(t)
 		self._ext_camera:play_redirect(self:get_animation("stop_running"), self._equipped_unit:base():exit_run_speed_multiplier())
 	end
 
@@ -1196,19 +1202,8 @@ function PlayerStandard:_start_action_steelsight(t, gadget_state)
 	end
 
 	local weap_base = self._equipped_unit:base()
-
-	--Interrupt Reloading
-	if self:_is_reloading() then
-		if weap_base:weapon_tweak_data().animations.has_steelsight_stance then --Wait on weapons with unique ADS anims.
-			self._queue_reload_interupt = true
-			self._steelsight_wanted = true
-			return
-		elseif weap_base:reload_exit_expire_t() then --Per shell reloads need to finish reloading the current shell.
-			self._queue_reload_interupt = true
-		else --Otherwise instant reload cancel.
-			self:_interupt_action_reload()
-			self._ext_camera:play_redirect(self:get_animation("idle"))
-		end
+	if self:_soft_interrupt_action_reload(t) == RELOADING then
+		return
 	end
 
 	self:_break_intimidate_redirect(t)
@@ -1557,11 +1552,13 @@ function PlayerStandard:_start_action_reload(t)
 	if weapon and weapon:can_reload() then
 		weapon:tweak_data_anim_stop("fire")
 
+
 		local speed_multiplier = weapon:reload_speed_multiplier()
-		local empty_reload = weapon:clip_empty() and 1 or 0
+		self._state_data.empty_reload = weapon:clip_empty() and 1 or 0 --Cache reload type for cost cancelling.
+		self._state_data.reload_start_t = t --Cache start time to allow for soft cancelling.
 
 		if weapon._use_shotgun_reload then
-			empty_reload = weapon:get_ammo_max_per_clip() - weapon:get_ammo_remaining_in_clip()
+			self._state_data.empty_reload  = weapon:get_ammo_max_per_clip() - weapon:get_ammo_remaining_in_clip()
 		end
 
 		local tweak_data = weapon:weapon_tweak_data()
@@ -1594,7 +1591,7 @@ function PlayerStandard:_start_action_reload(t)
 			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_anim)
 		end
 
-		self._ext_network:send("reload_weapon", empty_reload, speed_multiplier)
+		self._ext_network:send("reload_weapon", self._state_data.empty_reload , speed_multiplier)
 	end
 end
 
@@ -1887,6 +1884,39 @@ function PlayerStandard:_check_action_deploy_underbarrel(t, input)
 	return new_action
 end
 
+--Interrupts the weapon reload at the soonest opportunity where it makes logical sense.
+--Returns state of reload interrupt.
+function PlayerStandard:_soft_interrupt_action_reload(t)
+	local weap_base = self._equipped_unit:base()
+
+	if self:_is_reloading() then
+		if weap_base:reload_exit_expire_t() then --Per shell reloads need to finish reloading the current shell.
+			self._queue_reload_interupt = true
+			return RELOAD_INTERRUPT_QUEUED
+		else --Otherwise instant reload cancel.
+			local timers = weap_base:weapon_tweak_data().timers
+			local reload_progress = (t - self._state_data.reload_start_t) / (self._state_data.reload_expire_t - self._state_data.reload_start_t)
+			log(reload_progress)
+			local can_interrupt = nil
+			if self._state_data.empty_reload == 1 then
+				can_interrupt = reload_progress < (timers.empty_reload_interrupt or 1)
+			else
+				can_interrupt = reload_progress < (timers.reload_interrupt or 1)
+			end
+
+			if can_interrupt then
+				self:_interupt_action_reload()
+				self._ext_camera:play_redirect(self:get_animation("idle"))
+				return RELOAD_INTERRUPTED
+			end
+
+			return RELOADING
+		end
+	end
+
+	return RELOAD_INTERRUPTED
+end
+
 function PlayerStandard:_interupt_action_reload(t)
 	local weap_base = self._equipped_unit:base()
 	if alive(self._equipped_unit) then
@@ -1900,7 +1930,9 @@ function PlayerStandard:_interupt_action_reload(t)
 		weap_base:tweak_data_anim_stop("reload_exit")
 	end
 
+	self._state_data.empty_reload = nil
 	self._state_data.reload_enter_expire_t = nil
+	self._state_data.reload_start_t = nil
 	self._state_data.reload_expire_t = nil
 	self._state_data.reload_exit_expire_t = nil
 	--Fixes weapons using shotgun-style reloads occasionally only loading one shell in
