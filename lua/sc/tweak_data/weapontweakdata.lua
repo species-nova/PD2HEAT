@@ -3159,6 +3159,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_m4.stats_modifiers = nil
 	self.new_m4.timers.reload_empty = 3.5		
 	self.new_m4.panic_suppression_chance = 0.05
+	self.new_m4.timers.reload_interrupt = 0.24
+	self.new_m4.timers.empty_reload_interrupt = 0.22
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -3184,6 +3186,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.glock_17.stats_modifiers = nil
 	self.glock_17.panic_suppression_chance = 0.05
+	self.glock_17.timers.reload_interrupt = 0.36
+	self.glock_17.timers.empty_reload_interrupt = 0.25
 
 	--CMP
 	self.mp9.desc_id = "bm_menu_sc_mp9_desc"
@@ -3286,7 +3290,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.amcar.stats_modifiers = nil
 	self.amcar.timers.reload_not_empty = 2.10
-	self.amcar.timers.reload_empty = 2.9 		
+	self.amcar.timers.reload_empty = 2.9
+	self.amcar.timers.empty_reload_interrupt = 0.24
+	self.amcar.timers.reload_interrupt = 0.32
 	self.amcar.panic_suppression_chance = 0.05
 
 	--AMR-16
@@ -3367,6 +3373,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.ak74.stats_modifiers = nil
 	self.ak74.panic_suppression_chance = 0.05
+	self.ak74.timers.reload_interrupt = 0.24
+	self.ak74.timers.empty_reload_interrupt = 0.17
 
 	--AK.762
 	self.akm.desc_id = "bm_menu_sc_akm_desc"
@@ -3392,12 +3400,14 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.akm.stats_modifiers = nil
 	self.akm.timers.reload_not_empty = 2
 	self.akm.panic_suppression_chance = 0.05
+	self.akm.timers.reload_interrupt = 0.24
+	self.akm.timers.empty_reload_interrupt = 0.17
+
 	self.akm_gold.desc_id = "bm_menu_sc_akm_gold_desc"
 	self.akm_gold.kick = self.stat_info.kick_tables.right_kick			
 	self.akm_gold.AMMO_MAX = 120
 	self.akm_gold.fire_mode_data.fire_rate = 0.1
 	self.akm_gold.auto.fire_rate = 0.1
-	self.akm_gold.timers.reload_not_empty = 2
 	self.akm_gold.supported = true
 	self.akm_gold.stats = {
 		damage = 30,
@@ -3415,6 +3425,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.akm_gold.stats_modifiers = nil
 	self.akm_gold.panic_suppression_chance = 0.05
+	self.akm_gold.timers.reload_interrupt = 0.24
+	self.akm_gold.timers.empty_reload_interrupt = 0.17
 
 	--Krinkov
 	self.akmsu.categories = {
@@ -3520,6 +3532,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.aug.timers.reload_empty = 3.4
 	self.aug.panic_suppression_chance = 0.05
 	self.aug.CLIP_AMMO_MAX = 30
+	self.aug.timers.reload_interrupt = 0.35
+	self.aug.timers.empty_reload_interrupt = 0.24
 
 	--JP36
 	self.g36.BURST_FIRE = 3
@@ -3547,6 +3561,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.g36.stats_modifiers = nil
 	self.g36.timers.reload_not_empty = 2.4
 	self.g36.panic_suppression_chance = 0.05
+	self.g36.timers.reload_interrupt = 0.33
+	self.g36.timers.empty_reload_interrupt = 0.2
 
 	--P90
 	self.p90.desc_id = "bm_ap_weapon_sc_desc"
@@ -3673,6 +3689,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.colt_1911.stats_modifiers = nil
 	self.colt_1911.panic_suppression_chance = 0.05
+	self.colt_1911.timers.reload_interrupt = 0.36
+	self.colt_1911.timers.empty_reload_interrupt = 0.25
 
 	--MAC-10
 	self.mac10.CLIP_AMMO_MAX = 20
@@ -3788,6 +3806,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.b92fs.stats_modifiers = nil
 	self.b92fs.panic_suppression_chance = 0.05
+	self.b92fs.timers.reload_interrupt = 0.36
+	self.b92fs.timers.empty_reload_interrupt = 0.25
 
 	--Bronco
 	self.new_raging_bull.fire_mode_data = {}
@@ -3815,6 +3835,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_raging_bull.timers.reload_not_empty = 2.4
 	self.new_raging_bull.timers.reload_empty = 2.4		
 	self.new_raging_bull.panic_suppression_chance = 0.05
+	self.new_raging_bull.timers.reload_interrupt = 0.16
+	self.new_raging_bull.timers.empty_reload_interrupt = 0.16
 
 	--OVE9000 Saw
 	self.saw.has_description = true
@@ -3867,7 +3889,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload_not_empty = 1.47,
 		reload_empty = 2.12,
 		unequip = 0.5,
-		equip = 0.35
+		equip = 0.35,
+		reload_interrupt = 0.36,
+		empty_reload_interrupt = 0.25
 	}
 	self.usp.fire_mode_data.fire_rate = 0.08571428571
 	self.usp.single.fire_rate = 0.08571428571
@@ -4005,8 +4029,10 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.s552.timers.reload_empty = 3.45
 	else
 		self.s552.timers.reload_not_empty = 1.7
-		self.s552.timers.reload_empty = 2.35					
+		self.s552.timers.reload_empty = 2.35
 	end
+	self.s552.timers.reload_interrupt = 0.29
+	self.s552.timers.empty_reload_interrupt = 0.24
 	self.s552.panic_suppression_chance = 0.05
 
 	--Gruber Kurz
@@ -4032,7 +4058,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.ppk.stats_modifiers = nil
 	self.ppk.timers.reload_not_empty = 1.45
-	self.ppk.timers.reload_empty = 2.2	
+	self.ppk.timers.reload_empty = 2.2
+	self.ppk.timers.reload_interrupt = 0.36
+	self.ppk.timers.empty_reload_interrupt = 0.25
 	self.ppk.panic_suppression_chance = 0.05
 
 	--Spec Ops
@@ -4087,6 +4115,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.scar.stats_modifiers = nil
 	self.scar.timers.reload_not_empty = 1.75
 	self.scar.panic_suppression_chance = 0.05
+	self.scar.timers.reload_interrupt = 0.32
+	self.scar.timers.empty_reload_interrupt = 0.185
 
 	--Signature .40
 	self.p226.AMMO_MAX = 75
@@ -4111,6 +4141,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.p226.stats_modifiers = nil
 	self.p226.panic_suppression_chance = 0.05
+	self.p226.timers.reload_interrupt = 0.36
+	self.p226.timers.empty_reload_interrupt = 0.25
 
 	--Brenner 21
 	self.hk21.categories = {
@@ -5906,6 +5938,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.pl14.stats_modifiers = nil
 	self.pl14.panic_suppression_chance = 0.05
+	self.pl14.timers.reload_interrupt = 0.33
+	self.pl14.timers.empty_reload_interrupt = 0.22
 
 	--Akimbo MP5
 	self.x_mp5.fire_mode_data.fire_rate = 0.075
@@ -6724,6 +6758,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.corgi.stats_modifiers = nil
 	self.corgi.panic_suppression_chance = 0.05
+	self.corgi.timers.reload_interrupt = 0.31
+	self.corgi.timers.empty_reload_interrupt = 0.21
 
 	--Compact 40mm
 	self.slap.upgrade_blocks = {
@@ -8000,6 +8036,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.holt.stats_modifiers = nil
 	self.holt.panic_suppression_chance = 0.05
+	self.holt.timers.reload_interrupt = 0.21
+	self.holt.timers.empty_reload_interrupt = 0.13
+
 	--Akimbo Holt 9mm
 	self.x_holt.fire_mode_data.fire_rate = 0.08571428571
 	self.x_holt.single.fire_rate = 0.08571428571
