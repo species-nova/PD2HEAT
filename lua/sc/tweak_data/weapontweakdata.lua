@@ -3507,6 +3507,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ak5.stats_modifiers = nil
 	self.ak5.timers.reload_empty = 3.15
 	self.ak5.panic_suppression_chance = 0.05
+	self.ak5.timers.reload_interrupt = 0.3
+	self.ak5.timers.empty_reload_interrupt = 0.21
 
 	--Aug
 	self.aug.AMMO_MAX = 150
@@ -3613,6 +3615,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_m14.stats_modifiers = nil
 	self.new_m14.timers.reload_not_empty = 2.60
 	self.new_m14.panic_suppression_chance = 0.05
+	self.new_m14.timers.reload_interrupt = 0.3
+	self.new_m14.timers.empty_reload_interrupt = 0.33
 
 	--Deagle
 	self.deagle.has_description = false
@@ -3945,6 +3949,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.g22c.stats_modifiers = nil
 	self.g22c.panic_suppression_chance = 0.05
+	self.g22c.timers.reload_interrupt = 0.36
+	self.g22c.timers.empty_reload_interrupt = 0.25
 
 	--Judge
 	self.judge.fire_mode_data = {}
@@ -4538,6 +4544,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.famas.panic_suppression_chance = 0.05
 	self.famas.BURST_FIRE = 3
 	self.famas.ADAPTIVE_BURST_SIZE = false
+	self.famas.timers.reload_interrupt = 0.26
+	self.famas.timers.empty_reload_interrupt = 0.18
 
 	--Cobra
 	self.scorpion.AMMO_MAX = 90
@@ -4846,6 +4854,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.c96.stats_modifiers = nil
 	self.c96.timers.reload_not_empty = 3.7
 	self.c96.panic_suppression_chance = 0.05
+	self.c96.timers.reload_interrupt = 0.3
+	self.c96.timers.empty_reload_interrupt = 0.3
 	
 	--Patchett
 	self.sterling.CLIP_AMMO_MAX = 20
@@ -4957,6 +4967,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.l85a2.timers.reload_not_empty = 3
 	self.l85a2.timers.reload_empty = 4	
 	self.l85a2.panic_suppression_chance = 0.05
+	self.l85a2.timers.reload_interrupt = 0.3
+	self.l85a2.timers.empty_reload_interrupt = 0.14
 
 	--Lion's Roar
 	self.vhs.CLIP_AMMO_MAX = 30
@@ -4984,6 +4996,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.vhs.stats_modifiers = nil
 	self.vhs.timers.reload_empty = 4.6
 	self.vhs.panic_suppression_chance = 0.05
+	self.vhs.timers.reload_interrupt = 0.23
+	self.vhs.timers.empty_reload_interrupt = 0.17
 
 	--Leo
 	self.hs2000.CLIP_AMMO_MAX = 14
@@ -5472,6 +5486,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.asval.stats_modifiers = nil
 	self.asval.panic_suppression_chance = 0.05
+	self.asval.timers.reload_interrupt = 0.25
+	self.asval.timers.empty_reload_interrupt = 0.18
 
 	--Cavity 9mm
 	self.sub2000.categories = {"pistol"}
@@ -5781,6 +5797,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.sparrow.stats_modifiers = nil
 	self.sparrow.panic_suppression_chance = 0.05
+	self.sparrow.timers.reload_interrupt = 0.33
+	self.sparrow.timers.empty_reload_interrupt = 0.22
 
 	--Platypus 70
 	self.model70.upgrade_blocks = nil
@@ -6019,6 +6037,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.tecci.stats_modifiers = nil
+	self.tecci.timers.reload_interrupt = 0.16
+	self.tecci.timers.empty_reload_interrupt = 0.13
 
 	--CR 805
 	self.hajk.fire_mode_data.fire_rate = 0.075
@@ -6101,6 +6121,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.packrat.stats_modifiers = nil
+	self.packrat.timers.reload_interrupt = 0.21
+	self.packrat.timers.empty_reload_interrupt = 0.13
+
 
 	--Jackal SMG
 	self.schakal.fire_mode_data.fire_rate = 0.1
@@ -6406,6 +6429,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.flint.stats_modifiers = nil
 	self.flint.panic_suppression_chance = 0.05
+	self.flint.timers.reload_interrupt = 0.2
+	self.flint.timers.empty_reload_interrupt = 0.14
 
 	--Tatonka
 	self.coal.AMMO_MAX = 100
@@ -6459,6 +6484,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.lemming.stats_modifiers = nil
+	self.lemming.timers.reload_interrupt = 0.16
+	self.lemming.timers.empty_reload_interrupt = 0.11
 
 	--Castigo
 	self.chinchilla.fire_mode_data.fire_rate = 0.19047619
@@ -6481,6 +6508,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}		
 	self.chinchilla.stats_modifiers = nil
+	self.chinchilla.timers.reload_interrupt = 0.08
+	self.chinchilla.timers.empty_reload_interrupt = 0.08
 
 	--Akimbo Castigo
 	self.x_chinchilla.tactical_akimbo = false
@@ -6538,6 +6567,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.breech.stats_modifiers = nil
 	self.breech.panic_suppression_chance = 0.05
+	self.breech.timers.reload_interrupt = 0.16
+	self.breech.timers.empty_reload_interrupt = 0.11
 
 	--Galant--
 	self.ching.categories = {"assault_rifle"}
@@ -7874,6 +7905,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		equip = 0.35
 	}		
 	self.legacy.panic_suppression_chance = 0.05
+	self.legacy.timers.reload_interrupt = 0.21
+	self.legacy.timers.empty_reload_interrupt = 0.13
 
 	--Akimbo M13
 	--Disabled--	
@@ -9488,6 +9521,12 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			end
 
 			self:calculate_ammo_pickup(weap)
+
+			--Normalize camera shake.
+			if weap.shake then 
+				weap.shake.fire_multiplier = weap.shake.fire_multiplier / math.abs(weap.shake.fire_multiplier)
+				weap.shake.fire_steelsight_multiplier = weap.shake.fire_steelsight_multiplier / math.abs(weap.shake.fire_steelsight_multiplier)
+			end
 		end
 	end
 end)
