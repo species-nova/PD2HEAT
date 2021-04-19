@@ -2753,7 +2753,39 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		special_type = "autumn"
 	}
 
-	--Titan Cloakers that spawn with Autumn, ignores spawncaps
+	--Cloakers that spawn with Autumn, ignores spawncaps
+	self.unit_categories.Spooc_Boss = {
+		unit_types = {
+			america = {
+				Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
+			},
+			russia = {
+				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_spooc_asval_smg/ene_akan_fbi_spooc_asval_smg")
+			},
+			zombie = {
+				Idstring("units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1")
+			},
+			murkywater = {
+				Idstring("units/pd2_mod_sharks/characters/ene_murky_spook/ene_murky_spook")
+			},
+			federales = {
+				Idstring("units/pd2_dlc_bex/characters/ene_swat_cloaker_policia_federale_sc/ene_swat_cloaker_policia_federale_sc")
+			},
+			nypd = {
+				Idstring("units/pd2_mod_nypd/characters/ene_spook_1/ene_spook_1")
+			},
+			lapd = {
+				Idstring("units/payday2/characters/ene_spook_1/ene_spook_1")
+			},
+			omnia_skm = {
+				Idstring("units/pd2_mod_omnia/characters/ene_omnia_spook/ene_omnia_spook")
+			}
+		},
+		access = access_type_all,
+		special_type = "spooc",
+		is_captain = true
+	}
+
 	self.unit_categories.Titan_Spooc_Boss = {
 		unit_types = {
 			america = {
@@ -3108,804 +3140,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		access = access_type_all,
 		special_type = "spooc",
 		is_captain = true
-	}
-
-	--Skirmish only unit categories
-
-	--FBI Light SWATs, for earlier waves
-	self.unit_categories.SKM_Light_SWAT_Rifle_W1 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_1/ene_fbi_swat_hvh_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_swat_1/ene_fbi_swat_1")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_1/ene_fbi_swat_1")
-			}
-		},
-		access = access_type_all
-	}
-
-	--FBI Light SWAT Shotgunners, for earlier waves
-	self.unit_categories.SKM_Light_SWAT_Shotgun_W1 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2"),
-				Idstring("units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_r870/ene_akan_fbi_swat_r870"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ump/ene_akan_fbi_swat_ump")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_swat_hvh_2/ene_fbi_swat_hvh_2"),
-				Idstring("units/pd2_mod_halloween/characters/ene_fbi_swat_3/ene_fbi_swat_3")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_2/ene_fbi_swat_2"),
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_r870/ene_swat_policia_federale_fbi_r870"),
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi_ump/ene_swat_policia_federale_fbi_ump")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_swat_2/ene_fbi_swat_2"),
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_swat_3/ene_fbi_swat_3")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_2/ene_fbi_swat_2"),
-				Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_3/ene_fbi_swat_3")
-			}
-		},
-		access = access_type_all
-	}
-
-	--FBI Heavy SWAT, early wave
-	self.unit_categories.SKM_Heavy_SWAT_Rifle_W1 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_g36/ene_akan_fbi_heavy_g36")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_1/ene_fbi_heavy_hvh_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_g36/ene_swat_heavy_policia_federale_fbi_g36")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
-			}
-		},
-		access = access_type_all
-	}
-
-	--FBI Shotgunner with Sharpshooters
-	self.unit_categories.SKM_Heavy_SWAT_Shotgun_W1 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_r870/ene_akan_fbi_heavy_r870")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_heavy_hvh_r870/ene_fbi_heavy_hvh_r870")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_fbi_r870/ene_swat_heavy_policia_federale_fbi_r870")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_fbi_heavy_r870_sc/ene_fbi_heavy_r870_sc")
-			}
-		},
-		access = access_type_all
-	}
-
-	--FBI Shields for early waves
-	self.unit_categories.SKM_FBI_shield_W1 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_shield_1/ene_shield_1")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_fbi/ene_murky_shield_fbi")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_fbi/ene_swat_shield_policia_federale_mp9_fbi")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_shield_1/ene_shield_1")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_shield_1/ene_shield_1")
-			}
-		},
-		access = access_type_all,
-		special_type = "shield"
-	}
-
-	--HRTs for Waves 1+2
-	self.unit_categories.SKM_FBI_suit_M4_MP5_W2 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"),
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_3/ene_fbi_3")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-			}
-		},
-		access = access_type_all
-	}
-
-	--Medics, early waves (FBI tier)
-	self.unit_categories.SKM_medic_W2 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_medic_mp5/ene_medic_mp5")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_bob/ene_akan_medic_bob")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_medic_mp5/ene_medic_mp5")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_medic_m4/ene_murky_medic_m4")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_nypd_medic/ene_nypd_medic")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_medic_mp5/ene_medic_mp5")
-			}
-		},
-		access = access_type_all,
-		special_type = "medic"
-	}
-
-	--FBI/GenSec tier tazers
-	self.unit_categories.SKM_Tazer_W2 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_tazer_ak47_ass/ene_akan_cs_tazer_ak47_ass")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_tazer/ene_murky_tazer")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_tazer_policia_federale/ene_swat_tazer_policia_federale")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_tazer_1/ene_tazer_1")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_tazer_1/ene_tazer_1")
-			},
-			omnia_skm = {
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_taser/ene_omnia_taser")
-			}
-		},
-		access = access_type_all,
-		special_type = "taser"
-	}
-
-	--FBI/GenSec tier Grenadiers
-	self.unit_categories.SKM_Boom_W2 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_grenadier_1/ene_grenadier_1")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_grenadier_1/ene_akan_grenadier_1")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_grenadier_1/ene_grenadier_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_grenadier_1/ene_grenadier_1")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_grenadier_1/ene_grenadier_1")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_grenadier_1/ene_grenadier_1")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_grenadier_1/ene_grenadier_1")
-			}
-		},
-		access = access_type_all,
-		special_type = "boom"
-	}
-
-	--GenSec SWATs with rifles, W3 and W4
-	self.unit_categories.SKM_Light_SWAT_Rifle_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_city_swat_1_sc/ene_city_swat_1_sc")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass_sc/ene_akan_fbi_swat_dw_ak47_ass_sc")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_city_swat_1/ene_city_swat_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_city_swat_1/ene_city_swat_1")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city/ene_swat_policia_federale_city")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_city_swat_1_sc/ene_city_swat_1_sc")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_city_swat_1_sc/ene_city_swat_1_sc")
-			}
-		},
-		access = access_type_all
-	}
-
-	--GenSec shotgunners, W3 and W4
-	self.unit_categories.SKM_Light_SWAT_Shotgun_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
-				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870_sc/ene_akan_fbi_swat_dw_r870_sc"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ump/ene_akan_fbi_swat_dw_ump")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_city_swat_2/ene_city_swat_2"),
-				Idstring("units/pd2_mod_halloween/characters/ene_city_swat_3/ene_city_swat_3")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_city_swat_2/ene_city_swat_2"),
-				Idstring("units/pd2_mod_sharks/characters/ene_city_swat_3/ene_city_swat_3")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_r870/ene_swat_policia_federale_city_r870"),
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_city_ump/ene_swat_policia_federale_city_ump")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
-				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_city_swat_2/ene_city_swat_2"),
-				Idstring("units/payday2/characters/ene_city_swat_3/ene_city_swat_3")
-			}
-		},
-		access = access_type_all
-	}
-
-	--GenSec heavy, W3+W4
-	self.unit_categories.SKM_Heavy_SWAT_Rifle_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_dw/ene_akan_fbi_heavy_dw")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_city_g36/ene_swat_heavy_policia_federale_city_g36")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36")
-			}
-		},
-		access = access_type_all
-	}
-
-	--GenSec heavy w/ Shotgun, W3+W4
-	self.unit_categories.SKM_Heavy_SWAT_Shotgun_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_dw_r870/ene_akan_fbi_heavy_dw_r870")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_heavy_r870/ene_fbi_heavy_r870")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_city_r870/ene_swat_heavy_policia_federale_city_r870")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_city_heavy_r870_sc/ene_city_heavy_r870_sc")
-			}
-		},
-		access = access_type_all
-	}
-
-	--GenSec tier medic, W3+W4
-	self.unit_categories.SKM_medic_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_medic_mp5/ene_medic_mp5")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_medic_zdann/ene_akan_medic_zdann")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_medic_mp5/ene_medic_mp5")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_medic_m4/ene_murky_medic_m4")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_medic_policia_federale/ene_swat_medic_policia_federale")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_nypd_medic/ene_nypd_medic")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_medic_mp5/ene_medic_mp5")
-			}
-		},
-		access = access_type_all,
-		special_type = "medic"
-	}
-
-	--GenSec tier shield
-	self.unit_categories.SKM_FBI_shield_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_shield_gensec/ene_shield_gensec")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_shield_gensec/ene_shield_gensec")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_fbi/ene_murky_shield_fbi")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_sc/ene_swat_shield_policia_federale_mp9_sc")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_shield_gensec/ene_shield_gensec")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_shield_gensec/ene_shield_gensec")
-			}
-		},
-		access = access_type_all,
-		special_type = "shield"
-	}
-
-	--GenSec tier M4/MP5 HRTs, + Bloody Vet Cop. W3+W4
-	self.unit_categories.SKM_FBI_suit_M4_MP5_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2"),
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_3/ene_fbi_3")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_2/ene_fbi_2"),
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-			}
-		},
-		access = access_type_all
-	}
-
-	--GenSec HRT (mp5) tier, W3+W4
-	self.unit_categories.SKM_FBI_suit_stealth_MP5_W3 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_3/ene_fbi_3")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-			}
-		},
-		access = access_type_all
-	}
-
-	--GenSec tier Blackdozer, W4 only
-	self.unit_categories.SKM_BLACK_tank_W4 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_fbi_tank_saiga/ene_murky_fbi_tank_saiga")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_bulldozer_2/ene_bulldozer_2")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2")
-			}
-		},
-		access = access_type_all,
-		special_type = "tank"
-	}
-
-	--Zeal Light SWATs w/ Bravo Support
-	self.unit_categories.SKM_Light_SWAT_Rifle_W7 = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_1/ene_zeal_city_1"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ak47_ass_sc/ene_akan_fbi_swat_dw_ak47_ass_sc"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_rifle/ene_titan_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle_ru/ene_bravo_rifle_ru"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg_ru/ene_bravo_lmg_ru")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_zeal_city_1/ene_zeal_city_1"),
-				Idstring("units/pd2_mod_halloween/characters/ene_skele_swat/ene_skele_swat"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_city/ene_omnia_city"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle_murky/ene_bravo_rifle_murky"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg_murky/ene_bravo_lmg_murky")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_zeal/ene_swat_policia_federale_zeal"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_rifle/ene_titan_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle_mex/ene_bravo_rifle_mex"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg_mex/ene_bravo_lmg_mex"),
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_1/ene_zeal_city_1"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_1/ene_zeal_city_1"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			}
-		},
-		access = access_type_all
-	}
-
-	--Zeal Light Shotgunner with Bravo support
-	self.unit_categories.SKM_Light_SWAT_Shotgun_W7 = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_2/ene_zeal_city_2"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870_sc/ene_akan_fbi_swat_dw_r870_sc"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ump/ene_akan_fbi_swat_dw_ump"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun_ru/ene_bravo_shotgun_ru"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_zeal_city_2/ene_zeal_city_2"),
-				Idstring("units/pd2_mod_halloween/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_mod_halloween/characters/ene_skele_swat_2/ene_skele_swat_2")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_city_2/ene_omnia_city_2"),
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_city_3/ene_omnia_city_3"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun_murky/ene_bravo_shotgun_murky"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_zeal_r870/ene_swat_policia_federale_zeal_r870"),
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_zeal_ump/ene_swat_policia_federale_zeal_ump"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun_mex/ene_bravo_shotgun_mex"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_2/ene_zeal_city_2"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_2/ene_zeal_city_2"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			}
-		},
-		access = access_type_all
-	}
-
-	--Zeal Heavies with Bravo Sharpshooters
-	self.unit_categories.SKM_Heavy_SWAT_Shotgun_W7 = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_dw_r870/ene_akan_fbi_heavy_dw_r870"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr_ru/ene_bravo_dmr_ru")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_mod_halloween/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_heavy_r870/ene_omnia_heavy_r870"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr_murky/ene_bravo_dmr_murky")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_zeal_r870/ene_swat_heavy_policia_federale_zeal_r870"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr_mex/ene_bravo_dmr_mex")
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			}
-		},
-		access = access_type_all
-	}
-
-	--Bravo Support Lights
-	self.unit_categories.SKM_Light_SWAT_Rifle_W8 = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			},
-			russia = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle_ru/ene_bravo_rifle_ru"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg_ru/ene_bravo_lmg_ru")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle_murky/ene_bravo_rifle_murky"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg_murky/ene_bravo_lmg_murky")
-			},
-			federales = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle_mex/ene_bravo_rifle_mex"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg_mex/ene_bravo_lmg_mex"),
-			},
-			nypd = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_rifle/ene_bravo_rifle"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_lmg/ene_bravo_lmg")
-			}
-		},
-		access = access_type_all
-	}
-
-	--Bravo Shotgunners
-	self.unit_categories.SKM_Light_SWAT_Shotgun_W8 = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			russia = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun_ru/ene_bravo_shotgun_ru"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_ump/ene_akan_fbi_swat_dw_ump"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_mod_halloween/characters/ene_skele_swat_2/ene_skele_swat_2")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun_murky/ene_bravo_shotgun_murky"),
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_city_3/ene_omnia_city_3"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			federales = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun_mex/ene_bravo_shotgun_mex"),
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_policia_federale_zeal_ump/ene_swat_policia_federale_zeal_ump"),
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_shotgun/ene_bravo_shotgun"),
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3"),
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			}
-		},
-		access = access_type_all
-	}
-
-	--Zeal Heavies with only Bravo Sharpshooters
-	self.unit_categories.SKM_Heavy_SWAT_Shotgun_W8 = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_heavy_dw_r870/ene_akan_fbi_heavy_dw_r870"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr_ru/ene_bravo_dmr_ru")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_heavy_r870/ene_omnia_heavy_r870"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr_murky/ene_bravo_dmr_murky")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_heavy_policia_federale_zeal_r870/ene_swat_heavy_policia_federale_zeal_r870"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr_mex/ene_bravo_dmr_mex")
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy_r870_sc/ene_zeal_swat_heavy_r870_sc"),
-				Idstring("units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr")
-			}
-		},
-		access = access_type_all
 	}
 end
 
@@ -4632,7 +3866,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	self.enemy_spawn_groups = {}
 
 	--(Old) Winters
-	self.enemy_spawn_groups.Phalanx = {
+	--[[self.enemy_spawn_groups.Phalanx = {
 		amount = {
 			self.phalanx.minions.amount + 1,
 			self.phalanx.minions.amount + 1
@@ -4654,7 +3888,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				rank = 1
 			}
 		}
-	}
+	}]]
 
 	self.enemy_spawn_groups.CS_defend_a = {
 		amount = {3, 4},
@@ -5008,25 +4242,51 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	--These are generally pretty spammable and make up about half of an assault.
 	--Contain infrequent specials and LPFs.
 		--GS/Zeal Light SWATs. General purpose cannon fodder.
-		self.enemy_spawn_groups.GS_swats_ovk = {
+		self.enemy_spawn_groups.swats_vh = {
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "GS_swat_M4",
+					unit = "FBI_swat_M4",
+					freq = 0.6,
+					amount_min = 1,
+					tactics = self._tactics.FBI_swat_rifle,
+					rank = 1
+				},
+				{ --Gets group to flank.
+					unit = "FBI_swat_M4",
+					freq = 0.2,
+					amount_max = 1,
+					tactics = self._tactics.FBI_swat_rifle_flank,
+					rank = 3
+				},
+				{ --Grace piercing!
+					unit = "FBI_swat_R870",
+					freq = 0.2,
+					tactics = self._tactics.FBI_swat_shotgun,
+					rank = 3
+				}
+			}
+		}
+
+		self.enemy_spawn_groups.swats_ovk = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "FBI_swat_M4",
 					freq = 0.3,
 					amount_min = 1,
 					tactics = self._tactics.FBI_swat_rifle,
 					rank = 1
 				},
 				{ --Gets group to flank.
-					unit = "GS_swat_M4",
+					unit = "FBI_swat_M4",
 					freq = 0.3,
 					amount_max = 1,
 					tactics = self._tactics.FBI_swat_rifle_flank,
 					rank = 3
 				},
 				{ --Grace piercing!
-					unit = "GS_swat_R870",
+					unit = "FBI_swat_R870",
 					freq = 0.3,
 					tactics = self._tactics.FBI_swat_shotgun,
 					rank = 3
@@ -5041,7 +4301,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_swats_mh = {
+		self.enemy_spawn_groups.swats_mh = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5074,7 +4334,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_swats_dw = {
+		self.enemy_spawn_groups.swats_dw = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5114,7 +4374,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_swats_ds = {
+		self.enemy_spawn_groups.swats_ds = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5155,7 +4415,33 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 
 		--GS/Zeal Heavys. More general purpose cannon fodder.
-		self.enemy_spawn_groups.GS_heavys_ovk = {
+		self.enemy_spawn_groups.heavys_vh = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "FBI_heavy_G36_w",
+					freq = 0.6,
+					amount_min = 1,
+					tactics = self._tactics.FBI_heavy,
+					rank = 2
+				},
+				{ --Gets group to flank.
+					unit = "FBI_swat_M4",
+					freq = 0.2,
+					amount_max = 1,
+					tactics = self._tactics.FBI_heavy_flank,
+					rank = 3
+				},
+				{ --Grace piercing maybe.
+					unit = "FBI_heavy_R870",
+					freq = 0.2,
+					tactics = self._tactics.FBI_heavy_shotgun,
+					rank = 3
+				}
+			}
+		}
+
+		self.enemy_spawn_groups.heavys_ovk = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5166,7 +4452,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{ --Gets group to flank.
-					unit = "GS_swat_M4",
+					unit = "FBI_swat_M4",
 					freq = 0.3,
 					amount_max = 1,
 					tactics = self._tactics.FBI_heavy_flank,
@@ -5188,7 +4474,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_heavys_mh = {
+		self.enemy_spawn_groups.heavys_mh = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5221,7 +4507,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_heavys_dw = {
+		self.enemy_spawn_groups.heavys_dw = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5261,7 +4547,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_heavys_ds = {
+		self.enemy_spawn_groups.heavys_ds = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5302,7 +4588,26 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 
 		--HRTs. Should be annoying and apply pressure to hostages.
-		self.enemy_spawn_groups.GS_hostage_rescue_ovk = {
+		self.enemy_spawn_groups.hostage_rescue_vh = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "Titan_HRT",
+					freq = 0.3,
+					amount_max = 2,
+					tactics = self._tactics.FBI_suit_stealth,
+					rank = 4
+				},
+				{
+					unit = "FBI_suit_M4_MP5",
+					freq = 0.7,
+					tactics = self._tactics.FBI_suit_stealth,
+					rank = 2
+				}
+			}
+		}
+
+		self.enemy_spawn_groups.hostage_rescue_ovk = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5328,7 +4633,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_hostage_rescue_mh = {
+		self.enemy_spawn_groups.hostage_rescue_mh = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5361,7 +4666,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_hostage_rescue_dw = {
+		self.enemy_spawn_groups.hostage_rescue_dw = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5401,7 +4706,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_hostage_rescue_ds = {
+		self.enemy_spawn_groups.hostage_rescue_ds = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5443,7 +4748,31 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 
 		--Mixed group of shotgunners. Aim to charge down and kill players.
-		self.enemy_spawn_groups.GS_shotguns_ovk = {
+		self.enemy_spawn_groups.shotguns_vh = {
+			amount = 3,
+			spawn = {
+				{
+					unit = "FBI_heavy_R870",
+					freq = 0.3,
+					tactics = self._tactics.FBI_heavy_shotgun,
+					rank = 2
+				},
+				{
+					unit = "FBI_swat_R870",
+					freq = 0.5,
+					tactics = self._tactics.FBI_swat_shotgun,
+					rank = 3
+				},
+				{
+					unit = "Titan_swat_shotgun",
+					freq = 0.2,
+					tactics = self._tactics.FBI_swat_shotgun,
+					rank = 3
+				}
+			}
+		}
+
+		self.enemy_spawn_groups.shotguns_ovk = {
 			amount = 3,
 			spawn = {
 				{
@@ -5453,7 +4782,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "GS_swat_R870",
+					unit = "FBI_swat_R870",
 					freq = 0.3,
 					tactics = self._tactics.CS_tazer_ranged_support,
 					rank = 3
@@ -5474,7 +4803,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_shotguns_mh = {
+		self.enemy_spawn_groups.shotguns_mh = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5505,7 +4834,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_shotguns_dw = {
+		self.enemy_spawn_groups.shotguns_dw = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5543,7 +4872,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_shotguns_ds = {
+		self.enemy_spawn_groups.shotguns_ds = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5583,7 +4912,25 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 
 		--Resists explosive spam and buys space for other groups to push in.
-		self.enemy_spawn_groups.GS_bomb_squad_ovk = {
+		self.enemy_spawn_groups.bomb_squad_vh = {
+			amount = 3,
+			spawn = {
+				{
+					unit = "Titan_swat_rifle",
+					freq = 0.5,
+					tactics = self._tactics.FBI_swat,
+					rank = 2
+				},
+				{
+					unit = "Titan_swat_shotgun",
+					freq = 0.5,
+					tactics = self._tactics.FBI_swat_shotgun,
+					rank = 3
+				}
+			}
+		}
+
+		self.enemy_spawn_groups.bomb_squad_ovk = {
 			amount = 3,
 			spawn = {
 				{
@@ -5608,7 +4955,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_bomb_squad_mh = {
+		self.enemy_spawn_groups.bomb_squad_mh = {
 			amount = {3, 4},
 			spawn = {
 				{
@@ -5640,7 +4987,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_bomb_squad_dw = {
+		self.enemy_spawn_groups.bomb_squad_dw = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5679,7 +5026,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.GS_bomb_squad_ds = {
+		self.enemy_spawn_groups.bomb_squad_ds = {
 			amount = {4, 5},
 			spawn = {
 				{
@@ -5785,6 +5132,40 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 
 		--Weaker shield squad. Focused on just taking up space.
+		self.enemy_spawn_groups.shield_vh = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "FBI_heavy_G36_w",
+					freq = 0.4,
+					tactics = self._tactics.FBI_shield_ranged_support,
+					rank = 2
+				},
+				{
+					unit = "FBI_shield",
+					freq = 0.4,
+					amount_min = 1,
+					amount_max = 3,
+					tactics = self._tactics.FBI_shield,
+					rank = 3
+				},
+				{
+					unit = "boom_M4203",
+					freq = 0.1,
+					amount_max = 2,
+					tactics = self._tactics.FBI_Boom,
+					rank = 1
+				},
+				{
+					unit = "medic_M4",
+					freq = 0.1,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
+				}
+			}
+		}
+
 		self.enemy_spawn_groups.shield_ovk = {
 			amount = {4, 5},
 			spawn = {
@@ -6062,6 +5443,39 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 
 		--Weaker taser group. Uses shotgunners and shields.
+		self.enemy_spawn_groups.taser_vh = {
+			amount = {3, 4},
+			spawn = {
+				{
+					unit = "CS_tazer",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.CS_Tazer,
+					rank = 3
+				},
+				{ --Body armor makes him harder to hit while tased.
+					unit = "FBI_heavy_G36",
+					freq = 0.6,
+					tactics = self._tactics.FBI_heavy,
+					rank = 2
+				},
+				{ --Body armor makes him harder to hit while tased.
+					unit = "FBI_heavy_R870",
+					freq = 0.2,
+					tactics = self._tactics.FBI_heavy_shotgun,
+					rank = 2
+				},
+				{
+					unit = "medic_M4",
+					freq = 0.2,
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
+				}
+			}
+		}
+
 		self.enemy_spawn_groups.taser_ovk = {
 			amount = {4, 5},
 			spawn = {
@@ -6082,7 +5496,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{ --Body armor makes him harder to hit while tased.
 					unit = "FBI_heavy_R870",
 					freq = 0.35,
-					tactics = self._tactics.FBI_heavy_shotgun ,
+					tactics = self._tactics.FBI_heavy_shotgun,
 					rank = 2
 				},
 				{
@@ -6207,6 +5621,34 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 		--Shits out a bunch of tasers and grenadiers- with maybe some support to make them harder to kill.
 		--Getting tased inside Gas really hurts btw.
+			self.enemy_spawn_groups.boom_taser_vh = {
+				amount = 3,
+				spawn = {
+					{
+						unit = "CS_tazer",
+						freq = 0.3,
+						amount_min = 1,
+						amount_max = 2,
+						tactics = self._tactics.CS_Tazer,
+						rank = 3
+					},
+					{
+						unit = "boom_M4203",
+						freq = 0.3,
+						amount_min = 1,
+						amount_max = 2,
+						tactics = self._tactics.FBI_Boom,
+						rank = 1
+					},
+					{ --Body armor makes him harder to hit while tased.
+						unit = "FBI_swat_m4",
+						freq = 0.4,
+						tactics = self._tactics.FBI_swat_rifle,
+						rank = 2
+					}
+				}
+			}
+
 			self.enemy_spawn_groups.boom_taser_ovk = {
 				amount = 3,
 				spawn = {
@@ -6401,6 +5843,26 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 	--Dozer spawn groups.
 	--I think it should be clear what these are for.
+		self.enemy_spawn_groups.GREEN_tanks_vh = {
+			amount = 3,
+			spawn = {
+				{
+					unit = "FBI_tank",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.GREEN_tank,
+					rank = 2
+				},
+				{
+					unit = "FBI_heavy_G36_w",
+					freq = 1,
+					tactics = self._tactics.FBI_heavy,
+					rank = 1
+				}
+			}
+		}
+
 		self.enemy_spawn_groups.GREEN_tanks_ovk = {
 			amount = {3, 4},
 			spawn = {
@@ -6410,7 +5872,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_min = 1,
 					amount_max = 1,
 					tactics = self._tactics.GREEN_tank,
-					rank = 3
+					rank = 2
 				},
 				{
 					unit = "FBI_heavy_G36_w",
@@ -6498,6 +5960,26 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 2
+				}
+			}
+		}
+
+		self.enemy_spawn_groups.BLACK_tanks_vh = {
+			amount = 2,
+			spawn = {
+				{
+					unit = "BLACK_tank",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.BLACK_tank,
+					rank = 3
+				},
+				{
+					unit = "FBI_heavy_R870",
+					freq = 1,
+					tactics = self._tactics.ELITE_heavy_shotgun,
+					rank = 1
 				}
 			}
 		}
@@ -6793,7 +6275,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				}
 			}
 		}
-	else
+	elseif difficulty_index <= 7 then
 		self.enemy_spawn_groups.Cap_Winters = {
 			amount = 9,
 			force = true,
@@ -6804,6 +6286,37 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_min = 1,
 					amount_max = 1,
 					tactics = self._tactics.Cap_winters,
+					rank = 2
+				},
+				{
+					unit = "Phalanx_minion_new",
+					freq = 1,
+					amount_min = 8,
+					amount_max = 8,
+					tactics = self._tactics.Cap_winters_minion,
+					rank = 3
+				}
+			}
+		}
+	else
+		self.enemy_spawn_groups.Cap_Winters = {
+			amount = 11,
+			force = true,
+			spawn = {
+				{
+					unit = "Phalanx_vip_new",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.Cap_winters,
+					rank = 2
+				},
+				{
+					unit = "Titan_sniper",
+					freq = 1,
+					amount_min = 2,
+					amount_max = 2,
+					tactics = self._tactics.MH_shield_ranged_support,
 					rank = 1
 				},
 				{
@@ -6812,7 +6325,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_min = 8,
 					amount_max = 8,
 					tactics = self._tactics.Cap_winters_minion,
-					rank = 2
+					rank = 3
 				}
 			}
 		}
@@ -6834,7 +6347,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				}
 			}
 		}
-	elseif difficulty_index == 6 or difficulty_index == 7 then
+	elseif difficulty_index <= 7 then
 		self.enemy_spawn_groups.Cap_Spring = {
 			amount = 3,
 			force = true,
@@ -6906,7 +6419,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				}
 			}
 		}
-	elseif difficulty_index == 6 or difficulty_index == 7 then
+	elseif difficulty_index <= 7 then
 		self.enemy_spawn_groups.HVH_Boss = {
 			amount = 3,
 			force = true,
@@ -6931,7 +6444,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 	else
 		self.enemy_spawn_groups.HVH_Boss = {
-			amount = 7,
+			amount = 5,
 			force = true,
 			spawn = {
 				{
@@ -6953,8 +6466,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "HVH_Boss_Spooc",
 					freq = 1,
-					amount_min = 4,
-					amount_max = 4,
+					amount_min = 2,
+					amount_max = 2,
 					tactics = self._tactics.HVH_boss,
 					rank = 2
 				},
@@ -6963,7 +6476,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	end
 
 	--Captain Autumn
-	if difficulty_index <= 7 then
+	if difficulty_index <= 5 then
 		self.enemy_spawn_groups.Cap_Autumn = {
 			amount = 1,
 			force = true,
@@ -6975,6 +6488,29 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					amount_max = 1,
 					tactics = self._tactics.Cap_autumn,
 					rank = 1
+				}
+			}
+		}
+	elseif difficulty_index <= 7 then
+		self.enemy_spawn_groups.Cap_Autumn = {
+			amount = 4,
+			force = true,
+			spawn = {
+				{
+					unit = "Cap_Autumn",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.Cap_autumn,
+					rank = 1
+				},
+				{
+					unit = "Spooc_Boss",
+					freq = 1,
+					amount_min = 3,
+					amount_max = 3,
+					tactics = self._tactics.Cap_autumn,
+					rank = 2
 				}
 			}
 		}
@@ -7042,2369 +6578,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 	}
-
-	--Skirmish Spawngroups Below
-	--Wave 1
-	self.enemy_spawn_groups.SKM_Light_Swat_W1 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W1",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "SKM_FBI_suit_M4_MP5_W2",
-				freq = 1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W1",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W1",
-				amount_min = 1,
-				amount_max = 1,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W1 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W1",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W1",
-				amount_min = 1,
-				amount_max = 1,
-				freq = 1,
-				tactics = self._tactics.FBI_heavy_shotgun,
-				rank = 3
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W1 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKM_FBI_shield_W1",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W1",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 1
-			}
-		}
-	}
-
-	--Wave 2
-	self.enemy_spawn_groups.SKM_Light_Swat_W2 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W1",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "SKM_FBI_suit_M4_MP5_W2",
-				freq = 1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W1",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W1",
-				amount_min = 1,
-				amount_max = 1,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "SKM_medic_W2",
-				freq = 0.1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W2 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W1",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W1",
-				amount_min = 1,
-				amount_max = 1,
-				freq = 1,
-				tactics = self._tactics.FBI_heavy_shotgun,
-				rank = 3
-			},
-			{
-				unit = "SKM_medic_W2",
-				freq = 0.1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W2 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKM_FBI_shield_W1",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W1",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 1
-			},
-			{
-				unit = "SKM_medic_W2",
-				freq = 0.1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W2 = {
-		amount = {2, 3},
-		spawn = {
-			{
-				unit = "SKM_Tazer_W2",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics_ = self._tactics.CS_tazer,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W1",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W2 = {
-		amount = {2, 3},
-		spawn = {
-			{
-				unit = "SKM_Boom_W2",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics_ = self._tactics.FBI_Boom,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W1",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-
-	--Wave 3
-	self.enemy_spawn_groups.SKM_Light_Swat_W3 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W3",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "SKM_FBI_suit_M4_MP5_W3",
-				freq = 1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W3",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W3",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "SKM_medic_W3",
-				freq = 0.2,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W3 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W3",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.FBI_heavy_shotgun,
-				rank = 3
-			},
-			{
-				unit = "SKM_medic_W3",
-				freq = 0.2,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W3 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKM_FBI_shield_W3",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 1
-			},
-			{
-				unit = "SKM_medic_W3",
-				freq = 0.2,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W3 = {
-		amount = {2, 3},
-		spawn = {
-			{
-				unit = "SKM_Tazer_W2",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.CS_tazer,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W3 = {
-		amount = {2, 3},
-		spawn = {
-			{
-				unit = "SKM_Boom_W2",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.FBI_Boom,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W3 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKM_FBI_suit_stealth_MP5_W3",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "SKM_FBI_suit_M4_MP5_W3",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			}
-		}
-	}
-
-	--Wave 4
-	self.enemy_spawn_groups.SKM_Light_Swat_W4 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W3",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "SKM_FBI_suit_M4_MP5_W2",
-				freq = 1,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W3",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W3",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "SKM_medic_W3",
-				freq = 0.35,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W4 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W3",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.FBI_heavy_shotgun,
-				rank = 3
-			},
-			{
-				unit = "SKM_medic_W3",
-				freq = 0.35,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W4 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKM_FBI_shield_W3",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 1
-			},
-			{
-				unit = "SKM_medic_W3",
-				freq = 0.35,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W4 = {
-		amount = {2, 3},
-		spawn = {
-			{
-				unit = "SKM_Tazer_W2",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.CS_tazer,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W4 = {
-		amount = {2, 3},
-		spawn = {
-			{
-				unit = "SKM_Boom_W2",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.FBI_Boom,
-				rank = 1
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Rifle_W3",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W4 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKM_FBI_suit_stealth_MP5_W3",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "SKM_FBI_suit_M4_MP5_W2",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_BLACK_Tank_W4 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "BLACK_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.BLACK_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.5,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.25,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-
-	--Wave 5
-	self.enemy_spawn_groups.SKM_Light_Swat_W5 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "GS_swat_R870",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.5,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W5 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "FBI_heavy_G36_w",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_R870",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.5,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W5 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.FBI_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.5,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W5 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "CS_tazer",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_tazer,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W5 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "boom_M4203",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_boom,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W5 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_BLACK_Tank_W5 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "BLACK_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.BLACK_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_GREEN_Tank_W5 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.GREEN_tank,
-				rank = 3
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_single_spooc_W5 = {
-		amount = {1, 1},
-		spawn = {
-			{
-				unit = "spooc",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			}
-		}
-	}
-
-	--Wave 6, more or less just normal DS now
-	self.enemy_spawn_groups.SKM_Light_Swat_W6 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "GS_swat_R870",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W6 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "FBI_heavy_G36_w",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_R870",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.FBI_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_Booms_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_boom,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "CS_tazer",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_tazer,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "boom_M4203",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_boom,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_BLACK_Tank_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "BLACK_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.BLACK_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_GREEN_Tank_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.GREEN_tank,
-				rank = 3
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_SKULL_Tank_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKULL_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.SKULL_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.CS_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_R870",
-				freq = 1,
-				amount_max = 3,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_TIT_Tank_W6 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "Titan_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.Titan_tank,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_R870",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_single_spooc_W6 = {
-		amount = {1, 1},
-		spawn = {
-			{
-				unit = "spooc",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			}
-		}
-	}
-
-	--Wave 7, more or less just normal DS now WITH Bravo support
-	self.enemy_spawn_groups.SKM_Light_Swat_W7 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W7",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W7",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W7",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W7 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "FBI_heavy_G36_w",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W7",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W7",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.FBI_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_Booms_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_boom,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "CS_tazer",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_tazer,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "boom_M4203",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_boom,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_BLACK_Tank_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "BLACK_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.BLACK_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_GREEN_Tank_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.GREEN_tank,
-				rank = 3
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_SKULL_Tank_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKULL_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.SKULL_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.CS_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_R870",
-				freq = 1,
-				amount_max = 3,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_TIT_Tank_W7 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "Titan_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.Titan_tank,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_R870",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_single_spooc_W7 = {
-		amount = {1, 1},
-		spawn = {
-			{
-				unit = "spooc",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			}
-		}
-	}
-
-	--Wave 8, DS but only Bravos
-	self.enemy_spawn_groups.SKM_Light_Swat_W8 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W8",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W8",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W8",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W8 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "FBI_heavy_G36_w",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W8",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W8",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.FBI_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_Booms_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_boom,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "CS_tazer",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_tazer,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "boom_M4203",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_boom,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_BLACK_Tank_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "BLACK_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.BLACK_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_GREEN_Tank_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.GREEN_tank,
-				rank = 3
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_SKULL_Tank_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKULL_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.SKULL_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.CS_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_R870",
-				freq = 1,
-				amount_max = 3,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_TIT_Tank_W8 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "Titan_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.Titan_tank,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_R870",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_single_spooc_W8 = {
-		amount = {1, 1},
-		spawn = {
-			{
-				unit = "spooc",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			}
-		}
-	}
-
-	--Wave 9
-	self.enemy_spawn_groups.SKM_Light_Swat_W9 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "SKM_Light_SWAT_Rifle_W8",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 1,
-				tactics = self._tactics.HRT_attack,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W8",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Light_SWAT_Shotgun_W8",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Heavy_Swat_W9 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "FBI_heavy_G36_w",
-				freq = 1,
-				amount_min = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			},
-			{
-				unit = "SKM_Light_SWAT_Rifle_W8",
-				freq = 0.75,
-				tactics = self._tactics.ELITE_swat_rifle_flank,
-				rank = 3
-			},
-			{
-				unit = "SKM_Heavy_SWAT_Shotgun_W8",
-				amount_min = 1,
-				amount_max = 2,
-				freq = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.FBI_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Shields_Booms_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "spooc",
-				freq = 0.15,
-				amount_max = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_boom,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.6,
-				amount_min = 0,
-				amount_max = 1,
-				tactics = self._tactics.FBI_medic,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Tazers_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "CS_tazer",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_tazer,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.FBI_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_Booms_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "boom_M4203",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics_ = self._tactics.ELITE_boom,
-				rank = 1
-			},
-			{
-				unit = "FBI_shield",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 2,
-				tactics = self._tactics.MH_shield,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_G36",
-				freq = 1,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_heavy,
-				rank = 1
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_HRTs_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "FBI_suit_stealth_MP5",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_suit_stealth,
-				rank = 1
-			},
-			{
-				unit = "FBI_suit_M4_MP5",
-				freq = 0.75,
-				tactics = self._tactics.FBI_suit,
-				rank = 2
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.35,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_BLACK_Tank_W9 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "BLACK_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.BLACK_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_GREEN_Tank_W9 = {
-		amount = {4, 5},
-		spawn = {
-			{
-				unit = "FBI_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.GREEN_tank,
-				rank = 3
-			},
-			{
-				unit = "boom_M4203",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.MH_shield_ranged_support,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_M4",
-				freq = 1,
-				tactics = self._tactics.ELITE_swat_rifle,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_SKULL_Tank_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "SKULL_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.SKULL_tank,
-				rank = 3
-			},
-			{
-				unit = "CS_tazer",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.CS_tazer,
-				rank = 2
-			},
-			{
-				unit = "GS_swat_R870",
-				freq = 1,
-				amount_max = 3,
-				tactics = self._tactics.ELITE_swat_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 1,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_TIT_Tank_W9 = {
-		amount = {3, 4},
-		spawn = {
-			{
-				unit = "Titan_tank",
-				freq = 1,
-				amount_min = 1,
-				amount_max = 1,
-				tactics = self._tactics.Titan_tank,
-				rank = 3
-			},
-			{
-				unit = "FBI_heavy_R870",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.ELITE_heavy_shotgun,
-				rank = 1
-			},
-			{
-				unit = "medic_M4",
-				freq = 0.75,
-				amount_max = 2,
-				tactics = self._tactics.ELITE_medic,
-				rank = 2
-			}
-		}
-	}
-	self.enemy_spawn_groups.SKM_single_spooc_W9 = {
-		amount = {1, 1},
-		spawn = {
-			{
-				unit = "spooc",
-				freq = 1,
-				amount_min = 1,
-				tactics = self._tactics.spooc,
-				rank = 1
-			}
-		}
-	}
-
-	--Captains, deep_clone off of the normal ones
-	self.enemy_spawn_groups.SKM_Cap_Autumn_W9 = deep_clone(self.enemy_spawn_groups.Cap_Autumn)
-	self.enemy_spawn_groups.SKM_Cap_Winters_W9 = deep_clone(self.enemy_spawn_groups.Cap_Winters)
-	self.enemy_spawn_groups.SKM_Cap_Summers_W9 = deep_clone(self.enemy_spawn_groups.Cap_Summers)
-	self.enemy_spawn_groups.SKM_Cap_Spring_W9 = deep_clone(self.enemy_spawn_groups.Cap_Spring)
-	self.enemy_spawn_groups.SKM_HVH_Boss_W9 = deep_clone(self.enemy_spawn_groups.HVH_Boss)
 end
 
 function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
@@ -9791,7 +6964,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	end
 
 	--Assault groups
-	if difficulty_index <= 4 then --TODO: Implement difficulties below Mayhem!
+	if difficulty_index <= 3 then
 		self.besiege.assault.groups = {
 			CS_cops = {
 				0.85,
@@ -9809,29 +6982,87 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.15
 			}
 		}
-	elseif difficulty_index == 5 then
+	elseif difficulty_index == 4 then
 		self.besiege.assault.groups = {
-			GS_swats_ovk = {
-				0.25,
-				0.22,
-				0.19
+			swats_vh = {
+				0.32,
+				0.31,
+				0.3
 			},
-			GS_heavys_ovk = {
-				0.12,
-				0.1,
-				0.1
+			heavys_vh = {
+				0.2,
+				0.17,
+				0.14
 			},
-			GS_hostage_rescue_ovk = {
+			hostage_rescue_vh = {
 				0.08,
 				0.05,
 				0.05
 			},
-			GS_bomb_squad_ovk = {
+			bomb_squad_vh = {
+				0.05,
+				0.05,
+				0.05
+			},
+			shotguns_vh = {
+				0.05,
+				0.05,
+				0.05
+			},
+			shield_vh = {
+				0.12,
+				0.15,
+				0.15
+			},
+			FBI_spoocs = {
+				0.08,
+				0.08,
+				0.08
+			},
+			taser_vh = {
+				0.08,
+				0.08,
+				0.08
+			},
+			boom_taser_vh = {
+				0.0,
+				0.02,
+				0.04
+			},
+			GREEN_tanks_vh = {
+				0.01,
+				0.02,
+				0.03
+			},
+			BLACK_tanks_vh = {
+				0.01,
+				0.02,
+				0.03
+			}
+		}
+	elseif difficulty_index == 5 then
+		self.besiege.assault.groups = {
+			swats_ovk = {
+				0.25,
+				0.22,
+				0.19
+			},
+			heavys_ovk = {
+				0.12,
+				0.1,
+				0.1
+			},
+			hostage_rescue_ovk = {
+				0.08,
+				0.05,
+				0.05
+			},
+			bomb_squad_ovk = {
 				0.1,
 				0.1,
 				0.09
 			},
-			GS_shotguns_ovk = {
+			shotguns_ovk = {
 				0.1,
 				0.1,
 				0.09
@@ -9869,27 +7100,27 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.assault.groups = {
-			GS_swats_mh = {
+			swats_mh = {
 				0.24,
 				0.22,
 				0.19
 			},
-			GS_heavys_mh = {
+			heavys_mh = {
 				0.12,
 				0.1,
 				0.1
 			},
-			GS_hostage_rescue_mh = {
+			hostage_rescue_mh = {
 				0.08,
 				0.05,
 				0.05
 			},
-			GS_bomb_squad_mh = {
+			bomb_squad_mh = {
 				0.1,
 				0.1,
 				0.09
 			},
-			GS_shotguns_mh = {
+			shotguns_mh = {
 				0.1,
 				0.1,
 				0.09
@@ -9937,27 +7168,27 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 7 then
 		self.besiege.assault.groups = {
-			GS_swats_dw = {
+			swats_dw = {
 				0.22,
 				0.19,
 				0.18
 			},
-			GS_heavys_dw = {
+			heavys_dw = {
 				0.1,
 				0.1,
 				0.1
 			},
-			GS_hostage_rescue_dw = {
+			hostage_rescue_dw = {
 				0.08,
 				0.05,
 				0.05
 			},
-			GS_bomb_squad_dw = {
+			bomb_squad_dw = {
 				0.1,
 				0.1,
 				0.09
 			},
-			GS_shotguns_dw = {
+			shotguns_dw = {
 				0.1,
 				0.1,
 				0.09
@@ -10016,27 +7247,27 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	else
 		--death sentence assaults below, intentionally fairly mean. Later difficulties will scale down from this.
 		self.besiege.assault.groups = {
-			GS_swats_ds = {
+			swats_ds = {
 				0.22,
 				0.19,
 				0.17
 			},
-			GS_heavys_ds = {
+			heavys_ds = {
 				0.1,
 				0.09,
 				0.08
 			},
-			GS_hostage_rescue_ds = {
+			hostage_rescue_ds = {
 				0.08,
 				0.04,
 				0.02
 			},
-			GS_bomb_squad_ds = {
+			bomb_squad_ds = {
 				0.1,
 				0.1,
 				0.09
 			},
-			GS_shotguns_ds = {
+			shotguns_ds = {
 				0.1,
 				0.1,
 				0.08
@@ -10594,77 +7825,53 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			min_diff = captain_min_diff,
 			sustain_only = true
 		},
-		hurtstage_zerg_rush = {
+		hurtstage_zerg_rush_ds = {
 			cooldown = 90,
 			min_diff = 0.5
 		},
-		GREEN_tanks = {
+		GREEN_tanks_vh = {
 			cooldown = dozer_cooldown
 		},
-		BLACK_tanks = {
+		GREEN_tanks_ovk = {
 			cooldown = dozer_cooldown
 		},
-		SKULL_tank = {
+		GREEN_tanks_mh = {
 			cooldown = dozer_cooldown
 		},
-		Titan_tank = {
+		GREEN_tanks_dw = {
 			cooldown = dozer_cooldown
 		},
-		SKM_BLACK_Tank_W4 = {
+		GREEN_tanks_ds = {
 			cooldown = dozer_cooldown
 		},
-		SKM_BLACK_Tank_W5 = {
+		BLACK_tanks_vh = {
 			cooldown = dozer_cooldown
 		},
-		SKM_BLACK_Tank_W6 = {
+		BLACK_tanks_ovk = {
 			cooldown = dozer_cooldown
 		},
-		SKM_BLACK_Tank_W7 = {
+		BLACK_tanks_mh = {
 			cooldown = dozer_cooldown
 		},
-		SKM_BLACK_Tank_W8 = {
+		BLACK_tanks_dw = {
 			cooldown = dozer_cooldown
 		},
-		SKM_BLACK_Tank_W9 = {
+		BLACK_tanks_ds = {
 			cooldown = dozer_cooldown
 		},
-		SKM_GREEN_Tank_W5 = {
+		SKULL_tank_mh = {
 			cooldown = dozer_cooldown
 		},
-		SKM_GREEN_Tank_W6 = {
+		SKULL_tank_dw = {
 			cooldown = dozer_cooldown
 		},
-		SKM_GREEN_Tank_W7 = {
+		SKULL_tank_ds = {
 			cooldown = dozer_cooldown
 		},
-		SKM_GREEN_Tank_W8 = {
+		Titan_tanks_dw = {
 			cooldown = dozer_cooldown
 		},
-		SKM_GREEN_Tank_W9 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_SKULL_Tank_W6 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_SKULL_Tank_W7 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_SKULL_Tank_W8 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_SKULL_Tank_W9 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_TIT_Tank_W6 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_TIT_Tank_W7 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_TIT_Tank_W8 = {
-			cooldown = dozer_cooldown
-		},
-		SKM_TIT_Tank_W9 = {
+		Titan_tanks_ds = {
 			cooldown = dozer_cooldown
 		}
 	}
