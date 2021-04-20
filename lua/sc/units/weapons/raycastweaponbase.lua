@@ -25,9 +25,7 @@ function RaycastWeaponBase:setup(...)
 	--self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
 
 	--Use stability stat to get the moving accuracy penalty.
-	if self._current_stats_indices and self._current_stats_indices.recoil then
-		self._spread_moving = tweak_data.weapon.stats.spread_moving[self._current_stats_indices.recoil] or 0
-	end
+	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._current_stats_indices.recoil] or 0
 
 	--Trackers for MG Specialist Ace
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
