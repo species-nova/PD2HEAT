@@ -27,17 +27,6 @@ function RaycastWeaponBase:setup(...)
 	--Use stability stat to get the moving accuracy penalty.
 	if self._current_stats_indices and self._current_stats_indices.recoil then
 		self._spread_moving = tweak_data.weapon.stats.spread_moving[self._current_stats_indices.recoil] or 0
-	else --Fallback method for getting stability moving accuracy penalty, in case the indices somehow don't get set.
-		log("Using fallback")
-		local moving_spread_index = 0
-		local recoil_table = tweak_data.weapon.stats.recoil
-		for i = 0, 25, 1 do
-			if recoil_table[i] == self._recoil then
-				moving_spread_index = i
-				break
-			end
-		end
-		self._spread_moving = tweak_data.weapon.stats.spread_moving[moving_spread_index] or 0
 	end
 
 	--Trackers for MG Specialist Ace
@@ -59,10 +48,17 @@ function RaycastWeaponBase:setup(...)
 			break
 		end
 	end
+
+	self._multikill_bullets_loaded = managers.player:upgrade_value("weapon", "multikill_load_ammo")
 end
 
 function RaycastWeaponBase:set_bullet_hell_active(activate)
 	if activate then
+		local bullets_loaded = self:get_ammo_remaining_in_clip() + self._multikill_bullets_loaded
+		bullets_loaded = math.min(bullets_loaded, math.min(self:get_ammo_total(), self:get_ammo_max_per_clip()))
+		self:set_ammo_remaining_in_clip(bullets_loaded)
+		managers.hud:set_ammo_amount(self:selection_index(), self:ammo_info())
+
 		self._multikill_this_magazine = true
 		managers.hud:add_skill("bullet_hell")
 	else

@@ -626,6 +626,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Bullet Hell
 				--Basic
 					self.values.weapon.multikill_free_ammo_chance = {0.5}
+					self.values.weapon.multikill_load_ammo = {6}
 				--Ace
 					self.values.weapon.multikill_recoil_multiplier = {1.5}
 					self.values.weapon.multikill_fire_rate_multiplier = {1.5}
@@ -2786,7 +2787,16 @@ function UpgradesTweakData:_smg_definitions()
 			category = "weapon"
 		}
 	}
-		self.definitions.weapon_multikill_recoil_multiplier = {
+	self.definitions.weapon_multikill_load_ammo = {
+		name_id = "menu_weapon_multikill_load_ammo",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "multikill_load_ammo",
+			category = "weapon"
+		}
+	}	
+	self.definitions.weapon_multikill_recoil_multiplier = {
 		name_id = "menu_weapon_multikill_recoil_multiplier",
 		category = "feature",
 		upgrade = {
@@ -2795,7 +2805,7 @@ function UpgradesTweakData:_smg_definitions()
 			category = "weapon"
 		}
 	}
-		self.definitions.weapon_multikill_fire_rate_multiplier = {
+	self.definitions.weapon_multikill_fire_rate_multiplier = {
 		name_id = "menu_weapon_multikill_fire_rate_multiplier",
 		category = "feature",
 		upgrade = {
