@@ -536,7 +536,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 4,
 					upgrades = {
-						"weapon_multikill_free_ammo_chance"
+						"weapon_multikill_free_ammo_chance",
+						"weapon_multikill_load_ammo"
 					},
 					cost = self.costs.hightier
 				},

@@ -1824,7 +1824,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",
-			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nKilling multiple enemies without releasing the trigger using an SMG or LMG grants that gun a ##50%## chance to not consume ammo when fired until it's reloaded.\n\nACE: ##$pro##\nBullet Hell can now be triggered by any gun fired in full auto.\n\nKilling multiple enemies without releasing the trigger also increases the gun's rate of fire and reduces its recoil by ##50%## until it's reloaded.",
+			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nKilling multiple enemies without releasing the trigger using an SMG or LMG loads up to ##6## bullets into the magazine from your total ammo pool, and grants that gun a ##50%## chance to not consume ammo when fired until it's reloaded.\n\nACE: ##$pro##\nBullet Hell can now be triggered by any gun fired in full auto.\n\nKilling multiple enemies without releasing the trigger also increases the gun's rate of fire and reduces its recoil by ##50%## until it's reloaded.",
 
 			--}
 		--}
