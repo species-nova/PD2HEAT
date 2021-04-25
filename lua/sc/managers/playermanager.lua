@@ -551,7 +551,7 @@ function PlayerManager:check_skills()
 		self:unregister_message(Message.OnWeaponFired, "graze_damage")
 	end
 
-	if self:has_category_upgrade("temporary", "headshot_fire_rate_mult") then
+	if self:has_category_upgrade("temporary", "headshot_accuracy_addend") then
 		self._message_system:register(Message.OnHeadShot, "sharpshooter", callback(self, self, "_trigger_sharpshooter"))
 	else
 		self._message_system:unregister(Message.OnHeadShot, "sharpshooter")
@@ -910,6 +910,7 @@ function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	local variant = attack_data.variant
 
 	if attacker_unit == self:player_unit() and variant == "bullet" and weapon_unit and weapon_unit:base():fire_mode() == "single" and weapon_unit:base():is_category("assault_rifle", "snp") and attack_data.result.type == "death" then
+		self:activate_temporary_upgrade("temporary", "headshot_accuracy_addend")
 		self:activate_temporary_upgrade("temporary", "headshot_fire_rate_mult")
 	end
 end

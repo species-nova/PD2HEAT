@@ -1521,11 +1521,15 @@ function PlayerDamage:set_armor(armor)
 				"full_armor_absorption",
 				managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor()
 			)
+			if managers.player:has_category_upgrade("player", "armor_full_infinite_sprint") then
+				self._unit:movement():activate_infinite_sprint()
+			end
 		else
 			managers.player:set_damage_absorption(
 				"full_armor_absorption",
 				0
 			)
+			self._unit:movement():deactivate_infinite_sprint()
 		end
 
 		if current_armor ~= 0 and armor == 0 and self._dire_need then
@@ -1538,4 +1542,21 @@ function PlayerDamage:set_armor(armor)
 	end
 
 	self._armor = Application:digest_value(armor, true)
+end
+
+function PlayerDamage:_on_enter_swansong_event()
+	self:_remove_on_damage_event()
+
+	self._block_medkit_auto_revive = true
+	self.swansong = true
+
+	if managers.player:has_category_upgrade("player", "swan_song_instant_reload") then
+		managers.player:reload_weapons()
+	end
+
+	if Network:is_client() then
+		managers.network:session():send_to_host("sync_player_swansong", self._unit, true)
+	else
+		managers.network:session():send_to_peers("sync_swansong_hud", self._unit, managers.network:session():local_peer():id())
+	end
 end

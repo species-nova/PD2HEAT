@@ -358,16 +358,16 @@ function PlayerTweakData:init()
 	self.movement_state.stamina = {}
 
 	if is_vr then
-		self.movement_state.stamina.STAMINA_INIT = 50
+		self.movement_state.stamina.STAMINA_INIT = 100
 	else
-		self.movement_state.stamina.STAMINA_INIT = 50
+		self.movement_state.stamina.STAMINA_INIT = 100
 	end
 
-	self.movement_state.stamina.STAMINA_REGEN_RATE = 3
-	self.movement_state.stamina.STAMINA_DRAIN_RATE = 2
-	self.movement_state.stamina.STAMINA_DRAIN_RATE_WARP = 3
-	self.movement_state.stamina.REGENERATE_TIME = 1
-	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 4
+	self.movement_state.stamina.STAMINA_REGEN_RATE = 5
+	self.movement_state.stamina.STAMINA_DRAIN_RATE = 4
+	self.movement_state.stamina.STAMINA_DRAIN_RATE_WARP = 8
+	self.movement_state.stamina.REGENERATE_TIME = 3
+	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 10
 	self.movement_state.stamina.JUMP_STAMINA_DRAIN = 0
 	
 	self.camera = {}

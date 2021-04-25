@@ -8,7 +8,12 @@ Hooks:PostHook(NewRaycastWeaponBase, "init", "ResExtraSkills", function(self)
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
-			break
+		end
+	
+		self._headshot_pierce_damage_mult = math.max(self._headshot_pierce_damage_mult, managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0))
+
+		if managers.player:has_category_upgrade(category, "headshot_pierce") then
+			self._can_shoot_through_head = true
 		end
 	end
 end)
@@ -36,21 +41,21 @@ else
 		self:check_last_bullet_stagger()
 
 		local ammo_base = self._reload_ammo_base or self:ammo_base()
+		local ammo_in_clip = ammo_base:get_ammo_remaining_in_clip()
+		local tactical_reload = ammo_base:weapon_tweak_data().tactical_reload
 
 		if ammo_base:weapon_tweak_data().uses_clip == true then
-			if ammo_base:get_ammo_remaining_in_clip() <= ammo_base:get_ammo_max_per_clip()  then
+			if ammo_in_clip <= ammo_base:get_ammo_max_per_clip()  then
 				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip(), ammo_base:get_ammo_remaining_in_clip() +  ammo_base:weapon_tweak_data().clip_capacity))
 			end
 		else
-			if ammo_base:get_ammo_remaining_in_clip() > 0 and  ammo_base:weapon_tweak_data().tactical_reload == 1 then
+			if ammo_in_clip > 0 and tactical_reload == 1 then
 				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
-			elseif ammo_base:get_ammo_remaining_in_clip() > 1 and  ammo_base:weapon_tweak_data().tactical_reload == 2 then
+			elseif ammo_in_clip > 1 and tactical_reload == 2 then
 				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 2))
-			elseif ammo_base:get_ammo_remaining_in_clip() == 1 and  ammo_base:weapon_tweak_data().tactical_reload == 2 then
+			elseif ammo_in_clip == 1 and tactical_reload == 2 then
 				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
-			elseif ammo_base:get_ammo_remaining_in_clip() > 0 and not  ammo_base:weapon_tweak_data().tactical_reload then
-				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip()))
-			elseif self._setup.expend_ammo then
+			elseif self._setup.expend_ammo or ammo_in_clip > 0 and not tactical_reload then
 				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip()))
 			else
 				ammo_base:set_ammo_remaining_in_clip(ammo_base:get_ammo_max_per_clip())
@@ -580,11 +585,14 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 
 	local player_manager = managers.player
 	local multiplier = 1
-		
+	local clip_empty = self:ammo_base():get_ammo_remaining_in_clip() == 0
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
 		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
 		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
 		multiplier = multiplier + (1 - math.min(self:get_ammo_remaining_in_clip() / self:get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
+		if not clip_empty then
+			multiplier = multiplier + player_manager:upgrade_value("assault_rifle", "tactical_reload_speed_mult", 1) - 1
+		end
 	end
 	multiplier = multiplier + player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1) - 1
 	multiplier = multiplier + player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1) - 1
@@ -612,7 +620,7 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 
 	multiplier = multiplier * self:reload_speed_stat()  * self._reload_speed_mult
 	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)
-
+	log(multiplier)
 	return multiplier
 end
 
