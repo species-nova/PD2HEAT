@@ -2071,7 +2071,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
-		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads, and deal ##50%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifles reload ##25%## faster while not empty.",
+		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads. Rifle bullets that pierce through heads deal ##50%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifles reload ##25%## faster while not empty.",
 
 		--Mind Blown, formerly Explosive Headshot--
 		["menu_kilmer_sc"] = "Mind Blown",
