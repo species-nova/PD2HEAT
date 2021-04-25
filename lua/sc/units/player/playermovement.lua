@@ -12,6 +12,9 @@ function PlayerMovement:init(...)
 	self._underdog_skill_data = tweak_data.upgrades.close_combat_data
 	self._underdog_chk_t = 0
 	self._nr_close_guys = 0
+	if managers.player:has_category_upgrade("player", "armor_full_infinite_sprint") then
+		self._infinite_sprint = true
+	end
 end
 
 function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
@@ -188,4 +191,33 @@ function PlayerMovement:_stagger_in_aoe(stagger_dis)
 			end
 		end
 	end
+end
+
+function PlayerMovement:activate_infinite_sprint()
+	self._infinite_sprint = true
+end
+
+function PlayerMovement:deactivate_infinite_sprint()
+	self._infinite_sprint = nil
+end
+
+function PlayerMovement:update(unit, t, dt)
+	if _G.IS_VR then
+		self:_update_vr(unit, t, dt)
+	end
+
+	self:_calculate_m_pose()
+
+	if self:_check_out_of_world(t) then
+		return
+	end
+
+	self:_upd_underdog_skill(t)
+
+	if self._current_state then
+		self._current_state:update(t, dt)
+	end
+
+	self:update_stamina(t, dt, self._infinite_sprint)
+	self:update_teleport(t, dt)
 end

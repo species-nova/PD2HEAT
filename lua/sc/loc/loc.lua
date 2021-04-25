@@ -115,8 +115,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModInfo_rogueDescID"] = "Enables or disables tracking of this specific perk deck ability.",
 		["RestorationModInfo_increased_movement_speedTitleID"] = "Running From Death",
 		["RestorationModInfo_increased_movement_speedDescID"] = "Enables or disables tracking of this specific skill.",
-		["RestorationModInfo_headshot_fire_rate_multTitleID"] = "Sharpshooter",
-		["RestorationModInfo_headshot_fire_rate_multDescID"] = "Enables or disables tracking of this specific skill.",
+		["RestorationModInfo_headshot_accuracy_addendTitleID"] = "Sharpshooter",
+		["RestorationModInfo_headshot_accuracy_addendDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_shotgun_last_shot_staggerTitleID"] = "Shell Shocked",
 		["RestorationModInfo_shotgun_last_shot_staggerDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_trigger_happyTitleID"] = "Trigger Happy",
@@ -1820,7 +1820,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Heavy Impact--
 			["menu_speedy_reload_sc"] = "Heavy Impact",
-			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nYou take ##50%## less damage while using a bipod.",
+			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nWhen you melee Shield enemies, they get knocked back by the sheer force.\n\nEnables your ranged weapons to have a chance to knock back Shield enemies when attacking them. Knock back chance is increased the higher the total damage of the weapon is.",
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",
@@ -1885,7 +1885,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Iron Man--
 			["menu_juggernaut_beta_sc"] = "Iron Man",
-			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nUnlocks the ability to wear the Improved Combined Tactical Vest.\n\nACE: ##$pro##\nWhen you melee Shield enemies, they get knocked back by the sheer force.\n\nEnables your ranged weapons to have a chance to knock back Shield enemies when attacking them. Knock back chance is increased the higher the total damage of the weapon is.\n\nYour armor recovers ##10%## faster.",
+			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nUnlocks the ability to wear the Improved Combined Tactical Vest.\n\nACE: ##$pro##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##30%## of your maximum armor and you can sprint indefinitely.",
 
 
 			--}
@@ -1947,7 +1947,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Bulletproof--
 			["menu_iron_man_sc"] = "Bulletproof",
-			["menu_iron_man_desc_sc"] = "BASIC: ##$basic##\nYour armor cannot be pierced.\n\nACE: ##$pro##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##30%## of your maximum armor.\n\nYour armor recovers ##15%## faster.",
+			["menu_iron_man_desc_sc"] = "BASIC: ##$basic##\nYour armor cannot be pierced.\n\nACE: ##$pro##\nYour armor recovers ##25%## faster.",
 
 			--}
 
@@ -2032,7 +2032,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--{
 
 			--Swan Song--
-			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##60%## movement speed penalty.\n\nACE: ##$pro##\nYou can fight for an additional ##6## seconds.",
+			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##60%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reached ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
 
 
 
@@ -2067,11 +2067,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
-		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nRifles gain ##4## stability.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
+		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##5## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
 
-		--Kilmer--
-		["menu_heavy_impact_beta_sc"] = "Kilmer",
-		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nRifles gain ##5## accuracy.\n\nACE: ##$pro##\nRifles reload ##25%## faster.",
+		--Tactical Precision--
+		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
+		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads, and deal ##50%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifles reload ##25%## faster while not empty.",
 
 		--Mind Blown, formerly Explosive Headshot--
 		["menu_kilmer_sc"] = "Mind Blown",

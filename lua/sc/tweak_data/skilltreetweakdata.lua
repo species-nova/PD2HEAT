@@ -522,7 +522,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"player_bipod_damage_reduction"
+						"player_shield_knock"
+						--"player_bipod_damage_reduction"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -814,8 +815,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 8,
 					upgrades = {
-						"player_shield_knock",
-						"player_armor_regen_timer_multiplier"
+						"player_armor_full_infinite_sprint",
+						"player_armor_full_damage_absorb"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1085,8 +1086,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 8,
 					upgrades = {
-						"player_armor_regen_timer_multiplier_tier",
-						"player_armor_full_damage_absorb"
+						"player_armor_regen_timer_multiplier"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1243,8 +1243,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"assault_rifle_recoil_index_addend",
-						"snp_recoil_index_addend"
+						"temporary_headshot_accuracy_addend"
 					},
 					cost = self.costs.default
 				},
@@ -1265,16 +1264,17 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"assault_rifle_spread_index_addend",
-						"snp_spread_index_addend"
+						"assault_rifle_headshot_pierce",
+						"assault_rifle_headshot_pierce_damage_mult",
+						"snp_headshot_pierce_damage_mult"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"assault_rifle_reload_speed_multiplier",
-						"snp_reload_speed_multiplier"
+						"assault_rifle_tactical_reload_speed_mult",
+						"snp_tactical_reload_speed_mult"
 					},
 					cost = self.costs.pro
 				}
@@ -2013,7 +2013,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"temporary_berserker_damage_multiplier_2"
+						"temporary_berserker_damage_multiplier_2",
+						"player_swan_song_instant_reload"
 					},
 					cost = self.costs.hightierpro
 				}

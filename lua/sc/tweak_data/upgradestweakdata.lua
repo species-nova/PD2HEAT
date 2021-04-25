@@ -621,7 +621,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						true
 					}
 				--Ace
-					self.values.player.bipod_damage_reduction = {0.5}
+					self.values.player.shield_knock = {true}
+					--self.values.player.bipod_damage_reduction = {0.5} --To be moved to Fence Skill Tree
 	
 			--Bullet Hell
 				--Basic
@@ -717,8 +718,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Basic
 						--Unlock ICTV
 					--Ace
-						self.values.player.shield_knock = {true}
-						self.values.player.armor_regen_timer_multiplier = {0.9}
+						self.values.player.armor_full_infinite_sprint = {true}
+						self.values.player.armor_full_damage_absorb = {0.3}
+						
 			
 		--Support--
 			--Scavenger
@@ -799,8 +801,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Basic
 						self.values.player.unpierceable_armor = {true}
 					--Ace
-						self.values.player.armor_full_damage_absorb = {0.3}
-						self.values.player.armor_regen_timer_multiplier_tier = {0.85}				
+						self.values.player.armor_regen_timer_multiplier = {0.75}		
 			
 		--Breacher--
 			--Hardware Expert
@@ -847,18 +848,19 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Combat Engineer--
 			--Sharpshooter
 				--Basic
-					self.values.snp.recoil_index_addend = {1}
-					self.values.assault_rifle.recoil_index_addend = {1}
+					self.values.temporary.headshot_accuracy_addend = {{1, 10}}
 				--Ace
 					self.values.temporary.headshot_fire_rate_mult = {{1.2, 10}}
 				
 			--Kilmer
 				--Basic
-					self.values.snp.spread_index_addend = {1}
-					self.values.assault_rifle.spread_index_addend = {1}
+					self.values.snp.tactical_reload_speed_mult = {1.25}
+					self.values.assault_rifle.tactical_reload_speed_mult = {1.25}
 				--Ace
-					self.values.snp.reload_speed_multiplier = {1.25}
-					self.values.assault_rifle.reload_speed_multiplier = {1.25}
+					self.values.assault_rifle.headshot_pierce = {true}
+					self.values.assault_rifle.headshot_pierce_damage_mult = {1.5}
+					self.values.snp.headshot_pierce_damage_mult = {1.5}
+
 
 			--Rifleman
 				--Basic
@@ -1190,6 +1192,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					{1, 3}, --Basic
 					{1, 9} --Ace
 				}
+				--Ace
+					self.values.player.swan_song_instant_reload = {true}
 
 			--Haunt
 				--Basic
@@ -2221,6 +2225,15 @@ function UpgradesTweakData:_player_definitions()
 			value = 10
 		}
 	}
+	self.definitions.temporary_headshot_accuracy_addend = {
+		category = "temporary",
+		name_id = "menu_temporary_headshot_accuracy_addend",
+		upgrade = {
+			category = "temporary",
+			upgrade = "headshot_accuracy_addend",
+			value = 1
+		}
+	}
 	self.definitions.temporary_headshot_fire_rate_mult = {
 		category = "temporary",
 		name_id = "menu_temporary_headshot_fire_rate_mult",
@@ -2721,12 +2734,12 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_close_combat_damage_boost = {
-		name_id = "menu_player_close_combat_damage_boost",
+	self.definitions.player_swan_song_instant_reload = {
+		name_id = "menu_player_swan_song_instant_reload",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "close_combat_damage_boost",
+			upgrade = "swan_song_instant_reload",
 			category = "player"
 		}
 	}
@@ -3268,6 +3281,15 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_armor_full_infinite_sprint = {
+		name_id = "menu_player_armor_full_infinite_sprint",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "armor_full_infinite_sprint",
+			category = "player"
+		}
+	}
 	self.definitions.player_armor_full_damage_absorb = {
 		name_id = "menu_player_armor_full_damage_absorb",
 		category = "feature",
@@ -3374,6 +3396,51 @@ function UpgradesTweakData:_saw_definitions()
 			value = 1,
 			upgrade = "overheat_stacking",
 			category = "player"
+		}
+	}
+	self.definitions.assault_rifle_headshot_pierce = {
+		name_id = "menu_player_assault_rifle_headshot_pierce",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_pierce",
+			category = "assault_rifle"
+		}
+	}
+	self.definitions.assault_rifle_headshot_pierce_damage_mult = {
+		name_id = "menu_player_assault_rifle_headshot_pierce_damage_mult",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_pierce_damage_mult",
+			category = "assault_rifle"
+		}
+	}
+	self.definitions.snp_headshot_pierce_damage_mult = {
+		name_id = "menu_player_snp_headshot_pierce_damage_mult",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_pierce_damage_mult",
+			category = "snp"
+		}
+	}
+	self.definitions.assault_rifle_tactical_reload_speed_mult = {
+		name_id = "menu_player_assault_rifle_tactical_reload_speed_mult",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "tactical_reload_speed_mult",
+			category = "assault_rifle"
+		}
+	}
+	self.definitions.snp_tactical_reload_speed_mult = {
+		name_id = "menu_player_snp_tactical_reload_speed_mult",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "tactical_reload_speed_mult",
+			category = "snp"
 		}
 	}
 end

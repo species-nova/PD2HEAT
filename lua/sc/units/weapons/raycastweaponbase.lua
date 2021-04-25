@@ -17,6 +17,10 @@ function RaycastWeaponBase:init(...)
 		self._bullet_slotmask = managers.mutators:modify_value("RaycastWeaponBase:setup:weapon_slot_mask", self._bullet_slotmask)
 		self._bullet_slotmask = managers.modifiers:modify_value("RaycastWeaponBase:setup:weapon_slot_mask", self._bullet_slotmask)
 	end
+
+	self._headshot_pierce_damage_mult = 1
+	self._shield_pierce_damage_mult = 0.5
+	self._can_shoot_through_head = self._can_shoot_through_enemy
 end
 
 function RaycastWeaponBase:setup(...)
@@ -94,9 +98,6 @@ function FlameBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, b
 			if enemy_unit:base():char_tweak() then
 				if enemy_unit:base():char_tweak().damage.shield_knocked and not enemy_unit:character_damage():is_immune_to_shield_knockback() then
 					local knock_chance = math.sqrt(0.03 * damage) --Makes a nice curve.
-					if weapon_unit:base()._is_team_ai then
-						knock_chance = knock_chance * 0.25 --Bots have reduced knock chances. Usually hovers around 10%, weapons like the Thanatos cap around 25%.
-					end
 
 					if knock_chance > math.random() then
 						local damage_info = {
@@ -187,7 +188,6 @@ end
 
 --Minor fixes and making Winters unpiercable.
 function RaycastWeaponBase:_collect_hits(from, to)
-	local can_shoot_through = self._can_shoot_through_wall or self._can_shoot_through_shield or self._can_shoot_through_enemy
 	local hit_enemy = false
 	local enemy_mask = managers.slot:get_mask("enemies")
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
@@ -206,7 +206,16 @@ function RaycastWeaponBase:_collect_hits(from, to)
 			local hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
 			local weak_body = hit.body:has_ray_type(ai_vision_ids)
 
-			if not self._can_shoot_through_enemy and hit_enemy then
+			--Tactical Precision headshot piercing.
+			if self._can_shoot_through_head
+				and hit.unit:in_slot(enemy_mask)
+				and not hit.unit:character_damage()._char_tweak.ignore_headshot
+				and hit.unit:character_damage()._ids_head_body_name
+				and hit.unit:character_damage()._ids_head_body_name == hit.body:name() then
+				hit.head_pierced = true
+			end
+
+			if not self._can_shoot_through_enemy and not hit.head_pierced and hit_enemy then
 				break
 			elseif has_hit_wall or (not self._can_shoot_through_wall and hit.unit:in_slot(wall_mask) and weak_body) then
 				break
@@ -238,11 +247,8 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 
 		if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
 			if enemy_unit:base():char_tweak() then
-				if enemy_unit:base():char_tweak().damage.shield_knocked and not enemy_unit:character_damage():is_immune_to_shield_knockback() then
-					local knock_chance = math.sqrt(0.03 * damage) --Makes a nice curve.
-					if weapon_unit:base()._is_team_ai then
-						knock_chance = knock_chance * 0.25 --Bots have reduced knock chances. Usually hovers around 10%, weapons like the Thanatos cap around 25%.
-					end
+				if enemy_unit:base():char_tweak().damage.shield_knocked and not enemy_unit:character_damage():is_immune_to_shield_knockback() then 
+					local knock_chance = math.sqrt(0.02 * damage) --See odds at https://www.desmos.com/calculator/yspearqqxt
 
 					if knock_chance > math.random() then
 						local damage_info = {
@@ -447,11 +453,20 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	local cop_kill_count = 0
 	local hit_through_wall = false
 	local hit_through_shield = false
+	local shield_damage_reduction_applied = false
+	local hit_through_head = false
 	local hit_result = nil
 
 	for _, hit in ipairs(ray_hits) do
 		damage = self:get_damage_falloff(damage, hit, user_unit)
 		hit_result = self._bullet_class:on_collision(hit, self._unit, user_unit, damage)
+
+		if hit_result and hit.head_pierced and not hit_through_head then
+			hit_through_head = true
+			log(damage)
+			damage = damage * self._headshot_pierce_damage_mult
+			log(damage)
+		end
 
 		if hit_result and hit_result.type == "death" then
 			local unit_type = hit.unit:base() and hit.unit:base()._tweak_table
@@ -484,14 +499,17 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 		if hit.unit:in_slot(managers.slot:get_mask("world_geometry")) then
 			hit_through_wall = true
+			shield_damage_reduction_applied = false
 		elseif hit.unit:in_slot(managers.slot:get_mask("enemy_shield_check")) then
 			hit_through_shield = hit_through_shield or alive(hit.unit:parent())
+			shield_damage_reduction_applied = false
 		end
 
 		--Damage reduction when shooting through shields.
 		--self._shield_damage_mult to be sorted out later, will be useful for setting it per gun if wanted in the future.
-		if hit_through_shield then
-			damage = damage * (self._shield_damage_mult or 0.5)
+		if hit_through_shield and not shield_damage_reduction_applied then
+			damage = damage * self._shield_pierce_damage_mult
+			shield_damage_reduction_applied = true
 		end
 
 		if hit_result and hit_result.type == "death" and cop_kill_count > 0 then
