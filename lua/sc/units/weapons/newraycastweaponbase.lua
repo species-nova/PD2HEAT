@@ -620,7 +620,7 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 
 	multiplier = multiplier * self:reload_speed_stat()  * self._reload_speed_mult
 	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)
-	log(multiplier)
+
 	return multiplier
 end
 

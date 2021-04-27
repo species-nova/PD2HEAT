@@ -463,9 +463,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 		if hit_result and hit.head_pierced and not hit_through_head then
 			hit_through_head = true
-			log(damage)
 			damage = damage * self._headshot_pierce_damage_mult
-			log(damage)
 		end
 
 		if hit_result and hit_result.type == "death" then

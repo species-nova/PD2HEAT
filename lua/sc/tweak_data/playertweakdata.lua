@@ -357,17 +357,18 @@ function PlayerTweakData:init()
 	self.movement_state.interaction_delay = 1.5
 	self.movement_state.stamina = {}
 
+	--Actual stamina value == armor stamina multiplier in upgradestweakdata.
 	if is_vr then
-		self.movement_state.stamina.STAMINA_INIT = 100
+		self.movement_state.stamina.STAMINA_INIT = 1
 	else
-		self.movement_state.stamina.STAMINA_INIT = 100
+		self.movement_state.stamina.STAMINA_INIT = 1
 	end
 
-	self.movement_state.stamina.STAMINA_REGEN_RATE = 5
-	self.movement_state.stamina.STAMINA_DRAIN_RATE = 4
-	self.movement_state.stamina.STAMINA_DRAIN_RATE_WARP = 8
+	self.movement_state.stamina.STAMINA_REGEN_RATE = 1.25
+	self.movement_state.stamina.STAMINA_DRAIN_RATE = 1
+	self.movement_state.stamina.STAMINA_DRAIN_RATE_WARP = 2
 	self.movement_state.stamina.REGENERATE_TIME = 3
-	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 10
+	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 2.5
 	self.movement_state.stamina.JUMP_STAMINA_DRAIN = 0
 	
 	self.camera = {}

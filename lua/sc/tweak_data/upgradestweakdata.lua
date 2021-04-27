@@ -345,13 +345,13 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.6 
 	}
 	self.values.player.body_armor.stamina = {
-		1,
-		0.95,
-		0.9,
-		0.85,
-		0.75,
-		0.7,
-		0.6
+		25,
+		23,
+		21,
+		19,
+		17,
+		16,
+		15
 	}
 	--Appears to be unused.
 	self.values.player.body_armor.skill_ammo_mul = {
