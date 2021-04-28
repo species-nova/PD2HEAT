@@ -912,17 +912,6 @@ function PlayerDamage:damage_fall(data)
 	self:change_armor(-armor_damage)
 	self:change_health(-health_damage)
 
-	--Alert nearby enemies.
-	local alert_rad = tweak_data.player.fall_damage_alert_size or 500
-	local new_alert = {
-		"vo_cbt",
-		self._unit:movement():m_head_pos(),
-		alert_rad,
-		self._unit:movement():SO_access(),
-		self._unit
-	}
-	managers.groupai:state():propagate_alert(new_alert)
-
 	managers.environment_controller:hit_feedback_down()
 	if health_damage == 0 then --Armor damage taken.
 		self._unit:sound():play("player_hit")
@@ -931,6 +920,16 @@ function PlayerDamage:damage_fall(data)
 		self._unit:sound():play("player_hit_permadamage")
 		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.HEALTH, 0)
 		managers.player:apply_slow_debuff(5 * math.max(health_damage_ratio, 0.2), 0.8) --Very large falls break ur legs.
+
+		--Alert nearby enemies.
+		local new_alert = {
+			"vo_cbt",
+			self._unit:movement():m_head_pos(),
+			tweak_data.player.fall_damage_alert_size,
+			self._unit:movement():SO_access(),
+			self._unit
+		}
+		managers.groupai:state():propagate_alert(new_alert)
 	end
 
 	SoundDevice:set_rtpc("shield_status", 0)
