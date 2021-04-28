@@ -857,6 +857,102 @@ function PlayerDamage:damage_killzone(attack_data)
 	self:_call_listeners(damage_info)
 end
 
+--Refactored from vanilla. Applies damage linearly on a % basis starting with damage then health. 
+local height_limit = 300 --Point at which players start taking armor damage.
+local damage_limit = 650 --Point at which players start taking health damage and slow.
+local death_limit = 950 --Point at which players instantly die.
+function PlayerDamage:damage_fall(data)
+	local damage_info = {
+		result = {
+			variant = "fall",
+			type = "hurt"
+		}
+	}
+
+	local fall_height = data.height
+
+	--Checks that player can actually take fall damage.
+	if self._god_mode or self._invulnerable or self._mission_damage_blockers.invulnerable then
+		self:_call_listeners(damage_info)
+		return
+	elseif self:incapacitated() then
+		return
+	elseif self._unit:movement():current_state().immortal then
+		return
+	elseif self._mission_damage_blockers.damage_fall_disabled then
+		return
+	elseif data.height < height_limit then
+		return
+	elseif self._bleed_out and self._unit:movement():current_state_name() ~= "jerry1" then
+		self._unit:sound():play("player_hit")
+		managers.environment_controller:hit_feedback_down()
+		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.HEALTH, 0)
+
+		return
+	end
+
+	--Determine damage taken.
+	local armor_damage = self:_max_armor()
+	local health_damage_ratio = 1
+	local health_damage = self:_max_health()
+	if death_limit > fall_height then --If fall is not lethal, then calculate actual damage taken.
+		armor_damage = math.clamp((fall_height - height_limit)/(damage_limit - height_limit), 0, 1) * armor_damage
+		health_damage_ratio = math.clamp((fall_height - damage_limit)/(death_limit - damage_limit), 0, 1)
+		health_damage = health_damage_ratio * health_damage
+	else
+		self._check_berserker_done = false
+
+		--Falling without a parachute.
+		if self._unit:movement():current_state_name() == "jerry1" then
+			self._revives = Application:digest_value(1, true)
+		end
+	end
+
+	--Deal damage.
+	self:change_armor(-armor_damage)
+	self:change_health(-health_damage)
+
+	--Alert nearby enemies.
+	local alert_rad = tweak_data.player.fall_damage_alert_size or 500
+	local new_alert = {
+		"vo_cbt",
+		self._unit:movement():m_head_pos(),
+		alert_rad,
+		self._unit:movement():SO_access(),
+		self._unit
+	}
+	managers.groupai:state():propagate_alert(new_alert)
+
+	managers.environment_controller:hit_feedback_down()
+	if health_damage == 0 then --Armor damage taken.
+		self._unit:sound():play("player_hit")
+		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.ARMOUR, 0)
+	else --Health damage taken.
+		self._unit:sound():play("player_hit_permadamage")
+		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.HEALTH, 0)
+		managers.player:apply_slow_debuff(5 * math.max(health_damage_ratio, 0.2), 0.8) --Very large falls break ur legs.
+	end
+
+	SoundDevice:set_rtpc("shield_status", 0)
+
+	self._bleed_out_blocked_by_movement_state = nil
+
+	managers.hud:set_player_health({
+		current = self:get_real_health(),
+		total = self:_max_health(),
+		revives = Application:digest_value(self._revives, false)
+	})
+
+	self:_send_set_armor()
+	self:_send_set_health()
+	self:_set_health_effect()
+	self:_damage_screen()
+	self:_check_bleed_out(nil, true)
+	self:_call_listeners(damage_info)
+
+	return true
+end
+
 --Include deflection in calcs. Doesn't work in cases where armor is pierced, but I can't be assed to fix it.
 --Also ignores temp hp in max health calcs. Not important for now, but may be in the future.
 function PlayerDamage:_check_chico_heal(attack_data)

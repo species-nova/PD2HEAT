@@ -461,7 +461,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}	
 	self.values.player.climb_speed_multiplier = {1.2, 1.75}
 	self.values.player.can_free_run = {true}
-	self.values.player.fall_health_damage_multiplier = {0}
 	self.values.player.counter_strike_melee = {true}
 	self.player_damage_health_ratio_threshold = 0.5
 	self.player_damage_health_ratio_threshold_2 = 0.5
