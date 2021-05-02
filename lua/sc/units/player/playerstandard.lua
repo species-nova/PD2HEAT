@@ -2035,6 +2035,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 					dmg_mul = dmg_mul * managers.player:temporary_upgrade_value("temporary", "berserker_damage_multiplier", 1)
 					dmg_mul = dmg_mul * managers.player:get_property("trigger_happy", 1)
+					--Add Underdog Basic to damage mult.
+					dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 					local fired = nil
 
 					if fire_mode == "single" then

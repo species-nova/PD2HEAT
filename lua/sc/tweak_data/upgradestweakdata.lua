@@ -654,9 +654,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Underdog
 				--Basic
-					self.values.player.close_combat_damage_boost = {{value = 0.04, max = 5}}
+					self.values.player.close_combat_damage_boost = {{value = 0.05, max = 5}}
 				--Ace
-					self.values.player.close_combat_damage_reduction = {{value = 0.04, max = 5}}
+					self.values.player.close_combat_damage_reduction = {{value = 0.05, max = 5}}
 				
 			--Pigeon Shooter
 				--Basic
@@ -1344,9 +1344,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		}
 	}
 	self.values.player.damage_dampener_close_contact = {
-		{value = 0.03, max = 5},
 		{value = 0.04, max = 5},
-		{value = 0.05, max = 5}
+		{value = 0.05, max = 5},
+		{value = 0.06, max = 5}
 	}
 
 	self.values.player.heal_over_time = {
@@ -1501,7 +1501,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
 	self.values.cooldown.melee_kill_life_leech = {{0.05, 3}}
 	self.values.player.damage_dampener_outnumbered = {
-		{value = 0.9, min = 3}
+		{value = 0.85, min = 3}
 	}
 
 	--Anarchist stuff--

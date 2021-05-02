@@ -667,10 +667,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		end
 	end
 
-	--Workaround for Weaponlib compatibility. REMOVE WHEN IT WEAPONLIB FIXES GETS RID OF THE POINTLESS PlayerStandard:_check_action_primary_attack OVERRIDE.
-	--Add Underdog Basic to damage mult.
-	dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
-
 	if consume_ammo and (is_player or Network:is_server()) then
 		local base = self:ammo_base()
 
