@@ -7311,7 +7311,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield = math.max(math.round(3 * map_scale_factor), 1),
 			shield_titan = math.max(math.round(3 * map_scale_factor), 1),
 			medic = math.max(math.round(4 * map_scale_factor), 1),
-			medic_lpf = math.max(math.round(2 * map_scale_factor), 1),
+			medic_lpf = 1,
 			phalanx_vip = 1,
 			spring = 1,
 			headless_hatman = 1,
