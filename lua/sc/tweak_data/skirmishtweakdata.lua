@@ -468,19 +468,19 @@ function SkirmishTweakData:_init_wave_modifiers()
 	self.wave_modifiers = {}
 	local health_damage_multipliers = {
 		{
-			damage = 0.3,
+			damage = 0.5,
 			health = 0.5
 		},
 		{
-			damage = 0.5,
+			damage = 0.75,
 			health = 0.625
 		},
 		{
-			damage = 0.7,
+			damage = 1.0,
 			health = 0.75
 		},
 		{
-			damage = 0.9,
+			damage = 1.0,
 			health = 0.875
 		},
 		{
