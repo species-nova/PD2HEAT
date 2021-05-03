@@ -4,9 +4,16 @@ end)
 
 --Refresh kill count required to end new assault.
 Hooks:PostHook(SkirmishManager, "on_start_assault", "ResUpdateKillCounter", function(self)
+	local groupai = managers.groupai:state()
 	self._captain_active = nil
-	self._required_kills = managers.groupai:state():_get_balancing_multiplier(tweak_data.skirmish.required_kills_balance_mul) * managers.groupai:state():_get_difficulty_dependent_value(tweak_data.skirmish.required_kills)
+	self._required_kills = groupai:_get_balancing_multiplier(tweak_data.skirmish.required_kills_balance_mul) * managers.groupai:state():_get_difficulty_dependent_value(tweak_data.skirmish.required_kills)
 	log("Wave " .. tostring(self:current_wave_number()) .. ", " .. tostring(self._required_kills) .. " Kills Required to advance. " .. " Captain spawn group: " .. tostring(tweak_data.skirmish.captain))
+
+	local spawn_group_index = self:current_wave_number()
+	if spawn_group_index > 9 then
+		spawn_group_index = 8
+	end
+	groupai._tweak_data.assault.groups = tweak_data.skirmish.spawn_group_waves[spawn_group_index]
 end)
 
 --Update kill counter, end assault if kills required reached.
@@ -14,7 +21,7 @@ function SkirmishManager:do_kill()
 	local groupai = managers.groupai:state()
 	if not self._captain_active and groupai:chk_assault_active_atm() then
 		self._required_kills = self._required_kills - 1
-
+		log(self._required_kills)
 		if self._required_kills <= 0 then
 			if self:current_wave_number() == 9 then
 				groupai:force_spawn_group_hard(tweak_data.skirmish.captain)

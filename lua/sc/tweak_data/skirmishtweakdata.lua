@@ -1,35 +1,18 @@
---This is probs unused, but setting to DS values to be on the safe side.
-function SkirmishTweakData:_init_special_unit_spawn_limits()
-	self.special_unit_spawn_limits = {
-		{
-			tank = 3,
-			taser = 4,
-			boom = 2,
-			spooc = 4,
-			shield = 5,
-			medic = 3,
-			spring = 1,
-			autumn = 1,
-			summers = 1
-		}
-	}
-end
-
 function SkirmishTweakData:_init_group_ai_data(tweak_data)
 	local skirmish_data = deep_clone(tweak_data.group_ai.besiege)
 	tweak_data.group_ai.skirmish = skirmish_data
 
 	self.required_kills = {
-		40,
-		40,
-		44,
-		48,
-		52,
-		56,
-		60,
-		64,
-		68,
-		72,
+		40, --Placeholder value, ignore.
+		40, --Wave 1
+		44, --Wave 2
+		48, --Wave 3
+		52, --Wave 4
+		56, --Wave 5
+		60, --Wave 6
+		64, --Wave 7
+		68, --Wave 8
+		72, --Wave 9 (req kills == kills needed until captain can spawn)
 		80,
 		120
 	}
@@ -223,178 +206,141 @@ function SkirmishTweakData:_init_wave_phase_durations(tweak_data)
 		5,
 		5
 	}
+
+	skirmish_data.special_unit_spawn_limits = {
+		tank = 3,
+		taser = 2,
+		taser_titan = 1,
+		boom = 2,
+		spooc = 3,
+		shield = 2,
+		shield_titan = 2,
+		medic = 3,
+		medic_lpf = 1,
+		phalanx_vip = 1,
+		spring = 1,
+		headless_hatman = 1,
+		autumn = 1,
+		summers = 1
+	}
 end
 
 
 function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 	local assault_groups = {
-		SKM_Light_Swat = {
-			0.3, --Unused
-			0.3, --Wave 1
-			0.25, --Wave 2
-			0.22, --...
-			0.32,
-			0.31,
-			0.32,
-			0.32,
-			0.32,
-			0.32,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 1
+			cops_n = 0.50,
+			swats_n = 0.21,
+			heavys_n = 0.11,
+			hostage_rescue_n = 0.08,
+			shield_n = 0.1
 		},
-		SKM_Heavy_Swat = {
-			0.5, --Unused
-			0.5, --Wave 1
-			0.4, --Wave 2
-			0.35, --...
-			0.27,
-			0.26,
-			0.22,
-			0.22,
-			0.22,
-			0.22,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
-		},	
-		SKM_Shields = {
-			0.2, --Unused
-			0.2, --Wave 1
-			0.15, --Wave 2
-			0.13, --...
-			0.14,
-			0.12,
-			0.12,
-			0.12,
-			0.12,
-			0.12,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 2
+			cops_h = 0.15,
+			swats_h = 0.31,
+			heavys_h = 0.2,
+			hostage_rescue_h = 0.08,
+			shield_h = 0.12,
+			FBI_spoocs = 0.06,
+			taser_h = 0.06,
+			GREEN_tanks_h = 0.02
 		},
-		SKM_Tazers = {
-			0, --Unused
-			0, --Wave 1
-			0.14, --Wave 2
-			0.12, --...
-			0.1,
-			0.06,
-			0.06,
-			0.06,
-			0.06,
-			0.06,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
-		},	
-		SKM_Booms = {
-			0, --Unused
-			0, --Wave 1
-			0.06, --Wave 2
-			0.06, --...
-			0.05,
-			0.04,
-			0.04,
-			0.04,
-			0.04,
-			0.04,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 3
+			swats_vh = 0.28, --Swat spawns lower than normal to allow for more HRT spawns.
+			heavys_vh = 0.17,
+			hostage_rescue_vh = 0.08,
+			bomb_squad_vh = 0.05,
+			shotguns_vh = 0.05,
+			shield_vh = 0.15,
+			FBI_spoocs = 0.08,
+			taser_vh = 0.08,
+			boom_taser_vh = 0.02,
+			GREEN_tanks_vh = 0.02,
+			BLACK_tanks_vh = 0.02
 		},
-		SKM_HRTs = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0.12, --...
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0.1,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 4
+			swats_ovk = 0.19,
+			heavys_ovk = 0.1,
+			hostage_rescue_ovk = 0.08,
+			bomb_squad_ovk = 0.1,
+			shotguns_ovk = 0.1,
+			shield_ovk = 0.15,
+			FBI_spoocs = 0.1,
+			taser_ovk = 0.1,
+			boom_taser_ovk = 0.02,
+			GREEN_tanks_ovk = 0.04,
+			BLACK_tanks_ovk = 0.02
 		},
-		SKM_BLACK_Tank = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0, --...
-			0.02,
-			0.02,
-			0.015,
-			0.015,
-			0.015,
-			0.015,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 5
+			swats_mh = 0.16,
+			heavys_mh = 0.1,
+			hostage_rescue_mh = 0.08,
+			bomb_squad_mh =	0.09,
+			shotguns_mh = 0.09,
+			shield_mh = 0.075,
+			shield_sniper_mh = 0.075,
+			FBI_spoocs = 0.1,
+			taser_mh = 0.07,
+			boom_taser_mh = 0.07,
+			GREEN_tanks_mh = 0.03,
+			BLACK_tanks_mh = 0.03,
+			SKULL_tanks_mh = 0.03
 		},
-		SKM_GREEN_Tank = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0, --...
-			0,
-			0.02,
-			0.015,
-			0.015,
-			0.015,
-			0.015,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 6
+			swats_dw = 0.15,
+			heavys_dw = 0.1,
+			hostage_rescue_dw = 0.08,
+			bomb_squad_dw = 0.09,
+			shotguns_dw = 0.09,
+			shield_dw = 0.05,
+			shield_sniper_dw = 0.1,
+			FBI_spoocs = 0.075,
+			cloak_spooc_dw = 0.025,
+			taser_dw = 0.03,
+			boom_taser_dw = 0.1,
+			GREEN_tanks_dw = 0.03,
+			BLACK_tanks_dw = 0.03,
+			SKULL_tanks_dw = 0.03,
+			Titan_tanks_dw = 0.02
 		},
-		SKM_single_spooc = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0, --...
-			0,
-			0.05,
-			0.05,
-			0.05,
-			0.05,
-			0.05,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
-		},		
-		SKM_Shields_Booms = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0, --...
-			0,
-			0,
-			0.04,
-			0.04,
-			0.04,
-			0.04,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 7
+			swats_ds = 0.15,
+			heavys_ds =	0.07,
+			hostage_rescue_ds = 0.05,
+			bomb_squad_ds = 0.09,
+			shotguns_ds = 0.08,
+			shield_ds = 0.05,
+			shield_sniper_ds = 0.1,
+			FBI_spoocs = 0.05,
+			cloak_spooc_ds = 0.05,
+			taser_ds = 0.03,
+			boom_taser_ds = 0.1,
+			hurtstage_zerg_rush_skm = 0.04,
+			GREEN_tanks_ds = 0.04,
+			BLACK_tanks_ds = 0.04,
+			SKULL_tanks_ds = 0.04,
+			Titan_tanks_ds = 0.02
 		},
-		SKM_SKULL_Tank = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0, --...
-			0,
-			0,
-			0.015,
-			0.015,
-			0.015,
-			0.015,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 8+
+			swats_skm = 0.15,
+			heavys_skm = 0.07,
+			hostage_rescue_skm = 0.05,
+			bomb_squad_skm = 0.09,
+			shotguns_skm = 0.08,
+			shield_skm = 0.05,
+			shield_sniper_skm = 0.1,
+			FBI_spoocs = 0.025,
+			cloak_spooc_ds = 0.075,
+			taser_skm = 0.03,
+			boom_taser_skm = 0.1,
+			hurtstage_zerg_rush_skm = 0.04,
+			GREEN_tanks_skm = 0.04,
+			BLACK_tanks_skm = 0.04,
+			SKULL_tanks_skm = 0.04,
+			Titan_tanks_skm = 0.02
 		},
-		SKM_TIT_Tank = {
-			0, --Unused
-			0, --Wave 1
-			0, --Wave 2
-			0, --...
-			0,
-			0,
-			0.005,
-			0.005,
-			0.005,
-			0.005,
-			0, --"Wave 10" (Inactive, needs map edits)
-			0  --Scales ever closer to over time post wave 10.
+		{ --Wave 9
+			--Filled in when captain is selected.
 		}
 	}
 
@@ -403,87 +349,105 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 	local wave_9_captain = math.random()
 
 	if wave_9_captain < 0.24 then --autumn
-		self.captain = "SKM_Cap_Autumn_W9"
-		assault_groups.SKM_Light_Swat[10] = 0.35
-		assault_groups.SKM_Heavy_Swat[10] = 0.25
-		assault_groups.SKM_Shields[10] = 0.14
-		assault_groups.SKM_Shields_Booms[10] = 0.01
-		assault_groups.SKM_Tazers[10] = 0.09
-		assault_groups.SKM_Booms[10] = 0.01
-		assault_groups.SKM_HRTs[10] = 0.1
-		assault_groups.SKM_BLACK_Tank[10] = 0.015
-		assault_groups.SKM_GREEN_Tank[10] = 0.015
-		assault_groups.SKM_SKULL_Tank[10] = 0.015
-		assault_groups.SKM_TIT_Tank[10] = 0.005
-		assault_groups.SKM_single_spooc[10] = 0.0
+		self.captain = "Cap_Autumn"
+		assault_groups[9] = {
+			swats_skm = 0.16,
+			heavys_skm = 0.08,
+			hostage_rescue_skm = 0.1,
+			bomb_squad_skm = 0.1,
+			shotguns_skm = 0.1,
+			shield_skm = 0.05,
+			shield_sniper_skm = 0.1,
+			taser_skm = 0.03,
+			boom_taser_skm = 0.1,
+			hurtstage_zerg_rush_skm = 0.04,
+			GREEN_tanks_skm = 0.04,
+			BLACK_tanks_skm = 0.04,
+			SKULL_tanks_skm = 0.04,
+			Titan_tanks_skm = 0.02
+		}
 	elseif wave_9_captain < 0.48 then --summers
-		self.captain = "SKM_Cap_Summers_W9"
-		assault_groups.SKM_Light_Swat[10] = 0.37
-		assault_groups.SKM_Heavy_Swat[10] = 0.31
-		assault_groups.SKM_Shields[10] = 0.05
-		assault_groups.SKM_Shields_Booms[10] = 0.02
-		assault_groups.SKM_Tazers[10] = 0.03
-		assault_groups.SKM_Booms[10] = 0.02
-		assault_groups.SKM_HRTs[10] = 0.15
-		assault_groups.SKM_BLACK_Tank[10] = 0.0075
-		assault_groups.SKM_GREEN_Tank[10] = 0.0075
-		assault_groups.SKM_SKULL_Tank[10] = 0.0075
-		assault_groups.SKM_TIT_Tank[10] = 0.0025
-		assault_groups.SKM_single_spooc[10] = 0.025
+		self.captain = "Cap_Summers"
+		assault_groups[9] = {
+			swats_skm = 0.16,
+			heavys_skm = 0.08,
+			hostage_rescue_skm = 0.1,
+			bomb_squad_skm = 0.1,
+			shotguns_skm = 0.1,
+			shield_skm = 0.06,
+			shield_sniper_skm = 0.11,
+			FBI_spoocs = 0.025,
+			cloak_spooc_ds = 0.075,
+			hurtstage_zerg_rush_skm = 0.04,
+			GREEN_tanks_skm = 0.04,
+			BLACK_tanks_skm = 0.04,
+			SKULL_tanks_skm = 0.04,
+			Titan_tanks_skm = 0.02
+		}
 	elseif wave_9_captain < 0.72 then --winters
-		self.captain = "SKM_Cap_Winters_W9"
-		assault_groups.SKM_Light_Swat[10] = 0.35
-		assault_groups.SKM_Heavy_Swat[10] = 0.25
-		assault_groups.SKM_Shields[10] = 0.0
-		assault_groups.SKM_Shields_Booms[10] = 0.0
-		assault_groups.SKM_Tazers[10] = 0.06
-		assault_groups.SKM_Booms[10] = 0.04
-		assault_groups.SKM_HRTs[10] = 0.2
-		assault_groups.SKM_BLACK_Tank[10] = 0.015
-		assault_groups.SKM_GREEN_Tank[10] = 0.015
-		assault_groups.SKM_SKULL_Tank[10] = 0.015
-		assault_groups.SKM_TIT_Tank[10] = 0.005
-		assault_groups.SKM_single_spooc[10] = 0.05
+		self.captain = "Cap_Winters"
+		assault_groups[9] = {
+			swats_skm = 0.16,
+			heavys_skm = 0.08,
+			hostage_rescue_skm = 0.1,
+			bomb_squad_skm = 0.1,
+			shotguns_skm = 0.1,
+			FBI_spoocs = 0.025,
+			cloak_spooc_ds = 0.075,
+			taser_skm = 0.04,
+			boom_taser_skm = 0.11,
+			hurtstage_zerg_rush_skm = 0.04,
+			GREEN_tanks_skm = 0.05,
+			BLACK_tanks_skm = 0.05,
+			SKULL_tanks_skm = 0.05,
+			Titan_tanks_skm = 0.02
+		}
 	elseif wave_9_captain < 0.96 then --spring
-		self.captain = "SKM_Cap_Spring_W9"
-		assault_groups.SKM_Light_Swat[10] = 0.35
-		assault_groups.SKM_Heavy_Swat[10] = 0.25
-		assault_groups.SKM_Shields[10] = 0.06
-		assault_groups.SKM_Shields_Booms[10] = 0.04
-		assault_groups.SKM_Tazers[10] = 0.06
-		assault_groups.SKM_Booms[10] = 0.04
-		assault_groups.SKM_HRTs[10] = 0.15
-		assault_groups.SKM_BLACK_Tank[10] = 0.0
-		assault_groups.SKM_GREEN_Tank[10] = 0.0
-		assault_groups.SKM_SKULL_Tank[10] = 0.0
-		assault_groups.SKM_TIT_Tank[10] = 0.0
-		assault_groups.SKM_single_spooc[10] = 0.05
+		self.captain = "Cap_Spring"
+		assault_groups[9] = {
+			swats_skm = 0.16,
+			heavys_skm = 0.08,
+			hostage_rescue_skm = 0.1,
+			bomb_squad_skm = 0.1,
+			shotguns_skm = 0.1,
+			shield_skm = 0.06,
+			shield_sniper_skm = 0.11,
+			FBI_spoocs = 0.025,
+			cloak_spooc_ds = 0.075,
+			taser_skm = 0.04,
+			boom_taser_skm = 0.11,
+			hurtstage_zerg_rush_skm = 0.04
+		}
 	else --Spooky halloween boss.
-		self.captain = "SKM_HVH_Boss_W9"
-		assault_groups.SKM_Light_Swat[10] = 0.325
-		assault_groups.SKM_Heavy_Swat[10] = 0.3
-		assault_groups.SKM_Shields[10] = 0.06
-		assault_groups.SKM_Shields_Booms[10] = 0.04
-		assault_groups.SKM_Tazers[10] = 0.06
-		assault_groups.SKM_Booms[10] = 0.04
-		assault_groups.SKM_HRTs[10] = 0.15
-		assault_groups.SKM_BLACK_Tank[10] = 0.0
-		assault_groups.SKM_GREEN_Tank[10] = 0.0
-		assault_groups.SKM_SKULL_Tank[10] = 0.0
-		assault_groups.SKM_TIT_Tank[10] = 0.0
-		assault_groups.SKM_single_spooc[10] = 0.025
+		self.captain = "HVH_Boss"
+		assault_groups[9] = {
+			swats_skm = 0.16,
+			heavys_skm = 0.08,
+			hostage_rescue_skm = 0.1,
+			bomb_squad_skm = 0.1,
+			shotguns_skm = 0.1,
+			shield_skm = 0.06,
+			shield_sniper_skm = 0.11,
+			FBI_spoocs = 0.0125,
+			cloak_spooc_ds = 0.0375,
+			taser_skm = 0.04,
+			boom_taser_skm = 0.11,
+			hurtstage_zerg_rush_skm = 0.04,
+			GREEN_tanks_skm = 0.02,
+			BLACK_tanks_skm = 0.02,
+			SKULL_tanks_skm = 0.02,
+			Titan_tanks_skm = 0.01
+		}
 	end
 
 
-	--Split assault group tweakdata into seperate groups for each wave.
-	local real_assault_groups = {}
-	for k, v in pairs(assault_groups) do
-		for i = 0, 11, 1 do
-			local group_name = k .. "_W" .. tostring(i)
-			local chance_table = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-			chance_table[i+1] = assault_groups[k][i+1]
-			--log(group_name .. " = " .. tostring(assault_groups[k][i+1]))
-			real_assault_groups[group_name] = chance_table
+	--Generate assault.groups for each wave.
+	self.spawn_group_waves = {{}, {}, {}, {}, {}, {}, {}, {}, {}}
+	local i = 0
+	for i = 1, #assault_groups do
+		local wave_groups = assault_groups[i]
+		for group, chance in pairs(wave_groups) do
+			self.spawn_group_waves[i][group] = {chance, chance, chance, chance, chance, chance, chance, chance, chance, chance, chance, chance}
 		end
 	end
 
@@ -495,34 +459,29 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 		nil
 	}	
 	
-	tweak_data.group_ai.skirmish.assault.groups = real_assault_groups
+	tweak_data.group_ai.skirmish.assault.groups = self.spawn_group_waves[1]
 	tweak_data.group_ai.skirmish.reenforce.groups = reenforce_groups
 	tweak_data.group_ai.skirmish.recon.groups = recon_groups
-	tweak_data.group_ai.skirmish.group_min_diff = {}
 end
 
 function SkirmishTweakData:_init_wave_modifiers()
 	self.wave_modifiers = {}
 	local health_damage_multipliers = {
 		{
-			damage = 0.75,
+			damage = 0.3,
 			health = 0.5
 		},
 		{
-			damage = 0.8,
-			health = 0.6
+			damage = 0.5,
+			health = 0.625
 		},
 		{
-			damage = 0.85,
-			health = 0.7
+			damage = 0.7,
+			health = 0.75
 		},
 		{
 			damage = 0.9,
-			health = 0.8
-		},
-		{
-			damage = 0.95,
-			health = 0.9
+			health = 0.875
 		},
 		{
 			damage = 1.0,

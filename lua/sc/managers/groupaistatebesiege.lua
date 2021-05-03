@@ -666,6 +666,7 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 	local currenttime = self._t
 	local sustain = self._task_data.assault and self._task_data.assault.phase == "sustain"
 	local constraints_tweak = self._tweak_data.group_constraints
+	local is_skirmish = managers.skirmish:is_skirmish()
 
 	--Check each spawn group and see if it meets filter.
 	for group_type, cat_weights in pairs(allowed_groups) do
@@ -681,10 +682,12 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 				valid = nil
 			end
 
-			local min_diff = constraints.min_diff
-			local max_diff = constraints.max_diff
-			if (min_diff and self._difficulty_value <= min_diff) or (max_diff and self._difficulty_value >= max_diff) then
-				valid = nil
+			if not is_skirmish then
+				local min_diff = constraints.min_diff
+				local max_diff = constraints.max_diff
+				if (min_diff and self._difficulty_value <= min_diff) or (max_diff and self._difficulty_value >= max_diff) then
+					valid = nil
+				end
 			end
 
 			local sustain_only = constraints.sustain_only
