@@ -311,14 +311,15 @@ function PlayerDamage:damage_melee(attack_data)
 
 	--These are done after god mode checks now, just to save time.
 	--Also done before DR calcs, so that DR going away never causes grace piercing.
+	local old_last_received_dmg = self._last_received_dmg
 	self._last_received_dmg = attack_data.damage
-	self._next_allowed_dmg_t = Application:digest_value(pm:player_timer():time() + self._dmg_interval, true)
-
-	self._last_bullet_damage = attack_data.damage
+	local t = pm:player_timer():time()
 	local next_allowed_dmg_t_old = self._next_allowed_dmg_t
-	
-	if self._next_allowed_dmg_t ~= next_allowed_dmg_t_old then
-		self._last_received_dmg = self._last_bullet_damage
+	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
+
+	--Now, only subtract difference in damage that players would have taken.
+	if type(next_allowed_dmg_t_old) == "number" and next_allowed_dmg_t_old > t then
+		attack_data.damage = attack_data.damage - old_last_received_dmg
 	end
 
 	if attack_data.damage > 0 then
@@ -329,7 +330,6 @@ function PlayerDamage:damage_melee(attack_data)
 			attack_data.damage = math.max(0.1, attack_data.damage - damage_absorption)
 		end
 	end
-
 	
 	--Can't dodge melee.
 
@@ -371,6 +371,7 @@ function PlayerDamage:damage_melee(attack_data)
 	
 	if 0 >= self:get_real_armor() then
 		armor_reduction_multiplier = 1
+		self._last_received_dmg = math.huge --Armor broken creates an unpiercable grace period.
 	end
 	
 	local health_subtracted = self:_calc_armor_damage(attack_data)
@@ -481,7 +482,6 @@ function PlayerDamage:damage_explosion(attack_data)
 		end
 	end
 
-
 	if attack_data.attacker_unit and alive(attack_data.attacker_unit) then
 		self:_hit_direction(attack_data.attacker_unit:position())
 	end
@@ -584,10 +584,19 @@ function PlayerDamage:damage_fire(attack_data)
 		self:_hit_direction(attack_data.attacker_unit:position())
 	end
 
+	--These are done after god mode checks now, just to save time.
+	--Also done before DR calcs, so that DR going away never causes grace piercing.
 	local pm = managers.player
-
+	local old_last_received_dmg = self._last_received_dmg
 	self._last_received_dmg = attack_data.damage
-	self._next_allowed_dmg_t = Application:digest_value(pm:player_timer():time() + self._dmg_interval, true)
+	local t = pm:player_timer():time()
+	local next_allowed_dmg_t_old = self._next_allowed_dmg_t
+	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
+
+	--Now, only subtract difference in damage that players would have taken.
+	if type(next_allowed_dmg_t_old) == "number" and next_allowed_dmg_t_old > t then
+		attack_data.damage = attack_data.damage - old_last_received_dmg
+	end
 
 	if attack_data.damage > 0 then
 		attack_data.damage = attack_data.damage * pm:damage_reduction_skill_multiplier("fire")
@@ -622,6 +631,7 @@ function PlayerDamage:damage_fire(attack_data)
 
 	if self:get_real_armor() <= 0 then
 		armor_reduction_multiplier = 1
+		self._last_received_dmg = math.huge
 	end
 
 	local health_subtracted = self:_calc_armor_damage(attack_data)
@@ -660,14 +670,15 @@ function PlayerDamage:damage_bullet(attack_data, ...)
 	--These are done after god mode checks now, just to save time.
 	--Also done before DR calcs, so that DR going away never causes grace piercing.
 	local pm = managers.player
+	local old_last_received_dmg = self._last_received_dmg
 	self._last_received_dmg = attack_data.damage
-	self._next_allowed_dmg_t = Application:digest_value(pm:player_timer():time() + self._dmg_interval, true)
-
-	self._last_bullet_damage = attack_data.damage
+	local t = pm:player_timer():time()
 	local next_allowed_dmg_t_old = self._next_allowed_dmg_t
-	
-	if self._next_allowed_dmg_t ~= next_allowed_dmg_t_old then
-		self._last_received_dmg = self._last_bullet_damage
+	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
+
+	--Now, only subtract difference in damage that players would have taken.
+	if type(next_allowed_dmg_t_old) == "number" and next_allowed_dmg_t_old > t then
+		attack_data.damage = attack_data.damage - old_last_received_dmg
 	end
 
 	if attack_data.damage > 0 then
@@ -692,7 +703,7 @@ function PlayerDamage:damage_bullet(attack_data, ...)
 		self:_call_listeners(damage_info)
 		self:play_whizby(attack_data.col_ray.position)
 		self:_hit_direction(attack_data.attacker_unit:position())
-		self._last_received_dmg = 10000.0 --Makes the grace period from dodging effectively impossible to pierce.
+		self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
 		managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
 		return	
 	end
@@ -736,6 +747,7 @@ function PlayerDamage:damage_bullet(attack_data, ...)
 	
 	if 0 >= self:get_real_armor() then
 		armor_reduction_multiplier = 1
+		self._last_received_dmg = math.huge --Armor breaking gives an unpiercable grace period.
 	end
 	
 	local health_subtracted = self:_calc_armor_damage(attack_data)
@@ -1109,7 +1121,7 @@ function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 	if self:get_real_health() == 0 and trigger_skills then
 		self:_chk_cheat_death()
 	end
-	
+	log(self:get_real_health())
 	self:_damage_screen()
 	self:_check_bleed_out(trigger_skills)
 	managers.hud:set_player_health({

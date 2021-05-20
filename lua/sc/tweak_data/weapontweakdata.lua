@@ -428,31 +428,28 @@ function WeaponTweakData:_init_data_npc_melee()
 	--Police Baton
 	self.npc_melee.baton = {}
 	self.npc_melee.baton.unit_name = Idstring("units/payday2/characters/ene_acc_baton/ene_acc_baton")
-	self.npc_melee.baton.damage = 3
+	self.npc_melee.baton.damage = 6
 	self.npc_melee.baton.animation_param = "melee_baton"
 	self.npc_melee.baton.player_blood_effect = true
-	self.npc_melee.baton.armor_piercing = true
 	
 	--KABAR knife
 	self.npc_melee.knife_1 = {}
 	self.npc_melee.knife_1.unit_name = Idstring("units/payday2/characters/ene_acc_knife_1/ene_acc_knife_1")
-	self.npc_melee.knife_1.damage = 3
+	self.npc_melee.knife_1.damage = 6
 	self.npc_melee.knife_1.animation_param = "melee_knife"
 	self.npc_melee.knife_1.player_blood_effect = true
-	self.npc_melee.knife_1.armor_piercing = true
 
 	--Fists
 	self.npc_melee.fists = {}
 	self.npc_melee.fists.unit_name = nil
-	self.npc_melee.fists.damage = 3
+	self.npc_melee.fists.damage = 6
 	self.npc_melee.fists.animation_param = "melee_fist"
 	self.npc_melee.fists.player_blood_effect = true
-	self.npc_melee.fists.armor_piercing = true
 	
 	--Dozer Fists
 	self.npc_melee.fists_dozer = {}
 	self.npc_melee.fists_dozer.unit_name = nil
-	self.npc_melee.fists_dozer.damage = 3
+	self.npc_melee.fists_dozer.damage = 12
 	self.npc_melee.fists_dozer.animation_param = "melee_fist"
 	self.npc_melee.fists_dozer.player_blood_effect = true
 	self.npc_melee.fists_dozer.armor_piercing = true
@@ -460,7 +457,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	--Halloween Dozer Hammer
 	self.npc_melee.helloween = {}
 	self.npc_melee.helloween.unit_name = Idstring("units/pd2_halloween/weapons/wpn_mel_titan_hammer/wpn_mel_titan_hammer")
-	self.npc_melee.helloween.damage = 3
+	self.npc_melee.helloween.damage = 12
 	self.npc_melee.helloween.animation_param = "melee_fireaxe"
 	self.npc_melee.helloween.player_blood_effect = true
 	self.npc_melee.helloween.armor_piercing = true
@@ -468,7 +465,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	--Halloween Dozer Sword
 	self.npc_melee.helloween_sword = {}
 	self.npc_melee.helloween_sword.unit_name = Idstring("units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword")
-	self.npc_melee.helloween_sword.damage = 5
+	self.npc_melee.helloween_sword.damage = 12
 	self.npc_melee.helloween_sword.animation_param = "melee_fireaxe"
 	self.npc_melee.helloween_sword.player_blood_effect = true
 	self.npc_melee.helloween_sword.armor_piercing = true
@@ -476,7 +473,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	--Halloween Dozer Axe
 	self.npc_melee.helloween_axe = {}
 	self.npc_melee.helloween_axe.unit_name = Idstring("units/pd2_mod_halloween/weapons/wpn_mel_hw_axe/wpn_mel_hw_axe")
-	self.npc_melee.helloween_axe.damage = 5
+	self.npc_melee.helloween_axe.damage = 12
 	self.npc_melee.helloween_axe.animation_param = "melee_fireaxe"
 	self.npc_melee.helloween_axe.player_blood_effect = true
 	self.npc_melee.helloween_axe.armor_piercing = true	
@@ -484,27 +481,9 @@ function WeaponTweakData:_init_data_npc_melee()
 	--Summers' Buzzer
 	self.npc_melee.buzzer_summer = {}
 	self.npc_melee.buzzer_summer.unit_name = Idstring("units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1")
-	self.npc_melee.buzzer_summer.damage = 0
+	self.npc_melee.buzzer_summer.damage = 6
 	self.npc_melee.buzzer_summer.animation_param = "melee_freedom"
 	self.npc_melee.buzzer_summer.player_blood_effect = true
-	self.npc_melee.buzzer_summer.armor_piercing = true
-	
-	--Zombie Claws (unused)
-	self.npc_melee.claws = {}
-	self.npc_melee.claws.unit_name = nil
-	self.npc_melee.claws.damage = 3
-	self.npc_melee.claws.animation_param = "melee_fist"
-	self.npc_melee.claws.player_blood_effect = true
-	self.npc_melee.claws.armor_piercing = true	
-	
-	--Zombie Bite (unused)
-	self.npc_melee.bite = {}
-	self.npc_melee.bite.unit_name = nil
-	self.npc_melee.bite.damage = 22 * 10
-	self.npc_melee.bite.animation_param = "melee_fist"
-	self.npc_melee.bite.player_blood_effect = true
-	self.npc_melee.bite.armor_piercing = true	
-	self.npc_melee.bite.lethal = true
 end
 
 function WeaponTweakData:_set_npc_weapon_damage_multiplier(mul)
@@ -517,7 +496,7 @@ function WeaponTweakData:_init_data_c45_npc()
 	self.c45_npc.categories = {"pistol"}
 	self.c45_npc.sounds.prefix = "g17_npc"
 	self.c45_npc.use_data.selection_index = 1
-	self.c45_npc.DAMAGE = 2
+	self.c45_npc.DAMAGE = 4
 	self.c45_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.c45_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.c45_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
@@ -532,11 +511,11 @@ function WeaponTweakData:_init_data_c45_npc()
 	self.colt_1911_primary_npc.use_data.selection_index = 2
 	self.colt_1911_primary_npc.CLIP_AMMO_MAX = 8
 	self.colt_1911_primary_npc.sounds.prefix = "c45_fire"
-	self.colt_1911_primary_npc.DAMAGE = 4.5	
+	self.colt_1911_primary_npc.damage = 8
+	self.colt_1911_primary_npc.fire_rate_multiplier = 0.5
 
 	self.beretta92_titan_npc = deep_clone(self.c45_npc)
 	self.beretta92_titan_npc.sounds.prefix = "beer_npc"
-	self.beretta92_titan_npc.DAMAGE = 2
 	self.beretta92_titan_npc.CLIP_AMMO_MAX = 14
 	self.beretta92_titan_npc.alert_size = 0
 	self.beretta92_titan_npc.suppression = 0.1
@@ -552,7 +531,7 @@ function WeaponTweakData:_init_data_x_c45_npc()
 	}	
 	self.x_c45_npc.sounds.prefix = "g17_npc"
 	self.x_c45_npc.use_data.selection_index = 1
-	self.x_c45_npc.DAMAGE = 2
+	self.x_c45_npc.DAMAGE = 4
 	self.x_c45_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.x_c45_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.x_c45_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
@@ -562,6 +541,7 @@ function WeaponTweakData:_init_data_x_c45_npc()
 	self.x_c45_npc.alert_size = 2500
 	self.x_c45_npc.suppression = 2.4
 	self.x_c45_npc.FIRE_MODE = "single"
+	self.x_c45_npc.usage = "is_akimbo_pistol"
 end
 
 function WeaponTweakData:_init_data_beretta92_npc()
@@ -581,18 +561,19 @@ function WeaponTweakData:_init_data_beretta92_npc()
 	self.beretta92_npc.has_suppressor = "suppressed_a"
 	self.beretta92_primary_npc = deep_clone(self.beretta92_npc)
 	self.beretta92_primary_npc.use_data.selection_index = 2
-	
-	self.socom_npc = deep_clone(self.beretta92_npc) --needs actual stats pls--
-	self.socom_npc.usage = "is_revolver"
+
+	self.socom_npc = deep_clone(self.beretta92_npc)
 	self.socom_npc.sounds.prefix = "usp45_npc"
-	self.socom_npc.has_suppressor = "suppressed_a"	
+	self.socom_npc.has_suppressor = "suppressed_a"
+	self.socom_npc.alert_size = 0
+	self.socom_npc.suppression = 0.1
 end
 
 function WeaponTweakData:_init_data_raging_bull_npc()
 	self.raging_bull_npc.categories = clone(self.new_raging_bull.categories)
 	self.raging_bull_npc.sounds.prefix = "rbull_npc"
 	self.raging_bull_npc.use_data.selection_index = 1
-	self.raging_bull_npc.DAMAGE = 6
+	self.raging_bull_npc.DAMAGE = 10.5
 	self.raging_bull_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.raging_bull_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.raging_bull_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_empty"
@@ -611,11 +592,13 @@ function WeaponTweakData:_init_data_raging_bull_npc()
 	self.m1911_npc.hold = "pistol"
 	self.m1911_npc.reload = "pistol"		
 	self.m1911_npc.alert_size = 2500
-	self.m1911_npc.suppression = 3		
-	self.m1911_npc.DAMAGE = 4.5		
+	self.m1911_npc.suppression = 3
+	self.m1911_npc.DAMAGE = 8
+	self.m1911_npc.fire_rate_multiplier = 0.5
+	self.m1911_npc.usage = "is_pistol"
 	
 	self.white_streak_npc = deep_clone(self.m1911_npc)
-	self.white_streak_npc.sounds.prefix = "pl14_npc"	
+	self.white_streak_npc.sounds.prefix = "pl14_npc"
 	
 	self.deagle_npc = deep_clone(self.raging_bull_npc)
 	self.deagle_npc.CLIP_AMMO_MAX = 8
@@ -623,6 +606,7 @@ function WeaponTweakData:_init_data_raging_bull_npc()
 	self.deagle_npc.hold = "pistol"
 	self.deagle_npc.reload = "pistol"	
 	self.deagle_npc.sounds.prefix = "deagle_npc"
+	self.m1911_npc.DAMAGE = 8
 	
 	self.peacemaker_npc = deep_clone(self.raging_bull_npc)
 	self.peacemaker_npc.sounds.prefix = "peacemaker_npc"
@@ -644,7 +628,7 @@ function WeaponTweakData:_init_data_m4_npc()
 	self.m4_npc.categories = clone(self.new_m4.categories)
 	self.m4_npc.sounds.prefix = "m4_npc"
 	self.m4_npc.use_data.selection_index = 2
-	self.m4_npc.DAMAGE = 2.4
+	self.m4_npc.DAMAGE = 5.5
 	self.m4_npc.muzzleflash = "effects/payday2/particles/weapons/556_auto"
 	self.m4_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.m4_npc.CLIP_AMMO_MAX = 30
@@ -671,14 +655,6 @@ function WeaponTweakData:_init_data_m4_npc()
 	self.sg417_npc = deep_clone(self.m4_npc)
 	self.sg417_npc.sounds.prefix = "contraband_npc"
 	
-	--[[
-	self.sg417_npc.auto.fire_rate = 0.1
-	self.sg417_npc.CLIP_AMMO_MAX = 20
-	self.sg417_npc.DAMAGE = 4.5
-	self.sg417_npc.alert_size = 3000
-	self.sg417_npc.suppression = 3
-	]]--
-	
 	--Zeal S553
 	self.s553_zeal_npc = deep_clone(self.m4_npc)
 	self.s553_zeal_npc.sounds.prefix = "sig552_npc"		
@@ -693,11 +669,9 @@ function WeaponTweakData:_init_data_m4_npc()
 	--AMCAR
 	self.amcar_npc = deep_clone(self.m4_npc)
 	self.amcar_npc.sounds.prefix = "amcar_npc"
-	self.amcar_npc.DAMAGE = 2
-	self.amcar_npc.CLIP_AMMO_MAX = 30
+	self.amcar_npc.DAMAGE = 5.5
+	self.amcar_npc.CLIP_AMMO_MAX = 20
 	self.amcar_npc.auto.fire_rate = 0.075
-	self.amcar_npc.alert_size = 2500
-	self.amcar_npc.suppression = 2.4
 	
 	--AK102
 	self.ak102_npc = deep_clone(self.amcar_npc)
@@ -708,7 +682,7 @@ function WeaponTweakData:_init_data_m4_yellow_npc()
 	self.m4_yellow_npc.categories = clone(self.new_m4.categories)
 	self.m4_yellow_npc.sounds.prefix = "m4_npc"
 	self.m4_yellow_npc.use_data.selection_index = 2
-	self.m4_yellow_npc.DAMAGE = 2.4
+	self.m4_yellow_npc.DAMAGE = 5.5
 	self.m4_yellow_npc.muzzleflash = "effects/payday2/particles/weapons/556_auto"
 	self.m4_yellow_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.m4_yellow_npc.CLIP_AMMO_MAX = 30
@@ -718,6 +692,7 @@ function WeaponTweakData:_init_data_m4_yellow_npc()
 	self.m4_yellow_npc.alert_size = 2500
 	self.m4_yellow_npc.suppression = 2.6
 	self.m4_yellow_npc.FIRE_MODE = "auto"
+	self.m4_yellow_npc.usage = "is_rifle"
 end
 
 function WeaponTweakData:_init_data_ak47_npc()
@@ -725,7 +700,7 @@ function WeaponTweakData:_init_data_ak47_npc()
 	self.ak47_npc.categories = {"assault_rifle"}
 	self.ak47_npc.sounds.prefix = "akm_npc"
 	self.ak47_npc.use_data.selection_index = 2
-	self.ak47_npc.DAMAGE = 3
+	self.ak47_npc.DAMAGE = 5.5
 	self.ak47_npc.muzzleflash = "effects/payday2/particles/weapons/762_auto"
 	self.ak47_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.ak47_npc.CLIP_AMMO_MAX = 30
@@ -735,6 +710,7 @@ function WeaponTweakData:_init_data_ak47_npc()
 	self.ak47_npc.alert_size = 2500
 	self.ak47_npc.suppression = 2.8
 	self.ak47_npc.FIRE_MODE = "auto"
+	self.ak47_npc.usage = "is_rifle"
 end
 
 function WeaponTweakData:_init_data_m14_sniper_npc()
@@ -742,7 +718,7 @@ function WeaponTweakData:_init_data_m14_sniper_npc()
 	self.m14_sniper_npc.categories = {"snp"}
 	self.m14_sniper_npc.sounds.prefix = "sniper_npc"
 	self.m14_sniper_npc.use_data.selection_index = 2
-	self.m14_sniper_npc.DAMAGE = 11.25
+	self.m14_sniper_npc.DAMAGE = 21.5
 	self.m14_sniper_npc.can_shoot_through_enemy = true
 	self.m14_sniper_npc.can_shoot_through_shield = true
 	self.m14_sniper_npc.can_shoot_through_wall = true
@@ -762,17 +738,18 @@ function WeaponTweakData:_init_data_m14_sniper_npc()
 	--Gangster variant
 	self.svdsil_snp_npc = deep_clone(self.m14_sniper_npc)
 	self.svdsil_snp_npc.has_suppressor = "suppressed_a"
-	
+	self.m14_sniper_npc.alert_size = 0
+	self.m14_sniper_npc.suppression = 0.1
+
 	--Zeal Sniper variant (unused)
 	self.heavy_snp_npc = deep_clone(self.m14_sniper_npc)
-	self.heavy_snp_npc.sounds.prefix = "zsniper_npc"
 end
 
 function WeaponTweakData:_init_data_r870_npc()
 	self.r870_npc.categories = clone(self.r870.categories)
 	self.r870_npc.sounds.prefix = "remington_npc"
 	self.r870_npc.use_data.selection_index = 2
-	self.r870_npc.DAMAGE = 6
+	self.r870_npc.DAMAGE = 14
 	self.r870_npc.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 	self.r870_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_slug_semi"
 	self.r870_npc.CLIP_AMMO_MAX = 8
@@ -787,21 +764,21 @@ function WeaponTweakData:_init_data_r870_npc()
 	
 	self.benelli_npc = deep_clone(self.r870_npc)
 	self.benelli_npc.sounds.prefix = "benelli_m4_npc"
-	self.benelli_npc.DAMAGE = 4.5
+	self.benelli_npc.DAMAGE = 11
 	self.benelli_npc.CLIP_AMMO_MAX = 10
 	self.benelli_npc.alert_size = 2500
 	self.benelli_npc.suppression = 3	
 	
 	self.bayou_npc = deep_clone(self.r870_npc)
 	self.bayou_npc.sounds.prefix = "spas_npc"
-	self.bayou_npc.DAMAGE = 4.5
+	self.bayou_npc.DAMAGE = 11
 	self.bayou_npc.CLIP_AMMO_MAX = 10
 	self.bayou_npc.alert_size = 2500
 	self.bayou_npc.suppression = 3		
 	
 	self.r870_taser_npc = deep_clone(self.r870_npc)
 	self.r870_taser_npc.sounds.prefix = "keltec_npc"
-	self.r870_taser_npc.DAMAGE = 5
+	self.r870_taser_npc.DAMAGE = 11
 	self.r870_taser_npc.CLIP_AMMO_MAX = 8
 end
 
@@ -809,7 +786,7 @@ function WeaponTweakData:_init_data_mossberg_npc()
 	self.mossberg_npc.categories = {"shotgun"}
 	self.mossberg_npc.sounds.prefix = "remington_npc"
 	self.mossberg_npc.use_data.selection_index = 2
-	self.mossberg_npc.DAMAGE = 9
+	self.mossberg_npc.DAMAGE = 11
 	self.mossberg_npc.muzzleflash = "effects/particles/shotgun/muzzleflash"
 	self.mossberg_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_slug_semi"
 	self.mossberg_npc.CLIP_AMMO_MAX = 2
@@ -821,13 +798,14 @@ function WeaponTweakData:_init_data_mossberg_npc()
 	self.mossberg_npc.rays = 6
 	self.mossberg_npc.spread = 3
 	self.mossberg_npc.FIRE_MODE = "single"
+	self.mossberg_npc.usage = "is_shotgun_pump"
 end
 
 function WeaponTweakData:_init_data_mp5_npc()
 	self.mp5_npc.categories = clone(self.new_mp5.categories)
 	self.mp5_npc.sounds.prefix = "mp5_npc"
 	self.mp5_npc.use_data.selection_index = 1
-	self.mp5_npc.DAMAGE = 2
+	self.mp5_npc.DAMAGE = 6
 	self.mp5_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.mp5_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.mp5_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
@@ -850,7 +828,7 @@ function WeaponTweakData:_init_data_mp5_npc()
 	
 	--UMP
 	self.ump_npc = deep_clone(self.mp5_npc)
-	self.ump_npc.DAMAGE = 3
+	self.ump_npc.DAMAGE = 6
 	self.ump_npc.auto.fire_rate = 0.083
 	self.ump_npc.sounds.prefix = "schakal_npc"
 	self.ump_npc.CLIP_AMMO_MAX = 25
@@ -865,7 +843,7 @@ function WeaponTweakData:_init_data_mp5_npc()
 	
 	--Krinkov
 	self.asval_smg_npc = deep_clone(self.mp5_npc)		
-	self.asval_smg_npc.DAMAGE = 3
+	self.asval_smg_npc.DAMAGE = 6
 	self.asval_smg_npc.auto.fire_rate = 0.083
 	self.asval_smg_npc.CLIP_AMMO_MAX = 25
 	self.asval_smg_npc.suppression = 2.8		
@@ -879,12 +857,12 @@ function WeaponTweakData:_init_data_mp5_npc()
 	--Autumn MPX
 	self.mpx_npc = deep_clone(self.mp5_tactical_npc)
 	self.mpx_npc.auto.fire_rate = 0.07058823529
-	self.mpx_npc.DAMAGE = 3.5
+	self.mpx_npc.DAMAGE = 6
 	
 	--Titan HRT MP9
 	self.mp9_titan_npc = deep_clone(self.mp5_npc)
 	self.mp9_titan_npc.sounds.prefix = "mp9_npc"
-	self.mp9_titan_npc.DAMAGE = 1.8
+	self.mp9_titan_npc.DAMAGE = 6
 	self.mp9_titan_npc.CLIP_AMMO_MAX = 20
 	self.mp9_titan_npc.auto.fire_rate = 0.06666666666
 	self.mp9_titan_npc.hold = "pistol"
@@ -901,7 +879,7 @@ function WeaponTweakData:_init_data_smoke_npc()
 	self.smoke_npc.categories = clone(self.new_mp5.categories)
 	self.smoke_npc.sounds.prefix = "mp5_npc"
 	self.smoke_npc.use_data.selection_index = 1
-	self.smoke_npc.DAMAGE = 2
+	self.smoke_npc.DAMAGE = 6
 	self.smoke_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.smoke_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.smoke_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
@@ -918,7 +896,7 @@ function WeaponTweakData:_init_data_mac11_npc()
 	self.mac11_npc.categories = {"smg"}
 	self.mac11_npc.sounds.prefix = "mac10_npc"
 	self.mac11_npc.use_data.selection_index = 1
-	self.mac11_npc.DAMAGE = 3
+	self.mac11_npc.DAMAGE = 6
 	self.mac11_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.mac11_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.mac11_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
@@ -929,6 +907,7 @@ function WeaponTweakData:_init_data_mac11_npc()
 	self.mac11_npc.hold = {"uzi", "pistol"}
 	self.mac11_npc.suppression = 2.8
 	self.mac11_npc.FIRE_MODE = "auto"
+	self.mac11_npc.usage = "is_smg"
 end
 
 function WeaponTweakData:_init_data_g36_npc()
@@ -936,7 +915,7 @@ function WeaponTweakData:_init_data_g36_npc()
 	self.g36_npc.categories = clone(self.g36.categories)
 	self.g36_npc.sounds.prefix = "g36_npc"
 	self.g36_npc.use_data.selection_index = 2
-	self.g36_npc.DAMAGE = 2.4
+	self.g36_npc.DAMAGE = 5.5
 	self.g36_npc.muzzleflash = "effects/payday2/particles/weapons/556_auto"
 	self.g36_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.g36_npc.CLIP_AMMO_MAX = 30
@@ -953,7 +932,7 @@ function WeaponTweakData:_init_data_mp9_npc()
 	self.mp9_npc.categories = clone(self.mp9.categories)
 	self.mp9_npc.sounds.prefix = "mp9_npc"
 	self.mp9_npc.use_data.selection_index = 1
-	self.mp9_npc.DAMAGE = 1.8
+	self.mp9_npc.DAMAGE = 4
 	self.mp9_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.mp9_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.mp9_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
@@ -964,7 +943,8 @@ function WeaponTweakData:_init_data_mp9_npc()
 	self.mp9_npc.alert_size = 2500
 	self.mp9_npc.suppression = 2.2
 	self.mp9_npc.FIRE_MODE = "auto"
-	
+	self.mp9_npc.usage = "is_pistol"
+
 	--SR2
 	self.sr2_smg_npc = deep_clone(self.mp9_npc)
 	self.sr2_smg_npc.sounds.prefix = "sr2_npc"		
@@ -975,7 +955,7 @@ function WeaponTweakData:_init_data_saiga_npc()
 	self.saiga_npc.categories = clone(self.saiga.categories)
 	self.saiga_npc.sounds.prefix = "saiga_npc"
 	self.saiga_npc.use_data.selection_index = 2
-	self.saiga_npc.DAMAGE = 3
+	self.saiga_npc.DAMAGE = 9
 	self.saiga_npc.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 	self.saiga_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_slug"
 	self.saiga_npc.auto.fire_rate = 0.1
@@ -1311,7 +1291,7 @@ function WeaponTweakData:_init_data_s552_npc()
 	self.s552_npc.categories = clone(self.s552.categories)
 	self.s552_npc.sounds.prefix = "sig552_npc"
 	self.s552_npc.use_data.selection_index = 2
-	self.s552_npc.DAMAGE = 2.4
+	self.s552_npc.DAMAGE = 5.5
 	self.s552_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.s552_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.s552_npc.CLIP_AMMO_MAX = 30
@@ -1329,7 +1309,7 @@ function WeaponTweakData:_init_data_scar_npc()
 	self.scar_npc.categories = clone(self.scar.categories)
 	self.scar_npc.sounds.prefix = "zsniper_npc"
 	self.scar_npc.use_data.selection_index = 2
-	self.scar_npc.DAMAGE = 6
+	self.scar_npc.DAMAGE = 10.5
 	self.scar_npc.muzzleflash = "effects/payday2/particles/weapons/762_auto"
 	self.scar_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.scar_npc.CLIP_AMMO_MAX = 20
@@ -1340,6 +1320,7 @@ function WeaponTweakData:_init_data_scar_npc()
 	self.scar_npc.suppression = 2.8
 	self.scar_npc.FIRE_MODE = "single"
 	self.scar_npc.titan_trail = true
+	self.scar_npc.usage = "is_dmr"
 	self.scar_secondary_npc = deep_clone(self.scar_npc)
 	self.scar_secondary_npc.use_data.selection_index = 1
 end
@@ -1349,7 +1330,7 @@ function WeaponTweakData:_init_data_m249_npc()
 	self.m249_npc.categories = clone(self.m249.categories)
 	self.m249_npc.sounds.prefix = "m249_npc"
 	self.m249_npc.use_data.selection_index = 2
-	self.m249_npc.DAMAGE = 2.25
+	self.m249_npc.DAMAGE = 7
 	self.m249_npc.muzzleflash = "effects/payday2/particles/weapons/big_762_auto"
 	self.m249_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556_lmg"
 	self.m249_npc.CLIP_AMMO_MAX = 200
@@ -1368,20 +1349,15 @@ function WeaponTweakData:_init_data_m249_npc()
 	self.hk21_sc_npc = deep_clone(self.m249_npc)
 	self.hk21_sc_npc.sounds.prefix = "hk23e_npc"
 	self.hk21_sc_npc.use_data.selection_index = 2
-	self.hk21_sc_npc.DAMAGE = 3
 	self.hk21_sc_npc.muzzleflash = "effects/payday2/particles/weapons/big_762_auto"
 	self.hk21_sc_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556_lmg"
 	self.hk21_sc_npc.CLIP_AMMO_MAX = 100
 	self.hk21_sc_npc.NR_CLIPS_MAX = 5
 	self.hk21_sc_npc.auto.fire_rate = 0.075
 	self.hk21_sc_npc.hold = "rifle"
-	self.hk21_sc_npc.alert_size = 2500
-	self.hk21_sc_npc.suppression = 2.4
-	self.hk21_sc_npc.usage = "is_lmg"
 	
 	--HK23
 	self.hk23_sc_npc = deep_clone(self.hk21_sc_npc)	
-	self.hk23_sc_npc.DAMAGE = 2
 	self.hk23_sc_npc.auto.fire_rate = 0.08
 	self.hk23_sc_npc.CLIP_AMMO_MAX = 50
 	
@@ -1409,7 +1385,7 @@ function WeaponTweakData:_init_data_contraband_npc()
 	self.contraband_npc.categories = clone(self.contraband.categories)
 	self.contraband_npc.sounds.prefix = "contraband_npc"
 	self.contraband_npc.use_data.selection_index = 2
-	self.contraband_npc.DAMAGE = 2.4
+	self.contraband_npc.DAMAGE = 5.5
 	self.contraband_npc.muzzleflash = "effects/payday2/particles/weapons/762_auto"
 	self.contraband_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556"
 	self.contraband_npc.CLIP_AMMO_MAX = 30
@@ -1418,7 +1394,7 @@ function WeaponTweakData:_init_data_contraband_npc()
 	self.contraband_npc.hold = "rifle"
 	self.contraband_npc.alert_size = 2500
 	self.contraband_npc.suppression = 2.6
-	self.contraband_npc.FIRE_MODE = "auto"	
+	self.contraband_npc.FIRE_MODE = "auto"
 
 	--M203
 	self.contraband_m203_npc.sounds.prefix = "contrabandm203_npc"
@@ -1440,7 +1416,7 @@ function WeaponTweakData:_init_data_mini_npc()
 	self.mini_npc.categories = clone(self.m134.categories)
 	self.mini_npc.sounds.prefix = "minigun_npc"
 	self.mini_npc.use_data.selection_index = 2
-	self.mini_npc.DAMAGE = 2.25
+	self.mini_npc.DAMAGE = 7
 	self.mini_npc.muzzleflash = "effects/payday2/particles/weapons/big_762_auto"
 	self.mini_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556_lmg"
 	self.mini_npc.CLIP_AMMO_MAX = 300
@@ -1450,6 +1426,7 @@ function WeaponTweakData:_init_data_mini_npc()
 	self.mini_npc.alert_size = 2500
 	self.mini_npc.suppression = 2
 	self.mini_npc.FIRE_MODE = "auto"
+	self.mini_npc.usage = "is_mini"
 	
 	--Akimbo Miniguns
 	self.x_mini_npc = deep_clone(self.mini_npc)		
@@ -1459,12 +1436,12 @@ function WeaponTweakData:_init_data_mini_npc()
 	}	
 	self.x_mini_npc.sounds.prefix = "minigun_npc"
 	self.x_mini_npc.use_data.selection_index = 1
-	self.x_mini_npc.DAMAGE = 2.25
+	self.x_mini_npc.DAMAGE = 7
 	self.x_mini_npc.muzzleflash = "effects/payday2/particles/weapons/big_762_auto"
 	self.x_mini_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_556_lmg"
 	self.x_mini_npc.CLIP_AMMO_MAX = 600
 	self.x_mini_npc.NR_CLIPS_MAX = 2
-	self.x_mini_npc.auto.fire_rate = 0.01
+	self.x_mini_npc.auto.fire_rate = 0.015
 	self.x_mini_npc.hold = "akimbo_pistol"
 	self.x_mini_npc.alert_size = 2500
 	self.x_mini_npc.suppression = 2
@@ -1501,7 +1478,7 @@ function WeaponTweakData:_init_data_flamethrower_mk2_crew()
 	self.flamethrower_mk2_flamer.CLIP_AMMO_MAX = 60
 	self.flamethrower_mk2_flamer.NR_CLIPS_MAX = 4
 	self.flamethrower_mk2_flamer.FIRE_RANGE = 1400
-	self.flamethrower_mk2_flamer.DAMAGE = 3.7
+	self.flamethrower_mk2_flamer.DAMAGE = 9
 	self.flamethrower_mk2_flamer.fire_dot_data = {
 		dot_trigger_chance = 0,
 		dot_damage = 0,
@@ -1521,8 +1498,8 @@ function WeaponTweakData:_init_data_flamethrower_mk2_crew()
 	self.flamethrower_mk2_flamer.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.flamethrower_mk2_flamer.shell_ejection = "effects/payday2/particles/weapons/shells/shell_empty"
 	self.flamethrower_mk2_flamer.pull_magazine_during_reload = "large_metal"
-	self.flamethrower_mk2_flamer.usage = "flamethrower"
 	self.flamethrower_mk2_flamer.anim_usage = "is_bullpup"			
+	self.flamethrower_mk2_flamer.usage = "is_flamethrower"
 end
 
 --Lotta crew guns in here now--
@@ -1602,6 +1579,7 @@ function WeaponTweakData:_init_data_polymer_crew()
 	self.polymer_crew.alert_size = 2500
 	self.polymer_crew.suppression = 2.2
 	self.polymer_crew.FIRE_MODE = "auto"
+	self.polymer_crew.usage = "is_smg"
 end
 	
 function WeaponTweakData:_init_data_akm_gold_crew()
@@ -1692,6 +1670,7 @@ function WeaponTweakData:_init_data_aug_crew()
 	self.aug_crew.alert_size = 2500
 	self.aug_crew.suppression = 2.2
 	self.aug_crew.FIRE_MODE = "auto"
+	self.aug_crew.usage = "is_rifle"
 	self.aug_secondary_crew = deep_clone(self.aug_crew)
 	self.aug_secondary_crew.use_data.selection_index = 1
 end
@@ -1866,6 +1845,7 @@ function WeaponTweakData:_init_data_famas_crew()
 	self.famas_crew.alert_size = 2500
 	self.famas_crew.suppression = 2.2
 	self.famas_crew.FIRE_MODE = "auto"
+	self.famas_crew.usage = "is_rifle"
 end
 
 function WeaponTweakData:_init_data_galil_crew()
@@ -1919,6 +1899,7 @@ function WeaponTweakData:_init_data_l85a2_crew()
 	self.l85a2_crew.alert_size = 2500
 	self.l85a2_crew.suppression = 2.2
 	self.l85a2_crew.FIRE_MODE = "auto"
+	self.l85a2_crew.usage = "is_rifle"
 end
 
 function WeaponTweakData:_init_data_vhs_crew()
@@ -1937,6 +1918,7 @@ function WeaponTweakData:_init_data_vhs_crew()
 	self.vhs_crew.alert_size = 2500
 	self.vhs_crew.suppression = 2.2
 	self.vhs_crew.FIRE_MODE = "auto"
+	self.vhs_crew.usage = "is_rifle"
 end
 
 function WeaponTweakData:_init_data_asval_crew()
@@ -2003,6 +1985,7 @@ function WeaponTweakData:_init_data_contraband_crew()
 	self.contraband_m203_crew.alert_size = 2500
 	self.contraband_m203_crew.suppression = 1
 	self.contraband_m203_crew.FIRE_MODE = "auto"
+	self.contraband_m203_crew.usage = "is_rifle"
 end
 
 function WeaponTweakData:_init_data_flint_crew()
@@ -2041,6 +2024,7 @@ function WeaponTweakData:_init_data_corgi_crew()
 	self.corgi_crew.alert_size = 2500
 	self.corgi_crew.suppression = 2.2
 	self.corgi_crew.FIRE_MODE = "auto"
+	self.corgi_crew.usage = "is_rifle"
 end		
 
 function WeaponTweakData:_init_data_komodo_crew()
@@ -2062,6 +2046,7 @@ function WeaponTweakData:_init_data_komodo_crew()
 	self.komodo_crew.alert_size = 2500
 	self.komodo_crew.suppression = 2.2
 	self.komodo_crew.FIRE_MODE = "auto"
+	self.komodo_crew.usage = "is_rifle"
 end		
 
 function WeaponTweakData:_init_data_spas12_crew()
@@ -2298,6 +2283,7 @@ function WeaponTweakData:_init_data_m95_crew()
 	self.m95_crew.alert_size = 2500
 	self.m95_crew.suppression = 3.4
 	self.m95_crew.FIRE_MODE = "single"
+	self.m95_crew.usage = "is_dmr"
 end
 
 function WeaponTweakData:_init_data_mosin_crew()
@@ -2372,6 +2358,7 @@ function WeaponTweakData:_init_data_wa2000_crew()
 	self.wa2000_crew.alert_size = 2500
 	self.wa2000_crew.suppression = 3.4
 	self.wa2000_crew.FIRE_MODE = "single"
+	self.wa2000_crew.usage = "is_dmr"
 end
 
 function WeaponTweakData:_init_data_desertfox_crew()
@@ -2392,6 +2379,7 @@ function WeaponTweakData:_init_data_desertfox_crew()
 	self.desertfox_crew.FIRE_MODE = "single"
 	self.desertfox_secondary_crew = deep_clone(self.desertfox_crew)
 	self.desertfox_secondary_crew.use_data.selection_index = 1
+	self.desertfox_crew.usage = "is_dmr"
 end
 
 function WeaponTweakData:_init_data_tti_crew()
@@ -9629,13 +9617,13 @@ function WeaponTweakData:_create_table_structure()
 		auto = {}
 	}
 	self.mossberg_npc = {
-		usage = "mossberg",
+		usage = "is_shotgun_pump",
 		anim_usage = "is_shotgun_pump",
 		sounds = {},
 		use_data = {}
 	}
 	self.mp9_npc = {
-		usage = "mp9",
+		usage = "is_smg",
 		anim_usage = "is_smg",
 		sounds = {},
 		use_data = {},
@@ -9647,8 +9635,8 @@ function WeaponTweakData:_create_table_structure()
 		use_data = {},
 		auto = {}
 	}
-	self.flamethrower_mk2_crew.usage = "flamethrower"
 	self.flamethrower_mk2_crew.anim_usage = "is_bullpup"	
+	self.flamethrower_mk2_crew.usage = "is_flamethrower"
 	--Crew shit below--
 	self.benelli_crew = {
 		usage = "is_shotgun_mag",
@@ -9657,13 +9645,13 @@ function WeaponTweakData:_create_table_structure()
 		use_data = {}
 	}
 	self.mossberg_crew = {
-		usage = "mossberg",
+		usage = "is_shotgun_pump",
 		anim_usage = "is_shotgun_pump",
 		sounds = {},
 		use_data = {}
 	}
 	self.b682_crew = {
-		usage = "mossberg",
+		usage = "is_shotgun_pump",
 		anim_usage = "is_shotgun_pump",
 		sounds = {},
 		use_data = {},
@@ -9701,14 +9689,14 @@ function WeaponTweakData:_create_table_structure()
 		auto = {}
 	}
 	self.m14_crew = {
-		usage = "rifle",
+		usage = "is_rifle",
 		anim_usage = "is_rifle",
 		sounds = {},
 		use_data = {} --[[,
 		auto = {}]]
 	}
 	self.g3_crew = {
-		usage = "rifle",
+		usage = "is_rifle",
 		anim_usage = "is_rifle",
 		sounds = {},
 		use_data = {},

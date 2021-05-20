@@ -9,7 +9,7 @@ function NPCRaycastWeaponBase:init(...)
 	self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(22)
 	
 	local weapon_tweak = tweak_data.weapon[self._name_id]
-
+	log(self._name_id)
 	if weapon_tweak.armor_piercing then
 		self._use_armor_piercing = true
 	end
@@ -140,6 +140,7 @@ function NPCRaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_
 	end
 
 	result.hit_enemy = char_hit
+	result.hit_player = player_hit
 
 	if self._alert_events then
 		result.rays = {
