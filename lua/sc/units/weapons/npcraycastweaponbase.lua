@@ -9,7 +9,7 @@ function NPCRaycastWeaponBase:init(...)
 	self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(22)
 	
 	local weapon_tweak = tweak_data.weapon[self._name_id]
-	log(self._name_id)
+
 	if weapon_tweak.armor_piercing then
 		self._use_armor_piercing = true
 	end

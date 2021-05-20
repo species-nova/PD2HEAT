@@ -89,8 +89,6 @@ function TeamAILogicTravel.enter(data, new_logic_name, enter_params)
 		end
 	end
 
-	log(data.unit:inventory():equipped_unit():base()._name_id)
-	log(data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage)
 	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
 	my_data.path_ahead = true
 

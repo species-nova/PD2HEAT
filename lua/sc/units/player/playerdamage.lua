@@ -1121,7 +1121,7 @@ function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 	if self:get_real_health() == 0 and trigger_skills then
 		self:_chk_cheat_death()
 	end
-	log(self:get_real_health())
+	
 	self:_damage_screen()
 	self:_check_bleed_out(trigger_skills)
 	managers.hud:set_player_health({
