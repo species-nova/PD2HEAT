@@ -125,8 +125,8 @@ tweak_data.projectiles.underbarrel_electric_groza.curve_pow = 1
 tweak_data.projectiles.underbarrel_electric_groza.range = 500
 
 --Tactical ZAPper (Arbiter)
-tweak_data.projectiles.launcher_electric_arbiter.damage = 20
-tweak_data.projectiles.launcher_electric_arbiter.player_damage = 10
+tweak_data.projectiles.launcher_electric_arbiter.damage = 30
+tweak_data.projectiles.launcher_electric_arbiter.player_damage = 15
 tweak_data.projectiles.launcher_electric_arbiter.launch_speed = 2500
 tweak_data.projectiles.launcher_electric_arbiter.range = 250
 tweak_data.projectiles.launcher_electric_arbiter.curve_pow = 1
@@ -289,12 +289,25 @@ tweak_data.interaction.gen_int_saw_upgrade.timer = 2
 
 local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 local difficulty_index = tweak_data:difficulty_to_index(difficulty)
+local enemy_grenade_damage_mul = 1
 if difficulty_index == 8 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 15
 elseif difficulty_index == 7 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 12.5
-else
+elseif difficulty_index == 6 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 10
+elseif difficulty_index == 5 then
+	tweak_data.interaction.corpse_alarm_pager.timer = 10
+	enemy_grenade_damage_mul = 0.9
+elseif difficulty_index == 4 then
+	tweak_data.interaction.corpse_alarm_pager.timer = 10
+	enemy_grenade_damage_mul = 0.7
+elseif difficulty_index == 3 then
+	tweak_data.interaction.corpse_alarm_pager.timer = 10
+	enemy_grenade_damage_mul = 0.5
+elseif difficulty_index <= 2 then
+	tweak_data.interaction.corpse_alarm_pager.timer = 10
+	enemy_grenade_damage_mul = 0.3
 end	
 
 tweak_data.narrative.jobs["chill_combat"].contact = "events"	
@@ -317,8 +330,8 @@ tweak_data.projectiles.smoke_screen_grenade.accuracy_fail_spread = {5, 10}
 --Bravo grenades.
 tweak_data.projectiles.bravo_frag = {
 	name_id = "bm_bravo_frag",
-	damage = 15.0, --150 damage at point blank.
-	player_damage = 15.0,
+	damage = 21.5 * enemy_grenade_damage_mul, --215 damage at point blank.
+	player_damage = 21.5 * enemy_grenade_damage_mul,
 	curve_pow = 0.1,
 	range = 500
 }
@@ -326,8 +339,8 @@ tweak_data.projectiles.bravo_frag = {
 --Spring Cluster Grenades.
 tweak_data.projectiles.cluster_fuck = {
 	name_id = "bm_cluster_fuck",
-	damage = 15.0, --150 damage at point blank.
-	player_damage = 15.0,
+	damage = 21.5 * enemy_grenade_damage_mul, --215 damage at point blank.
+	player_damage = 21.5 * enemy_grenade_damage_mul,
 	curve_pow = 0.1,
 	range = 500,
 	cluster = "child_grenade",
@@ -337,22 +350,12 @@ tweak_data.projectiles.cluster_fuck = {
 tweak_data.projectiles.child_grenade = {
 	name_id = "bm_child_grenade",
 	init_timer = 1,
-	damage = 10.0, --100 damage at point blank.
-	player_damage = 10.0,
+	damage = 10.0 * enemy_grenade_damage_mul, --100 damage at point blank.
+	player_damage = 10.0 * enemy_grenade_damage_mul,
 	curve_pow = 0.1,
 	range = 500,
 	launch_speed = 100
 }
-
-if difficulty_index <= 4 then --Enemy grenades deal reduced damage on lower difficulties.
-	tweak_data.projectiles.bravo_frag.damage = 9.0
-	tweak_data.projectiles.bravo_frag.player_damage = 9.0
-	tweak_data.projectiles.cluster_fuck.damage = 9.0
-	tweak_data.projectiles.cluster_fuck.player_damage = 9.0
-	tweak_data.projectiles.cluster_fuck.cluster_count = 2
-	tweak_data.projectiles.child_grenade.damage = 6.0
-	tweak_data.projectiles.child_grenade.player_damage = 6.0
-end
 
 --SABR Grenade Launcher.
 tweak_data.projectiles.launcher_frag_osipr = {
