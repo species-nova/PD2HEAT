@@ -155,7 +155,7 @@ function CopLogicIdle.enter(data, new_logic_name, enter_params)
 		my_data.scan = true
 	end
 
-	my_data.weapon_range = clone_g(data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range)
+	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
 
 	local key_str = tostring(data.key)
 

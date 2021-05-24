@@ -6234,6 +6234,168 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_vityaz", "resmod_vityaz", function
 
 end)
 
+--Miyaka 10
+Hooks:PostHook(WeaponFactoryTweakData, "_init_pm9", "resmod_pm9", function(self)
+
+	--Quick Pull
+	self.parts.wpn_fps_smg_pm9_m_quick.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_smg_pm9_m_quick.supported = true
+	self.parts.wpn_fps_smg_pm9_m_quick.stats = {
+		value = 2,
+		spread = -1,
+		concealment = -1,
+		reload = 3
+	}
+
+	--Short Barrel
+	self.parts.wpn_fps_smg_pm9_b_short.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_smg_pm9_b_short.supported = true
+	self.parts.wpn_fps_smg_pm9_b_short.stats = {
+		value = 1,
+		spread = -1,
+		concealment = 1
+	}	
+
+	--Wood Grip
+	self.parts.wpn_fps_smg_pm9_g_wood.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_smg_pm9_g_wood.supported = true
+	self.parts.wpn_fps_smg_pm9_g_wood.stats = {
+		value = 1,
+		spread = -1,
+		recoil = 1
+	}	
+
+	--Tac Stock
+	self.parts.wpn_fps_smg_pm9_s_tactical.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_smg_pm9_s_tactical.supported = true
+	self.parts.wpn_fps_smg_pm9_s_tactical.stats = {
+		value = 2,
+		spread = 1,
+		recoil = -1,
+		concealment = -1
+	}	
+
+end)
+
+--Kang Arms X1
+Hooks:PostHook(WeaponFactoryTweakData, "_init_qbu88", "resmod_qbu88", function(self)
+
+	--Short Barrel
+	self.parts.wpn_fps_snp_qbu88_b_short.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_snp_qbu88_b_short.supported = true
+	self.parts.wpn_fps_snp_qbu88_b_short.stats = {
+		value = 1,
+		spread = -1,
+		concealment = 1
+	}	
+
+	--Long Barrel
+	self.parts.wpn_fps_snp_qbu88_b_long.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_snp_qbu88_b_long.supported = true
+	self.parts.wpn_fps_snp_qbu88_b_long.stats = {
+		value = 1,
+		spread = 1,
+		recoil = -1,
+		concealment = -1
+	}	
+
+	--Extended Mag
+	self.parts.wpn_fps_snp_qbu88_m_extended.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_snp_qbu88_m_extended.supported = true
+	self.parts.wpn_fps_snp_qbu88_m_extended.stats = {
+		value = 2,
+		extra_ammo = 5,
+		reload = -3,
+		spread = -1,
+		concealment = -2
+	}	
+
+	--Iron Sight
+	self.parts.wpn_fps_snp_qbu88_o_standard.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_snp_qbu88_o_standard.supported = true
+	self.parts.wpn_fps_snp_qbu88_o_standard.stats = {
+		value = 0
+	}		
+
+end)
+
+--Byk-1 
+Hooks:PostHook(WeaponFactoryTweakData, "_init_groza", "resmod_groza", function(self)
+
+	--Suppressed Barrel
+	self.parts.wpn_fps_ass_groza_b_supressor.pcs = {
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_ass_groza_b_supressor.supported = true
+	self.parts.wpn_fps_ass_groza_b_supressor.stats = {
+		value = 10,
+		suppression = 10,
+		alert_size = -1,
+		spread = -1,
+		recoil = 1
+	}
+	self.parts.wpn_fps_ass_groza_b_supressor.perks = {"silencer"}
+
+	--Quick Pull
+	self.parts.wpn_fps_ass_groza_m_speed.pcs = {
+		10,
+		20,
+		30,
+		40
+	}
+	self.parts.wpn_fps_ass_groza_m_speed.supported = true
+	self.parts.wpn_fps_ass_groza_m_speed.stats = {
+		value = 2,
+		spread = -1,
+		concealment = -1,
+		reload = 3
+	}	
+
+
+end)
+
 --Modifiers
 function WeaponFactoryTweakData:create_bonuses(tweak_data, weapon_skins)
 	--Gotta keep the internal IDs intact to not anger remote JSONs and custom_xml. Using comments to note what is actually what.
@@ -6701,6 +6863,46 @@ Hooks:PostHook(WeaponFactoryTweakData, "create_ammunition", "resmod_create_ammun
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary_arbiter.custom_stats = {
 		launcher_grenade = "launcher_incendiary_arbiter"
 	}
+
+	--Frag Rounds (BYK-1)
+	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.pcs = {}
+	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.has_description = true
+	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.desc_id = "bm_wp_upg_a_grenade_launcher_frag_desc_sc"
+	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.supported = true
+	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.stats = {}
+	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.custom_stats = {
+		launcher_grenade = "launcher_m203"
+	}	
+
+	--Underbarrel Electric Grenades
+	self.parts.wpn_fps_upg_a_underbarrel_electric.pcs = {}
+	self.parts.wpn_fps_upg_a_underbarrel_electric.has_description = true
+	self.parts.wpn_fps_upg_a_underbarrel_electric.desc_id = "bm_wp_upg_a_grenade_launcher_electric_desc_sc"
+	self.parts.wpn_fps_upg_a_underbarrel_electric.supported = true
+	self.parts.wpn_fps_upg_a_underbarrel_electric.stats = {}
+	self.parts.wpn_fps_upg_a_underbarrel_electric.custom_stats = {
+		launcher_grenade = "underbarrel_electric"
+	}		
+
+	--Tactical ZAPpers (Normal GLs)
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.pcs = {}
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.has_description = true
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.desc_id = "bm_wp_upg_a_grenade_launcher_electric_desc_sc"
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.supported = true
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.stats = {damage = -40}
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.custom_stats = {
+		launcher_grenade = "launcher_electric"
+	}			
+
+	--Tactical ZAPpers (Arbiter)
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.pcs = {}
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.has_description = true
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.desc_id = "bm_wp_upg_a_grenade_launcher_electric_arbiter_desc_sc"
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.supported = true
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.stats = {damage = -40}
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.custom_stats = {
+		launcher_grenade = "launcher_electric_arbiter"
+	}	
 	
 	--You're pretty good
 	self.parts.wpn_fps_upg_pis_adam = {
@@ -6720,7 +6922,6 @@ Hooks:PostHook(WeaponFactoryTweakData, "create_ammunition", "resmod_create_ammun
 		internal_part = true,
 		sub_type = "adam"
 	}
-
 end)
 
 --Chimano Compact

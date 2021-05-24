@@ -373,9 +373,18 @@ function PlayerDamage:damage_melee(attack_data)
 		armor_reduction_multiplier = 1
 		self._last_received_dmg = math.huge --Armor broken creates an unpiercable grace period.
 	end
-	
+
 	local health_subtracted = self:_calc_armor_damage(attack_data)
-	attack_data.damage = attack_data.damage * armor_reduction_multiplier	
+	
+	if attack_data.armor_piercing and not self._unpierceable then
+		attack_data.damage = attack_data.damage - health_subtracted
+		if not _G.IS_VR then --Add screen effect to signify armor piercing attack.
+			managers.hud:activate_effect_screen(0.75, {1, 0.2, 0})
+		end
+	else
+		attack_data.damage = attack_data.damage * armor_reduction_multiplier
+	end
+	
 	health_subtracted = health_subtracted + self:_calc_health_damage(attack_data)
 
 	--Unique kill taunt stuff.
@@ -661,7 +670,7 @@ function PlayerDamage:damage_bullet(attack_data, ...)
 		result = {type = "hurt", variant = "bullet"},
 		attacker_unit = attack_data.attacker_unit
 	}
-	
+
 	--Vanilla checks just encased into a function for reuse.
 	if not self:can_take_damage(attack_data, damage_info) then
 		return

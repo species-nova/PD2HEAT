@@ -113,7 +113,8 @@ function CopActionShoot:init(action_desc, common_data)
 				slotmask = slotmask, --Things melee attack can hit.
 				hit_player = hit_player, --If melee attack can hit players.
 				electrical = melee_tweak.electrical, --Whether or not melee attack can tase.
-				piercing = melee_tweak.armor_piercing, --Whether or not melee attack pierces armor.
+				armor_piercing = melee_tweak.armor_piercing, --Whether or not melee attack pierces armor.
+				push_mul = melee_tweak.push_mul or 1,
 				shield_knock = shield_knock, --Whether or not melee attack can knock down shields.
 				anims = melee_tweak.animation_param or self._common_data.char_tweak.melee_anims or {"var1", "var2"}
 			}
@@ -1171,7 +1172,8 @@ function CopActionShoot:anim_clbk_melee_strike()
 				weapon_unit = self._weapon_unit,
 				attacker_unit = self._unit,
 				melee_weapon = melee_weapon,
-				push_vel = mvec3_copy(col_ray.ray:with_z(0.1)) * 600,
+				push_vel = mvec3_copy(col_ray.ray:with_z(0.1)) * 600 * self._melee_weapon_data.push_mul,
+				armor_piercing = self._melee_weapon_data.armor_piercing,
 				tase_player = self._melee_weapon_data.electrical and true or nil,
 				col_ray = col_ray
 			}

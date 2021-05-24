@@ -885,7 +885,6 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat_titan.dodge = presets.dodge.elite
 	self.swat_titan.HEALTH_INIT = 24
 	self.swat_titan.headshot_dmg_mul = normal_headshot
-	self.swat_titan.damage.melee_damage_mul = 2
 	self.swat_titan.surrender = nil
 	self.swat_titan.unintimidateable = true	
 	self.swat_titan.custom_voicework = nil
@@ -1918,7 +1917,7 @@ function CharacterTweakData:_init_tank(presets)
 		heavy = {tased_time = 2, down_time = 0}
 	}
 	self.tank.damage.explosion_damage_mul = 2
-	self.tank.weapon = presets.weapon.good
+	self.tank.weapon = presets.weapon.dozer
 	self.tank.detection = presets.detection.normal
 	self.tank.HEALTH_INIT = 540
 	self.tank.headshot_dmg_mul = strong_headshot
@@ -2133,7 +2132,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan.special_deaths = nil
 	self.spooc_titan.HEALTH_INIT = 144
 	self.spooc_titan.headshot_dmg_mul = strong_headshot	
-	self.spooc_titan.damage.melee_damage_mul = 1
+	self.spooc_titan.damage.melee_damage_mul = 2
 	self.spooc_titan.damage.explosion_damage_mul = 2
 	if is_reaper or is_federales then	
 		self.spooc_titan.speech_prefix_p1 = self._prefix_data_p1.cloaker()
@@ -2169,7 +2168,7 @@ function CharacterTweakData:_init_shadow_spooc(presets)
 	self.shadow_spooc.detection = presets.detection.normal
 	self.shadow_spooc.HEALTH_INIT = 144
 	self.shadow_spooc.headshot_dmg_mul = strong_headshot	
-	self.shadow_spooc.damage.melee_damage_mul = 1
+	self.shadow_spooc.damage.melee_damage_mul = 2
 	self.shadow_spooc.damage.explosion_damage_mul = 2
 	self.shadow_spooc.move_speed = presets.move_speed.lightning
 	self.shadow_spooc.no_retreat = true
@@ -2239,10 +2238,7 @@ function CharacterTweakData:_init_shield(presets)
 	self.shield.damage.fire_pool_damage_mul = 0.75
 	self.shield.headshot_dmg_mul = normal_headshot
 	self.shield.experience = {}
-	self.shield.weapon = presets.weapon.normal
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
+	self.shield.weapon = presets.weapon.shield
 	self.shield.detection = presets.detection.normal
 	self.shield.HEALTH_INIT = 36
 	self.shield.damage.melee_damage_mul = 2
@@ -2414,7 +2410,7 @@ end
 
 function CharacterTweakData:_init_spring(presets)
 	self.spring = deep_clone(self.tank)
-	self.spring.weapon = presets.weapon.expert
+	self.spring.weapon = presets.weapon.dozer
 	self.spring.tags = {"law", "custom", "special", "captain"}
 	self.spring.move_speed = presets.move_speed.very_slow
 	self.spring.rage_move_speed = presets.move_speed.fast
@@ -4476,6 +4472,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 8,
 		miss_dis = 16, --Distance to offset vector on missed shots.
 		RELOAD_SPEED = 1.25,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4539,6 +4536,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 10,
 		miss_dis = 20,
 		RELOAD_SPEED = 1,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4602,6 +4600,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 6,
 		miss_dis = 24,
 		RELOAD_SPEED = 1,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4664,6 +4663,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 10,
 		miss_dis = 20,
 		RELOAD_SPEED = 0.75,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4732,6 +4732,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 10,
 		miss_dis = 20,
 		RELOAD_SPEED = 0.75,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4800,6 +4801,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 14,
 		miss_dis = 28,
 		RELOAD_SPEED = 1,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4861,6 +4863,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 16,
 		miss_dis = 48,
 		RELOAD_SPEED = 0.5,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4922,6 +4925,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 20,
 		miss_dis = 48,
 		RELOAD_SPEED = 0.5,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -4983,6 +4987,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 20,
 		miss_dis = 20,
 		RELOAD_SPEED = 0.4,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -5030,6 +5035,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 20,
 		miss_dis = 20,
 		RELOAD_SPEED = 0.6,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -5077,6 +5083,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 20,
 		miss_dis = 20,
 		RELOAD_SPEED = 0.4,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		range = {
@@ -5118,10 +5125,10 @@ function CharacterTweakData:_presets(tweak_data)
 	self:_multiply_weapon_preset(presets.weapon.good.is_dmr,           1.00, 1.00, 1.40, 1.00, 0.90)
 	self:_multiply_weapon_preset(presets.weapon.good.is_smg,           1.00, 1.15, 1.20, 1.00, 0.85)
 	self:_multiply_weapon_preset(presets.weapon.good.is_lmg,           1.00, 1.10, 1.30, 1.00, 0.80)
-	--Minigun is expert only.
+	--Minigun retains expert stats
 	self:_multiply_weapon_preset(presets.weapon.good.is_shotgun_pump,  1.00, 1.40, 1.00, 1.00, 0.8)
 	self:_multiply_weapon_preset(presets.weapon.good.is_shotgun_mag,   1.00, 1.30, 1.10, 1.00, 0.8)
-	--Flamethrower is expert only.
+	--Flamethrower retains expert stats
 
 	presets.weapon.normal = deep_clone(presets.weapon.expert) --Normal presets also lose out on effective damage output via longer recoil and/or worse accuracy.
 	self:_multiply_weapon_preset(presets.weapon.normal.is_pistol,        1.00, 1.20, 1.20, 1.50, 0.90)
@@ -5131,10 +5138,23 @@ function CharacterTweakData:_presets(tweak_data)
 	self:_multiply_weapon_preset(presets.weapon.normal.is_dmr,           0.80, 1.00, 1.40, 1.30, 0.90)
 	self:_multiply_weapon_preset(presets.weapon.normal.is_smg,           0.70, 1.15, 1.20, 1.20, 0.85)
 	self:_multiply_weapon_preset(presets.weapon.normal.is_lmg,           0.90, 1.10, 1.30, 1.40, 0.80)
-	--Minigun is expert only.
+	--Minigun retains expert stats
 	self:_multiply_weapon_preset(presets.weapon.normal.is_shotgun_pump,  1.00, 1.40, 1.00, 1.50, 0.8)
 	self:_multiply_weapon_preset(presets.weapon.normal.is_shotgun_mag,   0.70, 1.30, 1.10, 1.20, 0.8)
-	--Flamethrower is expert only.
+	--Flamethrower retains expert stats
+
+	presets.weapon.shield = deep_clone(presets.weapon.normal) --Normal, but with no melee attacks.
+	for preset_name, preset in pairs(presets.weapon.shield) do
+		preset.melee_dmg = nil
+		preset.melee_speed = nil
+		preset.melee_retry_delay = nil
+	end
+
+	presets.weapon.dozer = deep_clone(presets.weapon.good) --Good, but with slow melee attacks.
+	for preset_name, preset in pairs(presets.weapon.dozer) do
+		preset.melee_speed = 0.6667
+		preset.melee_retry_delay = {3, 3}
+	end
 
 	presets.weapon.gangster = deep_clone(presets.weapon.normal) --Normal but with 1.5x damage.
 	presets.weapon.meme_man = deep_clone(presets.weapon.expert) --Idk yet, gotta think of something dumb.
@@ -5151,6 +5171,7 @@ function CharacterTweakData:_presets(tweak_data)
 		spread = 0,
 		miss_dis = 20,
 		RELOAD_SPEED = 1,
+		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		use_laser = true,
@@ -7573,7 +7594,7 @@ end
 
 function CharacterTweakData:_set_normal()
 	self:_multiply_all_hp(0.5, 1)
-	self:_multiply_all_damage(0.3)
+	self:_multiply_all_damage(0.3, 0.45, 0.5)
 	
 	--Set damage dealt for false downs.
 	self.spooc.kick_damage = 4.0
@@ -7588,9 +7609,6 @@ function CharacterTweakData:_set_normal()
 	
 	self:_set_characters_dodge_preset("athletic")
 	self:_set_characters_melee_preset("1", "1")
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
 
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
@@ -7613,7 +7631,7 @@ end
 
 function CharacterTweakData:_set_hard()
 	self:_multiply_all_hp(0.625, 1)
-	self:_multiply_all_damage(0.5)
+	self:_multiply_all_damage(0.5, 0.75, 0.625)
 	self:_set_characters_weapon_preset("normal", "normal")
 	
 	--Set damage dealt for false downs.
@@ -7629,9 +7647,6 @@ function CharacterTweakData:_set_hard()
 	
 	self:_set_characters_dodge_preset("athletic")
 	self:_set_characters_melee_preset("1", "1")
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
 	self.presets.gang_member_damage.HEALTH_INIT = 60
@@ -7653,7 +7668,7 @@ end
 
 function CharacterTweakData:_set_overkill()
 	self:_multiply_all_hp(0.75, 2)
-	self:_multiply_all_damage(0.7)
+	self:_multiply_all_damage(0.7, 1.05, 0.75)
 	
 	--Set damage dealt for false downs.
 	self.spooc.kick_damage = 6.0
@@ -7668,9 +7683,6 @@ function CharacterTweakData:_set_overkill()
 		
 	self:_set_characters_dodge_preset("athletic_very_hard")
 	self:_set_characters_melee_preset("2", "1")
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
 	self.presets.gang_member_damage.HEALTH_INIT = 80
@@ -7691,7 +7703,7 @@ end
 
 function CharacterTweakData:_set_overkill_145()
 	self:_multiply_all_hp(0.825, 2)
-	self:_multiply_all_damage(0.9)
+	self:_multiply_all_damage(0.9, 1.35, 0.825)
 
 	--Set damage dealt for false downs.
 	self.spooc.kick_damage = 6.0
@@ -7705,10 +7717,6 @@ function CharacterTweakData:_set_overkill_145()
 	self.fbi.can_slide_on_suppress = true
 	self.swat.can_slide_on_suppress = true
 	self.hrt.can_slide_on_suppress = true
-	
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
 	
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
@@ -7728,7 +7736,7 @@ end
 
 function CharacterTweakData:_set_easy_wish()
 	self:_multiply_all_hp(1, 2)
-	self:_multiply_all_damage(1)
+	self:_multiply_all_damage(1, 1.5, 1)
 
 	--Set damage dealt for false downs.
 	self.spooc.kick_damage = 6.0
@@ -7745,11 +7753,7 @@ function CharacterTweakData:_set_easy_wish()
 	self.fbi_swat.can_slide_on_suppress = true		 
 	self.city_swat.can_slide_on_suppress = true		
 	self.city_swat_guard.can_slide_on_suppress = true	
-	self:_set_characters_melee_preset("2.8", "2")	
-			
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
+	self:_set_characters_melee_preset("2.8", "2")
 
 	self.presets.gang_member_damage.HEALTH_INIT = 120
 	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.3
@@ -7769,7 +7773,7 @@ end
 
 function CharacterTweakData:_set_overkill_290()
 	self:_multiply_all_hp(1, 2)
-	self:_multiply_all_damage(1)
+	self:_multiply_all_damage(1, 1.5, 1)
 
 	self:_set_characters_dodge_preset("deathwish")
 	self.fbi.can_shoot_while_dodging = true
@@ -7785,7 +7789,6 @@ function CharacterTweakData:_set_overkill_290()
 	--Set damage dealt for false downs.
 	self.spooc.kick_damage = 6.0
 	self.taser.shock_damage = 6.0
-
 	
 	--Titan SWAT stun resistance
 	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
@@ -7818,7 +7821,7 @@ end
 
 function CharacterTweakData:_set_sm_wish()
 	self:_multiply_all_hp(1, 3)
-	self:_multiply_all_damage(1)
+	self:_multiply_all_damage(1, 1.5, 1)
 	
 	self:_set_characters_dodge_preset("deathwish")
 	self:_set_characters_melee_preset("3.5", "2.8")
@@ -7836,10 +7839,6 @@ function CharacterTweakData:_set_sm_wish()
 	--Set damage dealt for false downs.
 	self.spooc.kick_damage = 8.0
 	self.taser.shock_damage = 8.0
-	
-	self.shield.weapon.is_pistol.melee_speed = nil
-	self.shield.weapon.is_pistol.melee_dmg = nil
-	self.shield.weapon.is_pistol.melee_retry_delay = nil
 	
 	self.weap_unit_names[13] = Idstring("units/payday2/weapons/wpn_npc_sniper_sc/wpn_npc_sniper_sc")		
 	self.weap_unit_names[21] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc")		
@@ -9056,17 +9055,25 @@ function CharacterTweakData:_multiply_weapon_preset(preset, accuracy_mul, aim_de
 	end
 end
 
-function CharacterTweakData:_multiply_all_damage(mul)
+function CharacterTweakData:_multiply_all_damage(mul, gang_mul, teamai_mul)
 	for tier_name, preset_tier in pairs(self.presets.weapon) do
+		
+		--Select relevant multiplier.
+		local current_dmg_mul = mul
+		if tier_name == "gangster" then
+			current_dmg_mul = gang_mul
+		elseif tier_name == "gang_member" then
+			current_dmg_mul = teamai_mul
+		end
+
+		--Apply multiplier.
 		for preset_name, preset in pairs(preset_tier) do
-			if tier_name == "gangster" then
-				for weapon, falloff_tier in pairs(preset.FALLOFF) do
-					falloff_tier.dmg_mul = falloff_tier.dmg_mul * mul * 1.5
-				end
-			else
-				for weapon, falloff_tier in pairs(preset.FALLOFF) do
-					falloff_tier.dmg_mul = falloff_tier.dmg_mul * mul
-				end
+			if preset.melee_dmg then
+				preset.melee_dmg = preset.melee_dmg * current_dmg_mul
+			end			
+
+			for weapon, falloff_tier in pairs(preset.FALLOFF) do
+				falloff_tier.dmg_mul = falloff_tier.dmg_mul * current_dmg_mul
 			end
 		end
 	end

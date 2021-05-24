@@ -450,6 +450,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	self.npc_melee.fists_dozer = {}
 	self.npc_melee.fists_dozer.unit_name = nil
 	self.npc_melee.fists_dozer.damage = 12
+	self.npc_melee.fists_dozer.push_mul = 3
 	self.npc_melee.fists_dozer.animation_param = "melee_fist"
 	self.npc_melee.fists_dozer.player_blood_effect = true
 	self.npc_melee.fists_dozer.armor_piercing = true
@@ -458,6 +459,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	self.npc_melee.helloween = {}
 	self.npc_melee.helloween.unit_name = Idstring("units/pd2_halloween/weapons/wpn_mel_titan_hammer/wpn_mel_titan_hammer")
 	self.npc_melee.helloween.damage = 12
+	self.npc_melee.fists_dozer.push_mul = 3
 	self.npc_melee.helloween.animation_param = "melee_fireaxe"
 	self.npc_melee.helloween.player_blood_effect = true
 	self.npc_melee.helloween.armor_piercing = true
@@ -466,6 +468,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	self.npc_melee.helloween_sword = {}
 	self.npc_melee.helloween_sword.unit_name = Idstring("units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword")
 	self.npc_melee.helloween_sword.damage = 12
+	self.npc_melee.fists_dozer.push_mul = 3
 	self.npc_melee.helloween_sword.animation_param = "melee_fireaxe"
 	self.npc_melee.helloween_sword.player_blood_effect = true
 	self.npc_melee.helloween_sword.armor_piercing = true
@@ -474,6 +477,7 @@ function WeaponTweakData:_init_data_npc_melee()
 	self.npc_melee.helloween_axe = {}
 	self.npc_melee.helloween_axe.unit_name = Idstring("units/pd2_mod_halloween/weapons/wpn_mel_hw_axe/wpn_mel_hw_axe")
 	self.npc_melee.helloween_axe.damage = 12
+	self.npc_melee.fists_dozer.push_mul = 3
 	self.npc_melee.helloween_axe.animation_param = "melee_fireaxe"
 	self.npc_melee.helloween_axe.player_blood_effect = true
 	self.npc_melee.helloween_axe.armor_piercing = true	
@@ -3253,6 +3257,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.glock_18c.stats_modifiers = nil
 	self.glock_18c.panic_suppression_chance = 0.05
+	self.glock_18c.timers.reload_interrupt = 0.3
+	self.glock_18c.timers.empty_reload_interrupt = 0.22
 
 	--Amcar
 	self.amcar.desc_id = "bm_menu_sc_amcar_desc"
@@ -3309,6 +3315,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.m16.stats_modifiers = nil
 	self.m16.panic_suppression_chance = 0.05
+	self.m16.timers.reload_interrupt = 0.16
+	self.m16.timers.empty_reload_interrupt = 0.11
 
 	--Para
 	self.olympic.desc_id = "bm_menu_sc_olympic_desc"
@@ -3631,6 +3639,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.deagle.stats_modifiers = nil
 	self.deagle.panic_suppression_chance = 0.05
+	self.deagle.timers.reload_interrupt = 0.32
+	self.deagle.timers.empty_reload_interrupt = 0.2
 
 	--Compact-5
 	self.new_mp5.fire_mode_data.fire_rate = 0.075
@@ -4337,6 +4347,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.fal.stats_modifiers = nil
 	self.fal.panic_suppression_chance = 0.05
+	self.fal.timers.reload_interrupt = 0.39
+	self.fal.timers.empty_reload_interrupt = 0.26
 
 	--M1014
 	self.benelli.AMMO_MAX = 80
@@ -4474,6 +4486,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.g3.stats_modifiers = nil
 	self.g3.panic_suppression_chance = 0.05
+	self.g3.timers.reload_interrupt = 0.36
+	self.g3.timers.empty_reload_interrupt = 0.32
 
 	--Gecko 7.62
 	self.galil.AMMO_MAX = 80
@@ -4502,6 +4516,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.galil.stats_modifiers = nil
 	self.galil.timers.reload_not_empty = 2.6
 	self.galil.timers.reload_empty = 3.9
+	self.galil.timers.reload_interrupt = 0.2
+	self.galil.timers.empty_reload_interrupt = 0.12
 	self.galil.panic_suppression_chance = 0.05
 
 	--Clarion
@@ -4748,6 +4764,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.g26.stats_modifiers = nil
 	self.g26.panic_suppression_chance = 0.05
+	self.g26.timers.reload_interrupt = 0.36
+	self.g26.timers.empty_reload_interrupt = 0.25
 
 	--Predator 12g
 	self.spas12.rays = 9
@@ -5013,6 +5031,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.hs2000.stats_modifiers = nil
 	self.hs2000.panic_suppression_chance = 0.05
+	self.hs2000.timers.reload_interrupt = 0.31
+	self.hs2000.timers.empty_reload_interrupt = 0.23
 
 	--Minigun
 	self.m134.categories = {
@@ -5442,6 +5462,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.mateba.stats_modifiers = nil
 	self.mateba.panic_suppression_chance = 0.05
+	self.mateba.timers.empty_reload_interrupt = 0.13
+	self.mateba.timers.reload_interrupt = 0.13
 
 	--Valkyria
 	self.asval.sounds.fire = "akm_fire_single"
@@ -5513,6 +5535,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.sub2000.panic_suppression_chance = 0.05
 	self.sub2000.stats_modifiers = nil
+	self.sub2000.timers.empty_reload_interrupt = 0.19
+	self.sub2000.timers.reload_interrupt = 0.28
 
 	--Lebensauger .308
 	self.wa2000.upgrade_blocks = nil
@@ -6270,11 +6294,13 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.contraband.stats_modifiers = nil
+	self.contraband.timers.reload_interrupt = 0.22
+	self.contraband.timers.empty_reload_interrupt = 0.19
 	self.contraband_m203.upgrade_blocks = {
 		weapon = {
 			"clip_ammo_increase"
 		}
-	}		
+	}
 	self.contraband_m203.kick = self.stat_info.kick_tables.vertical_kick
 	self.contraband_m203.panic_suppression_chance = 0.05
 	self.contraband_m203.ignore_damage_upgrades = true
@@ -6295,6 +6321,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.contraband_m203.stats_modifiers = {damage = 10}
+	self.contraband_m203.timers.empty_reload_interrupt = 0.14
 
 	--Commando 101
 	self.ray.upgrade_blocks = {
@@ -6592,6 +6619,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ching.can_shoot_through_shield = false
 	self.ching.can_shoot_through_wall = false	
 	self.ching.panic_suppression_chance = 0.05
+	self.ching.timers.reload_interrupt = 0.13
+	self.ching.timers.empty_reload_interrupt = 0.0
 	
 	--Mp40
 	self.erma.use_data.selection_index = 2
@@ -6672,6 +6701,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.shrew.stats_modifiers = nil
 	self.shrew.panic_suppression_chance = 0.05
+	self.shrew.timers.reload_interrupt = 0.36
+	self.shrew.timers.empty_reload_interrupt = 0.25
 
 	--Akimbo Crosskill
 	self.x_shrew.fire_mode_data.fire_rate = 0.08571428571
@@ -7944,6 +7975,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.beer.stats_modifiers = nil
 	self.beer.panic_suppression_chance = 0.05
+	self.beer.timers.reload_interrupt = 0.3
+	self.beer.timers.empty_reload_interrupt = 0.2
 	--Disabled
 	self.x_beer.use_data.selection_index = 4
 	self.x_beer.supported = true
@@ -7969,6 +8002,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.czech.stats_modifiers = nil
 	self.czech.panic_suppression_chance = 0.05
+	self.czech.timers.reload_interrupt = 0.25
+	self.czech.timers.empty_reload_interrupt = 0.2
+
 	--Akimbo CZ 75
 	self.x_czech.AMMO_MAX = 180
 	self.x_czech.fire_mode_data.fire_rate = 0.06
@@ -8012,6 +8048,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.stech.stats_modifiers = nil
 	self.stech.panic_suppression_chance = 0.05
+	self.stech.timers.reload_interrupt = 0.23
+	self.stech.timers.empty_reload_interrupt = 0.16
+
 	--Akimbo Igor
 	self.x_stech.fire_mode_data.fire_rate = 0.08
 	self.x_stech.AMMO_MAX = 150
@@ -8195,6 +8234,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.model3.timers.reload_not_empty = 2.4
 	self.model3.timers.reload_empty = 2.4		
 	self.model3.panic_suppression_chance = 0.05	
+	self.model3.timers.empty_reload_interrupt = 0.15
+	self.model3.timers.reload_interrupt = 0.15
 	
 	--Akimbo Model 87
 	self.x_model3.fire_mode_data = {}
@@ -8274,6 +8315,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m1911.stats_modifiers = nil
 	self.m1911.panic_suppression_chance = 0.05
 	self.m1911.swap_speed_multiplier = 0.9
+	self.m1911.timers.reload_interrupt = 0.3
+	self.m1911.timers.empty_reload_interrupt = 0.2
 
 	--Disable Akimbo Crosskill Chunky
 	self.x_m1911.use_data.selection_index = 4
@@ -8330,6 +8373,122 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 	--Disable Akimbo AK Gen 21 Tactical
 	self.x_vityaz.use_data.selection_index = 4
+	
+	--Akimbo Miyaka 10
+	--Disabled--	
+	self.x_pm9.use_data.selection_index = 4	
+
+	--Miyaka 10
+	--Moved to Primary slot
+	self.pm9.use_data.selection_index = 2	
+	self.pm9.CLIP_AMMO_MAX = 25
+	self.pm9.AMMO_MAX = 180
+	self.pm9.fire_mode_data.fire_rate = 0.05454545454
+	self.pm9.auto.fire_rate = 0.05454545454
+	self.pm9.kick = self.stat_info.kick_tables.even_recoil
+	self.pm9.supported = true
+	self.pm9.stats = {
+		damage = 20,
+		spread = 16,
+		recoil = 18,
+		spread_moving = 8,
+		zoom = 1,
+		concealment = 29,
+		suppression = 7,
+		alert_size = 2,
+		extra_ammo = 101,
+		total_ammo_mod = 100,
+		value = 1,
+		reload = 20
+	}
+	self.pm9.stats_modifiers = nil
+	self.pm9.panic_suppression_chance = 0.05	
+
+	--Kang Arms X1
+	self.qbu88.upgrade_blocks = nil
+	self.qbu88.has_description = true
+	self.qbu88.desc_id = "bm_ap_weapon_sc_desc"
+	self.qbu88.CLIP_AMMO_MAX = 10
+	self.qbu88.AMMO_MAX = 40
+	self.qbu88.fire_mode_data.fire_rate = 0.4
+	self.qbu88.CAN_TOGGLE_FIREMODE = false
+	self.qbu88.single = {}
+	self.qbu88.single.fire_rate = 0.4
+	self.qbu88.kick = self.stat_info.kick_tables.vertical_kick
+	self.qbu88.supported = true
+	self.qbu88.stats = {
+		damage = 90,
+		spread = 16,
+		recoil = 14,
+		spread_moving = 6,
+		zoom = 1,
+		concealment = 20,
+		suppression = 4,
+		alert_size = 2,
+		extra_ammo = 101,
+		total_ammo_mod = 100,
+		value = 9,
+		reload = 20
+	}
+	self.qbu88.armor_piercing_chance = 1
+	self.qbu88.stats_modifiers = nil
+	self.qbu88.panic_suppression_chance = 0.05	
+
+	--Byk-1 
+	self.groza.desc_id = "bm_m203_weapon_sc_desc"
+	self.groza.has_description = true
+	self.groza.AMMO_MAX = 60
+	self.groza.tactical_reload = 1
+	self.groza.FIRE_MODE = "auto"
+	self.groza.fire_mode_data.fire_rate = 0.08571428571
+	self.groza.CAN_TOGGLE_FIREMODE = true
+	self.groza.auto.fire_rate = 0.08571428571
+	self.groza.panic_suppression_chance = 0.05
+	self.groza.kick = self.stat_info.kick_tables.vertical_kick
+	self.groza.supported = true
+	self.groza.stats = {
+		damage = 45,
+		spread = 17,
+		recoil = 18,
+		spread_moving = 5,
+		zoom = 1,
+		concealment = 18,
+		suppression = 6,
+		alert_size = 2,
+		extra_ammo = 101,
+		total_ammo_mod = 100,
+		value = 1,
+		reload = 20
+	}
+	self.groza.stats_modifiers = nil
+	self.groza.timers.reload_interrupt = 0.3
+	self.groza.timers.empty_reload_interrupt = 0.21
+	self.groza_underbarrel.upgrade_blocks = {
+		weapon = {
+			"clip_ammo_increase"
+		}
+	}		
+	self.groza_underbarrel.kick = self.stat_info.kick_tables.vertical_kick
+	self.groza_underbarrel.panic_suppression_chance = 0.05
+	self.groza_underbarrel.ignore_damage_upgrades = true
+	self.groza_underbarrel.AMMO_MAX = 6
+	self.groza_underbarrel.supported = true
+	self.groza_underbarrel.stats = {
+		damage = 40,
+		spread = 17,
+		recoil = 9,
+		spread_moving = 6,
+		zoom = 1,
+		concealment = 25,
+		suppression = 20,
+		alert_size = 2,
+		extra_ammo = 101,
+		total_ammo_mod = 100,
+		value = 1,
+		reload = 20
+	}
+	self.groza_underbarrel.stats_modifiers = {damage = 10}
+	self.groza_underbarrel.timers.empty_reload_interrupt = 0.34
 		
 	--Restoration Weapons--
 	
@@ -8365,6 +8524,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--self.shatters_fury.animations.reload_name_id = "chinchilla"
 	self.shatters_fury.timers.reload_not_empty = 2.4
 	self.shatters_fury.timers.reload_empty = 2.4
+	self.shatters_fury.timers.reload_interrupt = 0.15
+	self.shatters_fury.timers.empty_reload_interrupt = 0.15
 	self.shatters_fury.swap_speed_multiplier = 0.6
 	--this line doesn't do shit
 	--self.shatters_fury.custom = true
@@ -8398,6 +8559,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.osipr.has_description = true
 	self.osipr.desc_id = "bm_w_osipr_desc"
 	self.osipr.custom = false	--TEMP fix for BeardLib sync
+	self.osipr.timers.reload_interrupt = 0.31
+	self.osipr.timers.empty_reload_interrupt = 0.19
 	
 	self.osipr_gl.AMMO_MAX = 9
 	self.osipr_gl.CLIP_AMMO_MAX = 6
@@ -8468,6 +8631,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.socom.stats_modifiers = nil
 	self.socom.panic_suppression_chance = 0.05
 	self.socom.swap_speed_multiplier = 0.95
+	self.socom.timers.reload_interrupt = 0.3
+	self.socom.timers.empty_reload_interrupt = 0.2
 	
 	--Akimbo Anubis .45
 	self.x_socom.tactical_reload = 2
