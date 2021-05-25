@@ -51,252 +51,15 @@ function WeaponTweakData:_init_data_sentry_gun_npc()
 end
 
 function WeaponTweakData:_set_normal()
-	--Bot sidearm--
-	self.beretta92_npc.DAMAGE = 1
-	
-	--Everything else--
-	self.shepheard_crew.DAMAGE = 1.8
-	self.erma_crew.DAMAGE = 1.8
-	self.polymer_crew.DAMAGE = 1.8		
-	
-	self.akm_gold_crew.DAMAGE = 1.8
-	self.amcar_crew.DAMAGE = 1.8
-	self.ak74_crew.DAMAGE = 1.8
-	self.m4_crew.DAMAGE = 1.8
-	self.aug_crew.DAMAGE = 1.8
-	self.akm_crew.DAMAGE = 1.8
-	self.g36_crew.DAMAGE = 1.8
-	self.m14_crew.DAMAGE = 1.8
-	self.ak5_crew.DAMAGE = 1.8
-	self.m16_crew.DAMAGE = 1.8
-	self.s552_crew.DAMAGE = 1.8
-	self.scar_crew.DAMAGE = 1.8
-	self.fal_crew.DAMAGE = 1.8
-	self.famas_crew.DAMAGE = 1.8
-	self.galil_crew.DAMAGE = 1.8
-	self.g3_crew.DAMAGE = 1.8
-	self.l85a2_crew.DAMAGE = 1.8
-	self.vhs_crew.DAMAGE = 1.8
-	self.asval_crew.DAMAGE = 1.8
-	self.tecci_crew.DAMAGE = 1.8
-	self.contraband_crew.DAMAGE = 1.8
-	self.flint_crew.DAMAGE = 1.8
-	self.corgi_crew.DAMAGE = 1.8
-	self.spas12_crew.DAMAGE = 4.5
-	self.b682_crew.DAMAGE = 12
-	self.r870_crew.DAMAGE = 12
-	self.saiga_crew.DAMAGE = 4.5
-	self.huntsman_crew.DAMAGE = 12
-	self.ben_crew.DAMAGE = 4.5
-	self.ksg_crew.DAMAGE = 12
-	self.aa12_crew.DAMAGE = 4.5
-	self.boot_crew.DAMAGE = 12
-	self.model70_crew.DAMAGE = 15
-	self.msr_crew.DAMAGE = 15
-	self.r93_crew.DAMAGE = 15
-	self.m95_crew.DAMAGE = 15
-	self.mosin_crew.DAMAGE = 15
-	self.winchester1874_crew.DAMAGE = 15
-	self.sbl_crew.DAMAGE = 15
-	self.wa2000_crew.DAMAGE = 15
-	self.desertfox_crew.DAMAGE = 15
-	self.tti_crew.DAMAGE = 15
-	self.siltstone_crew.DAMAGE = 15
-	self.r700_crew.DAMAGE = 15
-	self.ching_crew.DAMAGE = 15
-	self.par_crew.DAMAGE = 0.6
-	self.rpk_crew.DAMAGE = 0.6
-	self.m249_crew.DAMAGE = 0.6
-	self.hk21_crew.DAMAGE = 0.6
-	self.mg42_crew.DAMAGE = 0.6
-	self.m60_crew.DAMAGE = 0.6
 end
 
 function WeaponTweakData:_set_hard()
-	--Bot sidearm--
-	self.beretta92_npc.DAMAGE = 1
-	
-	--Everything else--
-	self.shepheard_crew.DAMAGE = 1.8
-	self.erma_crew.DAMAGE = 1.8
-	self.polymer_crew.DAMAGE = 1.8				
-	
-	self.akm_gold_crew.DAMAGE = 1.8
-	self.amcar_crew.DAMAGE = 1.8
-	self.ak74_crew.DAMAGE = 1.8
-	self.m4_crew.DAMAGE = 1.8
-	self.aug_crew.DAMAGE = 1.8
-	self.akm_crew.DAMAGE = 1.8
-	self.g36_crew.DAMAGE = 1.8
-	self.m14_crew.DAMAGE = 1.8
-	self.ak5_crew.DAMAGE = 1.8
-	self.m16_crew.DAMAGE = 1.8
-	self.s552_crew.DAMAGE = 1.8
-	self.scar_crew.DAMAGE = 1.8
-	self.fal_crew.DAMAGE = 1.8
-	self.famas_crew.DAMAGE = 1.8
-	self.galil_crew.DAMAGE = 1.8
-	self.g3_crew.DAMAGE = 1.8
-	self.l85a2_crew.DAMAGE = 1.8
-	self.vhs_crew.DAMAGE = 1.8
-	self.asval_crew.DAMAGE = 1.8
-	self.tecci_crew.DAMAGE = 1.8
-	self.contraband_crew.DAMAGE = 1.8
-	self.flint_crew.DAMAGE = 1.8
-	self.corgi_crew.DAMAGE = 1.8
-	self.spas12_crew.DAMAGE = 4.5
-	self.b682_crew.DAMAGE = 12
-	self.r870_crew.DAMAGE = 12
-	self.saiga_crew.DAMAGE = 4.5
-	self.huntsman_crew.DAMAGE = 12
-	self.ben_crew.DAMAGE = 4.5
-	self.ksg_crew.DAMAGE = 12
-	self.aa12_crew.DAMAGE = 4.5
-	self.boot_crew.DAMAGE = 12
-	self.model70_crew.DAMAGE = 15
-	self.msr_crew.DAMAGE = 15
-	self.r93_crew.DAMAGE = 15
-	self.m95_crew.DAMAGE = 15
-	self.mosin_crew.DAMAGE = 15
-	self.winchester1874_crew.DAMAGE = 15
-	self.sbl_crew.DAMAGE = 15
-	self.wa2000_crew.DAMAGE = 15
-	self.desertfox_crew.DAMAGE = 15
-	self.tti_crew.DAMAGE = 15
-	self.siltstone_crew.DAMAGE = 15
-	self.r700_crew.DAMAGE = 15
-	self.ching_crew.DAMAGE = 15
-	self.par_crew.DAMAGE = 0.6
-	self.rpk_crew.DAMAGE = 0.6
-	self.m249_crew.DAMAGE = 0.6
-	self.hk21_crew.DAMAGE = 0.6
-	self.mg42_crew.DAMAGE = 0.6
-	self.m60_crew.DAMAGE = 0.6
 end
 
 function WeaponTweakData:_set_overkill()
-	--Bot sidearm--
-	self.beretta92_npc.DAMAGE = 2
-	
-	--Everything else--
-	self.shepheard_crew.DAMAGE = 2.8
-	self.erma_crew.DAMAGE = 2.8
-	self.polymer_crew.DAMAGE = 2.8				
-	
-	self.akm_gold_crew.DAMAGE = 2.8
-	self.amcar_crew.DAMAGE = 2.8
-	self.ak74_crew.DAMAGE = 2.8
-	self.m4_crew.DAMAGE = 2.8
-	self.aug_crew.DAMAGE = 2.8
-	self.akm_crew.DAMAGE = 2.8
-	self.g36_crew.DAMAGE = 2.8
-	self.m14_crew.DAMAGE = 2.8
-	self.ak5_crew.DAMAGE = 2.8
-	self.m16_crew.DAMAGE = 2.8
-	self.s552_crew.DAMAGE = 2.8
-	self.scar_crew.DAMAGE = 2.8
-	self.fal_crew.DAMAGE = 2.8
-	self.famas_crew.DAMAGE = 2.8
-	self.galil_crew.DAMAGE = 2.8
-	self.g3_crew.DAMAGE = 2.8
-	self.l85a2_crew.DAMAGE = 2.8
-	self.vhs_crew.DAMAGE = 2.8
-	self.asval_crew.DAMAGE = 2.8
-	self.tecci_crew.DAMAGE = 2.8
-	self.contraband_crew.DAMAGE = 2.8
-	self.flint_crew.DAMAGE = 2.8
-	self.corgi_crew.DAMAGE = 2.8
-	self.spas12_crew.DAMAGE = 5.5
-	self.b682_crew.DAMAGE = 13
-	self.r870_crew.DAMAGE = 13
-	self.saiga_crew.DAMAGE = 5.5
-	self.huntsman_crew.DAMAGE = 13
-	self.ben_crew.DAMAGE = 5.5
-	self.ksg_crew.DAMAGE = 13
-	self.aa12_crew.DAMAGE = 5.5
-	self.boot_crew.DAMAGE = 13
-	self.model70_crew.DAMAGE = 16
-	self.msr_crew.DAMAGE = 16
-	self.r93_crew.DAMAGE = 16
-	self.m95_crew.DAMAGE = 16
-	self.mosin_crew.DAMAGE = 16
-	self.winchester1874_crew.DAMAGE = 16
-	self.sbl_crew.DAMAGE = 16
-	self.wa2000_crew.DAMAGE = 16
-	self.desertfox_crew.DAMAGE = 16
-	self.tti_crew.DAMAGE = 16
-	self.siltstone_crew.DAMAGE = 16
-	self.r700_crew.DAMAGE = 16
-	self.ching_crew.DAMAGE = 16
-	self.par_crew.DAMAGE = 1.6
-	self.rpk_crew.DAMAGE = 1.6
-	self.m249_crew.DAMAGE = 1.6
-	self.hk21_crew.DAMAGE = 1.6
-	self.mg42_crew.DAMAGE = 1.6
-	self.m60_crew.DAMAGE = 1.6
 end
 
 function WeaponTweakData:_set_overkill_145()
-	--Bot sidearm--
-	self.beretta92_npc.DAMAGE = 3
-	
-	--Everything else--
-	self.shepheard_crew.DAMAGE = 3.8
-	self.erma_crew.DAMAGE = 3.8
-	self.polymer_crew.DAMAGE = 3.8			
-	
-	self.akm_gold_crew.DAMAGE = 3.8
-	self.amcar_crew.DAMAGE = 3.8
-	self.ak74_crew.DAMAGE = 3.8
-	self.m4_crew.DAMAGE = 3.8
-	self.aug_crew.DAMAGE = 3.8
-	self.akm_crew.DAMAGE = 3.8
-	self.g36_crew.DAMAGE = 3.8
-	self.m14_crew.DAMAGE = 3.8
-	self.ak5_crew.DAMAGE = 3.8
-	self.m16_crew.DAMAGE = 3.8
-	self.s552_crew.DAMAGE = 3.8
-	self.scar_crew.DAMAGE = 3.8
-	self.fal_crew.DAMAGE = 3.8
-	self.famas_crew.DAMAGE = 3.8
-	self.galil_crew.DAMAGE = 3.8
-	self.g3_crew.DAMAGE = 3.8
-	self.l85a2_crew.DAMAGE = 3.8
-	self.vhs_crew.DAMAGE = 3.8
-	self.asval_crew.DAMAGE = 3.8
-	self.tecci_crew.DAMAGE = 3.8
-	self.contraband_crew.DAMAGE = 3.8
-	self.flint_crew.DAMAGE = 3.8
-	self.corgi_crew.DAMAGE = 3.8
-	self.spas12_crew.DAMAGE = 6.5
-	self.b682_crew.DAMAGE = 14
-	self.r870_crew.DAMAGE = 14
-	self.saiga_crew.DAMAGE = 6.5
-	self.huntsman_crew.DAMAGE = 14
-	self.ben_crew.DAMAGE = 6.5
-	self.ksg_crew.DAMAGE = 14
-	self.aa12_crew.DAMAGE = 6.5
-	self.boot_crew.DAMAGE = 14
-	self.model70_crew.DAMAGE = 17
-	self.msr_crew.DAMAGE = 17
-	self.r93_crew.DAMAGE = 17
-	self.m95_crew.DAMAGE = 17
-	self.mosin_crew.DAMAGE = 17
-	self.winchester1874_crew.DAMAGE = 17
-	self.sbl_crew.DAMAGE = 17
-	self.wa2000_crew.DAMAGE = 17
-	self.desertfox_crew.DAMAGE = 17
-	self.tti_crew.DAMAGE = 17
-	self.siltstone_crew.DAMAGE = 17
-	self.r700_crew.DAMAGE = 17
-	self.ching_crew.DAMAGE = 17
-	self.par_crew.DAMAGE = 2.6
-	self.rpk_crew.DAMAGE = 2.6
-	self.m249_crew.DAMAGE = 2.6
-	self.hk21_crew.DAMAGE = 2.6
-	self.mg42_crew.DAMAGE = 2.6
-	self.m60_crew.DAMAGE = 2.6
-	
 	if job == "chew" or job == "glace" then
 		self.swat_van_turret_module.HEALTH_INIT = 675
 		self.swat_van_turret_module.SHIELD_HEALTH_INIT = 90
@@ -488,12 +251,6 @@ function WeaponTweakData:_init_data_npc_melee()
 	self.npc_melee.buzzer_summer.damage = 6
 	self.npc_melee.buzzer_summer.animation_param = "melee_freedom"
 	self.npc_melee.buzzer_summer.player_blood_effect = true
-end
-
-function WeaponTweakData:_set_npc_weapon_damage_multiplier(mul)
-	for name, data in pairs(self.npc_melee) do
-		data.damage = data.damage * mul
-	end
 end
 
 function WeaponTweakData:_init_data_c45_npc()
@@ -3345,6 +3102,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.olympic.stats_modifiers = nil
+	self.olympic.timers.reload_interrupt = 0.28
+	self.olympic.timers.empty_reload_interrupt = 0.2
 
 	--AK
 	self.ak74.desc_id = "bm_menu_sc_ak74_desc"
@@ -3451,6 +3210,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.akmsu.stats_modifiers = nil
 	self.akmsu.timers.reload_not_empty = 1.95 
 	self.akmsu.timers.reload_empty = 3.7
+	self.akmsu.timers.reload_interrupt = 0.25
+	self.akmsu.timers.empty_reload_interrupt = 0.13
 
 	--Izhma 12G
 	self.saiga.rays = 9
@@ -3980,6 +3741,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.judge.stats_modifiers = {damage = 1}
 	self.judge.kick = self.stat_info.kick_tables.left_kick
 	self.judge.reload_speed_multiplier = 0.85
+	self.judge.timers.reload_interrupt = 0.12
+	self.judge.timers.empty_reload_interrupt = 0.12
 
 	--Swedish K
 	self.m45.CLIP_AMMO_MAX = 30
@@ -4176,6 +3939,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.hk21.swap_speed_multiplier = 0.9
 	self.hk21.stats_modifiers = nil
+	self.hk21.timers.reload_interrupt = 0.22
+	self.hk21.timers.empty_reload_interrupt = 0.34
 
 	--KSP
 	self.m249.categories = {
@@ -4208,6 +3973,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m249.timers.reload_empty = 5.5	
 	self.m249.panic_suppression_chance = 0.05
 	self.m249.swap_speed_multiplier = 0.9
+	self.m249.timers.reload_interrupt = 0.1
+	self.m249.timers.empty_reload_interrupt = 0.1
 
 	--RPK
 	self.rpk.categories = {
@@ -4239,6 +4006,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.rpk.stats_modifiers = nil
 	self.rpk.panic_suppression_chance = 0.055
 	self.rpk.swap_speed_multiplier = 0.9
+	self.rpk.timers.reload_interrupt = 0.27
+	self.rpk.timers.empty_reload_interrupt = 0.2
 
 	--Thanatos .50 cal
 	self.m95.upgrade_blocks = nil
@@ -4824,6 +4593,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mg42.timers.reload_empty = 6.25	
 	self.mg42.panic_suppression_chance = 0.05
 	self.mg42.swap_speed_multiplier = 0.9
+	self.mg42.timers.empty_reload_interrupt = 0.38
+	self.mg42.timers.reload_interrupt = 0.38
 
 	--Broomstick--
 	self.c96.sounds.fire = "c96_fire"
@@ -5785,6 +5556,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.par.stats_modifiers = nil
 	self.par.swap_speed_multiplier = 0.9
+	self.par.timers.empty_reload_interrupt = 0.36
+	self.par.timers.reload_interrupt = 0.36
 
 	--Baby Deagle
 	self.sparrow.AMMO_MAX = 75
@@ -6080,7 +5853,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.hajk.stats_modifiers = nil
 	self.hajk.timers.reload_not_empty = 1.9 
-	self.hajk.timers.reload_empty = 3.4	
+	self.hajk.timers.reload_empty = 3.4
+	self.hajk.timers.reload_interrupt = 0.27
+	self.hajk.timers.empty_reload_interrupt = 0.16
 
 	--Breaker 12g
 	self.boot.AMMO_MAX = 40
@@ -6236,6 +6011,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.rota.stats_modifiers = nil
+	self.rota.timers.reload_interrupt = 0.46 --Technically the cylinder is disengaged by like 14% in, but it felt really bad at that value. Animations cover it up anyway.
+	self.rota.timers.empty_reload_interrupt = 0.46
 
 	--Arbiter, duh--
 	self.arbiter.upgrade_blocks = {
@@ -6754,6 +6531,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}		
 	self.basset.stats_modifiers = nil
 	self.basset.reload_speed_multiplier = 1.25
+	self.basset.timers.reload_interrupt = 0.2
+	self.basset.timers.empty_reload_interrupt = 0.16
 
 	--Disabled--	
 	--Akimbo Grimms
@@ -7820,6 +7599,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}	
 	self.komodo.stats_modifiers = nil
+	self.komodo.timers.reload_interrupt = 0.24
+	self.komodo.timers.empty_reload_interrupt = 0.17
 
 	--DECA Technologies Compound Bow
 	self.elastic.upgrade_blocks = {
@@ -7894,6 +7675,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.coach.stats_modifiers = nil
 	self.coach.panic_suppression_chance = 0.05
 	self.coach.reload_speed_multiplier = 1.2
+	self.coach.timers.reload_interrupt = 0.05
+	self.coach.timers.empty_reload_interrupt = 0.05
 
 	--M13
 	self.legacy.fire_mode_data.fire_rate = 0.08571428571
@@ -8150,6 +7933,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m60.stats_modifiers = nil
 	self.m60.panic_suppression_chance = 0.05	
 	self.m60.swap_speed_multiplier = 0.9
+	self.m60.timers.reload_interrupt = 0.09
+	self.m60.timers.empty_reload_interrupt = 0.09
 	
 	--R700
 	self.r700.upgrade_blocks = nil
