@@ -4743,23 +4743,16 @@ function CharacterTweakData:_presets(tweak_data)
 		FALLOFF = {
 			{
 				r = 200,
-				acc = {0.75, 0.75},
+				acc = {0.65, 0.8},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
+				recoil = {0.6, 0.3},
+				burst_size = 1
 			},
 			{
 				r = 750,
-				acc = {0.125, 0.25},
-				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
-			},
-			{
-				r = 751,
 				acc = {0.65, 0.8},
 				dmg_mul = 1,
-				recoil = {0.6, 0.6},
+				recoil = {0.8, 0.4},
 				burst_size = 1
 			},
 			{
