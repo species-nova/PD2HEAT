@@ -1093,7 +1093,7 @@ function PlayerManager:_trigger_overheat_stack(equipped_unit, variant, killed_un
 
 	self:add_to_temporary_property("overheat_stacks", stacking_data.time, stacking_data.chance_inc)
 	managers.hud:start_buff("overheat_stacks", stacking_data.time)
-	managers.hud:set_stacks("overheat_stacks", math.max(math.round(self:get_temporary_property("overheat_stacks", 0) / stacking_data.chance_inc), 7))
+	managers.hud:set_stacks("overheat_stacks", math.min(math.round(self:get_temporary_property("overheat_stacks", 0) / stacking_data.chance_inc), 7))
 end
 
 function PlayerManager:_attempt_chico_injector()
