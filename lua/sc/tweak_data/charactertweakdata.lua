@@ -4467,8 +4467,8 @@ function CharacterTweakData:_presets(tweak_data)
 	--Typically 40 damage.
 	presets.weapon.expert.is_pistol = {
 		aim_delay = {0.1, 0.4}, --Delay to acquire target. Scales based on range vs max falloff range.
-		focus_delay = 1.5, --Delay to reach max accuracy and recoil control from when shooting starts.
-		focus_dis = 300,
+		focus_delay = 3, --Delay to reach max accuracy and recoil control from when shooting starts.
+		focus_dis = 500,
 		spread = 8,
 		miss_dis = 16, --Distance to offset vector on missed shots.
 		RELOAD_SPEED = 1.25,
@@ -4503,6 +4503,13 @@ function CharacterTweakData:_presets(tweak_data)
 				burst_size = 3
 			},
 			{
+				r = 901,
+				acc = {0.4, 0.7},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 1
+			},
+			{
 				r = 1800,
 				acc = {0.5, 0.8},
 				dmg_mul = 1,
@@ -4531,8 +4538,8 @@ function CharacterTweakData:_presets(tweak_data)
 	--Typically 40 damage.
 	presets.weapon.expert.is_akimbo_pistol = {
 		aim_delay = {0.1, 0.6},
-		focus_delay = 2,
-		focus_dis = 300,
+		focus_delay = 3,
+		focus_dis = 500,
 		spread = 10,
 		miss_dis = 20,
 		RELOAD_SPEED = 1,
@@ -4567,6 +4574,13 @@ function CharacterTweakData:_presets(tweak_data)
 				burst_size = 4
 			},
 			{
+				r = 751,
+				acc = {0.275, 0.5},
+				dmg_mul = 1,
+				recoil = {0.2, 0.2},
+				burst_size = 1
+			},
+			{
 				r = 1500,
 				acc = {0.25, 0.4},
 				dmg_mul = 1,
@@ -4590,13 +4604,12 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Maintains the Pistol's long range plinking but with bursty damage. Reduced ROF and close range accuracy puts it not far off from a pistol in terms of sustained damage at short range.
-	--*EXTREMELY* scary if not prioritized first if at a distance.
-	--Typically 105 damage.
+	--Quick to react. Big damage, fairly inaccurate- especially up close.
+	--105 damage.
 	presets.weapon.expert.is_revolver = {
 		aim_delay = {0.4, 0.8},
-		focus_delay = 1.5,
-		focus_dis = 400,
+		focus_delay = 3,
+		focus_dis = 500,
 		spread = 6,
 		miss_dis = 24,
 		RELOAD_SPEED = 1,
@@ -4625,21 +4638,21 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			{
 				r = 900,
-				acc = {0.3, 0.5},
+				acc = {0.2, 0.4},
 				dmg_mul = 1,
 				recoil = {0.55, 0.55},
 				burst_size = 1
 			},
 			{
 				r = 1800,
-				acc = {0.5, 0.8},
+				acc = {0.3, 0.5},
 				dmg_mul = 1,
 				recoil = {1, 1},
 				burst_size = 1
 			},
 			{
 				r = 3600,
-				acc = {0.5, 0.8},
+				acc = {0.3, 0.5},
 				dmg_mul = 0.5,
 				recoil = {0.9, 0.9},
 				burst_size = 1
@@ -4654,12 +4667,12 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Slightly slow to reach full effectiveness, especially up close. Generally fires in bursts that are effective at about any range.
-	--Up close, switches to full auto. In practice, works out to ~ similar effective damage due to accuracy penalty- depending on rifle's rof.
+	--Pretty average all-round. Threatening at any range, but not quite as much as more specialized guns.
+	--55 damage.
 	presets.weapon.expert.is_rifle = {
 		aim_delay = {0.3, 1.0},
-		focus_delay = 4,
-		focus_dis = 150,
+		focus_delay = 6,
+		focus_dis = 300,
 		spread = 10,
 		miss_dis = 20,
 		RELOAD_SPEED = 0.75,
@@ -4676,15 +4689,15 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 200,
 				acc = {1.0, 1.0},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
+				recoil = {0.6, 0.6},
+				burst_size = 30
 			},
 			{
 				r = 600,
 				acc = {0.25, 0.55},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
+				recoil = {0.6, 0.6},
+				burst_size = 30
 			},
 			{
 				r = 601,
@@ -4724,10 +4737,11 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Similar to a rifle, but without burst fire. Generally spookier at range, but less threatening up close.
+	--Long range burst, takes a while to become accurate enough to hit perfectly consistently, with the time it takes varying based on range. Struggles up close.
+	--Abuses acc values > 1 to achieve this.
 	presets.weapon.expert.is_dmr = {
 		aim_delay = {0.4, 1.0},
-		focus_delay = 6,
+		focus_delay = 12,
 		focus_dis = 150,
 		spread = 10,
 		miss_dis = 20,
@@ -4743,35 +4757,35 @@ function CharacterTweakData:_presets(tweak_data)
 		FALLOFF = {
 			{
 				r = 200,
-				acc = {0.65, 0.8},
+				acc = {1.0, 1.0},
 				dmg_mul = 1,
 				recoil = {0.6, 0.3},
 				burst_size = 1
 			},
 			{
 				r = 750,
-				acc = {0.65, 0.8},
+				acc = {0.33, 2.0}, --4 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {0.8, 0.4},
 				burst_size = 1
 			},
 			{
 				r = 1500,
-				acc = {0.65, 0.8},
+				acc = {0.0, 2.0}, --6 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {1.6, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 3000,
-				acc = {0.65, 0.8},
+				acc = {0.0, 1.5}, --8 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {1.6, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 6000,
-				acc = {0.3, 0.55},
+				acc = {0.0, 1.0}, --12 seconds to max acc.
 				dmg_mul = 0.5,
 				recoil = {1.6, 0.8},
 				burst_size = 1
@@ -4786,11 +4800,12 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Similar responsiveness as ARs, but with shorter range and more autofire. More dangerous up close.
+	--Similar to ARs, but with more threat up close and less from far away.
+	--65 damage. 
 	presets.weapon.expert.is_smg = {
 		aim_delay = {0.2, 0.8},
-		focus_delay = 3,
-		focus_dis = 200,
+		focus_delay = 6,
+		focus_dis = 400,
 		spread = 14,
 		miss_dis = 28,
 		RELOAD_SPEED = 1,
@@ -4807,33 +4822,33 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 200,
 				acc = {1.0, 1.0},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
+				recoil = {0.3, 0.3},
+				burst_size = 30
 			},
 			{
 				r = 450,
 				acc = {0.3, 0.9},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
+				recoil = {0.4, 0.3},
 				burst_size = 10
 			},
 			{
 				r = 900,
 				acc = {0.25, 0.75},
 				dmg_mul = 1,
-				recoil = {0.3, 0.3},
+				recoil = {0.4, 0.3},
 				burst_size = 10
 			},
 			{
 				r = 1800,
 				acc = {0.2, 0.6},
 				dmg_mul = 1,
-				recoil = {0.6, 0.3},
+				recoil = {0.6, 0.4},
 				burst_size = 5
 			},
 			{
 				r = 3600,
-				acc = {0.2, 0.6},
+				acc = {0.1, 0.3},
 				dmg_mul = 0.5,
 				recoil = {0.9, 0.6},
 				burst_size = 3
@@ -4848,10 +4863,10 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Focus on suppressing player with high volume+damage inaccurate fire. Similar range to rifles. Very slow to react.
+	--Focus on suppressing player with high volume+damage inaccurate fire. Players that remain in it too long will get torn apart if the focus_delay is left to tick down.
 	presets.weapon.expert.is_lmg = {
 		aim_delay = {0.4, 1.2},
-		focus_delay = 6,
+		focus_delay = 12,
 		focus_dis = 150,
 		spread = 16,
 		miss_dis = 48,
@@ -4866,46 +4881,46 @@ function CharacterTweakData:_presets(tweak_data)
 		},
 		FALLOFF = {
 			{
-				r = 600,
+				r = 200,
 				acc = {0.75, 1.0},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
+				recoil = {0.4, 0.4},
+				burst_size = 30
 			},
 			{
 				r = 600,
-				acc = {0.15, 0.45},
+				acc = {0.2, 0.7},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 10
+				recoil = {0.4, 0.4},
+				burst_size = 30
 			},
 			{
 				r = 1125,
-				acc = {0.1, 0.4},
+				acc = {0.15, 0.6},
 				dmg_mul = 1,
-				recoil = {0.3, 0.3},
-				burst_size = 8
+				recoil = {0.4, 0.4},
+				burst_size = 15
 			},
 			{
 				r = 2250,
-				acc = {0.1, 0.3},
+				acc = {0.1, 0.5},
 				dmg_mul = 1,
-				recoil = {0.6, 0.3},
-				burst_size = 8
+				recoil = {0.6, 0.4},
+				burst_size = 12
 			},
 			{
 				r = 4500,
-				acc = {0.0, 0.3},
+				acc = {0.0, 0.4},
 				dmg_mul = 0.5,
-				recoil = {0.6, 0.3},
-				burst_size = 6
+				recoil = {0.6, 0.4},
+				burst_size = 9
 			},
 			{
 				r = 6750,
 				acc = {0, 0},
 				dmg_mul = 0,
 				recoil = {0.9, 0.6},
-				burst_size = 3
+				burst_size = 6
 			}
 		}
 	}
@@ -4913,7 +4928,7 @@ function CharacterTweakData:_presets(tweak_data)
 	--LMG but with more close range grunt and even more extreme stats.
 	presets.weapon.expert.is_mini = {
 		aim_delay = {0.6, 1.8},
-		focus_delay = 10,
+		focus_delay = 12,
 		focus_dis = 150,
 		spread = 20,
 		miss_dis = 48,
@@ -4931,43 +4946,43 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 200,
 				acc = {1.0, 1.0},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 20
+				recoil = {1.0, 1.0},
+				burst_size = 300
 			},
 			{
 				r = 600,
 				acc = {0.5, 1.0},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 20
+				recoil = {1.0, 1.0},
+				burst_size = 300
 			},
 			{
 				r = 1125,
 				acc = {0.0, 0.5},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 20
+				recoil = {1.0, 1.0},
+				burst_size = 150
 			},
 			{
 				r = 2250,
 				acc = {0.0, 0.25},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
-				burst_size = 20
+				recoil = {1.0, 1.0},
+				burst_size = 100
 			},
 			{
 				r = 4500,
 				acc = {0.0, 0.125},
 				dmg_mul = 0.5,
-				recoil = {0.9, 0.6},
-				burst_size = 10
+				recoil = {1.0, 1.0},
+				burst_size = 75
 			},
 			{
 				r = 6750,
 				acc = {0, 0},
 				dmg_mul = 0,
-				recoil = {0.9, 0.6},
-				burst_size = 5
+				recoil = {1.0, 1.0},
+				burst_size = 50
 			}
 		}
 	}
@@ -5000,7 +5015,7 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 800,
 				acc = {0.0, 1.0},
 				dmg_mul = 1,
-				recoil = {1.5, 1.0},
+				recoil = {1.5, 1},
 				burst_size = 1
 			},
 			{
@@ -5023,7 +5038,7 @@ function CharacterTweakData:_presets(tweak_data)
 	--Close range murder if left unchecked. Somewhat inconsistent.
 	presets.weapon.expert.is_shotgun_mag = {
 		aim_delay = {0.3, 0.4},
-		focus_delay = 5,
+		focus_delay = 6,
 		focus_dis = 100,
 		spread = 20,
 		miss_dis = 20,
@@ -5041,14 +5056,14 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 400,
 				acc = {0.6, 1.0},
 				dmg_mul = 1,
-				recoil = {0.0, 0.0},
+				recoil = {0.3, 0.3},
 				burst_size = 6
 			},
 			{
 				r = 700,
 				acc = {0.4, 0.6},
 				dmg_mul = 1,
-				recoil = {0.5, 0.0},
+				recoil = {0.5, 0.4},
 				burst_size = 4
 			},
 			{

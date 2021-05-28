@@ -878,7 +878,6 @@ function CopActionShoot:update(t)
 
 				--Update shots fired counter.
 				self._autoshots_fired = self._autoshots_fired + 1
-
 				--Check if autofiring has finished firing the planned number of bullets.
 				if self._autofiring <= self._autoshots_fired then
 					self:_stop_autofire(true)
@@ -1003,7 +1002,9 @@ function CopActionShoot:update(t)
 
 			if shoot and self._shoot_t < t then
 				local falloff, i_range = self:_get_shoot_falloff(target_dis, self._falloff)
-				local rounds_fired = self._automatic_weap and falloff.burst_size or 1
+				local prev_falloff = self._falloff[math_max(i_range - 1, 1)]
+				local dis_lerp = self:_get_dis_lerp(falloff, prev_falloff, target_dis)
+				local rounds_fired = self._automatic_weap and math_round(math_lerp(falloff.burst_size, prev_falloff.burst_size, dis_lerp)) or 1
 
 				if rounds_fired > 1 then --Start autofire.
 					self._weapon_base:start_autofire(rounds_fired < 4 and rounds_fired)
@@ -1019,8 +1020,6 @@ function CopActionShoot:update(t)
 					end
 				else --Semi Auto
 				--TODO: Refactor the single shot portion of update to a standalone function that can be more safely called externally.
-					local prev_falloff = self._falloff[math_max(i_range - 1, 1)]
-					local dis_lerp = self:_get_dis_lerp(falloff, prev_falloff, target_dis)
 					local focus_prog = self:_get_focus_prog(t)
 
 					local new_target_pos = self._shoot_history and self:_get_unit_shoot_pos(t, target_pos, target_dis, falloff, i_range, autotarget, dis_lerp, focus_prog)
