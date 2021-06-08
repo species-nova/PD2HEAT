@@ -1908,7 +1908,7 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 				local done_moving = nil
 
 				for u_key, u_data in pairs_g(group.units) do
-					if u_data.unit then
+					if alive(u_data.unit) then
 						if u_data.unit:brain() then
 							local objective = u_data.unit:brain():objective()
 
@@ -1930,7 +1930,7 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 								end
 							end
 						else
-							local line = Draw:brush(Color.blue:with_alpha(0.5), 0.2)
+							local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
 							line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
 							log("please die")
 						end
