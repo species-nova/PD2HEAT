@@ -2476,7 +2476,13 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 			if assault_path and #assault_path > 2 and assault_area.nav_segs[assault_path[#assault_path - 1][1]] then
 				table_remove(assault_path)
 			end
+			
+			local obj_charge = charge 
 
+			if not obj_charge and push then
+				obj_charge = not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire
+			end
+			
 			local grp_objective = {
 				type = "assault_area",
 				stance = "hos",
@@ -2487,7 +2493,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 				moving_in = push and true or nil,
 				open_fire = push or nil,
 				pushed = push or nil,
-				charge = charge or not tactics_map and push or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire and push,
+				charge = obj_charge,
 				interrupt_dis = nil
 			}
 			--group.is_chasing = group.is_chasing or push
