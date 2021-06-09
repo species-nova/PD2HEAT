@@ -1933,24 +1933,36 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 							local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
 							line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
 							log("please die")
+							group.size = group.size - 1
+							group.units[u_key] = nil
+							if group.size <= 1 and group.has_spawned then
+								self._groups[group_id] = nil
+							end
 						end
 					else
 						log("why are you like this, please")
 						group.size = group.size - 1
 						group.units[u_key] = nil
+						if group.size <= 1 and group.has_spawned then
+							self._groups[group_id] = nil
+						end
 					end
 				end
+				
+				if self._groups[group_id] then
+					if done_moving == true then
+						grp_objective.moving_out = nil
+						group.in_place_t = self._t
+						grp_objective.moving_in = nil
 
-				if done_moving == true then
-					grp_objective.moving_out = nil
-					group.in_place_t = self._t
-					grp_objective.moving_in = nil
-
-					self:_voice_move_complete(group)
+						self:_voice_move_complete(group)
+					end
 				end
 			end
 			
-			self:_set_assault_objective_to_group(group, phase)
+			if self._groups[group_id] then
+				self:_set_assault_objective_to_group(group, phase)
+			end
 		end
 	end
 end
