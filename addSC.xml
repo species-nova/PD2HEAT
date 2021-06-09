@@ -3019,6 +3019,10 @@
 	<effect path="effects/payday2/particles/impacts/blood/brain_splat" />		
 	<texture path="effects/textures/brain_impacts_df" />
 	
+	<!--Skill-based VFX-->
+	<!--these are used at all times and need to use load=true, their size is small, so it should be fine-->
+	<effect path="effects/pd2_mod_heatgen/explosions/overheat" load="true"/> 
+	
 	<!-- Halloween Sword icon -->
 	<texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/melee_weapons/halloween_sword"/>
 	

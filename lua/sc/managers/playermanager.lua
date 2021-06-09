@@ -606,6 +606,12 @@ function PlayerManager:check_skills()
 	end
 end
 
+local mvec3_norm = mvector3.normalize
+local mvec3_dis_sq = mvector3.distance_sq
+local mvec3_cpy = mvector3.copy
+
+local ovh_idstr = Idstring("effects/pd2_mod_heatgen/explosions/overheat")
+
 function PlayerManager:enemy_shot(unit, attack_data)
 	self._message_system:notify(Message.OnEnemyShot, nil, self._unit, attack_data)
 
@@ -625,7 +631,7 @@ function PlayerManager:enemy_shot(unit, attack_data)
 		local overheat_data = self:upgrade_value("player", "overheat")
 		local player_pos = player_unit:movement():m_pos()
 		local source_pos = unit:movement():m_pos()
-		local distance = mvector3.distance_sq(player_pos, source_pos)
+		local distance = mvec3_dis_sq(player_pos, source_pos)
 		if distance > overheat_data.range * overheat_data.range then
 			return
 		end
@@ -634,6 +640,15 @@ function PlayerManager:enemy_shot(unit, attack_data)
 		local chance = overheat_data.chance + self:get_temporary_property("overheat_stacks", 0)
 		local roll = math.random()
 		if roll <= chance then
+			local source_com = unit:movement():m_com()
+			
+			World:effect_manager():spawn({
+				effect = ovh_idstr,
+				position = source_com,
+				normal = math.UP
+			})
+			unit:sound():play("swat_explosion")
+			
 			local hit_enemies = World:find_units_quick("sphere", source_pos, overheat_data.aoe_radius, managers.slot:get_mask("enemies"))
 
 			--Damage nearby enemies.
@@ -643,14 +658,14 @@ function PlayerManager:enemy_shot(unit, attack_data)
 
 				if dmg_ext and dmg_ext.damage_simple then
 					local m_com = enemy:movement():m_com()
-					local attack_dir = m_com - player_unit:movement():m_head_pos()
-					mvector3.normalize(attack_dir)
+					local attack_dir = m_com - source_com
+					mvec3_norm(attack_dir)
 
 					local overheat_attack_data = {
 						variant = "overheat",
 						damage = attack_data.damage * overheat_data.damage,
 						attacker_unit = player_unit,
-						pos = mvector3.copy(m_com),
+						pos = mvec3_cpy(m_com),
 						attack_dir = attack_dir
 					}
 
