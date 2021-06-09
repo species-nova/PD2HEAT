@@ -9608,7 +9608,7 @@ function WeaponTweakData:_create_table_structure()
 		auto = {}
 	}
 	self.ching_crew = {
-		usage = "is_sniper",
+		usage = "is_dmr", --FIXME!!
 		anim_usage = "is_rifle",
 		sounds = {},
 		use_data = {},
