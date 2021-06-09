@@ -1987,7 +1987,7 @@ function GroupAIStateBesiege:_upd_groups()
 								objective.element:clbk_objective_administered(u_data.unit)
 							end
 
-							brain():set_objective(objective)
+							brain:set_objective(objective)
 						end
 					end
 				else
