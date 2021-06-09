@@ -1967,6 +1967,52 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 	end
 end
 
+function GroupAIStateBesiege:_upd_groups()
+	for group_id, group in pairs_g(self._groups) do
+		self:_verify_group_objective(group)
+
+		for u_key, u_data in pairs_g(group.units) do
+			if alive(u_data.unit) then
+				if u_data.unit:brain() then
+					local brain = u_data.unit:brain()
+					local current_objective = brain:objective()
+
+					if (not current_objective or current_objective.is_default or current_objective.grp_objective and current_objective.grp_objective ~= group.objective and not current_objective.grp_objective.no_retry) and (not group.objective.follow_unit or alive(group.objective.follow_unit)) then
+						local objective = self._create_objective_from_group_objective(group.objective, u_data.unit)
+
+						if objective and brain:is_available_for_assignment(objective) then
+							self:set_enemy_assigned(objective.area or group.objective.area, u_key)
+
+							if objective.element then
+								objective.element:clbk_objective_administered(u_data.unit)
+							end
+
+							brain():set_objective(objective)
+						end
+					end
+				else
+					local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
+					line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
+					log("please die")
+					group.size = group.size - 1
+					group.units[u_key] = nil
+					if group.size <= 1 and group.has_spawned then
+						self._groups[group_id] = nil
+					end
+				end
+			else
+				log("why are you like this, please")
+				group.size = group.size - 1
+				group.units[u_key] = nil
+				
+				if group.size <= 1 and group.has_spawned then
+					self._groups[group_id] = nil
+				end
+			end
+		end
+	end
+end
+
 function GroupAIStateBesiege:is_area_populated(area)
 	for u_key, u_data in pairs(self._police) do
 		if not u_data.is_deployable and u_data.tactics_map and not u_data.tactics_map.flank and area.nav_segs[u_data.tracker:nav_segment()] then
