@@ -402,7 +402,7 @@ function PlayerDamage:damage_bullet(attack_data)
 			self:play_whizby(attack_data.col_ray.position)
 			self:_hit_direction(attacker_unit:position())
 			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
-			if not self:is_friendly_fire(attacker_unit, true)
+			if not self:is_friendly_fire(attacker_unit, true) then
 				managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
 			end
 			return	
