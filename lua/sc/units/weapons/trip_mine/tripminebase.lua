@@ -111,7 +111,7 @@ function TripMineBase:_explode(col_ray)
 		new_brush:cylinder(my_pos, self._ray_to_pos, damage_size)
 	end
 
-	managers.explosion:give_local_player_dmg(hit_pos, damage_size, tweak_data.weapon.trip_mines.player_damage)
+	managers.explosion:give_local_player_dmg(hit_pos, damage_size, tweak_data.weapon.trip_mines.player_damage, player)
 	self:_play_sound_and_effects(damage_size)
 
 	local unit = self._unit
@@ -339,7 +339,7 @@ end
 function TripMineBase:sync_trip_mine_explode(user_unit, ray_from, ray_to, damage_size, damage)
 	local hit_pos = ray_from + ray_to * 5
 
-	managers.explosion:give_local_player_dmg(hit_pos, damage_size, tweak_data.weapon.trip_mines.player_damage)
+	managers.explosion:give_local_player_dmg(hit_pos, damage_size, tweak_data.weapon.trip_mines.player_damage, user_unit)
 	self:_play_sound_and_effects(damage_size)
 
 	if draw_sync_explosion_sphere then

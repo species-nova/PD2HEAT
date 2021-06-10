@@ -1860,7 +1860,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",
-			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##30%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##10%## for ##10## seconds. This effect stacks up to ##7## times.",
+			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##40%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##10%## for ##10## seconds. This effect stacks up to ##6## times.",
 
 			--}
 
@@ -2334,7 +2334,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck18_9_desc_sc"] = "Your dodge meter fills up by ##40%## of your dodge every second while you are inside of your smoke screen.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Stoic--
-		["menu_deck19_1_desc_sc"] = "Unlocks and equips the Stoic Hip Flask.\n\n##30%## of damage taken is applied over time (##8## seconds).\n\nYou can use the throwable key to activate the Stoic Hip Flask and immediately negate any damage-over-time.\n\nWhenever damage-over-time is negated, you heal for ##250%## of the remaining damage-over-time. The flask has a ##30## second cooldown.\n\nAll of your ##armor is converted to 50% health.##\n\n##Deflection is disabled while using this perk deck.##",
+		["menu_deck19_1_desc_sc"] = "Unlocks and equips the Stoic Hip Flask.\n\n##30%## of damage taken is applied over time (##8## seconds).\n\nYou can use the throwable key to activate the Stoic Hip Flask and immediately negate any damage-over-time.\n\nWhenever damage-over-time is negated, you heal for ##300%## of the remaining damage-over-time. The flask has a ##30## second cooldown.\n\nAll of your ##armor is converted to 50% health.##",
 		["menu_deck19_3_desc_sc"] = "The cooldown of your flask will be reduced by ##1## second for each enemy you kill.",
 		["menu_deck19_5_desc_sc"] = "After not taking damage for ##4## seconds any remaining damage-over-time will be negated.",
 		["menu_deck19_7_desc_sc"] = "When your health is below ##50%##, the cooldown of your flask will be reduced by ##6## seconds for each enemy you kill.",

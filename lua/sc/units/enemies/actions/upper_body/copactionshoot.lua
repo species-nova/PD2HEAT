@@ -721,7 +721,7 @@ function CopActionShoot:_get_unit_shoot_pos(t, pos, dis, falloff, i_range, shoot
 		end
 	end
 
-	if self:_pseudorandom() < hit_chance then --Attack hit, set the last hit pos to the current one.
+	if math_random() < hit_chance then --Attack hit, set the last hit pos to the current one. Not using pseudorandom because fuck streaky rng.
 		mvec3_set(self._shoot_history.m_last_pos, pos)
 	else --Otherwise, determine vector to make the shot miss.
 		local enemy_vec = temp_vec2
@@ -984,7 +984,7 @@ function CopActionShoot:update(t)
 
 								if self._shooting_player then
 									local lerp_focus_t = math_min(1, (self._shoot_t - t) / (self._shoot_t - self._sniper_focus_start_t))
-									self:set_sniper_focus_sound(lerp_focus_t)
+									self:set_sniper_focus_sound(1 - lerp_focus_t)
 								end
 							end
 						else
