@@ -499,6 +499,6 @@ function UnitNetworkHandler:sync_explosion_to_client(unit, position, normal, dam
 		return
 	end
 
-	managers.explosion:give_local_player_dmg(position, range, damage, nil, unit)
+	managers.explosion:give_local_player_dmg(position, range, damage, unit)
 	managers.explosion:explode_on_client(position, normal, unit, damage, range, curve_pow)
 end
