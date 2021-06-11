@@ -984,7 +984,6 @@ function InstantExplosiveBulletBase:on_collision_server(position, normal, damage
 end
 
 function InstantExplosiveBulletBase:on_collision_client(position, normal, damage, user_unit)
-	log("FUCK")
 	managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
 	managers.explosion:explode_on_client(position, normal, user_unit, damage, self.RANGE, self.CURVE_POW, self.EFFECT_PARAMS)
 end
