@@ -492,3 +492,13 @@ end
 function UnitNetworkHandler:sync_skm_captain(name)
 	tweak_data.skirmish.captain = name
 end
+
+
+function UnitNetworkHandler:sync_explosion_to_client(unit, position, normal, damage, range, curve_pow, sender)
+	if not self._verify_gamestate(self._gamestate_filter.any_ingame) or not self._verify_sender(sender) then
+		return
+	end
+
+	managers.explosion:give_local_player_dmg(position, range, damage, unit)
+	managers.explosion:explode_on_client(position, normal, unit, damage, range, curve_pow)
+end

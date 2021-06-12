@@ -718,11 +718,6 @@ end
 --Get health damage reduction gained via skills.
 --Crashes mentioning this function mean that there is a syntax error in the file.
 function PlayerManager:get_deflection_from_skills()
-	--"""Upgrade"""
-	if self:has_category_upgrade("player", "no_deflection") then
-		return -self:body_armor_value("deflection", nil, 0)
-	end
-
 	return 
 		  self:upgrade_value("player", "deflection_addend", 0)
 		+ self:upgrade_value("player", "frenzy_deflection", 0)
@@ -1108,7 +1103,7 @@ function PlayerManager:_trigger_overheat_stack(equipped_unit, variant, killed_un
 
 	self:add_to_temporary_property("overheat_stacks", stacking_data.time, stacking_data.chance_inc)
 	managers.hud:start_buff("overheat_stacks", stacking_data.time)
-	managers.hud:set_stacks("overheat_stacks", math.min(math.round(self:get_temporary_property("overheat_stacks", 0) / stacking_data.chance_inc), 7))
+	managers.hud:set_stacks("overheat_stacks", math.min(math.round(self:get_temporary_property("overheat_stacks", 0) / stacking_data.chance_inc), 6))
 end
 
 function PlayerManager:_attempt_chico_injector()
