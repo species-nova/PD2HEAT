@@ -1345,7 +1345,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_1/ene_omnia_hrt_1")
 				},
 				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_1")
+					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2")
 				},
 				nypd = {
 					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")
