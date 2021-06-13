@@ -272,8 +272,7 @@ function WeaponTweakData:_init_data_c45_npc()
 	self.colt_1911_primary_npc.use_data.selection_index = 2
 	self.colt_1911_primary_npc.CLIP_AMMO_MAX = 8
 	self.colt_1911_primary_npc.sounds.prefix = "c45_fire"
-	self.colt_1911_primary_npc.damage = 8
-	self.colt_1911_primary_npc.fire_rate_multiplier = 0.5
+	self.colt_1911_primary_npc.damage = 4
 
 	self.beretta92_titan_npc = deep_clone(self.c45_npc)
 	self.beretta92_titan_npc.sounds.prefix = "beer_npc"
@@ -283,6 +282,15 @@ function WeaponTweakData:_init_data_c45_npc()
 	self.beretta92_titan_npc.has_suppressor = "suppressed_b"	
 	self.beretta92_titan_npc.auto = {fire_rate = 0.075}
 	self.beretta92_titan_npc.FIRE_MODE = "auto"
+
+	self.m1911_npc = deep_clone(self.c45_npc)
+	self.m1911_npc.use_data.selection_index = 2
+	self.m1911_npc.CLIP_AMMO_MAX = 8
+	
+	self.white_streak_npc = deep_clone(self.c45_npc)
+	self.white_streak_npc.sounds.prefix = "pl14_npc"
+	self.m1911_npc.use_data.selection_index = 2
+	self.m1911_npc.CLIP_AMMO_MAX = 8
 end
 
 function WeaponTweakData:_init_data_x_c45_npc()
@@ -345,29 +353,14 @@ function WeaponTweakData:_init_data_raging_bull_npc()
 	self.raging_bull_npc.suppression = 3.2
 	self.raging_bull_npc.FIRE_MODE = "single"
 	
-	self.m1911_npc = deep_clone(self.raging_bull_npc)
-	self.m1911_npc.use_data.selection_index = 2
-	self.m1911_npc.CLIP_AMMO_MAX = 8
-	self.m1911_npc.sounds.prefix = "c45_npc"
-	self.m1911_npc.anim_usage = "is_pistol"
-	self.m1911_npc.hold = "pistol"
-	self.m1911_npc.reload = "pistol"		
-	self.m1911_npc.alert_size = 2500
-	self.m1911_npc.suppression = 3
-	self.m1911_npc.DAMAGE = 8
-	self.m1911_npc.fire_rate_multiplier = 0.5
-	self.m1911_npc.usage = "is_pistol"
-	
-	self.white_streak_npc = deep_clone(self.m1911_npc)
-	self.white_streak_npc.sounds.prefix = "pl14_npc"
-	
 	self.deagle_npc = deep_clone(self.raging_bull_npc)
 	self.deagle_npc.CLIP_AMMO_MAX = 8
 	self.deagle_npc.anim_usage = "is_pistol"
 	self.deagle_npc.hold = "pistol"
 	self.deagle_npc.reload = "pistol"	
 	self.deagle_npc.sounds.prefix = "deagle_npc"
-	self.m1911_npc.DAMAGE = 8
+	self.deagle_npc.DAMAGE = 8
+	self.deagle_npc.fire_rate_multiplier = 1.3
 	
 	self.peacemaker_npc = deep_clone(self.raging_bull_npc)
 	self.peacemaker_npc.sounds.prefix = "peacemaker_npc"
