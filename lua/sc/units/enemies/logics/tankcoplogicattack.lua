@@ -335,13 +335,39 @@ function TankCopLogicAttack._upd_combat_movement(data)
 	local want_to_move_back = my_data.want_to_move_back
 
 	if not action_taken then
-		local should_try_chase = true
+		local tactics = data.tactics
+		local charge = tactics and tactics.charge
+		local valid_harass = nil
+		
+		if tactics and tactics.harass then		
+			if not data.unit:in_slot(16) and not data.is_converted and focus_enemy.is_person then
+				if focus_enemy.is_local_player then
+					local e_movement_state = focus_enemy.unit:movement():current_state()
+								
+					if e_movement_state:_is_reloading() then
+						valid_harass = true
+					end
+				else
+					local e_anim_data = focus_enemy.unit:anim_data()
+
+					if e_anim_data.reload then
+						valid_harass = true
+					end
+				end
+			end
+						
+			if valid_harass then
+				managers.groupai:state():chk_say_enemy_chatter(data.unit, data.m_pos, "reload")
+			end
+		end
+	
+		local should_try_chase = not tactics or charge and not want_to_move_back or valid_harass or my_data.use_flank_pos_when_chasing and not want_to_move_back or focus_enemy.verified_t and t - focus_enemy.verified_t > 5
 		
 		if should_try_chase then
 			if not my_data.chase_path_failed_t or t - my_data.chase_path_failed_t > 1 then --helps not nuking performance if there's too many Dozers in attack logic
 				if my_data.chase_path then
 					local enemy_dis = enemy_visible and focus_enemy.dis or focus_enemy.verified_dis
-					local run_dist = enemy_visible and 1500 or 800
+					local run_dist = enemy_visible and my_data.weapon_range.optimal or my_data.weapon_range.close
 					local speed = enemy_dis < run_dist and "walk" or "run"
 
 					action_taken = TankCopLogicAttack._chk_request_action_walk_to_chase_pos(data, my_data, speed)
@@ -402,7 +428,7 @@ function TankCopLogicAttack._upd_combat_movement(data)
 								line:cylinder(my_pos, my_data.chase_pos, 25)]]
 
 								local enemy_dis = enemy_visible and focus_enemy.dis or focus_enemy.verified_dis
-								local run_dist = enemy_visible and 1500 or 800
+								local run_dist = enemy_visible and my_data.weapon_range.optimal or my_data.weapon_range.close
 								local speed = enemy_dis < run_dist and "walk" or "run"
 
 								action_taken = TankCopLogicAttack._chk_request_action_walk_to_chase_pos(data, my_data, speed)
@@ -441,7 +467,7 @@ function TankCopLogicAttack._upd_combat_movement(data)
 
 		if current_haste then
 			local enemy_dis = enemy_visible and focus_enemy.dis or focus_enemy.verified_dis
-			local run_dist = enemy_visible and 1400 or 700
+			local run_dist = enemy_visible and my_data.weapon_range.optimal or my_data.weapon_range.close
 			local change_speed = nil
 
 			if current_haste == "run" then
@@ -569,7 +595,7 @@ function TankCopLogicAttack.action_complete_clbk(data, action)
 		end
 
 		if my_data.surprised then
-			my_data.surprised = false
+			my_data.surprised = nil
 		end
 
 		TankCopLogicAttack._cancel_chase_attempt(data, my_data)
