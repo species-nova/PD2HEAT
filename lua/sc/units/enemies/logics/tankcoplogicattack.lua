@@ -65,7 +65,7 @@ function TankCopLogicAttack.enter(data, new_logic_name, enter_params)
 	local key_str = tostring(data.key)
 	my_data.detection_task_key = "TankLogicAttack._upd_enemy_detection" .. key_str
 
-	CopLogicBase.queue_task(my_data, my_data.detection_task_key, TankCopLogicAttack._upd_enemy_detection, data, data.t, data.important and true)
+	CopLogicBase.queue_task(my_data, my_data.detection_task_key, TankCopLogicAttack._upd_enemy_detection, data, data.t, true)
 
 	CopLogicIdle._chk_has_old_action(data, my_data)
 
@@ -106,15 +106,10 @@ function TankCopLogicAttack.update(data)
 	if my_data.has_old_action then
 		CopLogicAttack._upd_stop_old_action(data, my_data)
 
-		if not my_data.update_queue_id then
-			data.brain:set_update_enabled_state(false)
-
-			my_data.update_queue_id = "TankLogicAttack.queued_update" .. tostring(data.key)
-
-			TankCopLogicAttack.queue_update(data, my_data)
+		
+		if my_data.has_old_action then
+			return
 		end
-
-		return
 	end
 
 	if CopLogicIdle._chk_relocate(data) or CopLogicAttack._chk_exit_non_walkable_area(data) then
@@ -148,14 +143,6 @@ function TankCopLogicAttack.update(data)
 		TankCopLogicAttack._upd_combat_movement(data)
 	else
 		TankCopLogicAttack._cancel_chase_attempt(data, my_data)
-	end
-
-	if not my_data.update_queue_id then
-		data.brain:set_update_enabled_state(false)
-
-		my_data.update_queue_id = "TankLogicAttack.queued_update" .. tostring(data.key)
-
-		TankCopLogicAttack.queue_update(data, my_data)
 	end
 end
 
@@ -348,33 +335,7 @@ function TankCopLogicAttack._upd_combat_movement(data)
 	local want_to_move_back = my_data.want_to_move_back
 
 	if not action_taken then
-		local tactics = data.tactics
-		local charge = tactics and tactics.charge
-		local valid_harass = nil
-		
-		if tactics and tactics.harass then		
-			if not data.unit:in_slot(16) and not data.is_converted and focus_enemy.is_person then
-				if focus_enemy.is_local_player then
-					local e_movement_state = focus_enemy.unit:movement():current_state()
-								
-					if e_movement_state:_is_reloading() then
-						valid_harass = true
-					end
-				else
-					local e_anim_data = focus_enemy.unit:anim_data()
-
-					if e_anim_data.reload then
-						valid_harass = true
-					end
-				end
-			end
-						
-			if valid_harass then
-				managers.groupai:state():chk_say_enemy_chatter(data.unit, data.m_pos, "reload")
-			end
-		end
-		
-		local should_try_chase = not tactics or charge and not want_to_move_back or valid_harass or my_data.use_flank_pos_when_chasing and not want_to_move_back or focus_enemy.verified_t and t - focus_enemy.verified_t > 5
+		local should_try_chase = true
 		
 		if should_try_chase then
 			if not my_data.chase_path_failed_t or t - my_data.chase_path_failed_t > 1 then --helps not nuking performance if there's too many Dozers in attack logic
@@ -408,7 +369,7 @@ function TankCopLogicAttack._upd_combat_movement(data)
 							my_data.chase_pos = CopLogicAttack._find_flank_pos(data, my_data, focus_enemy.nav_tracker, 300)
 						else
 							local chase_pos = focus_enemy.nav_tracker:field_position()
-							local pos_on_wall = CopLogicTravel._get_pos_on_wall(chase_pos, 300, nil, nil, data.pos_rsrv_id)
+							local pos_on_wall = CopLogicTravel._get_pos_on_wall(chase_pos, 300, nil, nil, data.pos_rsrv_id, 90)
 
 							if mvec3_not_equal(chase_pos, pos_on_wall) then
 								my_data.chase_pos = pos_on_wall
@@ -653,7 +614,7 @@ function TankCopLogicAttack.action_taken(data, my_data)
 end
 
 function TankCopLogicAttack.queue_update(data, my_data)
-	local delay = data.important and 0 or 1.5
+	local delay = data.important and 0 or 0.2
 
 	CopLogicBase.queue_task(my_data, my_data.update_queue_id, TankCopLogicAttack.queued_update, data, data.t + delay, data.important and true)
 end
