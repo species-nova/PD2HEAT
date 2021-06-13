@@ -5483,7 +5483,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		athletic = {
-			speed = 1.3,
+			speed = 1.1,
 			occasions = {
 				hit = {
 					chance = 0.9,
@@ -5540,7 +5540,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		athletic_very_hard = {
-			speed = 1.4,
+			speed = 1,
 			occasions = {
 				hit = {
 					chance = 1,
@@ -5597,7 +5597,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		heavy_very_hard = {
-			speed = 1.1,
+			speed = 0.9,
 			occasions = {
 				hit = {
 					chance = 0.75,
@@ -5650,7 +5650,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		athletic_overkill = {
-			speed = 1.5,
+			speed = 1.1,
 			occasions = {
 				hit = {
 					chance = 1,
@@ -5707,7 +5707,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		heavy_overkill = {
-			speed = 1.2,
+			speed = 1,
 			occasions = {
 				hit = {
 					chance = 0.75,
@@ -5898,7 +5898,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},			
 		deathwish = {
-			speed = 1.6,
+			speed = 1.3,
 			occasions = {
 				hit = {
 					chance = 1,
@@ -5955,7 +5955,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		elite = {
-			speed = 1.7,
+			speed = 1.3,
 			occasions = {
 				hit = {
 					chance = 1,
@@ -6012,7 +6012,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		veteran = {
-			speed = 1.75,
+			speed = 1.6,
 			occasions = {
 				hit = {
 					chance = 1,
