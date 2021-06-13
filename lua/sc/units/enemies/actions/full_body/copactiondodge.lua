@@ -407,6 +407,11 @@ function CopActionDodge:_determine_rotation_transition(wanted_side, direction, v
 	local common_data = self._common_data
 	local cur_pos = common_data.pos
 	local stance = common_data.stance.name
+	
+	if stance == "ntl" then
+		stance = "hos"
+	end
+	
 	local needed_dis = CopActionDodge._determine_needed_distance(stance, variation, wanted_side)
 	needed_dis = needed_dis * self._speed
 	local ray_params = {
