@@ -1168,7 +1168,7 @@ function CopMovement:sync_action_dodge_start(body_part, var, side, rot, speed, s
 		direction = Rotation(rot):y(),
 		side = CopActionDodge.get_side_name(side),
 		speed = speed,
-		shoot_accuracy = shoot_acc,
+		shoot_accuracy = shoot_acc / 10,
 		blocks = {
 			act = -1,
 			tase = -1,
@@ -1259,24 +1259,64 @@ function CopMovement:sync_action_spooc_strike(pos, action_id)
 	end
 end
 
+function CopMovement:sync_action_walk_nav_point(pos, explicit)
+	local walk_action, is_queued = self:_get_latest_walk_action(explicit)
+
+	if is_queued then
+		walk_action.nav_path[#walk_action.nav_path + 1] = pos
+	elseif walk_action then
+		walk_action:append_nav_point(pos)
+	end
+end
+
+function CopMovement:sync_action_walk_nav_link(pos, rot, anim_index, from_idle)
+	local nav_link = self._actions.walk.synthesize_nav_link(pos, rot, self._actions.act:_get_act_name_from_index(anim_index), from_idle)
+	local walk_action, is_queued = self:_get_latest_walk_action()
+
+	if is_queued then
+		function nav_link.element.value(element, name)
+			return element[name]
+		end
+
+		function nav_link.element.nav_link_wants_align_pos(element)
+			return element.from_idle
+		end
+
+		walk_action.nav_path[#walk_action.nav_path + 1] = nav_link
+	elseif walk_action then
+		walk_action:append_nav_point(nav_link)
+	end
+end
+
+function CopMovement:sync_action_walk_stop(explicit)
+	local walk_action, is_queued = self:_get_latest_walk_action()
+
+	if is_queued then
+		walk_action.persistent = nil
+	elseif walk_action then
+		walk_action:stop()
+	end
+end
+
+
 function CopMovement:_get_latest_act_action()
 	if self._queued_actions then
 		for i = #self._queued_actions, 1, -1 do
 			if self._queued_actions[i].type == "act" and not self._queued_actions[i].host_expired then
-				return i, self._queued_actions[i], true
+				return self._queued_actions[i], true, i
 			end
 		end
 	end
 
 	for body_part, action in ipairs(self._active_actions) do
 		if action and action:type() == "act" then
-			return body_part, self._active_actions[body_part]
+			return self._active_actions[body_part], false, body_part
 		end
 	end
 end
 
 function CopMovement:sync_action_act_end()
-	local body_part, act_action, queued = self:_get_latest_act_action()
+	local act_action, queued, body_part = self:_get_latest_act_action()
 
 	if queued then
 		act_action.host_expired = true
