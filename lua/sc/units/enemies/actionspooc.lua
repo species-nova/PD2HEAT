@@ -464,9 +464,7 @@ function ActionSpooc:_start_sprint()
 		local detect_sound = self:get_sound_event("detect")
 
 		if detect_sound then
-			if self._ext_base._tweak_table == "spooc_titan" then
-				self._unit:sound():play(detect_sound)
-			end
+			self._unit:sound():play(detect_sound)
 		end
 
 		if self._is_server and self._ext_movement.is_uncloaked and not self._ext_movement:is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("decloak") then
