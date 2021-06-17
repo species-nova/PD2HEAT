@@ -360,28 +360,55 @@ function GroupAIStateBase:chk_guard_delay_deduction()
 	end
 end	
 
-function GroupAIStateBase:set_point_of_no_return_timer(time, point_of_no_return_id)
-	if time == nil or setup:has_queued_exec() then
+function GroupAIStateBase:set_point_of_no_return_timer(time, id, tweak_id)
+	if not time or setup:has_queued_exec() then
 		return
 	end
 
-	self._forbid_drop_in = true
 	self._ponr_is_on = true
-	
-	managers.network.matchmake:set_server_joinable(false)
+
+	--not doing this with Vlad's PONR as it makes 0 sense
+	if tweak_id ~= "rescue_vlad" then
+		self._forbid_drop_in = true
+
+		managers.network.matchmake:set_server_joinable(false)
+	end
 
 	if not self._peers_inside_point_of_no_return then
 		self._peers_inside_point_of_no_return = {}
 	end
 
 	self._point_of_no_return_timer = time
-	self._point_of_no_return_id = point_of_no_return_id
+	self._point_of_no_return_id = id
+	self._point_of_no_return_tweak_id = tweak_id
 	self._point_of_no_return_areas = nil
 
-	managers.hud:show_point_of_no_return_timer()
+	managers.hud:show_point_of_no_return_timer(tweak_id)
 	managers.hud:add_updator("point_of_no_return", callback(self, self, "_update_point_of_no_return"))
 	--log("setting diff to 1!!")
 	self:set_difficulty(nil, 1)
+end
+
+function GroupAIStateBase:remove_point_of_no_return_timer(id)
+	if if self._point_of_no_return_id ~= id or setup:has_queued_exec() then
+		return
+	end
+
+	managers.hud:hide_point_of_no_return_timer()
+	managers.hud:remove_updator("point_of_no_return")
+
+	self._ponr_is_on = nil
+	self._point_of_no_return_timer = nil
+	self._point_of_no_return_id = nil
+	self._point_of_no_return_tweak_id = nil
+	self._point_of_no_return_areas = nil
+	self._peers_inside_point_of_no_return = nil
+
+	if self._forbid_drop_in then
+		self._forbid_drop_in = false
+
+		managers.network.matchmake:set_server_joinable(true)
+	end
 end
 
 function GroupAIStateBase:_update_point_of_no_return(t, dt)
@@ -426,7 +453,7 @@ function GroupAIStateBase:_update_point_of_no_return(t, dt)
 			end
 		end
 
-		if #self._point_of_no_return_areas == 0 then
+		if #self._point_of_no_return_areas == 0 and self._point_of_no_return_tweak_id ~= "rescue_vlad" then
 			self:check_ponr_escape_area()
 		end
 	end
