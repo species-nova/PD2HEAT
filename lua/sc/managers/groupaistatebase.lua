@@ -390,7 +390,7 @@ function GroupAIStateBase:set_point_of_no_return_timer(time, id, tweak_id)
 end
 
 function GroupAIStateBase:remove_point_of_no_return_timer(id)
-	if if self._point_of_no_return_id ~= id or setup:has_queued_exec() then
+	if self._point_of_no_return_id ~= id or setup:has_queued_exec() then
 		return
 	end
 
