@@ -4,7 +4,7 @@
     	<class file="callbacks.lua"/>
     </Classes>
 	<ScriptMods directory="scriptdata/menus">
-		<mod file="start_menu.xml" type="custom_xml" target_file="gamedata/menus/start_menu" target_type="menu" merge_mode="script_merge"/>
+		
 		<mod file="faces.xml" type="custom_xml" target_file="units/payday2/characters/ragdoll" target_type="sequence_manager" merge_mode="script_merge"/>		
 		
 		<!-- i'm not recompiling every single fuckingsequence manager for these guys, fuck off i already dealt with the modded ones-->
