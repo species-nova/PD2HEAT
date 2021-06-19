@@ -1975,20 +1975,6 @@ end
 function GroupAIStateBase:_set_rescue_state(state)
 end
 
-function GroupAIStateBase:sync_hostage_killed_warning(warning)
-	if not self:bain_state() then
-		return
-	end
-
-	if warning == 1 then
-		return managers.dialog:queue_dialog("Play_ban_c01", {})
-	elseif warning == 2 then
-		return managers.dialog:queue_dialog("Play_ban_c02", {})
-	elseif warning == 3 then
-		return managers.dialog:queue_dialog("Play_ban_c03", {})
-	end
-end
-
 function GroupAIStateBase:hostage_killed(killer_unit)
 	if not alive(killer_unit) then
 		return
