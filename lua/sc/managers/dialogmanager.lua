@@ -1,3 +1,8 @@
+function DialogManager:queue_narrator_dialog(id, params)
+	--this is normally missing a return statement
+	return self:queue_dialog(self._narrator_prefix .. id, params)
+end
+
 local old_queue_dialog = DialogManager.queue_dialog
 function DialogManager:queue_dialog(id, ...)
 	local escape_time = 0
