@@ -265,7 +265,7 @@ function CopActionShoot:on_attention(attention, old_attention)
 				end
 			end
 
-			if self._ext_base._tweak_table == "sniper" then
+			if self._w_usage_tweak.sniper_charge_attack then
 				self._use_sniper_focus = true
 				self._sniper_focus_start_t = t
 			end

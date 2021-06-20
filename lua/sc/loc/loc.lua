@@ -716,7 +716,7 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		--Heat Street, Skirmish edition--
 		["heist_skm_heat_street_name"] = "Uptown - Inkwell Industrial",
 		["heist_skm_heat_street_brief"] = "The kerels recently interrogated a prisoner that claims to have seen the face of Bain and can identify him. While we know it isn't true, the kerels don't, and neither do our rivals, so we're going to use the situation to gain some cash. Intercept the chop while they're transferring him to witness protection, near the old factory storage yard where that dumkop Matt crashed his car while trying to get away from us.",
-		["heist_skm_street_name"] = "Skirmish: Uptown - Inkwell Industrial",
+		["heist_skm_street_name"] = "Holdout: Uptown - Inkwell Industrial",
 		["heist_skm_street_brief"] = "The kerels recently interrogated a prisoner that claims to have seen the face of Bain and can identify him. While we know it isn't true, the kerels don't, and neither do our rivals, so we're going to use the situation to gain some cash. Intercept the chop while they're transferring him to witness protection, near the old factory storage yard where that dumkop Matt crashed his car while trying to get away from us.",	
 
 		--Xmas Hoxout and Breaking Feds--
@@ -754,6 +754,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_toggle_one_down_lobbies"] = "Allow Pro-Job Lobbies",
 		
 		--Holdout--
+		--[[
 		["menu_cn_skirmish"] = "Skirmish",
 		["menu_skirmish"] = "Skirmish - Hostile Engagement",
 		["menu_skirmish_random"] = "Random Locale",
@@ -771,6 +772,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_skirmish_map_selection"] = "Target Locations",
 		["menu_skirmish_selected_briefing"] = "In this scenario, you & your crew can select any SKIRMISH.\n\nA SKIRMISH consists of 9 waves. Each consecutive wave increases in difficulty.\n\nYou gain a large cash, experience, and loot reward with each wave completed.\n\nYou will fail if the target hostage is rescued by hostiles.",
 		["menu_skirmish_selected"] = "Skirmish",
+		]]
 
 		--Skirmish Heists--
 		["heist_skm_mallcrasher"] = "Shield Mall",

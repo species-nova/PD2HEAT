@@ -1490,6 +1490,15 @@ function CharacterTweakData:_init_biker(presets)
 	table.insert(self._enemy_list, "biker_guard")
 end
 
+function CharacterTweakData:_init_triad(presets)
+	self.triad = deep_clone(self.gangster)
+	self.triad.access = "gangster"
+	self.triad.calls_in = true
+	self.triad.die_sound_event = "l2n_x01a_any_3p"
+
+	table.insert(self._enemy_list, "triad")
+end
+
 function CharacterTweakData:_init_captain(presets)
 	self.captain = deep_clone(self.gangster)
 	self.captain.calls_in = true
@@ -1981,7 +1990,7 @@ function CharacterTweakData:_init_tank(presets)
 	table.insert(self._enemy_list, "tank_medic")
 	
 	self.tank_titan = deep_clone(self.tank)
-	self.tank_titan.weapon = presets.weapon.good
+	self.tank_titan.weapon = presets.weapon.sniper
 	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo"}	
 	self.tank_titan.move_speed = presets.move_speed.very_slow
 	self.tank_titan.damage.hurt_severity = presets.hurt_severities.titan	
@@ -2936,6 +2945,7 @@ function CharacterTweakData:_init_civilian(presets)
 	self.civilian.damage = {
 		hurt_severity = presets.hurt_severities.no_hurts
 	}
+	self.civilian.flammable = false
 	self.civilian.ecm_vulnerability = nil
 	self.civilian.ecm_hurts = {
 		ears = {min_duration = 0, max_duration = 0}
@@ -2996,6 +3006,7 @@ function CharacterTweakData:_init_bank_manager(presets)
 	self.bank_manager.damage = {
 		hurt_severity = presets.hurt_severities.no_hurts
 	}
+	self.bank_manager.flammable = false
 	self.bank_manager.ecm_vulnerability = nil
 	self.bank_manager.ecm_hurts = {
 		ears = {min_duration = 0, max_duration = 0}
@@ -4336,7 +4347,8 @@ function CharacterTweakData:_presets(tweak_data)
 			zones = {
 				{none = 1}
 			}
-		}
+		},
+		tase = true
 	}
 	presets.hurt_severities.heavy = deep_clone(presets.hurt_severities.base)
 	presets.hurt_severities.heavy.bullet = {
@@ -5179,6 +5191,7 @@ function CharacterTweakData:_presets(tweak_data)
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
 		use_laser = true,
+		sniper_charge_attack = true,
 		range = {
 			close = 3000,
 			optimal = 6000,
@@ -8864,6 +8877,33 @@ function CharacterTweakData:character_map()
 				"ene_guard_serpent_mask_no_pager",
 				"ene_thug_outdoor_fex",
 				"ene_secret_service_fex"
+			}
+		},
+		chas = {
+			path = "units/pd2_dlc_chas/characters/",
+			list = {
+				"ene_male_triad_gang_1",
+				"ene_male_triad_gang_2",
+				"ene_male_triad_gang_3",
+				"ene_male_triad_gang_4",
+				"ene_male_triad_gang_5",
+				"civ_male_asian_casual_1",
+				"civ_male_asian_casual_2",
+				"civ_male_asian_casual_3",
+				"civ_female_asian_casual_1",
+				"civ_female_asian_storekeeper",
+				"civ_male_auctioneer_2",
+				"ene_male_chas_police_01",
+				"ene_male_chas_police_02"
+			}
+		},
+		sand = {
+			path = "units/pd2_dlc_sand/characters/",
+			list = {
+				"civ_male_vlad",
+				"civ_male_dockworker_01",
+				"civ_male_dockworker_02",
+				"civ_male_dockworker_03"	
 			}
 		},
 		sharks = {

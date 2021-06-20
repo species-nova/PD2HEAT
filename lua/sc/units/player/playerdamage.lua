@@ -303,7 +303,8 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 		attack_data.damage = math.max(attack_data.damage - self._last_taken_dmg, 0.1)
 		self._last_taken_dmg = damage_taken
 	else
-		self._last_taken_dmg = math.max(attack_data.damage, 0.1)
+		attack_data.damage = math.max(attack_data.damage, 0.1)
+		self._last_taken_dmg = attack_data.damage
 	end
 
 	if self._bleed_out then --If player is in bleedout, redirect to the bleedout damage function.
