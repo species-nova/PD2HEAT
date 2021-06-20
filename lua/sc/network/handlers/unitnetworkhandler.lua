@@ -496,8 +496,6 @@ function UnitNetworkHandler:sync_omnia_heal(lpf, target)
 			contour_ext:add("medic_show", false)
 			contour_ext:flash("medic_show", 0.2)
 		end
-		
-		log("SYNCING OMNIA HEALING")
 
 		target:character_damage():apply_overheal()
 	end

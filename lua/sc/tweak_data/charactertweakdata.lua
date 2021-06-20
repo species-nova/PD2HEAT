@@ -885,8 +885,6 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat_titan.dodge = presets.dodge.elite
 	self.swat_titan.HEALTH_INIT = 24
 	self.swat_titan.headshot_dmg_mul = normal_headshot
-	self.swat_titan.surrender = nil
-	self.swat_titan.unintimidateable = true	
 	self.swat_titan.custom_voicework = nil
 	self.swat_titan.static_dodge_preset = true
 	self.swat_titan.heal_cooldown = 3.75
@@ -982,7 +980,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat_sniper.access = "swat"
 	self.heavy_swat_sniper.damage.hurt_severity = presets.hurt_severities.elite
 	self.heavy_swat_sniper.use_animation_on_fire_damage = false
-	self.heavy_swat_sniper.move_speed = presets.move_speed.lightning
+	self.heavy_swat_sniper.move_speed = presets.move_speed.normal
 	self.heavy_swat_sniper.dodge = presets.dodge.elite
 	self.heavy_swat_sniper.chatter = presets.enemy_chatter.swat
 	self.heavy_swat_sniper.melee_weapon = "fists"
@@ -1266,8 +1264,6 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat_titan.use_animation_on_fire_damage = true
 	self.city_swat_titan.move_speed = presets.move_speed.fast
 	self.city_swat_titan.dodge = presets.dodge.elite
-	self.city_swat_titan.surrender = nil
-	self.city_swat_titan.unintimidateable = true
 	self.city_swat_titan.static_weapon_preset = true
 	self.city_swat_titan.static_dodge_preset = true
 	self.city_swat_titan.static_melee_preset = true	
@@ -2322,7 +2318,7 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	self.phalanx_minion.damage.shield_knocked = true
 	self.phalanx_minion.priority_shout = "f31"
 	self.phalanx_minion.bot_priority_shout = "f31x_any"		
-	self.phalanx_minion.move_speed = presets.move_speed.normal
+	self.phalanx_minion.move_speed = presets.move_speed.slow
 	self.phalanx_minion.priority_shout_max_dis = 3000
 	self.phalanx_minion.weapon_voice = "3"
 	self.phalanx_minion.experience.cable_tie = "tie_swat"
@@ -7808,8 +7804,9 @@ function CharacterTweakData:_set_overkill_290()
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
 	self.weekend_lmg.use_animation_on_fire_damage = false				
 	
-	--Fast Titan HRTs
-	self.swat_titan.move_speed = self.presets.move_speed.lightning
+	--Fast HRTs
+	self.fbi.move_speed = self.presets.move_speed.lightning
+	self.hrt.move_speed = self.presets.move_speed.lightning
 	
 	self.presets.gang_member_damage.HEALTH_INIT = 140
 	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.3
@@ -7866,14 +7863,14 @@ function CharacterTweakData:_set_sm_wish()
 	self.concussion_multiplier = 1
 	
 	--Titan SWAT smoke dodging
-	self.city_swat_titan.dodge_with_grenade = {
+	self.heavy_swat.dodge_with_grenade = {
 		smoke = {duration = {
 			12,
 			12
 		}},
 		check = function (t, nr_grenades_used)
 			local delay_till_next_use = 30
-			local chance = 0.25
+			local chance = 0.15
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -7882,14 +7879,14 @@ function CharacterTweakData:_set_sm_wish()
 			return false, t + delay_till_next_use
 		end
 	}	
-	self.city_swat_titan_assault.dodge_with_grenade = {
+	self.fbi_swat.dodge_with_grenade = {
 		smoke = {duration = {
 			12,
 			12
 		}},
 		check = function (t, nr_grenades_used)
 			local delay_till_next_use = 30
-			local chance = 0.25
+			local chance = 0.15
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -7898,14 +7895,30 @@ function CharacterTweakData:_set_sm_wish()
 			return false, t + delay_till_next_use
 		end
 	}	
-	self.skeleton_swat_titan.dodge_with_grenade = {
+	self.city_swat.dodge_with_grenade = {
 		smoke = {duration = {
 			12,
 			12
 		}},
 		check = function (t, nr_grenades_used)
 			local delay_till_next_use = 30
-			local chance = 0.25
+			local chance = 0.15
+
+			if math.random() < chance then
+				return true, t + delay_till_next_use
+			end
+
+			return false, t + delay_till_next_use
+		end
+	}
+	self.weekend.dodge_with_grenade = {
+		smoke = {duration = {
+			12,
+			12
+		}},
+		check = function (t, nr_grenades_used)
+			local delay_till_next_use = 30
+			local chance = 0.15
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -7920,8 +7933,8 @@ function CharacterTweakData:_set_sm_wish()
 			12
 		}},
 		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
-			local chance = 0.25
+			local delay_till_next_use = 45
+			local chance = 0.075
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -7942,7 +7955,8 @@ function CharacterTweakData:_set_sm_wish()
 	self.weekend_lmg.use_animation_on_fire_damage = false
 
 	--Fast Titan HRTs
-	self.swat_titan.move_speed = self.presets.move_speed.lightning		
+	self.fbi.move_speed = self.presets.move_speed.lightning
+	self.hrt.move_speed = self.presets.move_speed.lightning
 	
 	--Titandozers become immune to stunning
 	self.tank_titan.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
@@ -7950,8 +7964,7 @@ function CharacterTweakData:_set_sm_wish()
 	self.tank_hw.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
 	
 	--Winters can now overheal ala LPF
-	self.phalanx_vip.do_omnia = true	
-			
+	self.phalanx_vip.do_omnia = true
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
 	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")

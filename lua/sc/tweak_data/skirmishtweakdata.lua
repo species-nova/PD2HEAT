@@ -223,6 +223,8 @@ function SkirmishTweakData:_init_wave_phase_durations(tweak_data)
 		autumn = 1,
 		summers = 1
 	}
+
+	skirmish_data.group_constraints.common_wave_rush_ds.min_diff = nil
 end
 
 
@@ -315,7 +317,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			cloak_spooc_ds = 0.05,
 			taser_ds = 0.03,
 			boom_taser_ds = 0.1,
-			hurtstage_zerg_rush_skm = 0.04,
+			common_wave_rush_ds = 0.04,
 			GREEN_tanks_ds = 0.04,
 			BLACK_tanks_ds = 0.04,
 			SKULL_tanks_ds = 0.04,
@@ -333,7 +335,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			cloak_spooc_ds = 0.075,
 			taser_skm = 0.03,
 			boom_taser_skm = 0.1,
-			hurtstage_zerg_rush_skm = 0.04,
+			common_wave_rush_skm = 0.04,
 			GREEN_tanks_skm = 0.04,
 			BLACK_tanks_skm = 0.04,
 			SKULL_tanks_skm = 0.04,
@@ -348,7 +350,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 	--Might be ideal to use/abuse lua virtual tables and vary them based on captain type.
 	local wave_9_captain = math.random()
 
-	if wave_9_captain < 0.24 then --autumn
+	if wave_9_captain < 0.23335 then --autumn
 		self.captain = "Cap_Autumn"
 		assault_groups[9] = {
 			swats_skm = 0.16,
@@ -360,13 +362,13 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			shield_sniper_skm = 0.1,
 			taser_skm = 0.03,
 			boom_taser_skm = 0.1,
-			hurtstage_zerg_rush_skm = 0.04,
+			common_wave_rush_skm = 0.04,
 			GREEN_tanks_skm = 0.04,
 			BLACK_tanks_skm = 0.04,
 			SKULL_tanks_skm = 0.04,
 			Titan_tanks_skm = 0.02
 		}
-	elseif wave_9_captain < 0.48 then --summers
+	elseif wave_9_captain < 0.4667 then --summers
 		self.captain = "Cap_Summers"
 		assault_groups[9] = {
 			swats_skm = 0.16,
@@ -378,13 +380,13 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			shield_sniper_skm = 0.11,
 			FBI_spoocs = 0.025,
 			cloak_spooc_ds = 0.075,
-			hurtstage_zerg_rush_skm = 0.04,
+			common_wave_rush_skm = 0.04,
 			GREEN_tanks_skm = 0.04,
 			BLACK_tanks_skm = 0.04,
 			SKULL_tanks_skm = 0.04,
 			Titan_tanks_skm = 0.02
 		}
-	elseif wave_9_captain < 0.72 then --winters
+	elseif wave_9_captain < 0.7005 then --winters
 		self.captain = "Cap_Winters"
 		assault_groups[9] = {
 			swats_skm = 0.16,
@@ -396,13 +398,13 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			cloak_spooc_ds = 0.075,
 			taser_skm = 0.04,
 			boom_taser_skm = 0.11,
-			hurtstage_zerg_rush_skm = 0.04,
+			common_wave_rush_skm = 0.04,
 			GREEN_tanks_skm = 0.05,
 			BLACK_tanks_skm = 0.05,
 			SKULL_tanks_skm = 0.05,
 			Titan_tanks_skm = 0.02
 		}
-	elseif wave_9_captain < 0.96 then --spring
+	elseif wave_9_captain < 0.9334 then --spring
 		self.captain = "Cap_Spring"
 		assault_groups[9] = {
 			swats_skm = 0.16,
@@ -416,7 +418,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			cloak_spooc_ds = 0.075,
 			taser_skm = 0.04,
 			boom_taser_skm = 0.11,
-			hurtstage_zerg_rush_skm = 0.04
+			common_wave_rush_skm = 0.04
 		}
 	else --Spooky halloween boss.
 		self.captain = "HVH_Boss"
@@ -432,7 +434,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			cloak_spooc_ds = 0.0375,
 			taser_skm = 0.04,
 			boom_taser_skm = 0.11,
-			hurtstage_zerg_rush_skm = 0.04,
+			common_wave_rush_skm = 0.04,
 			GREEN_tanks_skm = 0.02,
 			BLACK_tanks_skm = 0.02,
 			SKULL_tanks_skm = 0.02,

@@ -973,6 +973,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		}
 	end
 
+	--[[
 	self.unit_categories.Titan_HRT = {
 		unit_types = {
 			america = {
@@ -999,6 +1000,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all
 	}
+	]]
 
 	self.unit_categories.CS_swat_R870 = {
 		unit_types = {
@@ -3997,7 +3999,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield_cover",
 			"haste"
 		},
-		ELITE_hrt_rush = {
+		ELITE_rush = {
 			"flash_grenade",
 			"charge",
 			"murder",
@@ -4370,15 +4372,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.2,
-					amount_min = 1,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 3
-				},
-				{
 					unit = "FBI_suit_M4_MP5",
-					freq = 0.3,
+					freq = 0.5,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -4386,7 +4381,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					unit = "fbi_vet",
 					freq = 0.2,
 					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 2
+					rank = 3
 				},
 				{
 					unit = "CS_tazer",
@@ -4988,15 +4983,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.3,
-					amount_max = 2,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 4
-				},
-				{
 					unit = "FBI_suit_MP5",
-					freq = 0.7,
+					freq = 1,
 					tactics = self._tactics.FBI_suit_stealth,
 					rank = 2
 				}
@@ -5007,15 +4995,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.35,
-					amount_max = 2,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 4
-				},
-				{
 					unit = "FBI_suit_MP5",
-					freq = 0.25,
+					freq = 0.6,
 					tactics = self._tactics.FBI_suit_stealth,
 					rank = 2
 				},
@@ -5039,13 +5020,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.3,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 4
-				},
-				{
 					unit = "fbi_vet",
 					freq = 0.15,
 					amount_max = 2,
@@ -5054,7 +5028,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_suit_M4",
-					freq = 0.45,
+					freq = 0.75,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -5072,13 +5046,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.3,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 4
-				},
-				{
 					unit = "fbi_vet",
 					freq = 0.15,
 					amount_max = 2,
@@ -5087,7 +5054,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_suit_M4",
-					freq = 0.45,
+					freq = 0.75,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -5112,13 +5079,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.3,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 3
-				},
-				{
 					unit = "fbi_vet",
 					freq = 0.2,
 					amount_min = 1,
@@ -5128,7 +5088,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_suit_M4",
-					freq = 0.4,
+					freq = 0.7,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -5153,13 +5113,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = 5,
 			spawn = {
 				{
-					unit = "Titan_HRT",
-					freq = 0.3,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 3
-				},
-				{
 					unit = "fbi_vet",
 					freq = 0.2,
 					amount_min = 2,
@@ -5169,7 +5122,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_suit_M4",
-					freq = 0.4,
+					freq = 0.7,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -6579,19 +6532,25 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 
 		--HRTs, but like, 50 of them. And they have an LPF + sometimes other specials support. Aim to just outright overwhelm players and rush them and their hostages down at all costs.
-		self.enemy_spawn_groups.hurtstage_zerg_rush_ds = {
+		self.enemy_spawn_groups.common_wave_rush_ds = {
 			amount = {6, 8},
 			spawn = {
 				{
-					unit = "Titan_HRT",
+					unit = "GS_swat_M4",
 					freq = 0.3,
-					tactics = self._tactics.ELITE_hrt_rush,
-					rank = 4
+					tactics = self._tactics.ELITE_rush,
+					rank = 3
 				},
 				{
-					unit = "FBI_suit_M4_MP5",
-					freq = 0.4,
-					tactics = self._tactics.ELITE_hrt_rush,
+					unit = "FBI_heavy_G36",
+					freq = 0.2,
+					tactics = self._tactics.ELITE_rush,
+					rank = 3
+				},
+				{
+					unit = "Titan_swat_rifle",
+					freq = 0.2,
+					tactics = self._tactics.ELITE_rush,
 					rank = 3
 				},
 				{
@@ -6626,19 +6585,25 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.hurtstage_zerg_rush_skm = {
+		self.enemy_spawn_groups.common_wave_rush_skm = {
 			amount = 8,
 			spawn = {
 				{
-					unit = "Titan_HRT",
+					unit = "Bravo_rifle_swat",
 					freq = 0.3,
-					tactics = self._tactics.ELITE_hrt_rush,
-					rank = 4
+					tactics = self._tactics.ELITE_rush,
+					rank = 3
 				},
 				{
-					unit = "FBI_suit_M4_MP5",
-					freq = 0.4,
-					tactics = self._tactics.ELITE_hrt_rush,
+					unit = "FBI_heavy_R870",
+					freq = 0.2,
+					tactics = self._tactics.ELITE_rush,
+					rank = 3
+				},
+				{
+					unit = "Bravo_lmg_swat",
+					freq = 0.2,
+					tactics = self._tactics.ELITE_rush,
 					rank = 3
 				},
 				{
@@ -8353,7 +8318,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.07,
 				0.1
 			},
-			hurtstage_zerg_rush_ds = {
+			common_wave_rush_ds = {
 				0.0,
 				0.03,
 				0.04
@@ -8876,9 +8841,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			min_diff = captain_min_diff,
 			sustain_only = true
 		},
-		hurtstage_zerg_rush_ds = {
+		common_wave_rush_ds = {
+			cooldown = 120,
+			min_diff = 0.5,
+			sustain_only = true
+		},
+		common_wave_rush_skm = {
 			cooldown = 90,
-			min_diff = 0.5
+			sustain_only = true
 		},
 		GREEN_tanks_n = {
 			cooldown = dozer_cooldown,
