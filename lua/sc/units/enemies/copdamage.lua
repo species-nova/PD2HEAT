@@ -81,6 +81,13 @@ local big_enemy_visor_shattering_table = {
 	ids_func("units/pd2_mod_nypd/characters/ene_nypd_heavy_r870/ene_nypd_heavy_r870_husk"),                 	
 }
 
+local old_init = CopDamage.init
+function CopDamage:init(...)
+	old_init(self, ...)
+	self._OVERHEALTH_INIT = self._HEALTH_INIT * 2
+	self._OVERHEALTH_INIT_PRECENT = self._OVERHEALTH_INIT / self._HEALTH_GRANULARITY
+end
+
 function CopDamage:_spawn_head_gadget(params)
 	if not self._head_gear then
 		return
@@ -322,10 +329,16 @@ function CopDamage:damage_fire(attack_data)
 
 	attack_data.raw_damage = damage
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
+	local damage_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end	
 
 	if self._immortal then
 		damage = math_min(damage, self._health - 1)
@@ -585,7 +598,12 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 	hit_pos = hit_pos - attack_dir * 5
 	attack_data.pos = hit_pos
 
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
+	local damage = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 
 	if death then
@@ -868,10 +886,16 @@ function CopDamage:damage_bullet(attack_data)
 		managers.groupai:state():_voice_sentry() --FUCKING SCI-FI ROBOT GUNS
 	end
 
-	damage = math.clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math.ceil(damage / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
+	local damage_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end	
 
 	if self._immortal then
 		damage = math.min(damage, self._health - 1)
@@ -1089,7 +1113,12 @@ function CopDamage:sync_damage_bullet(attacker_unit, damage_percent, i_body, hit
 
 	attack_data.attack_dir = attack_dir
 
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
+	local damage = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 
 	if death then
@@ -1271,14 +1300,23 @@ function CopDamage:damage_melee(attack_data)
 
 	attack_data.raw_damage = damage
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	damage_effect = math_clamp(damage_effect, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
-	local damage_effect_percent = math_ceil(damage_effect / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage_effect = damage_effect_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
-	damage_effect, damage_effect_percent = self:_apply_min_health_limit(damage_effect, damage_effect_percent)
+	local damage_percent = 0
+	local damage_effect_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_effect = math_clamp(damage_effect, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage_effect_percent = math_ceil(damage_effect / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+		damage_effect = damage_effect_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_effect = math_clamp(damage_effect, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage_effect_percent = math_ceil(damage_effect / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+		damage_effect = damage_effect_percent * self._HEALTH_INIT_PRECENT
+	end	
 
 	if self._immortal then
 		damage = math_min(damage, self._health - 1)
@@ -1564,8 +1602,15 @@ function CopDamage:sync_damage_melee(attacker_unit, damage_percent, damage_effec
 
 	attack_data.attack_dir = attack_dir
 
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
-	local damage_effect = damage_effect_percent * self._HEALTH_INIT_PRECENT
+	local damage = 0
+	local damage_effect = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+		damage_effect = damage_effect_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+		damage_effect = damage_effect_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 	attack_data.damage_effect = damage_effect
 
@@ -1669,7 +1714,7 @@ function CopDamage:die(attack_data)
 		if attacker_unit and alive(attacker_unit) then
 			if attacker_unit:in_slot(16) then
 				local roll = math_rand(1, 100)
-				local no_ammo_chance = 80
+				local no_ammo_chance = 0 --Temporarily disable bot kills not dropping ammo.
 
 				if roll <= no_ammo_chance then
 					self:set_pickup()
@@ -1988,10 +2033,16 @@ function CopDamage:damage_explosion(attack_data)
 
 	attack_data.raw_damage = damage
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
+	local damage_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end	
 
 	if self._immortal then
 		damage = math_min(damage, self._health - 1)
@@ -2199,7 +2250,12 @@ function CopDamage:sync_damage_explosion(attacker_unit, damage_percent, i_attack
 	hit_pos = hit_pos - attack_dir * 5
 	attack_data.pos = hit_pos
 
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
+	local damage = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 
 	if death then
@@ -2322,10 +2378,16 @@ function CopDamage:damage_simple(attack_data)
 
 	attack_data.raw_damage = damage
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
+	local damage_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 
 	if self._immortal then
 		damage = math_min(damage, self._health - 1)
@@ -2497,7 +2559,12 @@ function CopDamage:sync_damage_simple(attacker_unit, damage_percent, i_attack_va
 	hit_pos = hit_pos - attack_dir * 5
 	attack_data.pos = hit_pos
 
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
+	local damage = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 
 	if death then
@@ -2581,10 +2648,16 @@ function CopDamage:damage_dot(attack_data)
 
 	attack_data.raw_damage = damage
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
+	local damage_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 
 	if self._immortal then
 		damage = math_min(damage, self._health - 1)
@@ -2703,7 +2776,13 @@ function CopDamage:sync_damage_dot(attacker_unit, damage_percent, death, variant
 		variant = attack_variant,
 		attacker_unit = attacker_unit
 	}
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
+
+	local damage = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 
 	if death then
@@ -2771,10 +2850,16 @@ function CopDamage:damage_tase(attack_data)
 	damage = self:_apply_damage_reduction(damage)
 	attack_data.raw_damage = damage
 
-	damage = math_clamp(damage, 0, self._HEALTH_INIT)
-	local damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
-	damage = damage_percent * self._HEALTH_INIT_PRECENT
-	damage, damage_percent = self:_apply_min_health_limit(damage, damage_percent)
+	local damage_percent = 0
+	if self:is_overhealed() then
+		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
+		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = math_clamp(damage, 0, self._HEALTH_INIT)
+		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end	
 
 	if self._immortal then
 		damage = math_min(damage, self._health - 1)
@@ -2933,7 +3018,12 @@ function CopDamage:sync_damage_tase(attacker_unit, damage_percent, i_result, dea
 	hit_pos = hit_pos - attack_dir * 5
 	attack_data.pos = hit_pos
 
-	local damage = damage_percent * self._HEALTH_INIT_PRECENT
+	local damage = 0
+	if self:is_overhealed() then
+		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
+	else
+		damage = damage_percent * self._HEALTH_INIT_PRECENT
+	end
 	attack_data.damage = damage
 
 	if death then
@@ -3083,23 +3173,6 @@ function CopDamage:damage_mission(attack_data)
 	self:_on_damage_received(attack_data)
 
 	return result
-end
-
-function CopDamage:_apply_min_health_limit(damage, damage_percent)
-	local lower_health_percentage_limit = self._unit:base():char_tweak().LOWER_HEALTH_PERCENTAGE_LIMIT
-
-	if lower_health_percentage_limit then
-		local real_damage_percent = damage_percent / self._HEALTH_GRANULARITY
-		local new_health_ratio = self._health_ratio - real_damage_percent
-
-		if lower_health_percentage_limit > new_health_ratio then
-			real_damage_percent = self._health_ratio - lower_health_percentage_limit
-			damage_percent = real_damage_percent * self._HEALTH_GRANULARITY
-			damage = damage_percent * self._HEALTH_INIT_PRECENT
-		end
-	end
-
-	return damage, damage_percent
 end
 
 function CopDamage:build_suppression(amount, panic_chance)
@@ -3374,4 +3447,21 @@ function CopDamage:check_backstab(attack_data)
 	end
 
 	return false
+end
+
+function CopDamage:apply_overheal(heal_amount)
+	local amount_to_heal = math_ceil(self._health - self._OVERHEALTH_INIT)
+
+	if self._unit:contour() then
+		self._unit:contour():add("omnia_heal", false)
+	end
+
+	self:_apply_damage_to_health(amount_to_heal)
+end
+
+function CopDamage:is_overhealed()
+	if self._health_ratio > 1 then
+		return true
+	end
+	return nil
 end

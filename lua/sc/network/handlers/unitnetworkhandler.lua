@@ -488,11 +488,20 @@ function UnitNetworkHandler:sync_spawn_extra_ammo(unit, sender)
 	managers.player:spawn_extra_ammo(unit)
 end
 
---Syncs to match whatever captain type the host has active in skirmish.
-function UnitNetworkHandler:sync_skm_captain(name)
-	tweak_data.skirmish.captain = name
-end
+function UnitNetworkHandler:sync_omnia_heal(lpf, target)
+	if self._verify_gamestate(self._gamestate_filter.any_ingame) and self._verify_character(lpf) and self._verify_character(target) then
+		local contour_ext = lpf:contour()
 
+		if contour_ext then
+			contour_ext:add("medic_show", false)
+			contour_ext:flash("medic_show", 0.2)
+		end
+		
+		log("SYNCING OMNIA HEALING")
+
+		target:character_damage():apply_overheal()
+	end
+end
 
 function UnitNetworkHandler:sync_explosion_to_client(unit, position, normal, damage, range, curve_pow, sender)
 	if not self._verify_gamestate(self._gamestate_filter.any_ingame) or not self._verify_sender(sender) then

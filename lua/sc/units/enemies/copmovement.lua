@@ -356,49 +356,35 @@ function CopMovement:_upd_actions(t)
 end
 
 function CopMovement:do_omnia(t)
-	if self._omnia_cooldown > t then
+	if not Network:is_server() or self._omnia_cooldown > t then
 		return
-	else
-		self._omnia_cooldown = t + 0.2
 	end
 
 	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._omnia_radius, self._omnia_slotmask)
 	local healed_someone = nil
-
 	for i = 1, #enemies do
 		local enemy = enemies[i]
 
-		if not enemy:base():char_tweak().is_special then
-			local dmg_ext = enemy:character_damage()
-			local health_left = dmg_ext._health
-			local max_health = dmg_ext._HEALTH_INIT * 2
-
-			if health_left < max_health then
-				healed_someone = true
-
-				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
-				local contour_ext = enemy:contour()
-
-				if contour_ext then
-					contour_ext:add("omnia_heal", false)
-				end
-
-				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))
+		if not enemy:base():char_tweak().is_special and not enemy:character_damage():is_overhealed() then
+			healed_someone = true
+			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
+			self._omnia_cooldown = t + 10
+			enemy:character_damage():apply_overheal()
+			
+			local contour_ext = self._unit:contour()
+			if contour_ext then
+				contour_ext:add("medic_show", false)
+				contour_ext:flash("medic_show", 0.2)
 			end
+
+			managers.network:session():send_to_peers_synched("sync_omnia_heal", self._unit, enemy)
+
+			break
 		end
 	end
 
-	if healed_someone then
-		local contour_ext = self._unit:contour()
-
-		if contour_ext then
-			contour_ext:add("medic_show", false)
-			contour_ext:flash("medic_show", 0.2)
-		end
-
-		if Network:is_server() then
-			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-		end
+	if not healed_someone then
+		self._omnia_cooldown = t + 0.5
 	end
 end
 

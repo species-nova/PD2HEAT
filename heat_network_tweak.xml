@@ -135,9 +135,10 @@
 			<network/>
 			<rpc/>
 		</search>
-		<target mode="attach">
-			<message name="sync_skm_captain" delivery="reliable" receiver="connection" check="server_to_client">
-				<param type="string" />
+		<target>
+			<message name="sync_omnia_heal" delivery="ordered" receiver="unit" check="server_to_client">
+				<param type="unit" />
+				<param type="unit" />
 			</message>
 		</target>
 	</tweak>
