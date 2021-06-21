@@ -84,8 +84,12 @@ local big_enemy_visor_shattering_table = {
 local old_init = CopDamage.init
 function CopDamage:init(...)
 	old_init(self, ...)
+
+	--Health syncing values used to handle the LPF Overhealing effect.
 	self._OVERHEALTH_INIT = self._HEALTH_INIT * 2
 	self._OVERHEALTH_INIT_PRECENT = self._OVERHEALTH_INIT / self._HEALTH_GRANULARITY
+	
+	self._player_damage_ratio = 0 --Damage dealt to this enemy by players that contributed to the kill.
 end
 
 function CopDamage:_spawn_head_gadget(params)
@@ -354,6 +358,7 @@ function CopDamage:damage_fire(attack_data)
 				type = "healed",
 				variant = attack_data.variant
 			}
+			self._player_damage_ratio = 0
 		else
 			result = {
 				type = "death",
@@ -909,6 +914,7 @@ function CopDamage:damage_bullet(attack_data)
 				type = "healed",
 				variant = attack_data.variant
 			}
+			self._player_damage_ratio = 0
 		else
 			if head then
 				managers.player:on_lethal_headshot_dealt(attack_data.attacker_unit, attack_data)
@@ -1333,6 +1339,7 @@ function CopDamage:damage_melee(attack_data)
 				type = "healed",
 				variant = "melee"
 			}
+			self._player_damage_ratio = 0
 		else
 			if head then
 				if self._unit:base()._tweak_table == "boom" then
@@ -1708,13 +1715,15 @@ function CopDamage:die(attack_data)
 		managers.skirmish:do_kill()
 	end
 
-	if not self._char_tweak.always_drop then
+	if not self._char_tweak.always_drop and self._pickup == "ammo" then
 		local attacker_unit = attack_data.attacker_unit
 
 		if attacker_unit and alive(attacker_unit) then
 			if attacker_unit:in_slot(16) then
-				local roll = math_rand(1, 100)
-				local no_ammo_chance = 0 --Temporarily disable bot kills not dropping ammo.
+				local roll = math_random()
+				local no_ammo_chance = 0.2 + self._player_damage_ratio --Enemy bot ammo drop chance increases based on the amount of damage dealy by a player.
+				--80% of health damage leading to kill dealt by a player == 100% chance to drop ammo.
+				--0% of health damage leading to kill dealt by a player == 20% chance to drop ammo.
 
 				if roll <= no_ammo_chance then
 					self:set_pickup()
@@ -2056,6 +2065,7 @@ function CopDamage:damage_explosion(attack_data)
 				type = "healed",
 				variant = attack_data.variant
 			}
+			self._player_damage_ratio = 0
 		else
 			result = {
 				type = "death",
@@ -2401,6 +2411,7 @@ function CopDamage:damage_simple(attack_data)
 				type = "healed",
 				variant = attack_data.variant
 			}
+			self._player_damage_ratio = 0
 		else
 			result = {
 				type = "death",
@@ -2677,6 +2688,7 @@ function CopDamage:damage_dot(attack_data)
 				type = "healed",
 				variant = attack_data.variant
 			}
+			self._player_damage_ratio = 0
 		else
 			result = {
 				type = "death",
@@ -3096,6 +3108,12 @@ function CopDamage:_on_damage_received(damage_info)
 
 	if attacker_unit == managers.player:player_unit() then
 		managers.player:on_damage_dealt(self._unit, damage_info)
+		--Doesn't take overheal into account, but is that really a bad thing?
+		if self._was_overhealed then
+			self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._OVERHEALTH_INIT)
+		else
+			self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._HEALTH_INIT)
+		end
 	end
 
 	--should prevent countering and shield knock from counting towards this
@@ -3449,6 +3467,7 @@ function CopDamage:check_backstab(attack_data)
 	return false
 end
 
+--Sets an enemy's health to double. Triggered by LPFs/Winters.
 function CopDamage:apply_overheal(heal_amount)
 	local amount_to_heal = math_ceil(self._health - self._OVERHEALTH_INIT)
 
@@ -3456,9 +3475,12 @@ function CopDamage:apply_overheal(heal_amount)
 		self._unit:contour():add("omnia_heal", false)
 	end
 
+	self._was_overhealed = true --Whether or not overheal was EVER applied to this enemy.
+	self._player_damage_ratio = 0
 	self:_apply_damage_to_health(amount_to_heal)
 end
 
+--Wherer or not an overheal is still active.
 function CopDamage:is_overhealed()
 	if self._health_ratio > 1 then
 		return true
