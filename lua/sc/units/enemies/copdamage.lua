@@ -1718,16 +1718,14 @@ function CopDamage:die(attack_data)
 	if not self._char_tweak.always_drop and self._pickup == "ammo" then
 		local attacker_unit = attack_data.attacker_unit
 
-		if attacker_unit and alive(attacker_unit) then
-			if attacker_unit:in_slot(16) then
-				local roll = math_random()
-				local no_ammo_chance = 0.2 + self._player_damage_ratio --Enemy bot ammo drop chance increases based on the amount of damage dealy by a player.
-				--80% of health damage leading to kill dealt by a player == 100% chance to drop ammo.
-				--0% of health damage leading to kill dealt by a player == 20% chance to drop ammo.
+		if alive(attacker_unit) and managers.groupai:state():is_unit_team_AI(attacker_unit) then
+			local roll = math_random()
+			local no_ammo_chance = 0.2 + self._player_damage_ratio --Enemy bot ammo drop chance increases based on the amount of damage dealy by a player.
+			--80% of health damage leading to kill dealt by a player == 100% chance to drop ammo.
+			--0% of health damage leading to kill dealt by a player == 20% chance to drop ammo.
 
-				if roll <= no_ammo_chance then
-					self:set_pickup()
-				end
+			if roll <= no_ammo_chance then
+				self:set_pickup()
 			end
 		end
 	end
@@ -3098,20 +3096,45 @@ function CopDamage:_on_damage_received(damage_info)
 
 	local attacker_unit = damage_info and damage_info.attacker_unit
 
-	if alive(attacker_unit) and attacker_unit:base() then
-		if attacker_unit:base().thrower_unit then
-			attacker_unit = attacker_unit:base():thrower_unit()
-		elseif attacker_unit:base().sentry_gun then
-			attacker_unit = attacker_unit:base():get_owner()
-		end
-	end
+	if alive(attacker_unit) then
+		local attacker_base = attacker_unit:base()
 
-	if attacker_unit == managers.player:player_unit() then
-		managers.player:on_damage_dealt(self._unit, damage_info)
-		if self._was_overhealed then
-			self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._OVERHEALTH_INIT)
-		else
-			self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._HEALTH_INIT)
+		if attacker_base then
+			if attacker_base.thrower_unit then
+				local actual_attacker = attacker_base:thrower_unit()
+
+				if alive(actual_attacker) then
+					attacker_unit = actual_attacker
+					attacker_base = actual_attacker:base()
+				end
+			elseif attacker_base.sentry_gun then
+				local actual_attacker = attacker_base:get_owner()
+
+				if alive(actual_attacker) then
+					attacker_unit = actual_attacker
+					attacker_base = actual_attacker:base()
+				end
+			end
+
+			if attacker_base then
+				local store_damage_ratio = nil
+
+				if attacker_base.is_local_player then
+					store_damage_ratio = true
+
+					managers.player:on_damage_dealt(self._unit, damage_info)
+				else
+					store_damage_ratio = attacker_base.is_husk_player
+				end
+
+				if store_damage_ratio then
+					if self._was_overhealed then
+						self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._OVERHEALTH_INIT)
+					else
+						self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._HEALTH_INIT)
+					end
+				end
+			end
 		end
 	end
 
