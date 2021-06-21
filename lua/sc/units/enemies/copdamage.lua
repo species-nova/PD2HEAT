@@ -3108,7 +3108,6 @@ function CopDamage:_on_damage_received(damage_info)
 
 	if attacker_unit == managers.player:player_unit() then
 		managers.player:on_damage_dealt(self._unit, damage_info)
-		--Doesn't take overheal into account, but is that really a bad thing?
 		if self._was_overhealed then
 			self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._OVERHEALTH_INIT)
 		else
@@ -3480,7 +3479,7 @@ function CopDamage:apply_overheal(heal_amount)
 	self:_apply_damage_to_health(amount_to_heal)
 end
 
---Wherer or not an overheal is still active.
+--Whether or not an overheal is still active.
 function CopDamage:is_overhealed()
 	if self._health_ratio > 1 then
 		return true
