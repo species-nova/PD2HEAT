@@ -749,8 +749,8 @@ function CopDamage:damage_bullet(attack_data)
 				position = attack_data.col_ray.position,
 				normal = attack_data.col_ray.ray
 			})			
-			--Fucking loud, can be subject to change. Just the only sound ID I found on short notice
-			--self._unit:sound():play("swatturret_weakspot_hit", nil, nil)
+			--Armor Impact sound AAAAAAAAAAA
+			self._unit:sound():play("knuckles_hit_gen", nil, nil)
 		
 			return
 		end
