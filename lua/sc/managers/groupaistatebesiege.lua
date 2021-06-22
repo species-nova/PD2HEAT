@@ -1903,61 +1903,69 @@ end
 function GroupAIStateBesiege:_assign_enemy_groups_to_assault(phase)
 	for group_id, group in pairs_g(self._groups) do
 		local grp_objective = group.objective
+				
 		if group.has_spawned and grp_objective.type == "assault_area" then
-			if grp_objective.moving_out then
-				local done_moving = nil
-
-				for u_key, u_data in pairs_g(group.units) do
-					if alive(u_data.unit) then
-						if u_data.unit:brain() then
-							local objective = u_data.unit:brain():objective()
-
-							if objective then
-								if objective.grp_objective ~= grp_objective then
-									-- Nothing
-								elseif not objective.in_place then
-									if objective.area.nav_segs[u_data.unit:movement():nav_tracker():nav_segment()] then
-										done_moving = true --due to how enemy pathing works, it'd be unescessary to check for all units in the group here.
-										
-										break
-									else
-										done_moving = false
-									end
-								elseif done_moving == nil then
-									done_moving = true
-									
-									break
-								end
-							end
-						else
-							local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
-							line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
-							log("please die")
-							group.size = group.size - 1
-							group.units[u_key] = nil
-							if group.size <= 1 and group.has_spawned then
-								self._groups[group_id] = nil
-							end
-						end
-					else
-						log("why are you like this, please")
+			for u_key, u_data in pairs_g(group.units) do
+				if alive(u_data.unit) then
+					if not u_data.unit:brain() then
+						local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
+						line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
+						log("please die")
 						group.size = group.size - 1
 						group.units[u_key] = nil
+						
 						if group.size <= 1 and group.has_spawned then
 							self._groups[group_id] = nil
 						end
 					end
-				end
-				
-				if self._groups[group_id] then
-					if done_moving == true then
-						grp_objective.moving_out = nil
-						group.in_place_t = self._t
-						grp_objective.moving_in = nil
-
-						self:_voice_move_complete(group)
+				else
+					group.size = group.size - 1
+					group.units[u_key] = nil
+					log("why are you like this, please")
+					if group.size <= 1 and group.has_spawned then
+						self._groups[group_id] = nil
 					end
 				end
+				
+				
+				if group.units[u_key] and self._groups[group_id] then
+					if grp_objective.moving_out then
+						local done_moving = nil
+
+						if alive(u_data.unit) then
+							if u_data.unit:brain() then
+								local objective = u_data.unit:brain():objective()
+
+								if objective then
+									if objective.grp_objective ~= grp_objective then
+										-- Nothing
+									elseif not objective.in_place then
+										if objective.area.nav_segs[u_data.unit:movement():nav_tracker():nav_segment()] then
+											done_moving = true --due to how enemy pathing works, it'd be unescessary to check for all units in the group here.
+											
+											break
+										else
+											done_moving = false
+										end
+									elseif done_moving == nil then
+										done_moving = true
+										
+										break
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+					
+					
+			if done_moving == true then
+				grp_objective.moving_out = nil
+				group.in_place_t = self._t
+				grp_objective.moving_in = nil
+
+				self:_voice_move_complete(group)
 			end
 			
 			if self._groups[group_id] then

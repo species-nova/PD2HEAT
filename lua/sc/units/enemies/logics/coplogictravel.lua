@@ -1937,6 +1937,10 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	if not my_objective.grp_objective then
 		return true
 	end
+	
+	if not data.group then
+		return true
+	end
 
 	local my_dis = mvec3_dis_sq(my_objective.area.pos, data.m_pos)
 
