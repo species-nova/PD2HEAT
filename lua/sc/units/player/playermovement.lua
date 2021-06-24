@@ -30,14 +30,17 @@ function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
 
 	if self._current_state_name == "standard" or self._current_state_name == "carry" or self._current_state_name == "bleed_out" or self._current_state_name == "tased" or self._current_state_name == "bipod" then
         local state = "incapacitated"
+        local damage = nil
         if flying_strike then
-            state = "arrested"
+            damage = tweak_data.character.spooc.jump_kick_damage
+        else
+        	damage = tweak_data.character.spooc.kick_damage
         end
 		
 		state = managers.modifiers:modify_value("PlayerMovement:OnSpooked", state)
 		
 		managers.player:set_player_state(state)
-		self._unit:character_damage():cloak_or_shock_incap(tweak_data.character.spooc.kick_damage)
+		self._unit:character_damage():cloak_or_shock_incap(damage)
 		managers.achievment:award(tweak_data.achievement.finally.award)
 
 		return true

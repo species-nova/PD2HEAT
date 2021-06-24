@@ -2106,7 +2106,8 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc.can_be_tased = true
 	self.spooc.static_dodge_preset = true
 	self.spooc.is_special = true
-	self.spooc.kick_damage = 8.0 --Amount of damage dealt when cloakers hick players.
+	self.spooc.kick_damage = 6.0 --Amount of damage dealt when cloakers kick players.
+	self.spooc.jump_kick_damage = 12.0 --Amount of damage dealt when cloakers jump kick players.
 	self.spooc.spawn_sound_event_2 = "clk_c01x_plu"
 	self.spooc.spooc_sound_events = {
 		detect_stop = "cloaker_detect_stop",
@@ -7612,10 +7613,6 @@ end
 function CharacterTweakData:_set_normal()
 	self:_multiply_all_hp(0.5, 1)
 	self:_multiply_all_damage(0.3, 0.45, 0.5)
-	
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 4.0
-	self.taser.shock_damage = 4.0
 
 	--No normal tase for Elektra on lower difficulties
 	self.taser_summers.weapon.is_rifle.tase_distance = 0
@@ -7650,10 +7647,6 @@ function CharacterTweakData:_set_hard()
 	self:_multiply_all_hp(0.625, 1)
 	self:_multiply_all_damage(0.5, 0.75, 0.625)
 	self:_set_characters_weapon_preset("normal", "normal")
-	
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 5.0
-	self.taser.shock_damage = 5.0
 
 	--No normal tase for Elektra on lower difficulties
 	self.taser_summers.weapon.is_rifle.tase_distance = 0	
@@ -7686,10 +7679,6 @@ end
 function CharacterTweakData:_set_overkill()
 	self:_multiply_all_hp(0.75, 2)
 	self:_multiply_all_damage(0.7, 1.05, 0.75)
-	
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 6.0
-	self.taser.shock_damage = 6.0
 
 	--No normal tase for Elektra on lower difficulties
 	self.taser_summers.weapon.is_rifle.tase_distance = 0
@@ -7720,11 +7709,7 @@ end
 
 function CharacterTweakData:_set_overkill_145()
 	self:_multiply_all_hp(0.825, 2)
-	self:_multiply_all_damage(0.9, 1.35, 0.825)
-
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 6.0
-	self.taser.shock_damage = 6.0				
+	self:_multiply_all_damage(0.9, 1.35, 0.825)		
 			
 	self:_set_characters_dodge_preset("athletic_overkill")
 	self:_set_characters_melee_preset("2.8", "2")
@@ -7754,10 +7739,6 @@ end
 function CharacterTweakData:_set_easy_wish()
 	self:_multiply_all_hp(1, 2)
 	self:_multiply_all_damage(1, 1.5, 1)
-
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 6.0
-	self.taser.shock_damage = 6.0
 
 	self:_set_characters_weapon_preset("expert", "good")
 	self:_set_characters_dodge_preset("athletic_overkill")
@@ -7801,11 +7782,7 @@ function CharacterTweakData:_set_overkill_290()
 	self.hrt.can_slide_on_suppress = true	
 	self.fbi_swat.can_slide_on_suppress = true		
 	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true			
-			
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 6.0
-	self.taser.shock_damage = 6.0
+	self.city_swat_guard.can_slide_on_suppress = true
 	
 	--Titan SWAT stun resistance
 	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
@@ -7853,10 +7830,6 @@ function CharacterTweakData:_set_sm_wish()
 	self.city_swat.can_slide_on_suppress = true
 	self.city_swat_guard.can_slide_on_suppress = true
 	self.fbi_heavy_swat.can_slide_on_suppress = true
-				
-	--Set damage dealt for false downs.
-	self.spooc.kick_damage = 8.0
-	self.taser.shock_damage = 8.0
 	
 	self.weap_unit_names[13] = Idstring("units/payday2/weapons/wpn_npc_sniper_sc/wpn_npc_sniper_sc")		
 	self.weap_unit_names[21] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc")		
@@ -9138,4 +9111,8 @@ function CharacterTweakData:_multiply_all_damage(mul, gang_mul, teamai_mul)
 			end
 		end
 	end
+
+	self.spooc.kick_damage = 0.1 * math.ceil(self.spooc.kick_damage * 10 * mul)
+	self.spooc.jump_kick_damage = 0.1 * math.ceil(self.spooc.jump_kick_damage * 10 * mul)
+	self.taser.shock_damage = 0.1 * math.ceil(self.taser.shock_damage * 10 * mul)
 end

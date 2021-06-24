@@ -815,13 +815,7 @@ function GroupAIStateBase:detonate_world_smoke_grenade(id)
 		local rotation = Rotation(math.random() * 360, 0, 0)
 		local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 		local difficulty_index = tweak_data:difficulty_to_index(difficulty)
-		local flashbang_unit = nil
-
-		if difficulty_index == 8 then
-			flashbang_unit = "units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang"
-		else
-			flashbang_unit = "units/payday2/weapons/wpn_frag_flashbang/wpn_frag_flashbang"
-		end
+		local flashbang_unit = "units/payday2/weapons/wpn_frag_flashbang/wpn_frag_flashbang"
 
 		local flash_grenade = World:spawn_unit(Idstring(flashbang_unit), det_pos, rotation)
 		local shoot_from_pos = data.shooter_pos or det_pos

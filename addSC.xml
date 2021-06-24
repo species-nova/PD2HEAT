@@ -1668,14 +1668,6 @@
 	<object path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" force="false"/>
 	<cooked_physics path="units/payday2/characters/ene_shield_gensec/ene_shield_gensec" force="false"/>
 
-	<!--Unshootable Flashbangs-->
-	<sequence_manager path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" force="false"/>
-	<model path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" force="false"/>
-	<object path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" force="false"/>
-	<material_config path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" force="false"/>
-	<cooked_physics path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" force="false"/>
-	<unit path="units/payday2/weapons/wpn_frag_sc_flashbang/wpn_frag_sc_flashbang" load="true" force="false"/>
-
 	<!--Medic w/ Mp5-->
 	<unit path="units/payday2/characters/ene_medic_mp5/ene_medic_mp5" force="false" load="true"/>
 	<unit path="units/payday2/characters/ene_medic_mp5/ene_medic_mp5_husk" force="false" load="true"/>

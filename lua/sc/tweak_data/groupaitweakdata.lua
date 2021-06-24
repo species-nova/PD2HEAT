@@ -7590,9 +7590,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			0.025
 		}
 	}
-	if difficulty_index == 8 then
-		self.flash_grenade.light_color = Vector3(255, 165, 0)
-	end
 	self.optimal_trade_distance = {0, 0}
 	self.bain_assault_praise_limits = {1, 3}
 	if difficulty_index <= 3 then
