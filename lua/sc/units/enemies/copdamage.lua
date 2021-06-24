@@ -750,8 +750,9 @@ function CopDamage:damage_bullet(attack_data)
 				normal = attack_data.col_ray.ray
 			})			
 			--Armor Impact sound AAAAAAAAAAA
-			self._unit:sound():play("knuckles_hit_gen", nil, nil)
-		
+			if attack_data.attacker_unit == managers.player:player_unit() then
+				self._unit:sound():play("knuckles_hit_gen", nil, nil)
+			end
 			return
 		end
 	end
