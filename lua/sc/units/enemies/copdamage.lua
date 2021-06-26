@@ -3128,7 +3128,7 @@ function CopDamage:_on_damage_received(damage_info)
 					store_damage_ratio = attacker_base.is_husk_player
 				end
 
-				if store_damage_ratio then
+				if store_damage_ratio and damage_info.damage then
 					if self._was_overhealed then
 						self._player_damage_ratio = self._player_damage_ratio + (damage_info.damage / self._OVERHEALTH_INIT)
 					else
