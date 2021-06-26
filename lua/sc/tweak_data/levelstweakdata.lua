@@ -2,6 +2,8 @@ Month = os.date("%m")
 Day = os.date("%d")	
 
 --///LEVEL TYPES\\\--
+--The distinction of "NYPD" and "LAPD" is defunct in HEAT.  Internal names don't need to reflect this, but they no longer conform to the specific 'region' dictated by the title.  IE: we might use classics (NYPD) on stuff like Alaskan Deal.
+
 LevelsTweakData.LevelType = {}
 LevelsTweakData.LevelType.America = "america"
 LevelsTweakData.LevelType.Russia = "russia"
