@@ -9449,6 +9449,12 @@ function WeaponTweakData:_create_table_structure()
 		use_data = {},
 		auto = {}
 	}
+	self.smoke_npc = {
+		usage = "is_smg",
+		sounds = {},
+		use_data = {},
+		auto = {}
+	}
 	self.flamethrower_mk2_crew.anim_usage = "is_bullpup"	
 	self.flamethrower_mk2_crew.usage = "is_flamethrower"
 end
