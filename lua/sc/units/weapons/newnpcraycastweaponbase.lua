@@ -11,6 +11,17 @@ function NewNPCRaycastWeaponBase:setup(setup_data, ...)
 			self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16, 22)
 		end
 	end
+
+	--Apply bot boosts if not done yet.
+	if not self._use_armor_piercing then
+		if self._is_team_ai and managers.player:has_category_upgrade("team", "crew_ai_ap_ammo") then
+			self._use_armor_piercing = true
+			self._shield_knock = true
+		elseif tweak_data.weapon[self._name_id].shield_piercing then
+			self._use_armor_piercing = true
+			self._shield_piercing = true
+		end
+	end
 end
 
 local ai_vision_ids = Idstring("ai_vision")
@@ -21,15 +32,6 @@ local mvec_spread = Vector3()
 function NewNPCRaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player)
 	if not self._check_ap_and_masks then
 		self._check_ap_and_masks = true
-
-		--Apply bot boosts if not done yet.
-		if not self._use_armor_piercing then
-			if self._is_team_ai and managers.player:has_category_upgrade("team", "crew_ai_ap_ammo") then
-				self._use_armor_piercing = true
-				self._shield_knock = true
-				self._damage = self._damage * managers.player:upgrade_value("team", "crew_ai_ap_ammo")
-			end
-		end
 
 		self._wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 		self._shield_mask = managers.slot:get_mask("enemy_shield_check")
@@ -53,6 +55,7 @@ function NewNPCRaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, d
 	local ray_hits = World:raycast_all("ray", from_pos, mvec_to, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units)
 	local units_hit = {}
 	local unique_hits = {}
+	local hit_through_shield = true
 
 	for i, hit in ipairs(ray_hits) do
 		if not units_hit[hit.unit:key()] then
@@ -66,6 +69,8 @@ function NewNPCRaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, d
 				if hard_surface then
 					break
 				end
+			elseif self._shield_piercing and hit.unit:in_slot(self._shield_mask) then
+				damage = damage * 0.5 --Doesn't lead to 100% correct results, but will be 'accurate enough' for bots.
 			elseif hit.unit:in_slot(self._shield_mask) or hit.unit:in_slot(self._enemy_mask) then
 				break
 			end

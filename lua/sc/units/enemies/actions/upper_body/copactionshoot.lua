@@ -27,7 +27,7 @@ local melee_vec3 = Vector3()
 local melee_vec4 = Vector3()
 local temp_vec2 = Vector3()
 local temp_rot1 = Rotation()
-local projectile_throw_pos_offset = Vector3(50, 50, 0)
+local world_g = World
 
 function CopActionShoot:init(action_desc, common_data)
 	self._common_data = common_data
@@ -127,7 +127,7 @@ function CopActionShoot:init(action_desc, common_data)
 		self._ext_movement:set_stance_by_code(3)
 		common_data.ext_network:send("action_aim_state", true)
 
-		self._grenade = common_data.char_tweak.grenade
+		self._grenade = common_data.char_tweak.grenade or weapon_usage_tweak.grenade
 		if self._grenade then
 			if not self._ext_brain._grenade_t then
 				self._ext_brain._grenade_t = 0
@@ -159,6 +159,7 @@ function CopActionShoot:init(action_desc, common_data)
 	self._draw_obstruction_checks = nil
 	self._draw_focus_displacement = nil
 	self._draw_focus_delay_vis_reset = nil
+	self._draw_strict_grenade_attempts = false
 
 	return true
 end
@@ -370,6 +371,20 @@ function CopActionShoot:_debug_draw_obstruction_checks(valid, fire_line, tagret_
 	end
 end
 
+function CopActionShoot:_debug_draw_strict_grenade(valid, shoot_from_pos, target_pos, obstructed)
+	if self._draw_strict_grenade_attempts then
+		local color = valid and Color.green or Color.red
+		local draw_duration = 4
+		local target_area = Draw:brush(color:with_alpha(0.25), draw_duration)
+		target_area:sphere(target_pos, 500)
+
+		if obstructed then
+			local line = Draw:brush(Color.red:with_alpha(0.25), draw_duration)
+			line:cylinder(self._shoot_from_pos, target_pos, 20)
+		end
+	end
+end
+
 function CopActionShoot:disable_sniper_laser()
 	if self._is_server then
 		if self._active_laser then
@@ -441,7 +456,7 @@ function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos)
 			detonate_pos = mvec3_copy(ground_ray.hit_position)
 			mvec3_set_z(detonate_pos, detonate_pos.z + 3)
 
-			managers.groupai:state():detonate_cs_grenade(detonate_pos, mvec3_copy(self._shoot_from_pos), 7.5)
+			managers.groupai:state():detonate_cs_grenade(detonate_pos, self._shoot_from_pos, 7.5)
 			self._ext_movement:play_redirect("throw_grenade")			
 
 			if self._grenade.voiceline then
@@ -453,14 +468,15 @@ function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos)
 			return true
 		end
 	else
-		if ProjectileBase.throw_projectile(self._grenade.type, shoot_from_pos, target_vec, nil, self._unit, true) then
-			self._ext_movement:play_redirect("throw_grenade")
+		if ProjectileBase.throw_projectile(self._grenade.type, shoot_from_pos, target_vec, nil, self._unit) then
+			if not self._grenade.no_anim then
+				self._ext_movement:play_redirect("throw_grenade")
+				managers.network:session():send_to_peers_synched("play_distance_interact_redirect", self._unit, "throw_grenade")
+			end
 
 			if self._grenade.voiceline then
 				self._unit:sound():say(self._grenade.voiceline, true, nil, true)
 			end
-
-			managers.network:session():send_to_peers_synched("play_distance_interact_redirect", self._unit, "throw_grenade")
 
 			self._shoot_t = self._shoot_t + 0.6
 
@@ -476,8 +492,50 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 		local grenade = self._grenade
 		if grenade and grenade.range >= mvec3_dis(target_pos, shoot_from_pos) and t > (self._ext_brain._grenade_t or 0) then --If unit has a grenade, and conditions are met, throw it.
 			self._ext_brain._grenade_t = t + grenade.cooldown
+
 			if math_random() <= grenade.chance then
-				if self:throw_grenade(mvec3_copy(shoot_from_pos) + projectile_throw_pos_offset, mvec3_copy(target_vec), mvec3_copy(target_pos)) then
+				--Strict throw is a value used by teamai to determine when a good time to launch a grenade is.
+				--If the number of 'points' (enemies that are good targets) exceeds the strict_throw value, it uses the grenade. Otherwise, it doesn't use it.
+				--Shields count for double.
+				--The throw attempt will be blocked by civilians or allies that are in the way.
+				local points = 0
+				if grenade.strict_throw then
+					local targets = world_g:find_units_quick("sphere", target_pos, 500, managers.slot:get_mask("persons"))
+
+					for i = 1, #targets do
+						local curr_target = targets[i]
+						local curr_base = curr_target:base()
+						if curr_target:in_slot(managers.slot:get_mask("enemies")) then
+							if curr_base._tweak_table == "shield" then
+								points = points + 2
+							else 
+								points = points + (curr_base:char_tweak().damage.explosion_damage_mul or 1)
+							end
+						else
+							points = 0
+							break
+						end
+					end
+
+					local obstructed = false
+					if points >= grenade.strict_throw then
+						local ray = self._unit:raycast("ray", shoot_from_pos, target_pos, "sphere_cast_radius", 20, "slot_mask", managers.slot:get_mask("world_geometry", "vehicles", "all_criminals", "civilians"), "report")
+						if ray then
+							points = 0
+							obstructed = true
+						end
+					end
+
+					self:_debug_draw_strict_grenade(points >= grenade.strict_throw or obstructed, shoot_from_pos, target_pos, obstructed)
+				end
+
+				local throw_vector = mvec3_copy(shoot_from_pos)
+				if grenade.offset then
+					mvec3_add(throw_vector, grenade.offset)
+				end
+
+				if points >= (grenade.strict_throw or 0) and self:throw_grenade(throw_vector, target_vec, target_pos) then
+					self._ext_brain._grenade_t = t + (grenade.use_cooldown or 0)
 					return true
 				end
 			end

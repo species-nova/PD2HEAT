@@ -1681,6 +1681,10 @@ function CopMovement:anim_clbk_spawn_dropped_magazine()
 			if w_td_crew then
 				local weapon_usage_tweak = self._tweak_data.weapon[w_td_crew.usage]
 				reload_speed_multiplier = weapon_usage_tweak.RELOAD_SPEED or 1
+
+				if weapon_usage_tweak.crew then
+					reload_speed_multiplier = reload_speed_multiplier * (w_td_crew.crew_reload_speed_mul or 1)
+				end
 			end
 
 			local _t = reload_speed_multiplier - 1

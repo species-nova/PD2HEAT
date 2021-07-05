@@ -715,6 +715,10 @@ function CopActionHurt:init(action_desc, common_data)
 			self._miss_dis = weapon_usage_tweak.miss_dis or 30
 			self._automatic_weap = weap_tweak.auto and weapon_usage_tweak.autofire_rounds and true or nil
 			self._reload_speed = weapon_usage_tweak.RELOAD_SPEED
+			if weapon_usage_tweak.crew then
+				self._reload_speed = self._reload_speed * (weap_tweak.crew_reload_speed_mul or 1)
+			end
+
 			self._falloff = weapon_usage_tweak.FALLOFF or {
 				{
 					dmg_mul = 1,
@@ -830,6 +834,10 @@ function CopActionHurt:init(action_desc, common_data)
 				self._miss_dis = weapon_usage_tweak.miss_dis or 30
 				self._automatic_weap = weap_tweak.auto and weapon_usage_tweak.autofire_rounds and true or nil
 				self._reload_speed = weapon_usage_tweak.RELOAD_SPEED
+				if weapon_usage_tweak.crew then
+					self._reload_speed = self._reload_speed * (weap_tweak.crew_reload_speed_mul or 1)
+				end
+
 				self._falloff = weapon_usage_tweak.FALLOFF or {
 					{
 						dmg_mul = 1,
@@ -2400,6 +2408,10 @@ function CopActionHurt:on_inventory_event(event)
 		self._miss_dis = weapon_usage_tweak.miss_dis or 30
 		self._automatic_weap = weap_tweak.auto and weapon_usage_tweak.autofire_rounds and true or nil
 		self._reload_speed = weapon_usage_tweak.RELOAD_SPEED
+		if weapon_usage_tweak.crew then
+			self._reload_speed = self._reload_speed * (weap_tweak.crew_reload_speed_mul or 1)
+		end
+
 		self._falloff = weapon_usage_tweak.FALLOFF or {
 			{
 				dmg_mul = 1,

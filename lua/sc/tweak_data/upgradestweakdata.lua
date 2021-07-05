@@ -415,7 +415,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	--Also increases bot damage dealt.
 	self.values.team.crew_ai_ap_ammo = {
-		1.25
+		true
 	}
 	
 	--Equipment--

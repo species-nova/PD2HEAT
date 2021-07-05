@@ -205,3 +205,23 @@ function BlackMarketManager:accuracy_index_addend(name, categories, silencer, cu
 
 	return index
 end
+
+--Let bots use pistols.
+local ALLOWED_CREW_WEAPON_CATEGORIES = {
+    assault_rifle = true,
+    shotgun = true,
+    snp = true,
+    akimbo = false,
+    lmg = true,
+    smg = true,
+    pistol = true,
+    minigun = false,
+    grenade_launcher = false,
+    flamethrower = false,
+    bow = false,
+    crossbow = false
+}
+
+function BlackMarketManager:is_weapon_category_allowed_for_crew(weapon_category)
+	return ALLOWED_CREW_WEAPON_CATEGORIES[weapon_category]
+end

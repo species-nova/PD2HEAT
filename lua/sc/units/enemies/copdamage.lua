@@ -1717,7 +1717,7 @@ function CopDamage:die(attack_data)
 	end
 
 	if not self._char_tweak.always_drop and self._pickup == "ammo" then
-		local attacker_unit = attack_data.attacker_unit
+		local attacker_unit = attack_data.thrower_unit or attack_data.attacker_unit
 
 		if alive(attacker_unit) and managers.groupai:state():is_unit_team_AI(attacker_unit) then
 			local roll = math_random()

@@ -821,13 +821,10 @@ function TeamAILogicIdle._get_priority_attention(data, attention_objects, reacti
 
 							if is_valid_combat_target then
 								local my_weapon_usage = data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage
+								local optimal_range = data.char_tweak.weapon[my_weapon_usage].range.optimal
 
-								if my_weapon_usage == "is_shotgun_mag" or my_weapon_usage == "is_lmg" then
-									local optimal_range = data.char_tweak.weapon[my_weapon_usage].range.optimal
-
-									if distance >= optimal_range then
-										target_priority_slot = target_priority_slot + 3
-									end
+								if distance >= optimal_range then
+									target_priority_slot = target_priority_slot + 3
 								end
 							end
 						end

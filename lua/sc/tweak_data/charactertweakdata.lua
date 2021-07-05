@@ -5,6 +5,7 @@ local headshot_difficulty_array = {2, 2.5, 3}
 local normal_headshot = 1 --2 below Overkill, 2.5 on Mayhem-Deathwish, 3 on DS
 local bravo_headshot = 1.5 --3 below Overkill, 3.75 on Mayhem-Deathwish, 4.5 on DS
 local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
+local projectile_throw_pos_offset = Vector3(50, 50, 0)
 
 --Grenades
 	local frag = {
@@ -12,6 +13,7 @@ local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 		cooldown = 6,
 		chance = 0.3,
 		range = 1600,
+		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
 
@@ -20,6 +22,7 @@ local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 		cooldown = 12,
 		chance = 1,
 		range = 1600,
+		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
 
@@ -28,6 +31,7 @@ local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 		chance = 0.5,
 		cooldown = 10,
 		range = 2800,
+		no_anim = true,
 		voiceline = "use_gas"
 	}
 
@@ -36,6 +40,7 @@ local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 		cooldown = 4,
 		chance = 1,
 		range = 1600,
+		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
 
@@ -44,6 +49,7 @@ local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 		cooldown = 10,
 		chance = 1,
 		range = 1600,
+		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
 
@@ -52,7 +58,19 @@ local strong_headshot = 2 --4 below Overkill, 5 on Mayhem-Deathwish, 6 on DS
 		chance = 0.3,
 		cooldown = 10,
 		range = 2800,
+		offset = projectile_throw_pos_offset,
 		voiceline = "i03"
+	}
+
+	local gang_member_launcher_frag = {
+		type="launcher_frag",
+		chance = 0.9,
+		cooldown = 5,
+		use_cooldown = 50,
+		range = 1600,
+		voiceline = "g43",
+		strict_throw = 3,
+		no_anim = true
 	}
 
 local old_init = CharacterTweakData.init
@@ -457,7 +475,7 @@ function CharacterTweakData:_init_cop(presets)
 	table.insert(self._enemy_list, "cop_civ")
 	
 	self.dave = deep_clone(self.cop)
-	self.dave.weapon = deep_clone(presets.weapon.good)
+	self.dave.weapon = presets.weapon.good
 	self.dave.detection = presets.detection.good
 	self.dave.dodge = presets.dodge.elite
 	self.dave.HEALTH_INIT = 24
@@ -3108,7 +3126,7 @@ function CharacterTweakData:_init_russian(presets)
 	self.russian.no_run_stop = true
 	self.russian.flammable = false
 	self.russian.damage = presets.gang_member_damage
-	self.russian.weapon = deep_clone(presets.weapon.good)
+	self.russian.weapon = deep_clone(presets.weapon.gang_member)
 	self.russian.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.dallas.primaries,
 		secondary = self.char_wep_tables.dallas.secondaries
@@ -3135,7 +3153,7 @@ function CharacterTweakData:_init_german(presets)
 	self.german.flammable = false
 	self.german.melee_weapon = "nin"
 	self.german.damage = presets.gang_member_damage
-	self.german.weapon = deep_clone(presets.weapon.good)
+	self.german.weapon = deep_clone(presets.weapon.gang_member)
 	self.german.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.wolf.primaries,
 		secondary = self.char_wep_tables.wolf.secondaries
@@ -3162,7 +3180,7 @@ function CharacterTweakData:_init_spanish(presets)
 	self.spanish.flammable = false
 	self.spanish.melee_weapon = "gerber"
 	self.spanish.damage = presets.gang_member_damage
-	self.spanish.weapon = deep_clone(presets.weapon.good)
+	self.spanish.weapon = deep_clone(presets.weapon.gang_member)
 	self.spanish.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.chains.primaries,
 		secondary = self.char_wep_tables.chains.secondaries
@@ -3188,7 +3206,7 @@ function CharacterTweakData:_init_american(presets)
 	self.american.no_run_stop = true
 	self.american.flammable = false
 	self.american.damage = presets.gang_member_damage
-	self.american.weapon = deep_clone(presets.weapon.good)
+	self.american.weapon = deep_clone(presets.weapon.gang_member)
 	self.american.melee_weapon = "baton"
 	self.american.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.houston.primaries,
@@ -3215,7 +3233,7 @@ function CharacterTweakData:_init_jowi(presets)
 	self.jowi.no_run_stop = true
 	self.jowi.melee_weapon = "kabartanto"
 	self.jowi.damage = presets.gang_member_damage
-	self.jowi.weapon = deep_clone(presets.weapon.good)
+	self.jowi.weapon = deep_clone(presets.weapon.gang_member)
 	self.jowi.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.wick.primaries,
 		secondary = self.char_wep_tables.wick.secondaries
@@ -3241,7 +3259,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.no_run_stop = true
 	self.old_hoxton.melee_weapon = "switchblade"
 	self.old_hoxton.damage = presets.gang_member_damage
-	self.old_hoxton.weapon = deep_clone(presets.weapon.good)
+	self.old_hoxton.weapon = deep_clone(presets.weapon.gang_member)
 	self.old_hoxton.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.hoxton.primaries,
 		secondary = self.char_wep_tables.hoxton.secondaries
@@ -3267,7 +3285,7 @@ function CharacterTweakData:_init_clover(presets)
 	self.female_1.no_run_stop = true
 	self.female_1.melee_weapon = "shillelagh"
 	self.female_1.damage = presets.gang_member_damage
-	self.female_1.weapon = deep_clone(presets.weapon.good)
+	self.female_1.weapon = deep_clone(presets.weapon.gang_member)
 	self.female_1.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.clover.primaries,
 		secondary = self.char_wep_tables.clover.secondaries
@@ -3293,7 +3311,7 @@ function CharacterTweakData:_init_dragan(presets)
 	self.dragan.no_run_stop = true
 	self.dragan.melee_weapon = "meat_cleaver"
 	self.dragan.damage = presets.gang_member_damage
-	self.dragan.weapon = deep_clone(presets.weapon.good)
+	self.dragan.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragan.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.dragan.primaries,
 		secondary = self.char_wep_tables.dragan.secondaries
@@ -3319,7 +3337,7 @@ function CharacterTweakData:_init_jacket(presets)
 	self.jacket.no_run_stop = true
 	self.jacket.melee_weapon = "hammer"
 	self.jacket.damage = presets.gang_member_damage
-	self.jacket.weapon = deep_clone(presets.weapon.good)
+	self.jacket.weapon = deep_clone(presets.weapon.gang_member)
 	self.jacket.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.jacket.primaries,
 		secondary = self.char_wep_tables.jacket.secondaries
@@ -3345,7 +3363,7 @@ function CharacterTweakData:_init_bonnie(presets)
 	self.bonnie.no_run_stop = true
 	self.bonnie.melee_weapon = "croupier_rake"
 	self.bonnie.damage = presets.gang_member_damage
-	self.bonnie.weapon = deep_clone(presets.weapon.good)
+	self.bonnie.weapon = deep_clone(presets.weapon.gang_member)
 	self.bonnie.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.bonnie.primaries,
 		secondary = self.char_wep_tables.bonnie.secondaries
@@ -3371,7 +3389,7 @@ function CharacterTweakData:_init_sokol(presets)
 	self.sokol.no_run_stop = true
 	self.sokol.melee_weapon = "hockey"
 	self.sokol.damage = presets.gang_member_damage
-	self.sokol.weapon = deep_clone(presets.weapon.good)
+	self.sokol.weapon = deep_clone(presets.weapon.gang_member)
 	self.sokol.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.sokol.primaries,
 		secondary = self.char_wep_tables.sokol.secondaries
@@ -3397,7 +3415,7 @@ function CharacterTweakData:_init_dragon(presets)
 	self.dragon.no_run_stop = true
 	self.dragon.melee_weapon = "sandsteel"
 	self.dragon.damage = presets.gang_member_damage
-	self.dragon.weapon = deep_clone(presets.weapon.good)
+	self.dragon.weapon = deep_clone(presets.weapon.gang_member)
 	self.dragon.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.jiro.primaries,
 		secondary = self.char_wep_tables.jiro.secondaries
@@ -3423,7 +3441,7 @@ function CharacterTweakData:_init_bodhi(presets)
 	self.bodhi.no_run_stop = true
 	self.bodhi.melee_weapon = "iceaxe"
 	self.bodhi.damage = presets.gang_member_damage
-	self.bodhi.weapon = deep_clone(presets.weapon.good)
+	self.bodhi.weapon = deep_clone(presets.weapon.gang_member)
 	self.bodhi.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.bodhi.primaries,
 		secondary = self.char_wep_tables.bodhi.secondaries
@@ -3449,7 +3467,7 @@ function CharacterTweakData:_init_jimmy(presets)
 	self.jimmy.no_run_stop = true
 	self.jimmy.melee_weapon = "ballistic"
 	self.jimmy.damage = presets.gang_member_damage
-	self.jimmy.weapon = deep_clone(presets.weapon.good)
+	self.jimmy.weapon = deep_clone(presets.weapon.gang_member)
 	self.jimmy.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.jimmy.primaries,
 		secondary = self.char_wep_tables.jimmy.secondaries
@@ -3475,7 +3493,7 @@ function CharacterTweakData:_init_sydney(presets)
 	self.sydney.no_run_stop = true
 	self.sydney.melee_weapon = "wing"
 	self.sydney.damage = presets.gang_member_damage
-	self.sydney.weapon = deep_clone(presets.weapon.good)
+	self.sydney.weapon = deep_clone(presets.weapon.gang_member)
 	self.sydney.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.sydney.primaries,
 		secondary = self.char_wep_tables.sydney.secondaries
@@ -3501,7 +3519,7 @@ function CharacterTweakData:_init_wild(presets)
 	self.wild.no_run_stop = true
 	self.wild.melee_weapon = "road"
 	self.wild.damage = presets.gang_member_damage
-	self.wild.weapon = deep_clone(presets.weapon.good)
+	self.wild.weapon = deep_clone(presets.weapon.gang_member)
 	self.wild.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.rust.primaries,
 		secondary = self.char_wep_tables.rust.secondaries
@@ -3527,7 +3545,7 @@ function CharacterTweakData:_init_chico(presets)
 	self.chico.no_run_stop = true
 	self.chico.melee_weapon = "brick"
 	self.chico.damage = presets.gang_member_damage
-	self.chico.weapon = deep_clone(presets.weapon.good)
+	self.chico.weapon = deep_clone(presets.weapon.gang_member)
 	self.chico.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.tony.primaries,
 		secondary = self.char_wep_tables.tony.secondaries
@@ -3553,7 +3571,7 @@ function CharacterTweakData:_init_max(presets)
 	self.max.no_run_stop = true
 	self.max.melee_weapon = "agave"
 	self.max.damage = presets.gang_member_damage
-	self.max.weapon = deep_clone(presets.weapon.good)
+	self.max.weapon = deep_clone(presets.weapon.gang_member)
 	self.max.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.sangres.primaries,
 		secondary = self.char_wep_tables.sangres.secondaries
@@ -3580,7 +3598,7 @@ function CharacterTweakData:_init_myh(presets)
 	self.myh.flammable = false
 	self.myh.melee_weapon = "sap"
 	self.myh.damage = presets.gang_member_damage
-	self.myh.weapon = deep_clone(presets.weapon.good)
+	self.myh.weapon = deep_clone(presets.weapon.gang_member)
 	self.myh.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.duke.primaries,
 		secondary = self.char_wep_tables.duke.secondaries
@@ -3602,7 +3620,7 @@ end
 function CharacterTweakData:_init_ecp(presets)
 	self.ecp_female = {
 		damage = presets.gang_member_damage,
-		weapon = deep_clone(presets.weapon.good)
+		weapon = deep_clone(presets.weapon.gang_member)
 	}
 	self.ecp_female.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_m4_npc",
@@ -3627,7 +3645,7 @@ function CharacterTweakData:_init_ecp(presets)
 	}
 	self.ecp_male = {
 		damage = presets.gang_member_damage,
-		weapon = deep_clone(presets.weapon.good)
+		weapon = deep_clone(presets.weapon.gang_member)
 	}
 	self.ecp_male.weapon.weapons_of_choice = {
 		primary = "wpn_fps_ass_m4_npc",
@@ -3655,7 +3673,7 @@ end
 function CharacterTweakData:_init_joy(presets)
 	self.joy = {
 		damage = presets.gang_member_damage,
-		weapon = deep_clone(presets.weapon.good)
+		weapon = deep_clone(presets.weapon.gang_member)
 	}
 	self.joy.weapon.weapons_of_choice = {
 		primary = self.char_wep_tables.joy.primaries,
@@ -4451,17 +4469,17 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.base.static_dodge_preset = false
 	presets.base.static_melee_preset = false
 	presets.gang_member_damage = {}
-	presets.gang_member_damage.HEALTH_INIT = 20
+	presets.gang_member_damage.HEALTH_INIT = 100
 	presets.gang_member_damage.no_run_start = true
 	presets.gang_member_damage.no_run_stop = true
 	presets.gang_member_damage.headshot_dmg_mul = normal_headshot
 	presets.gang_member_damage.LIVES_INIT = 4
 	presets.gang_member_damage.explosion_damage_mul = 0
-	presets.gang_member_damage.REGENERATE_TIME = 3
-	presets.gang_member_damage.REGENERATE_TIME_AWAY = 1.5
+	presets.gang_member_damage.REGENERATE_TIME = 5
+	presets.gang_member_damage.REGENERATE_TIME_AWAY = 2.5
 	presets.gang_member_damage.DOWNED_TIME = tweak_data.player.damage.DOWNED_TIME
 	presets.gang_member_damage.TASED_TIME = tweak_data.player.damage.TASED_TIME
-	presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 20
+	presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 40
 	presets.gang_member_damage.ARRESTED_TIME = 30
 	presets.gang_member_damage.INCAPACITATED_TIME = tweak_data.player.damage.INCAPACITATED_TIME
 	presets.gang_member_damage.hurt_severity = deep_clone(presets.hurt_severities.no_hurts)
@@ -4473,7 +4491,6 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.weapon.expert = {}
 
 	--Has quick response in close range, and extremely consistent long range plinking. Generally mediocre and flatish damage to compensate.
-	--Typically 40 damage.
 	presets.weapon.expert.is_pistol = {
 		aim_delay = {0.1, 0.4}, --Delay to acquire target. Scales based on range vs max falloff range.
 		focus_delay = 3, --Delay to reach max accuracy and recoil control from when shooting starts.
@@ -4544,7 +4561,6 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Keeps the Pistol's close range responsiveness, but loses the long range plinking via terrible ranged aim delay, and more aggressive falloff.
 	--Doubled ROF but reduced accuracy at range, because akimbo.
-	--Typically 40 damage.
 	presets.weapon.expert.is_akimbo_pistol = {
 		aim_delay = {0.1, 0.6},
 		focus_delay = 3,
@@ -4614,7 +4630,6 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	--Quick to react. Big damage, fairly inaccurate- especially up close.
-	--105 damage.
 	presets.weapon.expert.is_revolver = {
 		aim_delay = {0.4, 0.8},
 		focus_delay = 3,
@@ -4677,7 +4692,6 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	--Pretty average all-round. Threatening at any range, but not quite as much as more specialized guns.
-	--55 damage.
 	presets.weapon.expert.is_rifle = {
 		aim_delay = {0.3, 1.0},
 		focus_delay = 6,
@@ -4810,7 +4824,6 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	--Similar to ARs, but with more threat up close and less from far away.
-	--65 damage. 
 	presets.weapon.expert.is_smg = {
 		aim_delay = {0.2, 0.8},
 		focus_delay = 6,
@@ -5176,10 +5189,8 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.weapon.gangster = deep_clone(presets.weapon.normal) --Normal but with 1.5x damage.
 	presets.weapon.meme_man = deep_clone(presets.weapon.expert) --Idk yet, gotta think of something dumb.
 	presets.weapon.deathwish = deep_clone(presets.weapon.expert) --Unused, needed to prevent crash.
-	presets.weapon.gang_member = deep_clone(presets.weapon.expert)
-
-
-	--Will hit every 2 seconds.
+	
+	--Will hit every 2.5 seconds after a 3 second wait time.
 	presets.weapon.sniper = {}
 	presets.weapon.sniper.is_rifle = {
 		aim_delay = {3, 3},
@@ -5203,30 +5214,702 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 3000,
 				acc = {1, 1},
 				dmg_mul = 1,
-				recoil = {3, 3},
+				recoil = {2.5, 2.5},
 				burst_size = 1
 			},
 			{
 				r = 6000,
 				acc = {1, 1},
 				dmg_mul = 0.9,
-				recoil = {3, 3},
+				recoil = {2.5, 2.5},
 				burst_size = 1
 			},
 			{
 				r = 9000,
 				acc = {1, 1},
 				dmg_mul = 0.8,
-				recoil = {3, 3},
+				recoil = {2.5, 2.5},
 				burst_size = 1
 			},
 			{
 				r = 18000,
 				acc = {1, 1},
 				dmg_mul = 0.7,
-				recoil = {3, 3},
+				recoil = {2.5, 2.5},
 				burst_size = 1
 			},
+		}
+	}
+
+	--Bot weapon presets
+	presets.weapon.gang_member = deep_clone(presets.weapon.expert)
+
+	presets.weapon.gang_member.is_pistol = {
+		aim_delay = {0.2, 0.6},
+		focus_delay = 2,
+		focus_dis = 600,
+		spread = 6,
+		miss_dis = 12,
+		RELOAD_SPEED = 1.5,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1125,
+			optimal = 2250,
+			far = 6750
+		},
+		FALLOFF = {
+			{ --200 dps.
+				r = 300,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 1
+			},
+			{ --80/160 dps
+				r = 600,
+				acc = {0.5, 1.0},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 1
+			},
+			{ --60/120 dps
+				r = 1125,
+				acc = {0.4, 0.8},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 1
+			},
+			{ --40/80 dps
+				r = 2250,
+				acc = {0.4, 0.8},
+				dmg_mul = 1,
+				recoil = {0.45, 0.45},
+				burst_size = 1
+			},
+			{ --10/20 dps
+				r = 4500,
+				acc = {0.3, 0.6},
+				dmg_mul = 0.5,
+				recoil = {0.9, 0.9},
+				burst_size = 1
+			},
+			{
+				r = 6750,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.8, 1.8},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_revolver = {
+		aim_delay = {0.2, 0.6},
+		focus_delay = 2,
+		focus_dis = 600,
+		spread = 6,
+		miss_dis = 12,
+		RELOAD_SPEED = 0.4,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1125,
+			optimal = 2250,
+			far = 6750
+		},
+		FALLOFF = {
+			{ --200 dps.
+				r = 300,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.5, 0.5},
+				burst_size = 1
+			},
+			{ --80/160 dps
+				r = 600,
+				acc = {0.5, 1.0},
+				dmg_mul = 1,
+				recoil = {0.5, 0.5},
+				burst_size = 1
+			},
+			{ --60/120 dps
+				r = 1125,
+				acc = {0.4, 0.8},
+				dmg_mul = 1,
+				recoil = {0.5, 0.5},
+				burst_size = 1
+			},
+			{ --40/80 dps
+				r = 2250,
+				acc = {0.4, 0.8},
+				dmg_mul = 1,
+				recoil = {0.75, 0.75},
+				burst_size = 1
+			},
+			{ --10/20 dps
+				r = 4500,
+				acc = {0.3, 0.6},
+				dmg_mul = 0.5,
+				recoil = {1.5, 1.5},
+				burst_size = 1
+			},
+			{
+				r = 6750,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.8, 1.8},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_rifle = {
+		aim_delay = {0.4, 1.2},
+		focus_delay = 4,
+		focus_dis = 450,
+		spread = 8,
+		miss_dis = 16,
+		RELOAD_SPEED = 1,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1400,
+			optimal = 2800,
+			far = 8400
+		},
+		FALLOFF = {
+			{
+				r = 350,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.6, 0.6},
+				burst_size = 30
+			},
+			{
+				r = 700,
+				acc = {0.176, 0.528},
+				dmg_mul = 1,
+				recoil = {0.6, 0.6},
+				burst_size = 30
+			},
+			{
+				r = 701,
+				acc = {0.225, 0.675},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 3
+			},
+			{
+				r = 1400,
+				acc = {0.2, 0.6},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 3
+			},
+			{
+				r = 2800,
+				acc = {0.15, 0.45},
+				dmg_mul = 1,
+				recoil = {0.45, 0.45},
+				burst_size = 3
+			},
+			{
+				r = 5600,
+				acc = {0.1, 0.3},
+				dmg_mul = 0.5,
+				recoil = {0.6, 0.6},
+				burst_size = 2
+			},
+			{
+				r = 8400,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.2, 1.2},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_rifle_underbarrel = {
+		aim_delay = {0.4, 1.2},
+		focus_delay = 4,
+		focus_dis = 450,
+		spread = 8,
+		miss_dis = 16,
+		RELOAD_SPEED = 1,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		grenade = gang_member_launcher_frag,
+		crew = true,
+		range = {
+			close = 1400,
+			optimal = 2800,
+			far = 8400
+		},
+		FALLOFF = {
+			{
+				r = 350,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.6, 0.6},
+				burst_size = 3
+			},
+			{
+				r = 700,
+				acc = {0.201, 0.603},
+				dmg_mul = 1,
+				recoil = {0.6, 0.6},
+				burst_size = 3
+			},
+			{
+				r = 701,
+				acc = {0.225, 0.675},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 2
+			},
+			{
+				r = 1400,
+				acc = {0.2, 0.6},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 2
+			},
+			{
+				r = 2800,
+				acc = {0.15, 0.45},
+				dmg_mul = 1,
+				recoil = {0.45, 0.45},
+				burst_size = 2
+			},
+			{
+				r = 5600,
+				acc = {0.1, 0.3},
+				dmg_mul = 0.5,
+				recoil = {0.6, 0.6},
+				burst_size = 2
+			},
+			{
+				r = 8400,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.2, 1.2},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_smg = {
+		aim_delay = {0.2, 0.6},
+		focus_delay = 2,
+		focus_dis = 600,
+		spread = 10,
+		miss_dis = 20,
+		RELOAD_SPEED = 1.5,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1125,
+			optimal = 2250,
+			far = 6750
+		},
+		FALLOFF = {
+			{
+				r = 300,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 20
+			},
+			{
+				r = 600,
+				acc = {0.3, 0.6},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 20
+			},
+			{
+				r = 1125,
+				acc = {0.25, 0.5},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 20
+			},
+			{
+				r = 2250,
+				acc = {0.14, 0.28},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 20
+			},
+			{
+				r = 2251,
+				acc = {0.19, 0.38},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 3
+			},
+			{
+				r = 4500,
+				acc = {0.1, 0.2},
+				dmg_mul = 0.5,
+				recoil = {0.6, 0.6},
+				burst_size = 3
+			},
+			{
+				r = 6750,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.8, 1.8},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_lmg = {
+		aim_delay = {0.6, 1.8},
+		focus_delay = 6,
+		focus_dis = 300,
+		spread = 12,
+		miss_dis = 24,
+		RELOAD_SPEED = 0.4,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1400,
+			optimal = 2800,
+			far = 8400
+		},
+		FALLOFF = {
+			{
+				r = 350,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {1.0, 1.0},
+				burst_size = 90
+			},
+			{
+				r = 700,
+				acc = {0.2, 0.8},
+				dmg_mul = 1,
+				recoil = {1.0, 1.0},
+				burst_size = 90
+			},
+			{
+				r = 1400,
+				acc = {0.15, 0.6},
+				dmg_mul = 1,
+				recoil = {1.0, 1.0},
+				burst_size = 90
+			},
+			{
+				r = 2800,
+				acc = {0.06, 0.3},
+				dmg_mul = 1,
+				recoil = {1.0, 1.0},
+				burst_size = 3
+			},
+			{
+				r = 2801,
+				acc = {0.1, 0.4},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 3
+			},
+			{
+				r = 5600,
+				acc = {0.05, 0.2},
+				dmg_mul = 0.5,
+				recoil = {0.6, 0.6},
+				burst_size = 3
+			},
+			{
+				r = 8400,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.2, 1.2},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_dmr = {
+		aim_delay = {0.6, 1.8},
+		focus_delay = 6,
+		focus_dis = 300,
+		spread = 4,
+		miss_dis = 8,
+		RELOAD_SPEED = 1,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1875,
+			optimal = 3750,
+			far = 11250
+		},
+		FALLOFF = {
+			{
+				r = 470,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.5, 0.5},
+				burst_size = 1
+			},
+			{
+				r = 940,
+				acc = {0.25, 0.75},
+				dmg_mul = 1,
+				recoil = {0.5, 0.5},
+				burst_size = 1
+			},
+			{
+				r = 1875,
+				acc = {0.25, 0.75},
+				dmg_mul = 1,
+				recoil = {0.75, 0.75},
+				burst_size = 1
+			},
+			{
+				r = 3750,
+				acc = {0.2, 0.6},
+				dmg_mul = 1,
+				recoil = {1.0, 1.0},
+				burst_size = 1
+			},
+			{
+				r = 7500,
+				acc = {0.15, 0.45},
+				dmg_mul = 0.5,
+				recoil = {1.5, 1.5},
+				burst_size = 1
+			},
+			{
+				r = 11250,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.8, 1.8},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_sniper = {
+		aim_delay = {0.6, 1.8},
+		focus_delay = 6,
+		focus_dis = 300,
+		spread = 2,
+		miss_dis = 6,
+		RELOAD_SPEED = 0.7,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 1875,
+			optimal = 3750,
+			far = 11250
+		},
+		FALLOFF = {
+			{
+				r = 470,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.75, 0.75},
+				burst_size = 1
+			},
+			{
+				r = 940,
+				acc = {0.25, 0.75},
+				dmg_mul = 1,
+				recoil = {0.75, 0.75},
+				burst_size = 1
+			},
+			{
+				r = 1875,
+				acc = {0.25, 0.75},
+				dmg_mul = 1,
+				recoil = {1.125, 1.125},
+				burst_size = 1
+			},
+			{
+				r = 3750,
+				acc = {0.2, 0.6},
+				dmg_mul = 1,
+				recoil = {1.5, 1.5},
+				burst_size = 1
+			},
+			{
+				r = 7500,
+				acc = {0.15, 0.45},
+				dmg_mul = 0.5,
+				recoil = {1.8, 1.8},
+				burst_size = 1
+			},
+			{
+				r = 11250,
+				acc = {0, 0},
+				dmg_mul = 0.0,
+				recoil = {1.8, 1.8},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_shotgun_mag = {
+		aim_delay = {0.6, 1.8},
+		focus_delay = 6,
+		focus_dis = 300,
+		spread = 20,
+		miss_dis = 20,
+		RELOAD_SPEED = 0.6,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 400,
+			optimal = 800,
+			far = 2400
+		},
+		FALLOFF = {
+			{
+				r = 400,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 8
+			},
+			{
+				r = 800,
+				acc = {0.75, 1.0},
+				dmg_mul = 1,
+				recoil = {0.4, 0.4},
+				burst_size = 4
+			},
+			{
+				r = 1600,
+				acc = {0.4, 1.0},
+				dmg_mul = 0.5,
+				recoil = {0.4, 0.4},
+				burst_size = 2
+			},
+			{
+				r = 2400,
+				acc = {0, 0},
+				dmg_mul = 0,
+				recoil = {0.8, 0.8},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_shotgun_pump = {
+		aim_delay = {0.4, 1.2},
+		focus_delay = 4,
+		focus_dis = 450,
+		spread = 20,
+		miss_dis = 20,
+		RELOAD_SPEED = 0.5,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 450,
+			optimal = 900,
+			far = 3600
+		},
+		FALLOFF = {
+			{
+				r = 450,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.5, 0.5},
+				burst_size = 1
+			},
+			{
+				r = 900,
+				acc = {0.75, 1.0},
+				dmg_mul = 1,
+				recoil = {0.65, 0.65},
+				burst_size = 1
+			},
+			{
+				r = 1800,
+				acc = {0.4, 0.8},
+				dmg_mul = 0.5,
+				recoil = {0.8, 0.8},
+				burst_size = 1
+			},
+			{
+				r = 3600,
+				acc = {0, 0},
+				dmg_mul = 0,
+				recoil = {1.6, 1.6},
+				burst_size = 1
+			}
+		}
+	}
+
+	presets.weapon.gang_member.is_shotgun_double = {
+		aim_delay = {0.2, 0.6},
+		focus_delay = 2,
+		focus_dis = 600,
+		spread = 20,
+		miss_dis = 20,
+		RELOAD_SPEED = 1.2,
+		melee_dmg = 1,
+		melee_speed = 1,
+		melee_retry_delay = {2, 2},
+		crew = true,
+		range = {
+			close = 500,
+			optimal = 1000,
+			far = 4000
+		},
+		FALLOFF = {
+			{
+				r = 500,
+				acc = {1.0, 1.0},
+				dmg_mul = 1,
+				recoil = {0.3, 0.3},
+				burst_size = 1
+			},
+			{
+				r = 1000,
+				acc = {0.75, 1.0},
+				dmg_mul = 1,
+				recoil = {0.6, 0.6},
+				burst_size = 1
+			},
+			{
+				r = 2000,
+				acc = {0.4, 0.8},
+				dmg_mul = 0.5,
+				recoil = {1.0, 1.0},
+				burst_size = 1
+			},
+			{
+				r = 4000,
+				acc = {0, 0},
+				dmg_mul = 0,
+				recoil = {2.0, 2.0},
+				burst_size = 1
+			}
 		}
 	}
 
@@ -7613,6 +8296,7 @@ end
 function CharacterTweakData:_set_normal()
 	self:_multiply_all_hp(0.5, 1)
 	self:_multiply_all_damage(0.3, 0.45, 0.5)
+	self:_multiply_teamai_health(0.3, 0.3)
 
 	--No normal tase for Elektra on lower difficulties
 	self.taser_summers.weapon.is_rifle.tase_distance = 0
@@ -7627,12 +8311,6 @@ function CharacterTweakData:_set_normal()
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
 
-	self.presets.gang_member_damage.HEALTH_INIT = 40
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.4
-	self.old_hoxton_mission.HEALTH_INIT = 40
-	self.spa_vip.HEALTH_INIT = 40
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 40
-
 	self:_multiply_all_speeds(1, 1)
 
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -7646,7 +8324,7 @@ end
 function CharacterTweakData:_set_hard()
 	self:_multiply_all_hp(0.625, 1)
 	self:_multiply_all_damage(0.5, 0.75, 0.625)
-	self:_set_characters_weapon_preset("normal", "normal")
+	self:_multiply_teamai_health(0.5, 0.3)
 
 	--No normal tase for Elektra on lower difficulties
 	self.taser_summers.weapon.is_rifle.tase_distance = 0	
@@ -7659,11 +8337,6 @@ function CharacterTweakData:_set_hard()
 	self:_set_characters_melee_preset("1", "1")
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
-	self.presets.gang_member_damage.HEALTH_INIT = 60
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.4
-	self.old_hoxton_mission.HEALTH_INIT = 60
-	self.spa_vip.HEALTH_INIT = 60
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 60
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[6] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -7679,6 +8352,7 @@ end
 function CharacterTweakData:_set_overkill()
 	self:_multiply_all_hp(0.75, 2)
 	self:_multiply_all_damage(0.7, 1.05, 0.75)
+	self:_multiply_teamai_health(0.7, 0.3)
 
 	--No normal tase for Elektra on lower difficulties
 	self.taser_summers.weapon.is_rifle.tase_distance = 0
@@ -7691,11 +8365,6 @@ function CharacterTweakData:_set_overkill()
 	self:_set_characters_melee_preset("2", "1")
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
-	self.presets.gang_member_damage.HEALTH_INIT = 80
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.35
-	self.old_hoxton_mission.HEALTH_INIT = 80
-	self.spa_vip.HEALTH_INIT = 80
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 80
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
@@ -7709,7 +8378,8 @@ end
 
 function CharacterTweakData:_set_overkill_145()
 	self:_multiply_all_hp(0.825, 2)
-	self:_multiply_all_damage(0.9, 1.35, 0.825)		
+	self:_multiply_all_damage(0.9, 1.35, 0.825)
+	self:_multiply_teamai_health(0.9, 0.25)
 			
 	self:_set_characters_dodge_preset("athletic_overkill")
 	self:_set_characters_melee_preset("2.8", "2")
@@ -7722,11 +8392,6 @@ function CharacterTweakData:_set_overkill_145()
 	
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
-	self.presets.gang_member_damage.HEALTH_INIT = 100
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.35
-	self.old_hoxton_mission.HEALTH_INIT = 100
-	self.spa_vip.HEALTH_INIT = 100
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 100
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
@@ -7739,6 +8404,7 @@ end
 function CharacterTweakData:_set_easy_wish()
 	self:_multiply_all_hp(1, 2)
 	self:_multiply_all_damage(1, 1.5, 1)
+	self:_multiply_teamai_health(1, 0.25)
 
 	self:_set_characters_weapon_preset("expert", "good")
 	self:_set_characters_dodge_preset("athletic_overkill")
@@ -7753,11 +8419,6 @@ function CharacterTweakData:_set_easy_wish()
 	self.city_swat_guard.can_slide_on_suppress = true	
 	self:_set_characters_melee_preset("2.8", "2")
 
-	self.presets.gang_member_damage.HEALTH_INIT = 120
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.3
-	self.old_hoxton_mission.HEALTH_INIT = 120
-	self.spa_vip.HEALTH_INIT = 120
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 120
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
@@ -7772,6 +8433,7 @@ end
 function CharacterTweakData:_set_overkill_290()
 	self:_multiply_all_hp(1, 2)
 	self:_multiply_all_damage(1, 1.5, 1)
+	self:_multiply_teamai_health(1, 0.25)
 
 	self:_set_characters_dodge_preset("deathwish")
 	self.fbi.can_shoot_while_dodging = true
@@ -7798,11 +8460,6 @@ function CharacterTweakData:_set_overkill_290()
 	self.fbi.move_speed = self.presets.move_speed.lightning
 	self.hrt.move_speed = self.presets.move_speed.lightning
 	
-	self.presets.gang_member_damage.HEALTH_INIT = 140
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.3
-	self.old_hoxton_mission.HEALTH_INIT = 140
-	self.spa_vip.HEALTH_INIT = 140
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 140
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
@@ -7817,6 +8474,7 @@ end
 function CharacterTweakData:_set_sm_wish()
 	self:_multiply_all_hp(1, 3)
 	self:_multiply_all_damage(1, 1.5, 1)
+	self:_multiply_teamai_health(1, 0.2)
 	
 	self:_set_characters_dodge_preset("deathwish")
 	self:_set_characters_melee_preset("3.5", "2.8")
@@ -7840,11 +8498,6 @@ function CharacterTweakData:_set_sm_wish()
 	self.city_swat_guard.can_shoot_while_dodging = true	
 	
 	self:_multiply_all_speeds(1, 1)
-	self.presets.gang_member_damage.HEALTH_INIT = 160
-	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.25
-	self.old_hoxton_mission.HEALTH_INIT = 160
-	self.spa_vip.HEALTH_INIT = 160
-	self.presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 160
 	self.flashbang_multiplier = 2
 	self.concussion_multiplier = 1
 	
@@ -9104,7 +9757,7 @@ function CharacterTweakData:_multiply_all_damage(mul, gang_mul, teamai_mul)
 		for preset_name, preset in pairs(preset_tier) do
 			if preset.melee_dmg then
 				preset.melee_dmg = preset.melee_dmg * current_dmg_mul
-			end			
+			end
 
 			for weapon, falloff_tier in pairs(preset.FALLOFF) do
 				falloff_tier.dmg_mul = falloff_tier.dmg_mul * current_dmg_mul
@@ -9115,4 +9768,11 @@ function CharacterTweakData:_multiply_all_damage(mul, gang_mul, teamai_mul)
 	self.spooc.kick_damage = 0.1 * math.ceil(self.spooc.kick_damage * 10 * mul)
 	self.spooc.jump_kick_damage = 0.1 * math.ceil(self.spooc.jump_kick_damage * 10 * mul)
 	self.taser.shock_damage = 0.1 * math.ceil(self.taser.shock_damage * 10 * mul)
+end
+
+function CharacterTweakData:_multiply_teamai_health(mul, grace_period)
+	self.presets.gang_member_damage.HEALTH_INIT = self.presets.gang_member_damage.HEALTH_INIT * mul
+	self.presets.gang_member_damage.MIN_DAMAGE_INTERVAL = grace_period
+	self.old_hoxton_mission.HEALTH_INIT = self.presets.gang_member_damage.HEALTH_INIT
+	self.spa_vip.HEALTH_INIT = self.presets.gang_member_damage.HEALTH_INIT
 end
