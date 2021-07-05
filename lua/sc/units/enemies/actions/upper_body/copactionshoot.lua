@@ -159,7 +159,7 @@ function CopActionShoot:init(action_desc, common_data)
 	self._draw_obstruction_checks = nil
 	self._draw_focus_displacement = nil
 	self._draw_focus_delay_vis_reset = nil
-	self._draw_strict_grenade_attempts = false
+	self._draw_strict_grenade_attempts = nil
 
 	return true
 end

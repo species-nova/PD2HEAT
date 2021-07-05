@@ -8244,10 +8244,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.osipr_gl_npc.suppression = 1
 	self.osipr_gl_npc.FIRE_MODE = "auto"
 
-
-	self.osipr_crew = deep_clone(self.m4_crew)
-	apply_crew_weapon_preset(self.osipr_crew, crew_underbarrel_rifle_stats)
-
 	--Anubis .45
 	self.socom.timers = {
 		reload_not_empty = 1.5435,
@@ -9453,61 +9449,8 @@ function WeaponTweakData:_create_table_structure()
 		use_data = {},
 		auto = {}
 	}
-	self.smoke_npc = {
-		usage = "is_smg",
-		sounds = {},
-		use_data = {},
-		auto = {}
-	}
 	self.flamethrower_mk2_crew.anim_usage = "is_bullpup"	
 	self.flamethrower_mk2_crew.usage = "is_flamethrower"
-	--Crew shit below--
-	self.benelli_crew = {
-		usage = "is_shotgun_mag",
-		anim_usage = "is_shotgun_pump",
-		sounds = {},
-		use_data = {}
-	}
-	self.mossberg_crew = {
-		usage = "is_shotgun_pump",
-		anim_usage = "is_shotgun_pump",
-		sounds = {},
-		use_data = {}
-	}
-	self.b682_crew = {
-		usage = "is_shotgun_pump",
-		anim_usage = "is_shotgun_pump",
-		sounds = {},
-		use_data = {},
-		auto = {}
-	}
-	self.ching_crew = {
-		usage = "is_dmr",
-		anim_usage = "is_rifle",
-		sounds = {},
-		use_data = {},
-		auto = {}
-	}		
-	self.spas12_crew = {
-		usage = "is_shotgun_mag",
-		anim_usage = "is_shotgun_pump",
-		sounds = {},
-		use_data = {}
-	}
-	self.g3_crew = {
-		usage = "is_rifle",
-		anim_usage = "is_rifle",
-		sounds = {},
-		use_data = {},
-		auto = {}
-	}
-	self.osipr_crew = {
-		usage = "is_rifle",
-		anim_usage = "is_rifle",
-		sounds = {},
-		use_data = {},
-		auto = {}
-	}
 end
 
 function WeaponTweakData:get_npc_mappings()
