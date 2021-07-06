@@ -535,7 +535,7 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 				end
 
 				if points >= (grenade.strict_throw or 0) and self:throw_grenade(throw_vector, target_vec, target_pos) then
-					self._ext_brain._grenade_t = t + (grenade.use_cooldown or 0)
+					self._ext_brain._grenade_t = self._ext_brain._grenade_t + (grenade.use_cooldown or 0)
 					return true
 				end
 			end
