@@ -5775,7 +5775,7 @@ function CharacterTweakData:_presets(tweak_data)
 		focus_dis = 300,
 		spread = 20,
 		miss_dis = 20,
-		RELOAD_SPEED = 0.7,
+		RELOAD_SPEED = 1,
 		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
@@ -5791,14 +5791,14 @@ function CharacterTweakData:_presets(tweak_data)
 				acc = {1.0, 1.0},
 				dmg_mul = 1,
 				recoil = {0.4, 0.4},
-				burst_size = 8
+				burst_size = 10
 			},
 			{
 				r = 800,
 				acc = {0.75, 1.0},
 				dmg_mul = 1,
 				recoil = {0.4, 0.4},
-				burst_size = 4
+				burst_size = 5
 			},
 			{
 				r = 1600,

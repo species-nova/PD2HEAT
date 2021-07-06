@@ -1360,9 +1360,9 @@ end
 		}
 
 		local crew_shotgun_mag_stats = {
-			DAMAGE = 13.5,
-			CLIP_AMMO_MAX = 8,
-			NR_CLIPS_MAX = 10,
+			DAMAGE = 90,
+			CLIP_AMMO_MAX = 10,
+			NR_CLIPS_MAX = 8,
 			alert_size = 2500,
 			suppression = 2.7,
 			FIRE_MODE = "auto",
