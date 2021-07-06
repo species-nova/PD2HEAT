@@ -5775,7 +5775,7 @@ function CharacterTweakData:_presets(tweak_data)
 		focus_dis = 300,
 		spread = 20,
 		miss_dis = 20,
-		RELOAD_SPEED = 1,
+		RELOAD_SPEED = 0.8,
 		melee_dmg = 1,
 		melee_speed = 1,
 		melee_retry_delay = {2, 2},
