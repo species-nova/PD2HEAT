@@ -1721,11 +1721,11 @@ function CopDamage:die(attack_data)
 
 		if alive(attacker_unit) and managers.groupai:state():is_unit_team_AI(attacker_unit) then
 			local roll = math_random()
-			local no_ammo_chance = 0.2 + self._player_damage_ratio --Enemy bot ammo drop chance increases based on the amount of damage dealy by a player.
+			local ammo_chance = 0.2 + self._player_damage_ratio --Enemy bot ammo drop chance increases based on the amount of damage dealy by a player.
 			--80% of health damage leading to kill dealt by a player == 100% chance to drop ammo.
 			--0% of health damage leading to kill dealt by a player == 20% chance to drop ammo.
 
-			if roll <= no_ammo_chance then
+			if roll >= ammo_chance then
 				self:set_pickup()
 			end
 		end
