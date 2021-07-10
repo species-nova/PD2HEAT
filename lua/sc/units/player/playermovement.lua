@@ -7,6 +7,8 @@ function PlayerMovement:init(...)
 		or player_manager:has_category_upgrade("shotgun", "close_combat_damage_reduction")
 		or player_manager:has_category_upgrade("shotgun", "close_combat_reload_speed_multiplier")
 		or player_manager:has_category_upgrade("shotgun", "close_combat_swap_speed_multiplier")
+		or player_manager:has_category_upgrade("assault_rifle", "close_combat_reload_speed_multiplier")
+		or player_manager:has_category_upgrade("snp", "close_combat_reload_speed_multiplier")
 		or player_manager:has_category_upgrade("player", "damage_dampener_outnumbered")
 		or player_manager:has_category_upgrade("player", "damage_dampener_close_contact")
 	self._underdog_skill_data = tweak_data.upgrades.close_combat_data

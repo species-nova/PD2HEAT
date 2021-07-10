@@ -5,6 +5,7 @@ Hooks:PostHook(NewRaycastWeaponBase, "init", "ResExtraSkills", function(self)
 		self._use_armor_piercing = true
 	end
 
+	self.headshot_repeat_damage_mult = 1
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
@@ -15,6 +16,8 @@ Hooks:PostHook(NewRaycastWeaponBase, "init", "ResExtraSkills", function(self)
 		if managers.player:has_category_upgrade(category, "headshot_pierce") then
 			self._can_shoot_through_head = true
 		end
+
+		self.headshot_repeat_damage_mult = math.max(self.headshot_repeat_damage_mult, managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 0))
 	end
 end)
 
@@ -590,9 +593,7 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
 		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
 		multiplier = multiplier + (1 - math.min(self:get_ammo_remaining_in_clip() / self:get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
-		if not clip_empty then
-			multiplier = multiplier + player_manager:upgrade_value("assault_rifle", "tactical_reload_speed_mult", 1) - 1
-		end
+		multiplier = multiplier + player_manager:upgrade_value(category, "hidden_reload_speed_multiplier", 1) - 1
 	end
 	multiplier = multiplier + player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1) - 1
 	multiplier = multiplier + player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1) - 1

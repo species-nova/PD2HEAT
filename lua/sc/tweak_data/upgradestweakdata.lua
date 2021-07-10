@@ -279,7 +279,7 @@ end)
 
 --Upgrade Value changes for skills and such--
 Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(self)
-	--Used by Shotgun skills, Infiltrator, and Sociopath
+	--Used by Shotgun skills, Rifle Skills, Infiltrator, and Sociopath
 	self.close_combat_data = {
 		distance = 800,
 		polling_rate = 0.25
@@ -643,7 +643,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.shotgun.last_shot_stagger = {800}
 				--Ace
-					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.4, min = 3}}
+					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.6, min = 3}}
 
 			--Gung-Ho
 				--Basic
@@ -659,7 +659,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Pigeon Shooter
 				--Basic
-					self.values.shotgun.enter_steelsight_speed_multiplier = {1.5} --ADS speed
 					self.values.player.steelsight_speed_multiplier = {1.6} --Movement speed while ADSing.
 				--Ace
 					self.values.shotgun.steelsight_range_inc = {1.3}
@@ -849,27 +848,27 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.temporary.headshot_accuracy_addend = {{1, 10}}
 				--Ace
 					self.values.temporary.headshot_fire_rate_mult = {{1.2, 10}}
-				
-			--Kilmer
-				--Basic
-					self.values.snp.tactical_reload_speed_mult = {1.25}
-					self.values.assault_rifle.tactical_reload_speed_mult = {1.25}
-				--Ace
-					self.values.assault_rifle.headshot_pierce = {true}
-					self.values.assault_rifle.headshot_pierce_damage_mult = {1.5}
-					self.values.snp.headshot_pierce_damage_mult = {1.5}
 
-
-			--Rifleman
+			--Tactical Precision
 				--Basic
-					self.values.weapon.enter_steelsight_speed_multiplier = {1.5}
+					self.values.weapon.enter_steelsight_speed_multiplier = {1.75}
+					self.values.assault_rifle.steelsight_accuracy_inc = {0.85}
+					self.values.snp.steelsight_accuracy_inc = {0.85}
+					self.values.assault_rifle.steelsight_range_inc = {1.15}
+					self.values.snp.steelsight_range_inc = {1.15}
 				--Ace
-					self.values.assault_rifle.steelsight_accuracy_inc = {0.7}
-					self.values.snp.steelsight_accuracy_inc = {0.7}
-					self.values.assault_rifle.steelsight_range_inc = {1.3}
-					self.values.snp.steelsight_range_inc = {1.3}
-					
-			--Mind Blown, formerly Explosive Headshot, formerly Graze
+					self.values.assault_rifle.hidden_reload_speed_multiplier = {1.25}
+					self.values.snp.hidden_reload_speed_multiplier = {1.25}
+					self.values.snp.close_combat_reload_speed_multiplier = {{value = -0.35, min = 3}}
+					self.values.assault_rifle.close_combat_reload_speed_multiplier = {{value = -0.35, min = 3}}
+
+			--Ammo Efficiency
+				self.values.player.head_shot_ammo_return = {
+					{ ammo = 0.04, time = 6, headshots = 3, to_magazine = false }, --Basic
+					{ ammo = 0.04, time = 12, headshots = 3, to_magazine = true } --Ace
+				}
+
+			--Mind Blown
 				self.values.snp.graze_damage = {
 					{ --Basic
 						radius = 400,
@@ -885,23 +884,27 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						damage_factor_range = 0.10,
 						range_increment = 700
 					}
-				}				
-
-			--Ammo Efficiency
-				self.values.player.head_shot_ammo_return = {
-					{ ammo = 0.03, time = 8, headshots = 3, to_magazine = false }, --Basic
-					{ ammo = 0.03, time = 8, headshots = 2, to_magazine = true } --Ace
 				}
+
+			--Helmet Popping
+				--Basic
+					self.values.assault_rifle.headshot_pierce = {true}
+					self.values.assault_rifle.headshot_pierce_damage_mult = {2}
+					self.values.snp.headshot_pierce_damage_mult = {2}
+				--Ace
+					self.values.weapon.pop_helmets = {true}
+					self.values.assault_rifle.headshot_repeat_damage_mult = {1.25}
+					self.values.snp.headshot_repeat_damage_mult = {1.25}
 
 			--Aggressive Reload
 				self.values.temporary.single_shot_fast_reload = {
 					{ --Basic
-						1.3,
+						1.4,
 						10,
 						false --Whether or not to allow full-auto
 					},
 					{ --Ace
-						1.6,
+						1.75,
 						10,
 						true
 					},
@@ -3432,6 +3435,60 @@ function UpgradesTweakData:_saw_definitions()
 			category = "snp"
 		}
 	}
+	self.definitions.assault_rifle_headshot_repeat_damage_mult = {
+		name_id = "menu_player_assault_rifle_headshot_repeat_damage_mult",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_repeat_damage_mult",
+			category = "assault_rifle"
+		}
+	}
+	self.definitions.snp_headshot_repeat_damage_mult = {
+		name_id = "menu_player_snp_headshot_repeat_damage_mult",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_repeat_damage_mult",
+			category = "snp"
+		}
+	}
+	self.definitions.snp_hidden_reload_speed_multiplier = {
+		name_id = "menu_snp_hidden_reload_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hidden_reload_speed_multiplier",
+			category = "snp"
+		}
+	}
+		self.definitions.assault_rifle_hidden_reload_speed_multiplier = {
+		name_id = "menu_assault_rifle_hidden_reload_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hidden_reload_speed_multiplier",
+			category = "assault_rifle"
+		}
+	}
+	self.definitions.snp_close_combat_reload_speed_multiplier = {
+		name_id = "menu_snp_close_combat_reload_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_reload_speed_multiplier",
+			category = "snp"
+		}
+	}
+		self.definitions.assault_rifle_close_combat_reload_speed_multiplier = {
+		name_id = "menu_assault_rifle_close_combat_reload_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_reload_speed_multiplier",
+			category = "assault_rifle"
+		}
+	}
 end
 
 Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", function(self)
@@ -3522,6 +3579,15 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 		upgrade = {
 			value = 1,
 			upgrade = "universal_multikill_buffs",
+			category = "weapon"
+		}
+	}
+	self.definitions.weapon_pop_helmets = {
+		name_id = "menu_player_weapon_pop_helmets",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "pop_helmets",
 			category = "weapon"
 		}
 	}

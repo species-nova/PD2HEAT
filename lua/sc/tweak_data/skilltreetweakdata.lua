@@ -631,7 +631,6 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 3,
 					upgrades = {
-						"shotgun_enter_steelsight_speed_multiplier",
 						"player_steelsight_speed_multiplier"
 					},
 					cost = self.costs.hightier
@@ -1263,17 +1262,21 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"assault_rifle_headshot_pierce",
-						"assault_rifle_headshot_pierce_damage_mult",
-						"snp_headshot_pierce_damage_mult"
+						"weapon_enter_steelsight_speed_multiplier",
+						"assault_rifle_steelsight_accuracy_inc_1",
+						"snp_steelsight_accuracy_inc_1",
+						"assault_rifle_steelsight_range_inc_1",
+						"snp_steelsight_range_inc_1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"assault_rifle_tactical_reload_speed_mult",
-						"snp_tactical_reload_speed_mult"
+						"assault_rifle_close_combat_reload_speed_multiplier",
+						"snp_close_combat_reload_speed_multiplier",
+						"assault_rifle_hidden_reload_speed_multiplier",
+						"snp_hidden_reload_speed_multiplier"
 					},
 					cost = self.costs.pro
 				}
@@ -1281,23 +1284,20 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Rifleman--
 			self.skills.fire_control = {
-				["name_id"] = "menu_rifleman_sc",
-				["desc_id"] = "menu_rifleman_desc_sc",
-				["icon_xy"] = {6, 5},
+				["name_id"] = "menu_single_shot_ammo_return_sc",
+				["desc_id"] = "menu_single_shot_ammo_return_desc_sc",
+				["icon_xy"] = {8, 4},
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"weapon_enter_steelsight_speed_multiplier"
+						"head_shot_ammo_return_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"assault_rifle_steelsight_accuracy_inc_1",
-						"snp_steelsight_accuracy_inc_1",
-						"assault_rifle_steelsight_range_inc_1",
-						"snp_steelsight_range_inc_1"
+						"head_shot_ammo_return_2"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1324,22 +1324,26 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Ammo Efficiency--
+			--Helmet Popping--
 			self.skills.fast_fire = {
-				["name_id"] = "menu_single_shot_ammo_return_sc",
-				["desc_id"] = "menu_single_shot_ammo_return_desc_sc",
-				["icon_xy"] = {8, 4},
+				["name_id"] = "menu_rifleman_sc",
+				["desc_id"] = "menu_rifleman_desc_sc",
+				["icon_xy"] = {6, 5},
 				[1] = {
 					skill_cost = 3,
 					upgrades = {
-						"head_shot_ammo_return_1"
+						"assault_rifle_headshot_pierce",
+						"assault_rifle_headshot_pierce_damage_mult",
+						"snp_headshot_pierce_damage_mult"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"head_shot_ammo_return_2"
+						"weapon_pop_helmets",
+						"assault_rifle_headshot_repeat_damage_mult",
+						"snp_headshot_repeat_damage_mult"
 					},
 					cost = self.costs.hightierpro
 				}

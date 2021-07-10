@@ -93,7 +93,7 @@ function CopDamage:init(...)
 end
 
 function CopDamage:_spawn_head_gadget(params)
-	if not self._head_gear then
+	if not self._head_gear or self._helmet_popped then
 		return
 	end
 
@@ -260,6 +260,19 @@ function CopDamage:damage_fire(attack_data)
 				end
 			else
 				if head then
+					if not self._helmet_popped and managers.player:has_category_upgrade("weapon", "pop_helmets") then
+						if self._unit:base()._tweak_table == "boom" then
+							self._unit:damage():run_sequence_simple("grenadier_glass_break")
+						else
+							self:_spawn_head_gadget({
+								position = attack_data.col_ray.body:position(),
+								rotation = attack_data.col_ray.body:rotation(),
+								dir = attack_data.col_ray.ray
+							})
+						end
+						self._helmet_popped = true
+					end
+
 					headshot_multiplier = managers.player:upgrade_value("weapon", "passive_headshot_damage_multiplier", 1)
 					managers.player:on_headshot_dealt(self._unit, attack_data)
 				end
@@ -417,10 +430,6 @@ function CopDamage:damage_fire(attack_data)
 		}
 
 		managers.statistics:killed_by_anyone(data)
-
-		if not is_civilian and managers.player:has_category_upgrade("temporary", "overkill_damage_multiplier") and attacker_unit == managers.player:player_unit() and alive(attack_data.weapon_unit) and not attack_data.weapon_unit:base().thrower_unit and attack_data.weapon_unit:base().is_category and attack_data.weapon_unit:base():is_category("shotgun", "saw") then
-			managers.player:activate_temporary_upgrade("temporary", "overkill_damage_multiplier")
-		end
 
 		if attacker_unit == managers.player:player_unit() then
 			if alive(attacker_unit) then
@@ -829,6 +838,23 @@ function CopDamage:damage_bullet(attack_data)
 		end
 
 		if head then
+			if self._helmet_popped then
+				damage = damage * (weap_base.headshot_repeat_damage_mult or 1)
+			end
+
+			if not self._helmet_popped and managers.player:has_category_upgrade("weapon", "pop_helmets") then
+				if self._unit:base()._tweak_table == "boom" then
+					self._unit:damage():run_sequence_simple("grenadier_glass_break")
+				else
+					self:_spawn_head_gadget({
+						position = attack_data.col_ray.body:position(),
+						rotation = attack_data.col_ray.body:rotation(),
+						dir = attack_data.col_ray.ray
+					})
+				end
+				self._helmet_popped = true
+			end
+
 			managers.player:on_headshot_dealt(self._unit, attack_data)
 
 			headshot_by_player = true
@@ -1270,6 +1296,19 @@ function CopDamage:damage_melee(attack_data)
 		end
 
 		if head then
+			if not self._helmet_popped and managers.player:has_category_upgrade("weapon", "pop_helmets") then
+				if self._unit:base()._tweak_table == "boom" then
+					self._unit:damage():run_sequence_simple("grenadier_glass_break")
+				else
+					self:_spawn_head_gadget({
+						position = attack_data.col_ray.body:position(),
+						rotation = attack_data.col_ray.body:rotation(),
+						dir = attack_data.col_ray.ray
+					})
+				end
+				self._helmet_popped = true
+			end
+
 			headshot_multiplier = headshot_multiplier * managers.player:upgrade_value("weapon", "passive_headshot_damage_multiplier", 1)
 			managers.player:on_headshot_dealt(self._unit, attack_data)
 		end

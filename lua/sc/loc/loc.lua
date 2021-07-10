@@ -1732,7 +1732,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Pigeon Shooting--
 			["menu_far_away_beta_sc"] = "Pigeon Shooter",
-			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and Flamethrowers aim down sights ##75%## faster.\n\nYou move ##60%## faster while aiming down sights.\n\nACE: ##$pro##\nShotguns and Flamethrowers gain ##30%## more accuracy and range while aiming down sights.",
+			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##60%## faster while aiming down sights.\n\nACE: ##$pro##\nShotguns and Flamethrowers gain ##30%## more accuracy and range while aiming down sights.",
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",
@@ -1951,7 +1951,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
-		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads. Rifle bullets that pierce through heads deal ##50%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifles reload ##25%## faster while not empty.",
+		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nRifles gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
 
 		--Mind Blown, formerly Explosive Headshot--
 		["menu_kilmer_sc"] = "Mind Blown",
@@ -1959,15 +1959,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",
-		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##3## lethal headshots with Rifles in less than ##8## seconds will grant ##1## bullet or ##3%## of your total ammo, whichever is higher, to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##2## lethal headshots, and the ammo is refunded directly into your magazine whenever possible.",
+		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##3## lethal headshots with Rifles in less than ##6## seconds will grant ##4%## of your total ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##3## lethal headshots within ##10## seconds, and the ammo is refunded directly into your magazine whenever possible.",
 
-		--Rifleman--
-		["menu_rifleman_sc"] = "Rifleman",
-		["menu_rifleman_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##50%## faster.\n\nACE: ##$pro##\nRifles gain ##30%## more accuracy and range while aiming down sights.",
+		--Helmet Popping--
+		["menu_rifleman_sc"] = "Helmet Popping",
+		["menu_rifleman_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads. Rifle bullets that pierce through heads deal ##100%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifle headshots deal ##25%## more damage to enemies you have already headshot.",
 
 		--Aggressive Reload--
 		["menu_engineering_beta_sc"] = "Aggressive Reload",
-		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##30%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##60%##, and can be triggered regardless of fire mode.",
+		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##40%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##75%##, and can be triggered regardless of fire mode.",
 
 		--Cleaner--
 		["menu_jail_workout_sc"] = "Cleaner",
