@@ -1959,7 +1959,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",
-		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##3## lethal headshots with Rifles in less than ##6## seconds will grant ##4%## of your maximum ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##3## lethal headshots within ##12## seconds, and the ammo is refunded directly into your magazine whenever possible.",
+		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##3## lethal headshots with Rifles in less than ##6## seconds will grant ##4%## of your maximum ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##3## lethal headshots within ##10## seconds, and the ammo is refunded directly into your magazine whenever possible.",
 
 		--Helmet Popping--
 		["menu_rifleman_sc"] = "Helmet Popping",
