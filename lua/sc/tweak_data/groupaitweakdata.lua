@@ -7186,7 +7186,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-		self.enemy_spawn_groups.Titan_tanks_ds = {
+		self.enemy_spawn_groups.Titan_tanks_skm = {
 			amount = {3, 4},
 			spawn = {
 				{
