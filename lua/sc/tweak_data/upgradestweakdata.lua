@@ -643,7 +643,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.shotgun.last_shot_stagger = {800}
 				--Ace
-					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.6, min = 3}}
+					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.4, min = 3}}
 
 			--Gung-Ho
 				--Basic
