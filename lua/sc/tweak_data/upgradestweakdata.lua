@@ -3417,24 +3417,6 @@ function UpgradesTweakData:_saw_definitions()
 			category = "snp"
 		}
 	}
-	self.definitions.assault_rifle_tactical_reload_speed_mult = {
-		name_id = "menu_player_assault_rifle_tactical_reload_speed_mult",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "tactical_reload_speed_mult",
-			category = "assault_rifle"
-		}
-	}
-	self.definitions.snp_tactical_reload_speed_mult = {
-		name_id = "menu_player_snp_tactical_reload_speed_mult",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "tactical_reload_speed_mult",
-			category = "snp"
-		}
-	}
 	self.definitions.assault_rifle_headshot_repeat_damage_mult = {
 		name_id = "menu_player_assault_rifle_headshot_repeat_damage_mult",
 		category = "feature",
