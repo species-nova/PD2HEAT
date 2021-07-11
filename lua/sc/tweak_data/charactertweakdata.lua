@@ -1274,7 +1274,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	else
 		self.city_swat_titan.custom_voicework = "pdth"
 	end				
-	self.city_swat_titan.HEALTH_INIT = 43.2
+	self.city_swat_titan.HEALTH_INIT = 42
 	self.city_swat_titan.headshot_dmg_mul = normal_headshot
 	self.city_swat_titan.weapon = presets.weapon.good
 	self.city_swat_titan.damage.hurt_severity = presets.hurt_severities.elite_easy
@@ -1309,7 +1309,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend_lmg.speech_prefix_p1 = "cum"
 	self.weekend_lmg.speech_prefix_p2 = nil
 	self.weekend_lmg.speech_prefix_count = nil
-	self.weekend_lmg.HEALTH_INIT = 64.8
+	self.weekend_lmg.HEALTH_INIT = 63
 	self.weekend_lmg.weapon = presets.weapon.expert
 	self.weekend_lmg.headshot_dmg_mul = bravo_headshot
 	self.weekend_lmg.damage.explosion_damage_mul = 0.75
@@ -4693,7 +4693,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Pretty average all-round. Threatening at any range, but not quite as much as more specialized guns.
 	presets.weapon.expert.is_rifle = {
-		aim_delay = {0.3, 1.0},
+		aim_delay = {0.3, 1.5},
 		focus_delay = 6,
 		focus_dis = 300,
 		spread = 10,
@@ -4763,7 +4763,7 @@ function CharacterTweakData:_presets(tweak_data)
 	--Long range burst, takes a while to become accurate enough to hit perfectly consistently, with the time it takes varying based on range. Struggles up close.
 	--Abuses acc values > 1 to achieve this.
 	presets.weapon.expert.is_dmr = {
-		aim_delay = {0.4, 1.0},
+		aim_delay = {0.4, 2.0},
 		focus_delay = 12,
 		focus_dis = 150,
 		spread = 10,
@@ -4825,7 +4825,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Similar to ARs, but with more threat up close and less from far away.
 	presets.weapon.expert.is_smg = {
-		aim_delay = {0.2, 0.8},
+		aim_delay = {0.2, 1.2},
 		focus_delay = 6,
 		focus_dis = 400,
 		spread = 14,
@@ -4887,7 +4887,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Focus on suppressing player with high volume+damage inaccurate fire. Players that remain in it too long will get torn apart if the focus_delay is left to tick down.
 	presets.weapon.expert.is_lmg = {
-		aim_delay = {0.4, 1.2},
+		aim_delay = {0.4, 2.0},
 		focus_delay = 12,
 		focus_dis = 150,
 		spread = 16,
