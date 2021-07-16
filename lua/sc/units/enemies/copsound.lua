@@ -10,15 +10,15 @@ function CopSound:init(unit)
 	if char_tweak.speech_prefix_p1 == "l5d" then
 		self._prefix = (char_tweak.speech_prefix_p1 or "") .. "_"	
 	elseif self._unit:name() == Idstring("units/payday2/characters/ene_swat_1/ene_swat_1") or self._unit:name() == Idstring("units/payday2/characters/ene_swat_2/ene_swat_2") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"		
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"		
 	elseif self._unit:name() == Idstring("units/payday2/characters/ene_city_guard_1/ene_city_guard_1") or self._unit:name() == Idstring("units/payday2/characters/ene_city_guard_2/ene_city_guard_2") or self._unit:name() == Idstring("units/payday2/characters/ene_city_guard_3/ene_city_guard_3") then
 		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"			
 	elseif self._unit:name() == Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1") or self._unit:name() == Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3") then
 		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"				
 	elseif self._unit:name() == Idstring("units/pd2_mod_nypd/characters/ene_nypd_swat_1/ene_nypd_swat_1") or self._unit:name() == Idstring("units/pd2_mod_nypd/characters/ene_nypd_swat_2/ene_nypd_swat_2") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"			
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"			
 	elseif self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_lapd_light_1/ene_lapd_light_1") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_lapd_light_2/ene_lapd_light_2") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"					
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"					
 	elseif self._unit:name() == Idstring("units/pd2_mod_nypd/characters/ene_nypd_murky_1/ene_nypd_murky_1") then
 		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"				
 	elseif self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_1/ene_fbi_swat_1") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_2/ene_fbi_swat_2") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_city_swat_1/ene_city_swat_1") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_city_swat_2/ene_city_swat_2") then
@@ -28,7 +28,7 @@ function CopSound:init(unit)
 	elseif self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_heavy/ene_omnia_heavy") or self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_heavy_r870/ene_omnia_heavy_r870") then
 		self._prefix = ("l5d") .. "_"	
 	elseif self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_crew/ene_omnia_crew") or self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_crew_2/ene_omnia_crew_2") or self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_city/ene_omnia_city") or self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_city_2/ene_omnia_city_2") or self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_city_3/ene_omnia_city_3") or self._unit:name() == Idstring("units/pd2_mod_omnia/characters/ene_omnia_shield/ene_omnia_shield") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"			
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"			
 	elseif self._unit:name() == Idstring("units/pd2_dlc_born/characters/ene_biker_female_1/ene_biker_female_1") or self._unit:name() == Idstring("units/pd2_dlc_born/characters/ene_biker_female_2/ene_biker_female_2") or self._unit:name() == Idstring("units/pd2_dlc_born/characters/ene_biker_female_3/ene_biker_female_3") then
 		self._prefix = ("fl1n") .. "_"				
 	--DRAK Titans
@@ -44,13 +44,13 @@ function CopSound:init(unit)
 	
 	--husks		
 	elseif self._unit:name() == Idstring("units/payday2/characters/ene_swat_1/ene_swat_1_husk") or self._unit:name() == Idstring("units/payday2/characters/ene_swat_2/ene_swat_2_husk") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"			
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"			
 	elseif self._unit:name() == Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1_husk") or self._unit:name() == Idstring("units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3_husk") then
 		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"				
 	elseif self._unit:name() == Idstring("units/pd2_mod_nypd/characters/ene_nypd_swat_1/ene_nypd_swat_1_husk") or self._unit:name() == Idstring("units/pd2_mod_nypd/characters/ene_nypd_swat_2/ene_nypd_swat_2_husk") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"			
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"			
 	elseif self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_lapd_light_1/ene_lapd_light_1_husk") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_lapd_light_2/ene_lapd_light_2_husk") then
-		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("d") .. "_"					
+		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"					
 	elseif self._unit:name() == Idstring("units/pd2_mod_nypd/characters/ene_nypd_murky_1/ene_nypd_murky_1_husk") then
 		self._prefix = ("l") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. ("n") .. "_"		
 	elseif self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_1/ene_fbi_swat_1_husk") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_fbi_swat_2/ene_fbi_swat_2_husk") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_city_swat_1/ene_city_swat_1_husk") or self._unit:name() == Idstring("units/pd2_mod_lapd/characters/ene_city_swat_2/ene_city_swat_2_husk") then
