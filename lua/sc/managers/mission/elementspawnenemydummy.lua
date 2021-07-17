@@ -29,16 +29,7 @@ local america_dw = {
 		["units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1"] = "units/payday2/characters/ene_city_heavy_g36/ene_city_heavy_g36",
 		["units/payday2/characters/ene_sniper_1/ene_sniper_1"] = "units/payday2/characters/ene_sniper_3/ene_sniper_3",	
 		["units/payday2/characters/ene_sniper_2/ene_sniper_2"] = "units/payday2/characters/ene_sniper_3/ene_sniper_3",
-		["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = "units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4",
-		--Security Guards get replaced with GenSec reds
-		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",		
-		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
-		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
-		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_security_kh_2/ene_security_kh_2",
-		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_security_kh_3/ene_security_kh_3",
-		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1"
+		["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = "units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"
 
 	}		
 local america_zeal = {
@@ -62,16 +53,7 @@ local america_zeal = {
 		["units/payday2/characters/ene_city_swat_3/ene_city_swat_3"] = "units/pd2_dlc_gitgud/characters/ene_zeal_city_3/ene_zeal_city_3",
 		["units/payday2/characters/ene_sniper_1/ene_sniper_1"] = "units/pd2_dlc_gitgud/characters/ene_zeal_sniper/ene_zeal_sniper",	
 		["units/payday2/characters/ene_sniper_2/ene_sniper_2"] = "units/pd2_dlc_gitgud/characters/ene_zeal_sniper/ene_zeal_sniper",
-		["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = "units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4",
-		--Security Guards get replaced with FTSU Agents
-		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/payday2/characters/ene_city_guard_2/ene_city_guard_2",
-		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/payday2/characters/ene_city_guard_3/ene_city_guard_3",
-		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_city_guard_2/ene_city_guard_2",
-		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_city_guard_3/ene_city_guard_3",
-		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1"
+		["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = "units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"
 	}	
 		
 --Murkywater Scripted Spawn Replacements, try to use these as templates to work from
@@ -573,16 +555,7 @@ local nypd_dw = {
 		--Scripted Spawns Only
 		--Green Guys For SH
 		["units/payday2/characters/ene_murkywater_1/ene_murkywater_1"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1",	
-		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3",
-		--Security tier upgrade
-		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",		
-		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
-		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
-		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_security_kh_2/ene_security_kh_2",
-		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_security_kh_3/ene_security_kh_3",
-		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1"
+		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3"
 	}	
 local nypd_ds = {
 		["units/payday2/characters/ene_spook_1/ene_spook_1"] = "units/pd2_mod_nypd/characters/ene_spook_1/ene_spook_1",
@@ -622,16 +595,7 @@ local nypd_ds = {
 		--Scripted Spawns Only
 		--Green Guys For SH
 		["units/payday2/characters/ene_murkywater_1/ene_murkywater_1"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1",	
-		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3",
-		--Security Guards get replaced with FTSU Agents
-        ["units/payday2/characters/ene_security_1/ene_security_1"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-        ["units/payday2/characters/ene_security_2/ene_security_2"] = "units/payday2/characters/ene_city_guard_2/ene_city_guard_2",
-        ["units/payday2/characters/ene_security_3/ene_security_3"] = "units/payday2/characters/ene_city_guard_3/ene_city_guard_3",
-        ["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-        ["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-        ["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_city_guard_2/ene_city_guard_2",
-        ["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_city_guard_3/ene_city_guard_3",
-        ["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1"
+		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_3/ene_fbi_swat_3"
 	}		
 
 --LAPD Scripted Spawn Replacements
@@ -717,16 +681,7 @@ local lapd_dw = {
 		["units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"] = "units/pd2_mod_lapd/characters/ene_bulldozer_3/ene_bulldozer_3",		
 		--Scripted Spawns Only
 		["units/payday2/characters/ene_murkywater_1/ene_murkywater_1"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_1/ene_nypd_murky_1",	
-		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_2/ene_nypd_murky_2",
-		--Security tier upgrade
-		["units/payday2/characters/ene_security_1/ene_security_1"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_2/ene_security_gensec_guard_2",
-		["units/payday2/characters/ene_security_2/ene_security_2"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_1/ene_security_gensec_guard_1",
-		["units/payday2/characters/ene_security_3/ene_security_3"] = "units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3",		
-		["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
-		["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1",
-		["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_security_kh_2/ene_security_kh_2",
-		["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_security_kh_3/ene_security_kh_3",
-		["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_security_kh_1/ene_security_kh_1"
+		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_2/ene_nypd_murky_2"
 	}		
 local lapd_ds = {
 		["units/payday2/characters/ene_cop_1/ene_cop_1"] = "units/pd2_mod_lapd/characters/ene_cop_1/ene_cop_1",
@@ -771,16 +726,7 @@ local lapd_ds = {
 		["units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"] = "units/pd2_mod_lapd/characters/ene_bulldozer_3/ene_bulldozer_3",				
 		--Scripted Spawns Only
 		["units/payday2/characters/ene_murkywater_1/ene_murkywater_1"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_1/ene_nypd_murky_1",	
-		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_2/ene_nypd_murky_2",
-		--Security Guards get replaced with FTSU Agents
-        ["units/payday2/characters/ene_security_1/ene_security_1"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-        ["units/payday2/characters/ene_security_2/ene_security_2"] = "units/payday2/characters/ene_city_guard_2/ene_city_guard_2",
-        ["units/payday2/characters/ene_security_3/ene_security_3"] = "units/payday2/characters/ene_city_guard_3/ene_city_guard_3",
-        ["units/payday2/characters/ene_security_4/ene_security_4"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-        ["units/payday2/characters/ene_security_5/ene_security_5"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1",
-        ["units/payday2/characters/ene_security_6/ene_security_6"] = "units/payday2/characters/ene_city_guard_2/ene_city_guard_2",
-        ["units/payday2/characters/ene_security_7/ene_security_7"] = "units/payday2/characters/ene_city_guard_3/ene_city_guard_3",
-        ["units/payday2/characters/ene_security_8/ene_security_8"] = "units/payday2/characters/ene_city_guard_1/ene_city_guard_1"        
+		["units/payday2/characters/ene_murkywater_2/ene_murkywater_2"] = "units/pd2_mod_nypd/characters/ene_nypd_murky_2/ene_nypd_murky_2"       
 	}	
 	
 local federales = {
