@@ -2869,7 +2869,15 @@
 	<!--Perk Decks-->
     <texture path="guis/textures/pd2/specialization/icons_atlas" force="true"/>
     <texture path="guis/dlcs/chico/textures/pd2/specialization/icons_atlas" force="true"/>
-    <texture path="guis/dlcs/wild/textures/pd2/specialization/icons_atlas" force="true"/>	
+    <texture path="guis/dlcs/wild/textures/pd2/specialization/icons_atlas" force="true"/>
+
+    <!-- Burglar Loot -->
+    <unit path="units/pickups/burglar_loot/burglar_loot" load="true"/>
+	<cooked_physics path="units/pickups/burglar_loot/burglar_loot"/>
+	<material_config path="units/pickups/burglar_loot/burglar_loot"/>
+	<model path="units/pickups/burglar_loot/burglar_loot"/>
+	<object path="units/pickups/burglar_loot/burglar_loot"/>
+
 	<!--grenade throwable case-->
 	<texture path="guis/textures/pd2/equipment" force="true"/>
 	<texture path="guis/textures/pd2/blackmarket/icons/deployables/armor_kit" force="true"/>

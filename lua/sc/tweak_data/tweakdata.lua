@@ -724,3 +724,8 @@ tweak_data.player.stances.siltstone.steelsight.shakers.breathing.amplitude = 0
 tweak_data.player.stances.r700.steelsight.shakers.breathing.amplitude = 0
 tweak_data.player.stances.sbl.steelsight.shakers.breathing.amplitude = 0
 tweak_data.player.stances.desertfox.steelsight.shakers.breathing.amplitude = 0
+
+local burglar_loot = {
+	unit = Idstring("units/pickups/burglar_loot/burglar_loot")
+}
+tweak_data.pickups.burglar_loot = burglar_loot

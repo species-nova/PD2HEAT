@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<dynamic_object>
+  <diesel materials="units/pickups/burglar_loot/burglar_loot" orientation_object="rp_ammo_pickup" />
+</dynamic_object>

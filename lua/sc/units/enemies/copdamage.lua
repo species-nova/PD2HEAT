@@ -1758,6 +1758,8 @@ function CopDamage:die(attack_data)
 	if not self._char_tweak.always_drop and self._pickup == "ammo" then
 		local attacker_unit = attack_data.thrower_unit or attack_data.attacker_unit
 
+		self:set_pickup("burglar_loot")
+
 		if alive(attacker_unit) and managers.groupai:state():is_unit_team_AI(attacker_unit) then
 			local roll = math_random()
 			local ammo_chance = 0.2 + self._player_damage_ratio --Enemy bot ammo drop chance increases based on the amount of damage dealy by a player.

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<unit type="dev" slot="23">
+  <network sync="spawn" />
+  <object file="units/pickups/burglar_loot/burglar_loot" />
+  <extensions>
+    <extension name="unit_data" class="ScriptUnitData" />
+    <extension name="contour" class="ContourExt" />
+    <extension name="pickup" class="BurglarLoot" />
+  </extensions>
+</unit>
