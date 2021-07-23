@@ -704,12 +704,20 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						1.4 --Ace
 					}
 
-				--Bullseye
-					self.values.player.headshot_regen_armor_bonus = {
-						0.5, --Basic
-						3.5 --Ace
-					}
-					self.on_headshot_dealt_cooldown = 3
+				--Shockproof
+					--Basic
+						self.values.player.taser_malfunction = {{
+								interval = 1,
+								chance_to_trigger = 0.15
+						}}
+					--Ace
+						self.values.player.taser_self_shock = {
+							true
+						}	
+						self.counter_taser_damage = 0.5			
+						self.values.player.escape_taser = {
+							2
+						}
 
 				--Iron Man
 					--Basic
@@ -1016,20 +1024,13 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.player.backstab_dodge = {0.75}
 
-			--Shockproof
-				--Basic
-					self.values.player.taser_malfunction = {{
-							interval = 1,
-							chance_to_trigger = 0.15
-					}}
-				--Ace
-					self.values.player.taser_self_shock = {
-						true
-					}	
-					self.counter_taser_damage = 0.5			
-					self.values.player.escape_taser = {
-						2
-					}
+			--Bullseye
+				self.values.player.headshot_regen_armor_bonus = {
+					0.5, --Basic
+					3.5 --Ace
+				}
+				self.on_headshot_dealt_cooldown = 3
+
 
 			--Sneaky Bastard
 				--Concealment stuff same as vanilla.

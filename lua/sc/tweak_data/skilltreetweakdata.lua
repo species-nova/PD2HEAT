@@ -777,22 +777,23 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Bullseye--
+			--ShockProof--
 			self.skills.prison_wife = {
-				["name_id"] = "menu_prison_wife_beta_sc",
-				["desc_id"] = "menu_prison_wife_beta_desc_sc",
-				["icon_xy"] = {6, 11},
+				["name_id"] = "menu_insulation_beta_sc",
+				["desc_id"] = "menu_insulation_beta_desc_sc",
+				["icon_xy"] = {3, 5},
 				[1] = {
 					skill_cost = 3,
 					upgrades = {
-						"player_headshot_regen_armor_bonus_1"
+						"player_taser_malfunction"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"player_headshot_regen_armor_bonus_2"
+						"player_taser_self_shock",
+						"player_escape_taser_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1611,26 +1612,25 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Shockproof--
+			--Bullseye--
 			self.skills.insulation = {
-				["name_id"] = "menu_insulation_beta_sc",
-				["desc_id"] = "menu_insulation_beta_desc_sc",
-				["icon_xy"] = {3, 5},
+				["name_id"] = "menu_prison_wife_beta_sc",
+				["desc_id"] = "menu_prison_wife_beta_desc_sc",
+				["icon_xy"] = {6, 11},
 				[1] = {
 					skill_cost = 3,
 					upgrades = {
-						"player_taser_malfunction"
+						"player_headshot_regen_armor_bonus_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 6,
 					upgrades = {
-						"player_taser_self_shock",
-						"player_escape_taser_1"
+						"player_headshot_regen_armor_bonus_2"
 					},
 					cost = self.costs.hightierpro
-				}	
+				}
 			}
 
 			--Sneaky Bastard--

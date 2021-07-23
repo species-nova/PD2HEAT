@@ -1086,6 +1086,8 @@ end
 
 --Called when players get kicked/tased. Applies damage and sets flag to true.
 function PlayerDamage:cloak_or_shock_incap(damage)
+	self:change_armor(-self:get_real_armor()) --Strip armor to prevent Iron Man Ace from nullifying most of the damage.
+
 	damage = damage * managers.player:damage_reduction_skill_multiplier("kick_or_shock")
 	local damage_absorption = managers.player:damage_absorption()
 	if damage_absorption > 0 then

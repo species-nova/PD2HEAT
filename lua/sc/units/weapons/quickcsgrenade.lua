@@ -5,23 +5,30 @@ function QuickCsGrenade:_setup_from_tweak_data()
 	self._tweak_data = tweak_data.projectiles[grenade_entry]
 	self._radius = self._tweak_data.radius or 300
 	self._radius_blurzone_multiplier = self._tweak_data.radius_blurzone_multiplier or 1.3
-	self._damage_per_tick = 0.6
 	self._stamina_per_tick = 2
+	self._no_stamina_damage_mul = 2
+
 	if difficulty_index <= 2 then
-		self._damage_tick_period = 0.5
-	elseif difficulty_index == 3 then
-		self._damage_tick_period = 0.45
-	elseif difficulty_index == 4 then
-		self._damage_tick_period = 0.4
-	elseif difficulty_index == 5 then
-		self._damage_tick_period = 0.35
-	elseif difficulty_index == 6 then
 		self._damage_tick_period = 0.3
-	elseif difficulty_index == 7 then
-		self._damage_tick_period = 0.3	
-	else
+		self._damage_per_tick = 0.2
+	elseif difficulty_index == 3 then
+		self._damage_tick_period = 0.3
+		self._damage_per_tick = 0.3
+	elseif difficulty_index == 4 then
+		self._damage_tick_period = 0.3
+		self._damage_per_tick = 0.4
+	elseif difficulty_index == 5 then
 		self._damage_tick_period = 0.25
-		self._no_stamina_damage_mul = 2
+		self._damage_per_tick = 0.5
+	elseif difficulty_index == 6 then
+		self._damage_tick_period = 0.25
+		self._damage_per_tick = 0.6
+	elseif difficulty_index == 7 then
+		self._damage_tick_period = 0.25
+		self._damage_per_tick = 0.6
+	else
+		self._damage_tick_period = 0.2
+		self._damage_per_tick = 0.6
 	end
 end
 
@@ -48,17 +55,12 @@ function QuickCsGrenade:_play_sound_and_effects()
 		self._unit:sound_source():post_event("grenade_gas_explode")
 
 		local parent = self._unit:orientation_object()
-		if difficulty_index == 8 then
-			self._smoke_effect = World:effect_manager():spawn({
-				effect = Idstring("effects/particles/explosions/cs_grenade_smoke_ds_sc"),
-				parent = parent
-			})
-		else
-			self._smoke_effect = World:effect_manager():spawn({
-				effect = Idstring("effects/particles/explosions/cs_grenade_smoke_sc"),
-				parent = parent
-			})			
-		end
+
+		self._smoke_effect = World:effect_manager():spawn({
+			effect = Idstring("effects/particles/explosions/cs_grenade_smoke_sc"),
+			parent = parent
+		})
+
 		local blurzone_radius = self._radius * self._radius_blurzone_multiplier
 
 		managers.environment_controller:set_blurzone(self._unit:key(), 1, self._unit:position(), blurzone_radius, 0, true)
@@ -79,7 +81,7 @@ function QuickCsGrenade:_do_damage()
 			}
 		}
 
-		--Boost damage when out of stamina if nerve gast.
+		--Boost damage when player is out of stamina.
 		if self._no_stamina_damage_mul and movement_ext:is_stamina_drained() then
 			attack_data.damage = attack_data.damage * self._no_stamina_damage_mul
 		end
