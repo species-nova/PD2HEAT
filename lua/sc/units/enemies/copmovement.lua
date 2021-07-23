@@ -368,7 +368,7 @@ function CopMovement:do_omnia(t)
 		if not enemy:base():char_tweak().is_special and not enemy:character_damage():is_overhealed() then
 			healed_someone = true
 			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-			self._omnia_cooldown = t + 10
+			self._omnia_cooldown = t + 8
 			enemy:character_damage():apply_overheal()
 			
 			local contour_ext = self._unit:contour()

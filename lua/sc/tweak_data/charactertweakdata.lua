@@ -601,7 +601,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet_boss.headshot_dmg_mul = normal_headshot	
 	self.fbi_vet_boss.melee_weapon = "buzzer_summer"
 	self.fbi_vet_boss.tase_on_melee = true
-	self.fbi_vet_boss.heal_cooldown = 3.75
+	self.fbi_vet_boss.heal_cooldown = true
 	table.insert(self._enemy_list, "fbi_vet_boss")	
 	
 	self.meme_man = deep_clone(self.fbi_vet)		
@@ -882,7 +882,7 @@ function CharacterTweakData:_init_swat(presets)
 	end		
 	self.swat.steal_loot = true		
 	self.swat.silent_priority_shout = "f37"
-	self.swat.heal_cooldown = 2.5
+	self.swat.heal_cooldown = true
 	table.insert(self._enemy_list, "swat")
 	
 	self.hrt = deep_clone(self.swat)
@@ -902,7 +902,7 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat_titan.headshot_dmg_mul = normal_headshot
 	self.swat_titan.custom_voicework = nil
 	self.swat_titan.static_dodge_preset = true
-	self.swat_titan.heal_cooldown = 3.75
+	self.swat_titan.heal_cooldown = true
 	self.swat_titan.rescue_hostages = true
 	table.insert(self._enemy_list, "swat_titan")
 end
@@ -1094,7 +1094,7 @@ function CharacterTweakData:_init_fbi_swat(presets)
 	self.fbi_swat.static_weapon_preset = true
 	self.fbi_swat.static_dodge_preset = true
 	self.fbi_swat.static_melee_preset = true
-	self.fbi_swat.heal_cooldown = 2.5
+	self.fbi_swat.heal_cooldown = true
 	table.insert(self._enemy_list, "fbi_swat")
 	
 	self.fbi_swat_vet = deep_clone(self.fbi_swat)
@@ -1152,7 +1152,7 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets)
 	self.fbi_heavy_swat.static_weapon_preset = true
 	self.fbi_heavy_swat.static_dodge_preset = true
 	self.fbi_heavy_swat.static_melee_preset = true	
-	self.fbi_heavy_swat.heal_cooldown = 3.75
+	self.fbi_heavy_swat.heal_cooldown = true
 	table.insert(self._enemy_list, "fbi_heavy_swat")
 end
 
@@ -1217,7 +1217,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat.static_dodge_preset = true
 	self.city_swat.static_melee_preset = true	
 	self.city_swat.custom_voicework = nil
-	self.city_swat.heal_cooldown = 2.5
+	self.city_swat.heal_cooldown = true
 	table.insert(self._enemy_list, "city_swat")
 	
 	--Guard variant, different entry type as a failsafe
@@ -1250,7 +1250,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend.speech_prefix_p1 = "cum"
 	self.weekend.speech_prefix_p2 = nil
 	self.weekend.speech_prefix_count = nil	
-	self.weekend.heal_cooldown = 2.5
+	self.weekend.heal_cooldown = true
 	self.weekend.grenade = {
 		type = "bravo_frag",
 		cooldown = 6,
@@ -1281,7 +1281,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat_titan.static_weapon_preset = true
 	self.city_swat_titan.static_dodge_preset = true
 	self.city_swat_titan.static_melee_preset = true	
-	self.city_swat_titan.heal_cooldown = 3.75
+	self.city_swat_titan.heal_cooldown = true
 	table.insert(self._enemy_list, "city_swat_titan")
 	
 	self.city_swat_titan_assault = deep_clone(self.city_swat_titan)
@@ -1310,7 +1310,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend_lmg.headshot_dmg_mul = bravo_headshot
 	self.weekend_lmg.damage.explosion_damage_mul = 0.75
 	self.weekend_lmg.damage.fire_pool_damage_mul = 1.5	
-	self.weekend_lmg.heal_cooldown = 3.75
+	self.weekend_lmg.heal_cooldown = true
 	self.weekend_lmg.grenade = {
 		type = "bravo_frag",
 		cooldown = 6,
@@ -2125,7 +2125,7 @@ function CharacterTweakData:_init_spooc(presets)
 		detect_stop = "cloaker_detect_stop",
 		detect = "cloaker_detect_mono"
 	}
-	self.spooc.heal_cooldown = 22.5
+	self.spooc.heal_cooldown = true
 	self.spooc.special_deaths = {
 		melee = {
 			[("head"):id():key()] = {
@@ -2226,7 +2226,7 @@ function CharacterTweakData:_init_shadow_spooc(presets)
 	self.shadow_spooc.can_be_tased = true
 	self.shadow_spooc.static_dodge_preset = true
 	self.shadow_spooc.is_special = true
-	self.shadow_spooc.heal_cooldown = 22.5
+	self.shadow_spooc.heal_cooldown = true
 	table.insert(self._enemy_list, "shadow_spooc")
 end	
 
@@ -2771,7 +2771,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser_titan.static_dodge_preset = true
 	self.taser_titan.is_special = true	
 	self.taser_titan.move_speed = presets.move_speed.fast
-	self.taser_titan.heal_cooldown = 22.5
+	self.taser_titan.heal_cooldown = true
 	self.taser_titan.tase_on_melee = true
 	self.taser_titan.slowing_bullets = {
 		duration = 3,
@@ -2898,7 +2898,7 @@ function CharacterTweakData:_init_boom(presets)
 	table.insert(self._enemy_list, "boom_summers")		
 	
 	self.boom_titan = deep_clone(self.boom)
-	self.boom_titan.heal_cooldown = 22.5
+	self.boom_titan.heal_cooldown = true
 	table.insert(self._enemy_list, "boom_titan")		
 end
 
@@ -8274,419 +8274,6 @@ function CharacterTweakData:_create_table_structure()
 	}
 end
 
-function CharacterTweakData:_set_easy()
-	self:_set_normal()
-end
-
-function CharacterTweakData:_set_normal()
-	self:_multiply_all_hp(0.5, 1)
-	self:_multiply_all_damage(0.3, 0.45, 0.5)
-	self:_multiply_teamai_health(0.3, 0.3)
-
-	--No normal tase for Elektra on lower difficulties
-	self.taser_summers.weapon.is_rifle.tase_distance = 0
-	
-	--No Frags on Spring on lower difficulties
-	self.spring.grenade = nil		
-	self.headless_hatman.grenade = nil
-	
-	self:_set_characters_dodge_preset("athletic")
-	self:_set_characters_melee_preset("1", "1")
-
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-
-	self:_multiply_all_speeds(1, 1)
-
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
-end
-
-function CharacterTweakData:_set_hard()
-	self:_multiply_all_hp(0.625, 1)
-	self:_multiply_all_damage(0.5, 0.75, 0.625)
-	self:_multiply_teamai_health(0.5, 0.3)
-
-	--No normal tase for Elektra on lower difficulties
-	self.taser_summers.weapon.is_rifle.tase_distance = 0	
-
-	--No Frags on Spring on lower difficulties
-	self.spring.grenade = nil		
-	self.headless_hatman.grenade = nil
-	
-	self:_set_characters_dodge_preset("athletic")
-	self:_set_characters_melee_preset("1", "1")
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-	self:_multiply_all_speeds(1, 1)
-	self.weap_unit_names[6] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")
-	self.weap_unit_names[69] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")	
-	self.weap_unit_names[70] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47")
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
-end
-
-function CharacterTweakData:_set_overkill()
-	self:_multiply_all_hp(0.75, 2)
-	self:_multiply_all_damage(0.7, 1.05, 0.75)
-	self:_multiply_teamai_health(0.7, 0.3)
-
-	--No normal tase for Elektra on lower difficulties
-	self.taser_summers.weapon.is_rifle.tase_distance = 0
-	
-	--No Frags on Spring on lower difficulties
-	self.spring.grenade = nil
-	self.headless_hatman.grenade = nil	
-		
-	self:_set_characters_dodge_preset("athletic_very_hard")
-	self:_set_characters_melee_preset("2", "1")
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-	self:_multiply_all_speeds(1, 1)
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
-	self.weap_unit_names[69] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")	
-	self.weap_unit_names[70] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47")	
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
-end
-
-function CharacterTweakData:_set_overkill_145()
-	self:_multiply_all_hp(0.825, 2)
-	self:_multiply_all_damage(0.9, 1.35, 0.825)
-	self:_multiply_teamai_health(0.9, 0.25)
-			
-	self:_set_characters_dodge_preset("athletic_overkill")
-	self:_set_characters_melee_preset("2.8", "2")
-	self.fbi.can_shoot_while_dodging = true
-	self.swat.can_shoot_while_dodging = true
-	self.hrt.can_shoot_while_dodging = true
-	self.fbi.can_slide_on_suppress = true
-	self.swat.can_slide_on_suppress = true
-	self.hrt.can_slide_on_suppress = true
-	
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-	self:_multiply_all_speeds(1, 1)
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end
-end
-
-function CharacterTweakData:_set_easy_wish()
-	self:_multiply_all_hp(1, 2)
-	self:_multiply_all_damage(1, 1.5, 1)
-	self:_multiply_teamai_health(1, 0.25)
-
-	self:_set_characters_weapon_preset("expert", "good")
-	self:_set_characters_dodge_preset("athletic_overkill")
-	self.fbi.can_shoot_while_dodging = true
-	self.swat.can_shoot_while_dodging = true	
-	self.hrt.can_shoot_while_dodging = true
-	self.fbi.can_slide_on_suppress = true		
-	self.swat.can_slide_on_suppress = true		
-	self.hrt.can_slide_on_suppress = true	
-	self.fbi_swat.can_slide_on_suppress = true		 
-	self.city_swat.can_slide_on_suppress = true		
-	self.city_swat_guard.can_slide_on_suppress = true	
-	self:_set_characters_melee_preset("2.8", "2")
-
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-	self:_multiply_all_speeds(1, 1)
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end
-end
-
-function CharacterTweakData:_set_overkill_290()
-	self:_multiply_all_hp(1, 2)
-	self:_multiply_all_damage(1, 1.5, 1)
-	self:_multiply_teamai_health(1, 0.25)
-
-	self:_set_characters_dodge_preset("deathwish")
-	self.fbi.can_shoot_while_dodging = true
-	self.swat.can_shoot_while_dodging = true	
-	self.hrt.can_shoot_while_dodging = true
-	self.fbi.can_slide_on_suppress = true		
-	self.swat.can_slide_on_suppress = true	
-	self.hrt.can_slide_on_suppress = true	
-	self.fbi_swat.can_slide_on_suppress = true		
-	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true
-	
-	--Titan SWAT stun resistance
-	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.city_swat_titan.use_animation_on_fire_damage = false
-	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.city_swat_titan_assault.use_animation_on_fire_damage = false
-	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.skeleton_swat_titan.use_animation_on_fire_damage = false	
-	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.weekend_lmg.use_animation_on_fire_damage = false				
-	
-	--Fast HRTs
-	self.fbi.move_speed = self.presets.move_speed.lightning
-	self.hrt.move_speed = self.presets.move_speed.lightning
-	
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-	self:_multiply_all_speeds(1, 1)
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
-end
-
-function CharacterTweakData:_set_sm_wish()
-	self:_multiply_all_hp(1, 3)
-	self:_multiply_all_damage(1, 1.5, 1)
-	self:_multiply_teamai_health(1, 0.2)
-	
-	self:_set_characters_dodge_preset("deathwish")
-	self:_set_characters_melee_preset("3.5", "2.8")
-	self.fbi.can_shoot_while_dodging = true
-	self.swat.can_shoot_while_dodging = true
-	self.hrt.can_shoot_while_dodging = true
-	self.fbi.can_slide_on_suppress = true
-	self.swat.can_slide_on_suppress = true
-	self.hrt.can_slide_on_suppress = true
-	self.fbi_swat.can_slide_on_suppress = true
-	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true
-	self.fbi_heavy_swat.can_slide_on_suppress = true
-	
-	self.weap_unit_names[13] = Idstring("units/payday2/weapons/wpn_npc_sniper_sc/wpn_npc_sniper_sc")		
-	self.weap_unit_names[21] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc")		
-	
-	self.shield.damage.hurt_severity = self.presets.hurt_severities.no_hurts
-	
-	self.city_swat.can_shoot_while_dodging = true
-	self.city_swat_guard.can_shoot_while_dodging = true	
-	
-	self:_multiply_all_speeds(1, 1)
-	self.flashbang_multiplier = 2
-	self.concussion_multiplier = 1
-	
-	--Titan SWAT smoke dodging
-	self.heavy_swat.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
-		}},
-		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
-			local chance = 0.15
-
-			if math.random() < chance then
-				return true, t + delay_till_next_use
-			end
-
-			return false, t + delay_till_next_use
-		end
-	}	
-	self.fbi_swat.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
-		}},
-		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
-			local chance = 0.15
-
-			if math.random() < chance then
-				return true, t + delay_till_next_use
-			end
-
-			return false, t + delay_till_next_use
-		end
-	}	
-	self.city_swat.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
-		}},
-		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
-			local chance = 0.15
-
-			if math.random() < chance then
-				return true, t + delay_till_next_use
-			end
-
-			return false, t + delay_till_next_use
-		end
-	}
-	self.weekend.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
-		}},
-		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
-			local chance = 0.15
-
-			if math.random() < chance then
-				return true, t + delay_till_next_use
-			end
-
-			return false, t + delay_till_next_use
-		end
-	}
-	self.weekend_lmg.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
-		}},
-		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 45
-			local chance = 0.075
-
-			if math.random() < chance then
-				return true, t + delay_till_next_use
-			end
-
-			return false, t + delay_till_next_use
-		end
-	}		
-	
-	--Titan SWAT stun resistance
-	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.city_swat_titan.use_animation_on_fire_damage = false
-	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.city_swat_titan_assault.use_animation_on_fire_damage = false
-	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.skeleton_swat_titan.use_animation_on_fire_damage = false
-	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.weekend_lmg.use_animation_on_fire_damage = false
-
-	--Fast Titan HRTs
-	self.fbi.move_speed = self.presets.move_speed.lightning
-	self.hrt.move_speed = self.presets.move_speed.lightning
-	
-	--Titandozers become immune to stunning
-	self.tank_titan.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
-	self.tank_titan_assault.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase	
-	self.tank_hw.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
-	
-	--Winters can now overheal ala LPF
-	self.phalanx_vip.do_omnia = true
-	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
-	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
-	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")
-	if job == "tag" or job == "xmn_tag" then
-		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
-	end		
-end
-
-function CharacterTweakData:is_special_unit(enemy_tweak)
-	local is_special = false
-	if self[enemy_tweak].is_special then
-		is_special = true
-	end
-	return is_special
-end
-
-function CharacterTweakData:_multiply_all_hp(health_mul, headshot_index)
-	--Get new headshot multiplier.
-	local hs_mul = headshot_difficulty_array[headshot_index] --Get headshot multiplier.
-	local hp_mul = health_mul * (hs_mul / headshot_difficulty_array[3]) --Get overall hp mul. Compensate for lower headshot mults by reducing body health.
-
-	for _, enemy_tweak in ipairs(self._enemy_list) do
-		local enemy = self[enemy_tweak]
-		if enemy then
-			enemy.HEALTH_INIT = enemy.HEALTH_INIT * hp_mul
-			enemy.headshot_dmg_mul = enemy.headshot_dmg_mul * hs_mul
-			if enemy.DAMAGE_CLAMP_BULLET then
-				enemy.DAMAGE_CLAMP_BULLET = enemy.DAMAGE_CLAMP_BULLET * hp_mul
-			end
-
-			--REMOVE THESE EXTRA MULS ONCE PERK DECKS ALLOW FOR THESE TYPES OF DAMAGE TO SCALE!
-			enemy.damage.explosion_damage_mul = (enemy.damage.explosion_damage_mul or 1) * hp_mul --Explosives deal same relative damage on all difficulties until perk deck damage boost works on them.
-			enemy.damage.fire_pool_damage_mul = (enemy.damage.fire_pool_damage_mul or 1) * hp_mul --Ditto for fire pools.
-			enemy.damage.dot_damage_mul = (enemy.damage.dot_damage_mul or 1) * hp_mul --Ditto for DOT
-		end
-	end
-end
-
-function CharacterTweakData:_multiply_all_speeds(walk_mul, run_mul)
-	for _, enemy_tweak in ipairs(self._enemy_list) do
-		if self[enemy_tweak] then
-			local speed_preset = deep_clone(self[enemy_tweak].move_speed)
-
-			self[enemy_tweak].move_speed = speed_preset
-
-			speed_preset.stand.walk.hos.fwd = speed_preset.stand.walk.hos.fwd * walk_mul
-			speed_preset.stand.walk.hos.strafe = speed_preset.stand.walk.hos.strafe * walk_mul
-			speed_preset.stand.walk.hos.bwd = speed_preset.stand.walk.hos.bwd * walk_mul
-			speed_preset.stand.walk.cbt.fwd = speed_preset.stand.walk.cbt.fwd * walk_mul
-			speed_preset.stand.walk.cbt.strafe = speed_preset.stand.walk.cbt.strafe * walk_mul
-			speed_preset.stand.walk.cbt.bwd = speed_preset.stand.walk.cbt.bwd * walk_mul
-			speed_preset.stand.run.hos.fwd = speed_preset.stand.run.hos.fwd * run_mul
-			speed_preset.stand.run.hos.strafe = speed_preset.stand.run.hos.strafe * run_mul
-			speed_preset.stand.run.hos.bwd = speed_preset.stand.run.hos.bwd * run_mul
-			speed_preset.stand.run.cbt.fwd = speed_preset.stand.run.cbt.fwd * run_mul
-			speed_preset.stand.run.cbt.strafe = speed_preset.stand.run.cbt.strafe * run_mul
-			speed_preset.stand.run.cbt.bwd = speed_preset.stand.run.cbt.bwd * run_mul
-			speed_preset.crouch.walk.hos.fwd = speed_preset.crouch.walk.hos.fwd * walk_mul
-			speed_preset.crouch.walk.hos.strafe = speed_preset.crouch.walk.hos.strafe * walk_mul
-			speed_preset.crouch.walk.hos.bwd = speed_preset.crouch.walk.hos.bwd * walk_mul
-			speed_preset.crouch.walk.cbt.fwd = speed_preset.crouch.walk.cbt.fwd * walk_mul
-			speed_preset.crouch.walk.cbt.strafe = speed_preset.crouch.walk.cbt.strafe * walk_mul
-			speed_preset.crouch.walk.cbt.bwd = speed_preset.crouch.walk.cbt.bwd * walk_mul
-			speed_preset.crouch.run.hos.fwd = speed_preset.crouch.run.hos.fwd * run_mul
-			speed_preset.crouch.run.hos.strafe = speed_preset.crouch.run.hos.strafe * run_mul
-			speed_preset.crouch.run.hos.bwd = speed_preset.crouch.run.hos.bwd * run_mul
-			speed_preset.crouch.run.cbt.fwd = speed_preset.crouch.run.cbt.fwd * run_mul
-			speed_preset.crouch.run.cbt.strafe = speed_preset.crouch.run.cbt.strafe * run_mul
-			speed_preset.crouch.run.cbt.bwd = speed_preset.crouch.run.cbt.bwd * run_mul
-		end
-	end
-end
-
-function CharacterTweakData:_set_characters_dodge_preset(preset)
-	for _, enemy_tweak in ipairs(self._enemy_list) do
-		if self[enemy_tweak] then
-			if not self[enemy_tweak].static_dodge_preset then
-				if not self:is_special_unit(enemy_tweak) then
-					self[enemy_tweak].dodge = self.presets.dodge[preset]
-				end
-			end
-		end
-	end
-end
-
-function CharacterTweakData:_set_characters_melee_preset(preset, special_preset)
-	for _, enemy_tweak in ipairs(self._enemy_list) do
-		if self[enemy_tweak] then
-			if not self[enemy_tweak].static_melee_preset then
-				if not self:is_special_unit(enemy_tweak) then
-					self[enemy_tweak].melee_weapon_dmg_multiplier = preset
-				else
-					self[enemy_tweak].melee_weapon_dmg_multiplier = special_preset
-				end
-			end
-		end
-	end
-end
 
 function CharacterTweakData:character_map()
 	local char_map = {
@@ -9713,6 +9300,439 @@ function CharacterTweakData:character_map()
 end
 
 function CharacterTweakData:_process_weapon_usage_table(weap_usage_table)
+end
+
+function CharacterTweakData:_set_easy()
+	self:_set_normal()
+end
+
+function CharacterTweakData:_set_normal()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(0.5, 1)
+	self:_multiply_all_damage(0.3, 0.45, 0.5)
+	self:_multiply_teamai_health(0.3, 0.3)
+
+	--No normal tase for Elektra on lower difficulties
+	self.taser_summers.weapon.is_rifle.tase_distance = 0
+	
+	--No Frags on Spring on lower difficulties
+	self.spring.grenade = nil		
+	self.headless_hatman.grenade = nil
+	
+	self:_set_characters_dodge_preset("athletic")
+	self:_set_characters_melee_preset("1", "1")
+
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+
+	self:_multiply_all_speeds(1, 1)
+
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end		
+end
+
+function CharacterTweakData:_set_hard()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(0.625, 1)
+	self:_multiply_all_damage(0.5, 0.75, 0.625)
+	self:_multiply_teamai_health(0.5, 0.3)
+
+	--No normal tase for Elektra on lower difficulties
+	self.taser_summers.weapon.is_rifle.tase_distance = 0	
+
+	--No Frags on Spring on lower difficulties
+	self.spring.grenade = nil		
+	self.headless_hatman.grenade = nil
+	
+	self:_set_characters_dodge_preset("athletic")
+	self:_set_characters_melee_preset("1", "1")
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+	self:_multiply_all_speeds(1, 1)
+	self.weap_unit_names[6] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")
+	self.weap_unit_names[69] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")	
+	self.weap_unit_names[70] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47")
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end		
+end
+
+function CharacterTweakData:_set_overkill()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(0.75, 2)
+	self:_multiply_all_damage(0.7, 1.05, 0.75)
+	self:_multiply_teamai_health(0.7, 0.3)
+
+	--No normal tase for Elektra on lower difficulties
+	self.taser_summers.weapon.is_rifle.tase_distance = 0
+	
+	--No Frags on Spring on lower difficulties
+	self.spring.grenade = nil
+	self.headless_hatman.grenade = nil	
+		
+	self:_set_characters_dodge_preset("athletic_very_hard")
+	self:_set_characters_melee_preset("2", "1")
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+	self:_multiply_all_speeds(1, 1)
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
+	self.weap_unit_names[69] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")	
+	self.weap_unit_names[70] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47")	
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end		
+end
+
+function CharacterTweakData:_set_overkill_145()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(0.825, 2)
+	self:_multiply_all_damage(0.9, 1.35, 0.825)
+	self:_multiply_teamai_health(0.9, 0.25)
+			
+	self:_set_characters_dodge_preset("athletic_overkill")
+	self:_set_characters_melee_preset("2.8", "2")
+	self.fbi.can_shoot_while_dodging = true
+	self.swat.can_shoot_while_dodging = true
+	self.hrt.can_shoot_while_dodging = true
+	self.fbi.can_slide_on_suppress = true
+	self.swat.can_slide_on_suppress = true
+	self.hrt.can_slide_on_suppress = true
+	
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+	self:_multiply_all_speeds(1, 1)
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end
+end
+
+function CharacterTweakData:_set_easy_wish()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(1, 2)
+	self:_multiply_all_damage(1, 1.5, 1)
+	self:_multiply_teamai_health(1, 0.25)
+
+	self:_set_characters_weapon_preset("expert", "good")
+	self:_set_characters_dodge_preset("athletic_overkill")
+	self.fbi.can_shoot_while_dodging = true
+	self.swat.can_shoot_while_dodging = true	
+	self.hrt.can_shoot_while_dodging = true
+	self.fbi.can_slide_on_suppress = true		
+	self.swat.can_slide_on_suppress = true		
+	self.hrt.can_slide_on_suppress = true	
+	self.fbi_swat.can_slide_on_suppress = true		 
+	self.city_swat.can_slide_on_suppress = true		
+	self.city_swat_guard.can_slide_on_suppress = true	
+	self:_set_characters_melee_preset("2.8", "2")
+
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+	self:_multiply_all_speeds(1, 1)
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")	
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end
+end
+
+function CharacterTweakData:_set_overkill_290()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(1, 2)
+	self:_multiply_all_damage(1, 1.5, 1)
+	self:_multiply_teamai_health(1, 0.25)
+
+	self:_set_characters_dodge_preset("deathwish")
+	self.fbi.can_shoot_while_dodging = true
+	self.swat.can_shoot_while_dodging = true	
+	self.hrt.can_shoot_while_dodging = true
+	self.fbi.can_slide_on_suppress = true		
+	self.swat.can_slide_on_suppress = true	
+	self.hrt.can_slide_on_suppress = true	
+	self.fbi_swat.can_slide_on_suppress = true		
+	self.city_swat.can_slide_on_suppress = true
+	self.city_swat_guard.can_slide_on_suppress = true
+	
+	--Titan SWAT stun resistance
+	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.city_swat_titan.use_animation_on_fire_damage = false
+	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.city_swat_titan_assault.use_animation_on_fire_damage = false
+	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.skeleton_swat_titan.use_animation_on_fire_damage = false	
+	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.weekend_lmg.use_animation_on_fire_damage = false				
+	
+	--Fast HRTs
+	self.fbi.move_speed = self.presets.move_speed.lightning
+	self.hrt.move_speed = self.presets.move_speed.lightning
+	
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+	self:_multiply_all_speeds(1, 1)
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end		
+end
+
+function CharacterTweakData:_set_sm_wish()
+	self:_calculate_heal_cooldowns(15)
+	self:_multiply_all_hp(1, 3)
+	self:_multiply_all_damage(1, 1.5, 1)
+	self:_multiply_teamai_health(1, 0.2)
+	
+	self:_set_characters_dodge_preset("deathwish")
+	self:_set_characters_melee_preset("3.5", "2.8")
+	self.fbi.can_shoot_while_dodging = true
+	self.swat.can_shoot_while_dodging = true
+	self.hrt.can_shoot_while_dodging = true
+	self.fbi.can_slide_on_suppress = true
+	self.swat.can_slide_on_suppress = true
+	self.hrt.can_slide_on_suppress = true
+	self.fbi_swat.can_slide_on_suppress = true
+	self.city_swat.can_slide_on_suppress = true
+	self.city_swat_guard.can_slide_on_suppress = true
+	self.fbi_heavy_swat.can_slide_on_suppress = true
+	
+	self.weap_unit_names[13] = Idstring("units/payday2/weapons/wpn_npc_sniper_sc/wpn_npc_sniper_sc")		
+	self.weap_unit_names[21] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc")		
+	
+	self.shield.damage.hurt_severity = self.presets.hurt_severities.no_hurts
+	
+	self.city_swat.can_shoot_while_dodging = true
+	self.city_swat_guard.can_shoot_while_dodging = true	
+	
+	self:_multiply_all_speeds(1, 1)
+	self.flashbang_multiplier = 2
+	self.concussion_multiplier = 1
+	
+	--Titan SWAT smoke dodging
+	self.heavy_swat.dodge_with_grenade = {
+		smoke = {duration = {
+			12,
+			12
+		}},
+		check = function (t, nr_grenades_used)
+			local delay_till_next_use = 30
+			local chance = 0.15
+
+			if math.random() < chance then
+				return true, t + delay_till_next_use
+			end
+
+			return false, t + delay_till_next_use
+		end
+	}	
+	self.fbi_swat.dodge_with_grenade = {
+		smoke = {duration = {
+			12,
+			12
+		}},
+		check = function (t, nr_grenades_used)
+			local delay_till_next_use = 30
+			local chance = 0.15
+
+			if math.random() < chance then
+				return true, t + delay_till_next_use
+			end
+
+			return false, t + delay_till_next_use
+		end
+	}	
+	self.city_swat.dodge_with_grenade = {
+		smoke = {duration = {
+			12,
+			12
+		}},
+		check = function (t, nr_grenades_used)
+			local delay_till_next_use = 30
+			local chance = 0.15
+
+			if math.random() < chance then
+				return true, t + delay_till_next_use
+			end
+
+			return false, t + delay_till_next_use
+		end
+	}
+	self.weekend.dodge_with_grenade = {
+		smoke = {duration = {
+			12,
+			12
+		}},
+		check = function (t, nr_grenades_used)
+			local delay_till_next_use = 30
+			local chance = 0.15
+
+			if math.random() < chance then
+				return true, t + delay_till_next_use
+			end
+
+			return false, t + delay_till_next_use
+		end
+	}
+	self.weekend_lmg.dodge_with_grenade = {
+		smoke = {duration = {
+			12,
+			12
+		}},
+		check = function (t, nr_grenades_used)
+			local delay_till_next_use = 45
+			local chance = 0.075
+
+			if math.random() < chance then
+				return true, t + delay_till_next_use
+			end
+
+			return false, t + delay_till_next_use
+		end
+	}		
+	
+	--Titan SWAT stun resistance
+	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.city_swat_titan.use_animation_on_fire_damage = false
+	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.city_swat_titan_assault.use_animation_on_fire_damage = false
+	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.skeleton_swat_titan.use_animation_on_fire_damage = false
+	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.weekend_lmg.use_animation_on_fire_damage = false
+
+	--Fast Titan HRTs
+	self.fbi.move_speed = self.presets.move_speed.lightning
+	self.hrt.move_speed = self.presets.move_speed.lightning
+	
+	--Titandozers become immune to stunning
+	self.tank_titan.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
+	self.tank_titan_assault.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase	
+	self.tank_hw.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
+	
+	--Winters can now overheal ala LPF
+	self.phalanx_vip.do_omnia = true
+	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
+	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
+	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")
+	if job == "tag" or job == "xmn_tag" then
+		self.weap_unit_names[59] = Idstring("units/payday2/weapons/wpn_npc_raging_bull/wpn_npc_raging_bull")
+	end		
+end
+
+function CharacterTweakData:is_special_unit(enemy_tweak)
+	local is_special = false
+	if self[enemy_tweak].is_special then
+		is_special = true
+	end
+	return is_special
+end
+
+--Sets enemy heal cooldowns to be values proportional to their head health.
+--healing_speed == amount of head health a medic can heal per second.
+function CharacterTweakData:_calculate_heal_cooldowns(healing_speed)
+	hs_mul = headshot_difficulty_array[3] --Initial health values use DS numbers, so use DS headshot muls.
+	for _, enemy_tweak in ipairs(self._enemy_list) do
+		local enemy = self[enemy_tweak]
+		if enemy and enemy.heal_cooldown then
+			enemy.heal_cooldown = enemy.HEALTH_INIT / (enemy.headshot_dmg_mul * hs_mul * healing_speed)
+		end
+	end
+end
+
+function CharacterTweakData:_multiply_all_hp(health_mul, headshot_index)
+	--Get new headshot multiplier.
+	local hs_mul = headshot_difficulty_array[headshot_index] --Get headshot multiplier.
+	local hp_mul = health_mul * (hs_mul / headshot_difficulty_array[3]) --Get overall hp mul. Compensate for lower headshot mults by reducing body health.
+
+	for _, enemy_tweak in ipairs(self._enemy_list) do
+		local enemy = self[enemy_tweak]
+		if enemy then
+			enemy.HEALTH_INIT = enemy.HEALTH_INIT * hp_mul
+			enemy.headshot_dmg_mul = enemy.headshot_dmg_mul * hs_mul
+			if enemy.DAMAGE_CLAMP_BULLET then
+				enemy.DAMAGE_CLAMP_BULLET = enemy.DAMAGE_CLAMP_BULLET * hp_mul
+			end
+
+			--REMOVE THESE EXTRA MULS ONCE PERK DECKS ALLOW FOR THESE TYPES OF DAMAGE TO SCALE!
+			enemy.damage.explosion_damage_mul = (enemy.damage.explosion_damage_mul or 1) * hp_mul --Explosives deal same relative damage on all difficulties until perk deck damage boost works on them.
+			enemy.damage.fire_pool_damage_mul = (enemy.damage.fire_pool_damage_mul or 1) * hp_mul --Ditto for fire pools.
+			enemy.damage.dot_damage_mul = (enemy.damage.dot_damage_mul or 1) * hp_mul --Ditto for DOT
+		end
+	end
+end
+
+function CharacterTweakData:_multiply_all_speeds(walk_mul, run_mul)
+	for _, enemy_tweak in ipairs(self._enemy_list) do
+		if self[enemy_tweak] then
+			local speed_preset = deep_clone(self[enemy_tweak].move_speed)
+
+			self[enemy_tweak].move_speed = speed_preset
+
+			speed_preset.stand.walk.hos.fwd = speed_preset.stand.walk.hos.fwd * walk_mul
+			speed_preset.stand.walk.hos.strafe = speed_preset.stand.walk.hos.strafe * walk_mul
+			speed_preset.stand.walk.hos.bwd = speed_preset.stand.walk.hos.bwd * walk_mul
+			speed_preset.stand.walk.cbt.fwd = speed_preset.stand.walk.cbt.fwd * walk_mul
+			speed_preset.stand.walk.cbt.strafe = speed_preset.stand.walk.cbt.strafe * walk_mul
+			speed_preset.stand.walk.cbt.bwd = speed_preset.stand.walk.cbt.bwd * walk_mul
+			speed_preset.stand.run.hos.fwd = speed_preset.stand.run.hos.fwd * run_mul
+			speed_preset.stand.run.hos.strafe = speed_preset.stand.run.hos.strafe * run_mul
+			speed_preset.stand.run.hos.bwd = speed_preset.stand.run.hos.bwd * run_mul
+			speed_preset.stand.run.cbt.fwd = speed_preset.stand.run.cbt.fwd * run_mul
+			speed_preset.stand.run.cbt.strafe = speed_preset.stand.run.cbt.strafe * run_mul
+			speed_preset.stand.run.cbt.bwd = speed_preset.stand.run.cbt.bwd * run_mul
+			speed_preset.crouch.walk.hos.fwd = speed_preset.crouch.walk.hos.fwd * walk_mul
+			speed_preset.crouch.walk.hos.strafe = speed_preset.crouch.walk.hos.strafe * walk_mul
+			speed_preset.crouch.walk.hos.bwd = speed_preset.crouch.walk.hos.bwd * walk_mul
+			speed_preset.crouch.walk.cbt.fwd = speed_preset.crouch.walk.cbt.fwd * walk_mul
+			speed_preset.crouch.walk.cbt.strafe = speed_preset.crouch.walk.cbt.strafe * walk_mul
+			speed_preset.crouch.walk.cbt.bwd = speed_preset.crouch.walk.cbt.bwd * walk_mul
+			speed_preset.crouch.run.hos.fwd = speed_preset.crouch.run.hos.fwd * run_mul
+			speed_preset.crouch.run.hos.strafe = speed_preset.crouch.run.hos.strafe * run_mul
+			speed_preset.crouch.run.hos.bwd = speed_preset.crouch.run.hos.bwd * run_mul
+			speed_preset.crouch.run.cbt.fwd = speed_preset.crouch.run.cbt.fwd * run_mul
+			speed_preset.crouch.run.cbt.strafe = speed_preset.crouch.run.cbt.strafe * run_mul
+			speed_preset.crouch.run.cbt.bwd = speed_preset.crouch.run.cbt.bwd * run_mul
+		end
+	end
+end
+
+function CharacterTweakData:_set_characters_dodge_preset(preset)
+	for _, enemy_tweak in ipairs(self._enemy_list) do
+		if self[enemy_tweak] then
+			if not self[enemy_tweak].static_dodge_preset then
+				if not self:is_special_unit(enemy_tweak) then
+					self[enemy_tweak].dodge = self.presets.dodge[preset]
+				end
+			end
+		end
+	end
+end
+
+function CharacterTweakData:_set_characters_melee_preset(preset, special_preset)
+	for _, enemy_tweak in ipairs(self._enemy_list) do
+		if self[enemy_tweak] then
+			if not self[enemy_tweak].static_melee_preset then
+				if not self:is_special_unit(enemy_tweak) then
+					self[enemy_tweak].melee_weapon_dmg_multiplier = preset
+				else
+					self[enemy_tweak].melee_weapon_dmg_multiplier = special_preset
+				end
+			end
+		end
+	end
 end
 
 function CharacterTweakData:_multiply_weapon_preset(preset, accuracy_mul, aim_delay_mul, focus_delay_mul, recoil_mul, reload_speed_mul)
