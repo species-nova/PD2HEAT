@@ -289,11 +289,11 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	--Perform overall damage reduction calcs.
 	--NOTE: Stoic damage delay and Deflection are handled in _calc_health_damage()
 	local pm = managers.player
-	attack_data.damage = attack_data.damage * pm:damage_reduction_skill_multiplier(variant)
 	local damage_absorption = pm:damage_absorption()
 	if damage_absorption > 0 then
 		attack_data.damage = attack_data.damage - damage_absorption
 	end
+	attack_data.damage = attack_data.damage * pm:damage_reduction_skill_multiplier(variant)
 
 	self._last_received_dmg = raw_damage --Raw damage taken before (most) modifiers is used to calculate grace period.
 	local next_allowed_dmg_t_old = self._next_allowed_dmg_t --Needed to check if grace piercing occured.
@@ -306,6 +306,8 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 		attack_data.damage = math.max(attack_data.damage, 0.1)
 		self._last_taken_dmg = attack_data.damage
 	end
+
+	managers.hud:set_absorb_active(HUDManager.PLAYER_PANEL, self._last_received_dmg - self._last_taken_dmg)
 
 	if self._bleed_out then --If player is in bleedout, redirect to the bleedout damage function.
 		self:_bleed_out_damage(attack_data)
@@ -962,11 +964,14 @@ end
 --Applies deflection and stoic effects.
 function PlayerDamage:_calc_health_damage(attack_data)
 	local deflection = self._deflection
+	local old_damage = attack_data.damage
 	if self:has_temp_health() then --Hitman deflection bonus.
 		deflection = deflection - managers.player:upgrade_value("player", "temp_health_deflection", 0)
 	end
 
 	attack_data.damage = attack_data.damage * deflection --Apply Deflection DR.
+
+	managers.hud:set_absorb_active(HUDManager.PLAYER_PANEL, old_damage - attack_data.damage)
 
 	if not self._ally_attack then
 		attack_data.damage = managers.player:modify_value("damage_taken", attack_data.damage, attack_data) --Stoic damage delay. Done here so it applies to all health damage taken.

@@ -939,6 +939,11 @@ function PlayerManager:_on_activate_aggressive_reload_event(attack_data)
 	end
 end
 
+--No longer applies anything to the hud element. Since it's now used to reflect the amount damage was recently reduced by.
+function PlayerManager:set_damage_absorption(key, value)
+	self._damage_absorption[key] = value and Application:digest_value(value, true) or nil
+end
+
 --Adds doctor bag health regen.
 function PlayerManager:health_regen()
 	local health_regen = tweak_data.player.damage.HEALTH_REGEN
