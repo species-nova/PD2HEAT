@@ -357,7 +357,7 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	else
 		attack_data.damage = attack_data.damage * armor_reduction_multiplier
 	end
-	--health_subtracted = health_subtracted + self:_calc_health_damage(attack_data)
+	health_subtracted = health_subtracted + self:_calc_health_damage(attack_data)
 
 	self:_send_damage_drama(attack_data, health_subtracted)
 
