@@ -10,27 +10,36 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 --Grenades
 	local frag = {
 		type = "bravo_frag",
-		cooldown = 6,
-		chance = 0.3,
-		range = 1600,
-		offset = projectile_throw_pos_offset,
-		voiceline = "use_gas"
+		cooldown = 3, --Cooldown between grenade throw attempts.
+		use_cooldown = 9, --Cooldown between throwing a grenade and starting attempts again.
+		chance = 0.15, --Chance to throw grenade for each attempt.
+		min_range = 500, --Minimum range grenade can be thrown to.
+		max_range = 2000, --Maximum range grenade can be thrown to.
+		throw_force = 1 / 1300, --Force multiplier applied to throw.
+		offset = projectile_throw_pos_offset, --Offset applied to grenade spawn position, usually used to sync it to hand position. 
+		voiceline = "use_gas" --Voiceline unit plays when throwing grenade.
+		--no_anim = true --Add this field to grenades launched by grenade launchers to skip throwing animation.
 	}
 
 	local cluster_frag = {
 		type = "cluster_fuck",
 		cooldown = 12,
 		chance = 1,
-		range = 1600,
+		min_range = 500,
+		max_range = 2000,
+		throw_force = 1 / 1300,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
 
 	local tear_gas = {
-		type = "tear_gas",
-		chance = 0.5,
-		cooldown = 10,
-		range = 2800,
+		type = "gas_grenade",
+		cooldown = 3,
+		use_cooldown = 12,
+		chance = 0.25,
+		min_range = 500,
+		max_range = 2400,
+		throw_force = 1 / 1250,
 		no_anim = true,
 		voiceline = "use_gas"
 	}
@@ -39,7 +48,9 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		type = "molotov",
 		cooldown = 4,
 		chance = 1,
-		range = 1600,
+		min_range = 500,
+		max_range = 2000,
+		throw_force = 1 / 1300,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
@@ -48,16 +59,21 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		type = "hatman_molotov",
 		cooldown = 10,
 		chance = 1,
-		range = 1600,
+		min_range = 500,
+		max_range = 2000,
+		throw_force = 1 / 1300,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
 
 	local autumn_gas = {
-		type = "tear_gas",
-		chance = 0.3,
-		cooldown = 10,
-		range = 2800,
+		type = "gas_grenade",
+		cooldown = 3,
+		use_cooldown = 24,
+		chance = 0.125,
+		min_range = 500,
+		max_range = 1600,
+		throw_force = 1 / 1300,
 		offset = projectile_throw_pos_offset,
 		voiceline = "i03"
 	}
@@ -67,7 +83,9 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 0.9,
 		cooldown = 5,
 		use_cooldown = 50,
-		range = 1600,
+		min_range = 500,
+		max_range = 2400,
+		throw_force = 1 / 650,
 		voiceline = "g43",
 		strict_throw = 3,
 		no_anim = true
@@ -1035,12 +1053,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.weekend_dmr.damage.explosion_damage_mul = 1.5
 	self.weekend_dmr.damage.fire_pool_damage_mul = 1.5
 	self.weekend_dmr.heal_cooldown = 5
-	self.weekend_dmr.grenade = {
-		type = "bravo_frag",
-		cooldown = 6,
-		chance = 0.3,
-		range = 1600
-	}
+	self.weekend_dmr.grenade = frag
 	table.insert(self._enemy_list, "weekend_dmr")
 end
 
@@ -1251,12 +1264,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend.speech_prefix_p2 = nil
 	self.weekend.speech_prefix_count = nil	
 	self.weekend.heal_cooldown = true
-	self.weekend.grenade = {
-		type = "bravo_frag",
-		cooldown = 6,
-		chance = 0.3,
-		range = 1600
-	}
+	self.weekend.grenade = frag
 	self.weekend.surrender = presets.surrender.bravo
 	table.insert(self._enemy_list, "weekend")				
 	
@@ -1311,12 +1319,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend_lmg.damage.explosion_damage_mul = 0.75
 	self.weekend_lmg.damage.fire_pool_damage_mul = 1.5	
 	self.weekend_lmg.heal_cooldown = true
-	self.weekend_lmg.grenade = {
-		type = "bravo_frag",
-		cooldown = 6,
-		chance = 0.3,
-		range = 1600
-	}
+	self.weekend_lmg.grenade = frag
 	table.insert(self._enemy_list, "weekend_lmg")
 
 	--Temp Solution
@@ -1815,12 +1818,7 @@ function CharacterTweakData:_init_drug_lord_boss(presets)
 	self.drug_lord_boss = deep_clone(presets.base)
 	self.drug_lord_boss.experience = {}
 	self.drug_lord_boss.tags = {"custom", "special"}
-	self.drug_lord_boss.grenade = {
-		type = "bravo_frag",
-		cooldown = 6,
-		chance = 0.3,
-		range = 1600
-	}
+	self.drug_lord_boss.grenade = frag
 	self.drug_lord_boss.weapon = presets.weapon.gangster
 	self.drug_lord_boss.detection = presets.detection.normal
 	self.drug_lord_boss.HEALTH_INIT = 864
@@ -2429,12 +2427,7 @@ function CharacterTweakData:_init_spring(presets)
 	self.spring.tags = {"law", "custom", "special", "captain"}
 	self.spring.move_speed = presets.move_speed.very_slow
 	self.spring.rage_move_speed = presets.move_speed.fast
-	self.spring.grenade = {
-		type = "cluster_fuck",
-		cooldown = 12,
-		chance = 1,
-		range = 1600
-	}
+	self.spring.grenade = cluster_frag
 	self.spring.no_run_start = true
 	self.spring.no_run_stop = true
 	self.spring.no_retreat = true
@@ -2831,12 +2824,7 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom.access = "taser"
 	self.boom.dodge = presets.dodge.athletic
 	self.boom.use_gas = true
-	self.boom.grenade = {
-		type = "tear_gas",
-		chance = 0.5,
-		cooldown = 10,
-		range = 2800
-	}
+	self.boom.grenade = tear_gas
 	self.boom.priority_shout = "g29"
 	self.boom.bot_priority_shout = "g29"
 	self.boom.priority_shout_max_dis = 3000

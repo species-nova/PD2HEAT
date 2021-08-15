@@ -54,7 +54,9 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"colt_1911",
 					"mac10",
 					"hajk",
-					"x_mac10"
+					"spoon",
+					"x_mac10",
+					"x_packrat"
 				}
 			},	
 		l10 = {
@@ -69,7 +71,10 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 				upgrades = {
 					"body_armor3",
 					"cobray",
-					"boxcutter"
+					"boxcutter",
+					"groza",
+					"groza_underbarrel",
+					"m590"
 				}
 			},			
 		l14 = {
@@ -137,7 +142,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"rota",
 					"cs",
 					"brick",
-					"ostry"
+					"ostry",
+					"r700"
 				}
 			},
 		l25 = {
@@ -173,13 +179,16 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"hs2000",
 					"vhs",
 					"bowie",
-					"micstand"
+					"micstand",
+					"qbu88"
 				}
 			},
 		l30 = {
 				name_id = "lvl_30",
 				upgrades = {
-					"shuno"
+					"shuno",
+					"holt",
+					"x_holt"
 				}
 			},
 		l32 = {
@@ -269,7 +278,6 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 		end
 	end 	
 end)
-
 Hooks:PostHook(UpgradesTweakData, "_melee_weapon_definitions", "ResMeleeDef", function(self)
 	self.definitions.halloween_sword = {
 		dlc = "rest",

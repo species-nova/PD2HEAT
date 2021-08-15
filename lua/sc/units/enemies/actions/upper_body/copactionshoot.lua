@@ -429,68 +429,30 @@ function CopActionShoot:set_sniper_focus_sound(sound_progress)
 end
 
 --Throws a grenade and plays relevant lines+animations.
-function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos)
-	if self._grenade.type == "tear_gas" then  --TODO: Refactor tear gas to be a projectile then remove this special case.
-		local attention_m_pos = nil
-
-		if self._attention.handler then
-			attention_m_pos = self._attention.handler:get_ground_m_pos()
-		elseif self._attention.unit then
-			if self._attention.unit:movement() and self._attention.unit:movement().m_pos then
-				attention_m_pos = self._attention.unit:movement():m_pos()
-			end
+function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos, distance, force_mul)
+	local throw_vec = target_vec * (distance * force_mul)
+	if ProjectileBase.throw_projectile(self._grenade.type, shoot_from_pos, throw_vec, nil, self._unit) then
+		if not self._grenade.no_anim then
+			self._ext_movement:play_redirect("throw_grenade")
+			managers.network:session():send_to_peers_synched("play_distance_interact_redirect", self._unit, "throw_grenade")
 		end
 
-		if not attention_m_pos then
-			return
+		if self._grenade.voiceline then
+			self._unit:sound():say(self._grenade.voiceline, true, nil, true)
 		end
 
-		local detonate_pos = nil
-		local ray_to = mvec3_copy(attention_m_pos)
+		self._shoot_t = self._shoot_t + 0.6
 
-		mvec3_set_z(ray_to, ray_to.z - 1000)
-
-		local ground_ray = self._unit:raycast("ray", attention_m_pos, ray_to, "slot_mask", managers.slot:get_mask("world_geometry", "statics"))
-
-		if ground_ray then
-			detonate_pos = mvec3_copy(ground_ray.hit_position)
-			mvec3_set_z(detonate_pos, detonate_pos.z + 3)
-
-			managers.groupai:state():detonate_cs_grenade(detonate_pos, self._shoot_from_pos, 7.5)
-			self._ext_movement:play_redirect("throw_grenade")			
-
-			if self._grenade.voiceline then
-				self._unit:sound():say(self._grenade.voiceline, true, nil, true)
-			end
-
-			self._shoot_t = self._shoot_t + 0.6
-
-			return true
-		end
-	else
-		if ProjectileBase.throw_projectile(self._grenade.type, shoot_from_pos, target_vec, nil, self._unit) then
-			if not self._grenade.no_anim then
-				self._ext_movement:play_redirect("throw_grenade")
-				managers.network:session():send_to_peers_synched("play_distance_interact_redirect", self._unit, "throw_grenade")
-			end
-
-			if self._grenade.voiceline then
-				self._unit:sound():say(self._grenade.voiceline, true, nil, true)
-			end
-
-			self._shoot_t = self._shoot_t + 0.6
-
-			return true
-		end
+		return true
 	end
 end
 
 --Updates unit "special moves". Returns true if a grenade is thrown. Otherwise, returns nothing.
-function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_pos, t)
+function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_pos, target_dis, t)
 	if self._can_attack_with_special_move and not self._autofiring and self._common_data.allow_fire then
 		--Attempt grenade throwing.
 		local grenade = self._grenade
-		if grenade and grenade.range >= mvec3_dis(target_pos, shoot_from_pos) and t > (self._ext_brain._grenade_t or 0) then --If unit has a grenade, and conditions are met, throw it.
+		if grenade and grenade.max_range > target_dis and grenade.min_range < target_dis and t > (self._ext_brain._grenade_t or 0) then --If unit has a grenade, and conditions are met, throw it.
 			self._ext_brain._grenade_t = t + grenade.cooldown
 
 			if math_random() <= grenade.chance then
@@ -534,7 +496,7 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 					mvec3_add(throw_vector, grenade.offset)
 				end
 
-				if points >= (grenade.strict_throw or 0) and self:throw_grenade(throw_vector, target_vec, target_pos) then
+				if points >= (grenade.strict_throw or 0) and self:throw_grenade(throw_vector, target_vec, target_pos, target_dis, grenade.throw_force) then
 					self._ext_brain._grenade_t = self._ext_brain._grenade_t + (grenade.use_cooldown or 0)
 					return true
 				end
@@ -890,7 +852,7 @@ function CopActionShoot:update(t)
 				self:_stop_autofire() --Melee animation redirect is active, so don't play idle redirect.
 			end
 			self._shoot_t = t + 1
-		elseif self:update_special_moves(target_pos, target_vec, shoot_from_pos, t) then --If a grenade is thrown, stop immediately.
+		elseif self:update_special_moves(target_pos, target_vec, shoot_from_pos, target_dis, t) then --If a grenade is thrown, stop immediately.
 			return
 		elseif not self._common_data.allow_fire then
 			if self._autofiring then

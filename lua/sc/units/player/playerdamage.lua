@@ -258,7 +258,9 @@ end
 --Special function to handle damage dealt to players in bleedout.
 function PlayerDamage:_bleed_out_damage(attack_data)
 	self._unit:sound():play("player_hit_permadamage")
-	attack_data.damage = attack_data.damage * self._deflection
+	if not attack_data.ignore_deflection then
+		attack_data.damage = attack_data.damage * self._deflection
+	end
 	local health_subtracted = Application:digest_value(self._bleed_out_health, false)
 	self._bleed_out_health = Application:digest_value(math.max(0, health_subtracted - attack_data.damage), true)
 	health_subtracted = health_subtracted - Application:digest_value(self._bleed_out_health, false)
@@ -355,7 +357,7 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	else
 		attack_data.damage = attack_data.damage * armor_reduction_multiplier
 	end
-	health_subtracted = health_subtracted + self:_calc_health_damage(attack_data)
+	--health_subtracted = health_subtracted + self:_calc_health_damage(attack_data)
 
 	self:_send_damage_drama(attack_data, health_subtracted)
 
@@ -630,6 +632,75 @@ function PlayerDamage:damage_fire(attack_data)
 end
 
 --Does not use _apply_damage, instead uses its own stuff.
+function PlayerDamage:damage_gas(attack_data)
+	local damage_info = {
+		result = {
+			variant = "killzone",
+			type = "hurt"
+		}
+	}
+
+	if not self:can_take_damage(attack_data, damage_info) then
+		return
+	end
+
+	local t = Application:time()
+	self._last_received_dmg = attack_data.damage
+	local next_allowed_dmg_t_old = self._next_allowed_dmg_t --Needed to check if grace piercing occured.
+	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
+	if type(next_allowed_dmg_t_old) == "number" and next_allowed_dmg_t_old > t then --Check if grace piercing occurred, and if so, apply the difference in damage taken.
+		local damage_taken = math.max(attack_data.damage, 0.1)
+		attack_data.damage = math.max(attack_data.damage - self._last_taken_dmg, 0.1)
+		self._last_taken_dmg = damage_taken
+	else
+		attack_data.damage = math.max(attack_data.damage, 0.1)
+		self._last_taken_dmg = attack_data.damage
+	end
+
+	self._ally_attack = false --Allies have no way of triggering this, and this does not go through the usual apply_damage function.
+
+	if 0 < self:get_real_armor() then
+		self._unit:sound():play("player_hit")
+	else
+		self._unit:sound():play("player_hit_permadamage")
+	end
+
+	self:_hit_direction(attack_data.col_ray.origin)
+
+	if self._bleed_out then
+		attack_data.damage = attack_data.damage * (attack_data.no_stamina_damage_mul or 1)
+		self:_bleed_out_damage(attack_data)
+		return
+	end
+
+	local movement_ext = self._unit:movement()
+	if movement_ext:is_stamina_drained() then
+		attack_data.damage = attack_data.damage * (attack_data.no_stamina_damage_mul or 1)
+	end
+
+	--Deal damage and stamina damage.
+	if attack_data.stamina_damage then
+		movement_ext:subtract_stamina(attack_data.stamina_damage)
+		movement_ext:_restart_stamina_regen_timer()
+	end
+
+	attack_data.damage = managers.player:modify_value("damage_taken", attack_data.damage, attack_data)
+
+	self:_check_chico_heal(attack_data)
+
+	local armor_reduction_multiplier = 0
+	if self:get_real_armor() <= 0 then
+		armor_reduction_multiplier = 1
+	end
+
+	local health_subtracted = self:_calc_armor_damage(attack_data)
+	attack_data.damage = attack_data.damage * armor_reduction_multiplier
+
+	--Ignores deflection and Stoic, just like it should for all other forms of DR.
+	health_subtracted = health_subtracted + self:_calc_health_damage_no_deflection(attack_data)
+end
+
+--Does not use _apply_damage, instead uses its own stuff.
 function PlayerDamage:damage_killzone(attack_data)
 	local damage_info = {
 		result = {
@@ -678,7 +749,6 @@ function PlayerDamage:damage_killzone(attack_data)
 		attack_data.damage = managers.player:modify_value("damage_taken", attack_data.damage, attack_data)
 
 		self:_check_chico_heal(attack_data)
-
 
 		local armor_reduction_multiplier = 0
 		if self:get_real_armor() <= 0 then

@@ -856,6 +856,7 @@ function BlackMarketTweakData:_init_projectiles(tweak_data)
 	table.insert(self._projectiles_index, "hatman_molotov")
 	table.insert(self._projectiles_index, "launcher_frag_osipr")
 	table.insert(self._projectiles_index, "launcher_incendiary_osipr")
+	table.insert(self._projectiles_index, "gas_grenade")
 
 	--Throwables--
 	self.projectiles.wpn_prj_four.max_amount = 9
@@ -917,11 +918,16 @@ function BlackMarketTweakData:_init_projectiles(tweak_data)
 	--self.projectiles.smoke_screen_grenade.animation = "throw_grenade_com"					--throw_grenade_com
 	--self.projectiles.smoke_screen_grenade.anim_global_param = "projectile_frag_com"		--projectile_frag_com	
 
+	self.projectiles.gas_grenade = {
+		name_id = "gas_grenade",
+		unit = "units/weapons/gas_grenade/gas_grenade",
+		unit_dummy = "units/weapons/gas_grenade/gas_grenade_husk",
+		throwable = false,
+		is_a_grenade = true,
+		add_trail_effect = true,
+	}
+
 	self.projectiles.bravo_frag = {}
-	self.projectiles.bravo_frag.damage = 12 --120 damage at point blank.
-	self.projectiles.bravo_frag.player_damage = 12
-	self.projectiles.bravo_frag.curve_pow = 0.1
-	self.projectiles.bravo_frag.range = 500
 	self.projectiles.bravo_frag.name_id = "bm_bravo_frag"
 	self.projectiles.bravo_frag.unit = "units/payday2/weapons/wpn_npc_bravo_frag/wpn_npc_bravo_frag"
 	self.projectiles.bravo_frag.unit_dummy = "units/payday2/weapons/wpn_npc_bravo_frag/wpn_npc_bravo_frag_husk"
@@ -931,10 +937,6 @@ function BlackMarketTweakData:_init_projectiles(tweak_data)
 	self.projectiles.bravo_frag.add_trail_effect = true
 
 	self.projectiles.cluster_fuck = {}
-	self.projectiles.cluster_fuck.damage = 12 --120 damage at point blank.
-	self.projectiles.cluster_fuck.player_damage = 12
-	self.projectiles.cluster_fuck.curve_pow = 0.1
-	self.projectiles.cluster_fuck.range = 500
 	self.projectiles.cluster_fuck.name_id = "bm_cluster_fuck"
 	self.projectiles.cluster_fuck.unit = "units/payday2/weapons/wpn_npc_cluster_fuck/wpn_npc_cluster_fuck"
 	self.projectiles.cluster_fuck.unit_dummy = "units/payday2/weapons/wpn_npc_cluster_fuck/wpn_npc_cluster_fuck_husk"
@@ -944,11 +946,7 @@ function BlackMarketTweakData:_init_projectiles(tweak_data)
 	self.projectiles.cluster_fuck.add_trail_effect = true
 
 	self.projectiles.child_grenade = {}
-	self.projectiles.child_grenade.damage = 10 --100 damage at point blank.
-	self.projectiles.child_grenade.player_damage = 10
-	self.projectiles.child_grenade.curve_pow = 0.1
 	self.projectiles.child_grenade.init_timer = 1.0
-	self.projectiles.child_grenade.range = 500
 	self.projectiles.child_grenade.name_id = "bm_child_grenade"
 	self.projectiles.child_grenade.unit = "units/payday2/weapons/wpn_npc_child_grenade/wpn_npc_child_grenade"
 	self.projectiles.child_grenade.unit_dummy = "units/payday2/weapons/wpn_npc_child_grenade/wpn_npc_child_grenade"
@@ -3175,6 +3173,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.switchblade.backstab_damage_multiplier = 2
 
 	--Taser--
+	self.melee_weapons.taser.special_weapon = "taser"
 	self.melee_weapons.taser.stats.min_damage = 1
 	self.melee_weapons.taser.stats.max_damage = 2
 	self.melee_weapons.taser.stats.min_damage_effect = 0
