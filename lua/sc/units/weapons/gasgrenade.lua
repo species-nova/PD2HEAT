@@ -50,10 +50,6 @@ function GasGrenade:_play_detonate_sound_and_effects()
 end
 
 function GasGrenade:_detonate(tag, unit, body, other_unit, other_body, position, normal, collision_velocity, velocity, other_velocity, new_velocity, direction, damage, ...)
-	if Network:is_server() then
-		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "base", GrenadeBase.EVENT_IDS.detonate)
-	end
-
 	self:_play_detonate_sound_and_effects()
 	self._timer = nil
 	self._remove_t = TimerManager:game():time() + self._duration
