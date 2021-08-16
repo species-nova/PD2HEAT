@@ -68,7 +68,6 @@ end
 
 function GasGrenade:update(unit, t, dt)
 	if self._remove_t and self._remove_t < t then
-		self:destroy()
 		self._unit:set_slot(0)
 	end
 
