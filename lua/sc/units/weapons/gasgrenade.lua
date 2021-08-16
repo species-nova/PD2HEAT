@@ -54,7 +54,6 @@ function GasGrenade:_detonate(tag, unit, body, other_unit, other_body, position,
 		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "base", GrenadeBase.EVENT_IDS.detonate)
 	end
 
-	self._state = DETONATED
 	self:_play_detonate_sound_and_effects()
 	self._timer = nil
 	self._remove_t = TimerManager:game():time() + self._duration
@@ -81,7 +80,7 @@ function GasGrenade:update(unit, t, dt)
 		end
 
 		ProjectileBase.update(self, unit, t, dt)
-	elseif self._state == DETONATED and (not self._last_damage_tick or t > self._last_damage_tick + self._damage_tick_period) then
+	elseif not self._last_damage_tick or t > self._last_damage_tick + self._damage_tick_period then
 		self:_do_damage()
 
 		self._last_damage_tick = t
