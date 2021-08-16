@@ -2792,7 +2792,7 @@
 	<effect path="effects/payday2/particles/explosions/wpn_npc_spring_frag_flash"/>	
 
 	<!-- Grenadier Grenades -->
-	<unit path="units/weapons/gas_grenade/gas_grenade" load="true" auto_cp="true"/>
+	<unit path="units/weapons/gas_grenade/gas_grenade" load="true"/>
 	<unit path="units/weapons/gas_grenade/gas_grenade_husk" load="true"/>
 
 	<!-- Spring Cluster Grenades -->
