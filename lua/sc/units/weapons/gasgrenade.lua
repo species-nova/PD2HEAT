@@ -81,7 +81,7 @@ function GasGrenade:update(unit, t, dt)
 		end
 
 		ProjectileBase.update(self, unit, t, dt)
-	elseif self._state == DETONATED and (t > self._last_damage_tick + self._damage_tick_period) then
+	elseif self._state == DETONATED and (self._last_damage_tick and t > self._last_damage_tick + self._damage_tick_period) then
 		self:_do_damage()
 
 		self._last_damage_tick = t
