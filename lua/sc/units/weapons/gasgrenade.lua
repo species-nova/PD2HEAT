@@ -1,14 +1,11 @@
+--Grenades thrown by Grenadiers and Capt. Autumn
+--Similar gameplay mechanics to QuickCSGrenader, but these are actually physical projectiles.
+
 GasGrenade = GasGrenade or class(FragGrenade)
 
 function GasGrenade:_setup_server_data(...)
 	QuickCsGrenade.super._setup_server_data(self, ...)
 
-	if self._timer then
-		self._timer = math.max(self._timer, 0.1)
-	end
-
-	self._has_played_VO = false
-	self._last_damage_tick = 0
 	self:_setup_from_tweak_data()
 end
 
@@ -21,9 +18,10 @@ function GasGrenade:_setup_from_tweak_data()
 	self._no_stamina_damage_mul = self._tweak_data.no_stamina_damage_mul or 2
 	self._damage_per_tick = self._tweak_data.damage_per_tick or 0.6
 	self._damage_tick_period = self._tweak_data.damage_tick_period or 0.2
-	self._timer = 1.5
-	self._shoot_position = self._unit:position()
+	self._timer = self._tweak_data.timer or 1.5
 	self._duration = self._tweak_data.duration or 7.5
+	self._last_damage_tick = 0
+	self._has_played_VO = false
 	self._unit:sound_source():post_event("grenade_gas_npc_fire")
 end
 
@@ -53,13 +51,18 @@ function GasGrenade:_detonate(tag, unit, body, other_unit, other_body, position,
 	self:_play_detonate_sound_and_effects()
 	self._timer = nil
 	self._remove_t = TimerManager:game():time() + self._duration
+
+	--Set grenade to static to ensure no possible movement at all.
+	for i = 1, self._unit:num_bodies() - 1 do
+	    local body = self._unit:body(i)
+
+	    if body:dynamic() then
+	        body:set_keyframed()
+	    end
+	end
 end
 
 function GasGrenade:bullet_hit()
-end
-
-function GasGrenade:_detonate_on_client()
-	self:_detonate()
 end
 
 function GasGrenade:update(unit, t, dt)
@@ -75,7 +78,7 @@ function GasGrenade:update(unit, t, dt)
 		end
 
 		ProjectileBase.update(self, unit, t, dt)
-	elseif not self._last_damage_tick or t > self._last_damage_tick + self._damage_tick_period then
+	elseif t > self._last_damage_tick + self._damage_tick_period then
 		self:_do_damage()
 
 		self._last_damage_tick = t
@@ -90,7 +93,6 @@ function GasGrenade:destroy()
 	managers.environment_controller:set_blurzone(self._unit:key(), 0)
 end
 
---Add stamina related mechanics.
 function GasGrenade:_do_damage()
 	local player_unit = managers.player:player_unit()
 
