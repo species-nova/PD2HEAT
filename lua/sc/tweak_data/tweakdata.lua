@@ -293,7 +293,8 @@ tweak_data.projectiles.gas_grenade = {
 	damage_per_tick = 0.6,
 	no_stamina_damage_mul = 2,
 	stamina_per_tick = 1.5,
-	duration = 7.5
+	duration = 7.5,
+	timer = 1.5
 }
 
 local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
