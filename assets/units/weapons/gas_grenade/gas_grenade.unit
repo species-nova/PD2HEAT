@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <unit type="item" slot="14">
+	<network sync="spawn" />
 	<object file="units/pd2_dlc_max/weapons/wpn_fps_smoke_screen_grenade/wpn_third_smoke_screen_grenade" />
 	<dependencies>
 		<depends_on unit="units/weapons/gas_grenade/gas_grenade_husk" />
