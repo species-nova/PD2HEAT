@@ -5719,8 +5719,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--Breaker 12g
 	self.boot.AMMO_MAX = 40
 	self.boot.CLIP_AMMO_MAX = 6
-	self.boot.fire_mode_data.fire_rate = 0.75
-	self.boot.single.fire_rate = 0.75
+	self.boot.fire_rate_multiplier = 1.13
+	self.boot.fire_mode_data.fire_rate = 0.85
+	self.boot.single.fire_rate = 0.85
 	self.boot.rays = 9
 	self.boot.muzzleflash = "effects/particles/shotgun/muzzleflash"
 	self.boot.kick = self.stat_info.kick_tables.right_kick
@@ -5728,11 +5729,11 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.boot.supported = true
 	self.boot.stats = {
 		damage = 90,
-		spread = 10,
+		spread = 9,
 		recoil = 13,
 		spread_moving = 5,
 		zoom = 1,
-		concealment = 20,
+		concealment = 18,
 		suppression = 4,
 		alert_size = 2,
 		extra_ammo = 101,
@@ -5743,7 +5744,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.boot.stats_modifiers = nil
 	self.boot.panic_suppression_chance = 0.05
 	self.boot.stats_modifiers = {damage = 1}
-	self.boot.reload_speed_multiplier = 0.9
+	self.boot.reload_speed_multiplier = 0.75
 
 	--Contractor Pistol
 	self.packrat.AMMO_MAX = 90
@@ -8425,7 +8426,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.amr12.panic_suppression_chance = 0.05
 		self.amr12.stats_modifiers = {damage = 1}
 		self.amr12.swap_speed_multiplier = 1.2
-		self.amr12.reload_speed_multiplier = 1.25
+		self.amr12.reload_speed_multiplier = 1.5
+		self.amr12.timers.reload_not_empty = 2.8
+		self.amr12.timers.reload_empty = 4.0
 	end
 
 	if self.owen then -- Silent Enforcer's Owen Gun
@@ -8584,15 +8587,15 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.sg416.AMMO_MAX = 150
 		self.sg416.fire_mode_data.fire_rate = 0.08571428571
 		self.sg416.auto.fire_rate = 0.08571428571
-	self.sg416.kick = self.stat_info.kick_tables.moderate_kick
+		self.sg416.kick = self.stat_info.kick_tables.moderate_kick
 		self.sg416.supported = true
 		self.sg416.stats = {
 			damage = 24,
-			spread = 17,
+			spread = 16,
 			recoil = 20,
 			spread_moving = 6,
 			zoom = 1,
-			concealment = 22,
+			concealment = 25,
 			suppression = 8,
 			alert_size = 2,
 			extra_ammo = 101,
@@ -8601,7 +8604,10 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload = 20
 		}
 		self.sg416.stats_modifiers = nil
-		self.sg416.timers.reload_empty = 3.5
+		self.sg416.reload_speed_multiplier = 1.15
+		self.sg416.swap_speed_multiplier = 0.85
+		self.sg416.timers.reload_not_empty = 3.0
+		self.sg416.timers.reload_empty = 3.4
 		self.sg416.panic_suppression_chance = 0.05
 	end
 
@@ -8612,7 +8618,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.spike.AMMO_MAX = 120
 		self.spike.fire_mode_data.fire_rate = 0.1
 		self.spike.auto.fire_rate = 0.1
-	self.spike.kick = self.stat_info.kick_tables.right_kick		
+		self.spike.kick = self.stat_info.kick_tables.right_kick		
 		self.spike.supported = true
 		self.spike.stats = {
 			damage = 30,
@@ -8628,7 +8634,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload = 20
 		}
 		self.spike.stats_modifiers = nil
-		self.spike.timers.reload_not_empty = 2
+		self.spike.reload_speed_multiplier = 1.1
+		self.spike.timers.reload_not_empty = 2.4
+		self.spike.timers.reload_empty = 3.2
 		self.spike.panic_suppression_chance = 0.05
 	end
 
@@ -8643,7 +8651,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.ak5s.auto.fire_rate = 0.08275862068
 		self.ak5s.fire_mode_data.fire_rate = 0.08275862068
 		self.ak5s.panic_suppression_chance = 0.05
-	self.ak5s.kick = self.stat_info.kick_tables.even_recoil
+		self.ak5s.kick = self.stat_info.kick_tables.even_recoil
 		self.ak5s.AMMO_MAX = 180
 		self.ak5s.supported = true
 		self.ak5s.stats = {
@@ -8672,7 +8680,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.lebman.AMMO_MAX = 120
 		self.lebman.fire_mode_data.fire_rate = 0.1
 		self.lebman.auto.fire_rate = 0.1
-	self.lebman.kick = self.stat_info.kick_tables.moderate_kick
+		self.lebman.kick = self.stat_info.kick_tables.moderate_kick
 		self.lebman.supported = true
 		self.lebman.stats = {
 			damage = 30,
@@ -8689,6 +8697,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.lebman.stats_modifiers = nil				
 		self.lebman.panic_suppression_chance = 0.05
+		self.lebman.reload_speed_multiplier = 1.2
+		self.lebman.timers.reload_empty = 2.5
+		self.lebman.timers.reload_not_empty = 1.8
 		--Disabled
 		self.x_lebman.use_data.selection_index = 4
 		self.x_lebman.supported = true
@@ -8703,10 +8714,11 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.sgs.AMMO_MAX = 40
 		self.sgs.FIRE_MODE = "single"
 		self.sgs.fire_mode_data = {}
+		self.sgs.fire_rate_multiplier = 0.9
 		self.sgs.fire_mode_data.fire_rate = 0.6
 		self.sgs.single = {}
 		self.sgs.single.fire_rate = 0.6
-	self.sgs.kick = self.stat_info.kick_tables.vertical_kick
+		self.sgs.kick = self.stat_info.kick_tables.vertical_kick
 		self.sgs.can_shoot_through_enemy = true
 		self.sgs.can_shoot_through_shield = true
 		self.sgs.can_shoot_through_wall = true
@@ -8714,9 +8726,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.sgs.stats = {
 			damage = 90,
 			spread = 16,
-			recoil = 12,
+			recoil = 13,
 			zoom = 1,
-			concealment = 18,
+			concealment = 19,
 			suppression = 4,
 			alert_size = 2,
 			extra_ammo = 101,
@@ -8726,6 +8738,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.sgs.armor_piercing_chance = 1
 		self.sgs.stats_modifiers = nil
+		self.sgs.swap_speed_multiplier = 0.75
+		self.sgs.timers.reload_empty = 3.3
+		self.sgs.timers.reload_not_empty = 2.6
 		self.sgs.panic_suppression_chance = 0.05
 	end		
 
@@ -8734,26 +8749,28 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.beck.desc_id = "bm_w_beck_desc"		
 		self.beck.tactical_reload = 1
 		self.beck.rays = 9
+		self.beck.reload_speed_multiplier = 0.75
+		self.beck.swap_speed_multiplier = 0.8
 		self.beck.timers = {
 			shotgun_reload_enter = 0.4,
-			shotgun_reload_exit_empty = 1.3,
-			shotgun_reload_exit_not_empty = 1,
-			shotgun_reload_shell = 0.6666667,
-			shotgun_reload_first_shell_offset = 0.33666667,
+			shotgun_reload_exit_empty = 0.6,
+			shotgun_reload_exit_not_empty = 0.4,
+			shotgun_reload_shell = 0.55,
+			shotgun_reload_first_shell_offset = 0.25,
 			unequip = 0.5,
 			equip = 0.5
 		}
-		self.beck.CLIP_AMMO_MAX = 8 * 1
+		self.beck.CLIP_AMMO_MAX = 8
 		self.beck.muzzleflash = "effects/particles/shotgun/muzzleflash"
-	self.beck.kick = self.stat_info.kick_tables.left_kick
+		self.beck.kick = self.stat_info.kick_tables.left_kick
 		self.beck.single.fire_rate = 0.5
 		self.beck.fire_mode_data.fire_rate = 0.5
 		self.beck.AMMO_MAX = 40 
 		self.beck.supported = true
 		self.beck.stats = {
 			damage = 90,
-			spread = 5,
-			recoil = 11,
+			spread = 7,
+			recoil = 13,
 			zoom = 1,
 			concealment = 18,
 			suppression = 4,
@@ -8774,7 +8791,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.car9.tactical_reload = 1		
 		self.car9.fire_mode_data.fire_rate = 0.06315789473
 		self.car9.auto.fire_rate = 0.06315789473
-	self.car9.kick = self.stat_info.kick_tables.even_recoil
+		self.car9.kick = self.stat_info.kick_tables.even_recoil
 		self.car9.supported = true
 		self.car9.stats = {
 			damage = 20,
@@ -8790,10 +8807,11 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			value = 1,
 			reload = 20
 		}
-		self.car9.timers.reload_not_empty = 2.10
-		self.car9.timers.reload_empty = 2.9 		
+		self.car9.reload_speed_multiplier = 1.25
+		self.car9.timers.reload_not_empty = 2.8
+		self.car9.timers.reload_empty = 3.6 		
 		self.car9.panic_suppression_chance = 0.05
-		self.car9.stats_modifiers = nil		
+		self.car9.stats_modifiers = nil
 	end
 
 	if self.smolak then --Gambyt's AK Draco Pistol
@@ -8807,12 +8825,12 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.smolak.auto.fire_rate = 0.0923076923
 		self.smolak.AMMO_MAX = 80
 		self.smolak.CAN_TOGGLE_FIREMODE = true
-	self.smolak.kick = self.stat_info.kick_tables.vertical_kick		
+		self.smolak.kick = self.stat_info.kick_tables.vertical_kick		
 		self.smolak.supported = true
 		self.smolak.stats = {
 			damage = 45,
-			spread = 18,
-			recoil = 17,
+			spread = 17,
+			recoil = 18,
 			spread_moving = 5,
 			zoom = 1,
 			concealment = 25,
@@ -8825,8 +8843,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.smolak.stats_modifiers = nil
 		self.smolak.panic_suppression_chance = 0.05
-		self.smolak.timers.reload_not_empty = 1.95 
-		self.smolak.timers.reload_empty = 3.7 
+		self.smolak.reload_speed_multiplier = 1.2
+		self.smolak.timers.reload_not_empty = 3.5
+		self.smolak.timers.reload_empty = 4.3
 	end		
 
 	if self.x_car9 then --disabled vmp akimbos
@@ -8855,12 +8874,12 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.cold.single.fire_rate = 0.08571428571
 		self.cold.CLIP_AMMO_MAX = 8
 		self.cold.AMMO_MAX = 40
-	self.cold.kick = self.stat_info.kick_tables.even_recoil
+		self.cold.kick = self.stat_info.kick_tables.even_recoil
 		self.cold.supported = true
 		self.cold.stats = {
 			damage = 45,
 			spread = 19,
-			recoil = 19,
+			recoil = 18,
 			spread_moving = 5,
 			zoom = 1,
 			concealment = 26,
@@ -8890,7 +8909,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.aknato.AMMO_MAX = 150
 		self.aknato.FIRE_MODE = "auto"				
 		self.aknato.CAN_TOGGLE_FIREMODE = true
-	self.aknato.kick = self.stat_info.kick_tables.moderate_kick	
+		self.aknato.kick = self.stat_info.kick_tables.moderate_kick	
 		self.aknato.supported = true
 		self.aknato.stats = {
 			damage = 24,
@@ -9082,11 +9101,15 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 	end
 	
-	if self.bs23 then --Reinbeck Auto
+	if self.bs23 then
 		--Hammer 23
 		self.bs23.tactical_reload = 1
 		self.bs23.AMMO_MAX = 40
 		self.bs23.CLIP_AMMO_MAX = 3
+		self.bs23.reload_speed_multiplier = 1.25
+		self.bs23.fire_rate_multiplier = 1.25
+		self.bs23.fire_mode_data.fire_rate = 1.25
+		self.bs23.single.fire_rate = 1.25
 		self.bs23.fire_mode_data.fire_rate = 1
 		self.bs23.single.fire_rate = 1
 		self.bs23.rays = 9
@@ -9095,7 +9118,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.bs23.supported = true
 		self.bs23.stats = {
 			damage = 90,
-			spread = 10,
+			spread = 11,
 			recoil = 16,
 			spread_moving = 5,
 			zoom = 1,
