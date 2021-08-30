@@ -192,6 +192,7 @@
 		<hook file="sc/player_actions/skills/playeractionexperthandling.lua" source_file="lib/player_actions/skills/playeractionexperthandling"/>
 		<hook file="sc/player_actions/skills/playeractionammoefficiency.lua" source_file="lib/player_actions/skills/playeractionammoefficiency"/>
 		<hook file="sc/player_actions/skills/playeractionunseenstrike.lua" source_file="lib/player_actions/skills/playeractionunseenstrike"/>
+		<hook file="sc/player_actions/skills/playeractionsilentprecision.lua" source_file="lib/player_actions/skills/playeractionunseenstrike"/>
 		<hook file="sc/player_actions/skills/playeractiontagteam.lua" source_file="lib/player_actions/skills/playeractiontagteam"/>
 		<hook file="sc/units/equipment/ecmjammerbase.lua" source_file="lib/units/equipment/ecm_jammer/ecmjammerbase"/>
 		<hook file="sc/units/equipment/sentrygundamage.lua" source_file="lib/units/equipment/sentry_gun/sentrygundamage"/>
@@ -339,7 +340,7 @@
 			<option type="bool" default_value="true" name="Holiday"/>
 			<option type="bool" default_value="true" name="QuietRain"/>
 			<option_group name="INFOHUD">
-				<option type="bool" default_value="false" name="Info_Hud"/>
+				<option type="bool" default_value="true" name="Info_Hud"/>
 				<option type="number" default_value="36" min="24" max="48" step="2" show_value="true" name="Info_Size"/>
 				<option type="number" default_value="8" min="1" max="8" step="1" show_value="true" name="Info_Count"/>
 				<option type="bool" default_value="true" name="Info_ammo_efficiency"/>
@@ -361,8 +362,10 @@
 				<option type="bool" default_value="true" name="Info_first_aid_damage_reduction"/> <!-- Quick Fix -->
 				<option type="bool" default_value="true" name="Info_rogue"/>
 				<option type="bool" default_value="true" name="Info_increased_movement_speed"/> <!-- Running From Death -->
+				<option type="bool" default_value="true" name="Info_damage_speed_multiplier"/> <!-- Second Wind -->
 				<option type="bool" default_value="true" name="Info_headshot_accuracy_addend"/> <!-- Sharpshooter -->
 				<option type="bool" default_value="true" name="Info_shotgun_last_shot_stagger"/> <!-- Shell Shocked -->
+				<option type="bool" default_value="true" name="Info_silent_precision"/>
 				<option type="bool" default_value="true" name="Info_trigger_happy"/>
 				<option type="bool" default_value="true" name="Info_unseen_strike"/>
 			</option_group>

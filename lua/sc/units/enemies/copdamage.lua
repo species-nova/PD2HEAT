@@ -3488,11 +3488,10 @@ function CopDamage:roll_critical_hit(attack_data)
 		return false, damage
 	end
 
-	local critical_hits = self._char_tweak.critical_hits or {}
+	local critical_damage_mul = 2
 	local critical_hit = false
-	local critical_value = critical_hits.base_chance or 0
-	local critical_hit_chance_multiplier = critical_hits.player_chance_multiplier or 1
-	critical_value = critical_value + managers.player:critical_hit_chance() * critical_hit_chance_multiplier
+	local critical_value = 0
+	critical_value = critical_value + managers.player:critical_hit_chance()
 
 	if attack_data.backstab then
 		critical_value = critical_value + managers.player:upgrade_value("player", "backstab_crits", 0)
@@ -3503,14 +3502,14 @@ function CopDamage:roll_critical_hit(attack_data)
 		critical_hit = critical_roll < critical_value
 	end
 
-	if critical_hit then
-		local critical_damage_mul = critical_hits.damage_mul or self._char_tweak.headshot_dmg_mul
-
-		if critical_damage_mul then
-			damage = damage * critical_damage_mul
-		else
-			damage = self._health * 10
-		end
+	local hyper_crit = managers.player:can_hyper_crit()
+	if critical_hit and hyper_crit then
+		damage = damage * critical_damage_mul * critical_damage_mul
+	elseif critical_hit then
+		damage = damage * critical_damage_mul
+	elseif hyper_crit then
+		critical_hit = true
+		damage = damage * critical_damage_mul
 	end
 
 	return critical_hit, damage

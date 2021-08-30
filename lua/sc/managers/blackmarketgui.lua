@@ -370,12 +370,12 @@ function BlackMarketGui:_get_armor_stats(name)
 			base_stats[stat.name] = {value = managers.player:body_armor_value("concealment", upgrade_level)}
 			skill_stats[stat.name] = {value = managers.blackmarket:concealment_modifier("armors", upgrade_level)}
 		elseif stat.name == "movement" then
-			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX / 100 * tweak_data.gui.stats_present_multiplier
+			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX * 0.1
 			local movement_penalty = managers.player:body_armor_value("movement", upgrade_level)
-			local base_value = movement_penalty * base
+			local base_value = math.round(movement_penalty * base)
 			base_stats[stat.name] = {value = base_value}
 			local skill_mod = managers.player:movement_speed_multiplier(false, false, upgrade_level, 1)
-			local skill_value = skill_mod * base - base_value
+			local skill_value = math.round(skill_mod * base - base_value)
 			skill_stats[stat.name] = {
 				value = skill_value,
 				skill_in_effect = skill_value > 0

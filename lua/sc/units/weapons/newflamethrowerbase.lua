@@ -71,6 +71,7 @@ function NewFlamethrowerBase:get_damage_falloff(damage, col_ray, user_unit)
 	local distance = col_ray.distance or mvector3.distance(col_ray.unit:position(), user_unit:position())
 	local current_state = user_unit:movement()._current_state
 	local base_falloff = falloff_info.base
+	local pm = managers.player
 
 	if current_state then
 		--Get bonus from accuracy.
@@ -88,7 +89,7 @@ function NewFlamethrowerBase:get_damage_falloff(damage, col_ray, user_unit)
 		--Get ADS multiplier.
 		if current_state:in_steelsight() then
 			for _, category in ipairs(self:categories()) do
-				base_falloff = base_falloff * managers.player:upgrade_value(category, "steelsight_range_inc", 1)
+				base_falloff = base_falloff * pm:upgrade_value(category, "steelsight_range_inc", 1)
 			end
 		end
 
@@ -98,7 +99,8 @@ function NewFlamethrowerBase:get_damage_falloff(damage, col_ray, user_unit)
 	end
 
 	--Apply global range multipliers.
-	base_falloff = base_falloff * (1 + 1 - managers.player:get_property("desperado", 1))
+	base_falloff = base_falloff * (1 + 1 - pm:get_property("desperado", 1))
+	base_falloff = base_falloff * (1 + 1 - pm:temporary_upgrade_value("temporary", "silent_precision", 1))
 
 	base_falloff = base_falloff * (self:weapon_tweak_data().range_mul or 1)
 	for _, category in ipairs(self:categories()) do

@@ -141,6 +141,8 @@ function NewRaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 		end
 	end
 
+	mul = mul * pm:temporary_upgrade_value("temporary", "silent_precision", 1)
+
 	return mul
 end
 
@@ -182,7 +184,7 @@ function NewRaycastWeaponBase:_get_spread(user_unit)
 	--Convert spread area to degrees.
 	local spread_x = math.sqrt((spread_area)/math.pi)
 	local spread_y = spread_x
-
+	
 	return spread_x, spread_y
 end
 
@@ -659,6 +661,7 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 	local distance = col_ray.distance or mvector3.distance(col_ray.unit:position(), user_unit:position())
 	local current_state = user_unit:movement()._current_state
 	local base_falloff = falloff_info.base
+	local pm = managers.player
 
 	if current_state then
 		--Get bonus from accuracy.
@@ -676,7 +679,7 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 		--Get ADS multiplier.
 		if current_state:in_steelsight() then
 			for _, category in ipairs(self:categories()) do
-				base_falloff = base_falloff * managers.player:upgrade_value(category, "steelsight_range_inc", 1)
+				base_falloff = base_falloff * pm:upgrade_value(category, "steelsight_range_inc", 1)
 			end
 		end
 
@@ -686,7 +689,8 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 	end
 
 	--Apply global range multipliers.
-	base_falloff = base_falloff * (1 + 1 - managers.player:get_property("desperado", 1))
+	base_falloff = base_falloff * (1 + 1 - pm:get_property("desperado", 1))
+	base_falloff = base_falloff * (1 + 1 - pm:temporary_upgrade_value("temporary", "silent_precision", 1))
 
 	base_falloff = base_falloff * (self:weapon_tweak_data().range_mul or 1)
 	for _, category in ipairs(self:categories()) do

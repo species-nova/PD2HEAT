@@ -45,8 +45,6 @@ function SkillTreeTweakData:init(tweak_data)
 		"trip_mine_sensor_highlight",
 		"trip_mine_can_switch_on_off",
 		"player_silent_kill",
-		"player_can_free_run",
-		"player_run_speed_multiplier",
 		"jowi",
 		"x_1911",
 		"x_b92fs",
@@ -1538,8 +1536,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					skill_cost = 3,
 					upgrades = {
-						"player_run_dodge_chance",
-						"player_on_zipline_dodge_chance"
+						"player_crouch_dodge_chance_1",
+						"player_crouch_speed_multiplier_2"
 					},
 					cost = self.costs.pro
 				}
@@ -1553,7 +1551,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"player_movement_speed_multiplier_1"
+						"player_can_free_run",
+						"player_fall_damage_multiplier"
 					},
 					cost = self.costs.default
 				},
@@ -1566,25 +1565,22 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Deep Pockets--
+			--Second Wind--
 			self.skills.thick_skin = {
 				["name_id"] = "menu_thick_skin_beta_sc",
 				["desc_id"] = "menu_thick_skin_beta_desc_sc",
-				["icon_xy"] = {10, 7},
+				["icon_xy"] = {10, 9},
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"player_melee_concealment_modifier"
+						"temporary_damage_speed_multiplier_1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"player_level_2_armor_addend",
-						"player_level_3_armor_addend",
-						"player_level_4_armor_addend",
-						"player_ballistic_vest_concealment_1"
+						"temporary_armor_break_stagger"
 					},
 					cost = self.costs.pro
 				}	
@@ -1606,7 +1602,8 @@ function SkillTreeTweakData:init(tweak_data)
 					skill_cost = 6,
 					upgrades = {
                    		"player_detection_risk_add_movement_speed_2",
-                   		"player_backstab_dodge"
+						"player_run_dodge_chance",
+						"player_on_zipline_dodge_chance"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1661,23 +1658,22 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   SILENT KILLER SUBTREE   ]]--
 			--{
 
-			--Second Wind--
+			--Dexterous Hands--
 			self.skills.scavenger = {
 				["name_id"] = "menu_scavenger_beta_sc",
 				["desc_id"] = "menu_scavenger_beta_desc_sc",
-				["icon_xy"] = {10, 9},
+				["icon_xy"] = {10, 7},
 				[1] = {
 					skill_cost = 1,
 					upgrades = {
-						"temporary_damage_speed_multiplier_1"
+						"player_melee_concealment_modifier"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					skill_cost = 3,
 					upgrades = {
-						"player_armor_depleted_stagger_shot_1",
-						"player_armor_depleted_stagger_shot_2"
+						"player_dodge_melee"
 					},
 					cost = self.costs.pro
 				}
@@ -1691,21 +1687,20 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"player_silencer_concealment_increase_1"
+						"player_silencer_swap_increase"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"player_silencer_concealment_increase_2",
-						"player_silencer_swap_increase"
+						"player_silencer_concealment_increase_1"
 					},
 					cost = self.costs.hightierpro
 				}
 			}
 
-			--The Professional--
+			--Silent Precision--
 			self.skills.silence_expert = {
 				["name_id"] = "menu_silence_expert_beta_sc",
 				["desc_id"] = "menu_silence_expert_beta_desc_sc",
@@ -1713,23 +1708,46 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					skill_cost = 2,
 					upgrades = {
-						"weapon_silencer_spread_index_addend"
+						"player_silent_increased_accuracy_1",
+						"player_silent_temp_increased_accuracy_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					skill_cost = 4,
 					upgrades = {
-						"player_special_double_drop"
+						"player_silent_increased_accuracy_2",
+						"player_silent_temp_increased_accuracy_2"
 					},
 					cost = self.costs.hightierpro
 				}
 			}
 
-			--Unseen Strike, formally Dire Need--
+			--Backstab--
 			self.skills.backstab = {
 				["name_id"] = "menu_backstab_beta_sc",
 				["desc_id"] = "menu_backstab_beta_desc_sc",
+				["icon_xy"] = {8, 2},
+				[1] = {
+					skill_cost = 3,
+					upgrades = {
+						"player_backstab_crits"
+					},
+					cost = self.costs.hightier
+				},
+				[2] = {
+					skill_cost = 6,
+					upgrades = {
+                   		"player_backstab_dodge"			
+					},
+					cost = self.costs.hightierpro
+				}
+			}
+
+			--Unseen Strike--
+			self.skills.hitman = {
+				["name_id"] = "menu_hitman_beta_sc",
+				["desc_id"] = "menu_hitman_beta_desc_sc",
 				["icon_xy"] = {10, 11},
 				[1] = {
 					skill_cost = 3,
@@ -1744,27 +1762,6 @@ function SkillTreeTweakData:init(tweak_data)
 					upgrades = {
 						"player_unseen_increased_crit_chance_2",
 						"player_unseen_temp_increased_crit_chance_2"
-					},
-					cost = self.costs.hightierpro
-				}
-			}
-
-			--Spotter--
-			self.skills.hitman = {
-				["name_id"] = "menu_hitman_beta_sc",
-				["desc_id"] = "menu_hitman_beta_desc_sc",
-				["icon_xy"] = {8, 2},
-				[1] = {
-					skill_cost = 3,
-					upgrades = {
-						"player_marked_enemy_extra_damage"
-					},
-					cost = self.costs.hightier
-				},
-				[2] = {
-					skill_cost = 6,
-					upgrades = {
-						"player_marked_inc_dmg_distance_1"			
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1786,7 +1783,7 @@ function SkillTreeTweakData:init(tweak_data)
 					skill_cost = 8,
 					upgrades = {
 						"player_detection_risk_add_crit_chance_2",
-						"player_backstab_crits"
+						"player_hyper_crit"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -2968,8 +2965,7 @@ function SkillTreeTweakData:init(tweak_data)
 			dlc = "character_pack_clover",
 			{
 				upgrades = {
-					"player_passive_dodge_chance_1",
-					"player_crouch_dodge_chance_1"
+					"player_passive_dodge_chance_1"
 				},
 				cost = 200,
 				icon_xy = {1, 2},
@@ -2990,8 +2986,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck4,
 			{
 				upgrades = {
-					"player_pick_lock_speed_multiplier",
-					"player_crouch_dodge_chance_2"
+					"player_pick_lock_speed_multiplier"
 				},
 				cost = 1000,
 				icon_xy = {7, 3},
@@ -3013,7 +3008,6 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_perk_armor_regen_timer_multiplier_1",
-					"player_crouch_speed_multiplier_2",
 					"player_passive_loot_drop_multiplier"
 				},
 				cost = 4000,

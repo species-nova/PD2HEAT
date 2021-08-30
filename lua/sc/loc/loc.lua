@@ -115,10 +115,14 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		["RestorationModInfo_rogueDescID"] = "Enables or disables tracking of this specific perk deck ability.",
 		["RestorationModInfo_increased_movement_speedTitleID"] = "Running From Death",
 		["RestorationModInfo_increased_movement_speedDescID"] = "Enables or disables tracking of this specific skill.",
+		["RestorationModInfo_damage_speed_multiplierTitleID"] = "Second Wind",
+		["RestorationModInfo_damage_speed_multiplierDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_headshot_accuracy_addendTitleID"] = "Sharpshooter",
 		["RestorationModInfo_headshot_accuracy_addendDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_shotgun_last_shot_staggerTitleID"] = "Shell Shocked",
 		["RestorationModInfo_shotgun_last_shot_staggerDescID"] = "Enables or disables tracking of this specific skill.",
+		["RestorationModInfo_silent_precisionTitleID"] = "Silent Precision",
+		["RestorationModInfo_silent_precisionDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_trigger_happyTitleID"] = "Trigger Happy",
 		["RestorationModInfo_trigger_happyDescID"] = "Enables or disables tracking of this specific skill.",
 		["RestorationModInfo_unseen_strikeTitleID"] = "Unseen Strike",
@@ -1890,9 +1894,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   SILENT KILLER SUBTREE   ]]--
 			--{
 
-			--Second Wind--
-			["menu_scavenger_beta_sc"] = "Second Wind",
-			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed for ##3## seconds.\n\nACE: ##$pro##\nWhen your armor is fully depleted, the first shot on every enemy will cause them to stagger.\n\nThis effect persists for ##3## seconds after your armor has regenerated.",
+			--Dexterous Hands--
+			["menu_scavenger_beta_sc"] = "Dexterous Hands",
+			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the concealment of melee weapons by ##2.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
 
 
 
@@ -1935,15 +1939,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 	--}
 
 		--Deep Pockets--
-		["menu_thick_skin_beta_sc"] = "Deep Pockets",
-		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the concealment of melee weapons by ##2.##\n\nACE: ##$pro##\nIncreases the armor of all ballistic vests by ##20.##\n\nIncreases the concealment of all ballistic vests by ##4.##",
+		["menu_thick_skin_beta_sc"] = "Second Wind",
+		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##15%## speed for ##3## seconds.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##8## meters of you are staggered. This effect can only occur once every ##3## seconds.",
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",
-		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##10%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##30%## of your dodge every second while on a zipline.",
+		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##6%## of your dodge every second while crouching.\n\nYou gain a ##10%## boost in your movement speed when crouching.",
 
 		--Sneaky Bastard--
-		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of concealment under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every ##1## point of concealment under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##6%## of your maximum health. This can only occur once every time your armor breaks.",
+		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of concealment under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every ##1## point of concealment under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##15## health. This can only occur once every time your armor breaks.",
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
@@ -1995,31 +1999,31 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Evasion--
 		["menu_awareness_beta_sc"] = "Evasion",
-		["menu_awareness_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##5%## additional movement speed.\n\nYour fall damage is reduced by ##75%##.\n\nACE: ##$pro##\nRun and reload - you can reload your weapons while sprinting.",
+		["menu_awareness_beta_desc_sc"] = "BASIC: ##$basic##\nYou can sprint at full speed in any direction.\n\nYour fall damage is reduced by ##75%##.\n\nACE: ##$pro##\nRun and reload - you can reload your weapons while sprinting.",
 
 		--Moving Target--
 		["menu_dire_need_beta_sc"] = "Moving Target",
-		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1.5%## extra movement speed for every ##3## points of concealment under ##35##, up to ##15%.##\n\nACE: ##$pro##\nYou gain ##1.5%## extra movement speed for every ##1## point of concealment under ##35##, up to ##15%.##\n\nKilling an enemy from behind with guns or melee fills your dodge meter by ##75%## of your dodge.",
+		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1.5%## extra movement speed for every ##3## points of concealment under ##35##, up to ##15%.##\n\nACE: ##$pro##\nYou gain ##1.5%## extra movement speed for every ##1## point of concealment under ##35##, up to ##15%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
 
 		--Optical Illusions--
 		["menu_optic_illusions_sc"] = "Optical Illusions",
-		["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nSilenced weapons gain ##1## concealment.\n\nACE: ##$pro##\nSilenced weapons gain an additional ##1## concealment.\n\nYou draw and holster silenced weapons ##30%## faster.",
+		["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster silenced weapons ##25%## faster.\n\nACE: ##$pro##\nSilenced weapons gain ##2## concealment.",
 
-		--The Professional--
-		["menu_silence_expert_beta_sc"] = "The Professional",
-		["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##5## accuracy with silenced weapons.\n\nACE: ##$pro##\nSpecial enemies killed with silenced weapons drop an extra ammo box.",
+		--Silent Precision--
+		["menu_silence_expert_beta_sc"] = "Silent Precision",
+		["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##20%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
 
 		--Unseen Strike--
-		["menu_backstab_beta_sc"] = "Unseen Strike",
-		["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain a ##15%## critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
+		["menu_hitman_beta_sc"] = "Unseen Strike",
+		["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##20%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
 
-		--Spotter--
-		["menu_hitman_beta_sc"] = "Spotter",
-		["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nEnemies you mark take ##15%## more damage.\n\nACE: ##$pro##\nEnemies you mark take an additional ##30%## damage when further than ##20## meters.",
+		--Backstab--
+		["menu_backstab_beta_sc"] = "Backstab",
+		["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by an additional ##50%## when attacking enemies from behind with guns or melee.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
 
 		--Low Blow--
 		["menu_unseen_strike_beta_sc"] = "Low Blow",
-		["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of concealment under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every ##1## point of concealment under ##35## up to a maximum of ##30%.##\n\nYour critical hit chance is increased by an additional ##50%## when attacking enemies from behind with guns or melee.",
+		["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of concealment under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every ##1## point of concealment under ##35## up to a maximum of ##30%.##\n\nWhile your armor is broken, your attacks gain a ##100%## critical hit chance; which can stack with your existing critical hit chance. This can only occur once every time your armor breaks.",
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Equilibrium",
@@ -2139,11 +2143,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck3_9_desc_sc"] = "Your armor recovery rate is increased by an additional ##10%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Burglar--
-		["menu_deck7_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nYour dodge meter fills up by ##5%## of your dodge every second while crouching.",
+		["menu_deck7_1_desc_sc"] = "Your dodge is increased by ##5## points.",
 		["menu_deck7_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.\n\nYou bag corpses ##20%## faster.",
-		["menu_deck7_5_desc_sc"] = "You pick locks ##20%## faster.\n\nYour dodge meter fills up by an additional ##5%## of your dodge every second while crouching.",
+		["menu_deck7_5_desc_sc"] = "You pick locks ##20%## faster.",
 		["menu_deck7_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.\n\nYou answer pagers ##10%## faster.",
-		["menu_deck7_9_desc_sc"] = "Your armor recovery rate is increased by ##10%##.\n\nYou gain a ##10%## boost in your movement speed when crouching.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
+		["menu_deck7_9_desc_sc"] = "Your armor recovery rate is increased by ##10%##.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		--Gambler--
 		["menu_deck10_1_desc_sc"] = "Ammo supplies you pick up also yield medical supplies that heal you for ##4## to ##8## health.\n\nCannot occur more than once every ##10## seconds, but every ammo box you pick up reduces this by ##3## to ##5## seconds.",

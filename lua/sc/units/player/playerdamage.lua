@@ -78,6 +78,9 @@ function PlayerDamage:init(unit)
 	self._dodge_meter_prev = 0.0 --dodge in meter from previous frame.
 	self._in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
 	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
+	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
+	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
+	self._can_armor_break_stagger = player_manager:has_inactivate_temporary_upgrade("temporary", "armor_break_stagger")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
 	if self._can_survive_one_hit then
 		managers.hud:add_skill("survive_one_hit")
@@ -399,13 +402,13 @@ function PlayerDamage:damage_bullet(attack_data)
 		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
 		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
 			self._unit:sound():play("pickup_fak_skill") --PLEASE PLEASE PLEASE REPLACE WITH BETTER SOUND IN THE FUTURE!!!
-			if attack_data.damage > 0 then
-				self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
-				self:_send_damage_drama(attack_data, 0)
-			end
+			self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
+			self:_send_damage_drama(attack_data, 0)
 			self:_call_listeners(damage_info)
 			self:play_whizby(attack_data.col_ray.position)
 			self:_hit_direction(attacker_unit:position())
+			local t = Application:time()
+			self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
 			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
 			if not self:is_friendly_fire(attacker_unit, true) then
 				managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
@@ -460,25 +463,58 @@ function PlayerDamage:damage_melee(attack_data)
 		result = {type = "hurt", variant = "melee"},
 		attacker_unit = attacker_unit
 	}
-	
+
+	local vars = {
+		"melee_hit",
+		"melee_hit_var2"
+	}
+
 	--Imagine trying to punch a guy inside of a moving car...
 	if not self:can_take_damage(attack_data, damage_info) and not self._unit:movement():current_state().driving then
 		return
 	end
 
-	if self._unit:movement():current_state().in_melee and self._unit:movement():current_state():in_melee() and not tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()].chainsaw then
+	local pm = managers.player
+	local dodged = false
+	if self._dodge_melee and attack_data.damage > 0 then
+		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
+		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
+			self._unit:sound():play("pickup_fak_skill") --PLEASE PLEASE PLEASE REPLACE WITH BETTER SOUND IN THE FUTURE!!!
+			if attack_data.damage > 0 then
+				self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
+				self:_send_damage_drama(attack_data, 0)
+			end
+			self:_call_listeners(damage_info)
+			self:_hit_direction(attacker_unit:position())
+			self._unit:camera():play_shaker(vars[math.random(#vars)], math.max(1 * self._melee_push_multiplier, 0.2))
+			local t = Application:time()
+			self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
+			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
+			if not self:is_friendly_fire(attacker_unit, true) then
+				managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
+			end
+			dodged = true
+		end
+	end
+
+	local parried = self._unit:movement():current_state().in_melee and self._unit:movement():current_state():in_melee() and not tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()].chainsaw
+	if parried or dodged then
 		--prevent the player from countering Dozers or other players through FF, for obvious reasons
 		if alive(attacker_unit) and attacker_unit:base() and not attacker_unit:base().is_husk_player then
 			local is_dozer = attacker_unit:base().has_tag and attacker_unit:base():has_tag("tank")
 
 			if not is_dozer then
-				self._unit:movement():current_state():discharge_melee()
+				if parried then
+					self._unit:movement():current_state():discharge_melee()
+				end
 
 				return "countered"
+			elseif dodged then --Dodged an uncounterable attack.
+				return
 			end
 		end
 	end
-	
+
 	--Unit specific player state changing shenanigans.
 	local pm = managers.player
 	local player_unit = managers.player:player_unit()
@@ -528,10 +564,6 @@ function PlayerDamage:damage_melee(attack_data)
 	end
 
 	--Apply changes to melee push camera effect, cap effects of it so even players with insane armor can tell they were meleed.
-	local vars = {
-		"melee_hit",
-		"melee_hit_var2"
-	}
 	self._unit:camera():play_shaker(vars[math.random(#vars)], math.max(1 * self._melee_push_multiplier, 0.2))
 
 	--Knock players out of bipods, and tase them if needed.
@@ -1305,11 +1337,17 @@ end)
 
 --Starts biker regen when there is missing armor. Also notifies ex-pres when armor has broken to get around dumb interaction with bullseye (but only if it was broken by non-friendly fire).
 Hooks:PostHook(PlayerDamage, "_calc_armor_damage", "ResBikerCooldown", function(self, attack_data)
-	if self._biker_armor_regen_t == 0.0 and managers.player:has_category_upgrade("player", "biker_armor_regen") then
-		self._biker_armor_regen_t = managers.player:upgrade_value("player", "biker_armor_regen")[2]
+	local pm = managers.player
+	if self._biker_armor_regen_t == 0.0 and pm:has_category_upgrade("player", "biker_armor_regen") then
+		self._biker_armor_regen_t = pm:upgrade_value("player", "biker_armor_regen")[2]
 	end
 
 	if self:get_real_armor() == 0 and not self._ally_attack then
+		if self._can_armor_break_stagger then
+			pm:activate_temporary_upgrade("temporary", "armor_break_stagger")
+			self._unit:movement():stagger_in_aoe(pm:temporary_upgrade_value("temporary", "armor_break_stagger"))
+		end
+
 		self._armor_broken = true
 	end
 end)
@@ -1318,6 +1356,16 @@ end)
 function PlayerDamage:can_dodge_heal()
 	if self._can_dodge_heal then
 		self._can_dodge_heal = nil
+		return true
+	end
+
+	return nil
+end
+
+--Whether or not the player can proc Low Blow.
+function PlayerDamage:can_hyper_crit()
+	if self._can_hyper_crit then
+		self._can_hyper_crit = nil
 		return true
 	end
 
@@ -1532,6 +1580,7 @@ function PlayerDamage:set_armor(armor)
 
 		if current_armor ~= 0 and armor == 0 then
 			self._can_dodge_heal = true
+			self._can_hyper_crit = true
 		end
 
 		if armor == self:_max_armor() then

@@ -157,7 +157,7 @@ end
 
 --Staggers all enemies in an AOE around the player.
 --Used by the Shell Shocked skill.
-function PlayerMovement:_stagger_in_aoe(stagger_dis)
+function PlayerMovement:stagger_in_aoe(stagger_dis)
 	if stagger_dis <= 0 then
 		return
 	end

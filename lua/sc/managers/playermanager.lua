@@ -85,7 +85,6 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	end
 
 	multiplier = multiplier + self:get_hostage_bonus_multiplier("speed") - 1 --Partners in Crime
-	multiplier = multiplier + self:upgrade_value("player", "movement_speed_multiplier", 1) - 1 --Generic passive movement speed multiplier.
 
 	--Kingpin movespeed bonus.
 	if self:has_activate_temporary_upgrade("temporary", "chico_injector") then
@@ -229,6 +228,62 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 
 		player_unit:movement():add_stamina(stamina_regen)
 	end
+end
+
+function PlayerManager:update(t, dt)
+	self._message_system:update()
+	self:_update_timers(t)
+
+	if self._need_to_send_player_status then
+		self._need_to_send_player_status = nil
+
+		self:need_send_player_status()
+	end
+
+	self._sent_player_status_this_frame = nil
+	local local_player = self:local_player()
+
+	if self:has_category_upgrade("player", "close_to_hostage_boost") and (not self._hostage_close_to_local_t or self._hostage_close_to_local_t <= t) then
+		self._is_local_close_to_hostage = alive(local_player) and managers.groupai and managers.groupai:state():is_a_hostage_within(local_player:movement():m_pos(), tweak_data.upgrades.hostage_near_player_radius)
+		self._hostage_close_to_local_t = t + tweak_data.upgrades.hostage_near_player_check_t
+	end
+
+	self:_update_damage_dealt(t, dt)
+
+	if #self._global.synced_cocaine_stacks >= 4 then
+		local amount = 0
+
+		for i, stack in pairs(self._global.synced_cocaine_stacks) do
+			if stack.in_use then
+				amount = amount + stack.amount
+			end
+
+			if PlayerManager.TARGET_COCAINE_AMOUNT <= amount then
+				managers.achievment:award("mad_5")
+			end
+		end
+	end
+
+	self._coroutine_mgr:update(t, dt)
+	self._action_mgr:update(t, dt)
+
+	if self._unseen_strike and not self._coroutine_mgr:is_running(PlayerAction.UnseenStrike) then
+		local data = self:upgrade_value("player", "unseen_increased_crit_chance", 0)
+
+		if data ~= 0 then
+			self._coroutine_mgr:add_coroutine(PlayerAction.UnseenStrike, PlayerAction.UnseenStrike, self, data.min_time)
+		end
+	end
+
+	if self._silent_precision and not self._coroutine_mgr:is_running(PlayerAction.SilentPrecision) then
+		local data = self:upgrade_value("player", "silent_increased_accuracy", 0)
+
+		if data ~= 0 then
+			self._coroutine_mgr:add_coroutine(PlayerAction.SilentPrecision, PlayerAction.SilentPrecision, self, data.min_time)
+		end
+	end
+
+	self:update_smoke_screens(t, dt)
 end
 
 function PlayerManager:_check_damage_to_hot(t, unit, damage_info)
@@ -435,6 +490,7 @@ function PlayerManager:check_skills()
 
 	self._saw_panic_when_kill = self:has_category_upgrade("saw", "panic_when_kill")
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
+	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
 
 	--Make Trigger Happy and Desperado stack off of headshots.
 	if self:has_category_upgrade("pistol", "stacked_accuracy_bonus") then
@@ -909,7 +965,7 @@ end
 function PlayerManager:_dodge_healing_no_armor()
 	local damage_ext = self:player_unit():character_damage()
 	if not (damage_ext:get_real_armor() > 0) and damage_ext:can_dodge_heal() then
-		damage_ext:restore_health(self:upgrade_value("player", "dodge_heal_no_armor"), false)
+		damage_ext:restore_health(self:upgrade_value("player", "dodge_heal_no_armor"), true)
 	end
 end
 
@@ -923,6 +979,15 @@ function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 		self:activate_temporary_upgrade("temporary", "headshot_accuracy_addend")
 		self:activate_temporary_upgrade("temporary", "headshot_fire_rate_mult")
 	end
+end
+
+function PlayerManager:can_hyper_crit()
+	local damage_ext = self:player_unit():character_damage()
+	if not (damage_ext:get_real_armor() > 0) and damage_ext:can_hyper_crit() then
+		return true
+	end
+
+	return false
 end
 
 function PlayerManager:_on_activate_aggressive_reload_event(attack_data)

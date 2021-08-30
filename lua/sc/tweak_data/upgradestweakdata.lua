@@ -308,9 +308,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Add 20 to the values in this table to get in game amounts.
 	self.values.player.body_armor.armor = {
 		0, --Suit
-		2, --LBV
-		4, --BV
-		6, --HBV
+		4, --LBV
+		6, --BV
+		8, --HBV
 		11, --Flak
 		13, --CTV
 		18 --ICTV
@@ -336,9 +336,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	self.values.player.body_armor.concealment = {
 		31,
+		30,
+		28,
 		26,
-		24,
-		22,
 		16,
 		6,
 		0
@@ -379,6 +379,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.20,
 		0.15,
 		0.10
+	}
+	self.values.player.body_armor.movement = {
+		350/350,
+		340/350,
+		330/350,
+		320/350,
+		300/350,
+		290/350,
+		280/350
 	}
 
 	self.values.rep_upgrades.values = {0}
@@ -988,29 +997,22 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.player.stamina_regen_timer_multiplier = {0.75}
 					self.values.player.stamina_regen_multiplier = {1.25}
 				--Ace
-					self.values.player.run_dodge_chance = {0.10}
-					self.values.player.zipline_dodge_chance = {0.3}
+					self.values.player.crouch_dodge_chance = {0.06, 0.06}
 
 			--Evasion
-				self.values.player.movement_speed_multiplier = {
-					1.05, --Basic
-					1.1 --Unused
-				}
 				--Basic
+					--Strafe sprinting.
 					self.values.player.fall_damage_multiplier = {0.25}
 				
 				--Ace
 					--Run and Reload
 				
-			--Deep Pockets
+			--Second Wind
 				--Basic
-					self.values.player.melee_concealment_modifier = {2}
+					self.values.temporary.damage_speed_multiplier = {{1.15, 3}}
+
 				--Ace
-					self.values.player.ballistic_vest_concealment = {4}
-					self.values.player.level_1_armor_addend = {2}
-					self.values.player.level_2_armor_addend = {2}
-					self.values.player.level_3_armor_addend = {2}
-					self.values.player.level_4_armor_addend = {2}
+					self.values.temporary.armor_break_stagger = {{800, 3}}
 
 			--Moving Target
 				self.values.player.detection_risk_add_movement_speed = {
@@ -1030,7 +1032,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 				}
 				--Ace
-					self.values.player.backstab_dodge = {0.75}
+					self.values.player.run_dodge_chance = {0.15}
+					self.values.player.zipline_dodge_chance = {0.6}
 
 			--Bullseye
 				self.values.player.headshot_regen_armor_bonus = {
@@ -1043,22 +1046,20 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Sneaky Bastard
 				--Concealment stuff same as vanilla.
 				--Ace
-					self.values.player.dodge_heal_no_armor = {0.06}
+					self.values.player.dodge_heal_no_armor = {0.15}
 			
 		--Silent Killer--
-			--Second Wind--
+			--Dexterous Hands--
 				--Basic
-					self.values.temporary.damage_speed_multiplier = {{1.10, 3}}
+					self.values.player.melee_concealment_modifier = {2}
 				--Ace
-					self.values.player.armor_depleted_stagger_shot = {0, 3}
+					self.values.player.dodge_melee = {true}
 
 			--Optical Illusions
-					self.values.player.silencer_concealment_increase = {
-						1, --Basic
-						2 --Ace
-					}
+					--Basic
+						self.values.player.silencer_swap_increase = {1.3}
 					--Ace
-					self.values.player.silencer_swap_increase = {1.3}
+						self.values.player.silencer_concealment_increase = {2}
 
 			--The Professional
 				--Basic
@@ -1067,30 +1068,52 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.weapon.silencer_recoil_index_addend = {1}
 					self.values.player.special_double_drop = {true}
 
-			--Unseen Strike
-				self.values.temporary.unseen_strike = {
+			--Silent Precision
+				self.values.temporary.silent_precision = {
 					{ --Basic
-						1.15,
+						0.8,
 						0.01 --Workaround for Buff Tracker sanity checks.
 					},
 					{ --Ace
-						1.15,
+						0.8,
+						4
+					}
+				}
+				self.values.player.silent_increased_accuracy = {
+					{ --Basic
+						min_time = 3 --Delay before bonus is re-applied after taking damage.
+					},
+					{ --Ace
+						min_time = 3
+					}
+				}		
+
+			--Unseen Strike
+				self.values.temporary.unseen_strike = {
+					{ --Basic
+						1.2,
+						0.01 --Workaround for Buff Tracker sanity checks.
+					},
+					{ --Ace
+						1.2,
 						4
 					}
 				}
 				self.values.player.unseen_increased_crit_chance = {
 					{ --Basic
-						min_time = 3,
-						max_duration = 0, --Unused field, holdover from vanilla.
-						crit_chance = 1.15
+						min_time = 3
 					},
 					{ --Ace
-						min_time = 3,
-						max_duration = 5,
-						crit_chance = 1.15
+						min_time = 3
 					}
 				}				
 				
+			--Backstab
+				--Basic
+					self.values.player.backstab_crits = {0.5}
+				--Ace
+					self.values.player.backstab_dodge = {1}
+
 			--Spotter
 				--Basic
 					self.values.player.marked_enemy_extra_damage = {true}
@@ -1116,7 +1139,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 				}
 				--Ace
-					self.values.player.backstab_crits = {0.50}
+					self.values.player.hyper_crit = {true}
 		
 	--FUGITIVE--
 		--Gunslinger
@@ -1268,9 +1291,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.melee_damage_multiplier = {1.25, 1.5, 1.75, 2}
 	self.values.player.non_special_melee_multiplier = {1.25, 1.5, 1.75, 2}
 	self.values.player.pick_up_ammo_multiplier = {1.25}
-
-	--Burglar
-	self.values.player.crouch_dodge_chance = {0.05, 0.10}
 
 	self.values.player.perk_armor_regen_timer_multiplier = {
 		0.9,
@@ -2262,20 +2282,11 @@ function UpgradesTweakData:_player_definitions()
 			value = 2
 		}
 	}
-	self.definitions.player_silencer_concealment_increase_1 = {
-		name_id = "menu_player_silencer_concealment_increase_1",
+	self.definitions.player_silencer_concealment_increase = {
+		name_id = "menu_player_silencer_concealment_increase",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "silencer_concealment_increase",
-			category = "player"
-		}
-	}
-	self.definitions.player_silencer_concealment_increase_2 = {
-		name_id = "menu_player_silencer_concealment_increase_2",
-		category = "feature",
-		upgrade = {
-			value = 2,
 			upgrade = "silencer_concealment_increase",
 			category = "player"
 		}
@@ -3228,6 +3239,24 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_dodge_melee = {
+		name_id = "menu_player_dodge_melee",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "dodge_melee",
+			category = "player"
+		}
+	}
+	self.definitions.temporary_armor_break_stagger = {
+		category = "temporary",
+		name_id = "menu_temporary_armor_break_stagger",
+		upgrade = {
+			category = "temporary",
+			upgrade = "armor_break_stagger",
+			value = 1
+		}
+	}
 	self.definitions.player_dodge_heal_no_armor = {
 		name_id = "menu_player_dodge_heal_no_armor",
 		category = "feature",
@@ -3253,6 +3282,51 @@ function UpgradesTweakData:_saw_definitions()
 			value = 1,
 			upgrade = "backstab_crits",
 			category = "player"
+		}
+	}
+	self.definitions.player_hyper_crit = {
+		name_id = "menu_player_hyper_crit",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hyper_crit",
+			category = "player"
+		}
+	}
+	self.definitions.player_silent_increased_accuracy_1 = {
+		name_id = "menu_player_silent_increased_accuracy",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "silent_increased_accuracy",
+			category = "player"
+		}
+	}
+	self.definitions.player_silent_increased_accuracy_2 = {
+		name_id = "menu_player_silent_increased_accuracy",
+		category = "feature",
+		upgrade = {
+			value = 2,
+			upgrade = "silent_increased_accuracy",
+			category = "player"
+		}
+	}
+	self.definitions.player_silent_temp_increased_accuracy_1 = {
+		name_id = "menu_player_silent_increased_accuracy",
+		category = "temporary",
+		upgrade = {
+			value = 1,
+			upgrade = "silent_precision",
+			category = "temporary"
+		}
+	}
+	self.definitions.player_silent_temp_increased_accuracy_2 = {
+		name_id = "menu_player_silent_increased_accuracy",
+		category = "temporary",
+		upgrade = {
+			value = 2,
+			upgrade = "silent_precision",
+			category = "temporary"
 		}
 	}
 	self.definitions.player_silencer_swap_increase = {

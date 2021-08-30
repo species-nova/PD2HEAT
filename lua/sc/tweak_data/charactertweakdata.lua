@@ -1969,9 +1969,6 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank.rescue_hostages = false
 	self.tank.deathguard = true
 	self.tank.melee_weapon = "fists_dozer"
-	self.tank.critical_hits = {
-		damage_mul = 2
-	}
 	self.tank.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
 	self.tank.chatter = {
 		reload = true, --this is just here for tdozers
@@ -2467,9 +2464,6 @@ function CharacterTweakData:_init_spring(presets)
 	self.spring.announce_incomming = "incomming_captain"
 	self.spring.spawn_sound_event = "cpa_a02_01"
 	self.spring.die_sound_event_2 = "bdz_x02a_any_3p"
-	self.spring.critical_hits = {
-		damage_mul = 2
-	}
 	self.spring.static_dodge_preset = true
 	self.spring.is_special = true
 	table.insert(self._enemy_list, "spring")
@@ -4432,9 +4426,6 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.base.damage.hurt_severity = presets.hurt_severities.base
 	presets.base.damage.death_severity = 0.5
 	presets.base.damage.explosion_damage_mul = 1
-	presets.base.critical_hits = {
-		damage_mul = 2
-	}
 	presets.base.damage.tased_response = {
 		light = {tased_time = 5, down_time = 5},
 		heavy = {tased_time = 5, down_time = 10}

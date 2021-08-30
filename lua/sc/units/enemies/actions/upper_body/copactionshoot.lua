@@ -897,9 +897,10 @@ function CopActionShoot:update(t)
 				end
 
 				--Update shots fired counter.
-				self._autoshots_fired = self._autoshots_fired + 1
+				--Null checks are to handle special case where Second Wind ace could knock shooter into stagger state, resulting in the action being interrupted. 
+				self._autoshots_fired = (self._autoshots_fired or 0) + 1
 				--Check if autofiring has finished firing the planned number of bullets.
-				if self._autofiring <= self._autoshots_fired then
+				if (self._autofiring or 0) <= self._autoshots_fired then
 					self:_stop_autofire(true)
 					local p_shoot_delay = math_lerp(prev_falloff.recoil[1], prev_falloff.recoil[2], focus_prog)
 					local c_shoot_delay = math_lerp(falloff.recoil[1], falloff.recoil[2], focus_prog)

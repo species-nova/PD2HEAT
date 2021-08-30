@@ -153,8 +153,10 @@
 	<texture path="guis/textures/pd2/skilltree/info_first_aid_damage_reduction" force="false" load="false"/> <!-- Quick Fix -->
 	<texture path="guis/textures/pd2/skilltree/info_rogue" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_increased_movement_speed" force="false" load="false"/> <!-- Running From Death -->
+	<texture path="guis/textures/pd2/skilltree/info_damage_speed_multiplier" force="false" load="false"/> <!-- Second Wind -->
 	<texture path="guis/textures/pd2/skilltree/info_headshot_accuracy_addend" force="false" load="false"/> <!-- Sharpshooter Ace -->
 	<texture path="guis/textures/pd2/skilltree/info_shotgun_last_shot_stagger" force="false" load="false"/> <!-- Shell Shocked -->
+	<texture path="guis/textures/pd2/skilltree/info_silent_precision" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_trigger_happy" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_close_combat" force="false" load="false"/> <!-- Underdog -->
 	<texture path="guis/textures/pd2/skilltree/info_unseen_strike" force="false" load="false"/>

@@ -51,11 +51,11 @@ function RaycastWeaponBase:setup(...)
 		end
 	end
 
-	self._multikill_bullets_loaded = managers.player:upgrade_value("weapon", "multikill_load_ammo")
+	self._multikill_bullets_loaded = managers.player:upgrade_value("weapon", "multikill_load_ammo", 0)
 end
 
 function RaycastWeaponBase:set_bullet_hell_active(activate)
-	if activate then
+	if activate and self._multikill_bullets_loaded > 0 then
 		local bullets_loaded = self:get_ammo_remaining_in_clip() + self._multikill_bullets_loaded
 		bullets_loaded = math.min(bullets_loaded, math.min(self:get_ammo_total(), self:get_ammo_max_per_clip()))
 		self:set_ammo_remaining_in_clip(bullets_loaded)
@@ -696,7 +696,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			self:set_magazine_empty(true)
 
 			if is_player and self._stagger_on_last_shot then
-				self._setup.user_unit:movement():_stagger_in_aoe(self._stagger_on_last_shot)
+				self._setup.user_unit:movement():stagger_in_aoe(self._stagger_on_last_shot)
 				local categories = self:categories()
 				managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
 				self._stagger_on_last_shot = nil

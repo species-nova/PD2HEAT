@@ -370,7 +370,8 @@ function PlayerTweakData:init()
 	self.movement_state.standard.gravity = 982 --used in the calculation in playerstandard for applying correct damping, does not actually change gravity
 	self.movement_state.standard.terminal_velocity = 7000 --used in the calculation in playerstandard for proper falling, change as you will it
 	self.movement_state.standard.movement.speed.STANDARD_MAX = 350
-	self.movement_state.standard.movement.speed.RUNNING_MAX = 575
+	self.movement_state.standard.movement.speed.STRAFE_RUNNING_MAX = 475
+	self.movement_state.standard.movement.speed.RUNNING_MAX = 600
 	self.movement_state.standard.movement.speed.CROUCHING_MAX = 225
 	self.movement_state.standard.movement.speed.STEELSIGHT_MAX = 185
 	self.movement_state.standard.movement.speed.INAIR_MAX = 185
@@ -402,6 +403,7 @@ function PlayerTweakData:init()
 	self.movement_state.stamina.REGENERATE_TIME = 3
 	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 2.5
 	self.movement_state.stamina.JUMP_STAMINA_DRAIN = 0
+	self.movement_state.stamina.STRAFE_STAMINA_DRAIN_MULT = 2
 	
 	self.camera = {}
 	self.camera.MIN_SENSITIVITY = 0.3
