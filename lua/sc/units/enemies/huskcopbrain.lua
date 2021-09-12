@@ -40,39 +40,11 @@ end)
 local sync_net_event_original = HuskCopBrain.sync_net_event
 function HuskCopBrain:sync_net_event(event_id, peer)
 	if event_id == self._NET_EVENTS.cloak then
-		local u_dmg = self._unit:damage()
-
-		if u_dmg and u_dmg:has_sequence("cloak_engaged") then
-			u_dmg:run_sequence_simple("cloak_engaged")
-
-			local weapon_unit = self._unit:inventory():equipped_unit()
-
-			if weapon_unit then
-				local weap_u_dmg = weapon_unit:damage()
-
-				if weap_u_dmg and weap_u_dmg:has_sequence("cloak_engaged") then
-					weap_u_dmg:run_sequence_simple("cloak_engaged")
-				end
-			end
-		end
+		self._unit:movement():sync_set_cloaked(true)
 
 		return
 	elseif event_id == self._NET_EVENTS.uncloak then
-		local u_dmg = self._unit:damage()
-
-		if u_dmg and u_dmg:has_sequence("decloak") then
-			u_dmg:run_sequence_simple("decloak")
-
-			local weapon_unit = self._unit:inventory():equipped_unit()
-
-			if weapon_unit then
-				local weap_u_dmg = weapon_unit:damage()
-
-				if weap_u_dmg and weap_u_dmg:has_sequence("decloak") then
-					weap_u_dmg:run_sequence_simple("decloak")
-				end
-			end
-		end
+		self._unit:movement():sync_set_cloaked(false)
 
 		return
 	elseif event_id ~= self._NET_EVENTS.surrender_destroy_all_items then

@@ -133,12 +133,6 @@ function CopActionShoot:init(action_desc, common_data)
 				self._ext_brain._grenade_t = 0
 			end
 		end
-
-		if common_data.char_tweak.can_cloak then
-			if not self._ext_brain._uncloak_t then
-				self._ext_brain._uncloak_t = 0
-			end
-		end
 	else
 		self._turn_allowed = true
 	end
@@ -159,7 +153,7 @@ function CopActionShoot:init(action_desc, common_data)
 	self._draw_obstruction_checks = nil
 	self._draw_focus_displacement = nil
 	self._draw_focus_delay_vis_reset = nil
-	self._draw_strict_grenade_attempts = nil
+	self._draw_strict_grenade_attempts = true
 
 	return true
 end
@@ -210,8 +204,6 @@ function CopActionShoot:on_attention(attention, old_attention)
 	self._shooting_player = nil
 	self._shooting_husk_unit = nil
 	self._next_vis_ray_t = nil
-	self._can_attack_with_special_move = nil
-	self._uncloak = nil
 	self._charge_taser = nil
 
 	if attention then
@@ -252,18 +244,6 @@ function CopActionShoot:on_attention(attention, old_attention)
 				--Replacing with dumb/obvious shit.
 				self._shooting_husk_unit = true
 				self._next_vis_ray_t = t - 1
-			end
-
-			if self._is_server then
-				if self._shooting_player or self._shooting_husk_unit then
-					if self._ext_brain._uncloak_t then
-						self._uncloak = true
-					end
-
-					if self._grenade or self._uncloak then
-						self._can_attack_with_special_move = true
-					end
-				end
 			end
 
 			if self._w_usage_tweak.sniper_charge_attack then
@@ -447,9 +427,9 @@ function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos, di
 	end
 end
 
---Updates unit "special moves". Returns true if a grenade is thrown. Otherwise, returns nothing.
-function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_pos, target_dis, t)
-	if self._can_attack_with_special_move and not self._autofiring and self._common_data.allow_fire then
+--Returns true if a grenade is thrown. Otherwise, returns nothing.
+function CopActionShoot:update_grenade(target_pos, target_vec, shoot_from_pos, target_dis, t)
+	if not self._autofiring and self._common_data.allow_fire then
 		--Attempt grenade throwing.
 		local grenade = self._grenade
 		if grenade and grenade.max_range > target_dis and grenade.min_range < target_dis and t > (self._ext_brain._grenade_t or 0) then --If unit has a grenade, and conditions are met, throw it.
@@ -461,7 +441,8 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 				--Shields count for double.
 				--The throw attempt will be blocked by civilians or allies that are in the way.
 				local points = 0
-				if grenade.strict_throw then
+				local obstructed = false
+				if grenade.strict_throw then --Apply stricter checks for Team AI to try and prevent them from hitting undesired targets or throwing bad grenades.
 					local targets = world_g:find_units_quick("sphere", target_pos, 500, managers.slot:get_mask("persons"))
 
 					for i = 1, #targets do
@@ -479,7 +460,6 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 						end
 					end
 
-					local obstructed = false
 					if points >= grenade.strict_throw then
 						local ray = self._unit:raycast("ray", shoot_from_pos, target_pos, "sphere_cast_radius", 20, "slot_mask", managers.slot:get_mask("world_geometry", "vehicles", "all_criminals", "civilians"), "report")
 						if ray then
@@ -489,6 +469,15 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 					end
 
 					self:_debug_draw_strict_grenade(points >= grenade.strict_throw or obstructed, shoot_from_pos, target_pos, obstructed)
+				else --If strict throw is not enabled, use a more generous check to make sure there's no obstructions for the first 2/5ths of the throw path or the min range, whichever is bigger.
+					local obstruction_vector = target_vec * (math_max(target_dis * 0.5, grenade.min_range)) --Allocate vector of correct length in direction of target.
+					mvec3_add(obstruction_vector, shoot_from_pos) --Have it originate from the shoot pos.
+
+					local ray = self._unit:raycast("ray", shoot_from_pos, obstruction_vector, "sphere_cast_radius", 20, "slot_mask", managers.slot:get_mask("world_geometry"), "report")
+
+					if ray then
+						obstructed = true
+					end
 				end
 
 				local throw_vector = mvec3_copy(shoot_from_pos)
@@ -496,48 +485,9 @@ function CopActionShoot:update_special_moves(target_pos, target_vec, shoot_from_
 					mvec3_add(throw_vector, grenade.offset)
 				end
 
-				if points >= (grenade.strict_throw or 0) and self:throw_grenade(throw_vector, target_vec, target_pos, target_dis, grenade.throw_force) then
+				if not obstructed and points >= (grenade.strict_throw or 0) and self:throw_grenade(throw_vector, target_vec, target_pos, target_dis, grenade.throw_force) then
 					self._ext_brain._grenade_t = self._ext_brain._grenade_t + (grenade.use_cooldown or 0)
 					return true
-				end
-			end
-		end
-
-		--TODO: Change cloak behavior to be more interactive. Rather than randomly driven.
-			--Performing any aggressive action triggers uncloaking.
-			--Taking >20% of base health as damage re-cloaks unit and causes it to act passively for X amount of time.
-			--While cloaked, units gain a large speed boost.
-		if self._uncloak and self._ext_brain._uncloak_t < t then
-			self._ext_brain._uncloak_t = t + 10
-
-			local is_autumn = self._ext_base._tweak_table == "autumn"
-
-			if not self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("decloak") then
-				local roll_chance = is_autumn and 0.2 or 0.4
-				local uncloak_roll = math_random() <= roll_chance
-
-				if uncloak_roll then
-					self._unit:damage():run_sequence_simple("decloak")
-
-					if self._weapon_unit:damage() and self._weapon_unit:damage():has_sequence("decloak") then
-						self._weapon_unit:damage():run_sequence_simple("decloak")
-					end
-
-					self._unit:movement():set_uncloaked(true)
-				end
-			end
-
-			if is_autumn then
-				if not self._ext_brain._set_endless_assault then
-					local ai_task_data = managers.groupai:state()._task_data
-
-					if ai_task_data and ai_task_data.assault.active then
-						if ai_task_data.assault.phase == "build" or ai_task_data.assault.phase == "sustain" then
-							managers.groupai:state():set_assault_endless(true)
-							managers.hud:set_buff_enabled("vip", true)
-							self._ext_brain._set_endless_assault = true
-						end
-					end
 				end
 			end
 		end
@@ -830,7 +780,6 @@ function CopActionShoot:update(t)
 
 	--If not performing some longer form action, go through the different possible actions and check that they can be done.
 	if not ext_anim.reload and not ext_anim.equip and not ext_anim.melee then
-		
 		if self._weapon_base:clip_empty() then --Check if magazine is empty. If so, then reload. Given priority over all other actions to reward attentive players that count bullets fired.
 			if self._autofiring then
 				self:_stop_autofire(true)
@@ -846,13 +795,23 @@ function CopActionShoot:update(t)
 				self._ext_movement:action_request(reload_action)
 			end
 		elseif not target_vec then --All later actions require a target vector.
+			if not self._unit:movement():is_cloaked() and self._shoot_t < t then --Can't perform aggressive action and isn't too preoccupied, will recloak.
+				self._unit:movement():set_cloaked(true)
+			end
 			return
 		elseif self:_chk_start_melee(t, target_vec, target_dis, autotarget, target_pos, attention) then --Check if melee attack is performed.
+			if self._unit:movement():is_cloaked() then --All aggressive actions uncloak the attacker.
+				self._unit:movement():set_cloaked(false)
+			end
+
 			if self._autofiring then
 				self:_stop_autofire() --Melee animation redirect is active, so don't play idle redirect.
 			end
 			self._shoot_t = t + 1
-		elseif self:update_special_moves(target_pos, target_vec, shoot_from_pos, target_dis, t) then --If a grenade is thrown, stop immediately.
+		elseif self:update_grenade(target_pos, target_vec, shoot_from_pos, target_dis, t) then --If a grenade is thrown, stop immediately.
+			if self._unit:movement():is_cloaked() then
+				self._unit:movement():set_cloaked(false)
+			end
 			return
 		elseif not self._common_data.allow_fire then
 			if self._autofiring then
@@ -1022,6 +981,10 @@ function CopActionShoot:update(t)
 			end
 
 			if shoot and self._shoot_t < t then
+				if self._unit:movement():is_cloaked() then
+					self._unit:movement():set_cloaked(false)
+				end
+
 				local falloff, i_range = self:_get_shoot_falloff(target_dis, self._falloff)
 				local prev_falloff = self._falloff[math_max(i_range - 1, 1)]
 				local dis_lerp = self:_get_dis_lerp(falloff, prev_falloff, target_dis)

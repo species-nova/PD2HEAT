@@ -4540,11 +4540,11 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "medic_M4",
 					freq = 0.1,
-					amount_max = 2,
-					tactics = self._tactics.FBI_shield,
-					rank = 2
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
 				}
 			}
 		}
@@ -4573,11 +4573,11 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "medic_M4",
 					freq = 0.15,
-					amount_max = 2,
-					tactics = self._tactics.MH_shield,
-					rank = 2
+					amount_max = 1,
+					tactics = self._tactics.FBI_medic,
+					rank = 1
 				}
 			}
 		}
@@ -4606,11 +4606,11 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "medic_M4",
 					freq = 0.14,
 					amount_max = 2,
-					tactics = self._tactics.MH_shield,
-					rank = 2
+					tactics = self._tactics.FBI_medic,
+					rank = 1
 				},
 				{
 					unit = "omnia_LPF",
@@ -4646,11 +4646,11 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "medic_M4",
 					freq = 0.13,
 					amount_max = 2,
-					tactics = self._tactics.MH_shield,
-					rank = 2
+					tactics = self._tactics.FBI_medic,
+					rank = 1
 				},
 				{
 					unit = "omnia_LPF",
@@ -4686,11 +4686,11 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "medic_M4",
 					freq = 0.13,
 					amount_max = 2,
-					tactics = self._tactics.MH_shield,
-					rank = 2
+					tactics = self._tactics.FBI_medic,
+					rank = 1
 				},
 				{
 					unit = "omnia_LPF",

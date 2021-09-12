@@ -34,14 +34,26 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 
 	local tear_gas = {
 		type = "gas_grenade",
-		cooldown = 3,
-		use_cooldown = 12,
-		chance = 0.4,
+		cooldown = 2,
+		use_cooldown = 10,
+		chance = 0.75,
 		min_range = 500,
 		max_range = 2400,
 		throw_force = 1 / 1250,
 		no_anim = true,
 		voiceline = "use_gas"
+	}
+
+	local autumn_gas = {
+		type = "gas_grenade",
+		cooldown = 2,
+		use_cooldown = 15,
+		chance = 0.6,
+		min_range = 500,
+		max_range = 2400,
+		throw_force = 1 / 1250,
+		offset = projectile_throw_pos_offset,
+		voiceline = "i03"
 	}
 
 	local molotov = {
@@ -51,7 +63,7 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 0.5,
 		min_range = 500,
 		max_range = 2000,
-		throw_force = 1 / 1300,
+		throw_force = 1 / 1150,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
@@ -62,21 +74,9 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 1,
 		min_range = 500,
 		max_range = 2000,
-		throw_force = 1 / 1300,
+		throw_force = 1 / 1150,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
-	}
-
-	local autumn_gas = {
-		type = "gas_grenade",
-		cooldown = 3,
-		use_cooldown = 24,
-		chance = 0.125,
-		min_range = 500,
-		max_range = 1600,
-		throw_force = 1 / 1300,
-		offset = projectile_throw_pos_offset,
-		voiceline = "i03"
 	}
 
 	local gang_member_launcher_frag = {
@@ -592,8 +592,8 @@ function CharacterTweakData:_init_fbi(presets)
 			12
 		}},
 		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
-			local chance = 0.05
+			local delay_till_next_use = 18
+			local chance = 0.25
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -834,8 +834,10 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	self.omnia_lpf.priority_shout = "f47"
 	self.omnia_lpf.bot_priority_shout = "f47x_any"
 	self.omnia_lpf.tags = {"law", "medic", "lpf", "special", "customvo"}
-	self.omnia_lpf.do_omnia = true
-	self.omnia_lpf.do_aoe_heal = true	
+	self.omnia_lpf.do_omnia = {
+		cooldown = 8,
+		radius = 600
+	}
 	self.omnia_lpf.is_special = true
 	table.insert(self._enemy_list, "omnia_lpf")
 end
@@ -2157,6 +2159,7 @@ function CharacterTweakData:_init_spooc(presets)
 	end
 	self.spooc_titan.damage.hurt_severity = presets.hurt_severities.spooc_titan
 	self.spooc_titan.can_cloak = true
+	self.spooc_titan.recloak_damage_threshold = 0.5
 	self.spooc_titan.can_be_tased = false
 	self.spooc_titan.priority_shout_max_dis = 0
 	self.spooc_titan.unintimidateable = true
@@ -2392,7 +2395,6 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 	self.phalanx_vip.die_sound_event_2 = "l2n_x01a_any_3p"
 	self.phalanx_vip.must_headshot = true
 	self.phalanx_vip.ends_assault_on_death = true
-	self.phalanx_vip.do_winters_aoe_heal = true
 	self.phalanx_vip.suppression = nil
 	self.phalanx_vip.ecm_hurts = {}
 	self.phalanx_vip.is_special = true
@@ -2415,6 +2417,10 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 	self.phalanx_vip.slowing_bullets = {
 		duration = 1.5,
 		power = 0.75
+	}
+	self.phalanx_vip.do_omnia = {
+		cooldown = 8,
+		radius = 1200
 	}
 	table.insert(self._enemy_list, "phalanx_vip")
 end
@@ -2568,6 +2574,7 @@ function CharacterTweakData:_init_autumn(presets)
 	self.autumn.damage.explosion_damage_mul = 2
 	self.autumn.move_speed = presets.move_speed.lightning
 	self.autumn.can_cloak = true
+	self.autumn.recloak_damage_threshold = 0.2
 	self.autumn.no_retreat = true
 	self.autumn.no_limping = true
 	self.autumn.no_arrest = true
@@ -2587,7 +2594,6 @@ function CharacterTweakData:_init_autumn(presets)
 	self.autumn.grenade = autumn_gas
 	self.autumn.cuff_on_melee = true
 	--self.autumn.spawn_sound_event_2 = "cpa_a02_01"--uncomment for testing purposes
-	self.autumn.spooc_attack_use_smoke_chance = 1
 	self.autumn.weapon_voice = "3"
 	self.autumn.experience.cable_tie = "tie_swat"
 	self.autumn.speech_prefix_p1 = "cpa"
@@ -2614,7 +2620,7 @@ function CharacterTweakData:_init_autumn(presets)
 			12
 		}},
 		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 30
+			local delay_till_next_use = 12
 			local chance = 0.5
 
 			if math.random() < chance then
@@ -4995,28 +5001,28 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 400,
 				acc = {0.6, 1.0},
 				dmg_mul = 1,
-				recoil = {1, 1},
+				recoil = {0.8, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 800,
 				acc = {0.0, 1.0},
 				dmg_mul = 1,
-				recoil = {1.5, 1},
+				recoil = {0.8, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 1600,
 				acc = {0.0, 0.6},
 				dmg_mul = 0.5,
-				recoil = {2, 1.5},
+				recoil = {1.4, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 2400,
 				acc = {0, 0},
 				dmg_mul = 0.0,
-				recoil = {2, 2},
+				recoil = {2, 1},
 				burst_size = 1
 			}
 		}
@@ -9572,8 +9578,8 @@ function CharacterTweakData:_set_sm_wish()
 			12
 		}},
 		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 45
-			local chance = 0.075
+			local delay_till_next_use = 30
+			local chance = 0.1
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -9602,8 +9608,9 @@ function CharacterTweakData:_set_sm_wish()
 	self.tank_titan_assault.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase	
 	self.tank_hw.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
 	
-	--Winters can now overheal ala LPF
-	self.phalanx_vip.do_omnia = true
+	--Winters can now overheal special enemies
+	self.phalanx_vip.do_omnia.overheal_specials = true
+
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
 	self.weap_unit_names[31] = Idstring("units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli")

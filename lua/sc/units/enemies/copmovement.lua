@@ -229,27 +229,17 @@ function CopMovement:post_init()
 
 	local tweak_name = self._unit:base()._tweak_table
 
-	if char_tweak.do_omnia then
-		if tweak_name == "omnia_lpf" or tweak_name == "phalanx_vip" then
-			self._can_do_omnia = true
-			self._omnia_cooldown = 0
-			self._omnia_radius = tweak_data.medic.lpf_radius
-			self._omnia_slotmask = managers.slot:get_mask("enemies")
-		end
-	end
+	self._can_cloak = char_tweak.can_cloak
+	self._cloaked = self._can_cloak
 
-	if char_tweak.do_aoe_heal and tweak_name == "omnia_lpf" then
-		self._can_do_aoe_heal = true
-		self._aoe_heal_cooldown = 0
-		self._aoe_heal_radius = tweak_data.medic.lpf_radius
-		self._aoe_heal_slotmask = managers.slot:get_mask("enemies")
-	end
-
-	if char_tweak.do_winters_aoe_heal and tweak_name == "phalanx_vip" then
-		self._can_do_winters_aoe_heal = true
-		self._winters_aoe_heal_cooldown = 0
-		self._winters_aoe_heal_radius = tweak_data.medic.lpf_radius * 4
-		self._winters_aoe_heal_slotmask = managers.slot:get_mask("enemies")
+	local omnia_tweak = char_tweak.do_omnia
+	if char_tweak.do_omnia and Network:is_server() then
+		self._can_do_omnia = true
+		self._omnia_cooldown = omnia_tweak.cooldown or 8
+		self._next_omnia_t = 0
+		self._omnia_radius = omnia_tweak.radius or 600
+		self._omnia_slotmask = managers.slot:get_mask("enemies")
+		self._overheal_specials = omnia_tweak.overheal_specials
 	end
 
 	if char_tweak.do_summers_heal and tweak_name == "medic_summers" then
@@ -356,7 +346,7 @@ function CopMovement:_upd_actions(t)
 end
 
 function CopMovement:do_omnia(t)
-	if not Network:is_server() or self._omnia_cooldown > t then
+	if not Network:is_server() or self._next_omnia_t > t then
 		return
 	end
 
@@ -364,11 +354,10 @@ function CopMovement:do_omnia(t)
 	local healed_someone = nil
 	for i = 1, #enemies do
 		local enemy = enemies[i]
-
-		if not enemy:base():char_tweak().is_special and not enemy:character_damage():is_overhealed() then
+		if (self._overheal_specials or not enemy:base():char_tweak().is_special) and not enemy:character_damage():is_overhealed() then
 			healed_someone = true
 			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-			self._omnia_cooldown = t + 8
+			self._next_omnia_t = t + self._omnia_cooldown
 			enemy:character_damage():apply_overheal()
 			
 			local contour_ext = self._unit:contour()
@@ -384,7 +373,7 @@ function CopMovement:do_omnia(t)
 	end
 
 	if not healed_someone then
-		self._omnia_cooldown = t + 0.5
+		self._next_omnia_t = t + 0.5
 	end
 end
 
@@ -489,138 +478,6 @@ function CopMovement:do_autumn_blackout()	--no longer used
 		end
 	end
 end
-
-local aoe_heal_cops_to_heal = {
-	heavy_swat = true,
-	fbi_swat = true,
-	fbi_heavy_swat = true,
-	city_swat = true,
-	omnia = true,
-	tank = true,
-	tank_hw = true,
-	tank_mini = true,
-	spooc = true,
-	shield = true,
-	taser = true,
-	boom = true
-}
-
-function CopMovement:do_aoe_heal(t)
-	if self._aoe_heal_cooldown > t then
-		return
-	else
-		self._aoe_heal_cooldown = t + 0.4
-	end
-
-	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._aoe_heal_radius, self._aoe_heal_slotmask)
-	local healed_someone = nil
-
-	for i = 1, #enemies do
-		local enemy = enemies[i]
-
-		if aoe_heal_cops_to_heal[enemy:base()._tweak_table] then
-			local dmg_ext = enemy:character_damage()
-			local health_left = dmg_ext._health
-			local max_health = dmg_ext._HEALTH_INIT
-
-			if health_left < max_health then
-				healed_someone = true
-
-				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
-				local contour_ext = enemy:contour()
-
-				if contour_ext then
-					contour_ext:add("medic_heal", true)
-					contour_ext:flash("medic_heal", 0.2)
-				end
-
-				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))
-			end
-		end
-	end
-
-	if healed_someone then
-		local contour_ext = self._unit:contour()
-
-		if contour_ext then
-			contour_ext:add("medic_show", false)
-			contour_ext:flash("medic_show", 0.2)
-		end
-
-		if Network:is_server() then
-			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter")
-		end
-	end
-end
-
-local winters_aoe_heal_cops_to_heal = {
-	cop = true,
-	cop_scared = true,
-	cop_female = true,
-	fbi = true,
-	swat = true,					
-	heavy_swat = true,
-	fbi_swat = true,
-	fbi_heavy_swat = true,
-	city_swat = true,
-	omnia = true,
-	tank = true,
-	tank_hw = true,
-	tank_mini = true,
-	spooc = true,
-	shield = true,
-	phalanx_minion = true,
-	taser = true,
-	boom = true
-}
-
-function CopMovement:do_winters_aoe_heal(t)
-	if self._winters_aoe_heal_cooldown > t then
-		return
-	else
-		self._winters_aoe_heal_cooldown = t + 0.4
-	end
-
-	local enemies = world_g:find_units_quick(self._unit, "sphere", self._unit:position(), self._winters_aoe_heal_radius, self._winters_aoe_heal_slotmask)
-	local healed_someone = nil
-
-	for i = 1, #enemies do
-		local enemy = enemies[i]
-
-		if winters_aoe_heal_cops_to_heal[enemy:base()._tweak_table] then
-			local dmg_ext = enemy:character_damage()
-			local health_left = dmg_ext._health
-			local max_health = dmg_ext._HEALTH_INIT
-
-			if health_left < max_health then
-				healed_someone = true
-
-				local amount_to_heal = math_ceil(((max_health - health_left) / 20))
-				local contour_ext = enemy:contour()
-
-				if contour_ext then
-					contour_ext:add("medic_heal", true)
-					contour_ext:flash("medic_heal", 0.2)
-				end
-
-				dmg_ext:_apply_damage_to_health((amount_to_heal * -1))							
-			end
-		end
-	end
-
-	if healed_someone then
-		local contour_ext = self._unit:contour()
-
-		if contour_ext then
-			contour_ext:add("medic_show", false)
-			contour_ext:flash("medic_show", 0.2)
-		end
-
-		if Network:is_server() then
-			managers.groupai:state():chk_say_enemy_chatter(self._unit, self._m_pos, "heal_chatter_winters")
-		end
-	end
-end	
 
 function CopMovement:do_summers_heal(t)
 	local enemies = managers.enemy._registered_summers_crew
@@ -1031,14 +888,6 @@ function CopMovement:update(unit, t, dt)
 			self:do_omnia(t)
 		end
 
-		if self._can_do_aoe_heal then
-			self:do_aoe_heal(t)
-		end
-
-		if self._can_do_winters_aoe_heal then
-			self:do_winters_aoe_heal(t)
-		end
-
 		if self._can_do_summers_heal then
 			self:do_summers_heal(t)
 		end
@@ -1312,19 +1161,75 @@ function CopMovement:anim_clbk_reload_exit()
 	self:anim_clbk_hide_magazine_in_hand()
 end
 
-function CopMovement:set_uncloaked(state)
-	if state then
-		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "brain", HuskCopBrain._NET_EVENTS.uncloak)
-	else
-		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "brain", HuskCopBrain._NET_EVENTS.cloak)
+--Function that sets the cloaked ("invisibility") state of units. Only runs on the server, but syncs to clients to ensure the cloaked flag and visuals are correct.
+function CopMovement:set_cloaked(state)
+	local damage_ext = self._unit:damage()
+	if not self._can_cloak or not Network:is_server() then
+		return
 	end
 
-	self._uncloaked = state
+	if self._can_cloak and not (damage_ext:has_sequence("cloak_engaged") and damage_ext:has_sequence("decloak")) then
+		log("WARNING: Unit " .. tweak_name .. "is marked as being able to cloak, but lacks the sequences to be able to do so")
+		self._can_cloak = nil
+		return
+	end
+
+	if state and not self._cloaked then
+		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "brain", HuskCopBrain._NET_EVENTS.cloak)
+		self:sync_set_cloaked(state)
+	elseif not state and self._cloaked then
+		local is_autumn = self._ext_base._tweak_table == "autumn"
+		if is_autumn then
+			if not self._ext_brain._set_endless_assault then
+				local ai_task_data = managers.groupai:state()._task_data
+
+				if ai_task_data and ai_task_data.assault.active then
+					if ai_task_data.assault.phase == "build" or ai_task_data.assault.phase == "sustain" then
+						managers.groupai:state():set_assault_endless(true)
+						managers.hud:set_buff_enabled("vip", true)
+						self._ext_brain._set_endless_assault = true
+					end
+				end
+			end
+		end
+		
+		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "brain", HuskCopBrain._NET_EVENTS.uncloak)
+		self:sync_set_cloaked(state)
+	end
 end
 
---used for Titan Spoocs and Autumn
-function CopMovement:is_uncloaked()
-	return self._uncloaked
+--Handles visuals behind cloaking, along with the flag to indicate if a unit is or isn't cloaked.
+--Run on both clients and server.
+function CopMovement:sync_set_cloaked(state)
+	local damage_ext = self._unit:damage()
+	if not damage_ext then
+		return
+	end
+
+	if state then
+		damage_ext:run_sequence_simple("cloak_engaged")
+
+		local weapon_unit = self._ext_inventory:equipped_unit()
+		local weapon_damage_ext = weapon_unit and weapon_unit:damage()
+		if weapon_unit and weapon_damage_ext and weapon_damage_ext:has_sequence("cloak_engaged") then
+			weapon_damage_ext:run_sequence_simple("cloak_engaged")
+		end
+	else
+		damage_ext:run_sequence_simple("decloak")
+
+		local weapon_unit = self._ext_inventory:equipped_unit()
+		local weapon_damage_ext = weapon_unit and weapon_unit:damage()
+		if weapon_damage_ext and weapon_damage_ext:has_sequence("decloak") then
+			weapon_damage_ext:run_sequence_simple("decloak")
+		end
+	end
+
+	self._cloaked = state
+end
+
+--Returns whether or not a unit is currently "invisible". Relevant on Titan Cloakers and Capt. Autumn
+function CopMovement:is_cloaked()
+	return self._cloaked
 end
 
 --syncing stuff

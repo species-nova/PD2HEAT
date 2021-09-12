@@ -403,7 +403,6 @@ function PlayerTweakData:init()
 	self.movement_state.stamina.REGENERATE_TIME = 3
 	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 2.5
 	self.movement_state.stamina.JUMP_STAMINA_DRAIN = 0
-	self.movement_state.stamina.STRAFE_STAMINA_DRAIN_MULT = 2
 	
 	self.camera = {}
 	self.camera.MIN_SENSITIVITY = 0.3

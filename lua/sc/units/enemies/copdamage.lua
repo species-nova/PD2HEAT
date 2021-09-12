@@ -90,6 +90,11 @@ function CopDamage:init(...)
 	self._OVERHEALTH_INIT_PRECENT = self._OVERHEALTH_INIT / self._HEALTH_GRANULARITY
 	
 	self._player_damage_ratio = 0 --Damage dealt to this enemy by players that contributed to the kill.
+
+	if self._char_tweak.can_cloak then
+		self._RECLOAK_THRESHOLD = self._HEALTH_INIT * (self._char_tweak.recloak_damage_threshold or 0)
+		self._next_defensive_recloak = self._HEALTH_INIT - self._RECLOAK_THRESHOLD
+	end
 end
 
 function CopDamage:_spawn_head_gadget(params)
@@ -196,27 +201,6 @@ function CopDamage:damage_fire(attack_data)
 
 		if self:is_friendly_fire(attacker_unit) then
 			return "friendly_fire"
-		end
-	end
-
-	if Network:is_server() then
-		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
-			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math_rand(1, 100)
-				local chance_recloak = 75
-
-				if recloak_roll <= chance_recloak then
-					self._unit:damage():run_sequence_simple("cloak_engaged")
-
-					local weapon_unit = self._unit:inventory():equipped_unit()
-
-					if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-						weapon_unit:damage():run_sequence_simple("cloak_engaged")
-					end
-
-					self._unit:movement():set_uncloaked(false)
-				end
-			end
 		end
 	end
 
@@ -539,27 +523,6 @@ function CopDamage:sync_damage_fire(attacker_unit, damage_percent, start_dot_dan
 		return
 	end
 
-	if Network:is_server() then
-		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
-			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math_rand(1, 100)
-				local chance_recloak = 75
-
-				if recloak_roll <= chance_recloak then
-					self._unit:damage():run_sequence_simple("cloak_engaged")
-
-					local weapon_unit = self._unit:inventory():equipped_unit()
-
-					if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-						weapon_unit:damage():run_sequence_simple("cloak_engaged")
-					end
-
-					self._unit:movement():set_uncloaked(false)
-				end
-			end
-		end
-	end
-
 	local variant = "fire"
 	local attack_data = {
 		variant = variant,
@@ -763,27 +726,6 @@ function CopDamage:damage_bullet(attack_data)
 				self._unit:sound():play("knuckles_hit_gen", nil, nil)
 			end
 			return
-		end
-	end
-
-	if Network:is_server() then
-		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
-			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math.rand(1, 100)
-				local chance_recloak = 75
-
-				if recloak_roll <= chance_recloak then
-					self._unit:damage():run_sequence_simple("cloak_engaged")
-
-					local weapon_unit = self._unit:inventory():equipped_unit()
-
-					if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-						weapon_unit:damage():run_sequence_simple("cloak_engaged")
-					end
-
-					self._unit:movement():set_uncloaked(false)
-				end
-			end
 		end
 	end
 
@@ -1101,27 +1043,6 @@ end
 function CopDamage:sync_damage_bullet(attacker_unit, damage_percent, i_body, hit_offset_height, i_result, death)
 	if self._dead then
 		return
-	end
-
-	if Network:is_server() then
-		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
-			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math_rand(1, 100)
-				local chance_recloak = 75
-
-				if recloak_roll <= chance_recloak then
-					self._unit:damage():run_sequence_simple("cloak_engaged")
-
-					local weapon_unit = self._unit:inventory():equipped_unit()
-
-					if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-						weapon_unit:damage():run_sequence_simple("cloak_engaged")
-					end
-
-					self._unit:movement():set_uncloaked(false)
-				end
-			end
-		end
 	end
 
 	local attack_data = {
@@ -2025,27 +1946,6 @@ function CopDamage:damage_explosion(attack_data)
 		end
 	end
 
-	if Network:is_server() then
-		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
-			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math_rand(1, 100)
-				local chance_recloak = 75
-
-				if recloak_roll <= chance_recloak then
-					self._unit:damage():run_sequence_simple("cloak_engaged")
-
-					local weapon_unit = self._unit:inventory():equipped_unit()
-
-					if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-						weapon_unit:damage():run_sequence_simple("cloak_engaged")
-					end
-
-					self._unit:movement():set_uncloaked(false)
-				end
-			end
-		end
-	end
-
 	local is_civilian = CopDamage.is_civilian(self._unit:base()._tweak_table)
 	local result = nil
 	local damage = attack_data.damage
@@ -2217,27 +2117,6 @@ end
 function CopDamage:sync_damage_explosion(attacker_unit, damage_percent, i_attack_variant, death, direction, weapon_unit)
 	if self._dead then
 		return
-	end
-
-	if Network:is_server() then
-		if self._unit:base()._tweak_table == "autumn" or self._unit:base()._tweak_table == "spooc_titan" then
-			if self._unit:movement():is_uncloaked() and self._unit:damage() and self._unit:damage():has_sequence("cloak_engaged") then
-				local recloak_roll = math_rand(1, 100)
-				local chance_recloak = 75
-
-				if recloak_roll <= chance_recloak then
-					self._unit:damage():run_sequence_simple("cloak_engaged")
-
-					local weapon_unit = self._unit:inventory():equipped_unit()
-
-					if weapon_unit and weapon_unit:damage() and weapon_unit:damage():has_sequence("cloak_engaged") then
-						weapon_unit:damage():run_sequence_simple("cloak_engaged")
-					end
-
-					self._unit:movement():set_uncloaked(false)
-				end
-			end
-		end
 	end
 
 	local variant = CopDamage._ATTACK_VARIANTS[i_attack_variant]
@@ -3547,4 +3426,20 @@ function CopDamage:is_overhealed()
 		return true
 	end
 	return nil
+end
+
+local old_apply_damage_to_health = CopDamage._apply_damage_to_health
+function CopDamage:_apply_damage_to_health(damage)
+	old_apply_damage_to_health(self, damage)
+	
+	if self._RECLOAK_THRESHOLD then
+		local movement_ext = self._unit:movement()
+		local is_cloaked = movement_ext:is_cloaked()
+		if not is_cloaked and self._health <= self._next_defensive_recloak then
+			movement_ext:set_cloaked(true)
+			self._next_defensive_recloak = self._health - self._RECLOAK_THRESHOLD
+		elseif is_cloaked then
+			self._next_defensive_recloak = self._health - self._RECLOAK_THRESHOLD
+		end
+	end
 end
