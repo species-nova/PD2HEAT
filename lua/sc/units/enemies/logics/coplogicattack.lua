@@ -1568,7 +1568,12 @@ function CopLogicAttack._upd_aim(data, my_data)
 	if focus_enemy then
 		if REACT_AIM <= focus_enemy.reaction then
 			local running = my_data.advancing and not my_data.advancing:stopping() and my_data.advancing:haste() == "run"
-
+			
+			if data.coward_t and data.t - data.coward_t < 5 then
+				aim = false
+				shoot = false
+			end
+			
 			if focus_enemy.verified or focus_enemy.nearly_visible then
 				local firing_range = 500
 
@@ -1594,7 +1599,7 @@ function CopLogicAttack._upd_aim(data, my_data)
 					end
 				end
 
-				if aim == nil then
+				if aim == nil then			
 					if REACT_SHOOT <= focus_enemy.reaction then
 						local last_sup_t = data.unit:character_damage():last_suppression_t()
 
@@ -1649,7 +1654,7 @@ function CopLogicAttack._upd_aim(data, my_data)
 						aim = true
 					end
 				end
-			else
+			elseif aim == nil then
 				local time_since_verification = focus_enemy.verified_t and data.t - focus_enemy.verified_t
 
 				if time_since_verification then
@@ -2040,7 +2045,7 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 	end
 	
 	if data.tactics then
-		if data.tactics.sneaky and data.coward_t and data.t - data.coward_t < 5 then
+		if data.tactics.sneaky and data.coward_t and data.t - data.coward_t < 10 then
 			return "coward"
 		elseif data.tactics.spoocavoidance and data.attention_obj.dis < 2000 and data.attention_obj.aimed_at then
 			return "spoocavoidance"

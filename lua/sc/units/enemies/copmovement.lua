@@ -1177,6 +1177,10 @@ function CopMovement:set_cloaked(state)
 	if state and not self._cloaked then
 		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "brain", HuskCopBrain._NET_EVENTS.cloak)
 		self:sync_set_cloaked(state)
+		
+		if alive(self._unit:brain()) then
+			self._unit:brain()._logic_data.coward_t = TimerManager:main():time()
+		end
 	elseif not state and self._cloaked then
 		local is_autumn = self._ext_base._tweak_table == "autumn"
 		if is_autumn then
