@@ -1164,7 +1164,7 @@ end
 --Function that sets the cloaked ("invisibility") state of units. Only runs on the server, but syncs to clients to ensure the cloaked flag and visuals are correct.
 function CopMovement:set_cloaked(state)
 	local damage_ext = self._unit:damage()
-	if not self._can_cloak or not Network:is_server() then
+	if not self._can_cloak or not Network:is_server() or self._ext_damage:dead() then
 		return
 	end
 
@@ -1178,9 +1178,7 @@ function CopMovement:set_cloaked(state)
 		managers.network:session():send_to_peers_synched("sync_unit_event_id_16", self._unit, "brain", HuskCopBrain._NET_EVENTS.cloak)
 		self:sync_set_cloaked(state)
 		
-		if alive(self._unit:brain()) then
-			self._unit:brain()._logic_data.coward_t = TimerManager:main():time()
-		end
+		self._ext_brain._logic_data.coward_t = TimerManager:main():time()
 	elseif not state and self._cloaked then
 		local is_autumn = self._ext_base._tweak_table == "autumn"
 		if is_autumn then
