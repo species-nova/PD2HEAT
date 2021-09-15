@@ -466,7 +466,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 		end
 	end
 
-	local delay = within_any_acquire_range and 0 or 2
+	local delay = within_any_acquire_range and 0 or 1
 
 	for u_key, attention_info in pairs_g(detected_obj) do
 		local can_detect = true
@@ -1338,16 +1338,19 @@ function CopLogicBase.is_obstructed(data, objective, strictness, attention)
 							local dis = data.unit:base()._engagement_range or data.internal_data.weapon_range and data.internal_data.weapon_range.optimal or 500
 							local my_data = data.internal_data
 							local soft_t = 3
-							if not data.unit:base()._engagement_range then
-								if grp_objective and not grp_objective.open_fire then
+							
+							if not data.internal_data.want_to_take_cover then
+								if not data.unit:base()._engagement_range then
+									if grp_objective and not grp_objective.open_fire then
+										dis = dis * 0.5
+									end
+								else
+									soft_t = 1
+								end
+								
+								if not attention.verified then
 									dis = dis * 0.5
 								end
-							else
-								soft_t = 1
-							end
-							
-							if not attention.verified then
-								dis = dis * 0.5
 							end
 							
 							local visible_softer = data.internal_data.want_to_take_cover or attention.verified_t and data.t - attention.verified_t < soft_t

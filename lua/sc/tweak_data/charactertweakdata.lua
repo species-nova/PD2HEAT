@@ -1999,11 +1999,12 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank_medic = deep_clone(self.tank)
 	self.tank_medic.is_special = true
 	table.insert(self.tank_medic.tags, "medic")
+	table.insert(self.tank_medic.tags, "backliner")
 	table.insert(self._enemy_list, "tank_medic")
 	
 	self.tank_titan = deep_clone(self.tank)
 	self.tank_titan.weapon = presets.weapon.sniper
-	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo"}	
+	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo", "no_run", "backliner"}	
 	self.tank_titan.move_speed = presets.move_speed.very_slow
 	self.tank_titan.damage.hurt_severity = presets.hurt_severities.titan	
 	self.tank_titan.HEALTH_INIT = 864
@@ -2037,7 +2038,7 @@ function CharacterTweakData:_init_tank(presets)
 	table.insert(self._enemy_list, "tank_titan")
 	
 	self.tank_titan_assault = deep_clone(self.tank_titan)
-	self.tank_titan_assault.tags = {"law", "tank", "special", "tank_titan"}
+	self.tank_titan_assault.tags = {"law", "tank", "special", "tank_titan", "no_run", "backliner"}
 	table.insert(self._enemy_list, "tank_titan_assault")
 	
 	self.tank_hw = deep_clone(self.tank_titan_assault)
@@ -2428,7 +2429,7 @@ end
 function CharacterTweakData:_init_spring(presets)
 	self.spring = deep_clone(self.tank)
 	self.spring.weapon = presets.weapon.dozer
-	self.spring.tags = {"law", "custom", "special", "captain"}
+	self.spring.tags = {"law", "custom", "special", "captain", "no_run"}
 	self.spring.move_speed = presets.move_speed.very_slow
 	self.spring.rage_move_speed = presets.move_speed.fast
 	self.spring.grenade = cluster_frag
