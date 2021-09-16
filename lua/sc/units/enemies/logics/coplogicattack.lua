@@ -342,10 +342,14 @@ function CopLogicAttack._upd_combat_movement(data)
 			managers.groupai:state():chk_say_enemy_chatter(data.unit, data.m_pos, "reload")
 		end
 	end
-
+	
+	local in_cover = my_data.in_cover
+	
+	if in_cover and my_data.best_cover then
+		in_cover = in_cover[1] == my_data.best_cover[1] and in_cover
+	end
+	
 	if not action_taken then
-		local in_cover = my_data.in_cover
-		
 		if want_to_take_cover or my_data.at_cover_shoot_pos then
 			if in_cover then
 				if my_data.attitude == "engage" then
@@ -401,7 +405,7 @@ function CopLogicAttack._upd_combat_movement(data)
 							if tactics.flank then
 								my_data.charge_pos = CopLogicAttack._find_flank_pos(data, my_data, focus_enemy.nav_tracker, my_data.weapon_range.optimal) --charge to a position that would put the unit in a flanking position, not a flanking path
 							else
-								my_data.charge_pos = CopLogicTravel._get_pos_on_wall(focus_enemy.nav_tracker:field_position(), my_data.weapon_range.optimal, 45, nil, data.pos_rsrv_id)
+								my_data.charge_pos = CopLogicTravel._find_near_free_pos(focus_enemy.nav_tracker:field_position(), my_data.weapon_range.optimal, 2, data.pos_rsrv_id)
 							end
 
 							--my_data.charge_pos = CopLogicTravel._get_pos_on_wall(focus_enemy.nav_tracker:field_position(), my_data.weapon_range.optimal, 45, nil, data.pos_rsrv_id)
@@ -511,10 +515,8 @@ function CopLogicAttack._upd_combat_movement(data)
 			end
 			
 			if not action_taken then
-				local in_cover = my_data.in_cover
-				
-				if my_data.attitude == "engage" then
-					if in_cover then
+				if in_cover then
+					if my_data.attitude == "engage" then
 						if my_data.cover_test_step <= 2 then
 							local height = nil
 
@@ -541,14 +543,14 @@ function CopLogicAttack._upd_combat_movement(data)
 						end
 					elseif not my_data.walking_to_cover_shoot_pos then
 						if my_data.at_cover_shoot_pos then
-							if my_data.stay_out_time < t then
-								move_to_cover = true
-							end
+							move_to_cover = true
 						else
 							move_to_cover = true
 							want_flank_cover = true
 						end
 					end
+				else
+					move_to_cover = true
 				end
 			end
 		end
