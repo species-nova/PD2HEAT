@@ -426,6 +426,9 @@
 	<material_config path="units/payday2/characters/ene_city_guard_3/ene_city_guard_3" />	
 	<material_config path="units/payday2/characters/ene_city_guard_3/ene_city_guard_3_contour"  />	
 	
+	<!--better taser thread-->
+	<effect path="effects/payday2/particles/character/taser_thread" force="true"/>
+	
 	<!--Improved Flashlight-->	
 	<texture path="effects/particles/weapons/flashlight/e_gradient_radial2" force="true"/>	
 	<texture path="units/lights/spot_light_projection_textures/spotprojection_11_flashlight_df" force="true"/>	

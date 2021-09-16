@@ -419,8 +419,18 @@ function CopActionTase:update(t)
 				self._played_sound_this_once = true
 				self._unit:sound():play("taser_charge", nil)
 			end
+			
+			if self._shoot_t and self._shoot_t > t then
+				if self._tase_effect then
+					World:effect_manager():fade_kill(self._tase_effect)
+				end
 
-			if self._shoot_t and self._mod_enable_t < t and self._shoot_t < t then
+				self._tase_effect = World:effect_manager():spawn({
+					force_synch = true,
+					effect = Idstring("effects/payday2/particles/character/taser_thread"),
+					parent = self._weapon_obj_fire
+				})
+			elseif self._shoot_t and self._mod_enable_t < t and self._shoot_t < t then
 				if self._tasing_local_unit and target_dis < self._tase_distance then
 					local record = managers.groupai:state():criminal_record(self._tasing_local_unit:key())
 
