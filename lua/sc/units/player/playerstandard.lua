@@ -1973,7 +1973,7 @@ function PlayerStandard:_soft_interrupt_action_reload(t)
 		else --Otherwise instant reload cancel.
 			local timers = weap_base:weapon_tweak_data().timers
 			local reload_progress = (t - self._state_data.reload_start_t) / (self._state_data.reload_expire_t - self._state_data.reload_start_t)
-			log(reload_progress)
+			--log(reload_progress)
 			local can_interrupt = nil
 			if self._state_data.empty_reload == 1 then
 				can_interrupt = reload_progress < (timers.empty_reload_interrupt or 1)

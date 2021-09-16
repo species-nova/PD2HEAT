@@ -24,7 +24,7 @@ local table_insert = table.insert
 local table_remove = table.remove
 
 --Set to true to Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
-local spawn_debug_level = nil
+local debug_spawn_groups  = true
 
 function GroupAIStateBesiege:init(group_ai_state)
 	GroupAIStateBesiege.super.init(self)
