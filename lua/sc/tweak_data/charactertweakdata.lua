@@ -39,7 +39,7 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 0.75,
 		min_range = 500,
 		max_range = 2400,
-		throw_force = 1 / 1250,
+		throw_force = 1 / 1150,
 		no_anim = true,
 		voiceline = "use_gas"
 	}
@@ -51,7 +51,7 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 0.6,
 		min_range = 500,
 		max_range = 2400,
-		throw_force = 1 / 1250,
+		throw_force = 1 / 1150,
 		offset = projectile_throw_pos_offset,
 		voiceline = "i03"
 	}
