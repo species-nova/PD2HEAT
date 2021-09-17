@@ -101,7 +101,7 @@ function CopActionTase:init(action_desc, common_data)
 	}
 	self._tase_distance = weapon_usage_tweak.tase_distance or 1500
 	self._aim_delay_minmax = weapon_usage_tweak.aim_delay_tase or {1, 1}
-	self._sphere_radius = weapon_usage_tweak.tase_sphere_cast_radius or 30
+	self._sphere_radius = weapon_usage_tweak.tase_sphere_cast_radius or 10
 	self._line_of_fire_slotmask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
 	self._weapon_obj_fire = weapon_unit:get_object(Idstring("fire"))
 	self._shield = alive(self._ext_inventory._shield_unit) and self._ext_inventory._shield_unit or nil

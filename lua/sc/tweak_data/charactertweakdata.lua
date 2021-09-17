@@ -2658,7 +2658,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser.weapon = presets.weapon.good
 	self.taser.weapon.is_rifle.tase_distance = 1400
 	self.taser.weapon.is_rifle.aim_delay_tase = {0.75, 0.75}
-	self.taser.weapon.is_rifle.tase_sphere_cast_radius = 30
+	self.taser.weapon.is_rifle.tase_sphere_cast_radius = 10
 	self.taser.detection = presets.detection.normal
 	self.taser.HEALTH_INIT = 72
 	self.taser.headshot_dmg_mul = normal_headshot
