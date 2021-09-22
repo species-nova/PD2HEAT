@@ -7401,7 +7401,8 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_o_eotech",
 					"wpn_fps_m4_uupg_m_std",
 					"wpn_fps_upg_m4_s_standard",
-					"wpn_fps_upg_fl_ass_smg_sho_surefire"
+					"wpn_fps_upg_fl_ass_smg_sho_surefire",
+					"wpn_fps_upg_charm_dallas"
 				},
 				cosmetics = {
 					id = "amcar_same",
@@ -7424,7 +7425,8 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_pis_1911_g_bling",
 					"wpn_fps_pis_1911_b_long",
 					"wpn_upg_o_marksmansight_rear",
-					"wpn_fps_upg_fl_pis_tlr1"
+					"wpn_fps_upg_fl_pis_tlr1",
+					"wpn_fps_upg_charm_dallas"
 				},
 				cosmetics = {}
 			}
