@@ -9311,7 +9311,7 @@ function CharacterTweakData:_set_normal()
 	self:_set_characters_dodge_preset("athletic")
 	self:_set_characters_melee_preset("1", "1")
 
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 
 	self:_multiply_all_speeds(1, 1)
@@ -9339,7 +9339,7 @@ function CharacterTweakData:_set_hard()
 	
 	self:_set_characters_dodge_preset("athletic")
 	self:_set_characters_melee_preset("1", "1")
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[6] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -9368,7 +9368,7 @@ function CharacterTweakData:_set_overkill()
 		
 	self:_set_characters_dodge_preset("athletic_very_hard")
 	self:_set_characters_melee_preset("2", "1")
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -9396,7 +9396,7 @@ function CharacterTweakData:_set_overkill_145()
 	self.swat.can_slide_on_suppress = true
 	self.hrt.can_slide_on_suppress = true
 	
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -9426,7 +9426,7 @@ function CharacterTweakData:_set_easy_wish()
 	self.city_swat_guard.can_slide_on_suppress = true	
 	self:_set_characters_melee_preset("2.8", "2")
 
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -9468,7 +9468,7 @@ function CharacterTweakData:_set_overkill_290()
 	self.fbi.move_speed = self.presets.move_speed.lightning
 	self.hrt.move_speed = self.presets.move_speed.lightning
 	
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -9507,7 +9507,7 @@ function CharacterTweakData:_set_sm_wish()
 	self.city_swat_guard.can_shoot_while_dodging = true	
 	
 	self:_multiply_all_speeds(1, 1)
-	self.flashbang_multiplier = 2
+	self.flashbang_multiplier = 3
 	self.concussion_multiplier = 1
 	
 	--Titan SWAT smoke dodging
