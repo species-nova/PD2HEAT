@@ -651,7 +651,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			end
 		end
 
-		if self._shots_before_bullet_hell <= self._shots_without_releasing_trigger then
+		if self._shots_before_bullet_hell and self._shots_before_bullet_hell <= self._shots_without_releasing_trigger then
 			self._bullet_hell_procced = true
 			managers.player:activate_temporary_upgrade_indefinitely("temporary", "bullet_hell")
 		end

@@ -2616,12 +2616,12 @@ function CharacterTweakData:_init_autumn(presets)
 	self.autumn.static_dodge_preset = true
 	self.autumn.is_special = true
 	self.autumn.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
+		flash = {duration = {
+			1,
+			1
 		}},
 		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 12
+			local delay_till_next_use = 4
 			local chance = 0.5
 
 			if math.random() < chance then
