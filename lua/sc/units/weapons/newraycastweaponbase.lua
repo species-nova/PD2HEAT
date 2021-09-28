@@ -266,9 +266,7 @@ function NewRaycastWeaponBase:recoil_multiplier(...)
 		end
 	end
 
-	if self._multikill_this_magazine and (self:is_category("smg") or player_manager:has_category_upgrade("weapon", "universal_multikill_buffs")) then
-		mul = mul + player_manager:upgrade_value("weapon", "multikill_recoil_multiplier", 1) - 1
-	end
+	mul = mul + player_manager:temporary_upgrade_value("temporary", "bullet_hell", {recoil_multiplier = 1.0}).recoil_multiplier - 1
 
 	return rounds * self:_convert_add_to_mul(mul)
 end
@@ -501,9 +499,7 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 		mul = mul + player_manager:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1) - 1
 	end 
 
-	if self._multikill_this_magazine and (self:is_category("smg") or player_manager:has_category_upgrade("weapon", "universal_multikill_buffs")) then
-		mul = mul + player_manager:upgrade_value("weapon", "multikill_fire_rate_multiplier", 1) - 1
-	end
+	mul = mul + player_manager:temporary_upgrade_value("temporary", "bullet_hell", {fire_rate_multiplier = 1.0}).fire_rate_multiplier - 1
 
 	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
 	

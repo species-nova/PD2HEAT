@@ -1599,7 +1599,6 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 
 			--Reset Shell Shocked
 			self._equipped_unit:base():check_last_bullet_stagger() --Check Shell Shocked on manual reload.
-			self._equipped_unit:base():set_bullet_hell_active(false) --Remove Bullet Hell
 		end
 	end
 

@@ -660,6 +660,12 @@ function PlayerManager:check_skills()
 	else
 		self._message_system:unregister(Message.OnEnemyKilled, "overheat_stacking")
 	end
+
+	if self:has_category_upgrade("temporary", "bullet_hell") and self:upgrade_value("temporary", "bullet_hell")[1].kill_refund > 0 then
+		self._message_system:register(Message.OnEnemyKilled, "bullet_hell_reload", callback(self, self, "_trigger_bullet_hell_reload"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "bullet_hell_reload")
+	end
 end
 
 local mvec3_norm = mvector3.normalize
@@ -1088,6 +1094,16 @@ function PlayerManager:_on_spawn_extra_ammo_event(killed_unit)
 		managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
 	else
 		self:spawn_extra_ammo(killed_unit)
+	end
+end
+
+function PlayerManager:_trigger_bullet_hell_reload(equipped_unit, variant, killed_unit)
+	if self:has_activate_temporary_upgrade("temporary", "bullet_hell") then
+		local weapon_unit = equipped_unit:base()
+		local bullets_loaded = weapon_unit:get_ammo_remaining_in_clip() + self:temporary_upgrade_value("temporary", "bullet_hell").kill_refund
+		bullets_loaded = math.min(bullets_loaded, math.min(weapon_unit:get_ammo_total(), weapon_unit:get_ammo_max_per_clip()))
+		weapon_unit:set_ammo_remaining_in_clip(bullets_loaded)
+		managers.hud:set_ammo_amount(weapon_unit:selection_index(), weapon_unit:ammo_info())
 	end
 end
 

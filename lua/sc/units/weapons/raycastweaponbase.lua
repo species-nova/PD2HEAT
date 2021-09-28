@@ -51,25 +51,14 @@ function RaycastWeaponBase:setup(...)
 		end
 	end
 
-	self._multikill_bullets_loaded = managers.player:upgrade_value("weapon", "multikill_load_ammo", 0)
-end
-
-function RaycastWeaponBase:set_bullet_hell_active(activate)
-	if activate and self._multikill_bullets_loaded > 0 then
-		local bullets_loaded = self:get_ammo_remaining_in_clip() + self._multikill_bullets_loaded
-		bullets_loaded = math.min(bullets_loaded, math.min(self:get_ammo_total(), self:get_ammo_max_per_clip()))
-		self:set_ammo_remaining_in_clip(bullets_loaded)
-		managers.hud:set_ammo_amount(self:selection_index(), self:ammo_info())
-
-		self._multikill_this_magazine = true
-		managers.hud:add_skill("bullet_hell")
-	else
-		self._multikill_this_magazine = nil
-		managers.hud:remove_skill("bullet_hell")
+	--Shots required for Bullet Hell
+	if managers.player:has_category_upgrade("temporary", "bullet_hell") then
+		local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
+		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
 	end
 end
 
---Clear multikill flag.
+--Check for ShellShocked.
 local on_reload_original = RaycastWeaponBase.on_reload
 function RaycastWeaponBase:on_reload(...)
 	self:check_last_bullet_stagger()
@@ -477,10 +466,6 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 			if not is_civilian then
 				self._kills_without_releasing_trigger = (self._kills_without_releasing_trigger or 0) + 1
 
-				if self._kills_without_releasing_trigger and self._kills_without_releasing_trigger > 1 and self:fire_mode() == "auto" then
-					self:set_bullet_hell_active(true)
-				end
-
 				if self:is_category(tweak_data.achievement.easy_as_breathing.weapon_type) then
 					if tweak_data.achievement.easy_as_breathing.count <= self._kills_without_releasing_trigger then
 						managers.achievment:award(tweak_data.achievement.easy_as_breathing.award)
@@ -660,10 +645,15 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		end
 
 		--Bullet Hell
-		if consume_ammo and self._multikill_this_magazine and (self:is_category("smg") or managers.player:has_category_upgrade("weapon", "universal_multikill_buffs")) then
-			if math.random() < managers.player:upgrade_value("weapon", "multikill_free_ammo_chance", 0) then
+		if consume_ammo then
+			if math.random() < managers.player:temporary_upgrade_value("temporary", "bullet_hell", {free_ammo_chance = 0}).free_ammo_chance then
 				consume_ammo = false
 			end
+		end
+
+		if self._shots_before_bullet_hell <= self._shots_without_releasing_trigger then
+			self._bullet_hell_procced = true
+			managers.player:activate_temporary_upgrade_indefinitely("temporary", "bullet_hell")
 		end
 	end
 
@@ -748,6 +738,12 @@ end
 
 function RaycastWeaponBase:stop_shooting()
 	self._shots_without_releasing_trigger = 0
+	
+	if self._bullet_hell_procced then
+		managers.player:activate_temporary_upgrade("temporary", "bullet_hell")
+		self._bullet_hell_procced = nil
+	end	
+
 	self._shooting = nil
 	self._kills_without_releasing_trigger = nil
 	self._bullets_fired = nil
@@ -831,9 +827,6 @@ end
 
 function RaycastWeaponBase:on_equip(user_unit)
 	self:_check_magazine_empty()
-	if self._multikill_this_magazine then
-		managers.hud:add_skill("bullet_hell")
-	end
 
 	if self._stagger_on_last_shot then
 		local categories = self:categories()
@@ -846,8 +839,9 @@ function RaycastWeaponBase:on_unequip(user_unit)
 		self._tango_4_data = nil
 	end
 
+	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
 	managers.hud:remove_skill("bullet_hell")
-	
+
 	local categories = self:categories()
 	managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
 end

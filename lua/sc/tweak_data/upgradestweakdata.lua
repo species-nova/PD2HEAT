@@ -641,12 +641,26 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	
 			--Bullet Hell
 				--Basic
-					self.values.weapon.multikill_free_ammo_chance = {0.5}
-					self.values.weapon.multikill_load_ammo = {6}
-				--Ace
-					self.values.weapon.multikill_recoil_multiplier = {1.5}
-					self.values.weapon.multikill_fire_rate_multiplier = {1.5}
-					self.values.weapon.universal_multikill_buffs = {true}
+					self.values.temporary.bullet_hell = {{
+						{ --Basic
+							fire_rate_multiplier = 1.4,
+							recoil_multiplier = 1.4,
+							free_ammo_chance = 0.6,
+							kill_refund = 0,
+							shots_required = 5,
+							smg_only = true
+						},
+						0.01 --duration
+					},{
+						{ --Ace
+							fire_rate_multiplier = 1.4,
+							recoil_multiplier = 1.4,
+							free_ammo_chance = 0.6,
+							kill_refund = 3,
+							shots_required = 5
+						},
+						3
+					}}
 						
 	--ENFORCER--
 		--Shotgunner--
@@ -2803,40 +2817,22 @@ function UpgradesTweakData:_smg_definitions()
 			value = 1
 		}
 	}
-	self.definitions.weapon_multikill_free_ammo_chance = {
-		name_id = "menu_weapon_multikill_free_ammo_chance",
-		category = "feature",
+	self.definitions.player_bullet_hell_1 = {
+		category = "temporary",
+		name_id = "menu_player_bullet_hell",
 		upgrade = {
-			value = 1,
-			upgrade = "multikill_free_ammo_chance",
-			category = "weapon"
+			category = "temporary",
+			upgrade = "bullet_hell",
+			value = 1
 		}
 	}
-	self.definitions.weapon_multikill_load_ammo = {
-		name_id = "menu_weapon_multikill_load_ammo",
-		category = "feature",
+	self.definitions.player_bullet_hell_2 = {
+		category = "temporary",
+		name_id = "menu_player_bullet_hell",
 		upgrade = {
-			value = 1,
-			upgrade = "multikill_load_ammo",
-			category = "weapon"
-		}
-	}	
-	self.definitions.weapon_multikill_recoil_multiplier = {
-		name_id = "menu_weapon_multikill_recoil_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "multikill_recoil_multiplier",
-			category = "weapon"
-		}
-	}
-	self.definitions.weapon_multikill_fire_rate_multiplier = {
-		name_id = "menu_weapon_multikill_fire_rate_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "multikill_fire_rate_multiplier",
-			category = "weapon"
+			category = "temporary",
+			upgrade = "bullet_hell",
+			value = 2
 		}
 	}
 end
@@ -3638,15 +3634,6 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "akimbo"
 		}
 	}
-	self.definitions.weapon_universal_multikill_buffs = {
-		name_id = "menu_weapon_universal_multikill_buffs",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "universal_multikill_buffs",
-			category = "weapon"
-		}
-	}
 	self.definitions.weapon_pop_helmets = {
 		name_id = "menu_player_weapon_pop_helmets",
 		category = "feature",
@@ -3695,7 +3682,6 @@ function UpgradesTweakData:_cooldown_definitions()
 			category = "cooldown"
 		}
 	}
-
 	self.definitions.cooldown_killshot_close_panic_chance = {
 		name_id = "menu_cooldown_killshot_close_panic_chance",
 		category = "cooldown",

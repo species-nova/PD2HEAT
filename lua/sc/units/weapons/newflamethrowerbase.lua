@@ -242,10 +242,6 @@ function NewFlamethrowerBase:_fire_raycast(user_unit, from_pos, direction, dmg_m
 
 				if col_ray.unit and col_ray.unit:base() and not (col_ray.unit:base()._tweak_table == "civilian" or col_ray.unit:base()._tweak_table == "civilian_female") then
 					self._kills_without_releasing_trigger = (self._kills_without_releasing_trigger or 0) + 1
-
-					if self._kills_without_releasing_trigger and self._kills_without_releasing_trigger > 1 and self:fire_mode() == "auto" then
-						self:set_bullet_hell_active(false)
-					end
 				end
 			end
 		end
