@@ -749,7 +749,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_armor_full_infinite_sprint",
+						"player_armor_full_cheap_sprint",
 						"player_armor_full_damage_absorb"
 					},
 					cost = self.costs.hightierpro

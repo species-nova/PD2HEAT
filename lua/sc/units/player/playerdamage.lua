@@ -1588,15 +1588,15 @@ function PlayerDamage:set_armor(armor)
 				"full_armor_absorption",
 				managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor()
 			)
-			if managers.player:has_category_upgrade("player", "armor_full_infinite_sprint") then
-				self._unit:movement():activate_infinite_sprint()
+			if managers.player:has_category_upgrade("player", "armor_full_cheap_sprint") then
+				self._unit:movement():activate_cheap_sprint()
 			end
 		else
 			managers.player:set_damage_absorption(
 				"full_armor_absorption",
 				0
 			)
-			self._unit:movement():deactivate_infinite_sprint()
+			self._unit:movement():deactivate_cheap_sprint()
 		end
 
 		if current_armor ~= 0 and armor == 0 and self._dire_need then

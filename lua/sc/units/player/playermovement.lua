@@ -14,9 +14,7 @@ function PlayerMovement:init(...)
 	self._underdog_skill_data = tweak_data.upgrades.close_combat_data
 	self._underdog_chk_t = 0
 	self._nr_close_guys = 0
-	if managers.player:has_category_upgrade("player", "armor_full_infinite_sprint") then
-		self._infinite_sprint = true
-	end
+	self._sprint_cost_multiplier = managers.player:upgrade_value("player", "armor_full_cheap_sprint", 1)
 end
 
 function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
@@ -198,13 +196,42 @@ function PlayerMovement:stagger_in_aoe(stagger_dis)
 	end
 end
 
-function PlayerMovement:activate_infinite_sprint()
-	self._infinite_sprint = true
+function PlayerMovement:activate_cheap_sprint()
+	self._sprint_cost_multiplier = managers.player:upgrade_value("player", "armor_full_cheap_sprint", 1)
 end
 
-function PlayerMovement:deactivate_infinite_sprint()
-	self._infinite_sprint = nil
+function PlayerMovement:deactivate_cheap_sprint()
+	self._sprint_cost_multiplier = 1
 end
+
+function PlayerMovement:update_stamina(t, dt, ignore_running, cost_multiplier)
+	local dt = self._last_stamina_regen_t and t - self._last_stamina_regen_t or dt
+	self._last_stamina_regen_t = t
+	
+	if not ignore_running and self._is_running then
+		self:subtract_stamina(dt * tweak_data.player.movement_state.stamina.STAMINA_DRAIN_RATE * cost_multiplier)
+	elseif self._regenerate_timer then
+		self._regenerate_timer = self._regenerate_timer - dt
+
+		if self._regenerate_timer < 0 then
+			self:add_stamina(dt * tweak_data.player.movement_state.stamina.STAMINA_REGEN_RATE)
+
+			if self:_max_stamina() <= self._stamina then
+				self._regenerate_timer = nil
+			end
+		end
+	elseif self._stamina < self:_max_stamina() then
+		self:_restart_stamina_regen_timer()
+	end
+
+	if _G.IS_VR then
+		managers.hud:set_stamina({
+			current = self._stamina,
+			total = self:_max_stamina()
+		})
+	end
+end
+
 
 function PlayerMovement:update(unit, t, dt)
 	if _G.IS_VR then
@@ -223,6 +250,6 @@ function PlayerMovement:update(unit, t, dt)
 		self._current_state:update(t, dt)
 	end
 
-	self:update_stamina(t, dt, self._infinite_sprint)
+	self:update_stamina(t, dt, nil, self._sprint_cost_multiplier)
 	self:update_teleport(t, dt)
 end

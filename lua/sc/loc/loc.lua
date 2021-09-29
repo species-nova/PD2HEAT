@@ -1769,7 +1769,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Iron Man--
 			["menu_juggernaut_beta_sc"] = "Iron Man",
-			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nUnlocks the ability to wear the Improved Combined Tactical Vest.\n\nACE: ##$pro##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##30%## of your maximum armor and you can sprint indefinitely.",
+			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nUnlocks the ability to wear the Improved Combined Tactical Vest.\n\nACE: ##$pro##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##30%## of your maximum armor and sprinting costs ##50%## less stamina.",
 
 
 			--}

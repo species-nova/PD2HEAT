@@ -754,7 +754,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Basic
 						--Unlock ICTV
 					--Ace
-						self.values.player.armor_full_infinite_sprint = {true}
+						self.values.player.armor_full_cheap_sprint = {0.5}
 						self.values.player.armor_full_damage_absorb = {0.3}
 						
 			
@@ -3352,12 +3352,12 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_armor_full_infinite_sprint = {
-		name_id = "menu_player_armor_full_infinite_sprint",
+	self.definitions.player_armor_full_cheap_sprint = {
+		name_id = "menu_player_armor_full_cheap_sprint",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "armor_full_infinite_sprint",
+			upgrade = "armor_full_cheap_sprint",
 			category = "player"
 		}
 	}
