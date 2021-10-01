@@ -1024,7 +1024,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Second Wind
 				--Basic
-					self.values.temporary.damage_speed_multiplier = {{1.1, 3}}
+					self.values.temporary.damage_speed_multiplier = {{1.1, 2}}
 
 				--Ace
 					self.values.player.armor_break_stagger = {800} --Uses Basic for cooldown mechanics. 

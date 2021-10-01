@@ -1940,7 +1940,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Deep Pockets--
 		["menu_thick_skin_beta_sc"] = "Second Wind",
-		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until ##3## seconds after it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##8## meters of you are staggered. This effect can only occur again once Second Wind basic wears off.",
+		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until ##2## seconds after it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##8## meters of you are staggered. This effect can only occur again once Second Wind basic wears off.",
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",
