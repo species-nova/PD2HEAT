@@ -519,26 +519,26 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   SHOTGUNNER SUBTREE   ]]--
 			--{
 			
-			--Shotgun Impact--
+			--Riding Coach--
 			self.skills.underdog = {
 				["name_id"] = "menu_shotgun_impact_beta_sc",
 				["desc_id"] = "menu_shotgun_impact_beta_desc_sc",
 				["icon_xy"] = {5, 0},
 				[1] = {
 					upgrades = {
-						"shotgun_close_combat_swap_speed_multiplier"
+						"shotgun_close_combat_swap_speed_multiplier_1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					upgrades = {
-						"shotgun_extra_rays"
+						"shotgun_close_combat_swap_speed_multiplier_2"
 					},
 					cost = self.costs.pro
 				}
 			}			
 
-			--Gung-Ho--
+			--Shell Shocked--
 			self.skills.shotgun_cqb = {
 				["name_id"] = "menu_shotgun_cqb_beta_sc",
 				["desc_id"] = "menu_shotgun_cqb_beta_desc_sc",
@@ -557,7 +557,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 			
-			--Shell Shocked--
+			--Gung-Ho--
 			self.skills.shotgun_impact = {
 				["name_id"] = "menu_close_by_beta_sc",
 				["desc_id"] = "menu_close_by_beta_desc_sc",
@@ -570,7 +570,8 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_run_and_shoot_1"
+						"player_run_and_shoot_1",
+						"player_sprint_kill_stamina_regen"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1451,7 +1452,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"temporary_armor_break_stagger"
+						"player_armor_break_stagger"
 					},
 					cost = self.costs.pro
 				}	

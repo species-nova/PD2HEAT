@@ -68,8 +68,8 @@ function PlayerDamage:init(unit)
 	self._interaction = managers.interaction
 	self._armor_regen_mul = managers.player:upgrade_value("player", "armor_regen_time_mul", 1)
 	self._dire_need = managers.player:has_category_upgrade("player", "armor_depleted_stagger_shot")
-	self._has_damage_speed = managers.player:has_inactivate_temporary_upgrade("temporary", "damage_speed_multiplier")
-	self._has_damage_speed_team = managers.player:upgrade_value("player", "team_damage_speed_multiplier_send", 0) ~= 0
+	self._has_damage_speed = false --No longer used to store whether or not the upgrade is available. Now instead used to track whether it is currently active due to armor broken or bonus duration.
+	--Removed vanilla skill.
 
 	--Unique resmod stuff.
 	self._ally_attack = false --Whether or not an ally dealt the last attack. Prevents certain cheese with friendly fire.
@@ -80,7 +80,6 @@ function PlayerDamage:init(unit)
 	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
 	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
-	self._can_armor_break_stagger = player_manager:has_inactivate_temporary_upgrade("temporary", "armor_break_stagger")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
 	if self._can_survive_one_hit then
 		managers.hud:add_skill("survive_one_hit")
@@ -1335,6 +1334,12 @@ Hooks:PreHook(PlayerDamage, "_check_bleed_out", "ResYakuzaCaptstoneCheck", funct
 	end
 end)
 
+--Damage speed functionality has been changed, and is now only checked when armor damage is taken rather than on every single damage event.
+--As a result, all that's left to do here is to reset the armor regen timer.
+function PlayerDamage:_on_damage_event()
+	self:set_regenerate_timer_to_max()
+end
+
 --Starts biker regen when there is missing armor. Also notifies ex-pres when armor has broken to get around dumb interaction with bullseye (but only if it was broken by non-friendly fire).
 Hooks:PostHook(PlayerDamage, "_calc_armor_damage", "ResBikerCooldown", function(self, attack_data)
 	local pm = managers.player
@@ -1343,9 +1348,12 @@ Hooks:PostHook(PlayerDamage, "_calc_armor_damage", "ResBikerCooldown", function(
 	end
 
 	if self:get_real_armor() == 0 and not self._ally_attack then
-		if self._can_armor_break_stagger then
-			pm:activate_temporary_upgrade("temporary", "armor_break_stagger")
-			self._unit:movement():stagger_in_aoe(pm:temporary_upgrade_value("temporary", "armor_break_stagger"))
+		if not self._has_damage_speed and pm:has_category_upgrade("temporary", "damage_speed_multiplier") then
+			if pm:has_inactivate_temporary_upgrade("temporary", "damage_speed_multiplier") then
+				self._unit:movement():stagger_in_aoe(pm:upgrade_value("player", "armor_break_stagger", -1))
+			end
+			self._has_damage_speed = true
+			pm:activate_temporary_upgrade_indefinitely("temporary", "damage_speed_multiplier")
 		end
 
 		self._armor_broken = true
@@ -1584,12 +1592,18 @@ function PlayerDamage:set_armor(armor)
 		end
 
 		if armor == self:_max_armor() then
-			managers.player:set_damage_absorption(
+			local pm = managers.player
+			pm:set_damage_absorption(
 				"full_armor_absorption",
-				managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor()
+				pm:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor()
 			)
-			if managers.player:has_category_upgrade("player", "armor_full_cheap_sprint") then
+			if pm:has_category_upgrade("player", "armor_full_cheap_sprint") then
 				self._unit:movement():activate_cheap_sprint()
+			end
+
+			if self._has_damage_speed then
+				self._has_damage_speed = false
+				pm:activate_temporary_upgrade("temporary", "damage_speed_multiplier")
 			end
 		else
 			managers.player:set_damage_absorption(

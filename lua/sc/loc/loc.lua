@@ -1724,15 +1724,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Gung-Ho--
 			["menu_close_by_beta_sc"] = "Gung-Ho",
-			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.\n\nACE: ##$pro##\nYou can now hip-fire while sprinting.",
+			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.\n\nACE: ##$pro##\nYou can now hip-fire while sprinting.\n\nKilling an enemy while sprinting regenerates ##2## stamina.",
 
 			--Shell Shocked--
 			["menu_shotgun_cqb_beta_sc"] = "Shell Shocked",
 			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last shot in your shotgun or flamethrower staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##40%## faster.",
 
-			--Underdog--
-			["menu_shotgun_impact_beta_sc"] = "Shotgun Impact",
-			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw and holster shotguns and flamethrowers ##30%## faster.\n\nACE: ##$pro##\nShotguns fire ##3## extra pellets.\n\nNote: Does not apply to slugs or explosive rounds.",
+			--Riding Coach--
+			["menu_shotgun_impact_beta_sc"] = "Riding Coach",
+			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw and holster shotguns and flamethrowers ##30%## faster.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you draw and holster shotguns and flamethrowers an additional ##90%## faster.",
 
 			--Pigeon Shooting--
 			["menu_far_away_beta_sc"] = "Pigeon Shooter",
@@ -1940,7 +1940,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Deep Pockets--
 		["menu_thick_skin_beta_sc"] = "Second Wind",
-		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##15%## speed for ##3## seconds.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##8## meters of you are staggered. This effect can only occur once every ##3## seconds.",
+		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until ##3## seconds after it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##8## meters of you are staggered. This effect can only occur again once Second Wind basic wears off.",
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",
@@ -2003,7 +2003,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Moving Target--
 		["menu_dire_need_beta_sc"] = "Moving Target",
-		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1.5%## extra movement speed for every ##3## points of concealment under ##35##, up to ##15%.##\n\nACE: ##$pro##\nYou gain ##1.5%## extra movement speed for every ##1## point of concealment under ##35##, up to ##15%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
+		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of concealment under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every ##1## point of concealment under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
 
 		--Optical Illusions--
 		["menu_optic_illusions_sc"] = "Optical Illusions",

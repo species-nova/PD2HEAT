@@ -664,11 +664,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						
 	--ENFORCER--
 		--Shotgunner--
-			--Shotgun Impact
-				--Basic
-					self.values.shotgun.close_combat_swap_speed_multiplier = {{value = 1.3, min = 3}}
-				--Ace
-					self.values.shotgun.extra_rays = {3}
+			--Riding Coach
+				self.values.shotgun.close_combat_swap_speed_multiplier = {
+					{value = 1.3, min = 3}, --Basic
+					{value = 2.2, min = 3} --Ace
+				}
 
 			--Shell Shocked
 				--Ace
@@ -681,6 +681,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.shotgun.hip_rate_of_fire = {1.20}
 				--Ace
 					self.values.player.hip_run_and_shoot = {true}
+					self.values.player.sprint_kill_stamina_regen = {2}
 				
 			--Underdog
 				--Basic
@@ -1023,26 +1024,26 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Second Wind
 				--Basic
-					self.values.temporary.damage_speed_multiplier = {{1.15, 3}}
+					self.values.temporary.damage_speed_multiplier = {{1.1, 3}}
 
 				--Ace
-					self.values.temporary.armor_break_stagger = {{800, 3}}
+					self.values.player.armor_break_stagger = {800} --Uses Basic for cooldown mechanics. 
 
 			--Moving Target
 				self.values.player.detection_risk_add_movement_speed = {
 					{ --Basic
-						0.015,
+						0.02,
 						3,
 						"below",
 						35,
-						0.15
+						0.2
 					},
 					{ --Ace
-						0.015,
+						0.02,
 						1,
 						"below",
 						35,
-						0.15
+						0.2
 					}
 				}
 				--Ace
@@ -2405,16 +2406,7 @@ function UpgradesTweakData:_player_definitions()
 			upgrade = "reload_speed_multiplier",
 			category = "pistol"
 		}
-	}	
-	self.definitions.shotgun_extra_rays = {
-		name_id = "menu_shotgun_damage_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "extra_rays",
-			category = "shotgun"
-		}
-	}	
+	}
 	self.definitions.cable_tie_pickup_chance = {
 		name_id = "menu_shotgun_damage_multiplier",
 		category = "feature",
@@ -3244,11 +3236,11 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.temporary_armor_break_stagger = {
-		category = "temporary",
-		name_id = "menu_temporary_armor_break_stagger",
+	self.definitions.player_armor_break_stagger = {
+		category = "feature",
+		name_id = "menu_player_armor_break_stagger",
 		upgrade = {
-			category = "temporary",
+			category = "player",
 			upgrade = "armor_break_stagger",
 			value = 1
 		}
@@ -3376,6 +3368,15 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "civilians_dont_flee",
+			category = "player"
+		}
+	}
+	self.definitions.player_sprint_kill_stamina_regen = {
+		name_id = "menu_player_sprint_kill_stamina_regen",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "sprint_kill_stamina_regen",
 			category = "player"
 		}
 	}
@@ -3607,11 +3608,20 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "shotgun"
 		}
 	}
-	self.definitions.shotgun_close_combat_swap_speed_multiplier = {
-		name_id = "menu_shotgun_close_combat_swap_speed_multiplier",
+	self.definitions.shotgun_close_combat_swap_speed_multiplier_1 = {
+		name_id = "menu_shotgun_close_combat_swap_speed_multiplier_1",
 		category = "feature",
 		upgrade = {
 			value = 1,
+			upgrade = "close_combat_swap_speed_multiplier",
+			category = "shotgun"
+		}
+	}
+	self.definitions.shotgun_close_combat_swap_speed_multiplier_2 = {
+		name_id = "menu_shotgun_close_combat_swap_speed_multiplier_2",
+		category = "feature",
+		upgrade = {
+			value = 2,
 			upgrade = "close_combat_swap_speed_multiplier",
 			category = "shotgun"
 		}

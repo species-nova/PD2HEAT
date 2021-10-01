@@ -37,12 +37,6 @@ function ShotgunBase:_update_stats_values()
 	end
 
 	self._range = tweak_data.weapon.stat_info.damage_falloff.max * self._damage_far_mul
-	
-	if self._ammo_data then
-		if self._ammo_data.rays ~= 1 and self._is_real_shotgun then
-			self._rays = self._rays + managers.player:upgrade_value("shotgun", "extra_rays", 0)
-		end
-	end
 end
 
 function ShotgunBase:reload_expire_t()
