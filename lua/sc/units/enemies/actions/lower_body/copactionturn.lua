@@ -24,7 +24,7 @@ function CopActionTurn:init(action_desc, common_data)
 	
 	self._turn_speed_mul = turn_speed_mul --also used on the animation itself
 
-	if machine:get_global("shield") == 1 and not self._unit:base():has_tag("captain") then
+	if machine:get_global("shield") == 1 and not self._ext_base:has_tag("captain") then
 		self._shield_turning = true
 	end
 
