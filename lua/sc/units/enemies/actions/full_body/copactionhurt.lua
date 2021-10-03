@@ -1523,18 +1523,23 @@ function CopActionHurt:_upd_hurt(t)
 	if self._ext_anim.hurt or self._ext_anim.death then
 		if self._shooting_hurt then
 			local weap_unit = self._weapon_unit
-			local weap_unit_base = weap_unit:base()
-			local shoot_from_pos = weap_unit:position()
-			local shoot_fwd = weap_unit:rotation():y()
-			local dmg_buff = self._ext_base:get_total_buff("base_damage")
-			local dmg_mul = 1 + dmg_buff
+			
+			if not alive(weap_unit) then
+				self._shooting_hurt = nil
+			else
+				local weap_unit_base = weap_unit:base()
+				local shoot_from_pos = weap_unit:position()
+				local shoot_fwd = weap_unit:rotation():y()
+				local dmg_buff = self._ext_base:get_total_buff("base_damage")
+				local dmg_mul = 1 + dmg_buff
 
-			weap_unit_base:trigger_held(shoot_from_pos, shoot_fwd, dmg_mul, nil, 1.2)
+				weap_unit_base:trigger_held(shoot_from_pos, shoot_fwd, dmg_mul, nil, 1.2)
 
-			if weap_unit_base.clip_empty and weap_unit_base:clip_empty() then
-				self._shooting_hurt = false
+				if weap_unit_base.clip_empty and weap_unit_base:clip_empty() then
+					self._shooting_hurt = false
 
-				weap_unit_base:stop_autofire()
+					weap_unit_base:stop_autofire()
+				end
 			end
 		end
 
