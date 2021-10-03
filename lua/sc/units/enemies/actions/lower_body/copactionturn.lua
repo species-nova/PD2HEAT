@@ -24,7 +24,7 @@ function CopActionTurn:init(action_desc, common_data)
 	
 	self._turn_speed_mul = turn_speed_mul --also used on the animation itself
 
-	if machine:get_global("shield") == 1 then
+	if machine:get_global("shield") == 1 and not self._unit:base():has_tag("captain") then
 		self._shield_turning = true
 	end
 
@@ -85,6 +85,7 @@ function CopActionTurn:update(t)
 	local end_rot = self._end_rot
 	local new_rot = self._common_data.rot:slerp(end_rot, delta_lerp)
 	local new_fwd = new_rot:y()
+	 
 	
 	if self._shield_turning then
 		local abs_angle = math_abs(end_dir:to_polar_with_reference(new_fwd, math_up).spin)

@@ -95,7 +95,7 @@ function CopActionWalk:init(action_desc, common_data)
 		return
 	end
 	
-	if common_data.machine:get_global("shield") == 1 then
+	if common_data.machine:get_global("shield") == 1 and not self._unit:base():has_tag("captain") then
 		self._shield_turning = true
 	end
 	
