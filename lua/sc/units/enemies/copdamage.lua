@@ -85,6 +85,27 @@ local old_init = CopDamage.init
 function CopDamage:init(...)
 	old_init(self, ...)
 
+	if self._head_body_name then
+		local my_unit = self._unit
+		local base_ext = my_unit:base()
+
+		if not base_ext.has_tag or not base_ext:has_tag("tank") then
+			local function f()
+				if alive(my_unit) then
+					my_unit:body("head"):set_enabled(false)
+					my_unit:body("rag_Head"):set_enabled(true)
+					my_unit:body("rag_Head"):set_sphere_radius(11)
+
+					self._head_body_name = "rag_Head"
+					self._ids_head_body_name = Idstring(self._head_body_name)
+					self._head_body_key = self._unit:body(self._head_body_name):key()
+				end
+			end
+		
+			managers.enemy:add_delayed_clbk("hitboxes" .. tostring(my_unit:key()), f, TimerManager:game():time())
+		end
+	end
+
 	--Health syncing values used to handle the LPF Overhealing effect.
 	self._OVERHEALTH_INIT = self._HEALTH_INIT * 2
 	self._OVERHEALTH_INIT_PRECENT = self._OVERHEALTH_INIT / self._HEALTH_GRANULARITY
