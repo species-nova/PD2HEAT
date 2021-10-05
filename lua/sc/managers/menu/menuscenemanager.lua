@@ -1,20 +1,3 @@
-if not _G.IS_VR then
-
-Month = os.date("%m")
-Day = os.date("%d")	
-
-Hooks:PostHook(MenuSceneManager, "_set_up_environments", "ResHalloweenColorGrade", function(self)
-	if Month == "10" and restoration.Options:GetValue("Holiday") then
-		self._environments.standard.color_grading = "color_halloween"
-	end
-end)
-
--- Hooks:PostHook(MenuSceneManager, "_set_up_templates", "ResChallengesTemplate", function(self)
--- 	self._scene_templates.res_challenges = {
--- 		hide_menu_logo = true
--- 	}
--- end)
-
 local math_random = math.random
 
 local string_gsub = string.gsub
@@ -204,6 +187,23 @@ function MenuSceneManager:set_henchmen_loadout(index, character, loadout)
 	unit:set_rotation(rot)
 	self:set_henchmen_visible(true, index)
 end
+
+if not _G.IS_VR then
+
+Month = os.date("%m")
+Day = os.date("%d")	
+
+Hooks:PostHook(MenuSceneManager, "_set_up_environments", "ResHalloweenColorGrade", function(self)
+	if Month == "10" and restoration.Options:GetValue("Holiday") then
+		self._environments.standard.color_grading = "color_halloween"
+	end
+end)
+
+-- Hooks:PostHook(MenuSceneManager, "_set_up_templates", "ResChallengesTemplate", function(self)
+-- 	self._scene_templates.res_challenges = {
+-- 		hide_menu_logo = true
+-- 	}
+-- end)
 
 function MenuSceneManager:_setup_bg()
 	local yaw = 180
