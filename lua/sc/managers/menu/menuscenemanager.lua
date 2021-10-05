@@ -1,3 +1,5 @@
+if not _G.IS_VR then
+
 Month = os.date("%m")
 Day = os.date("%d")	
 
@@ -233,4 +235,6 @@ function MenuSceneManager:_setup_bg()
 		
 	self:_setup_lobby_characters()
 	self:_setup_henchmen_characters()
+end
+
 end
