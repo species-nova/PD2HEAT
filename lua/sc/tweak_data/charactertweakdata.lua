@@ -2655,10 +2655,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser = deep_clone(presets.base)
 	self.taser.tags = {"law", "taser", "special"}
 	self.taser.experience = {}
-	self.taser.weapon = presets.weapon.good
-	self.taser.weapon.is_rifle.tase_distance = 1400
-	self.taser.weapon.is_rifle.aim_delay_tase = {0.75, 0.75}
-	self.taser.weapon.is_rifle.tase_sphere_cast_radius = 10
+	self.taser.weapon = presets.weapon.taser
 	self.taser.detection = presets.detection.normal
 	self.taser.HEALTH_INIT = 72
 	self.taser.headshot_dmg_mul = normal_headshot
@@ -2709,7 +2706,7 @@ function CharacterTweakData:_init_taser(presets)
 	table.insert(self._enemy_list, "taser")
 	
 	self.taser_summers = deep_clone(self.taser)
-	self.taser_summers.weapon = presets.weapon.expert
+	self.taser_summers.weapon = presets.weapon.taser_summers
 	self.taser_summers.HEALTH_INIT = 180
 	self.taser_summers.headshot_dmg_mul = normal_headshot
 	self.taser_summers.tags = {"female_enemy","taser", "medic_summers", "custom", "special"}
@@ -5151,6 +5148,18 @@ function CharacterTweakData:_presets(tweak_data)
 		preset.melee_speed = nil
 		preset.melee_retry_delay = nil
 	end
+
+	presets.weapon.taser = {}
+	presets.weapon.taser.is_rifle = deep_clone(presets.weapon.good.is_rifle)
+	presets.weapon.taser.is_rifle.tase_distance = 1400
+	presets.weapon.taser.is_rifle.aim_delay_tase = {0.75, 0.75}
+	presets.weapon.taser.is_rifle.tase_sphere_cast_radius = 10
+
+	presets.weapon.taser_summers = {}
+	presets.weapon.taser_summers.is_rifle = deep_clone(presets.weapon.expert.is_rifle)
+	presets.weapon.taser_summers.is_rifle.tase_distance = 1400
+	presets.weapon.taser_summers.is_rifle.aim_delay_tase = {0.75, 0.75}
+	presets.weapon.taser_summers.is_rifle.tase_sphere_cast_radius = 10
 
 	presets.weapon.dozer = deep_clone(presets.weapon.good) --Good, but with slow melee attacks.
 	for preset_name, preset in pairs(presets.weapon.dozer) do
