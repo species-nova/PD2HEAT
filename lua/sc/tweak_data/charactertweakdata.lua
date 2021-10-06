@@ -2744,6 +2744,7 @@ function CharacterTweakData:_init_taser(presets)
 	table.insert(self._enemy_list, "taser_summers")
 	
 	self.taser_titan = deep_clone(self.taser)
+	self.taser_titan.weapon = presets.weapon.good
 	self.taser_titan.tags = {"taser", "taser_titan", "custom", "special"}
 	self.taser_titan.HEALTH_INIT = 81
 	self.taser_titan.headshot_dmg_mul = normal_headshot
