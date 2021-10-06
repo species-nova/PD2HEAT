@@ -85,6 +85,7 @@ local old_init = CopDamage.init
 function CopDamage:init(...)
 	old_init(self, ...)
 
+	--Replace head hitbox with a smaller one for non-dozer enemies.
 	if self._head_body_name then
 		local my_unit = self._unit
 		local base_ext = my_unit:base()
@@ -94,7 +95,7 @@ function CopDamage:init(...)
 				if alive(my_unit) then
 					my_unit:body("head"):set_enabled(false)
 					my_unit:body("rag_Head"):set_enabled(true)
-					my_unit:body("rag_Head"):set_sphere_radius(11)
+					my_unit:body("rag_Head"):set_sphere_radius(13)
 
 					self._head_body_name = "rag_Head"
 					self._ids_head_body_name = Idstring(self._head_body_name)
