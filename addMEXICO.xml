@@ -519,18 +519,6 @@
 	<unit path="units/pd2_dlc_mad/characters/ene_acc_tswat_k63/ene_acc_tswat_k63" force="false" load="true"/>
 	<material_config path="units/pd2_dlc_mad/characters/ene_acc_tswat_k63/ene_acc_tswat_k63" force="false"/>	
 	
-	<!--Titan HRT-->	
-	<unit path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1" force="false" load="true"/>
-	<unit path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1_husk" force="false" load="true"/>
-	<object path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1" force="false"/>
-	<cooked_physics path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1" force="false"/>
-	<model path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1" force="false"/>
-	<material_config path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1" force="false"/>
-	<material_config path="units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1_contour" force="false"/>
-	<texture path="units/pd2_dlc_mad/characters/shared_textures/ene_titan_fbi_df" force="false"/>	
-	<!--Titan HRT SR2-->	
-	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_sr2_titan/wpn_npc_sr2_titan" load="true" force="false"/>		
-	
 	<!--Titandozer-->	
 	<object path="units/pd2_dlc_mad/characters/ene_vip_2/ene_vip_2" force="false"/>
 	<cooked_physics path="units/pd2_dlc_mad/characters/ene_vip_2/ene_vip_2" force="false"/>
@@ -546,13 +534,6 @@
 	<texture path="units/pd2_dlc_mad/characters/shared_textures/heads_dozer_df" force="false"/>
 	<texture path="units/pd2_dlc_mad/characters/shared_textures/heads_dozer_hurt_df" force="false"/>
 	<texture path="units/pd2_dlc_mad/characters/shared_textures/heads_dozer_hurt_nm" force="false"/>
-	
-	<!--Akan Titan HRT idiot that drops gas's dumb fur hat-->
-	<object path="units/pd2_dlc_mad/characters/ene_acc_helmet_fbi_titan_1/ene_acc_helmet_fbi_titan_1" force="false"/>
-	<cooked_physics path="units/pd2_dlc_mad/characters/ene_acc_helmet_fbi_titan_1/ene_acc_helmet_fbi_titan_1" force="false"/>
-	<model path="units/pd2_dlc_mad/characters/ene_acc_helmet_fbi_titan_1/ene_acc_helmet_fbi_titan_1" force="false"/>
-	<unit path="units/pd2_dlc_mad/characters/ene_acc_helmet_fbi_titan_1/ene_acc_helmet_fbi_titan_1" force="false" load="true"/>
-	<material_config path="units/pd2_dlc_mad/characters/ene_acc_helmet_fbi_titan_1/ene_acc_helmet_fbi_titan_1" force="false"/>	
 	
     <!--Titan Taser-->	
 	<unit path="units/pd2_dlc_mad/characters/ene_titan_taser/ene_titan_taser" force="false" load="true"/>
