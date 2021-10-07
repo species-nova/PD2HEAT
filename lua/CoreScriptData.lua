@@ -54,11 +54,11 @@ local environment_replacers = {
  			["environments/pd2_env_foggy_bright/pd2_env_foggy_bright"] = "scriptdata/underpass_foggyday.custom_xml"
  		}
  	},
- 	mallcrasher = {
+ 	--[[mallcrasher = {
  		{ --Afternoon Shopping
  			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/mall_alt.custom_xml"
  		}
- 	},
+ 	},]]--
  	mia_1 = {
  		{ --Morning Call
  			["environments/pd2_hlm1/pd2_hlm1"] = "scriptdata/hlm_morn.custom_xml"
