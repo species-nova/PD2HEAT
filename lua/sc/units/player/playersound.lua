@@ -6,6 +6,19 @@ Hooks:PreHook(PlayerSound, "destroy" , "destroy_whiz_by_sources" , function(self
 	self:_destroy_whiz_by_sources()
 end)
 
+function PlayerSound:play_impact_sound(params)
+	local sound_source = self._impact_source
+	local material_name = params.material_name and tweak_data.materials[params.material_name:key()] or nil
+
+	sound_source:stop()
+	sound_source:set_position(params.position or self._unit:movement():m_head_pos())	
+	sound_source:set_switch("materials", material_name or "no_material")
+	sound_source:post_event("bullet_hit")
+	sound_source:post_event("bullet_hit")
+	sound_source:post_event("bullet_hit")
+	sound_source:post_event("bullet_hit")
+end
+
 local nr_whiz_by_sound_sources = 20
 
 function PlayerSound:_init_whiz_by_sources()
@@ -25,6 +38,9 @@ function PlayerSound:_init_whiz_by_sources()
 	for i = 1, nr_whiz_by_sound_sources do
 		sources[i] = create_source_f(sound_device, source_str .. i)
 	end
+
+	self._impact_source = create_source_f(sound_device, "impact")
+	self._impact_source:enable_env(false)
 
 	whiz_by_sounds.max_index = #sources
 	whiz_by_sounds.sources = sources
