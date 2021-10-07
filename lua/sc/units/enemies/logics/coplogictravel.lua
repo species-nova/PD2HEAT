@@ -2039,6 +2039,10 @@ function CopLogicTravel._chk_close_to_criminal(data, my_data)
 end
 
 function CopLogicTravel.chk_group_ready_to_move(data, my_data)
+	if not data.group then
+		return true
+	end
+
 	local my_objective = data.objective
 
 	if not my_objective.grp_objective then
@@ -2050,7 +2054,6 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	if my_dis > 1200 then
 		return true
 	end
-
 	my_dis = my_dis * 1.2
 
 	for u_key, u_data in pairs_g(data.group.units) do
