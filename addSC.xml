@@ -1396,6 +1396,8 @@
 	<unit path="units/pd2_dlc_vip/characters/ene_vip_2/ene_vip_2_husk" force="false" load="true"/>
 	<sequence_manager path="units/pd2_dlc_vip/characters/ene_vip_2/ene_vip_2" force="false"/>
 	<!--textures-->
+	<texture path="units/pd2_dlc_vip/characters/shared_textures/ene_titan_fbi_df" force="false"/>
+	
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/vip_2_body_df" force="false"/>
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/vip_2_body_nm" force="false"/>
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/heads_dozer_df" force="false"/>
