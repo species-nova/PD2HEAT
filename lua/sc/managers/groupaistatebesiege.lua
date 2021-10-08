@@ -7,15 +7,19 @@ local mvec3_add = mvector3.add
 local mvec3_divide = mvector3.divide
 local mvec3_dis_sq = mvector3.distance_sq
 local mvec3_cpy = mvector3.copy
+local mvec3_sub = mvector3.subtract
+local mvec3_dir = mvector3.direction
+local mvec3_dot = mvector3.dot
+local mvec3_norm = mvector3.normalize
 local tmp_vec1 = Vector3()
 local tmp_vec2 = Vector3()
 local tmp_vec3 = Vector3()
 
 local math_up = math.UP
-local math_max = math.max
 local math_lerp = math.lerp
 local math_random = math.random
 local math_clamp = math.clamp
+local math_max = math.max
 
 local pairs_g = pairs
 local next_g = next
@@ -24,7 +28,7 @@ local table_insert = table.insert
 local table_remove = table.remove
 
 --Set to true to Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
-local debug_spawn_groups  = true
+local debug_spawn_groups  = false
 
 function GroupAIStateBesiege:init(group_ai_state)
 	GroupAIStateBesiege.super.init(self)
