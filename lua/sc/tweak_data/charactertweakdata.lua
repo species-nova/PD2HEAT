@@ -7353,28 +7353,64 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 	presets.suppression = {
 		easy = {
-			duration = {10, 15},
-			react_point = {0, 2},
-			brown_point = {3, 5},
-			panic_chance_mul = 1
+			panic_chance_mul = 1,
+			duration = {
+				5,
+				7.5
+			},
+			react_point = {
+				0,
+				0
+			},
+			brown_point = {
+				3,
+				3
+			}
 		},
 		hard_def = {
-			duration = {5, 10},
-			react_point = {0, 2},
-			brown_point = {5, 6},
-			panic_chance_mul = 1
+			panic_chance_mul = 1,
+			duration = {
+				5,
+				7.5
+			},
+			react_point = {
+				1,
+				1
+			},
+			brown_point = {
+				3,
+				3
+			}
 		},
 		hard_agg = {
-			duration = {5, 8},
-			react_point = {2, 5},
-			brown_point = {5, 6},
-			panic_chance_mul = 1
+			panic_chance_mul = 1,
+			duration = {
+				3,
+				5
+			},
+			react_point = {
+				3,
+				3
+			},
+			brown_point = {
+				4,
+				4
+			}
 		},
 		no_supress = {
-			duration = {0.1, 0.15},
-			react_point = {100, 200},
-			brown_point = {400, 500},
-			panic_chance_mul = 0
+			panic_chance_mul = 0,
+			duration = {
+				0.1,
+				0.15
+			},
+			react_point = {
+				100,
+				200
+			},
+			brown_point = {
+				400,
+				500
+			}
 		}
 	}
 	

@@ -113,7 +113,7 @@
 		<hook file="sc/units/player/playerdriving.lua" source_file="lib/units/beings/player/states/playerdriving"/>
 		<hook file="sc/units/player/playerclean.lua" source_file="lib/units/beings/player/states/playerclean"/>
 		<hook file="sc/units/player/playercivilian.lua" source_file="lib/units/beings/player/states/playercivilian"/>
-		<hook file="sc/units/player/playersound.lua" source_file="lib/units/beings/player/states/playersound"/>
+		<hook file="sc/units/player/playersound.lua" source_file="lib/units/beings/player/playersound"/>
 		<hook file="sc/units/player/recoil.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>
 		<hook file="sc/units/vehicles/animatedvehiclebase.lua" source_file="lib/units/vehicles/animatedvehiclebase"/>
 		<hook file="sc/units/vehicles/vehicledrivingext.lua" source_file="lib/units/vehicles/vehicledrivingext"/>
@@ -173,6 +173,7 @@
 		<hook file="sc/units/civilians/civilianbrain.lua" source_file="lib/units/civilians/civilianbrain"/>
 		<hook file="sc/units/civilians/civiliandamage.lua" source_file="lib/units/civilians/civiliandamage"/>
 		<hook file="sc/units/civilians/huskciviliandamage.lua" source_file="lib/units/civilians/huskciviliandamage"/>
+		<hook file="sc/units/civilians/civilianlogicidle.lua" source_file="lib/units/civilians/logics/civilianlogicidle	"/>
 		<hook file="sc/units/civilians/civilianlogictravel.lua" source_file="lib/units/civilians/logics/civilianlogictravel"/>
 		<hook file="sc/units/civilians/civilianlogicflee.lua" source_file="lib/units/civilians/logics/civilianlogicflee"/>
 		<hook file="sc/units/civilians/civilianlogicsurrender.lua" source_file="lib/units/civilians/logics/civilianlogicsurrender"/>
@@ -203,6 +204,7 @@
 		<hook file="sc/tweak_data/dramatweakdata.lua" source_file="lib/tweak_data/dramatweakdata"/>
 		<hook file="sc/managers/mission/elementspawnenemydummy.lua" source_file="lib/managers/mission/elementspawnenemydummy"/>
 		<hook file="sc/managers/mission/elementfilter.lua" source_file="lib/managers/mission/elementfilter"/>
+		<hook file="sc/managers/mission/elementwaypoint.lua" source_file="lib/managers/mission/elementwaypoint"/>
 		<hook file="sc/tweak_data/crimespreetweakdata.lua" source_file="lib/tweak_data/crimespreetweakdata"/>
 		<hook file="sc/managers/menu/menunodegui.lua" source_file="lib/managers/menu/menunodegui"/>
 		<hook file="sc/tweak_data/assetstweakdata.lua" source_file="lib/tweak_data/assetstweakdata"/>

@@ -2321,6 +2321,13 @@ end
 function CopLogicIdle._perform_objective_action(data, my_data, objective)
 	if objective and not my_data.action_started then
 		if data.unit:anim_data().act_idle or not data.unit:movement():chk_action_forbidden("action") then
+			if objective and objective.action and objective.action.variant then
+				local variant = objective.action.variant
+				if variant == "e_so_ntl_idle_look" or variant == "e_so_ntl_idle_look2" or variant == "e_so_ntl_idle_look3" then
+					objective.action_duration = math.lerp(2, 5, math.random())
+				end
+			end
+		
 			if objective.action then
 				my_data.action_started = data.brain:action_request(objective.action)
 			else
@@ -2328,6 +2335,9 @@ function CopLogicIdle._perform_objective_action(data, my_data, objective)
 			end
 
 			if my_data.action_started then
+				my_data.has_old_action = nil
+				my_data.advancing = nil
+				
 				if objective.action_duration or objective.action_timeout_t then
 					my_data.action_timeout_clbk_id = "CopLogicIdle_action_timeout" .. tostring(data.key)
 					local action_timeout_t = objective.action_timeout_t or data.t + objective.action_duration
@@ -2345,36 +2355,20 @@ function CopLogicIdle._perform_objective_action(data, my_data, objective)
 end
 
 function CopLogicIdle._upd_stop_old_action(data, my_data, objective)
-	local can_stop_action = nil
-
-	if objective then
-		if objective.type == "free" then
-			can_stop_action = true
-		elseif objective.action and not my_data.action_started and not data.unit:anim_data().to_idle then
-			can_stop_action = true
-		end
-	end
-
-	if not can_stop_action then
-		return
-	end
-
 	if my_data.advancing then
 		if not data.unit:movement():chk_action_forbidden("idle") then
 			data.brain:action_request({
-				sync = true,
 				body_part = 2,
 				type = "idle"
 			})
 		end
-	elseif not data.unit:movement():chk_action_forbidden("idle") and data.unit:anim_data().needs_idle then
-		CopLogicIdle._start_idle_action_from_act(data)
-	elseif data.unit:anim_data().act_idle then
-		data.brain:action_request({
-			sync = true,
-			body_part = 2,
-			type = "idle"
-		})
+	elseif data.unit:anim_data().act then
+		if not my_data.starting_idle_action_from_act then
+			my_data.starting_idle_action_from_act = true
+			CopLogicIdle._start_idle_action_from_act(data)
+		end
+	else
+		my_data.starting_idle_action_from_act = nil
 	end
 
 	CopLogicIdle._chk_has_old_action(data, my_data)
@@ -2382,7 +2376,7 @@ end
 
 function CopLogicIdle._chk_has_old_action(data, my_data)
 	local anim_data = data.unit:anim_data()
-	my_data.has_old_action = anim_data.to_idle or anim_data.act
+	my_data.has_old_action = my_data.old_action_started or anim_data.to_idle or anim_data.act
 	local lower_body_action = data.unit:movement()._active_actions[2]
 	my_data.advancing = lower_body_action and lower_body_action:type() == "walk" and lower_body_action
 end

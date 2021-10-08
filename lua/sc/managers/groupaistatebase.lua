@@ -68,6 +68,25 @@ function GroupAIStateBase:set_debug_draw_state(state)
 	self._draw_enabled = state
 end
 
+function GroupAIStateBase:set_current_objective_area(pos)
+	if not Network:is_server() then
+		return
+	end
+	
+	self._current_objective_pos = pos or nil
+	
+	if self._current_objective_pos then
+		local navseg = managers.navigation:get_nav_seg_from_pos(pos, true)
+		self._current_objective_navseg = navseg
+		self._current_objective_area = self:get_area_from_nav_seg_id(navseg)
+	else
+		self._current_objective_area = nil
+		self._current_objective_navseg = nil
+	end
+	
+	self._current_objective_dir = nil
+end
+
 function GroupAIStateBase:_calculate_difficulty_ratio()
 	local ramp = tweak_data.group_ai.difficulty_curve_points
 
