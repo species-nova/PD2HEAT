@@ -205,12 +205,14 @@ local environment_replacers = {
 			["environments/pd2_flat_indoor/pd2_flat_indoor"] = "scriptdata/env_flat_int.custom_xml"
 		}
 	},
+	--[[
 	glace = {
 		{
 			["environments/pd2_glace/glace_outside"] = "scriptdata/env_glace_int.custom_xml",
 			["environments/pd2_glace/glace_inside"] = "scriptdata/env_glace_int.custom_xml"
 		}
 	},
+	]]
 	jolly = {
 		{
 			["environments/pd2_lxa_river/pd2_lxa_river"] = "scriptdata/lxa_river_v4.custom_xml"
