@@ -6,8 +6,8 @@ local math_random = math.random
 local math_min = math.min
 
 local REACT_AIM = AIAttentionObject.REACT_AIM
-TeamAILogicAssault._COVER_CHK_INTERVAL = 1
 local REACT_COMBAT = AIAttentionObject.REACT_COMBAT
+TeamAILogicAssault._COVER_CHK_INTERVAL = 0.2
 
 function TeamAILogicAssault.enter(data, new_logic_name, enter_params)
 	TeamAILogicBase.enter(data, new_logic_name, enter_params)
@@ -62,7 +62,7 @@ function TeamAILogicAssault.enter(data, new_logic_name, enter_params)
 	end
 
 	my_data.cover_test_step = 3
-	my_data.cover_chk_t = data.t + TeamAILogicAssault._COVER_CHK_INTERVAL
+	my_data.cover_chk_t = data.t
 
 	CopLogicIdle._chk_has_old_action(data, my_data)
 
@@ -113,6 +113,10 @@ function TeamAILogicAssault.update(data)
 
 		return
 	end
+	
+	if CopLogicAttack._chk_exit_non_walkable_area(data) then
+		return
+	end
 
 	if not data.attention_obj or data.attention_obj.reaction < REACT_AIM then
 		TeamAILogicAssault._upd_enemy_detection(data, true)
@@ -123,7 +127,7 @@ function TeamAILogicAssault.update(data)
 	end
 
 	if not data.objective or data.objective.type == "free" then
-		if not data.path_fail_t or data.t - data.path_fail_t > 6 then
+		if not data.path_fail_t or data.t - data.path_fail_t > 1 then
 			managers.groupai:state():on_criminal_jobless(data.unit)
 
 			if my_data ~= data.internal_data then
@@ -212,6 +216,10 @@ function TeamAILogicAssault._upd_combat_movement(data)
 	if not action_taken and want_to_take_cover then
 		move_to_cover = true
 	end
+	
+	if not action_taken and move_to_cover and my_data.cover_path then
+		action_taken = CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
+	end
 
 	if not action_taken then
 		if not my_data.cover_path_failed_t or t - my_data.cover_path_failed_t > 5 then
@@ -235,10 +243,6 @@ function TeamAILogicAssault._upd_combat_movement(data)
 				end
 			end
 		end
-	end
-
-	if not action_taken and move_to_cover and my_data.cover_path then
-		action_taken = CopLogicAttack._chk_request_action_walk_to_cover(data, my_data)
 	end
 end
 
@@ -322,6 +326,8 @@ function TeamAILogicAssault._upd_spotting(data, my_data)
 		my_data.mark_special_chk_t = data.t + 0.75
 
 		if not data.mark_special_t or data.t > data.mark_special_t then
+			
+		
 			local nmy = TeamAILogicAssault.find_enemy_to_mark(data)
 
 			if nmy then
@@ -339,12 +345,12 @@ function TeamAILogicAssault._upd_spotting(data, my_data)
 end
 
 function TeamAILogicAssault.find_enemy_to_mark(data)
-	local attention_objects = data.detected_attention_objects
 	local my_head_pos = data.unit:movement():m_head_pos()
 	local my_look_vec = data.unit:movement():m_rot():y()
 	local max_marking_angle = 90
 	local best_nmy, best_nmy_wgt = nil
-
+	local attention_objects = data.detected_attention_objects
+	
 	for key, attention_info in pairs(attention_objects) do
 		local att_contour_ext = attention_info.unit:contour()
 
@@ -435,6 +441,10 @@ function TeamAILogicAssault.mark_enemy(data, criminal, to_mark, play_sound, play
 			if criminal:brain():action_request(new_action) then
 				data.internal_data.gesture_arrest = true
 			end
+
+			--[[if criminal:movement():play_redirect("arrest") then
+				managers.network:session():send_to_peers_synched("play_distance_interact_redirect", criminal, "arrest")
+			end]]
 		end
 	end
 

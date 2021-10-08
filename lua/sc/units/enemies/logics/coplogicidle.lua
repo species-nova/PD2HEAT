@@ -206,6 +206,10 @@ function CopLogicIdle.exit(data, new_logic_name, enter_params)
 	if my_data.best_cover then
 		managers.navigation:release_cover(my_data.best_cover[1])
 	end
+	
+	if my_data.in_pos_cover then
+		managers.navigation:release_cover(my_data.in_pos_cover)
+	end
 
 	if my_data.nearest_cover then
 		managers.navigation:release_cover(my_data.nearest_cover[1])
@@ -278,8 +282,131 @@ function CopLogicIdle.queued_update(data)
 	if data.internal_data ~= my_data then
 		return
 	end
+	
+	if objective and objective.type == "defend_area" then
+		if not my_data.in_cover then
+			if not my_data.advancing and my_data.cover_path and not my_data.moving_to_cover then
+				CopLogicIdle._chk_request_action_walk_to_cover(data, my_data)
+			elseif not my_data.in_cover and not my_data.processing_cover_path and not my_data.moving_to_cover then
+				local my_tracker = data.unit:movement():nav_tracker()
+				local my_nav_seg = my_tracker:nav_segment()
+
+				local cover = CopLogicTravel._find_cover(data, my_nav_seg)
+				
+				if cover then
+					local my_pos = data.unit:movement():nav_tracker():field_position()
+					local to_cover_pos = cover[1]
+					local unobstructed_line = nil
+
+					if math_abs(my_pos.z - to_cover_pos.z) < 40 then
+						local ray_params = {
+							allow_entry = false,
+							pos_from = my_pos,
+							pos_to = to_cover_pos
+						}
+
+						if not managers.navigation:raycast(ray_params) then
+							unobstructed_line = true
+						end
+					end
+
+					if unobstructed_line then
+						my_data.processing_cover_path = cover
+						
+						local path = {
+							mvec3_cpy(my_pos),
+							mvec3_cpy(to_cover_pos)
+						}
+						
+						my_data.cover_path = path
+						
+						CopLogicIdle._chk_request_action_walk_to_cover(data, my_data)
+					else
+						data.brain:add_pos_rsrv("path", {
+							radius = 60,
+							position = mvec3_cpy(cover[1])
+						})
+
+						my_data.cover_path_search_id = tostring(data.key) .. "cover"
+						my_data.processing_cover_path = cover
+
+						data.brain:search_for_path_to_cover(my_data.cover_path_search_id, cover)
+					end
+				end
+			end
+		end
+	end
 
 	CopLogicBase.queue_task(my_data, my_data.upd_task_key, CopLogicIdle.queued_update, data, data.t + delay, data.cool and true or data.important and true)
+end
+
+function CopLogicIdle._chk_request_action_walk_to_cover(data, my_data)	
+	CopLogicAttack._correct_path_start_pos(data, my_data.cover_path)
+	
+	local haste = nil
+	local pose = nil
+	local i = 1
+	local travel_dis = 0
+	
+	repeat
+		if my_data.cover_path[i + 1] then
+			travel_dis = travel_dis + mvec3_dis(my_data.cover_path[i], my_data.cover_path[i + 1])
+			i = i + 1
+		else
+			break
+		end
+	until travel_dis > 800 or i >= #my_data.cover_path
+	
+	if travel_dis > 400 then
+		haste = "run"
+	end
+	
+	if travel_dis > 800 then
+		pose = "stand"
+	else
+		pose = data.unit:anim_data().crouch and "crouch"
+	end
+
+	haste = haste or "walk"
+	pose = pose or data.is_suppressed and "crouch" or "stand"
+
+	local end_pose = my_data.moving_to_cover and "crouch" or "stand"
+
+	if pose == "crouch" and not data.char_tweak.crouch_move then
+		pose = "stand"
+	end
+
+	if data.char_tweak.allowed_poses then
+		if not data.char_tweak.allowed_poses.crouch then
+			pose = "stand"
+			end_pose = "stand"
+		elseif not data.char_tweak.allowed_poses.stand then
+			pose = "crouch"
+			end_pose = "crouch"
+		end
+	end
+
+	local new_action_data = {
+		type = "walk",
+		body_part = 2,
+		nav_path = my_data.cover_path,
+		variant = haste,
+		pose = pose,
+		end_pose = end_pose
+	}
+	my_data.cover_path = nil
+	my_data.advancing = data.brain:action_request(new_action_data)
+
+	if my_data.advancing then
+		my_data.moving_to_cover = my_data.processing_cover_path
+		my_data.processing_cover_path = nil
+		my_data.at_cover_shoot_pos = nil
+		my_data.in_cover = nil
+
+		data.brain:rem_pos_rsrv("path")
+
+		return true
+	end
 end
 
 function CopLogicIdle._upd_enemy_detection(data)
@@ -330,10 +457,6 @@ function CopLogicIdle._upd_pathing(data, my_data)
 	if path then
 		data.pathing_results[my_data.stare_path_search_id] = nil
 
-		if not next(data.pathing_results) then
-			data.pathing_results = nil
-		end
-
 		if path ~= "failed" then
 			my_data.stare_path = path
 
@@ -350,6 +473,19 @@ function CopLogicIdle._upd_pathing(data, my_data)
 			else
 				my_data.stare_path_pos = nil
 			end
+		end
+	end
+	
+	local path = my_data.cover_path_search_id and data.pathing_results[my_data.cover_path_search_id]
+	
+	if path then
+		data.pathing_results[my_data.cover_path_search_id] = nil
+
+		if path ~= "failed" then
+			my_data.cover_path = path
+		else
+			my_data.processing_cover_path = nil
+			my_data.cover_path_search_id = nil
 		end
 	end
 end
@@ -1094,8 +1230,21 @@ end
 function CopLogicIdle.action_complete_clbk(data, action)
 	local my_data = data.internal_data
 	local action_type = action:type()
+	
+	if action_type == "walk" then
+		if my_data.moving_to_cover then
+			if action:expired() then
+				my_data.in_cover = true
+				my_data.in_pos_cover = my_data.moving_to_cover
+				managers.navigation:reserve_cover(my_data.in_pos_cover, data.pos_rsrv_id)
+				my_data.cover_enter_t = TimerManager:game():time()
+			end
 
-	if action_type == "turn" then
+			my_data.moving_to_cover = nil
+		end
+		
+		my_data.advancing = nil
+	elseif action_type == "turn" then
 		my_data.turning = nil
 
 		if my_data.fwd_offset and action:expired() then
@@ -1411,7 +1560,7 @@ function CopLogicIdle._set_verified_paths(data, verified_paths)
 end
 
 function CopLogicIdle._can_turn(data, my_data)
-	if my_data.turning then
+	if my_data.turning or my_data.advancing then
 		return
 	end
 
@@ -2201,6 +2350,10 @@ end
 end]]
 
 function CopLogicIdle._turn_by_spin(data, my_data, spin)
+	if not CopLogicIdle._can_turn(data, my_data) then
+		return
+	end
+
 	local new_action_data = {
 		body_part = 2,
 		type = "turn",

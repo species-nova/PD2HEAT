@@ -254,7 +254,7 @@ function CopLogicAttack._upd_combat_movement(data)
 	local unit = data.unit
 	local focus_enemy = data.attention_obj
 	local action_taken = nil
-	local want_to_take_cover = my_data.want_to_take_cover	
+	local want_to_take_cover = my_data.want_to_take_cover
 	
 	if not my_data.moving_to_cover and not my_data.at_cover_shoot_pos then
 		if not my_data.surprised and data.important and focus_enemy.verified and not my_data.turning and CopLogicAttack._can_move(data) and not unit:movement():chk_action_forbidden("walk") then
@@ -345,7 +345,9 @@ function CopLogicAttack._upd_combat_movement(data)
 	end
 
 	if not action_taken then
-		if want_to_take_cover then
+		if my_data.at_cover_shoot_pos then
+			move_to_cover = true
+		elseif want_to_take_cover then
 			if in_cover then
 				if my_data.attitude == "engage" then
 					if my_data.cover_test_step <= 2 then

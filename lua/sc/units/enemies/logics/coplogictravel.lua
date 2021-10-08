@@ -2082,7 +2082,7 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	end
 	
 	if not my_objective.area then
-		return
+		return true
 	end
 
 	local my_dis = mvec3_dis(my_objective.area.pos, data.m_pos)

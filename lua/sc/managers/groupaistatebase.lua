@@ -84,6 +84,7 @@ function GroupAIStateBase:set_current_objective_area(pos)
 		self._current_objective_navseg = nil
 	end
 	
+	self._current_objective_dis = nil
 	self._current_objective_dir = nil
 end
 
