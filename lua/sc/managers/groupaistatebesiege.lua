@@ -1200,6 +1200,42 @@ function GroupAIStateBesiege:is_detection_persistent()
 	return
 end
 
+function GroupAIStateBesiege:_chk_group_areas_tresspassed(group)
+	local objective = group.objective
+	local occupied_areas = {}
+	
+	for u_key, u_data in pairs(group.units) do
+		if u_data and alive(u_data.tracker) then
+			local nav_seg = u_data.tracker:nav_segment()
+			for area_id, area in pairs(self._area_data) do
+				if area.nav_segs[nav_seg] then
+					occupied_areas[area_id] = area
+				end
+			end
+		else
+			log("broken fucker in " .. tostring(group.id))
+			if group.objective.element then
+				log("elemental group")
+			end
+			
+			u_data.unit:set_slot(0)
+			local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
+			line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
+			group.size = group.size - 1
+			group.units[u_key] = nil
+			if group.size <= 1 and group.has_spawned then
+				self._groups[group.id] = nil
+			end			
+		end
+	end
+
+	for area_id, area in pairs(occupied_areas) do
+		if not self:is_area_safe(area) then
+			return area
+		end
+	end
+end
+
 function GroupAIStateBesiege:get_hostage_count_for_chatter()
 	
 	if self._hostage_headcount > 0 then
@@ -2945,6 +2981,7 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 						objective = spawn_task.group.objective.element:get_random_SO(spawned_unit)
 
 						if not objective then
+							log("proper dick")
 							spawned_unit:set_slot(0)
 
 							return true
