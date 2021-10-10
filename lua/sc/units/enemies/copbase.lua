@@ -318,7 +318,7 @@ function CopBase:default_weapon_name()
 	if self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2") then
 		deafult_weapon_id = "m1911_npc"
 	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3") then
-		default_weapon_id = "beretta92_titan"
+		default_weapon_id = "beretta92"
 	end
 	
 	--Giving Friendly AI guns--
@@ -332,7 +332,7 @@ function CopBase:default_weapon_name()
 	
 	--Giving Vanilla Titanshields their silent pistols
 	if self._unit:name() == ids_func("units/pd2_dlc_vip/characters/ene_phalanx_1/ene_phalanx_1") then
-		default_weapon_id = "beretta92_titan"	
+		default_weapon_id = "beretta92"	
 	end	
 
 	for i_weap_id, weap_id in ipairs(weap_ids) do

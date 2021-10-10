@@ -399,10 +399,6 @@
 	<unit path="units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3" load="true" />
 	<unit path="units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3_husk" load="true" />		
 	
-	<!--The Degle -->
-	<unit_mat path="units/payday2/weapons/wpn_npc_degle/wpn_npc_degle"  />
-	<cooked_physics path="units/payday2/weapons/wpn_npc_degle/wpn_npc_degle" />
-	
 	<!--better taser thread-->
 	<effect path="effects/payday2/particles/character/taser_thread" force="true"/>
 	
@@ -1412,8 +1408,6 @@
 	<!--Titanshield-->	
 	<unit path="units/pd2_dlc_vip/characters/ene_phalanx_1_assault/ene_phalanx_1_assault" force="false" load="true"/>
 	<unit path="units/pd2_dlc_vip/characters/ene_phalanx_1_assault/ene_phalanx_1_assault_husk" force="false" load="true"/>
-	
-	<unit path="units/payday2/weapons/wpn_npc_beretta92_titan/wpn_npc_beretta92_titan" force="false" load="true"/>
 	
 	<texture path="guis/textures/pd2/hud_buff_skull" force="false" load="false"/>
 	<texture path="guis/textures/pd2/hud_buff_fire" force="false" load="false"/>

@@ -274,15 +274,6 @@ function WeaponTweakData:_init_data_c45_npc()
 	self.colt_1911_primary_npc.sounds.prefix = "c45_fire"
 	self.colt_1911_primary_npc.damage = 4
 
-	self.beretta92_titan_npc = deep_clone(self.c45_npc)
-	self.beretta92_titan_npc.sounds.prefix = "beer_npc"
-	self.beretta92_titan_npc.CLIP_AMMO_MAX = 14
-	self.beretta92_titan_npc.alert_size = 0
-	self.beretta92_titan_npc.suppression = 0.1
-	self.beretta92_titan_npc.has_suppressor = "suppressed_b"	
-	self.beretta92_titan_npc.auto = {fire_rate = 0.075}
-	self.beretta92_titan_npc.FIRE_MODE = "auto"
-
 	self.m1911_npc = deep_clone(self.c45_npc)
 	self.m1911_npc.use_data.selection_index = 2
 	self.m1911_npc.CLIP_AMMO_MAX = 8
@@ -612,21 +603,7 @@ function WeaponTweakData:_init_data_mp5_npc()
 	self.mpx_npc = deep_clone(self.mp5_tactical_npc)
 	self.mpx_npc.auto.fire_rate = 0.07058823529
 	self.mpx_npc.DAMAGE = 6
-	
-	--Titan HRT MP9
-	self.mp9_titan_npc = deep_clone(self.mp5_npc)
-	self.mp9_titan_npc.sounds.prefix = "mp9_npc"
-	self.mp9_titan_npc.DAMAGE = 6
-	self.mp9_titan_npc.CLIP_AMMO_MAX = 20
-	self.mp9_titan_npc.auto.fire_rate = 0.06666666666
-	self.mp9_titan_npc.hold = "pistol"
-	self.mp9_titan_npc.alert_size = 2500
-	self.mp9_titan_npc.suppression = 2.2
-	self.mp9_titan_npc.anim_usage = "is_pistol"
-	
-	--Titan HRT SR2
-	self.sr2_smg_titan_npc = deep_clone(self.mp9_titan_npc)
-	self.sr2_smg_titan_npc.sounds.prefix = "sr2_npc"			
+
 end
 
 function WeaponTweakData:_init_data_smoke_npc()

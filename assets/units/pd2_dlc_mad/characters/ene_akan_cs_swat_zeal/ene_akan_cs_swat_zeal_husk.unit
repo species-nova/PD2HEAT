@@ -4,14 +4,14 @@
 	<object file="units/pd2_dlc_mad/characters/ene_akan_cs_swat_ak47_ass/ene_akan_cs_swat_ak47_ass" />
 
 	<dependencies>
-		<depends_on unit="units/payday2/weapons/wpn_npc_beretta92_titan/wpn_npc_beretta92_titan" />
+		<depends_on unit="units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92" />
 	</dependencies>
 
 	<extensions>
 		<extension name="unit_data" class="ScriptUnitData" />
 		<extension name="base" class="HuskCopBase" >
 			<var name="_tweak_table" value="hrt" />
-			<var name="_default_weapon_id" value="beretta92_titan" />
+			<var name="_default_weapon_id" value="beretta92" />
 		</extension>
 		<extension name="inventory" class="HuskCopInventory" />
 		<extension name="brain" class="HuskCopBrain" />
