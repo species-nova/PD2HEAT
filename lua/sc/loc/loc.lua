@@ -1957,21 +1957,21 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
 		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nRifles gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
 
-		--Mind Blown, formerly Explosive Headshot--
-		["menu_kilmer_sc"] = "Mind Blown",
-		["menu_kilmer_desc_sc"] = "BASIC: ##$basic##\nHeadshots with Rifles set to semi-auto deal ##70%## of the damage dealt to the closest enemy in a ##4## meter radius.\n\nFor every ##7## meters away you are from the enemy, the effect chains to an additional enemy; up to ##4## times.\n\nACE: ##$pro##\nThe radius of Mind Blown is increased by ##1## meter.\n\nFor every ##7## meters away you are from the enemy, the chaining effect deals an additional ##10%## damage; up to a total of ##110%## of the damage dealt.",
+		--Aggressive Reload--
+		["menu_engineering_beta_sc"] = "Aggressive Reload",
+		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##30%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##45%##, and can be triggered regardless of fire mode.",
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",
-		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##3## lethal headshots with Rifles in less than ##6## seconds will grant ##4%## of your maximum ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##3## lethal headshots within ##10## seconds, and the ammo is refunded directly into your magazine whenever possible.",
+		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##2## lethal headshots with Rifles in less than ##6## seconds will grant ##4%## of your maximum ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##2## lethal headshots within ##10## seconds, and the ammo is refunded directly into your magazine whenever possible.",
 
 		--Helmet Popping--
 		["menu_rifleman_sc"] = "Helmet Popping",
 		["menu_rifleman_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads. Rifle bullets that pierce through heads deal ##100%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifle headshots deal ##25%## more damage to enemies you have already headshot.",
 
-		--Aggressive Reload--
-		["menu_engineering_beta_sc"] = "Aggressive Reload",
-		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##40%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##75%##, and can be triggered regardless of fire mode.",
+		--Mind Blown, formerly Explosive Headshot--
+		["menu_kilmer_sc"] = "Mind Blown",
+		["menu_kilmer_desc_sc"] = "BASIC: ##$basic##\nHeadshots with Rifles deal ##70%## of the damage dealt to the closest enemy in a ##5## meter radius.\n\nFor every ##8## meters away you are from the enemy, the effect chains to an additional enemy.\n\nACE: ##$pro##\nIf you are more than ##8## meters away from the enemy, the chaining effect deals a full ##100%## damage dealt.",
 
 		--Cleaner--
 		["menu_jail_workout_sc"] = "Cleaner",

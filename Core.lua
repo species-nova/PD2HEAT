@@ -207,7 +207,16 @@ function restoration:Init()
 		"thechase",
 		"office_strike",
 		"santa_pain"
-	}	
+	}
+
+	restoration.street_levels = {
+		glace = true, --Green Bridge
+		run_res = true, --Heat Street
+		run = true,
+		mad = true, --boiling point
+		hox_1 = true, --Hoxout D1
+		xmn_hox_1 = true --Xmas edition
+	}
 
 	--Christmas Effects Heists
 	restoration.christmas_heists = {

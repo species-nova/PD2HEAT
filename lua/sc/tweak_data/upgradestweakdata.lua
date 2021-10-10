@@ -904,26 +904,22 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Ammo Efficiency
 				self.values.player.head_shot_ammo_return = {
-					{ ammo = 0.04, time = 6, headshots = 3, to_magazine = false }, --Basic
-					{ ammo = 0.04, time = 10, headshots = 3, to_magazine = true } --Ace
+					{ ammo = 0.04, time = 6, headshots = 2, to_magazine = false }, --Basic
+					{ ammo = 0.04, time = 10, headshots = 2, to_magazine = true } --Ace
 				}
 
-			--Mind Blown
-				self.values.snp.graze_damage = {
+			--Aggressive Reload
+				self.values.temporary.single_shot_fast_reload = {
 					{ --Basic
-						radius = 400,
-						max_chain = 4,
-						damage_factor = 0.70,
-						damage_factor_range = 0.00,
-						range_increment = 700
+						1.3,
+						10,
+						false --Whether or not to allow full-auto
 					},
 					{ --Ace
-						radius = 500,
-						max_chain = 4,
-						damage_factor = 0.70,
-						damage_factor_range = 0.10,
-						range_increment = 700
-					}
+						1.5,
+						10,
+						true
+					},
 				}
 
 			--Helmet Popping
@@ -936,18 +932,20 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.assault_rifle.headshot_repeat_damage_mult = {1.25}
 					self.values.snp.headshot_repeat_damage_mult = {1.25}
 
-			--Aggressive Reload
-				self.values.temporary.single_shot_fast_reload = {
+			--Mind Blown
+				self.values.snp.graze_damage = {
 					{ --Basic
-						1.4,
-						10,
-						false --Whether or not to allow full-auto
+						radius = 500,
+						damage_factor = 0.70,
+						damage_factor_range = 0.00,
+						range_increment = 800
 					},
 					{ --Ace
-						1.75,
-						10,
-						true
-					},
+						radius = 500,
+						damage_factor = 0.70,
+						damage_factor_range = 0.30,
+						range_increment = 800
+					}
 				}
 
 	--GHOST--

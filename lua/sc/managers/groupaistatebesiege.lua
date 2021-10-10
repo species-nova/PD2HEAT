@@ -45,7 +45,11 @@ function GroupAIStateBesiege:init(group_ai_state)
 	self:_init_group_entry_lines()
 	--self:set_debug_draw_state(true) --Uncomment to debug AI stuff.
 	
-	--self._street = true please set glace and run to this please please please
+	local level_id = Global.level_data.level_id
+	if restoration.street_levels[level_id] then
+		log("Street mode engaged.")
+		self._street = true
+	end
 end
 
 function GroupAIStateBesiege:update(t, dt)
@@ -655,11 +659,10 @@ end
 local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 local difficulty_index = tweak_data:difficulty_to_index(difficulty)
 
---Implements cooldowns and hard-diff filters for specific spawn groups, by prefiltering them before actually choosing the best groups.
+--Implements cooldowns and hard-diff filters for specific spawn groups.
 local group_timestamps = {}
-local _choose_best_groups_actual = GroupAIStateBesiege._choose_best_groups
-function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types, allowed_groups, weight, ...)
-	local new_allowed_groups = {} --Replacement table for _choose_best_groups_actual.
+function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types, allowed_groups, weight)
+	local total_weight = 0
 	local currenttime = self._t
 	local sustain = self._task_data.assault and self._task_data.assault.phase == "sustain"
 	local constraints_tweak = self._tweak_data.group_constraints
@@ -667,11 +670,10 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 
 	--Check each spawn group and see if it meets filter.
 	for group_type, cat_weights in pairs(allowed_groups) do
-		--Get spawn group constraints.
-		local constraints = constraints_tweak[group_type]
 		local valid = true
 
-		--If group had constraints tied to it, then check for them.
+		--If group had constraints tied to it, then check for them. If they aren't met, then don't include the group.
+		local constraints = constraints_tweak[group_type]
 		if constraints then
 			local cooldown = constraints.cooldown
 			local previoustimestamp = group_timestamps[group_type]
@@ -693,14 +695,28 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 			end
 		end
 
-		--If all constraints are met, add it to the replacement table. Otherwise, ignore it.
-		if valid then
-			new_allowed_groups[group_type] = cat_weights
+		--If all constraints are met, add it to the best groups.
+		if valid and tweak_data.group_ai.enemy_spawn_groups[group_type] then
+			local cat_weights = allowed_groups[group_type]
+
+			if cat_weights then
+				local cat_weight = self:_get_difficulty_dependent_value(cat_weights)
+				local mod_weight = weight * cat_weight
+
+				table.insert(best_groups, {
+					group = group,
+					group_type = group_type,
+					wght = mod_weight,
+					cat_weight = cat_weight,
+					dis_weight = weight
+				})
+
+				total_weight = total_weight + mod_weight
+			end
 		end
 	end
 
-	-- Call the original function with the replacement spawngroup table.
-	return _choose_best_groups_actual(self, best_groups, group, group_types, new_allowed_groups, weight, ...)
+	return total_weight
 end
 
 function GroupAIStateBesiege:_pregenerate_coarse_path(grp_objective, spawn_group)

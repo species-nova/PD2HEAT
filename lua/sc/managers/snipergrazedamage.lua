@@ -5,7 +5,7 @@ local idstr_size = Idstring("size")
 local trail_length
 
 function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
-	if not alive(weapon_unit) or weapon_unit:base():fire_mode() ~= "single" or not weapon_unit:base():is_category("assault_rifle", "snp") or weapon_unit ~= managers.player:equipped_weapon_unit() or not result.hit_enemy then
+	if not alive(weapon_unit) or not weapon_unit:base():is_category("assault_rifle", "snp") or weapon_unit ~= managers.player:equipped_weapon_unit() or not result.hit_enemy then
 		return
 	end
 
@@ -43,14 +43,11 @@ function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
 	for _, hit in pairs(hit_enemies) do
 		local distance_sq = mvector3.distance_sq(hit.position, player_unit:movement():m_head_pos())
 		local times = 1
-		local damage_range_mult = upgrade_value.damage_factor
-		for i=1, upgrade_value.max_chain do
-			if distance_sq > i * i * upgrade_value.range_increment * upgrade_value.range_increment then
+		local damage_mult = upgrade_value.damage_factor + (distance_sq > upgrade_value.range_increment * upgrade_value.range_increment and upgrade_value.damage_factor_range or 0)
+		while distance_sq > times * upgrade_value.range_increment * upgrade_value.range_increment do
 			times = times + 1
-			damage_range_mult = damage_range_mult + upgrade_value.damage_factor_range
-			end
 		end
-		self:find_closest_hit(hit, ignored_enemies, upgrade_value, enemy_mask, geometry_mask, player_unit, times, damage_range_mult)
+		self:find_closest_hit(hit, ignored_enemies, upgrade_value, enemy_mask, geometry_mask, player_unit, times, damage_mult)
 	end
 end
 
