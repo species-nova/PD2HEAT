@@ -47,7 +47,6 @@ function GroupAIStateBesiege:init(group_ai_state)
 	
 	local level_id = Global.level_data.level_id
 	if restoration.street_levels[level_id] then
-		log("Street mode engaged.")
 		self._street = true
 	end
 end
