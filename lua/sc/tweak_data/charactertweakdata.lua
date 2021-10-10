@@ -4599,7 +4599,7 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Quick to react. Big damage, fairly inaccurate- especially up close.
+	--Quick to react. Big damage, but fairly inaccurate.
 	presets.weapon.expert.is_revolver = {
 		aim_delay = {0.4, 0.8},
 		focus_delay = 3,
@@ -4625,30 +4625,30 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			{
 				r = 450,
-				acc = {0.15, 0.3},
+				acc = {0.3, 0.6},
 				dmg_mul = 1,
-				recoil = {0.4, 0.4},
+				recoil = {0.8, 0.6},
 				burst_size = 1
 			},
 			{
 				r = 900,
-				acc = {0.2, 0.4},
+				acc = {0.25, 0.5},
 				dmg_mul = 1,
-				recoil = {0.55, 0.55},
+				recoil = {1.0, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 1800,
-				acc = {0.3, 0.5},
+				acc = {0.2, 0.4},
 				dmg_mul = 1,
-				recoil = {1, 1},
+				recoil = {1.5, 1.2},
 				burst_size = 1
 			},
 			{
 				r = 3600,
-				acc = {0.3, 0.5},
+				acc = {0.2, 0.4},
 				dmg_mul = 0.5,
-				recoil = {0.9, 0.9},
+				recoil = {1.5, 1.5},
 				burst_size = 1
 			},
 			{
