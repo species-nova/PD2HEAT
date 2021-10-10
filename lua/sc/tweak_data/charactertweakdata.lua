@@ -8152,7 +8152,7 @@ function CharacterTweakData:_presets(tweak_data)
 	return presets
 end
 
-function CharacterTweakData:_create_table_structure()
+function CharacterTweakData:_create_table_structure() --still cleaning it up aourhg
 	self.weap_ids = {
 		"beretta92",
 		"c45",
@@ -8188,9 +8188,6 @@ function CharacterTweakData:_create_table_structure()
 		"heavy_zeal_sniper",
 		"m4_boom",
 		"hk21_sc",
-		"mp5_zeal",
-		"p90_summer",
-		"m16_summer",
 		"mp5_cloak",
 		"s552_sc",
 		"r870_taser",
@@ -8218,8 +8215,6 @@ function CharacterTweakData:_create_table_structure()
 		"m60_om",
 		"hajk_cop",
 		"uzi_cop",
-		"m4_blue",
-		"ak_blue",
 		"amcar",
 		"ak102",
 		"m416_npc"
@@ -8259,9 +8254,6 @@ function CharacterTweakData:_create_table_structure()
 		Idstring("units/payday2/weapons/wpn_npc_scar_murkywater/wpn_npc_scar_murkywater"),
 		Idstring("units/payday2/weapons/wpn_npc_m4_boom/wpn_npc_m4_boom"),
 		Idstring("units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc"),
-		Idstring("units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5"),
-		Idstring("units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5"),
-		Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4"),
 		Idstring("units/payday2/weapons/wpn_npc_mp5_cloak/wpn_npc_mp5_cloak"),
 		Idstring("units/payday2/weapons/wpn_npc_s552_sc/wpn_npc_s552_sc"),
 		Idstring("units/payday2/weapons/wpn_npc_r870_taser_sc/wpn_npc_r870_taser_sc"),
@@ -8289,7 +8281,6 @@ function CharacterTweakData:_create_table_structure()
 		Idstring("units/payday2/weapons/wpn_npc_m60_om/wpn_npc_m60_om"),
 		Idstring("units/pd2_dlc_bex/weapons/wpn_npc_hajk/wpn_npc_hajk"),
 		Idstring("units/pd2_dlc_bex/weapons/wpn_npc_uzi/wpn_npc_uzi"),
-		Idstring("units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_akmsu/wpn_npc_akmsu"),
 		Idstring("units/payday2/weapons/wpn_npc_amcar/wpn_npc_amcar"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak102/wpn_npc_ak102"),
@@ -8455,9 +8446,6 @@ function CharacterTweakData:character_map()
 				"ene_security_6",
 				"ene_security_7",
 				"ene_security_8",
-				"ene_security_kh_1",
-				"ene_security_kh_2",
-				"ene_security_kh_3",
 				"ene_shield_1",
 				"ene_shield_2",
 				"ene_city_shield",
@@ -8494,9 +8482,6 @@ function CharacterTweakData:character_map()
 				"ene_guard_biker_1",
 				"ene_murky_heavy_m4",
 				"ene_murky_heavy_r870",
-				"ene_city_guard_1",
-				"ene_city_guard_2",
-				"ene_city_guard_3"
 			}
 		},
 		dlc1 = {
