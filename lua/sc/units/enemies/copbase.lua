@@ -204,9 +204,9 @@ function CopBase:default_weapon_name()
 	
 	--Blue SWAT Weapon Changes (test)--
 	if self._unit:name() == ids_func("units/payday2/characters/ene_swat_1/ene_swat_1") then
-		default_weapon_id = "m4_blue"	
+		default_weapon_id = "mp5"	
 	elseif self._unit:name() == ids_func("units/pd2_dlc_hvh/characters/ene_swat_hvh_1/ene_swat_hvh_1") then
-		default_weapon_id = "m4_blue"	
+		default_weapon_id = "mp5"	
 	end		
 	
 	--Yellow Heavy SWAT Weapon Changes (test)
