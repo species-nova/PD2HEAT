@@ -3435,6 +3435,13 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.nin.stats.concealment = 24
 	self.melee_weapons.nin.repeat_expire_t = 1
 	self.melee_weapons.nin.melee_damage_delay = 0.15
+	
+	self.melee_weapons.nin.melee_charge_shaker = ""
+	self.melee_weapons.nin.no_hit_shaker = true
+	self.melee_weapons.nin.sounds.hit_air = ""
+	self.melee_weapons.nin.sounds.charge = ""
+	self.melee_weapons.nin.anim_attack_vars = {"var1"}
+	self.melee_weapons.nin.anim_global_param = "melee_nin_res"
 
 	--Ballistic Knife--
 	self.melee_weapons.ballistic.info_id = "bm_melee_specialist_info"
