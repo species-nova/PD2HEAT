@@ -3422,7 +3422,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.scoutknife.stats.concealment = 28
 	self.melee_weapons.scoutknife.expire_t = 1.1
 
-	--nin--
+	--Pounder nin--
 	self.melee_weapons.nin.info_id = "bm_melee_nin_info" 
 	self.melee_weapons.nin.make_effect = true
 	self.melee_weapons.nin.make_decal = true  
