@@ -1,0 +1,7 @@
+<materials version="3" group="m4_rifle_npc">
+	<material name="weapon" version="2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_3RD_WEAPONS:VERTEX_COLOR">
+        <bump_normal_texture file="units/payday2/weapons/wpn_npc_amcar/third_person_nm"/>
+        <diffuse_texture file=units/payday2/weapons/wpn_npc_amcar/third_person_df"/>
+    </material>
+    <material name="weapon_lod1" version="2" render_template="generic:RL_3RD_WEAPONS:VERTEX_COLOR"/>
+</materials>
