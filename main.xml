@@ -45,6 +45,7 @@
         <hook file="sc/managers/hud/hudeffect.lua" source_file="lib/managers/hud/HUDTemp"/>
         <!--///OVERHAUL\\\-->
 		<hook file="sc/network/base/hostnetworksession.lua" source_file="lib/network/base/hostnetworksession"/>
+		<hook file="sc/tweak_data/networktweakdata.lua" source_file="lib/tweak_data/networktweakdata"/>
 		<hook file="sc/states/missionendstate.lua" source_file="lib/states/missionendstate"/>
 		<hook file="sc/tweak_data/guitweakdata.lua" source_file="lib/tweak_data/guitweakdata"/>
 		<hook file="sc/managers/featuremanager.lua" source_file="lib/managers/featuremanager"/>

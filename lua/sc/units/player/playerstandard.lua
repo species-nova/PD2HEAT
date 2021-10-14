@@ -88,6 +88,14 @@ function PlayerStandard:_update_movement(t, dt)
 	
 	local WALK_SPEED_MAX = self:_get_max_walk_speed(t)
 	
+	self._cached_final_speed = self._cached_final_speed or 0
+		
+	if WALK_SPEED_MAX ~= self._cached_final_speed then
+		self._cached_final_speed = WALK_SPEED_MAX
+		
+		self._ext_network:send("action_change_speed", WALK_SPEED_MAX)
+	end
+	
 	local acceleration = WALK_SPEED_MAX * 8
 	local decceleration = acceleration * 0.8
 	
@@ -709,13 +717,6 @@ function PlayerStandard:_get_max_walk_speed(t, force_run)
 	end
 
 	local final_speed = movement_speed * multiplier
-	self._cached_final_speed = self._cached_final_speed or 0
-
-	if final_speed ~= self._cached_final_speed then
-		self._cached_final_speed = final_speed
-
-		self._ext_network:send("action_change_speed", final_speed)
-	end
 
 	return final_speed
 end
