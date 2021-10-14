@@ -191,6 +191,13 @@ end
 
 function CopBase:default_weapon_name()
 	local default_weapon_id = self._default_weapon_id
+	
+	if default_weapon_id == "amcar" then
+		default_weapon_id = "m4"
+	elseif default_weapon_id == "m4_blue" then
+		default_weapon_id = "mp5"
+	end
+	
 	local weap_ids = tweak_data.character.weap_ids
 	
 	local job = Global.level_data and Global.level_data.level_id

@@ -3105,7 +3105,7 @@ function CharacterTweakData:_init_russian(presets)
 		secondary = self.char_wep_tables.dallas.secondaries
 	}
 	self.russian.detection = presets.detection.gang_member
-	self.russian.move_speed = presets.move_speed.very_fast
+	self.russian.move_speed = presets.move_speed.very_fast_teamai
 	self.russian.crouch_move = false
 	self.russian.speech_prefix = "rb2"
 	self.russian.weapon_voice = "1"
@@ -3132,7 +3132,7 @@ function CharacterTweakData:_init_german(presets)
 		secondary = self.char_wep_tables.wolf.secondaries
 	}
 	self.german.detection = presets.detection.gang_member
-	self.german.move_speed = presets.move_speed.very_fast
+	self.german.move_speed = presets.move_speed.very_fast_teamai
 	self.german.crouch_move = false
 	self.german.speech_prefix = "rb2"
 	self.german.weapon_voice = "2"
@@ -3159,7 +3159,7 @@ function CharacterTweakData:_init_spanish(presets)
 		secondary = self.char_wep_tables.chains.secondaries
 	}
 	self.spanish.detection = presets.detection.gang_member
-	self.spanish.move_speed = presets.move_speed.very_fast
+	self.spanish.move_speed = presets.move_speed.very_fast_teamai
 	self.spanish.crouch_move = false
 	self.spanish.speech_prefix = "rb2"
 	self.spanish.weapon_voice = "3"
@@ -3186,7 +3186,7 @@ function CharacterTweakData:_init_american(presets)
 		secondary = self.char_wep_tables.houston.secondaries
 	}
 	self.american.detection = presets.detection.gang_member
-	self.american.move_speed = presets.move_speed.very_fast
+	self.american.move_speed = presets.move_speed.very_fast_teamai
 	self.american.crouch_move = false
 	self.american.speech_prefix = "rb2"
 	self.american.weapon_voice = "3"
@@ -3212,7 +3212,7 @@ function CharacterTweakData:_init_jowi(presets)
 		secondary = self.char_wep_tables.wick.secondaries
 	}
 	self.jowi.detection = presets.detection.gang_member
-	self.jowi.move_speed = presets.move_speed.very_fast
+	self.jowi.move_speed = presets.move_speed.very_fast_teamai
 	self.jowi.crouch_move = false
 	self.jowi.speech_prefix = "rb2"
 	self.jowi.weapon_voice = "3"
@@ -3238,7 +3238,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 		secondary = self.char_wep_tables.hoxton.secondaries
 	}
 	self.old_hoxton.detection = presets.detection.gang_member
-	self.old_hoxton.move_speed = presets.move_speed.very_fast
+	self.old_hoxton.move_speed = presets.move_speed.very_fast_teamai
 	self.old_hoxton.crouch_move = false
 	self.old_hoxton.speech_prefix = "rb2"
 	self.old_hoxton.weapon_voice = "3"
@@ -3264,7 +3264,7 @@ function CharacterTweakData:_init_clover(presets)
 		secondary = self.char_wep_tables.clover.secondaries
 	}
 	self.female_1.detection = presets.detection.gang_member
-	self.female_1.move_speed = presets.move_speed.very_fast
+	self.female_1.move_speed = presets.move_speed.very_fast_teamai
 	self.female_1.crouch_move = false
 	self.female_1.speech_prefix = "rb7"
 	self.female_1.weapon_voice = "3"
@@ -3290,7 +3290,7 @@ function CharacterTweakData:_init_dragan(presets)
 		secondary = self.char_wep_tables.dragan.secondaries
 	}
 	self.dragan.detection = presets.detection.gang_member
-	self.dragan.move_speed = presets.move_speed.very_fast
+	self.dragan.move_speed = presets.move_speed.very_fast_teamai
 	self.dragan.crouch_move = false
 	self.dragan.speech_prefix = "rb8"
 	self.dragan.weapon_voice = "3"
@@ -3316,7 +3316,7 @@ function CharacterTweakData:_init_jacket(presets)
 		secondary = self.char_wep_tables.jacket.secondaries
 	}
 	self.jacket.detection = presets.detection.gang_member
-	self.jacket.move_speed = presets.move_speed.very_fast
+	self.jacket.move_speed = presets.move_speed.very_fast_teamai
 	self.jacket.crouch_move = false
 	self.jacket.speech_prefix = "rb9"
 	self.jacket.weapon_voice = "3"
@@ -3342,7 +3342,7 @@ function CharacterTweakData:_init_bonnie(presets)
 		secondary = self.char_wep_tables.bonnie.secondaries
 	}
 	self.bonnie.detection = presets.detection.gang_member
-	self.bonnie.move_speed = presets.move_speed.very_fast
+	self.bonnie.move_speed = presets.move_speed.very_fast_teamai
 	self.bonnie.dodge = nil
 	self.bonnie.crouch_move = false
 	self.bonnie.speech_prefix = "rb10"
@@ -3368,7 +3368,7 @@ function CharacterTweakData:_init_sokol(presets)
 		secondary = self.char_wep_tables.sokol.secondaries
 	}
 	self.sokol.detection = presets.detection.gang_member
-	self.sokol.move_speed = presets.move_speed.very_fast
+	self.sokol.move_speed = presets.move_speed.very_fast_teamai
 	self.sokol.crouch_move = false
 	self.sokol.speech_prefix = "rb11"
 	self.sokol.weapon_voice = "3"
@@ -3394,7 +3394,7 @@ function CharacterTweakData:_init_dragon(presets)
 		secondary = self.char_wep_tables.jiro.secondaries
 	}
 	self.dragon.detection = presets.detection.gang_member
-	self.dragon.move_speed = presets.move_speed.very_fast
+	self.dragon.move_speed = presets.move_speed.very_fast_teamai
 	self.dragon.crouch_move = false
 	self.dragon.speech_prefix = "rb12"
 	self.dragon.weapon_voice = "3"
@@ -3420,7 +3420,7 @@ function CharacterTweakData:_init_bodhi(presets)
 		secondary = self.char_wep_tables.bodhi.secondaries
 	}
 	self.bodhi.detection = presets.detection.gang_member
-	self.bodhi.move_speed = presets.move_speed.very_fast
+	self.bodhi.move_speed = presets.move_speed.very_fast_teamai
 	self.bodhi.crouch_move = false
 	self.bodhi.speech_prefix = "rb13"
 	self.bodhi.weapon_voice = "3"
@@ -3446,7 +3446,7 @@ function CharacterTweakData:_init_jimmy(presets)
 		secondary = self.char_wep_tables.jimmy.secondaries
 	}
 	self.jimmy.detection = presets.detection.gang_member
-	self.jimmy.move_speed = presets.move_speed.very_fast
+	self.jimmy.move_speed = presets.move_speed.very_fast_teamai
 	self.jimmy.crouch_move = false
 	self.jimmy.speech_prefix = "rb14"
 	self.jimmy.weapon_voice = "3"
@@ -3472,7 +3472,7 @@ function CharacterTweakData:_init_sydney(presets)
 		secondary = self.char_wep_tables.sydney.secondaries
 	}
 	self.sydney.detection = presets.detection.gang_member
-	self.sydney.move_speed = presets.move_speed.very_fast
+	self.sydney.move_speed = presets.move_speed.very_fast_teamai
 	self.sydney.crouch_move = false
 	self.sydney.speech_prefix = "rb15"
 	self.sydney.weapon_voice = "3"
@@ -3498,7 +3498,7 @@ function CharacterTweakData:_init_wild(presets)
 		secondary = self.char_wep_tables.rust.secondaries
 	}
 	self.wild.detection = presets.detection.gang_member
-	self.wild.move_speed = presets.move_speed.very_fast
+	self.wild.move_speed = presets.move_speed.very_fast_teamai
 	self.wild.crouch_move = false
 	self.wild.speech_prefix = "rb16"
 	self.wild.weapon_voice = "3"
@@ -3524,7 +3524,7 @@ function CharacterTweakData:_init_chico(presets)
 		secondary = self.char_wep_tables.tony.secondaries
 	}
 	self.chico.detection = presets.detection.gang_member
-	self.chico.move_speed = presets.move_speed.very_fast
+	self.chico.move_speed = presets.move_speed.very_fast_teamai
 	self.chico.crouch_move = false
 	self.chico.speech_prefix = "rb17"
 	self.chico.weapon_voice = "3"
@@ -3550,7 +3550,7 @@ function CharacterTweakData:_init_max(presets)
 		secondary = self.char_wep_tables.sangres.secondaries
 	}
 	self.max.detection = presets.detection.gang_member
-	self.max.move_speed = presets.move_speed.very_fast
+	self.max.move_speed = presets.move_speed.very_fast_teamai
 	self.max.crouch_move = false
 	self.max.speech_prefix = "rb18"
 	self.max.weapon_voice = "3"
@@ -3577,7 +3577,7 @@ function CharacterTweakData:_init_myh(presets)
 		secondary = self.char_wep_tables.duke.secondaries
 	}
 	self.myh.detection = presets.detection.gang_member
-	self.myh.move_speed = presets.move_speed.very_fast
+	self.myh.move_speed = presets.move_speed.very_fast_teamai
 	self.myh.crouch_move = false
 	self.myh.speech_prefix = "rb2"
 	self.myh.weapon_voice = "1"
@@ -3605,7 +3605,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_female.flammable = false
 	self.ecp_female.melee_weapon = "clean"
 	self.ecp_female.detection = presets.detection.gang_member
-	self.ecp_female.move_speed = presets.move_speed.very_fast 
+	self.ecp_female.move_speed = presets.move_speed.very_fast_teamai 
 	self.ecp_female.crouch_move = false
 	self.ecp_female.speech_prefix = "rb21"
 	self.ecp_female.weapon_voice = "3"
@@ -3630,7 +3630,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_male.flammable = false		
 	self.ecp_male.melee_weapon = "clean"
 	self.ecp_male.detection = presets.detection.gang_member
-	self.ecp_male.move_speed = presets.move_speed.very_fast
+	self.ecp_male.move_speed = presets.move_speed.very_fast_teamai
 	self.ecp_male.crouch_move = false
 	self.ecp_male.speech_prefix = "rb20"
 	self.ecp_male.weapon_voice = "3"
@@ -3657,7 +3657,7 @@ function CharacterTweakData:_init_joy(presets)
 	self.joy.no_run_stop = true
 	self.joy.flammable = false			
 	self.joy.detection = presets.detection.gang_member
-	self.joy.move_speed = presets.move_speed.very_fast
+	self.joy.move_speed = presets.move_speed.very_fast_teamai
 	self.joy.crouch_move = false
 	self.joy.speech_prefix = "rb19"
 	self.joy.weapon_voice = "3"
@@ -7183,6 +7183,65 @@ function CharacterTweakData:_presets(tweak_data)
 				}
 			}
 		},
+		very_fast_teamai = {
+			stand = {
+				walk = {
+					ntl = {
+						fwd = 150,
+						strafe = 120,
+						bwd = 110
+					},
+					hos = {
+						fwd = 332,
+						strafe = 332,
+						bwd = 332
+					},
+					cbt = {
+						fwd = 332,
+						strafe = 332,
+						bwd = 332
+					}
+				},
+				run = {
+					hos = {
+						fwd = 546,
+						strafe = 546,
+						bwd = 546
+					},
+					cbt = {
+						fwd = 546,
+						strafe = 546,
+						bwd = 546
+					}
+				}
+			},
+			crouch = {
+				walk = {
+					hos = {
+						fwd = 213,
+						strafe = 213,
+						bwd = 213
+					},
+					cbt = {
+						fwd = 213,
+						strafe = 213,
+						bwd = 213
+					}
+				},
+				run = {
+					hos = {
+						fwd = 340,
+						strafe = 340,
+						bwd = 340
+					},
+					cbt = {
+						fwd = 340,
+						strafe = 340,
+						bwd = 340
+					}
+				}
+			}
+		},
 		very_fast = {
 			stand = {
 				walk = {
@@ -8152,7 +8211,7 @@ function CharacterTweakData:_presets(tweak_data)
 	return presets
 end
 
-function CharacterTweakData:_create_table_structure() --still cleaning it up aourhg
+function CharacterTweakData:_create_table_structure()
 	self.weap_ids = {
 		"beretta92",
 		"c45",
@@ -8175,6 +8234,7 @@ function CharacterTweakData:_create_table_structure() --still cleaning it up aou
 		"scar_murky",
 		"rpk_lmg",
 		"svd_snp",
+		"akmsu_smg",
 		"asval_smg",
 		"sr2_smg",
 		"ak47_ass",
@@ -8184,8 +8244,12 @@ function CharacterTweakData:_create_table_structure() --still cleaning it up aou
 		"sg417",
 		"svdsil_snp",
 		"mini",
+		"heavy_zeal_sniper",
 		"m4_boom",
 		"hk21_sc",
+		"mp5_zeal",
+		"p90_summer",
+		"m16_summer",
 		"mp5_cloak",
 		"s552_sc",
 		"r870_taser",
@@ -8211,12 +8275,19 @@ function CharacterTweakData:_create_table_structure() --still cleaning it up aou
 		"m60",
 		"m60_bravo",
 		"m60_om",
+		"deagle",
+		"mp9_titan",
+		"sr2_titan",
+		"beretta92_titan",
 		"hajk_cop",
 		"uzi_cop",
-		"akmsu_smg",
+		"m4_blue",
+		"ak_blue",
 		"amcar",
 		"ak102",
-		"m416_npc"
+		"m416_npc",
+		"socom_npc",
+		"white_streak_npc"
 	}
 	self.weap_unit_names = {
 		Idstring("units/payday2/weapons/wpn_npc_beretta92/wpn_npc_beretta92"),
@@ -8240,17 +8311,22 @@ function CharacterTweakData:_create_table_structure() --still cleaning it up aou
 		Idstring("units/payday2/weapons/wpn_npc_scar_murkywater/wpn_npc_scar_murkywater"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_rpk/wpn_npc_rpk"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd/wpn_npc_svd"),
+		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_akmsu/wpn_npc_akmsu"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_asval/wpn_npc_asval"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_sr2/wpn_npc_sr2"),
-		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47"), --reminder to merge the payday2 path ak and this :3--
+		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47"),
 		Idstring("units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_akmsu/wpn_npc_x_akmsu"),
 		Idstring("units/payday2/weapons/wpn_npc_c45/wpn_npc_x_c45"),
 		Idstring("units/pd2_dlc_chico/weapons/wpn_npc_sg417/wpn_npc_sg417"),
 		Idstring("units/pd2_dlc_spa/weapons/wpn_npc_svd_silenced/wpn_npc_svd_silenced"),
 		Idstring("units/pd2_dlc_drm/weapons/wpn_npc_mini/wpn_npc_mini"),
+		Idstring("units/payday2/weapons/wpn_npc_scar_murkywater/wpn_npc_scar_murkywater"),
 		Idstring("units/payday2/weapons/wpn_npc_m4_boom/wpn_npc_m4_boom"),
 		Idstring("units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc"),
+		Idstring("units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5"),
+		Idstring("units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5"),
+		Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4"),
 		Idstring("units/payday2/weapons/wpn_npc_mp5_cloak/wpn_npc_mp5_cloak"),
 		Idstring("units/payday2/weapons/wpn_npc_s552_sc/wpn_npc_s552_sc"),
 		Idstring("units/payday2/weapons/wpn_npc_r870_taser_sc/wpn_npc_r870_taser_sc"),
@@ -8276,15 +8352,21 @@ function CharacterTweakData:_create_table_structure() --still cleaning it up aou
 		Idstring("units/payday2/weapons/wpn_npc_m60/wpn_npc_m60"),
 		Idstring("units/pd2_mod_bravo/weapons/wpn_npc_m60_bravo/wpn_npc_m60_bravo"),
 		Idstring("units/payday2/weapons/wpn_npc_m60_om/wpn_npc_m60_om"),
+		Idstring("units/payday2/weapons/wpn_npc_degle/wpn_npc_degle"),
+		Idstring("units/payday2/weapons/wpn_npc_smg_mp9_titan/wpn_npc_smg_mp9_titan"),
+		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_sr2_titan/wpn_npc_sr2_titan"),
+		Idstring("units/payday2/weapons/wpn_npc_beretta92_titan/wpn_npc_beretta92_titan"),
 		Idstring("units/pd2_dlc_bex/weapons/wpn_npc_hajk/wpn_npc_hajk"),
 		Idstring("units/pd2_dlc_bex/weapons/wpn_npc_uzi/wpn_npc_uzi"),
+		Idstring("units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_akmsu/wpn_npc_akmsu"),
 		Idstring("units/payday2/weapons/wpn_npc_amcar/wpn_npc_amcar"),
 		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_ak102/wpn_npc_ak102"),
-		Idstring("units/pd2_mod_lapd/weapons/wpn_npc_m416/wpn_npc_m416")
+		Idstring("units/pd2_mod_lapd/weapons/wpn_npc_m416/wpn_npc_m416"),
+		Idstring("units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"),
+		Idstring("units/pd2_dlc_mad/weapons/wpn_npc_pl14/wpn_npc_pl14")
 	}
 end
-
 
 function CharacterTweakData:character_map()
 	local char_map = {

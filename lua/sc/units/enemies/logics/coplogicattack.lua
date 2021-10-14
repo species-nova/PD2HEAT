@@ -229,9 +229,9 @@ function CopLogicAttack.update(data)
 			
 			CopLogicAttack._upd_combat_movement(data)
 			
-			if not data.char_tweak.cannot_throw_grenades and not data.is_converted and data.unit:base().has_tag and data.unit:base():has_tag("law") and groupai:is_smoke_grenade_active() then 
-				CopLogicBase.do_smart_grenade(data, my_data, data.attention_obj)
-			end
+			--if not data.char_tweak.cannot_throw_grenades and not data.is_converted and data.unit:base().has_tag and data.unit:base():has_tag("law") and groupai:is_smoke_grenade_active() then 
+				--CopLogicBase.do_smart_grenade(data, my_data, data.attention_obj)
+			--end
 		end
 
 		if not data.logic.action_taken(data, my_data) then

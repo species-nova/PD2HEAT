@@ -62,10 +62,6 @@ function SpoocLogicAttack.queued_update(data)
 
 		CopLogicAttack._update_cover(data)
 		CopLogicAttack._upd_combat_movement(data)
-		local groupai = managers.groupai:state()
-		if not data.char_tweak.cannot_throw_grenades and not data.is_converted and data.unit:base().has_tag and data.unit:base():has_tag("law") and groupai:is_smoke_grenade_active() then 
-			CopLogicBase.do_smart_grenade(data, my_data, data.attention_obj)
-		end
 	end
 
 	SpoocLogicAttack.queue_update(data, my_data)

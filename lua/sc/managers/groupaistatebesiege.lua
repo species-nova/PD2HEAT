@@ -1233,9 +1233,12 @@ function GroupAIStateBesiege:_chk_group_areas_tresspassed(group)
 				log("elemental group")
 			end
 			
-			u_data.unit:set_slot(0)
-			local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
-			line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
+			--u_data.unit:set_slot(0)
+			if u_data.m_pos then
+				local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
+				line:cylinder(u_data.m_pos, u_data.m_pos + math_up * 1000, 100)
+			end
+			
 			group.size = group.size - 1
 			group.units[u_key] = nil
 			if group.size <= 1 and group.has_spawned then
@@ -1652,7 +1655,9 @@ function GroupAIStateBesiege:_chk_group_use_smoke_grenade(group, task_data, deto
 	if task_data.use_smoke then
 		local shooter_pos, shooter_u_data = nil
 		local duration = tweak_data.group_ai.smoke_grenade_lifetime
-
+		local best_dis = nil
+		local best_detonate_pos = nil
+		
 		for u_key, u_data in pairs(group.units) do
 			if u_data.tactics_map and u_data.tactics_map.smoke_grenade then
 				if not detonate_pos then
@@ -1664,47 +1669,81 @@ function GroupAIStateBesiege:_chk_group_use_smoke_grenade(group, task_data, deto
 					end
 					
 					for neighbour_nav_seg_id, door_list in pairs(nav_seg.neighbours) do
-						local area = self:get_area_from_nav_seg_id(neighbour_nav_seg_id)
-
-						if target_area.nav_segs[neighbour_nav_seg_id] or next(area.criminal.units) then
-							local random_door_id = door_list[math_random(#door_list)]
-
-							if type(random_door_id) == "number" then
-								detonate_pos = managers.navigation._room_doors[random_door_id].center
-							else
-								detonate_pos = random_door_id:script_data().element:nav_link_end_pos()
+						if target_area.nav_segs[neighbour_nav_seg_id] then
+							for i = 1, #door_list do
+								local random_door_id = door_list[i]
+								local door_pos = nil
+								
+								if type(random_door_id) == "number" then
+									door_pos = managers.navigation._room_doors[random_door_id].center
+								else
+									door_pos = random_door_id:script_data().element:nav_link_end_pos()
+								end
+								
+								if door_pos then
+									local dis = mvec3_dis_sq(door_pos, target_area.pos) 
+									
+									if not best_dis or best_dis < dis then
+										best_detonate_pos = door_pos
+										best_dis = dis
+										shooter_pos = mvector3.copy(u_data.m_pos)
+										shooter_u_data = u_data
+									end
+								end
 							end
-
-							shooter_pos = mvector3.copy(u_data.m_pos)
-							shooter_u_data = u_data
-
-							break
 						end
 					end
 				end
-
-				if detonate_pos and shooter_u_data then
-					self:detonate_smoke_grenade(detonate_pos, shooter_pos, duration, false)
-					self:apply_grenade_cooldown(nil)
-
-					if shooter_u_data.char_tweak.chatter.smoke and not shooter_u_data.unit:sound():speaking(self._t) then
-						self:chk_say_enemy_chatter(shooter_u_data.unit, shooter_u_data.m_pos, "smoke")
-					end
-
-					return true
-				end
 			end
 		end
+		
+		if best_detonate_pos then
+			detonate_pos = best_detonate_pos
+		end
+		
+		if detonate_pos and shooter_u_data then
+			self:detonate_smoke_grenade(detonate_pos, shooter_pos, duration, false)
+			self:apply_grenade_cooldown(nil)
+
+			if shooter_u_data.char_tweak.chatter.smoke and not shooter_u_data.unit:sound():speaking(self._t) then
+				self:chk_say_enemy_chatter(shooter_u_data.unit, shooter_u_data.m_pos, "smoke")
+			end
+
+			return true
+		end
 	end
+end
+
+function GroupAIStateBesiege:_chk_grenade_vis(detonate_pos, target_unit)
+	if not target_unit then
+		return
+	end
+
+	local head_pos = target_unit:movement():m_head_pos()
+	local ray_hit = target_unit:raycast("ray", head_pos, detonate_pos, "slot_mask", managers.slot:get_mask("AI_visibility"), "ray_type", "ai_vision", "report")
+	
+	return not ray_hit
 end
 
 function GroupAIStateBesiege:_chk_group_use_flash_grenade(group, task_data, detonate_pos, target_area)
 	if task_data.use_smoke then
 		local shooter_pos, shooter_u_data = nil
 		local duration = tweak_data.group_ai.flash_grenade_lifetime
+		local criminal_pos = nil
+		local chk_grenade_vis_func = self._chk_grenade_vis
+		if not target_area then
+			target_area = task_data.target_areas[1]
+		end
+		
+		for c_key, c_data in pairs(target_area.criminal.units) do
+			criminal_unit = c_data.unit
+			criminal_pos = c_data.unit:movement():m_pos()
 
+			break
+		end
+		
 		for u_key, u_data in pairs(group.units) do
-			if u_data.tactics_map and u_data.tactics_map.flash_grenade then
+			if u_data.tactics_map and u_data.tactics_map.smoke_grenade then
 				if not detonate_pos then
 					local nav_seg_id = u_data.tracker:nav_segment()
 					local nav_seg = managers.navigation._nav_segments[nav_seg_id]
@@ -1715,33 +1754,48 @@ function GroupAIStateBesiege:_chk_group_use_flash_grenade(group, task_data, deto
 					
 					for neighbour_nav_seg_id, door_list in pairs(nav_seg.neighbours) do
 						if target_area.nav_segs[neighbour_nav_seg_id] then
-							local random_door_id = door_list[math_random(#door_list)]
-
-							if type(random_door_id) == "number" then
-								detonate_pos = managers.navigation._room_doors[random_door_id].center
-							else
-								detonate_pos = random_door_id:script_data().element:nav_link_end_pos()
+							for i = 1, #door_list do
+								local random_door_id = door_list[i]
+								local door_pos = nil
+								
+								if type(random_door_id) == "number" then
+									door_pos = managers.navigation._room_doors[random_door_id].center
+								else
+									door_pos = random_door_id:script_data().element:nav_link_end_pos()
+								end
+								
+								if door_pos then
+									if chk_grenade_vis_func(self, door_pos, criminal_unit) then
+										local dis = mvec3_dis_sq(door_pos, criminal_pos)
+										
+										if not best_dis or best_dis > dis then
+											best_detonate_pos = door_pos
+											best_dis = dis
+											shooter_pos = mvector3.copy(u_data.m_pos)
+											shooter_u_data = u_data
+										end
+									end
+								end
 							end
-
-							shooter_pos = mvector3.copy(u_data.m_pos)
-							shooter_u_data = u_data
-
-							break
 						end
 					end
 				end
-
-				if detonate_pos and shooter_u_data then
-					self:detonate_smoke_grenade(detonate_pos, shooter_pos, duration, true)
-					self:apply_grenade_cooldown(true)
-
-					if shooter_u_data.char_tweak.chatter.flash_grenade and not shooter_u_data.unit:sound():speaking(self._t) then
-						self:chk_say_enemy_chatter(shooter_u_data.unit, shooter_u_data.m_pos, "flash_grenade")
-					end
-
-					return true
-				end
 			end
+		end
+		
+		if best_detonate_pos then
+			detonate_pos = best_detonate_pos
+		end
+
+		if detonate_pos and shooter_u_data then
+			self:detonate_smoke_grenade(detonate_pos, shooter_pos, duration, true)
+			self:apply_grenade_cooldown(true)
+
+			if shooter_u_data.char_tweak.chatter.flash_grenade and not shooter_u_data.unit:sound():speaking(self._t) then
+				self:chk_say_enemy_chatter(shooter_u_data.unit, shooter_u_data.m_pos, "flash_grenade")
+			end
+
+			return true
 		end
 	end
 end
@@ -2726,16 +2780,13 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 							used_grenade = self:_chk_group_use_flash_grenade(group, self._task_data.assault, detonate_pos, assault_area)
 						end
 					end
-					
-
-					self:_voice_move_in_start(group)
 				end
 			end
 			
 			if assault_path and #assault_path > 2 and assault_area.nav_segs[assault_path[#assault_path - 1][1]] then
 				table_remove(assault_path)
 			end
-
+			
 			local grp_objective = {
 				type = "assault_area",
 				stance = "hos",
