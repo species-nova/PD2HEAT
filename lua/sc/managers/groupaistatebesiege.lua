@@ -55,6 +55,7 @@ function GroupAIStateBesiege:update(t, dt)
 	GroupAIStateBesiege.super.update(self, t, dt)
 
 	if Network:is_server() then
+		self:fix_broken_groups() --until we fix just how nasty our groupai code is, i'll just stick this here
 		self:_queue_police_upd_task()
 
 		if self._draw_enabled and managers.navigation:is_data_ready() then
@@ -76,6 +77,21 @@ function GroupAIStateBesiege:paused_update(t, dt)
 		end
 	elseif self._draw_enabled then
 		self:_draw_enemy_activity_client(t)
+	end
+end
+
+function GroupAIStateBesiege:fix_broken_groups()
+	for group_id, group in pairs_g(self._groups) do
+		for u_key, u_data in pairs_g(group.units) do
+			if not u_data or not alive(u_data.unit) or u_data.unit:in_slot(0) or not u_data.tracker then
+				group.size = group.size - 1
+				group.units[u_key] = nil
+				
+				if group.size <= 1 then
+					self._groups[group.id] = nil
+				end	
+			end
+		end
 	end
 end
 
@@ -1241,7 +1257,7 @@ function GroupAIStateBesiege:_chk_group_areas_tresspassed(group)
 			
 			group.size = group.size - 1
 			group.units[u_key] = nil
-			if group.size <= 1 and group.has_spawned then
+			if group.size <= 1 then
 				self._groups[group.id] = nil
 			end			
 		end
@@ -2243,11 +2259,11 @@ function GroupAIStateBesiege:_upd_groups()
 					end
 				else
 					local line = Draw:brush(Color.blue:with_alpha(0.5), 10)
-					line:cylinder(u_data.unit:position(), u_data.unit:position() + math_up * 6000, 100)
+					line:cylinder(u_data.m_pos, u_data.m_pos + math_up * 6000, 100)
 					log("please die")
 					group.size = group.size - 1
 					group.units[u_key] = nil
-					if group.size <= 1 and group.has_spawned then
+					if group.size <= 1 then
 						self._groups[group_id] = nil
 					end
 				end
@@ -2256,7 +2272,7 @@ function GroupAIStateBesiege:_upd_groups()
 				group.size = group.size - 1
 				group.units[u_key] = nil
 				
-				if group.size <= 1 and group.has_spawned then
+				if group.size <= 1 then
 					self._groups[group_id] = nil
 				end
 			end
