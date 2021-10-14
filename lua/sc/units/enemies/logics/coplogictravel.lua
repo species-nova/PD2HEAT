@@ -2301,7 +2301,12 @@ function CopLogicTravel._check_start_path_ahead(data)
 		return
 	end
 
-	local from_pos = data.pos_rsrv.move_dest.position
+	local from_pos = data.pos_rsrv.move_dest and data.pos_rsrv.move_dest.position or my_data.advancing and my_data.advancing:get_walk_to_pos()
+	
+	if not from_pos then
+		return
+	end
+	
 	local to_pos = data.logic._get_exact_move_pos(data, next_index)
 	local unobstructed_line = nil
 
