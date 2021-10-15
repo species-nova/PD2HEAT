@@ -2984,11 +2984,13 @@ function GroupAIStateBesiege:_chk_group_area_presence(group, area_to_chk) -- doe
 	local occupied_areas = {}
 
 	for u_key, u_data in pairs(group.units) do
-		local nav_seg = u_data.tracker:nav_segment()
+		if u_data and u_data.tracker then
+			local nav_seg = u_data.tracker:nav_segment()
 
-		for area_id, area in pairs(self._area_data) do
-			if area.nav_segs[nav_seg] then
-				occupied_areas[area_id] = area
+			for area_id, area in pairs(self._area_data) do
+				if area.nav_segs[nav_seg] then
+					occupied_areas[area_id] = area
+				end
 			end
 		end
 	end
