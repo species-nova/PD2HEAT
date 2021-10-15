@@ -1402,7 +1402,6 @@ function GroupAIStateBase:on_enemy_unregistered(unit)
 	if e_data.group then
 		self:_remove_group_member(e_data.group, u_key, dead)
 		if dead and self._task_data and self._task_data.assault and self._task_data.assault.active then
-			self:_voice_friend_dead(e_data.group)
 			self._last_killed_cop_t = self._t
 		end
 	end
