@@ -2095,13 +2095,15 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 
 	for u_key, u_data in pairs_g(data.group.units) do
 		if u_key ~= data.key then
-			local teammate_obj = u_data.unit:brain():objective()
+			if u_data and u_data.unit and alive(u_data.unit) and u_data.unit:brain() then
+				local teammate_obj = u_data.unit:brain():objective()
 
-			if teammate_obj and teammate_obj.grp_objective == my_objective.grp_objective and not teammate_obj.in_place then
-				local teammate_dis_to_obj = mvec3_dis(teammate_obj.area.pos, u_data.m_pos)
+				if teammate_obj and teammate_obj.grp_objective == my_objective.grp_objective and not teammate_obj.in_place then
+					local teammate_dis_to_obj = mvec3_dis(teammate_obj.area.pos, u_data.m_pos)
 
-				if my_dis < teammate_dis_to_obj then
-					return false
+					if my_dis < teammate_dis_to_obj then
+						return false
+					end
 				end
 			end
 		end
