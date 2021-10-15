@@ -440,7 +440,7 @@ function HuskPlayerMovement:_update_air_time(t, dt)
 		self._air_time = self._air_time or 0
 		self._air_time = self._air_time + dt
 
-		if self._air_time > 1 / tweak_data.network.player_tick_rate then
+		if self._air_time > 0.5 then
 			local on_ground = self:_chk_ground_ray(self:m_pos())
 
 			if on_ground then
