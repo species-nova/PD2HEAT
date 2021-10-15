@@ -414,7 +414,6 @@ function HuskPlayerMovement:_get_max_move_speed(run)
 end
 
 function HuskPlayerMovement:_chk_ground_ray(check_pos, return_ray)
-	local mover_radius = 60
 	local up_pos = tmp_vec1
 
 	mvec3_set(up_pos, math.UP)
@@ -424,13 +423,13 @@ function HuskPlayerMovement:_chk_ground_ray(check_pos, return_ray)
 	local down_pos = tmp_vec2
 
 	mvec3_set(down_pos, math.UP)
-	mvec3_mul(down_pos, -25)
+	mvec3_mul(down_pos, -30)
 	mvec3_add(down_pos, check_pos or self._m_pos)
 
 	if return_ray then
-		return World:raycast("ray", up_pos, down_pos, "slot_mask", self._slotmask_gnd_ray, "sphere_cast_radius", 24, "ray_type", "walk")
+		return World:raycast("ray", up_pos, down_pos, "slot_mask", self._slotmask_gnd_ray, "sphere_cast_radius", 29, "ray_type", "walk")
 	else
-		return World:raycast("ray", up_pos, down_pos, "slot_mask", self._slotmask_gnd_ray, "sphere_cast_radius", 24, "ray_type", "walk", "report")
+		return World:raycast("ray", up_pos, down_pos, "slot_mask", self._slotmask_gnd_ray, "sphere_cast_radius", 29, "ray_type", "walk", "report")
 	end
 end
 
@@ -460,7 +459,9 @@ function HuskPlayerMovement:_update_air_time(t, dt)
 			local on_ground = self:_chk_ground_ray(self:m_pos())
 
 			if not on_ground then
-				self:play_redirect("jump")
+				if not self._bleedout then
+					self:play_redirect("jump")
+				end
 				
 				self._in_air = true
 			end
