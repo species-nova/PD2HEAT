@@ -697,7 +697,7 @@ function PlayerStandard:_get_max_walk_speed(t, force_run)
 		speed_state = "run"
 	end
 
-	movement_speed = managers.modifiers:modify_value("PlayerStandard:GetMaxWalkSpeed", movement_speed, self._state_data, speed_tweak)
+	--movement_speed = managers.modifiers:modify_value("PlayerStandard:GetMaxWalkSpeed", movement_speed, self._state_data, speed_tweak)
 	local morale_boost_bonus = self._ext_movement:morale_boost()
 	local multiplier = managers.player:movement_speed_multiplier(speed_state, speed_state and morale_boost_bonus and morale_boost_bonus.move_speed_bonus, nil, self._ext_damage:health_ratio())
 	multiplier = multiplier * (self._tweak_data.movement.multiplier[speed_state] or 1)
@@ -712,12 +712,7 @@ function PlayerStandard:_get_max_walk_speed(t, force_run)
 		multiplier = multiplier * self._equipped_unit:base():movement_penalty()
 	end
 
-	if managers.player:has_activate_temporary_upgrade("temporary", "increased_movement_speed") then
-		multiplier = multiplier * managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1)
-	end
-
 	local final_speed = movement_speed * multiplier
-
 	return final_speed
 end
 

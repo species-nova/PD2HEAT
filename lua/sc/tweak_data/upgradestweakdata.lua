@@ -467,13 +467,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.player.mask_off_pickup = {true}
 	self.values.player.small_loot_multiplier = {1.3, 1.3}
 	self.values.player.melee_kill_snatch_pager_chance = {1}
-	self.values.player.run_speed_multiplier = {1.25}
+	self.values.player.run_speed_multiplier = {1}
 	self.values.player.walk_speed_multiplier = {
-		1.25
+		1
 	}
 	self.values.player.crouch_speed_multiplier = {
-		1.1,
-		1.2
+		1
 	}	
 	self.values.player.climb_speed_multiplier = {1.2, 1.75}
 	self.values.player.can_free_run = {true}

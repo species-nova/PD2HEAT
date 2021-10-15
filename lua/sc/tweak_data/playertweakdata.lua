@@ -369,15 +369,15 @@ function PlayerTweakData:init()
 	}
 	self.movement_state.standard.gravity = 982 --used in the calculation in playerstandard for applying correct damping, does not actually change gravity
 	self.movement_state.standard.terminal_velocity = 7000 --used in the calculation in playerstandard for proper falling, change as you will it
-	self.movement_state.standard.movement.speed.STANDARD_MAX = 350
-	self.movement_state.standard.movement.speed.STRAFE_RUNNING_MAX = 475
+	self.movement_state.standard.movement.speed.STANDARD_MAX = 400
+	self.movement_state.standard.movement.speed.STRAFE_RUNNING_MAX = 500
 	self.movement_state.standard.movement.speed.RUNNING_MAX = 600
-	self.movement_state.standard.movement.speed.CROUCHING_MAX = 225
-	self.movement_state.standard.movement.speed.STEELSIGHT_MAX = 185
-	self.movement_state.standard.movement.speed.INAIR_MAX = 185
+	self.movement_state.standard.movement.speed.CROUCHING_MAX = 300
+	self.movement_state.standard.movement.speed.STEELSIGHT_MAX = 200
+	self.movement_state.standard.movement.speed.INAIR_MAX = 200
 	self.movement_state.standard.movement.speed.CLIMBING_MAX = 200
 	self.movement_state.standard.movement.jump_velocity.z = 470
-	self.movement_state.standard.movement.jump_velocity.xy.run = self.movement_state.standard.movement.speed.RUNNING_MAX * 1
+	self.movement_state.standard.movement.jump_velocity.xy.run = self.movement_state.standard.movement.speed.RUNNING_MAX * 1.2
 	self.movement_state.standard.movement.jump_velocity.xy.walk = self.movement_state.standard.movement.speed.STANDARD_MAX * 1.2
 	
 	if is_vr then

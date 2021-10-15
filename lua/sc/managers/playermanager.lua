@@ -75,7 +75,6 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Perk Deck card 4 + armor speed penalty.
 	local armor_penalty = self:mod_movement_penalty(self:body_armor_value("movement", upgrade_level, 1))
 	multiplier = multiplier + armor_penalty - 1
-
 	if bonus_multiplier then
 		multiplier = multiplier + bonus_multiplier - 1
 	end
@@ -109,8 +108,7 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	end
 
 	--Second Wind
-	local damage_speed_multiplier = managers.player:temporary_upgrade_value("temporary", "damage_speed_multiplier", 1)
-	multiplier = multiplier + damage_speed_multiplier - 1
+	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
 
 	--Swan Song movespeed penalty.
 	if managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") then	
