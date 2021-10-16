@@ -435,7 +435,21 @@ function HuskPlayerMovement:_chk_ground_ray(check_pos, return_ray)
 end
 
 function HuskPlayerMovement:_chk_floor_moving_pos(pos)
-	local ground_ray = self:_chk_ground_ray(pos, true)
+	local mover_radius = 60
+	local up_pos = tmp_vec1
+
+	mvec3_set(up_pos, math.UP)
+	mvec3_mul(up_pos, 30)
+	mvec3_add(up_pos, check_pos or self._m_pos)
+
+	local down_pos = tmp_vec2
+
+	mvec3_set(down_pos, math.UP)
+	mvec3_mul(down_pos, -25)
+	mvec3_add(down_pos, check_pos or self._m_pos)
+
+	local ground_ray = World:raycast("ray", up_pos, down_pos, "slot_mask", self._slotmask_gnd_ray, "ray_type", "walk")
+
 
 	if ground_ray then
 		return ground_ray.position.z - 20
