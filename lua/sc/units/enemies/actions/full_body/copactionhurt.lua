@@ -741,7 +741,7 @@ function CopActionHurt:init(action_desc, common_data)
 						}
 					}
 				}
-			
+			end
 			
 			self._anim = redir_res
 			self._shoot_t = t + 1
