@@ -433,6 +433,14 @@ function HuskPlayerMovement:_chk_ground_ray(check_pos, return_ray)
 	end
 end
 
+function HuskPlayerMovement:_chk_floor_moving_pos(pos)
+	local ground_ray = self:_chk_ground_ray(pos, true)
+
+	if ground_ray then
+		return ground_ray.position.z
+	end
+end
+
 function HuskPlayerMovement:_update_air_time(t, dt)
 	if self._in_air then
 		self._check_air_time = 0
