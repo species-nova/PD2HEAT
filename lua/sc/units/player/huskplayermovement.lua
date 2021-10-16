@@ -414,6 +414,7 @@ function HuskPlayerMovement:_get_max_move_speed(run)
 end
 
 function HuskPlayerMovement:_chk_ground_ray(check_pos, return_ray)
+	local mover_radius = 60
 	local up_pos = tmp_vec1
 
 	mvec3_set(up_pos, math.UP)
@@ -433,12 +434,11 @@ function HuskPlayerMovement:_chk_ground_ray(check_pos, return_ray)
 	end
 end
 
-
 function HuskPlayerMovement:_chk_floor_moving_pos(pos)
 	local ground_ray = self:_chk_ground_ray(pos, true)
 
 	if ground_ray then
-		return ground_ray.position.z
+		return ground_ray.position.z - 20
 	end
 end
 
