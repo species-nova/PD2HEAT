@@ -2230,11 +2230,6 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 	if not data.attention_obj or data.attention_obj.reaction < REACT_COMBAT then
 		return
 	end
-	local groupai = managers.groupai:state()
-	
-	if groupai._drama_data.zone == "high" then
-		return
-	end
 	
 	if data.tactics then
 		if data.tactics.sneaky and data.coward_t and data.t - data.coward_t < 5 then
@@ -2263,6 +2258,8 @@ function CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 	if data.is_suppressed then
 		return true
 	end
+	
+	local groupai = managers.groupai:state()
 	
 	local diff_index = my_data.attitude == "avoid" and 0 or math.lerp(1, 8, groupai._difficulty_value)
 	
