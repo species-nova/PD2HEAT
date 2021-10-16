@@ -227,15 +227,17 @@ function PlayerStandard:_update_movement(t, dt)
 		mvector3.add(pos_new, self._pos)
 
 		self._target_headbob = 0
-	elseif floor_moving_vel then
-		local achieved_walk_vel = mvec_achieved_walk_vel
-		mvector3.set(achieved_walk_vel, floor_moving_vel:with_z(0))
-		
-		pos_new = mvec_pos_new
-		mvector3.set(pos_new, achieved_walk_vel)
-		mvector3.multiply(pos_new, dt)
-		mvector3.add(pos_new, self._pos)
 	elseif self._moving then
+		if floor_moving_vel then
+			local achieved_walk_vel = mvec_achieved_walk_vel
+			mvector3.set(achieved_walk_vel, floor_moving_vel:with_z(0))
+			
+			pos_new = mvec_pos_new
+			mvector3.set(pos_new, achieved_walk_vel)
+			mvector3.multiply(pos_new, dt)
+			mvector3.add(pos_new, self._pos)
+		end
+		
 		self._target_headbob = 0
 		self._moving = false
 
