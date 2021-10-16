@@ -319,6 +319,7 @@
 		<hook file="sc/managers/menu/CrimeNetContractGUI.lua" source_file="lib/managers/menu/crimenetcontractgui"/>
 		<hook file="sc/managers/menu/ingamecontractgui.lua" source_file="lib/managers/menu/ingamecontractgui"/>
 		<hook file="sc/managers/menu/ContractBoxGUI.lua" source_file="lib/managers/menu/ContractBoxGUI"/>
+		<hook file="sc/core/managers/menu/items/menuitemslider.lua" source_file="core/lib/managers/menu/items/coremenuitemslider"/>
 		<!--///Comptatibility.\\\-->
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
 		<hook file="sc/compatibility/WeaponStatGenerator.lua" source_file="lib/tweak_data/weapontweakdata"/>

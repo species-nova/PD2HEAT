@@ -130,7 +130,8 @@
 	<!--New logo-->
 	<texture path="guis/textures/game_small_logo" force="true"/>
 	<texture path="guis/textures/menu_title_screen" force="true"/>
-	<!--<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>-->
+	<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>
+	<material_config path="units/menu/menu_scene/menu_cylinder" force="true" />
 	
 	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
 	<!--<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>-->
@@ -2999,4 +3000,6 @@
 	<animation path="anims/shared/rifle/generic/gen_sup_lvl2_idle_var1" force="true"/>
 	<animation path="anims/shared/rifle/hostile/hos_std_idle_to_hos_sup_idle" force="true"/>
 	<animation path="anims/shared/rifle/hostile/hos_sup_idle" force="true"/>
+	
+	
 </table>

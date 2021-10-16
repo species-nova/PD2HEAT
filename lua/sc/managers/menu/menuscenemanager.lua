@@ -199,42 +199,282 @@ Hooks:PostHook(MenuSceneManager, "_set_up_environments", "ResHalloweenColorGrade
 	end
 end)
 
--- Hooks:PostHook(MenuSceneManager, "_set_up_templates", "ResChallengesTemplate", function(self)
--- 	self._scene_templates.res_challenges = {
--- 		hide_menu_logo = true
--- 	}
--- end)
+--this is kinda disgusting
+--having template access might be useful later
+Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", function(self)
+	local ref = self._bg_unit:get_object(Idstring("a_camera_reference"))
+	local c_ref = self._bg_unit:get_object(Idstring("a_reference"))
+	local target_pos = Vector3(0, 0, ref:position().z)
+	local offset = Vector3(ref:position().x, ref:position().y, 0)
+	self._scene_templates.infamy_preview = {
+		fov = 40,
+		can_change_fov = false,
+		use_item_grab = true,
+		camera_pos = offset:rotate_with(Rotation(90)) + Vector3(0, 0, 202),
+		target_pos = target_pos + Vector3(0, 0, 200),
+		character_pos = Vector3(-75, 10, 100),
+		hide_armor = true,
+		hide_mask = true,
+		hide_menu_logo = true,
+		hide_weapons = true,
+		disable_rotate = true,
+		character_visible = true,
+		use_character_grab2 = false,
+		use_character_pan = false,
+		lights = {
+			self:_create_light({
+				far_range = 250,
+				specular_multiplier = 55,
+				color = Vector3(0.2, 0.5, 1) * 4.3,
+				position = Vector3(0, -200, 280)
+			}),
+			self:_create_light({
+				far_range = 370,
+				specular_multiplier = 55,
+				color = Vector3(1, 0.7, 0.5) * 2.3,
+				position = Vector3(200, 60, 280)
+			}),
+			self:_create_light({
+				far_range = 270,
+				specular_multiplier = 0,
+				color = Vector3(1, 1, 1) * 0.8,
+				position = Vector3(160, -130, 220)
+			}),
+			self:_create_light({
+				far_range = 270,
+				specular_multiplier = 155,
+				color = Vector3(0.86, 0.67, 0.41) * 2,
+				position = Vector3(160, 0, 220)
+			})
+		}
+	}
+	self._scene_templates.lobby = {
+		use_character_grab = false,
+		hide_menu_logo = true,
+		camera_pos = offset:rotate_with(Rotation(90)),
+		target_pos = target_pos,
+		character_pos = c_ref:position() + Vector3(0, 500, 0),
+		lobby_characters_visible = true,
+		fov = 40,
+		lights = {
+			self:_create_light({
+				far_range = 300,
+				color = Vector3(0.86, 0.57, 0.31) * 3,
+				position = Vector3(56, 100, -10)
+			}),
+			self:_create_light({
+				far_range = 3000,
+				specular_multiplier = 6,
+				color = Vector3(1, 2.5, 4.5) * 3,
+				position = Vector3(-1000, -300, 800)
+			}),
+			self:_create_light({
+				far_range = 800,
+				specular_multiplier = 0,
+				color = Vector3(1, 1, 1) * 0.35,
+				position = Vector3(300, 100, 0)
+			})
+		}
+	}
+	self._scene_templates.lobby1 = {
+		use_character_grab = false,
+		lobby_characters_visible = true,
+		hide_menu_logo = true,
+		camera_pos = Vector3(-90.5634, -157.226, -28.6729),
+		target_pos = Vector3(-90.5634, -157.226, -28.6729) + Vector3(-0.58315, 0.781811, 0.220697) * 100,
+		fov = 30,
+		lights = clone(self._scene_templates.lobby.lights)
+	}
+	self._scene_templates.lobby2 = {
+		use_character_grab = false,
+		lobby_characters_visible = true,
+		hide_menu_logo = true,
+		camera_pos = Vector3(-21.2779, -264.36, -56.7304),
+		target_pos = Vector3(-21.2779, -264.36, -56.7304) + Vector3(-0.633319, 0.758269, 0.154709) * 100,
+		fov = 30,
+		lights = clone(self._scene_templates.lobby.lights)
+	}
+	self._scene_templates.lobby3 = {
+		use_character_grab = false,
+		lobby_characters_visible = true,
+		hide_menu_logo = true,
+		camera_pos = Vector3(149.695, -363.069, -110.613),
+		target_pos = Vector3(149.695, -363.069, -110.613) + Vector3(-0.648856, 0.748553, 0.136579) * 100,
+		fov = 30,
+		lights = clone(self._scene_templates.lobby.lights)
+	}
+	self._scene_templates.lobby4 = {
+		use_character_grab = false,
+		lobby_characters_visible = true,
+		hide_menu_logo = true,
+		camera_pos = Vector3(210.949, -449.61, -126.709),
+		target_pos = Vector3(210.949, -449.61, -126.709) + Vector3(-0.668524, 0.734205, 0.118403) * 100,
+		fov = 30,
+		lights = clone(self._scene_templates.lobby.lights)
+	}
+	self._scene_templates.blackmarket_customize = {
+		fov = 40,
+		use_item_grab = true,
+		disable_rotate = true,
+		disable_item_updates = true,
+		can_change_fov = true,
+		can_move_item = true,
+		hide_menu_logo = true,
+		change_fov_sensitivity = 2,
+		camera_pos = Vector3(1500, -2000, 0)
+	}
+	self._scene_templates.crime_spree_lobby = {
+		use_character_grab = false,
+		camera_pos = offset:rotate_with(Rotation(90)),
+		target_pos = target_pos,
+		character_pos = c_ref:position() + Vector3(0, 500, 0),
+		lobby_characters_visible = true,
+		fov = 40,
+		hide_menu_logo = true,
+		lights = {
+			self:_create_light({
+				far_range = 300,
+				color = Vector3(0.86, 0.57, 0.31) * 3,
+				position = Vector3(56, 100, -10)
+			}),
+			self:_create_light({
+				far_range = 3000,
+				specular_multiplier = 6,
+				color = Vector3(1, 2.5, 4.5) * 3,
+				position = Vector3(-1000, -300, 800)
+			}),
+			self:_create_light({
+				far_range = 800,
+				specular_multiplier = 0,
+				color = Vector3(1, 1, 1) * 0.35,
+				position = Vector3(300, 100, 0)
+			})
+		}
+	}
+	self._scene_templates.crew_management = {
+		use_character_grab = false,
+		hide_menu_logo = true,
+		camera_pos = offset:rotate_with(Rotation(90)),
+		target_pos = target_pos,
+		character_pos = c_ref:position() + Vector3(0, 500, 0),
+		character_visible = false,
+		lobby_characters_visible = false,
+		henchmen_characters_visible = true,
+		fov = 40,
+		lights = {
+			self:_create_light({
+				far_range = 300,
+				color = Vector3(0.86, 0.57, 0.31) * 3,
+				position = Vector3(56, 100, -10)
+			}),
+			self:_create_light({
+				far_range = 3000,
+				specular_multiplier = 6,
+				color = Vector3(1, 2.5, 4.5) * 3,
+				position = Vector3(-1000, -300, 800)
+			}),
+			self:_create_light({
+				far_range = 800,
+				specular_multiplier = 0,
+				color = Vector3(1, 1, 1) * 0.35,
+				position = Vector3(300, 100, 0)
+			})
+		}
+	}
+	self._scene_templates.raid_menu = {
+		use_character_grab = false,
+		camera_pos = offset:rotate_with(Rotation(90)),
+		target_pos = target_pos,
+		character_pos = c_ref:position() + Vector3(0, 500, 0),
+		character_visible = false,
+		hide_menu_logo = true,
+		lobby_characters_visible = false,
+		henchmen_characters_visible = true,
+		fov = 40,
+		lights = {
+			self:_create_light({
+				far_range = 300,
+				color = Vector3(0.86, 0.57, 0.31) * 3,
+				position = Vector3(56, 100, -10)
+			}),
+			self:_create_light({
+				far_range = 3000,
+				specular_multiplier = 6,
+				color = Vector3(1, 2.5, 4.5) * 3,
+				position = Vector3(-1000, -300, 800)
+			}),
+			self:_create_light({
+				far_range = 800,
+				specular_multiplier = 0,
+				color = Vector3(1, 1, 1) * 0.35,
+				position = Vector3(300, 100, 0)
+			})
+		}
+	}
+	self._scene_templates.movie_theater = {
+		use_character_grab = false,
+		hide_menu_logo = true,
+		camera_pos = offset:rotate_with(Rotation(90)),
+		target_pos = target_pos,
+		character_visible = false,
+		lobby_characters_visible = false,
+		fov = 40
+	}
+end)
 
 function MenuSceneManager:_setup_bg()
 	local yaw = 180
+		--This element must never be removed.
 	self._bg_unit = World:spawn_unit(Idstring("units/menu/menu_scene/menu_cylinder"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
 
-	World:spawn_unit(Idstring("units/menu/menu_scene/menu_cylinder_pattern"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
-	World:spawn_unit(Idstring("units/menu/menu_scene/menu_smokecylinder1"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
-	World:spawn_unit(Idstring("units/menu/menu_scene/menu_smokecylinder2"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
-	World:spawn_unit(Idstring("units/menu/menu_scene/menu_smokecylinder3"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
 
-	self._menu_logo = World:spawn_unit(Idstring("units/menu/menu_scene/menu_logo"), Vector3(0, 10, 0), Rotation(yaw, 0, 0))
+		--Background pattern & smoke FX.  Smoke is 3 different scrolling planes, pattern is 1.  smokecylinder1 is lowest poly and without the other FX, very evident.
+	--World:spawn_unit(Idstring("units/menu/menu_scene/menu_cylinder_pattern"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
+	--World:spawn_unit(Idstring("units/menu/menu_scene/menu_smokecylinder1"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
+	--World:spawn_unit(Idstring("units/menu/menu_scene/menu_smokecylinder2"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
+	--World:spawn_unit(Idstring("units/menu/menu_scene/menu_smokecylinder3"), Vector3(0, 0, 0), Rotation(yaw, 0, 0))
+
+
+		--Menu logo.
+	self._menu_logo = World:spawn_unit(Idstring("units/menu/menu_scene/menu_logo"), Vector3(97, -200, -51), Rotation(yaw, 0, 0))
+
 
 	self:set_character(managers.blackmarket:get_preferred_character())
-		
-	--Proof of concept, should add more later. 
-	if Month == "12" and restoration.Options:GetValue("Holiday") then
-			
-		local a = self._bg_unit:get_object(Idstring("a_reference"))
-		self._xmas_tree = World:spawn_unit(Idstring("units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"), a:position() + Vector3(-150, 250, -50), Rotation(-45 + (math.random(2) - 1) * 180, 0, 0))
-		self._snow_pile = World:spawn_unit(Idstring("units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"), a:position() + Vector3(-35, 275, -75), Rotation(305, 0, 0))
 		
 		local e_money = self._bg_unit:effect_spawner(Idstring("e_money"))
 
 		if e_money then
 			e_money:set_enabled(false)
-		end		
-		
+		end	
+	--Proof of concept, should add more later. 
+	if Month == "12" and restoration.Options:GetValue("Holiday") then	
+		local a = self._bg_unit:get_object(Idstring("a_reference"))
+		self._xmas_tree = World:spawn_unit(Idstring("units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"), a:position() + Vector3(-150, 250, -50), Rotation(-45 + (math.random(2) - 1) * 180, 0, 0))
+		self._snow_pile = World:spawn_unit(Idstring("units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"), a:position() + Vector3(-35, 275, -75), Rotation(305, 0, 0))	
 	end
 		
 	self:_setup_lobby_characters()
 	self:_setup_henchmen_characters()
 end
+
+function MenuSceneManager:_set_up_environments()
+	self._environments = {
+		standard = {}
+	}
+	self._environments.standard.environment = "environments/env_menu/env_menu"
+	self._environments.standard.color_grading = "color_off"
+	self._environments.standard.angle = 0
+	self._environments.safe = {
+		environment = "environments/env_menu/env_menu",
+		color_grading = "color_off",
+		angle = -135
+	}
+	self._environments.crafting = {
+		environment = "environments/env_menu/env_menu",
+		color_grading = "color_off",
+		angle = -135
+	}
+end
+
 
 end
