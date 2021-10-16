@@ -702,43 +702,47 @@ function CopActionHurt:init(action_desc, common_data)
 			end]]
 
 			local weapon_unit = common_data.ext_inventory:equipped_unit()
-			self._weapon_unit = weapon_unit
-			self._weapon_base = weapon_unit:base()
-			local weap_tweak = weapon_unit:base():weapon_tweak_data()
-			local weapon_usage_tweak = common_data.char_tweak.weapon[weap_tweak.usage]
-			self._weap_tweak = weap_tweak
-			self._w_usage_tweak = weapon_usage_tweak
-			self._aim_delay_minmax = weapon_usage_tweak.aim_delay or {0, 0}
-			self._focus_delay = weapon_usage_tweak.focus_delay or 0
-			self._focus_displacement = weapon_usage_tweak.focus_dis or 500
-			self._spread = weapon_usage_tweak.spread or 20
-			self._miss_dis = weapon_usage_tweak.miss_dis or 30
-			self._automatic_weap = weap_tweak.auto and weapon_usage_tweak.autofire_rounds and true or nil
-			self._reload_speed = weapon_usage_tweak.RELOAD_SPEED
-			if weapon_usage_tweak.crew then
-				self._reload_speed = self._reload_speed * (weap_tweak.crew_reload_speed_mul or 1)
-			end
+			
+			if weapon_unit then
+				self._weapon_unit = weapon_unit
+				self._weapon_base = weapon_unit:base()
+				local weap_tweak = weapon_unit:base():weapon_tweak_data()
+				local weapon_usage_tweak = common_data.char_tweak.weapon[weap_tweak.usage]
+				self._weap_tweak = weap_tweak
+				self._w_usage_tweak = weapon_usage_tweak
+				self._aim_delay_minmax = weapon_usage_tweak.aim_delay or {0, 0}
+				self._focus_delay = weapon_usage_tweak.focus_delay or 0
+				self._focus_displacement = weapon_usage_tweak.focus_dis or 500
+				self._spread = weapon_usage_tweak.spread or 20
+				self._miss_dis = weapon_usage_tweak.miss_dis or 30
+				self._automatic_weap = weap_tweak.auto and weapon_usage_tweak.autofire_rounds and true or nil
+				self._reload_speed = weapon_usage_tweak.RELOAD_SPEED
+				if weapon_usage_tweak.crew then
+					self._reload_speed = self._reload_speed * (weap_tweak.crew_reload_speed_mul or 1)
+				end
 
-			self._falloff = weapon_usage_tweak.FALLOFF or {
-				{
-					dmg_mul = 1,
-					r = 1500,
-					acc = {
-						0.2,
-						0.6
-					},
-					recoil = {
-						0.45,
-						0.8
-					},
-					mode = {
-						1,
-						3,
-						3,
-						1
+				self._falloff = weapon_usage_tweak.FALLOFF or {
+					{
+						dmg_mul = 1,
+						r = 1500,
+						acc = {
+							0.2,
+							0.6
+						},
+						recoil = {
+							0.45,
+							0.8
+						},
+						mode = {
+							1,
+							3,
+							3,
+							1
+						}
 					}
 				}
-			}
+			
+			
 			self._anim = redir_res
 			self._shoot_t = t + 1
 
