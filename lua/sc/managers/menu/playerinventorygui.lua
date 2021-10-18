@@ -50,7 +50,7 @@ function PlayerInventoryGui:_get_armor_stats(name)
 				value = managers.blackmarket:concealment_modifier("armors", upgrade_level)
 			}
 		elseif stat.name == "movement" then
-			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX / 100 * tweak_data.gui.stats_present_multiplier
+			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX / 100
 			local movement_penalty = managers.player:body_armor_value("movement", upgrade_level)
 			local base_value = movement_penalty * base
 			base_stats[stat.name] = {

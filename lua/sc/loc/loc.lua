@@ -1279,6 +1279,8 @@ end)
 
 Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 	LocalizationManager:add_localized_strings({
+		["bm_menu_movement"] = "M/S",
+	
 		["menu_toggle_one_down"] = "Pro-Job",
 		["menu_one_down"] = "Pro-Job",
 		["menu_es_pro_job_bonus"] = "Pro-Job",
