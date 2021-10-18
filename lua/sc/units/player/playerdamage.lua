@@ -123,7 +123,7 @@ function PlayerDamage:init(unit)
 				end
 
 				if self._unit == attacker_unit then
-					local time = Application:time()
+					local time = managers.player:player_timer():time()
 
 					if self._damage_to_armor.target_tick < time - self._damage_to_armor.elapsed then
 						self._damage_to_armor.elapsed = time
@@ -406,7 +406,7 @@ function PlayerDamage:damage_bullet(attack_data)
 			self:_call_listeners(damage_info)
 			self:play_whizby(attack_data.col_ray.position)
 			self:_hit_direction(attacker_unit:position())
-			local t = Application:time()
+			local t = managers.player:player_timer():time()
 			self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
 			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
 			if not self:is_friendly_fire(attacker_unit, true) then
@@ -428,7 +428,7 @@ function PlayerDamage:damage_bullet(attack_data)
 	self._unit:camera():play_shaker("player_bullet_damage", 1 * shake_multiplier)
 	managers.rumble:play("damage_bullet")
 	
-	if not self:_apply_damage(attack_data, damage_info, "bullet", Application:time()) then
+	if not self:_apply_damage(attack_data, damage_info, "bullet", pm:player_timer():time()) then
 		return
 	end
 
@@ -486,7 +486,7 @@ function PlayerDamage:damage_melee(attack_data)
 			self:_call_listeners(damage_info)
 			self:_hit_direction(attacker_unit:position())
 			self._unit:camera():play_shaker(vars[math.random(#vars)], math.max(1 * self._melee_push_multiplier, 0.2))
-			local t = Application:time()
+			local t = managers.player:player_timer():time()
 			self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
 			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
 			if not self:is_friendly_fire(attacker_unit, true) then
@@ -558,7 +558,7 @@ function PlayerDamage:damage_melee(attack_data)
 	local shake_multiplier = math.clamp(attack_data.damage, 0.2, 2) * shake_armor_multiplier
 	managers.rumble:play("damage_bullet")
 	
-	if not self:_apply_damage(attack_data, damage_info, "melee", Application:time()) then
+	if not self:_apply_damage(attack_data, damage_info, "melee", pm:player_timer():time()) then
 		return
 	end
 
@@ -620,7 +620,7 @@ function PlayerDamage:damage_explosion(attack_data)
 	attack_data.damage = managers.modifiers:modify_value("PlayerDamage:OnTakeExplosionDamage", attack_data.damage) --Gage explosion immunity bonus sets explosive damage to 0, which causes an early return.
 	attack_data.damage = attack_data.damage * (1 - distance / attack_data.range) --Outside of that, apply falloff to the explosion damage.
 
-	if not self:_apply_damage(attack_data, damage_info, "explosion", Application:time(), distance) then
+	if not self:_apply_damage(attack_data, damage_info, "explosion", managers.player:player_timer():time(), distance) then
 		return
 	end
 
@@ -659,7 +659,7 @@ function PlayerDamage:damage_fire(attack_data)
 		return
 	end
 
-	self:_apply_damage(attack_data, damage_info, "fire", Application:time())
+	self:_apply_damage(attack_data, damage_info, "fire", managers.player:player_timer():time())
 end
 
 --Does not use _apply_damage, instead uses its own stuff.
@@ -675,7 +675,7 @@ function PlayerDamage:damage_gas(attack_data)
 		return
 	end
 
-	local t = Application:time()
+	local t = managers.player:player_timer():time()
 	self._last_received_dmg = attack_data.damage
 	local next_allowed_dmg_t_old = self._next_allowed_dmg_t --Needed to check if grace piercing occured.
 	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
@@ -1464,7 +1464,7 @@ end
 --Turns stored health from hitman into temporary health.
 function PlayerDamage:consume_temp_stored_health()
 	if self._armor_stored_health and not self._dead and not self._bleed_out and not self._check_berserker_done then
-		self._next_temp_health_decay_t = Application:time() + 1
+		self._next_temp_health_decay_t = managers.player:player_timer():time() + 1
 		self._armor_stored_health = math.min(self._armor_stored_health * self._max_health_reduction + self._temp_health, tweak_data.upgrades.temp_health_max * self._max_health_reduction) - self._temp_health
 		self._health_without_temp = self:get_real_health() - self._temp_health
 		self:_change_temp_health(self._armor_stored_health)
