@@ -1607,6 +1607,12 @@ function GroupAIStateBase:on_criminal_nav_seg_change(unit, nav_seg_id)
 
 		area.criminal.units[u_key] = u_sighting
 	end
+	
+	if self._player_criminals[u_key] then
+		for u_key, u_data in pairs_g(self._ai_criminals) do
+			u_data.unit:brain():on_criminal_nav_seg_changed()
+		end
+	end
 end
 
 function GroupAIStateBase:on_criminal_suspicion_progress(u_suspect, u_observer, status, client_id)

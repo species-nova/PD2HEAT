@@ -205,6 +205,46 @@ function TeamAILogicTravel.enter(data, new_logic_name, enter_params)
 	end
 end
 
+function TeamAILogicTravel._on_destination_reached(data)
+	local objective = data.objective
+	objective.in_place = true
+
+	if objective.type == "free" then
+		if not objective.action_duration then
+			data.objective_complete_clbk(data.unit, objective)
+
+			return
+		end
+	elseif objective.type == "flee" then
+		data.brain:set_active(false)
+		data.unit:base():set_slot(data.unit, 0)
+
+		return
+	elseif objective.type == "defend_area" then
+		if objective.grp_objective and objective.grp_objective.type == "retire" then
+			data.brain:set_active(false)
+			data.unit:base():set_slot(data.unit, 0)
+
+			return
+		else
+			managers.groupai:state():on_defend_travel_end(data.unit, objective)
+		end
+	end
+	
+	if data.objective and data.objective.type == "follow" and not data.unit:movement():chk_action_forbidden("walk") then
+		if not TeamAILogicIdle._check_should_relocate(data, data.internal_data, objective) then
+			data.logic.on_new_objective(data)
+		else
+			data.internal_data.coarse_path = nil
+			data.internal_data.advance_path = nil
+			data.internal_data.coarse_path_index = nil
+			objective.in_place = nil
+		end
+	else
+		data.logic.on_new_objective(data)
+	end
+end
+
 function TeamAILogicTravel.exit(data, new_logic_name, enter_params)
 	TeamAILogicBase.exit(data, new_logic_name, enter_params)
 

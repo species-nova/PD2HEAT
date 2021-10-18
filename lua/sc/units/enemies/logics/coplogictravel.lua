@@ -2600,8 +2600,10 @@ function CopLogicTravel._on_destination_reached(data)
 			managers.groupai:state():on_defend_travel_end(data.unit, objective)
 		end
 	end
-
-	data.logic.on_new_objective(data)
+	
+	if not CopLogicIdle._chk_relocate(data) then
+		data.logic.on_new_objective(data)
+	end
 end
 
 function CopLogicTravel._on_revive_destination_reached_by_warp(data, my_data, warp_back)

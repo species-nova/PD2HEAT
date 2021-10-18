@@ -36,3 +36,9 @@ function TeamAIBrain:post_init()
 
 	managers.groupai:state():add_alert_listener(self._alert_listen_key, callback(self, self, "on_alert"), alert_listen_filter, alert_types, self._unit:movement():m_head_pos())
 end
+
+function TeamAIBrain:on_criminal_nav_seg_changed()
+	if self._logic_data.objective and self._logic_data.objective.type == "follow" then
+		self._current_logic.on_new_objective(self._logic_data)
+	end
+end

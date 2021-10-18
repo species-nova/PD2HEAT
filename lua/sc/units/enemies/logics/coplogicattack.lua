@@ -1673,9 +1673,9 @@ function CopLogicAttack._upd_aim(data, my_data)
 				local firing_range = 500
 
 				if my_data.weapon_range then
-					firing_range = running and my_data.weapon_range.close or my_data.weapon_range.far
+					firing_range = running and my_data.weapon_range.optimal or my_data.weapon_range.far
 				elseif not running then
-					firing_range = 1000
+					firing_range = 3000
 				end
 
 				if running and not data.char_tweak.always_face_enemy and firing_range < focus_enemy.dis then ----check always_face_enemy

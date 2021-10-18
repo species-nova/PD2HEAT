@@ -840,12 +840,6 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 			sp_data.delay_t = self._t + math.rand(0.5)
 		end
 	end
-	
-	if grp_objective.area then
-		if not grp_objective.coarse_path or #grp_objective.coarse_path < 2 then
-			self:_pregenerate_coarse_path(grp_objective, spawn_group)
-		end
-	end
 
 	local spawn_task = {
 		objective = not grp_objective.element and self._create_objective_from_group_objective(grp_objective),
