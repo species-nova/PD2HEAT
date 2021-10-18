@@ -331,13 +331,13 @@
 	<sequence_manager path="units/pd2_dlc_jolly/equipment/gen_interactable_saw/gen_interactable_saw" force="true"/>
 	
 	<!--PANIC ROOM-->
-	<mission path="levels/narratives/classics/flat/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/flat/world/world" force="true" unload="true"/>
+	<!--<mission path="levels/narratives/classics/flat/world/world" force="true" unload="true"/>
+	<continent path="levels/narratives/classics/flat/world/world" force="true" unload="true"/>-->
 	<nav_data path="levels/narratives/classics/flat/nav_manager_data" force="true" unload="true"/>	
 	<cover_data path="levels/narratives/classics/flat/cover_data" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/flat/art_dhruva/art_dhruva" force="true" unload="true"/>
+	<!--<continent path="levels/narratives/classics/flat/art_dhruva/art_dhruva" force="true" unload="true"/>
 	<continent path="levels/narratives/classics/flat/lights/lights" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/flat/collision/collision" force="true" unload="true"/>
+	<continent path="levels/narratives/classics/flat/collision/collision" force="true" unload="true"/>-->
 
 	<!--GGC-->
 	<mission path="levels/narratives/dentist/cas/world/world" force="true" unload="true"/>
