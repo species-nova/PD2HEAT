@@ -7204,14 +7204,14 @@ function CharacterTweakData:_presets(tweak_data)
 				},
 				run = {
 					hos = {
-						fwd = 546,
-						strafe = 546,
-						bwd = 546
+						fwd = 640,
+						strafe = 640,
+						bwd = 640
 					},
 					cbt = {
-						fwd = 546,
-						strafe = 546,
-						bwd = 546
+						fwd = 640,
+						strafe = 640,
+						bwd = 640
 					}
 				}
 			},
@@ -7230,14 +7230,14 @@ function CharacterTweakData:_presets(tweak_data)
 				},
 				run = {
 					hos = {
-						fwd = 340,
-						strafe = 340,
-						bwd = 340
+						fwd = 420,
+						strafe = 420,
+						bwd = 420
 					},
 					cbt = {
-						fwd = 340,
-						strafe = 340,
-						bwd = 340
+						fwd = 420,
+						strafe = 420,
+						bwd = 420
 					}
 				}
 			}
