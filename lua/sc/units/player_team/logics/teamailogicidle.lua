@@ -1522,63 +1522,51 @@ function TeamAILogicIdle.mark_sneak_char(data, criminal, to_mark, play_sound, pl
 end
 
 function TeamAILogicIdle._check_should_relocate(data, my_data, objective)
-	if data.cool then
+	if data.cool and managers.groupai:state():whisper_mode() then
 		return
 	end
 
 	local follow_unit = objective.follow_unit
-	local my_nav_seg_id = data.unit:movement():nav_tracker():nav_segment()
-	local my_areas = managers.groupai:state():get_areas_from_nav_seg_id(my_nav_seg_id)
-	local follow_unit_nav_seg_id = follow_unit:movement():nav_tracker():nav_segment()
+	local movement_ext = data.unit:movement()
+	local m_field_pos = movement_ext:nav_tracker():field_position()
+	local follow_unit_mov_ext = follow_unit:movement()
+	local follow_unit_field_pos = follow_unit_mov_ext:nav_tracker():field_position()
+	local max_allowed_dis_xy = 700 * 700
+	local max_allowed_dis_z = 200
 
-	for _, area in ipairs(my_areas) do
-		if area.nav_segs[follow_unit_nav_seg_id] then
-			return
+	local too_far = nil
+
+	if math_abs(m_field_pos.z - follow_unit_field_pos.z) > max_allowed_dis_z then --this is more or less going to check for different floors since field pos doesnt have that much height before it gets clamped
+		too_far = true
+		--log("no")
+	else	
+		local dis = mvec3_dist_sq(m_field_pos, follow_unit_field_pos)
+
+		if max_allowed_dis_xy < dis then
+			--log("yes")
+			too_far = true
 		end
 	end
 
-	for _, area in ipairs(my_areas) do
-		if next(area.police.units) then
-			local follow_unit_areas = managers.groupai:state():get_areas_from_nav_seg_id(follow_unit_nav_seg_id)
-			local is_follow_unit_area_dangerous = nil
-
-			for _, area in ipairs(follow_unit_areas) do
-				if next(area.police.units) then
-					is_follow_unit_area_dangerous = true
-
-					break
-				end
-			end
-
-			if is_follow_unit_area_dangerous then
-				break
-			else
-				return true
-			end
-		end
-	end
-
-	local max_allowed_dis_z = 250
-
-	mvector3.set(tmp_vec1, follow_unit:movement():m_pos())
-	mvector3.subtract(tmp_vec1, data.m_pos)
-
-	if max_allowed_dis_z < math.abs(mvector3.z(tmp_vec1)) then
+	if too_far then
 		return true
-	else
-		local max_allowed_dis_xy = 500
-
-		mvector3.set_z(tmp_vec1, 0)
-
-		if max_allowed_dis_xy < mvector3.length(tmp_vec1) then
+	end
+	
+	local my_nav_seg_id = movement_ext:nav_tracker():nav_segment()
+	local follow_unit_nav_seg_id = follow_unit_mov_ext:nav_tracker():nav_segment()
+	
+	if my_nav_seg_id == follow_unit_nav_seg_id then
+		--log("they're in my area")
+		return
+	end
+	
+	if not data.attention_obj or not data.attention_obj.verified and data.attention_obj.reaction >= AIAttentionObject.REACT_COMBAT then
+		local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
+		local raycast = data.unit:raycast("ray", movement_ext:m_head_pos(), follow_unit_mov_ext:m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
+		
+		if raycast then
+			--log("no los")
 			return true
 		end
-	end
-
-	local slot_mask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
-	local raycast = data.unit:raycast("ray", data.unit:movement():m_head_pos(), follow_unit:movement():m_head_pos(), "slot_mask", slot_mask, "ignore_unit", follow_unit, "report")
-
-	if raycast then
-		return true
 	end
 end
