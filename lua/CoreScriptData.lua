@@ -266,8 +266,11 @@ end)
 
 --Credits
 Hooks:Add("BeardLibCreateScriptDataMods", "ResCreditsCallBeardLibSequenceFuncs", function()
-	BeardLib:ReplaceScriptData(mod_path .. "scriptdata/menu.custom_xml", "custom_xml", "environments/env_menu/env_menu", "environment")
 	BeardLib:ReplaceScriptData(mod_path .. "assets/gamedata/rescredits.credits", "custom_xml", "gamedata/rescredits", "credits", true)
+end)
+--Menu Environments
+Hooks:Add("BeardLibCreateScriptDataMods", "HEATMainMenuCallBeardLibSequenceFuncs", function()
+	BeardLib:ReplaceScriptData(mod_path .. "scriptdata/menu.custom_xml", "custom_xml", "environments/env_menu/env_menu", "environment")
 end)
 
 --Environment skies loader
