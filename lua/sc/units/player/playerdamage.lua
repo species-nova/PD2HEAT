@@ -1641,3 +1641,47 @@ function PlayerDamage:_on_enter_swansong_event()
 		managers.network:session():send_to_peers("sync_swansong_hud", self._unit, managers.network:session():local_peer():id())
 	end
 end
+
+--functions that remove the high pitched tinnitus noise from flashbangs, replacing it ith a mute instead
+function PlayerDamage:_start_tinnitus(sound_eff_mul, skip_explosion_sfx)
+	if self._tinnitus_data then
+		if sound_eff_mul < self._tinnitus_data.intensity then
+			return
+		end
+
+		self._tinnitus_data.intensity = sound_eff_mul
+		self._tinnitus_data.duration = 4 + sound_eff_mul * math.lerp(8, 12, math.random())
+		self._tinnitus_data.end_t = managers.player:player_timer():time() + self._tinnitus_data.duration
+
+		if self._tinnitus_data.snd_event then
+			self._tinnitus_data.snd_event:stop()
+		end
+
+		SoundDevice:set_rtpc("downed_state_progression", math.max(self._downed_progression or 0, self._tinnitus_data.intensity * 100))
+	else
+		local duration = 4 + sound_eff_mul * math.lerp(8, 12, math.random())
+
+		SoundDevice:set_rtpc("downed_state_progression", math.max(self._downed_progression or 0, sound_eff_mul * 100))
+
+		self._tinnitus_data = {
+			intensity = sound_eff_mul,
+			duration = duration,
+			end_t = managers.player:player_timer():time() + duration,
+			--snd_event = self._unit:sound():play("concussion_effect_on")
+		}
+	end
+
+	if not skip_explosion_sfx then
+		self._unit:sound():play("flashbang_explode_sfx_player")
+	end
+end
+
+function PlayerDamage:_stop_tinnitus()
+	if not self._tinnitus_data then
+		return
+	end
+
+	self._unit:sound():play("concussion_effect_off")
+
+	self._tinnitus_data = nil
+end

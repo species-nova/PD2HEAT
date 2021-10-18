@@ -715,7 +715,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.player.damage_shake_addend = {1}
 					self.values.player.resist_melee_push = {0.025}
 				--Ace
-					self.values.player.flashbang_multiplier = {1, 0.2}
+					self.values.player.flashbang_multiplier = {1, 0.6}
 				
 				--Die Hard
 					self.values.player.deflection_addend = {

@@ -1,4 +1,8 @@
 <table directory="assets">		
+	<!--new flashbangs-->
+	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties" />
+	<texture path="effects/pd2_mod_heatgen/particles/character/playerscreen/textures/floaties_df" load="true" />
+
 	<!--these guys have to be in here or you get stuck on the blackscreen idfk anymore-->
     <unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36" load="true"/>
     <unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36_husk" load="true"/>
