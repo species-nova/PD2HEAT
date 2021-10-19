@@ -1546,7 +1546,7 @@ function ActionSpooc.chk_can_start_spooc_sprint(unit, target_unit)
 	local my_fwd = unit:movement():m_fwd()
 	local dot = mvec3_dot(target_vec, my_fwd)
 
-	if dot < 0.6 then
+	if dot < 0.3 then
 		return
 	end
 
@@ -1619,7 +1619,7 @@ function ActionSpooc.chk_can_start_flying_strike(unit, target_unit)
 	local my_fwd = unit:movement():m_fwd()
 	local dot = mvec3_dot(target_vec, my_fwd)
 
-	if dot < 0.3 then
+	if dot < 0.6 then
 		return
 	end
 

@@ -1,4 +1,11 @@
-<table directory="assets">		
+<table directory="assets">
+	<!--env stuff-->
+	<scene path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />
+	<material_config path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />
+	<model path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />	
+	<texture path="core/environments/skies/sky_heated_avenue/sky_heated_avenue_df" />
+	<texture path="environments/heated_hox_cubemap/outdoors" load="true" />	
+		
 	<!--new flashbangs-->
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties" />
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties_pdth" />

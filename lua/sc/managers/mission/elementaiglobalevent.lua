@@ -11,7 +11,7 @@ function ElementAiGlobalEvent:on_executed(instigator)
     --disable hunt on specific levels
     if wave_mode == "hunt" then
         local level = Global.load_level and Global.level_data.level_id
-        if table.contains(restoration.fuck_hunt, level) then
+        if table.contains(heat.fuck_hunt, level) then
             --log("game tried to force hunt, fuck off")
             return
         end

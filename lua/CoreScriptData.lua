@@ -13,6 +13,9 @@ local environment_replacers = {
 		},
 		{ --Trailer Bank
 			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/env_trailer_bank.custom_xml"
+		},
+		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
 		}
 	},
 	rvd1 = {
@@ -54,11 +57,11 @@ local environment_replacers = {
  			["environments/pd2_env_foggy_bright/pd2_env_foggy_bright"] = "scriptdata/underpass_foggyday.custom_xml"
  		}
  	},
- 	--[[mallcrasher = {
- 		{ --Afternoon Shopping
- 			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/mall_alt.custom_xml"
- 		}
- 	},]]--
+ 	mallcrasher = {
+ 		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
+		}
+ 	},
  	mia_1 = {
  		{ --Morning Call
  			["environments/pd2_hlm1/pd2_hlm1"] = "scriptdata/hlm_morn.custom_xml"
@@ -76,7 +79,10 @@ local environment_replacers = {
  		{}, --Default
  		{ --Cloudy Day
  			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/wd_d1_cloudy_day.custom_xml"
- 		}
+ 		},
+		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
+		}
  	},
  	bronze = {
  		{
@@ -96,8 +102,44 @@ local environment_replacers = {
  	big = {
  		{
  			["environments/pd2_env_bigbank/pd2_env_bigbank"] = "scriptdata/xbox_bank.custom_xml"
- 		}
+ 		},
+		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
+		}
  	},
+	hox_1 = {
+		{}, --Default
+		{
+			["environments/pd2_env_hox1_01/pd2_env_hox1_01"] = "scriptdata/heated_confrontation.custom_xml",
+			["environments/pd2_env_hox1_02/pd2_env_hox1_02"] = "scriptdata/heated_confrontation_garage.custom_xml"
+		},
+	},
+	hox_2 = {
+		{}, --Default
+		{
+			["environments/pd2_env_hox_02/pd2_env_hox_02"] = "scriptdata/hoxout2_heated.custom_xml"
+		},
+	},
+	election_day_1 = {
+		{},
+		{
+			["environments/pd2_env_ed1/pd2_env_ed1"] = "scriptdata/calmbeforethestorm_nolightning.custom_xml"
+		},
+	},
+	pbr = {
+		{ --BTM alt
+			["environments/pd2_berry_outdoor_night/pd2_berry_outdoor_night"] = "scriptdata/pd2_env_night_hh.custom_xml",
+			["environments/pd2_berry_connection/pd2_berry_connection"] = "scriptdata/btmountain/pbrconnectionhh.custom_xml",
+			["environments/pd2_berry_underground/pd2_berry_underground"] = "scriptdata/btmountain/pbrundergroundhh.custom_xml",
+			["environments/pd2_berry_outdoor_final_top_part/pd2_berry_outdoor_final_top_part"] = "scriptdata/btmountain/finalsectionpbr.custom_xml"
+		},
+		{ --Inverted BTM
+			["environments/pd2_berry_outdoor_night/pd2_berry_outdoor_night"] = "scriptdata/btmountain/finalsectionpbr.custom_xml",
+			["environments/pd2_berry_connection/pd2_berry_connection"] = "scriptdata/btmountain/pbrconnectionanarchy.custom_xml",
+			["environments/pd2_berry_underground/pd2_berry_underground"] = "scriptdata/btmountain/pbrundergroundanarchy.custom_xml",
+			["environments/pd2_berry_outdoor_final_top_part/pd2_berry_outdoor_final_top_part"] = "scriptdata/pd2_env_night_hh.custom_xml"
+		}
+	},
  	four_stores = {
  		{ --Mellow Day
 			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/mellowday.custom_xml"
@@ -110,12 +152,18 @@ local environment_replacers = {
 		},
 		{ --Beta Green
 			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/bank_green.custom_xml"
+		},
+		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
 		}
  	},
  	ukrainian_job_res = {
  		{ --Default
 			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/uk_job_new.custom_xml" 			
  		},
+		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
+		},
  		{ --Overcast
  			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/cloudy_day.custom_xml"
  		}
@@ -123,7 +171,10 @@ local environment_replacers = {
  	escape_cafe_day = {
  		{
  			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/cafe_escape_day_newdefault.custom_xml"
- 		}
+ 		},
+		{ --HH Default
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/pd2_env_day_hh.custom_xml"
+		}
  	},
  	escape_cafe = {
  		{
@@ -133,7 +184,10 @@ local environment_replacers = {
  	skm_watchdogs_stage2 = {
  		{
  			["units/pd2_dlc_skm/environments/pd2_env_skm_watchdogs_2_exterior"] = "scriptdata/wd_d2_skm_new.custom_xml"
- 		}
+ 		},
+		{
+ 			["units/pd2_dlc_skm/environments/pd2_env_skm_watchdogs_2_exterior"] = "scriptdata/calmbeforethestorm_nolightning.custom_xml"
+ 		},
  	},
  	skm_big2 = {
  		{
@@ -142,7 +196,7 @@ local environment_replacers = {
  	},
  	kosugi = {
  		{
- 			["environments/pd2_kosugi/pd2_kosugi"] = "scriptdata/shadowraid_darker.custom_xml"
+ 			["environments/pd2_kosugi/pd2_kosugi"] = "scriptdata/pd2_env_night_hh.custom_xml"
  		}
  	},
  	run = {
@@ -169,11 +223,14 @@ local environment_replacers = {
 	firestarter_1_res = {
 		{
 			["environments/pd2_env_night/pd2_env_night"] = "scriptdata/firestarter1_sunset.custom_xml"
-		}
+		},
 	},
 	firestarter_2_res = {
 		{
 			["environments/pd2_env_night/pd2_env_night"] = "scriptdata/firestarter2.custom_xml"
+		},
+		{ --HH Night
+			["environments/pd2_env_night/pd2_env_night"] = "scriptdata/pd2_env_night_hh.custom_xml"
 		}
 	},
 	firestarter_3_res = {

@@ -55,7 +55,7 @@ function TankCopLogicAttack.enter(data, new_logic_name, enter_params)
 
 	local objective = data.objective
 
-	my_data.attitude = objective and objective.attitude or "avoid"
+	my_data.attitude = objective and objective.attitude or "engage"
 	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
 	
 	if data.tactics and data.tactics.flank then
@@ -147,7 +147,7 @@ function TankCopLogicAttack.update(data)
 	TankCopLogicAttack._process_pathing_results(data, my_data)
 
 	if data.attention_obj and REACT_COMBAT <= data.attention_obj.reaction then
-		--my_data.want_to_move_back = TankCopLogicAttack._chk_wants_to_take_cover(data, my_data)
+		my_data.want_to_move_back = TankCopLogicAttack._chk_wants_to_take_cover(data, my_data)
 		TankCopLogicAttack._upd_combat_movement(data)
 	else
 		TankCopLogicAttack._cancel_chase_attempt(data, my_data)
@@ -286,16 +286,12 @@ function TankCopLogicAttack._chk_wants_to_take_cover(data, my_data)
 		return
 	end
 	
-	if data.tactics then
-		if data.tactics.spoocavoidance and data.attention_obj.dis < 2000 and data.attention_obj.aimed_at then
-			return "spoocavoidance"
-		elseif data.tactics.reloadingretreat and data.unit:anim_data().reload then
-			return "reload"
-		elseif data.tactics.elite_ranged_fire and data.attention_obj.verified and data.attention_obj.verified_dis < my_data.weapon_range.optimal * 0.5 then
-			return "eliterangedfire"
-		elseif data.tactics.hitnrun and data.attention_obj.verified and data.attention_obj.verified_dis < 800 then
-			return "hitnrun"
-		end
+	if data.unit:anim_data().reload then
+		return "reload"
+	end
+	
+	if data.tactics and data.tactics.elite_ranged_fire and data.attention_obj.verified and data.attention_obj.verified_dis < my_data.weapon_range.optimal * 0.5 then
+		return "eliterangedfire"
 	end
 end
 
@@ -352,25 +348,22 @@ function TankCopLogicAttack._upd_combat_movement(data)
 		local should_try_chase = nil
 		local height_diff = math_abs(data.m_pos.z - focus_enemy.m_pos.z)
 		
-		if engage then
-			local t_since_verification = not focus_enemy.verified_t and 99 or t - focus_enemy.verified_t 
-			should_try_chase = height_diff > 300 or enemy_dis > run_dis or data.tactics and data.tactics.charge and t_since_verification > 2
-		else
-			should_try_chase = enemy_visible or focus_enemy.verified_t and t - focus_enemy.verified_t > 4
-			
-			if should_try_chase then
-				if not no_run then
-					if not enemy_visible then
-						run_dist = run_dist * 0.5
-					end
-				end
+		if not my_data.want_to_move_back then
+			if engage then
+				local t_since_verification = focus_enemy.verified_t and t - focus_enemy.verified_t or 99
 				
-				should_try_chase = height_diff < 300 and enemy_dis < 600
+				should_try_chase = height_diff > 300 or enemy_dis > run_dist or data.tactics and data.tactics.charge and t_since_verification > 2
+			else
+				should_try_chase = enemy_visible or focus_enemy.verified_t and t - focus_enemy.verified_t < 4
+				
+				if should_try_chase then
+					should_try_chase = height_diff < 300 and enemy_dis < 600
+				end
 			end
 		end
 		
 		if should_try_chase then
-			if data.important or not my_data.chase_path_failed_t or t - my_data.chase_path_failed_t > 1 then --helps not nuking performance if there's too many Dozers in attack logic
+			if data.important or not my_data.chase_path_failed_t or t - my_data.chase_path_failed_t > 0.5 then --helps not nuking performance if there's too many Dozers in attack logic
 				local speed = no_run and "walk" or enemy_dis < run_dist and "walk" or "run"
 				
 				if my_data.chase_path then

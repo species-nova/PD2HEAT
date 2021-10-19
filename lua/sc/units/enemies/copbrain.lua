@@ -262,6 +262,8 @@ function CopBrain:init(unit)
 	CopBrain._logic_variants.spooc_titan.attack = SpoocLogicAttack
 	CopBrain._logic_variants.taser_titan = clone(security_variant)
 	CopBrain._logic_variants.autumn = clone(security_variant)
+	CopBrain._logic_variants.autumn.idle = SpoocLogicIdle
+	CopBrain._logic_variants.autumn.attack = SpoocLogicAttack
 end
 
 local on_nav_link_unregistered_original = CopBrain.on_nav_link_unregistered

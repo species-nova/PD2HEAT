@@ -184,18 +184,18 @@ function MenuCallbackHandler:jukebox_option_heist_tracks(item)
 	managers.savefile:setting_changed()
 end
 
-function restoration:_game_t()
+function heat:_game_t()
 	return TimerManager:game():time()
 end
 
-function restoration:start_inform_ene_cooldown(cooldown_t, msg_type)
+function heat:start_inform_ene_cooldown(cooldown_t, msg_type)
 	local t = self:_game_t()
 	self._cop_comment_cooldown_t[msg_type] = self._cop_comment_cooldown_t[msg_type] or {}
 	self._cop_comment_cooldown_t[msg_type]._cooldown_t = cooldown_t + t
 	self._cooldown_delay_t = t + 5
 end
 
-function restoration:ene_inform_has_cooldown_met(msg_type)
+function heat:ene_inform_has_cooldown_met(msg_type)
 	local t = TimerManager:game():time()
 	
 	if not self._cop_comment_cooldown_t[msg_type] then
@@ -214,7 +214,7 @@ function restoration:ene_inform_has_cooldown_met(msg_type)
 end
 
 
-function restoration:_has_deployable_type(unit, deployable)
+function heat:_has_deployable_type(unit, deployable)
 	local peer_id = managers.criminals:character_peer_id_by_unit(unit)
 	if not peer_id then
 		return false
@@ -239,7 +239,7 @@ function restoration:_has_deployable_type(unit, deployable)
 	return false
 end
 
-function restoration:_next_to_cops(data, amount)
+function heat:_next_to_cops(data, amount)
 	local close_peers = {}
 	local range = 5000
 	amount = amount or 4
@@ -258,7 +258,7 @@ function restoration:_next_to_cops(data, amount)
 	return #close_peers >= amount
 end
 
-function restoration:inform_law_enforcements(data, debug_enemy)
+function heat:inform_law_enforcements(data, debug_enemy)
 	if managers.groupai:state()._special_unit_types[data.unit:base()._tweak_table] then
 		return
 	end
