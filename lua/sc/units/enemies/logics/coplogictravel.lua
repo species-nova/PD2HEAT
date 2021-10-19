@@ -61,7 +61,7 @@ function CopLogicTravel.enter(data, new_logic_name, enter_params)
 	end
 
 	if old_internal_data then
-		my_data.old_action_started = old_internal_data.action_started
+		--my_data.old_action_started = old_internal_data.action_started
 		my_data.turning = old_internal_data.turning
 		my_data.firing = old_internal_data.firing
 		my_data.shooting = old_internal_data.shooting

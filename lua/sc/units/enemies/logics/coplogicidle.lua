@@ -243,11 +243,16 @@ function CopLogicIdle.queued_update(data)
 
 	local objective = data.objective
 
-	if my_data.has_old_action then
-		CopLogicIdle._upd_stop_old_action(data, my_data, objective)
-		CopLogicBase.queue_task(my_data, my_data.upd_task_key, CopLogicIdle.queued_update, data, data.t + delay, data.cool and true or data.important and true)
+	if not my_data.action_started then
+		if my_data.has_old_action then
+			CopLogicIdle._upd_stop_old_action(data, my_data, objective)
+			
+			if my_data.has_old_action then
+				CopLogicBase.queue_task(my_data, my_data.upd_task_key, CopLogicIdle.queued_update, data, data.t + delay, data.cool and true or data.important and true)
 
-		return
+				return
+			end
+		end
 	end
 
 	if data.is_converted then
@@ -2515,7 +2520,7 @@ function CopLogicIdle._upd_stop_old_action(data, my_data, objective)
 				type = "idle"
 			})
 		end
-	elseif data.unit:anim_data().act then
+	elseif data.unit:anim_data().act or data.unit:anim_data().act_idle or data.unit:anim_data().to_idle then
 		if not my_data.starting_idle_action_from_act then
 			my_data.starting_idle_action_from_act = true
 			CopLogicIdle._start_idle_action_from_act(data)
@@ -2529,7 +2534,7 @@ end
 
 function CopLogicIdle._chk_has_old_action(data, my_data)
 	local anim_data = data.unit:anim_data()
-	my_data.has_old_action = my_data.old_action_started or anim_data.to_idle or anim_data.act
+	my_data.has_old_action = anim_data.to_idle or anim_data.act
 	local lower_body_action = data.unit:movement()._active_actions[2]
 	my_data.advancing = lower_body_action and lower_body_action:type() == "walk" and lower_body_action
 end

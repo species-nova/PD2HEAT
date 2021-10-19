@@ -353,7 +353,8 @@ function TankCopLogicAttack._upd_combat_movement(data)
 		local height_diff = math_abs(data.m_pos.z - focus_enemy.m_pos.z)
 		
 		if engage then
-			should_try_chase = height_diff > 300 or enemy_dis > run_dist
+			local t_since_verification = not focus_enemy.verified_t and 99 or t - focus_enemy.verified_t 
+			should_try_chase = height_diff > 300 or enemy_dis > run_dis or data.tactics and data.tactics.charge and t_since_verification > 2
 		else
 			should_try_chase = enemy_visible or focus_enemy.verified_t and t - focus_enemy.verified_t > 4
 			
