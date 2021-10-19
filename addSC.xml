@@ -1,6 +1,7 @@
 <table directory="assets">		
 	<!--new flashbangs-->
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties" />
+	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties_pdth" />
 	<texture path="effects/pd2_mod_heatgen/particles/character/playerscreen/textures/floaties_df" load="true" />
 
 	<!--these guys have to be in here or you get stuck on the blackscreen idfk anymore-->
