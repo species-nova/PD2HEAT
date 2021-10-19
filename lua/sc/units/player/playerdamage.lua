@@ -76,7 +76,7 @@ function PlayerDamage:init(unit)
 	self._dodge_points = 0.0 --The player's dodge stat, gets set by set_dodge_points once players enter their standard state.
 	self._dodge_meter = 0.0 --Amount of dodge built up as meter. Caps at '150' dodge.
 	self._dodge_meter_prev = 0.0 --dodge in meter from previous frame.
-	self._in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
+	self.in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
 	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
 	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
@@ -1141,7 +1141,7 @@ function PlayerDamage:_update_regenerate_timer(t, dt)
 	local regenerate_timer_tick = dt * (self._regenerate_speed or 1)
 
 	--Smoke grenade armor regen bonus.
-	if self._in_smoke_bomb > 0 then
+	if self.in_smoke_bomb > 0 then
 		regenerate_timer_tick = regenerate_timer_tick * tweak_data.upgrades.smoke_screen_armor_regen[1]
 	end
 
@@ -1210,7 +1210,7 @@ end
 
 Hooks:PostHook(PlayerDamage, "update" , "ResDamageInfoUpdate" , function(self, unit, t, dt)
 	local pm = managers.player
-	self._in_smoke_bomb = 0.0
+	self.in_smoke_bomb = 0.0
 	
 	if managers.groupai:state():whisper_mode() then
 		self._unit:base():update_concealment()
@@ -1219,9 +1219,9 @@ Hooks:PostHook(PlayerDamage, "update" , "ResDamageInfoUpdate" , function(self, u
 	for _, smoke_screen in ipairs(pm._smoke_screen_effects or {}) do
 		if smoke_screen:is_in_smoke(self._unit) then
 			if smoke_screen:mine() then
-				self._in_smoke_bomb = 2.0
+				self.in_smoke_bomb = 2.0
 			else
-				self._in_smoke_bomb = 1.0
+				self.in_smoke_bomb = 1.0
 			end
 		end
 	end
@@ -1235,7 +1235,7 @@ Hooks:PostHook(PlayerDamage, "update" , "ResDamageInfoUpdate" , function(self, u
 	end
 
 	--Sicario capstone skill.
-	if self._in_smoke_bomb == 2.0 then
+	if self.in_smoke_bomb == 2.0 then
 		passive_dodge = passive_dodge + pm:upgrade_value("player", "sicario_multiplier", 0)
 	end
 

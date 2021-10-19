@@ -574,9 +574,9 @@ function PlayerManager:check_skills()
 	end
 
 	if self:has_category_upgrade("player", "bomb_cooldown_reduction") then
-		self:register_message(Message.OnPlayerDodge, "dodge_smokebomb_cdr", callback(self, self, "_dodge_smokebomb_cdr"))
+		self:register_message(Message.OnEnemyKilled, "dodge_smokebomb_cdr", callback(self, self, "_dodge_smokebomb_cdr"))
 	else
-		self:unregister_message(Message.OnPlayerDodge, "dodge_smokebomb_cdr")
+		self:unregister_message(Message.OnEnemyKilled, "dodge_smokebomb_cdr")
 	end
 
 	if self:has_category_upgrade("player", "dodge_heal_no_armor") then
@@ -958,9 +958,13 @@ function PlayerManager:_dodge_stack_health_regen()
 	self:player_unit():character_damage():add_damage_to_hot()
 end
 
---Cuts Sicario smock bomb cooldown on dodge.
-function PlayerManager:_dodge_smokebomb_cdr()
-	self:speed_up_grenade_cooldown(tweak_data.upgrades.values.player.bomb_cooldown_reduction[1])
+--Cuts Sicario smock bomb cooldown on kills while inside smoke bomb.
+function PlayerManager:_dodge_smokebomb_cdr(equipped_unit, variant, killed_unit)
+	local damage_ext = self:player_unit():character_damage()
+	
+	if damage_ext and damage_ext.in_smoke_bomb == 2 then
+		self:speed_up_grenade_cooldown(tweak_data.upgrades.values.player.bomb_cooldown_reduction[1])
+	end
 end
 
 --Fills dodge meter when backstab kills are done.

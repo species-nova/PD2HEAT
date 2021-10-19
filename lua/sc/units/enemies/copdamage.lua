@@ -118,8 +118,6 @@ function CopDamage:_spawn_head_gadget(params)
 		return
 	end
 
-	self._head_gear = false
-
 	if self._head_gear_object then
 		if self._nr_head_gear_objects then
 			for i = 1, self._nr_head_gear_objects do
@@ -139,6 +137,8 @@ function CopDamage:_spawn_head_gadget(params)
 	end
 
 	local unit = World:spawn_unit(Idstring(self._head_gear), params.position, params.rotation)
+	
+	self._head_gear = false
 
 	if not params.skip_push then
 		local true_dir = params.dir

@@ -1658,8 +1658,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Are these the dreamers we were told about?--
 	--sicario
 	self.smoke_screen_armor_regen = {2.0} --Multiplier for armor regen speed.
-	self.values.player.sicario_multiplier = {0.4} --Multiplier for dodge gained per second while inside grenade.
-	self.values.player.bomb_cooldown_reduction = {1} --Cooldown reduction on smoke bomb for dodging.
+	self.values.player.sicario_multiplier = {1.0} --Multiplier for dodge gained per second while inside grenade.
+	self.values.player.bomb_cooldown_reduction = {3} --Cooldown reduction on smoke bomb for kills while inside the smoke.
 	
 	--alcoholism is no joke
 	--stoic
@@ -1687,11 +1687,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	self.values.survive_one_hit_armor = {5.0}
 
 	self.values.player.resistance_damage_health_ratio_multiplier = {
-		0.2
+		0.25
 	}
 
 	self.values.player.dodge_regen_damage_health_ratio_multiplier = {
-		0.08
+		0.1
 	}
 
 	self.values.player.melee_kill_dodge_regen = {

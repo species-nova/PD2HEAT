@@ -2209,11 +2209,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["bm_ability_chico_injector_desc"] = "A medical injection device, filled with something mysterious.\n\nUpon consumption, the user's pain reception is dulled significantly. Such an effect is potent, and those high on these stimulants are known to be extremely threatening.\n\nThe world is yours.", --i'm sorry i needed to fix it
 		
 		--Sicario--
-		["menu_deck18_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nUnlocks and equips the throwable ##Smoke Bomb.##\n\nWhen deployed, the smoke bomb creates a smoke screen that lasts for ##12## seconds. While standing inside the smoke screen, you and your allies regenerate armor ##100%## faster. Any enemies that stand in the smoke will see their accuracy reduced by ##75%##.\n\nThe Smoke Bomb has a ##40## second cooldown, but killing enemies will reduce this cooldown by ##1## second.",
+		["menu_deck18_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nUnlocks and equips the throwable ##Smoke Bomb.##\n\nWhen deployed, the smoke bomb creates a smoke screen that lasts for ##12## seconds. While standing inside the smoke screen, you and your allies regenerate armor ##100%## faster. Any enemies that stand in the smoke will see their accuracy reduced by ##80%##.\n\nThe Smoke Bomb has a ##40## second cooldown, but killing enemies will reduce this cooldown by ##1## second.",
 		["menu_deck18_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
-		["menu_deck18_5_desc_sc"] = "Dodging an attack reduces the smoke bomb's cooldown by ##1## second.",
+		["menu_deck18_5_desc_sc"] = "Killing an enemy while inside of the smoke bomb reduces its cooldown by ##3## seconds.",
 		["menu_deck18_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
-		["menu_deck18_9_desc_sc"] = "Your dodge meter fills up by ##40%## of your dodge every second while you are inside of your smoke screen.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck18_9_desc_sc"] = "Your dodge meter fills up by ##100%## of your dodge every second while you are inside of your smoke screen.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Stoic--
 		["menu_deck19_1_desc_sc"] = "Unlocks and equips the Stoic Hip Flask.\n\n##30%## of damage taken is applied over time (##8## seconds).\n\nYou can use the throwable key to activate the Stoic Hip Flask and immediately negate any damage-over-time.\n\nWhenever damage-over-time is negated, you heal for ##300%## of the remaining damage-over-time. The flask has a ##30## second cooldown.\n\nAll of your ##armor is converted to 50% health.##",
@@ -2237,9 +2237,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck16_9_desc_sc"] = "Every ##25%## armor missing increases the number of health gained from kills by ##2##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Yakuza--
-		["menu_deck12_1_desc_sc"] = "The lower your health, the faster your dodge meter will passively fill up. When your health is below ##50%##, your dodge meter fills by up to ##8%## of your dodge every second.\n\nYour dodge is increased by ##5## points.",
+		["menu_deck12_1_desc_sc"] = "The lower your health, the faster your dodge meter will passively fill up. When your health is below ##50%##, your dodge meter fills by up to ##10%## of your dodge every second.\n\nYour dodge is increased by ##5## points.",
 		["menu_deck12_3_desc_sc"] = "The lower your health the more your dodge meter is filled when you kill an enemy. When your health is below ##50%##, your meter fills by up to ##50%## of your dodge.",
-		["menu_deck12_5_desc_sc"] = "The lower your health, the less damage you take. When your health is below ##50%##, you will take up to ##20%## less damage.",
+		["menu_deck12_5_desc_sc"] = "The lower your health, the less damage you take. When your health is below ##50%##, you will take up to ##25%## less damage.",
 		["menu_deck12_7_desc_sc"] = "The lower your health the more your dodge meter is filled when you kill an enemy in melee. When your health is below ##50%##, your meter fills by up to ##50%## of your dodge.\n\nThis effect stacks with Hebi Irezumi.",
 		["menu_deck12_9_desc_sc"] = "Once per down, if you would be downed you instead survive with ##1## health and you regain ##50## armor.\n\nNote: This effect does not apply to, nor is it refreshed by, downs caused by cloaker kicks and taser shocks.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
