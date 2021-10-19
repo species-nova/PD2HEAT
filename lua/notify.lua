@@ -3,7 +3,7 @@ local GameVersion = Application:version()
 
 --[[
 --///MAIN MENU STARTUP NOTIFICATION\\\--
-if restoration.Options:GetValue("OTHER/Notify") then
+if heat.Options:GetValue("OTHER/Notify") then
 	local _setup_item_rows_original = MenuNodeGui._setup_item_rows
 	function MenuNodeGui:_setup_item_rows(node, ...)
 		_setup_item_rows_original(self, node, ...)

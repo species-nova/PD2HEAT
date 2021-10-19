@@ -194,7 +194,7 @@ Month = os.date("%m")
 Day = os.date("%d")	
 
 Hooks:PostHook(MenuSceneManager, "_set_up_environments", "ResHalloweenColorGrade", function(self)
-	if Month == "10" and restoration.Options:GetValue("Holiday") then
+	if Month == "10" and heat.Options:GetValue("Holiday") then
 		self._environments.standard.color_grading = "color_halloween"
 	end
 end)
@@ -447,7 +447,7 @@ function MenuSceneManager:_setup_bg()
 			e_money:set_enabled(false)
 		end	
 	--Proof of concept, should add more later. 
-	if Month == "12" and restoration.Options:GetValue("Holiday") then	
+	if Month == "12" and heat.Options:GetValue("Holiday") then	
 		local a = self._bg_unit:get_object(Idstring("a_reference"))
 		self._xmas_tree = World:spawn_unit(Idstring("units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"), a:position() + Vector3(-150, 250, -50), Rotation(-45 + (math.random(2) - 1) * 180, 0, 0))
 		self._snow_pile = World:spawn_unit(Idstring("units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"), a:position() + Vector3(-35, 275, -75), Rotation(305, 0, 0))	

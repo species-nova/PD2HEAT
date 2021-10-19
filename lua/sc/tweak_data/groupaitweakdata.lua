@@ -2708,7 +2708,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 	}
 
 	--April 1st, sucker!
-	if Month == "04" and Day == "01" and restoration.Options:GetValue("Holiday") then
+	if Month == "04" and Day == "01" and heat.Options:GetValue("Holiday") then
 		self.unit_categories.Titan_tank = {
 			unit_types = {
 				america = {
@@ -3345,7 +3345,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 end
 
 function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
-	--The below summarizes the functions of new or revised tactics in Restoration.
+	--The below summarizes the functions of new or revised tactics in heat.
 	--charge
 	--unit moves to player position and engages per conventional rules. Primary driver for most units.
 	--enemies will go into the room and get into sight of you.
@@ -7681,22 +7681,22 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	end
 
 	local map_scale_factor = 1
-	for _,t in pairs(restoration.large_levels) do
+	for _,t in pairs(heat.large_levels) do
 		if job == t then
 			map_scale_factor = 1.15
 		end
 	end
-	for _,t in pairs(restoration.tiny_levels) do
+	for _,t in pairs(heat.tiny_levels) do
 		if job == t then
 			map_scale_factor = 0.9
 		end
 	end
-	for _,vt in pairs(restoration.very_tiny_levels) do
+	for _,vt in pairs(heat.very_tiny_levels) do
 		if job == vt then
 			map_scale_factor = 0.8
 		end
 	end
-	for _,vt in pairs(restoration.extremely_tiny_levels) do
+	for _,vt in pairs(heat.extremely_tiny_levels) do
 		if job == vt then
 			map_scale_factor = 0.65
 		end
@@ -8352,7 +8352,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		0
 	}
 	--Captain Autumn stuff here--
-	for _,v in pairs(restoration.captain_stelf) do
+	for _,v in pairs(heat.captain_stelf) do
 		if job == v then
 			if difficulty_index <= 3 then
 				self.besiege.assault.groups.Cap_Autumn = {
@@ -8383,7 +8383,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		end
 	end
 	--Captain Summers stuff here--
-	for _,v in pairs(restoration.captain_teamwork) do
+	for _,v in pairs(heat.captain_teamwork) do
 		if job == v then
 			if difficulty_index <= 3 then
 				self.besiege.assault.groups.Cap_Summers = {
@@ -8414,7 +8414,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		end
 	end
 	--Captain Spring stuff here--
-	for _,v in pairs(restoration.captain_murderdozer) do
+	for _,v in pairs(heat.captain_murderdozer) do
 		if job == v then
 			if difficulty_index <= 3 then
 				self.besiege.assault.groups.Cap_Spring = {
@@ -8445,7 +8445,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		end
 	end
 	--HVH Boss stuff--
-	for _,v in pairs(restoration.what_a_horrible_heist_to_have_a_curse) do
+	for _,v in pairs(heat.what_a_horrible_heist_to_have_a_curse) do
 		if job == v then
 			if difficulty_index <= 3 then
 				self.besiege.assault.groups.HVH_Boss = {
@@ -8476,7 +8476,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		end
 	end
 	--Captain Winters stuff here--
-	for _,v in pairs(restoration.captain_camper) do
+	for _,v in pairs(heat.captain_camper) do
 		if job == v then
 			if difficulty_index <= 3 then
 				self.besiege.assault.groups.Cap_Winters = {

@@ -15,8 +15,8 @@ function HUDSkill:init(hud)
 		y = self._hud_panel:center_y() * 0.3
 	})
 
-	self._icon_size = math.floor(restoration.Options:GetValue("INFOHUD/Info_Size")) --The "step" field doesn't seem to work???
-	self._row_count = math.floor(restoration.Options:GetValue("INFOHUD/Info_Count"))
+	self._icon_size = math.floor(heat.Options:GetValue("INFOHUD/Info_Size")) --The "step" field doesn't seem to work???
+	self._row_count = math.floor(heat.Options:GetValue("INFOHUD/Info_Count"))
 	self._padding = 2
 	self._active_skills = {}
 	self._durations = {}

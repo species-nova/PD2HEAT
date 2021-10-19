@@ -1,4 +1,4 @@
-restoration._cop_comment_cooldown_t = {}
+heat._cop_comment_cooldown_t = {}
 
 --Fix for Grenade Cases on Pro Jobs
 function MenuPrePlanningInitiator:set_locks_to_param(params, key, index)

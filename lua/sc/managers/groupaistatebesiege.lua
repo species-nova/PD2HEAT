@@ -46,7 +46,7 @@ function GroupAIStateBesiege:init(group_ai_state)
 	--self:set_debug_draw_state(true) --Uncomment to debug AI stuff.
 	
 	local level_id = Global.level_data.level_id
-	if restoration.street_levels[level_id] then
+	if heat.street_levels[level_id] then
 		self._street = true
 	end
 end

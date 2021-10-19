@@ -125,7 +125,7 @@ function MenuManager:enable_overhaul_dialog(func)
 end
 
 function MenuCallbackHandler:PDTHChall()
-	if restoration and restoration.Options:GetValue("OTHER/ResModChallenges") then
+	if heat and heat.Options:GetValue("OTHER/ResModChallenges") then
 		return true
 	end
 end

@@ -202,7 +202,7 @@ end
 
 
 Hooks:PostHook(CoreEnvironmentControllerManager, "set_post_composite", "alt_down", function(self, t, dt)
-    if not restoration.Options:GetValue("AltLastDownColor") then
+    if not heat.Options:GetValue("AltLastDownColor") then
         return --you people were running this function twice, causing double the amount of updates
     end
 	

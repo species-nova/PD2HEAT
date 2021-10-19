@@ -195,7 +195,7 @@ end
 
 --Functions to interface with the buff tracker.
 function HUDManager:add_skill(name)
-	if restoration.Options:GetValue("INFOHUD/Info_Hud") and name and restoration.Options:GetValue("INFOHUD/Info_" .. name) then
+	if heat.Options:GetValue("INFOHUD/Info_Hud") and name and heat.Options:GetValue("INFOHUD/Info_" .. name) then
 		self._skill_list:add_skill(name)
 	end
 end
@@ -217,19 +217,19 @@ function HUDManager:change_cooldown(name, amount)
 end
 
 function HUDManager:start_buff(name, duration)
-	if restoration.Options:GetValue("INFOHUD/Info_Hud") and name and restoration.Options:GetValue("INFOHUD/Info_" .. name) then
+	if heat.Options:GetValue("INFOHUD/Info_Hud") and name and heat.Options:GetValue("INFOHUD/Info_" .. name) then
 		self._skill_list:trigger_buff(name, duration)
 	end
 end
 
 function HUDManager:set_stacks(name, stacks)
-	if restoration.Options:GetValue("INFOHUD/Info_Hud") and name and restoration.Options:GetValue("INFOHUD/Info_" .. name) then
+	if heat.Options:GetValue("INFOHUD/Info_Hud") and name and heat.Options:GetValue("INFOHUD/Info_" .. name) then
 		self._skill_list:set_stacks(name, stacks)
 	end
 end
 
 function HUDManager:add_stack(name)
-	if restoration.Options:GetValue("INFOHUD/Info_Hud") and name and restoration.Options:GetValue("INFOHUD/Info_" .. name) then
+	if heat.Options:GetValue("INFOHUD/Info_Hud") and name and heat.Options:GetValue("INFOHUD/Info_" .. name) then
 		self._skill_list:add_stack(name)
 	end
 end

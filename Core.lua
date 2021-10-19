@@ -5,9 +5,9 @@ end
 Month = os.date("%m")
 Day = os.date("%d")	
 
-restoration._mod_path = restoration:GetPath()
-function restoration:Init()
-	restoration.captain_camper = {
+heat._mod_path = heat:GetPath()
+function heat:Init()
+	heat.captain_camper = {
 		"arena", --Alesso
 		"welcome_to_the_jungle_1", --Big Oil Day 1
 		"welcome_to_the_jungle_1_night", --Big Oil Day 1 Night
@@ -28,7 +28,7 @@ function restoration:Init()
 		"office_strike", --office strike
 		"firestarter_2_res" --firestarter day 2 res edit version
 	}
-	restoration.captain_teamwork = {
+	heat.captain_teamwork = {
 		"pal", --counterfeit
 		"mia_1", --Hotline Day 1
 		"crojob2", --bomb dockyard
@@ -43,7 +43,7 @@ function restoration:Init()
 		--custom heists		
 		"firestarter_3_res" --firestarter day 3 res edit version
 	}
-	restoration.captain_murderdozer = {
+	heat.captain_murderdozer = {
 		"dah", --diamond heist
 		"hox_2", --Hoxout Day 2
 		"xmn_hox_2", --Hoxout Day 2, christmas
@@ -59,7 +59,7 @@ function restoration:Init()
 		"firestarter_1_res", --firestarter day 1 res edit version
 		"lvl_friday" --Crashing Capitol
 	}
-	restoration.captain_stelf = {
+	heat.captain_stelf = {
 		"alex_1", --Rats Day 1
 		"rat",	--cook off
 		"flat", --panic room
@@ -81,7 +81,7 @@ function restoration:Init()
 		"ukrainian_job_res", --Ukrainian Job res edit version
 		"hntn" --harvest and trustee north
 	}
-	restoration.what_a_horrible_heist_to_have_a_curse = {
+	heat.what_a_horrible_heist_to_have_a_curse = {
 		"help", --Prison Nightmare
 		"nail" --lab rats
 		--"haunted", --safehouse nightmare
@@ -89,11 +89,11 @@ function restoration:Init()
 
 	}
 	
-	if Month == "10" and restoration.Options:GetValue("Holiday") then
+	if Month == "10" and heat.Options:GetValue("Holiday") then
 		--No Spring During holidays
-		restoration.captain_murderdozer = {}
+		heat.captain_murderdozer = {}
 		--Autumn loses a few heists
-		restoration.captain_stelf = {
+		heat.captain_stelf = {
 			"alex_1", --Rats Day 1
 			"rat",	--cook off
 			"nightclub", --and Autumn stay off the dance floor
@@ -109,7 +109,7 @@ function restoration:Init()
 			"ukrainian_job_res", --Ukrainian Job res edit version
 			"hntn" --harvest and trustee north
 		}		
-		restoration.what_a_horrible_heist_to_have_a_curse = {
+		heat.what_a_horrible_heist_to_have_a_curse = {
 			"dah", --diamond heist
 			"hox_2", --Hoxout Day 2
 			"xmn_hox_2", --Hoxout Day 2, christmas
@@ -126,16 +126,16 @@ function restoration:Init()
 		}		
 	end
 	
-	--[[restoration.captain_viper = {
+	--[[heat.captain_viper = {
 		"jackal_zero_day_stage7" --Zero Day 7
 	}]]--
 	--Increased spawns, should only be reserved for larger maps.
-	restoration.large_levels = {
+	heat.large_levels = {
 		"friend", --Scarface Mansion
 		"dah", --diamond heist
 	}			
 	--Slightly reduced spawns, generally use for heists with lengthy sections where players typically hold out in one smallish position, or 'early game' heists.
-	restoration.tiny_levels = {
+	heat.tiny_levels = {
 		"welcome_to_the_jungle_2", --Big Oil 2. Scripted cloaker hell.
 		"cane", --Santa's Workshop
 		"brb", --Brooklyn Bank
@@ -170,7 +170,7 @@ function restoration:Init()
 		"wwh_CD"
 	}
 	--For levels that have aggressive scripted spawns, or spawn placement such that enemies are constantly spawned next to players.
-	restoration.very_tiny_levels = {
+	heat.very_tiny_levels = {
 		"help", --Prison Nightmare
 		"pbr2", --Birth of Sky
 		"rvd2", --Resivoir Dogs 2, has very aggressive scripted spawns.
@@ -183,7 +183,7 @@ function restoration:Init()
 		"thechase"
 	}	
 	--Mostly for stuff like Cursed Killed Room and other crap puny heists
-	restoration.extremely_tiny_levels = {
+	heat.extremely_tiny_levels = {
 		"vit", --White House
 		"hvh", --CKR
 		"chew", --Biker day 2
@@ -195,7 +195,7 @@ function restoration:Init()
 	}
 
 	--For custom heists that seem to be broken with our normal spawn setup
-	restoration.bad_spawn_heists = {
+	heat.bad_spawn_heists = {
 		"help",
 		"fex", --Buluc's Mansion			
 		--Custom Heists--
@@ -209,7 +209,7 @@ function restoration:Init()
 		"santa_pain"
 	}
 
-	restoration.street_levels = {
+	heat.street_levels = {
 		glace = true, --Green Bridge
 		run_res = true, --Heat Street
 		run = true,
@@ -219,7 +219,7 @@ function restoration:Init()
 	}
 
 	--Christmas Effects Heists
-	restoration.christmas_heists = {
+	heat.christmas_heists = {
 		"roberts",
 		"pines",
 		"cane",
@@ -229,7 +229,7 @@ function restoration:Init()
 		"santa_pain"
 	}	
 	--heists to remove infinite assaults from
-	restoration.fuck_hunt = {
+	heat.fuck_hunt = {
 		"kenaz", --ggc
 		"pines", --white xmas
 		"spa", --brooklyn 10-10
@@ -290,7 +290,7 @@ function restoration:Init()
 	end
 end
 
-function restoration:all_enabled(...)
+function heat:all_enabled(...)
 	for _, opt in pairs({...}) do
 		if self.Options:GetValue(opt) == false then
 			return false
@@ -299,11 +299,11 @@ function restoration:all_enabled(...)
 	return true
 end
 
-function restoration:LoadSCAssets()
+function heat:LoadSCAssets()
 	return true
 end
 
-function restoration:LoadFonts()
+function heat:LoadFonts()
 	if not Idstring("russian"):key() == SystemInfo:language():key() then
 		return true
 	end

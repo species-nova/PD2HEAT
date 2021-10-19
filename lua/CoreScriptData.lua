@@ -1,4 +1,4 @@
-local mod_path = tostring(restoration._mod_path or "mods/PD2HEAT")
+local mod_path = tostring(heat._mod_path or "mods/PD2HEAT")
 
 local environment_replacers = {
 	branchbank = {
@@ -265,8 +265,8 @@ Hooks:Add("BeardLibCreateScriptDataMods", "RESMapsCallBeardLibSequenceFuncs", fu
 end)
 
 --Credits
-Hooks:Add("BeardLibCreateScriptDataMods", "ResCreditsCallBeardLibSequenceFuncs", function()
-	BeardLib:ReplaceScriptData(mod_path .. "assets/gamedata/rescredits.credits", "custom_xml", "gamedata/rescredits", "credits", true)
+Hooks:Add("BeardLibCreateScriptDataMods", "HEATCreditsCallBeardLibSequenceFuncs", function()
+	BeardLib:ReplaceScriptData(mod_path .. "assets/gamedata/heatcredits.credits", "custom_xml", "gamedata/heatcredits", "credits", true)
 end)
 --Menu Environments
 Hooks:Add("BeardLibCreateScriptDataMods", "HEATMainMenuCallBeardLibSequenceFuncs", function()
