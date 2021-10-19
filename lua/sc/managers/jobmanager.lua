@@ -12,7 +12,7 @@ function JobManager:is_current_job_professional()
 end
 
 function JobManager:check_ponr_active()
-	if managers.groupai:state()._ponr_is_on and Global.game_settings.one_down and restoration.Options:GetValue("PONRTrack") then
+	if managers.groupai:state()._ponr_is_on and Global.game_settings.one_down and heat.Options:GetValue("PONRTrack") then
 		return true
 	end
 

@@ -1,4 +1,4 @@
-local mod_path = tostring(restoration._mod_path or "mods/PD2HEAT")
+local mod_path = tostring(heat._mod_path or "mods/PD2HEAT")
 
 local environment_replacers = {
 	branchbank = {

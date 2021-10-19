@@ -735,9 +735,9 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 	})
 
 	local job = Global.level_data and Global.level_data.level_id
-	for _,j4 in ipairs(restoration.what_a_horrible_heist_to_have_a_curse) do
+	for _,j4 in ipairs(heat.what_a_horrible_heist_to_have_a_curse) do
 		if job == j4 then
-			log("Spooky!")
+			-- log("Spooky!")
 			LocalizationManager:add_localized_strings({	
 				["hud_assault_vip"] = "FACE YOUR NIGHTMARES AND WAKE UP",
 			})

@@ -1,4 +1,4 @@
-<mod name="RestorationMod" global_key="restoration" core_class="Core.lua">
+<mod name="PD2HEAT" global_key="heat" core_class="Core.lua">
 	<!--///MOD CONFIG FILE\\\-->
     <Classes directory="classes">
     	<class file="callbacks.lua"/>

@@ -1817,7 +1817,7 @@ function CopDamage:heal_unit(unit, override_cooldown)
 		end
 
 		if my_tweak_table.custom_voicework then
-			local voicelines = _G.restoration.BufferedSounds[my_tweak_table.custom_voicework]
+			local voicelines = _G.heat.BufferedSounds[my_tweak_table.custom_voicework]
 
 			if voicelines["heal"] then
 				local line_to_use = voicelines.heal[math_random(#voicelines.heal)]

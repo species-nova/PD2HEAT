@@ -31,7 +31,7 @@ end
 local current_track_string_orig = MusicManager.current_track_string
 function MusicManager:current_track_string()
 	
-	-- if managers.groupai:state()._ponr_is_on and Global.game_settings.one_down and restoration.Options:GetValue("OTHER/PONRTracks") == 2 or restoration.Options:GetValue("OTHER/PONRTracks") == 4 and ponr_random1 == 1 then
+	-- if managers.groupai:state()._ponr_is_on and Global.game_settings.one_down and heat.Options:GetValue("OTHER/PONRTracks") == 2 or heat.Options:GetValue("OTHER/PONRTracks") == 4 and ponr_random1 == 1 then
 	-- 	return utf8.to_upper(managers.localization:text("menu_jukebox_screen_resmusic_ponr"))
 	-- end
 

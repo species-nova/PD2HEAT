@@ -2,28 +2,28 @@ Hooks:PostHook(HUDAssaultCorner, "init", "SCHUDAssaultInit", function(self)
 	self._captain = nil
 	local buff_icon = "guis/textures/pd2/hud_buff_shield"
 	local job = Global.level_data and Global.level_data.level_id        
-	for _,j in ipairs(restoration.captain_teamwork) do
+	for _,j in ipairs(heat.captain_teamwork) do
 		if job == j then
 			self._captain = "summers"
 			buff_icon = "guis/textures/pd2/hud_buff_fire"
 			break
 		end
 	end
-	for _,j2 in ipairs(restoration.captain_murderdozer) do
+	for _,j2 in ipairs(heat.captain_murderdozer) do
 		 if job == j2 then
 			self._captain = "spring"
 			buff_icon = "guis/textures/pd2/hud_buff_skull"
 			break
 		end
 	end
-	for _,j3 in ipairs(restoration.captain_stelf) do
+	for _,j3 in ipairs(heat.captain_stelf) do
 		 if job == j3 then
 			self._captain = "autumn"
 			buff_icon = "guis/textures/pd2/hud_buff_spooc"
 			break
 		end
 	end		
-	for _,j4 in ipairs(restoration.what_a_horrible_heist_to_have_a_curse) do
+	for _,j4 in ipairs(heat.what_a_horrible_heist_to_have_a_curse) do
 		if job == j4 then
 			self._captain = "hellfire"
 			buff_icon = "guis/textures/pd2/hud_buff_halloween"

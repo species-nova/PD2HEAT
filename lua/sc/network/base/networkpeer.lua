@@ -15,7 +15,7 @@ function NetworkPeer:_update_equipped_armor()
 		local armor_sequence = tweak_data.blackmarket.armors[new_armor_id].sequence
 		local job = Global.level_data and Global.level_data.level_id
 
-		for _,v in pairs(restoration.custom_suit_heists) do
+		for _,v in pairs(heat.custom_suit_heists) do
 			if job == v then
 				armor_sequence = nil
 			break
@@ -51,7 +51,7 @@ end
 
 -- Hooks:PostHook( NetworkPeer, "send", "SC_Network", function(self, func_name, ...)
 -- 	-- In SC mode if the func is matched, call the prefixed version instead
--- 	if restoration.network_handler_funcs[func_name] then
+-- 	if heat.network_handler_funcs[func_name] then
 -- 		func_name = 'RestorationMod__' .. func_name
 -- 	end
 -- end)

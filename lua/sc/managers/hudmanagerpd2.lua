@@ -4,7 +4,7 @@ HUDManager.set_teammate_weapon_firemode_burst = HUDManager.set_teammate_weapon_f
 	self._teammate_panels[HUDManager.PLAYER_PANEL]:set_weapon_firemode_burst(id)
 end
 
-if restoration.Options:GetValue("RealAmmo") then
+if heat.Options:GetValue("RealAmmo") then
 	local set_teammate_ammo_amount_original = HUDManager.set_teammate_ammo_amount
 	function HUDManager:set_teammate_ammo_amount(id, selection_index, max_clip, current_clip, current_left, max)
 	    if id == 4 then
