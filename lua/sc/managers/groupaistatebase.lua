@@ -1608,6 +1608,10 @@ function GroupAIStateBase:on_criminal_nav_seg_change(unit, nav_seg_id)
 		area.criminal.units[u_key] = u_sighting
 	end
 	
+	if not Network:is_server() then
+		return
+	end
+	
 	if self._player_criminals[u_key] then
 		for u_key, u_data in pairs_g(self._ai_criminals) do
 			u_data.unit:brain():on_criminal_nav_seg_changed()
