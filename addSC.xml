@@ -144,6 +144,8 @@
 	<texture path="guis/textures/game_small_logo" force="true"/>
 	<texture path="guis/textures/menu_title_screen" force="true"/>
 	<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>
+	<texture path="units/menu/menu_scene/menu_cylinder_smoke" force="true"/>
+	<texture path="units/menu/menu_scene/menu_cylinder_smoke_tile" force="true"/>
 	<material_config path="units/menu/menu_scene/menu_cylinder" force="true" />
 	
 	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
