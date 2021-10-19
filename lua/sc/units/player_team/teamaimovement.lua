@@ -32,13 +32,7 @@ function TeamAIMovement:on_SPOOCed(enemy_unit, flying_strike)
 		return
 	end
 
-	if flying_strike then
-		self._unit:brain():set_logic("surrender")
-		self._unit:network():send("arrested")
-		self._unit:character_damage():on_arrested()	
-	else
-		self._unit:character_damage():on_incapacitated()
-	end
+	self._unit:character_damage():on_incapacitated()
 
 	return true
 end
