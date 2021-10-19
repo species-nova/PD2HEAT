@@ -2,7 +2,7 @@
     <material name="background" render_template="effect:BLEND_ADD:DIFFUSE0_TEXTURE" version="2">
         <diffuse_texture file="units/menu/menu_scene/menu_cylinder_texture"/>
     </material>
-    <material name="logo" render_template="effect:BLEND_ADD:DIFFUSE0_TEXTURE" version="2">
+    <material name="logo" render_template="effect:DIFFUSE0_TEXTURE" version="2">
         <variable value="sun" type="scalar" name="intensity"/>
         <diffuse_texture file="units/menu/menu_scene/menu_cylinder_logo"/>
     </material>
