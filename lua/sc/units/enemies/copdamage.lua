@@ -114,9 +114,11 @@ function CopDamage:init(...)
 end
 
 function CopDamage:_spawn_head_gadget(params)
-	if not self._head_gear or self._helmet_popped then
+	if not self._head_gear then
 		return
 	end
+
+	self._head_gear = false
 
 	if self._head_gear_object then
 		if self._nr_head_gear_objects then
@@ -159,8 +161,6 @@ function CopDamage:_spawn_head_gadget(params)
 	if u_dmg and u_dmg:has_sequence("shatter") then
 		u_dmg:run_sequence_simple("shatter")
 	end
-
-	self._head_gear = false
 end
 
 function CopDamage:_apply_damage_reduction(damage)

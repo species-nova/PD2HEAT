@@ -342,11 +342,15 @@ end
 --Refactored from vanilla code for consistency and simplicity.
 function RaycastWeaponBase:add_ammo(ratio, add_amount_override)
 	local _add_ammo = function(ammo_base, ratio, add_amount_override)
-		if ammo_base:get_ammo_max() == ammo_base:get_ammo_total() then
+		local ammo_max = ammo_base:get_ammo_max()
+		local ammo_total = ammo_base:get_ammo_total() 
+		if ammo_max == ammo_total then
 			return false, 0
 		end
 
-		local ammo_gained_raw = add_amount_override or math.lerp(ammo_base._ammo_pickup[1], ammo_base._ammo_pickup[2], math.random()) * (ratio or 1) + (ammo_base._ammo_overflow or 0)
+		--Ammo gained is proportional to how much ammo you're missing in the gun.
+		local ammo_gained_raw = add_amount_override or math.lerp(ammo_base._ammo_pickup[1], ammo_base._ammo_pickup[2],  ammo_total / ammo_max) * (ratio or 1)
+			+ (ammo_base._ammo_overflow or 0)
 		if ammo_gained_raw <= 0 then --Handle weapons with 0 pickup.
 			return false, 0
 		end
@@ -360,7 +364,7 @@ function RaycastWeaponBase:add_ammo(ratio, add_amount_override)
 		end
 
 		ammo_base._ammo_overflow = math.max(ammo_gained_raw - ammo_gained, 0)
-		ammo_base:set_ammo_total(math.clamp(ammo_base:get_ammo_total() + ammo_gained, 0, ammo_base:get_ammo_max()))
+		ammo_base:set_ammo_total(math.clamp(ammo_total + ammo_gained, 0, ammo_max))
 		return true, ammo_gained
 	end
 
