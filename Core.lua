@@ -6,7 +6,7 @@ Month = os.date("%m")
 Day = os.date("%d")	
 
 heat._mod_path = heat:GetPath()
-function restoration:Init()
+function heat:Init()
 	heat.captain_camper = {
 		"arena", --Alesso
 		"welcome_to_the_jungle_1", --Big Oil Day 1
@@ -290,7 +290,7 @@ function restoration:Init()
 	end
 end
 
-function restoration:all_enabled(...)
+function heat:all_enabled(...)
 	for _, opt in pairs({...}) do
 		if self.Options:GetValue(opt) == false then
 			return false
@@ -299,11 +299,11 @@ function restoration:all_enabled(...)
 	return true
 end
 
-function restoration:LoadSCAssets()
+function heat:LoadSCAssets()
 	return true
 end
 
-function restoration:LoadFonts()
+function heat:LoadFonts()
 	if not Idstring("russian"):key() == SystemInfo:language():key() then
 		return true
 	end
