@@ -321,11 +321,21 @@ function CoreEnvironmentControllerManager:set_flashbang(flashbang_pos, line_of_s
 	
 	if self._current_concussion > 1 and not self._concussion_effect then
 		--log("fuck")
-		self._concussion_effect = self._effect_manager:spawn({
-			effect = Idstring("effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties"),
-			position = Vector3(),
-			rotation = Rotation()
-		})
+		
+		if BLT.Mods:GetModByName("PDTH Contours") then
+			self._pdth_conc = true
+			self._concussion_effect = self._effect_manager:spawn({
+				effect = Idstring("effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties_pdth"),
+				position = Vector3(),
+				rotation = Rotation()
+			})
+		else
+			self._concussion_effect = self._effect_manager:spawn({
+				effect = Idstring("effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties"),
+				position = Vector3(),
+				rotation = Rotation()
+			})
+		end
 	end
 	
 	self._effect_manager:spawn({
@@ -335,12 +345,28 @@ function CoreEnvironmentControllerManager:set_flashbang(flashbang_pos, line_of_s
 	})
 end
 
+local opacity_ids = Idstring("opacity")
+local blindness_ids = Idstring("blindness")
+
 function CoreEnvironmentControllerManager:update(t, dt)
 	self:_update_values(t, dt)
 	self:set_post_composite(t, dt)
 	
 	if self._concussion_effect and self._current_concussion <= 0.8 then
- 		self._effect_manager:fade_kill(self._concussion_effect)
-		self._concussion_effect = nil
+		if self._pdth_conc then
+			local lerp = self._current_concussion / 0.8
+			local value = math.lerp(0, 255, lerp)
+			
+			self._effect_manager:set_simulator_var_float(self._concussion_effect, blindness_ids, opacity_ids, opacity_ids, value)
+			
+			if value == 0 then
+				self._effect_manager:fade_kill(self._concussion_effect)
+				self._concussion_effect = nil
+			end
+		else
+			self._effect_manager:fade_kill(self._concussion_effect)
+			self._concussion_effect = nil
+			self._pdth_conc = nil
+		end
 	end
 end
