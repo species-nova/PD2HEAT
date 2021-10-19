@@ -1,5 +1,5 @@
 -- ResMod english.json
-Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function(loc)
+Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", function(loc)
 	LocalizationManager:add_localized_strings({
 		["menu_es_boost"] = "Boost",
 		["menu_es_crew"] = "Crew",
@@ -12,8 +12,8 @@ Hooks:Add("LocalizationManagerPostInit", "ResMod_english_Localization", function
 		--["menu_utility_radial_menu_name"] = "Utility Radial Menu",
 		--["menu_utility_radial_menu_desc"] = "Open the Utility Menu",
 
-		["res_credits"] = "Heat Credits",
-		["res_credits_help"] = "View the credits for Heat.",
+		["heat_credits"] = "Heat Credits",
+		["heat_credits_help"] = "View the credits for Heat.",
 
 		--["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
 		--["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
