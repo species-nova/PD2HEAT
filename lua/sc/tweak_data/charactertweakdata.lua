@@ -574,7 +574,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet.headshot_dmg_mul = normal_headshot
 	self.fbi_vet.damage.melee_damage_mul = 2
 	self.fbi_vet.DAMAGE_CLAMP_BULLET = 6
-	self.fbi_vet.dodge = presets.dodge.veteran
+	self.fbi_vet.dodge = presets.dodge.ninja_complex
 	self.fbi_vet.access = "spooc"
 	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.elite
 	self.fbi_vet.use_animation_on_fire_damage = false
@@ -633,7 +633,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.meme_man.priority_shout = "f30"
 	self.meme_man.bot_priority_shout = "f30x_any"
 	self.meme_man.priority_shout_max_dis = 3000		
-	self.meme_man.dodge = presets.dodge.veteran
+	self.meme_man.dodge = presets.dodge.ninja_complex
 	self.meme_man.allowed_stances = {cbt = true} 
 	self.meme_man.access = "gangster"
 	self.meme_man.use_animation_on_fire_damage = false
@@ -6503,6 +6503,92 @@ function CharacterTweakData:_presets(tweak_data)
 				}
 			}
 		},
+		presets.dodge.ninja_complex = {
+			speed = 1.6,
+			occasions = {
+				hit = {
+					chance = 1,
+					check_timeout = {
+						0,
+						0
+					},
+					variations = {
+						roll = {
+							chance = 0.5,
+							shoot_chance = 1,
+							shoot_accuracy = 1,
+							timeout = {
+								0.5,
+								0.5
+							}
+						},
+						wheel = {
+							chance = 0.5,
+							shoot_chance = 1,
+							shoot_accuracy = 1,
+							timeout = {
+								0.35,
+								0.35
+							}
+						}
+					}
+				},
+				preemptive = {
+					chance = 1,
+					check_timeout = {
+						0,
+						0
+					},
+					variations = {
+						side_step = {
+							chance = 0.33,
+							shoot_chance = 1,
+							shoot_accuracy = 1,
+							timeout = {
+								0.5,
+								0.5
+							}
+						},
+						roll = {
+							chance = 0.33,
+							shoot_chance = 1,
+							shoot_accuracy = 1,
+							timeout = {
+								0.5,
+								0.5
+							}
+						},
+						wheel = {
+							chance = 0.34,
+							shoot_chance = 1,
+							shoot_accuracy = 1,
+							timeout = {
+								0.35,
+								0.35
+							}
+						}
+					}
+				},
+				scared = {
+					chance = 1,
+					check_timeout = {
+						0,
+						0
+					},
+					variations = {
+						wheel = {
+							chance = 1,
+							shoot_chance = 1,
+							shoot_accuracy = 1,
+							timeout = {
+								0.35,
+								0.35
+							}
+						}
+					}
+				}
+			}
+		}
 		autumn = {
 			speed = 1.6,
 			occasions = {
