@@ -4795,7 +4795,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Similar to ARs, but with more threat up close and less from far away.
 	presets.weapon.expert.is_smg = {
-		aim_delay = {0.3, 1.2},
+		aim_delay = {0.3, 1.5},
 		focus_delay = 6,
 		focus_dis = 400,
 		spread = 14,
