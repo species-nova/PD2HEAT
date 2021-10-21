@@ -5807,8 +5807,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.7,
+					freq = 0.5,
 					tactics = self._tactics.MH_heavy,
+					rank = 2
+				},
+				{
+					unit = "Titan_sniper",
+					freq = 0.2,
+					tactics = self._tactics.MH_swat_rifle,
 					rank = 2
 				},
 				{
@@ -5841,8 +5847,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.6,
+					freq = 0.3,
 					tactics = self._tactics.ELITE_heavy_shotgun,
+					rank = 2
+				},
+				{
+					unit = "Titan_sniper",
+					freq = 0.3,
+					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 2
 				},
 				{
@@ -5874,9 +5886,9 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_heavy_R870",
-					freq = 0.4,
-					tactics = self._tactics.ELITE_heavy_shotgun,
+					unit = "Titan_sniper",
+					freq = 0.6,
+					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 2
 				},
 				{
