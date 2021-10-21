@@ -567,6 +567,7 @@ function CharacterTweakData:_init_fbi(presets)
 	table.insert(self._enemy_list, "fbi_female")
 	
 	self.fbi_vet = deep_clone(self.fbi)
+	table.insert(self.fbi_vet.tags, "fbi_vet")
 	self.fbi_vet.weapon = presets.weapon.good
 	self.fbi_vet.can_shoot_while_dodging = true
 	self.fbi_vet.can_slide_on_suppress = true
@@ -6588,7 +6589,7 @@ function CharacterTweakData:_presets(tweak_data)
 					}
 				}
 			}
-		}
+		},
 		autumn = {
 			speed = 1.6,
 			occasions = {
