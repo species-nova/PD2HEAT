@@ -4366,7 +4366,29 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}	
 	presets.hurt_severities.spooc = deep_clone(presets.hurt_severities.base)
-	presets.hurt_severities.spooc_titan = deep_clone(presets.hurt_severities.base)
+	presets.hurt_severities.spooc.bullet = {
+			health_reference = "current",
+			zones = {
+				{
+					health_limit = 0.3,
+					light = 0.3,
+					moderate = 0.4,
+					heavy = 0.3
+				},
+				{
+					health_limit = 0.6,
+					light = 0.2,
+					moderate = 0.2,
+					heavy = 0.6
+				},
+				{
+					light = 0,
+					moderate = 0,
+					heavy = 1
+				}
+			}
+		}
+	presets.hurt_severities.spooc_titan = deep_clone(presets.hurt_severities.spooc)
 	presets.hurt_severities.spooc_titan.fire = {
 		health_reference = 1,
 		zones = {
