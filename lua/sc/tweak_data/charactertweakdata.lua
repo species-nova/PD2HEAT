@@ -6499,7 +6499,7 @@ function CharacterTweakData:_presets(tweak_data)
 				}
 			}
 		},
-		presets.dodge.ninja_complex = {
+		ninja_complex = {
 			speed = 1.6,
 			occasions = {
 				hit = {
