@@ -9622,7 +9622,7 @@ end
 
 function CharacterTweakData:_set_overkill()
 	self:_calculate_heal_cooldowns(15)
-	self:_multiply_all_hp(0.75, 2)
+	self:_multiply_all_hp(0.75, 1)
 	self:_multiply_all_damage(0.7, 1.05, 0.75)
 	self:_multiply_teamai_health(0.7, 0.3)
 
@@ -9650,7 +9650,7 @@ end
 
 function CharacterTweakData:_set_overkill_145()
 	self:_calculate_heal_cooldowns(15)
-	self:_multiply_all_hp(0.825, 2)
+	self:_multiply_all_hp(0.825, 1)
 	self:_multiply_all_damage(0.9, 1.35, 0.825)
 	self:_multiply_teamai_health(0.9, 0.25)
 			
@@ -9676,7 +9676,7 @@ end
 
 function CharacterTweakData:_set_easy_wish()
 	self:_calculate_heal_cooldowns(15)
-	self:_multiply_all_hp(1, 2)
+	self:_multiply_all_hp(1, 1)
 	self:_multiply_all_damage(1, 1.5, 1)
 	self:_multiply_teamai_health(1, 0.25)
 
