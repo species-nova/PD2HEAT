@@ -1115,7 +1115,6 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 	end
 end
 
-
 function GroupAIStateBesiege:set_endless_silent()
 	self._silent_endless = true
 end
@@ -3473,6 +3472,79 @@ function GroupAIStateBesiege:_set_reenforce_objective_to_group(group)
 	end
 end
 
+function GroupAIStateBesiege:_assign_assault_groups_to_retire()
+	local function suitable_grp_func(group)
+		if group.objective.type == "assault_area" then
+			local regroup_area = nil
+			
+			if group.objective.area then
+				if next(group.objective.area.criminal.units) then
+					for other_area_id, other_area in pairs(group.objective.area.neighbours) do
+						if not next(other_area.criminal.units) then
+							regroup_area = other_area
+
+							break
+						end
+					end
+				end
+			else
+				for u_key, u_data in pairs(group.units) do
+					if u_data and u_data.tracker then
+						local nav_seg = u_data.tracker:nav_segment()
+
+						regroup_area = self:get_area_from_nav_seg_id(nav_seg)
+						break
+					end
+				end
+			end
+
+			regroup_area = regroup_area or group.objective.area
+			local grp_objective = {
+				stance = "hos",
+				attitude = "avoid",
+				pose = "crouch",
+				type = "recon_area",
+				area = regroup_area
+			}
+
+			self:_set_objective_to_enemy_group(group, grp_objective)
+		end
+	end
+
+	self:_assign_groups_to_retire(self._tweak_data.recon.groups, suitable_grp_func)
+end
+
+
+function GroupAIStateBesiege:_assign_recon_groups_to_retire()
+	local function suitable_grp_func(group)
+		if group.objective.type == "recon_area" then
+			local area = group.objective.area
+			
+			if not area then
+				for u_key, u_data in pairs(group.units) do
+					if u_data and u_data.tracker then
+						local nav_seg = u_data.tracker:nav_segment()
+
+						area = self:get_area_from_nav_seg_id(nav_seg)
+						break
+					end
+				end
+			end
+			
+			local grp_objective = {
+				stance = "hos",
+				attitude = "avoid",
+				pose = "crouch",
+				type = "assault_area",
+				area = area
+			}
+
+			self:_set_objective_to_enemy_group(group, grp_objective)
+		end
+	end
+
+	self:_assign_groups_to_retire(self._tweak_data.assault.groups, suitable_grp_func)
+end
 
 function GroupAIStateBesiege:_voice_saw()
 	for group_id, group in pairs(self._groups) do

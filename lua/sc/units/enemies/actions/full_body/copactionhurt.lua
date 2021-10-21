@@ -2306,28 +2306,30 @@ function CopActionHurt:on_attention(attention, old_attention)
 
 				shoot_hist.m_last_pos = mvec3_copy(target_pos)
 			else
-				if aim_delay_minmax[1] ~= 0 or aim_delay_minmax[2] ~= 0 then
-					if aim_delay_minmax[1] == aim_delay_minmax[2] then
-						aim_delay = aim_delay_minmax[1]
-					else
-						local lerp_dis = math_min(1, target_dis / self._falloff[#self._falloff].r)
+				if aim_delay_minmax then
+					if aim_delay_minmax[1] ~= 0 or aim_delay_minmax[2] ~= 0 then
+						if aim_delay_minmax[1] == aim_delay_minmax[2] then
+							aim_delay = aim_delay_minmax[1]
+						else
+							local lerp_dis = math_min(1, target_dis / self._falloff[#self._falloff].r)
 
-						aim_delay = math_lerp(aim_delay_minmax[1], aim_delay_minmax[2], lerp_dis)
+							aim_delay = math_lerp(aim_delay_minmax[1], aim_delay_minmax[2], lerp_dis)
+						end
+
+						if self._common_data.is_suppressed then
+							aim_delay = aim_delay * 1.5
+						end
 					end
 
-					if self._common_data.is_suppressed then
-						aim_delay = aim_delay * 1.5
-					end
+					self._shoot_t = self._mod_enable_t + aim_delay
+
+					shoot_hist = {
+						focus_start_t = t,
+						focus_delay = self._focus_delay,
+						m_last_pos = mvec3_copy(target_pos)
+					}
+					self._shoot_history = shoot_hist
 				end
-
-				self._shoot_t = self._mod_enable_t + aim_delay
-
-				shoot_hist = {
-					focus_start_t = t,
-					focus_delay = self._focus_delay,
-					m_last_pos = mvec3_copy(target_pos)
-				}
-				self._shoot_history = shoot_hist
 			end
 		end
 	else
