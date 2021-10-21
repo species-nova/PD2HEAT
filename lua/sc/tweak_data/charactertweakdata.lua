@@ -3106,7 +3106,7 @@ function CharacterTweakData:_init_russian(presets)
 	self.russian.speech_prefix = "rb2"
 	self.russian.weapon_voice = "1"
 	self.russian.access = "teamAI1"
-	self.russian.dodge = nil
+	self.russian.dodge = presets.dodge.athletic_bot
 	self.russian.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3133,7 +3133,7 @@ function CharacterTweakData:_init_german(presets)
 	self.german.speech_prefix = "rb2"
 	self.german.weapon_voice = "2"
 	self.german.access = "teamAI1"
-	self.german.dodge = nil
+	self.german.dodge = presets.dodge.athletic_bot
 	self.german.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3160,7 +3160,7 @@ function CharacterTweakData:_init_spanish(presets)
 	self.spanish.speech_prefix = "rb2"
 	self.spanish.weapon_voice = "3"
 	self.spanish.access = "teamAI1"
-	self.spanish.dodge = nil
+	self.spanish.dodge = presets.dodge.athletic_bot
 	self.spanish.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3187,7 +3187,7 @@ function CharacterTweakData:_init_american(presets)
 	self.american.speech_prefix = "rb2"
 	self.american.weapon_voice = "3"
 	self.american.access = "teamAI1"
-	self.american.dodge = nil
+	self.american.dodge = presets.dodge.athletic_bot
 	self.american.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3213,7 +3213,7 @@ function CharacterTweakData:_init_jowi(presets)
 	self.jowi.speech_prefix = "rb2"
 	self.jowi.weapon_voice = "3"
 	self.jowi.access = "teamAI1"
-	self.jowi.dodge = nil
+	self.jowi.dodge = presets.dodge.athletic_bot
 	self.jowi.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3239,7 +3239,7 @@ function CharacterTweakData:_init_old_hoxton(presets)
 	self.old_hoxton.speech_prefix = "rb2"
 	self.old_hoxton.weapon_voice = "3"
 	self.old_hoxton.access = "teamAI1"
-	self.old_hoxton.dodge = nil
+	self.old_hoxton.dodge = presets.dodge.athletic_bot
 	self.old_hoxton.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3265,7 +3265,7 @@ function CharacterTweakData:_init_clover(presets)
 	self.female_1.speech_prefix = "rb7"
 	self.female_1.weapon_voice = "3"
 	self.female_1.access = "teamAI1"
-	self.female_1.dodge = nil
+	self.female_1.dodge = presets.dodge.athletic_bot
 	self.female_1.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3291,7 +3291,7 @@ function CharacterTweakData:_init_dragan(presets)
 	self.dragan.speech_prefix = "rb8"
 	self.dragan.weapon_voice = "3"
 	self.dragan.access = "teamAI1"
-	self.dragan.dodge = nil
+	self.dragan.dodge = presets.dodge.athletic_bot
 	self.dragan.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3317,7 +3317,7 @@ function CharacterTweakData:_init_jacket(presets)
 	self.jacket.speech_prefix = "rb9"
 	self.jacket.weapon_voice = "3"
 	self.jacket.access = "teamAI1"
-	self.jacket.dodge = nil
+	self.jacket.dodge = presets.dodge.athletic_bot
 	self.jacket.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3339,7 +3339,7 @@ function CharacterTweakData:_init_bonnie(presets)
 	}
 	self.bonnie.detection = presets.detection.gang_member
 	self.bonnie.move_speed = presets.move_speed.very_fast_teamai
-	self.bonnie.dodge = nil
+	self.bonnie.dodge = presets.dodge.athletic_bot
 	self.bonnie.crouch_move = false
 	self.bonnie.speech_prefix = "rb10"
 	self.bonnie.weapon_voice = "3"
@@ -3369,7 +3369,7 @@ function CharacterTweakData:_init_sokol(presets)
 	self.sokol.speech_prefix = "rb11"
 	self.sokol.weapon_voice = "3"
 	self.sokol.access = "teamAI1"
-	self.sokol.dodge = nil
+	self.sokol.dodge = presets.dodge.athletic_bot
 	self.sokol.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3395,7 +3395,7 @@ function CharacterTweakData:_init_dragon(presets)
 	self.dragon.speech_prefix = "rb12"
 	self.dragon.weapon_voice = "3"
 	self.dragon.access = "teamAI1"
-	self.dragon.dodge = nil
+	self.dragon.dodge = presets.dodge.athletic_bot
 	self.dragon.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3421,7 +3421,7 @@ function CharacterTweakData:_init_bodhi(presets)
 	self.bodhi.speech_prefix = "rb13"
 	self.bodhi.weapon_voice = "3"
 	self.bodhi.access = "teamAI1"
-	self.bodhi.dodge = nil
+	self.bodhi.dodge = presets.dodge.athletic_bot
 	self.bodhi.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3447,7 +3447,7 @@ function CharacterTweakData:_init_jimmy(presets)
 	self.jimmy.speech_prefix = "rb14"
 	self.jimmy.weapon_voice = "3"
 	self.jimmy.access = "teamAI1"
-	self.jimmy.dodge = nil
+	self.jimmy.dodge = presets.dodge.athletic_bot
 	self.jimmy.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3473,7 +3473,7 @@ function CharacterTweakData:_init_sydney(presets)
 	self.sydney.speech_prefix = "rb15"
 	self.sydney.weapon_voice = "3"
 	self.sydney.access = "teamAI1"
-	self.sydney.dodge = nil
+	self.sydney.dodge = presets.dodge.athletic_bot
 	self.sydney.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3499,7 +3499,7 @@ function CharacterTweakData:_init_wild(presets)
 	self.wild.speech_prefix = "rb16"
 	self.wild.weapon_voice = "3"
 	self.wild.access = "teamAI1"
-	self.wild.dodge = nil
+	self.wild.dodge = presets.dodge.athletic_bot
 	self.wild.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3525,7 +3525,7 @@ function CharacterTweakData:_init_chico(presets)
 	self.chico.speech_prefix = "rb17"
 	self.chico.weapon_voice = "3"
 	self.chico.access = "teamAI1"
-	self.chico.dodge = nil
+	self.chico.dodge = presets.dodge.athletic_bot
 	self.chico.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3551,7 +3551,7 @@ function CharacterTweakData:_init_max(presets)
 	self.max.speech_prefix = "rb18"
 	self.max.weapon_voice = "3"
 	self.max.access = "teamAI1"
-	self.max.dodge = nil
+	self.max.dodge = presets.dodge.athletic_bot
 	self.max.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3578,7 +3578,7 @@ function CharacterTweakData:_init_myh(presets)
 	self.myh.speech_prefix = "rb2"
 	self.myh.weapon_voice = "1"
 	self.myh.access = "teamAI1"
-	self.myh.dodge = nil
+	self.myh.dodge = presets.dodge.athletic_bot
 	self.myh.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3606,7 +3606,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_female.speech_prefix = "rb21"
 	self.ecp_female.weapon_voice = "3"
 	self.ecp_female.access = "teamAI1"
-	self.ecp_female.dodge = nil
+	self.ecp_female.dodge = presets.dodge.athletic_bot
 	self.ecp_female.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3631,7 +3631,7 @@ function CharacterTweakData:_init_ecp(presets)
 	self.ecp_male.speech_prefix = "rb20"
 	self.ecp_male.weapon_voice = "3"
 	self.ecp_male.access = "teamAI1"
-	self.ecp_male.dodge = nil
+	self.ecp_male.dodge = presets.dodge.athletic_bot
 	self.ecp_male.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -3658,7 +3658,7 @@ function CharacterTweakData:_init_joy(presets)
 	self.joy.speech_prefix = "rb19"
 	self.joy.weapon_voice = "3"
 	self.joy.access = "teamAI1"
-	self.joy.dodge = nil
+	self.joy.dodge = presets.dodge.athletic_bot
 	self.joy.arrest = {
 		timeout = 240,
 		aggression_timeout = 6,
@@ -6205,6 +6205,71 @@ function CharacterTweakData:_presets(tweak_data)
 						dive = {
 							chance = 1,
 							timeout = {3, 5}
+						}
+					}
+				}
+			}
+		},
+		athletic_bot = {
+			speed = 1.1,
+			occasions = {
+				hit = {
+					chance = 0.8,
+					check_timeout = {1, 2},
+					variations = {
+						side_step = {
+							chance = 7,
+							timeout = {1, 3},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8 --set this to a, better value please
+						},
+						roll = {
+							chance = 3,
+							timeout = {3, 4}
+						},
+						wheel = {
+							chance = 1,
+							timeout = {1.2, 2}
+						}
+					}
+				},
+				preemptive = {
+					chance = 0.35,
+					check_timeout = {2, 3},
+					variations = {
+						side_step = {
+							chance = 3,
+							timeout = {1, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
+						},
+						roll = {
+							chance = 1,
+							timeout = {3, 4}
+						},
+						wheel = {
+							chance = 1,
+							timeout = {1.2, 2}
+						}
+					}
+				},
+				scared = {
+					chance = 0.8,
+					check_timeout = {1, 2},
+					variations = {
+						side_step = {
+							chance = 5,
+							timeout = {1, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
+						},
+						roll = {
+							chance = 3,
+							timeout = {3, 5}
+						},
+						wheel = {
+							chance = 1,
+							timeout = {1.2, 2}
 						}
 					}
 				}
