@@ -644,7 +644,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						{ --Basic
 							fire_rate_multiplier = 1.4,
 							recoil_multiplier = 1.4,
-							free_ammo_chance = 0.6,
+							free_ammo_chance = 0.4,
 							kill_refund = 0,
 							shots_required = 5,
 							smg_only = true
