@@ -323,17 +323,19 @@ function ActionSpooc:_send_client_stop()
 end
 
 function ActionSpooc:on_exit()
-	if self._unit:character_damage():dead() then
-		local detect_stop_sound = self:get_sound_event("detect_stop")
+	local detect_stop_sound = self:get_sound_event("detect_stop")
 
-		if detect_stop_sound then
-			self._unit:sound():play(detect_stop_sound)
-		end
-	elseif self._is_local and self._taunt_at_beating_played and not self._unit:sound():speaking(TimerManager:game():time()) then
-		self._unit:sound():say(self._taunt_after_assault, true, true)
+	if detect_stop_sound then
+		self._unit:sound():play(detect_stop_sound)
 	end
 
-	self._ext_movement:set_cloaked(true)
+	if self._is_local and self._taunt_at_beating_played and not self._unit:sound():speaking(TimerManager:game():time()) then
+		self._unit:sound():say(self._taunt_after_assault, true, true)
+	end
+	
+	if not self._unit:character_damage():dead() then
+		self._ext_movement:set_cloaked(true)
+	end
 
 	if self._root_blend_disabled then
 		self._ext_movement:set_root_blend(true)
