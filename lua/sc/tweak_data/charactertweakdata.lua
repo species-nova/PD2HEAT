@@ -568,6 +568,7 @@ function CharacterTweakData:_init_fbi(presets)
 	
 	self.fbi_vet = deep_clone(self.fbi)
 	self.fbi_vet.weapon = presets.weapon.expert
+	table.insert(self.fbi_vet.tags, "fbi_vet")
 	self.fbi_vet.can_shoot_while_dodging = true
 	self.fbi_vet.can_slide_on_suppress = true
 	self.fbi_vet.HEALTH_INIT = 32.4
