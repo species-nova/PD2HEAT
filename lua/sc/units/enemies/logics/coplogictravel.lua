@@ -215,8 +215,16 @@ function CopLogicTravel.enter(data, new_logic_name, enter_params)
 			cbt = true
 		})
 	end
-
-	if not data.is_converted then
+	
+	if data.is_converted or data.char_tweak.ends_assault_on_death then
+		my_data.use_brain = true
+	elseif data.unit:base().has_tag then
+		if data.unit:base():has_tag("medic_summers") or data.unit:base():has_tag("fbi_vet") then
+			my_data.use_brain = true
+		end
+	end
+	
+	if not my_data.use_brain then
 		data.brain:set_update_enabled_state(false)
 	end
 
@@ -797,7 +805,7 @@ function CopLogicTravel.action_complete_clbk(data, action)
 						if not data.unit:movement():chk_action_forbidden("walk") then
 							if my_data.coarse_path_index == #my_data.coarse_path then
 								--CopLogicTravel._on_destination_reached(data) ----test
-							elseif data.important or data.is_converted or data.unit:in_slot(16) then
+							elseif data.important or my_data.use_brain or data.unit:in_slot(16) then
 								CopLogicTravel._chk_start_pathing_to_next_nav_point(data, my_data)
 							end
 						end
@@ -829,7 +837,7 @@ function CopLogicTravel.action_complete_clbk(data, action)
 						if not data.unit:movement():chk_action_forbidden("walk") then
 							if my_data.coarse_path_index == #my_data.coarse_path then
 								--CopLogicTravel._on_destination_reached(data) ----test
-							elseif data.important or data.is_converted or data.unit:in_slot(16) then
+							elseif data.important or my_data.use_brain or data.unit:in_slot(16) then
 								CopLogicTravel._chk_start_pathing_to_next_nav_point(data, my_data)
 							end
 						end
@@ -840,7 +848,7 @@ function CopLogicTravel.action_complete_clbk(data, action)
 			my_data.old_action_started = nil
 			CopLogicAttack._upd_aim(data, my_data)
 		elseif action:expired() then
-			if data.important or data.is_converted or data.unit:in_slot(16) then
+			if data.important or my_data.use_brain or data.unit:in_slot(16) then
 				CopLogicAttack._upd_aim(data, my_data)
 			end
 		end
@@ -850,7 +858,7 @@ function CopLogicTravel.action_complete_clbk(data, action)
 		data.internal_data.shooting = nil
 	elseif action_type == "reload" or action_type == "heal" then
 		if action:expired() then
-			if data.important or data.is_converted or data.unit:in_slot(16) then
+			if data.important or my_data.use_brain or data.unit:in_slot(16) then
 				CopLogicAttack._upd_aim(data, my_data)
 			end
 		end
@@ -858,13 +866,13 @@ function CopLogicTravel.action_complete_clbk(data, action)
 		if my_data.gesture_arrest then
 			my_data.gesture_arrest = nil
 		elseif action:expired() and not data.cool then
-			if data.important or data.is_converted or data.unit:in_slot(16) then
+			if data.important or my_data.use_brain or data.unit:in_slot(16) then
 				CopLogicAttack._upd_aim(data, my_data)
 			end
 		end
 	elseif action_type == "hurt" or action_type == "healed" then
 		if action:expired() then
-			if data.important or data.is_converted or data.unit:in_slot(16) then
+			if data.important or my_data.use_brain or data.unit:in_slot(16) then
 				if not CopLogicBase.chk_start_action_dodge(data, "hit") then
 					CopLogicAttack._upd_aim(data, my_data)
 				end
@@ -895,7 +903,7 @@ function CopLogicTravel.action_complete_clbk(data, action)
 		end
 
 		if action:expired() then
-			if data.important or data.is_converted or data.unit:in_slot(16) then
+			if data.important or my_data.use_brain or data.unit:in_slot(16) then
 				CopLogicAttack._upd_aim(data, my_data)
 			end
 
@@ -2340,7 +2348,7 @@ function CopLogicTravel.get_pathing_prio(data)
 	if objective then
 		prio = 0 --disable if it ends up hindering performance (since it makes the search faster, but without being prioritized over the other ones below)
 
-		if objective.type == "phalanx" then
+		if objective.type == "phalanx" or data.internal_data.use_brain then
 			prio = 4
 		elseif objective.follow_unit then
 			if objective.follow_unit:base().is_local_player or objective.follow_unit:base().is_husk_player or managers.groupai:state():is_unit_team_AI(objective.follow_unit) then

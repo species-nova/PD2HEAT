@@ -117,6 +117,14 @@ function CopLogicAttack.enter(data, new_logic_name, enter_params)
 			CopLogicBase.add_delayed_clbk(my_data, my_data.action_timeout_clbk_id, callback(CopLogicIdle, CopLogicIdle, "clbk_action_timeout", data), action_timeout_t)
 		end
 	end
+	
+	if data.is_converted or data.char_tweak.ends_assault_on_death then
+		my_data.use_brain = true
+	elseif data.unit:base().has_tag then
+		if data.unit:base():has_tag("medic_summers") or data.unit:base():has_tag("fbi_vet") then
+			my_data.use_brain = true
+		end
+	end
 
 	my_data.attitude = objective and objective.attitude or "avoid"
 	my_data.weapon_range = data.char_tweak.weapon[data.unit:inventory():equipped_unit():base():weapon_tweak_data().usage].range
@@ -156,7 +164,7 @@ function CopLogicAttack.update(data)
 		CopLogicAttack._upd_stop_old_action(data, my_data)
 
 		if my_data.has_old_action then
-			if not my_data.update_queue_id then
+			if not my_data.use_brain and not my_data.update_queue_id then
 				data.brain:set_update_enabled_state(false)
 
 				my_data.update_queue_id = "CopLogicAttack.queued_update" .. tostring(data.key)
@@ -239,7 +247,7 @@ function CopLogicAttack.update(data)
 		end
 	end
 
-	if not my_data.update_queue_id then
+	if not my_data.use_brain and not my_data.update_queue_id then
 		data.brain:set_update_enabled_state(false)
 
 		my_data.update_queue_id = "CopLogicAttack.queued_update" .. tostring(data.key)
