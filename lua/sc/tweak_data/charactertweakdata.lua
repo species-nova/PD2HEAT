@@ -567,32 +567,27 @@ function CharacterTweakData:_init_fbi(presets)
 	table.insert(self._enemy_list, "fbi_female")
 	
 	self.fbi_vet = deep_clone(self.fbi)
-	self.fbi_vet.weapon = presets.weapon.good
+	self.fbi_vet.weapon = presets.weapon.expert
 	self.fbi_vet.can_shoot_while_dodging = true
 	self.fbi_vet.can_slide_on_suppress = true
-	self.fbi_vet.HEALTH_INIT = 36
-	self.fbi_vet.headshot_dmg_mul = normal_headshot
-	self.fbi_vet.damage.melee_damage_mul = 2
-	self.fbi_vet.DAMAGE_CLAMP_BULLET = 6
+	self.fbi_vet.HEALTH_INIT = 32.4
+	self.fbi_vet.headshot_dmg_mul = bravo_headshot
 	self.fbi_vet.dodge = presets.dodge.ninja_complex
 	self.fbi_vet.access = "spooc"
 	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.elite
-	self.fbi_vet.use_animation_on_fire_damage = false
 	self.fbi_vet.move_speed = presets.move_speed.lightning
-	self.fbi_vet.surrender = nil
-	self.fbi_vet.unintimidateable = true	
 	if is_reaper or is_federales then
 	   self.fbi_vet.custom_voicework = nil	
 	else   
 	   self.fbi_vet.custom_voicework = "bruce"
 	end   
 	self.fbi_vet.dodge_with_grenade = {
-		smoke = {duration = {
-			12,
-			12
+		flash = {duration = {
+			1,
+			1
 		}},
 		check = function (t, nr_grenades_used)
-			local delay_till_next_use = 18
+			local delay_till_next_use = 8
 			local chance = 0.25
 
 			if math.random() < chance then
@@ -2622,7 +2617,7 @@ function CharacterTweakData:_init_autumn(presets)
 		}},
 		check = function (t, nr_grenades_used)
 			local delay_till_next_use = 4
-			local chance = 0.5
+			local chance = 1
 
 			if math.random() < chance then
 				return true, t + delay_till_next_use
@@ -4730,7 +4725,7 @@ function CharacterTweakData:_presets(tweak_data)
 		}
 	}
 
-	--Long range burst, takes a while to become accurate enough to hit perfectly consistently, with the time it takes varying based on range. Struggles up close.
+	--Long range burst, takes a while to become accurate enough to hit perfectly consistently, with the time it takes varying based on range.
 	--Abuses acc values > 1 to achieve this.
 	presets.weapon.expert.is_dmr = {
 		aim_delay = {0.4, 2.0},
@@ -4752,33 +4747,33 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 200,
 				acc = {1.0, 1.0},
 				dmg_mul = 1,
-				recoil = {0.6, 0.3},
-				burst_size = 1
-			},
-			{
-				r = 750,
-				acc = {0.33, 2.0}, --4 seconds to max acc.
-				dmg_mul = 1,
 				recoil = {0.8, 0.4},
 				burst_size = 1
 			},
 			{
+				r = 750,
+				acc = {0.0, 6.0}, --2 seconds to max acc.
+				dmg_mul = 1,
+				recoil = {1.2, 0.6},
+				burst_size = 1
+			},
+			{
 				r = 1500,
-				acc = {0.0, 2.0}, --6 seconds to max acc.
+				acc = {0.0, 4.0}, --3 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {1.6, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 3000,
-				acc = {0.0, 1.5}, --8 seconds to max acc.
+				acc = {0.0, 3.0}, --4 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {1.6, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 6000,
-				acc = {0.0, 1.0}, --12 seconds to max acc.
+				acc = {0.0, 2.0}, --6 seconds to max acc.
 				dmg_mul = 0.5,
 				recoil = {1.6, 0.8},
 				burst_size = 1
@@ -6588,7 +6583,7 @@ function CharacterTweakData:_presets(tweak_data)
 					}
 				}
 			}
-		}
+		},
 		autumn = {
 			speed = 1.6,
 			occasions = {

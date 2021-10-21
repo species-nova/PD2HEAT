@@ -1305,221 +1305,9 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		self.unit_categories.FBI_suit_C45 = {
 			unit_types = {
 				america = {
-					Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_1/ene_akan_fbi_1")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_1")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1")
-				},
-				nypd = {
-					Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1")
-				},
-				lapd = {
-					Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1")
-				},
-				omnia_skm = {
-					Idstring("units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_1")
-				}
-			},
-			access = access_type_all
-		}
-	else 
-		self.unit_categories.FBI_suit_C45 = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_1/ene_akan_fbi_1")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_1/ene_omnia_hrt_1")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2")
-				},
-				nypd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")
-				},
-				lapd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1")
-				}
-			},
-			access = access_type_all
-		}
-	end
-
-	if difficulty_index <= 7 then
-		self.unit_categories.FBI_suit_M4 = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_fbi_2/ene_fbi_2")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2")
-				},
-				nypd = {
-					Idstring("units/pd2_mod_nypd/characters/ene_fbi_2/ene_fbi_2")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_fbi_2/ene_fbi_2")
-				},
-				omnia_skm = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2")
-				}
-			},
-			access = access_type_all
-		}
-	else
-		self.unit_categories.FBI_suit_M4 = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2")
-				},
-				zombie = {
-					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2")
-				},
-				nypd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4")
-				},
-				lapd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_m4/ene_zeal_fbi_m4")
-				}
-			},
-			access = access_type_all
-		}
-	end
-
-	self.unit_categories.FBI_suit_C45_M4 = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_1/ene_akan_fbi_1"),
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2")
-			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_1/ene_fbi_hvh_1"),
-				Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_2/ene_fbi_hvh_2")
-			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_2/ene_fbi_2")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2")
-			},
-			nypd = {
-				Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/pd2_mod_nypd/characters/ene_fbi_2/ene_fbi_2")
-			},
-			lapd = {
-				Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/pd2_mod_lapd/characters/ene_fbi_2/ene_fbi_2")
-			},
-			omnia_skm = {
-				Idstring("units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_1"),
-				Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2"),
-			}
-		},
-		access = access_type_all
-	}
-
-	if difficulty_index <= 7 then
-		self.unit_categories.FBI_suit_MP5 = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_fbi_3/ene_fbi_3")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-				},
-				nypd = {
-					Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_fbi_3/ene_fbi_3")
-				}
-			},
-			access = access_type_all
-		}
-	else --Upgrade some to OMNIA/ZEAL on DS.
-		self.unit_categories.FBI_suit_MP5 = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-				},
-				zombie = {
-					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_3/ene_omnia_hrt_3")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-				},
-				nypd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				},
-				lapd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				}
-			},
-			access = access_type_all
-		}
-	end
-
-	if difficulty_index <= 7 then
-		self.unit_categories.FBI_suit_M4_MP5 = {
-			unit_types = {
-				america = {
 					Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					Idstring("units/payday2/characters/ene_fbi_2/ene_fbi_2"),
-					Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
+					Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")					
 				},
 				russia = {
 					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_1/ene_akan_fbi_1"),
@@ -1550,12 +1338,16 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 					Idstring("units/payday2/characters/ene_fbi_1/ene_fbi_1"),
 					Idstring("units/pd2_mod_lapd/characters/ene_fbi_2/ene_fbi_2"),
 					Idstring("units/pd2_mod_lapd/characters/ene_fbi_3/ene_fbi_3")
+				},
+				omnia_skm = {
+					Idstring("units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_1"),
+					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2")
 				}
 			},
 			access = access_type_all
 		}
-	else --Upgrade some to OMNIA/ZEAL on DS.
-		self.unit_categories.FBI_suit_M4_MP5 = {
+	else 
+		self.unit_categories.FBI_suit_C45 = {
 			unit_types = {
 				america = {
 					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_1/ene_zeal_fbi_1"),
@@ -1573,12 +1365,12 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
 				},
 				murkywater = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_3/ene_omnia_hrt_3"),
+					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_1/ene_omnia_hrt_1"),
 					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_2/ene_omnia_hrt_2"),
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_1/ene_omnia_hrt_1")
+					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_3/ene_omnia_hrt_3")
 				},
 				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_1"),
+					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2"),
 					Idstring("units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2"),
 					Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
 				},
@@ -1597,61 +1389,10 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		}
 	end
 
-	if difficulty_index <= 7 then
-		self.unit_categories.FBI_suit_stealth_MP5 = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_fbi_3/ene_fbi_3")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_fbi_hvh_3/ene_fbi_hvh_3")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_fbi_3/ene_fbi_3")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-				},
-				nypd = {
-					Idstring("units/pd2_mod_nypd/characters/ene_fbi_3/ene_fbi_3")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_fbi_3/ene_fbi_3")
-				}
-			},
-			access = access_type_all
-		}
-	else --Upgrade some to OMNIA/ZEAL on DS.
-		self.unit_categories.FBI_suit_stealth_MP5 = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal")
-				},
-				zombie = {
-					Idstring("units/pd2_mod_halloween/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_hrt_1/ene_omnia_hrt_1")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3")
-				},
-				nypd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				},
-				lapd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_fbi_mp5/ene_zeal_fbi_mp5")
-				}
-			},
-			access = access_type_all
-		}
-	end
+	self.unit_categories.FBI_suit_C45_M4 = self.unit_categories.FBI_suit_C45
+	self.unit_categories.FBI_suit_M4_MP5 = self.unit_categories.FBI_suit_C45
+	self.unit_categories.FBI_suit_stealth_MP5 = self.unit_categories.FBI_suit_C45
+			
 
 	self.unit_categories.FBI_swat_M4 = {
 		unit_types = {
@@ -4201,7 +3942,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		amount = {3, 4},
 		spawn = {
 			{
-				unit = "FBI_suit_C45_M4",
+				unit = "FBI_suit_C45",
 				freq = 1,
 				amount_min = 1,
 				tactics = self._tactics.FBI_defend,
@@ -4226,7 +3967,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		amount = {3, 4},
 		spawn = {
 			{
-				unit = "FBI_suit_M4_MP5",
+				unit = "FBI_suit_C45",
 				freq = 1,
 				amount_min = 1,
 				tactics = self._tactics.FBI_defend,
@@ -4251,7 +3992,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		amount = {3, 4},
 		spawn = {
 			{
-				unit = "FBI_suit_M4_MP5",
+				unit = "FBI_suit_C45",
 				freq = 1,
 				amount_min = 1,
 				tactics = self._tactics.FBI_defend,
@@ -4326,86 +4067,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 	}
-
-	--Recon exclusive spawn groups.
-		self.enemy_spawn_groups.FBI_stealth = {
-			amount = {3, 4},
-			spawn = {
-				{
-					unit = "FBI_suit_stealth_MP5",
-					freq = 0.44,
-					amount_min = 1,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
-				},
-				{
-					unit = "FBI_suit_M4_MP5",
-					freq = 0.22,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
-				},
-				{
-					unit = "CS_tazer",
-					freq = 0.08,
-					amount_max = 1,
-					tactics = self._tactics.ELITE_tazer,
-					rank = 3
-				},
-				{
-					unit = "medic_M4",
-					freq = 0.08,
-					amount_max = 1,
-					tactics = self._tactics.FBI_medic,
-					rank = 1
-				},
-				{
-					unit = "boom_M4203",
-					freq = 0.08,
-					amount_max = 1,
-					tactics = self._tactics.ELITE_boom,
-					rank = 1
-				}
-			}
-		}
-
-		self.enemy_spawn_groups.FBI_stealth_hard = {
-			amount = {3, 4},
-			spawn = {
-				{
-					unit = "FBI_suit_M4_MP5",
-					freq = 0.5,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 2
-				},
-				{
-					unit = "fbi_vet",
-					freq = 0.2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 3
-				},
-				{
-					unit = "CS_tazer",
-					freq = 0.1,
-					amount_max = 1,
-					tactics = self._tactics.ELITE_tazer,
-					rank = 3
-				},
-				{
-					unit = "medic_M4",
-					freq = 0.1,
-					amount_max = 1,
-					tactics = self._tactics.FBI_medic,
-					rank = 1
-				},
-				{
-					unit = "boom_M4203",
-					freq = 0.1,
-					amount_max = 1,
-					tactics = self._tactics.ELITE_boom,
-					rank = 1
-				}
-			}
-		}
 
 	--Fodder spawn groups.
 	--These are generally pretty spammable and make up about half of an assault.
@@ -4950,29 +4611,23 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 		--HRTs. Should be annoying and apply pressure to hostages.
 		self.enemy_spawn_groups.hostage_rescue_n = {
-			amount = {3, 4},
+			amount = {2, 3},
 			spawn = {
 				{
 					unit = "FBI_suit_C45",
 					freq = 1,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
+					rank = 1
 				}
 			}
 		}
 
 		self.enemy_spawn_groups.hostage_rescue_h = {
-			amount = {3, 4},
+			amount = {2, 4},
 			spawn = {
 				{
 					unit = "FBI_suit_C45",
-					freq = 0.5,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 1
-				},
-				{
-					unit = "FBI_suit_MP5",
-					freq = 0.5,
+					freq = 1,
 					tactics = self._tactics.FBI_suit_stealth,
 					rank = 1
 				}
@@ -4983,10 +4638,10 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "FBI_suit_MP5",
+					unit = "FBI_suit_C45",
 					freq = 1,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
+					rank = 1
 				}
 			}
 		}
@@ -4995,49 +4650,36 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "FBI_suit_MP5",
-					freq = 0.6,
+					unit = "FBI_suit_C45",
+					freq = 0.9,
 					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
-				},
-				{
-					unit = "FBI_suit_M4",
-					freq = 0.3,
-					tactics = self._tactics.FBI_suit_stealth,
-					rank = 2
+					rank = 1
 				},
 				{
 					unit = "spooc",
 					freq = 0.1,
 					amount_max = 1,
 					tactics = self._tactics.spooc,
-					rank = 5
+					rank = 2
 				}
 			}
 		}
 
 		self.enemy_spawn_groups.hostage_rescue_mh = {
-			amount = {3, 4},
+			amount = {4, 4},
 			spawn = {
 				{
-					unit = "fbi_vet",
-					freq = 0.15,
-					amount_max = 2,
+					unit = "FBI_suit_C45",
+					freq = 0.9,
 					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 3
-				},
-				{
-					unit = "FBI_suit_M4",
-					freq = 0.75,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 2
+					rank = 1
 				},
 				{
 					unit = "spooc",
 					freq = 0.1,
 					amount_max = 1,
 					tactics = self._tactics.spooc,
-					rank = 5
+					rank = 2
 				}
 			}
 		}
@@ -5046,15 +4688,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "fbi_vet",
-					freq = 0.15,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 3
-				},
-				{
-					unit = "FBI_suit_M4",
-					freq = 0.75,
+					unit = "FBI_suit_C45",
+					freq = 0.89,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -5079,16 +4714,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "fbi_vet",
-					freq = 0.2,
-					amount_min = 1,
-					amount_max = 2,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 4
-				},
-				{
-					unit = "FBI_suit_M4",
-					freq = 0.7,
+					unit = "FBI_suit_C45",
+					freq = 0.9,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 2
 				},
@@ -5114,17 +4741,9 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "fbi_vet",
-					freq = 0.2,
-					amount_min = 2,
-					amount_max = 2,
+					freq = 0.9,
 					tactics = self._tactics.ELITE_suit_stealth,
 					rank = 4
-				},
-				{
-					unit = "FBI_suit_M4",
-					freq = 0.7,
-					tactics = self._tactics.ELITE_suit_stealth,
-					rank = 2
 				},
 				{
 					unit = "spooc",
@@ -8640,6 +8259,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			}
 		}
 	end
+
 	self.besiege.recon.interval = {
 		5,
 		5,
@@ -8648,88 +8268,55 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	self.besiege.recon.interval_variation = 40
 	self.besiege.recon.force = {
 		4 * map_scale_factor,
-		6 * map_scale_factor,
-		8 * map_scale_factor
+		5 * map_scale_factor,
+		6 * map_scale_factor
 	}
 	if difficulty_index <= 2 then
 		--normal
 		self.besiege.recon.groups = {
-			CS_stealth_a = {
-				1,
-				0.5,
-				0
+			hostage_rescue_n = {
+				0.33,
+				0.66,
+				1
 			},
-			CS_cops = {
-				0,
-				0.5,
+			cops_n = {
+				0.66,
+				0.33,
 				1
 			}
 		}
 	elseif difficulty_index == 3 then
 		--hard
 		self.besiege.recon.groups = {
-			CS_stealth_a = {
+			hostage_rescue_h = {
+				0.66,
 				1,
-				0.5,
-				0
-			},
-			CS_cops = {
-				0,
-				0.5,
 				1
+			},
+			cops_h = {
+				0.33,
+				0.00,
+				0
 			}
 		}
 	elseif difficulty_index == 4 then
 		--very hard
 		self.besiege.recon.groups = {
-			CS_stealth_a = {
-				1,
-				0.5,
-				0
-			},
-			CS_cops = {
-				0,
-				0.5,
-				1
-			}
+			hostage_rescue_vh = {1,1,1}
 		}
 	elseif difficulty_index == 5 then
 		--overkill
 		self.besiege.recon.groups = {
-			FBI_stealth = {
-				0.65,
-				0.6,
-				0.5
-			},
-			GS_hostage_rescue = {
-				0.3,
-				0.3,
-				0.3
-			},
-			FBI_stealth_hard = {
-				0.05,
-				0.1,
-				0.2
-			}
+			hostage_rescue_ovk = {1,1,1}
 		}
 	elseif difficulty_index == 6 then
 		--mayhem
-		--gets recon cloakers
+		--gets lone recon cloakers
 		self.besiege.recon.groups = {
-			FBI_stealth = {
-				0.6,
-				0.4,
-				0.1
-			},
-			GS_hostage_rescue = {
-				0.3,
-				0.3,
-				0.3
-			},
-			FBI_stealth_hard = {
-				0.1,
-				0.2,
-				0.4
+			hostage_rescue_mh = {
+				1,
+				0.9,
+				0.8
 			},
 			single_spooc = {
 				0.0,
@@ -8740,20 +8327,10 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	elseif difficulty_index == 7 then
 		--death wish
 		self.besiege.recon.groups = {
-			FBI_stealth = {
-				0.6,
-				0.4,
-				0.1
-			},
-			GS_hostage_rescue = {
-				0.3,
-				0.3,
-				0.3
-			},
-			FBI_stealth_hard = {
-				0.1,
-				0.2,
-				0.4
+			hostage_rescue_dw = {
+				1,
+				0.9,
+				0.8
 			},
 			single_spooc = {
 				0.0,
@@ -8765,20 +8342,10 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		--death sentence
 		--gets rare titan cloakers
 		self.besiege.recon.groups = {
-			FBI_stealth = {
-				0.6,
-				0.4,
-				0.1
-			},
-			GS_hostage_rescue = {
-				0.3,
-				0.3,
-				0.3
-			},
-			FBI_stealth_hard = {
-				0.1,
-				0.2,
-				0.4
+			hostage_rescue_ds = {
+				1,
+				0.9,
+				0.8
 			},
 			single_spooc = {
 				0.0,

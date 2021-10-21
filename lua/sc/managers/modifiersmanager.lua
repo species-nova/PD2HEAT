@@ -8,6 +8,10 @@ local ai_type = tweak_data.levels:get_ai_group_type()
 --also, no need to include Idstring here anymore
 if ai_type == b then
 	replacement_table = {
+		["units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1"] = "units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1",
+		["units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_2"] = "units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1",
+		["units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_3"] = "units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_2",
+
 		--Federales FBI Rifle
 		["units/pd2_dlc_bex/characters/ene_swat_policia_federale_sc/ene_swat_policia_federale_sc"] = "units/pd2_dlc_bex/characters/ene_swat_policia_federale_fbi/ene_swat_policia_federale_fbi",
 		--Federales FBI Shotgun
@@ -32,6 +36,11 @@ if ai_type == b then
 	}
 elseif ai_type == r then
 	replacement_table = {
+		-- HRT -> Veteran Cops
+		["units/pd2_dlc_mad/characters/ene_akan_fbi_1/ene_akan_fbi_1"] = "units/pd2_dlc_mad/characters/ene_akan_veteran_2/ene_akan_veteran_2",
+		["units/pd2_dlc_mad/characters/ene_akan_fbi_2/ene_akan_fbi_2"] = "units/pd2_dlc_mad/characters/ene_akan_veteran_2/ene_akan_veteran_2",
+		["units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal"] = "units/pd2_dlc_mad/characters/ene_akan_veteran_2/ene_akan_veteran_2",
+
 		--Reaper FBI Rifle
 		["units/pd2_dlc_mad/characters/ene_akan_cs_swat_zeal/ene_akan_cs_swat_zeal"] = "units/pd2_dlc_mad/characters/ene_akan_fbi_swat_ak47_ass/ene_akan_fbi_swat_ak47_ass",
 		--Reaper FBI Shotgun
@@ -54,6 +63,10 @@ elseif ai_type == r then
 	}
 elseif ai_type == m then
 	replacement_table = {
+		["units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_1"] = "units/pd2_mod_sharks/characters/ene_murky_veteran_1/ene_murky_veteran_1",
+		["units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_2"] = "units/pd2_mod_sharks/characters/ene_murky_veteran_1/ene_murky_veteran_1",
+		["units/pd2_mod_sharks/characters/ene_fbi_1/ene_fbi_3"] = "units/pd2_mod_sharks/characters/ene_murky_veteran_1/ene_murky_veteran_2",
+
 		--Murky FBI Rifle
 		["units/pd2_mod_sharks/characters/ene_swat_1/ene_swat_1"] = "units/pd2_mod_sharks/characters/ene_fbi_swat_1/ene_fbi_swat_1",
 		--Murky FBI Shotgun
@@ -78,6 +91,11 @@ elseif ai_type == m then
 	}
 else
 	replacement_table = {
+		--HRT -> Veteran Cops
+		["units/payday2/characters/ene_fbi_1/ene_fbi_1"] = "units/payday2/characters/ene_veteran_cop_1/ene_veteran_cop_1",
+		["units/payday2/characters/ene_fbi_2/ene_fbi_2"] = "units/payday2/characters/ene_veteran_cop_1/ene_veteran_cop_1",
+		["units/payday2/characters/ene_fbi_3/ene_fbi_3"] = "units/payday2/characters/ene_veteran_cop_2/ene_veteran_cop_2",
+
 		--FBI Rifle
 		["units/payday2/characters/ene_swat_1/ene_swat_1"] = "units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1",
 		["units/pd2_mod_nypd/characters/ene_nypd_swat_1/ene_nypd_swat_1"] = "units/pd2_mod_nypd/characters/ene_fbi_swat_1/ene_fbi_swat_1",
