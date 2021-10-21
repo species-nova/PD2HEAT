@@ -2,6 +2,9 @@ if not tweak_data then
 	return 
 end
 
+tweak_data.screen_colors.button_stage_2 = Color(255, 1, 240, 255) / 255
+tweak_data.screen_colors.button_stage_3 = Color(127, 1, 190, 255) / 255
+
 tweak_data.ammo = {}
 tweak_data.ammo.ricochet = {}
 tweak_data.ammo.ricochet.max_ricochets = 5
