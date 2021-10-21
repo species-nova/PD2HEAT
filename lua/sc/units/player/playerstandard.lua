@@ -140,7 +140,7 @@ function PlayerStandard:_update_movement(t, dt)
 	
 	if floor_moving_ray then
 		floor_moving_vel = floor_moving_ray.body and floor_moving_ray.body:velocity() or nil
-		floor_moving_pos = floor_moving_ray.position
+		--floor_moving_pos = floor_moving_ray.position
 	end
 	
 	local acceleration = WALK_SPEED_MAX * 8
