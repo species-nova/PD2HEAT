@@ -95,6 +95,28 @@
 		<search>
 			<network/>
 			<rpc/>
+			<message name="request_throw_projectile"/>
+	        <param type="int" min="1" max="64" />
+		</search>
+		<target mode="attributes">
+			<attr name="max" value="128"/>
+		</target>
+	</tweak>
+	<tweak name="settings/network" extension="network_settings">
+		<search>
+			<network/>
+			<rpc/>
+			<message name="sync_throw_projectile"/>
+	        <param type="int" min="1" max="64" />
+		</search>
+		<target mode="attributes">
+			<attr name="max" value="128"/>
+		</target>
+	</tweak>
+	<tweak name="settings/network" extension="network_settings">
+		<search>
+			<network/>
+			<rpc/>
 		</search>
 		<target>
 			<message name="sync_contour_state" delivery="ordered" receiver="connection">
