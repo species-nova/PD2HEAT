@@ -1008,6 +1008,11 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 
 						objective.grp_objective = spawn_task.group.objective
 					end
+					
+					if not objective then
+						objective = {type = "free"}
+						objective.grp_objective = spawn_task.group.objective
+					end
 
 					local u_data = self._police[u_key]
 					
@@ -1015,8 +1020,10 @@ function GroupAIStateBesiege:_perform_group_spawning(spawn_task, force, use_last
 						self._groups[u_data.group.id] = nil
 						u_data.group = nil
 					end
-
-					self:set_enemy_assigned(objective.area, u_key)
+					
+					if objective.area then
+						self:set_enemy_assigned(objective.area, u_key)
+					end
 
 					if spawn_entry.tactics then
 						u_data.tactics = spawn_entry.tactics
