@@ -7538,7 +7538,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	end
 
 	--Assault groups
-	if difficulty_index <= 3 then
+	if difficulty_index <= 2 then
 		self.besiege.assault.groups = {
 			cops_n = {
 				0.50,
