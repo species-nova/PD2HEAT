@@ -310,6 +310,7 @@ function CopLogicBase.draw_reserved_positions(data)
 end
 
 local use_metal_gear_detection = nil
+local ignore_local_player = nil
 
 function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_reaction)
 	local my_data = data.internal_data
@@ -347,7 +348,7 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 			local can_acquire = true
 
 			if attention_info.unit:base() then
-				if is_cool and attention_info.unit:base().is_husk_player --[[or attention_info.unit:base().is_local_player]] then
+				if is_cool and attention_info.unit:base().is_husk_player or ignore_local_player and attention_info.unit:base().is_local_player then
 					can_acquire = false
 				end
 			end
@@ -471,11 +472,11 @@ function CopLogicBase._upd_attention_obj_detection(data, min_reaction, max_react
 	for u_key, attention_info in pairs_g(detected_obj) do
 		local can_detect = true
 
-		--[[if attention_info.is_local_player then
+		if ignore_local_player and attention_info.is_local_player then
 			CopLogicBase._destroy_detected_attention_object_data(data, attention_info)
 
 			can_detect = false
-		else]]if is_cool and attention_info.is_husk_player then
+		elseif is_cool and attention_info.is_husk_player then
 			can_detect = false
 
 			if attention_info.client_casing_suspicion or attention_info.client_peaceful_detection then
