@@ -138,6 +138,7 @@
 		<hook file="sc/units/player_team/huskteamaimovement.lua" source_file="lib/units/player_team/huskteamaimovement"/>
 		<hook file="sc/units/player_team/teamaibase.lua" source_file="lib/units/player_team/teamaibase"/>
 		<hook file="sc/units/player_team/teamaibrain.lua" source_file="lib/units/player_team/teamaibrain"/>
+		<hook file="sc/units/player_team/teamaidamage.lua" source_file="lib/units/player_team/teamaidamage"/>
 		<hook file="sc/units/player_team/teamaiinventory.lua" source_file="lib/units/player_team/teamaiinventory"/>
 		<hook file="sc/units/player_team/teamaimovement.lua" source_file="lib/units/player_team/teamaimovement"/>
 		<hook file="sc/units/enemies/logics/coplogicinactive.lua" source_file="lib/units/enemies/cop/logics/coplogicinactive"/>
