@@ -209,12 +209,12 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 	self._scene_templates.standard.lights = {
 		self:_create_light({ --Key Left
 			far_range = 200,
-			color = Vector3(0, 0, 1) * 4,
+			color = Vector3(0.003, 0.315, 1) * 4,
 			position = Vector3(-154, -6, 26)
 		}),
 		self:_create_light({ --Key Right
 			far_range = 160,
-			color = Vector3(1, 0, 0) * 1,
+			color = Vector3(0.905, 0.054, 0.235) * 1,
 			position = Vector3(35, -13, 26)
 		}),
 		self:_create_light({ --Rim Left
