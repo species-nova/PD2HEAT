@@ -1,3 +1,33 @@
+--[[local old_bonuses = WeaponFactoryTweakData.create_bonuses
+function WeaponFactoryTweakData:create_bonuses(...)
+	old_bonuses(self, ...)
+
+	for _, part in pairs(self.parts) do
+		if not part.supported and part.stats then
+			--Logs for debugging. Remove if wanted for slightly better performance in loading screens.
+			if part.name_id then
+--					log("Removing stats from: " .. part.name_id)
+			else
+--					log("Removing stats from: Unknown Mod")
+			end
+			
+			local alert_size
+			if (part.sub_type == "silencer") or (part.perks and table.contains(part.perks,"silencer")) then 
+				alert_size = part.stats.alert_size or 0
+			end
+			
+			--Preserve cosmetic part stats.
+			part.stats = {
+				value = part.stats.value,
+				zoom = part.stats.zoom,
+				gadget_zoom = part.stats.gadget_zoom,
+				alert_size = alert_size
+			}
+			part.custom_stats = nil
+		end
+	end
+end]]
+
 --Overrides for shotgun ammo types that vary per damage tier.
 	--Indented to make for easy code folding in most editors.
 	--@SC Feel free to define these for the other ammo types if you want, though it may require way more presets to be made since they also touch ammo count.
@@ -1310,29 +1340,6 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m4", "resmod_m4", function(self)
 		damage_far_mul = 1
 	}
 	
-	--[[
-	--(CAR) Drum Magazine 
-	self.parts.wpn_fps_upg_m4_m_drum = {
-		pcs = {},
-		type = "magazine",
-		name_id = "bm_wp_aa12_mag_drum",
-		a_obj = "a_m",
-		bullet_objects = {prefix = "g_bullet_", amount = 98},
-		alt_icon = "guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_m4_m_drum",
-		dlc = "sc",
-		unit = "units/payday2/weapons/wpn_fps_upg_m4_reusable/wpn_fps_upg_m4_m_drum",
-		supported = true,
-		stats = {
-			value = 9,
-			extra_ammo = 70,
-			spread = -2,
-			reload = -6,
-			concealment = -5
-		}
-	}
-	self.parts.wpn_fps_upg_m4_m_drum.third_unit = "units/payday2/weapons/wpn_third_upg_m4_reusable/wpn_third_upg_m4_m_drum"
-	]]
-	
 	--(CAR) Tactical Mag.
 	self.parts.wpn_fps_upg_m4_m_pmag.pcs = {
 		10,
@@ -1416,13 +1423,6 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m4", "resmod_m4", function(self)
 	table.insert(self.wpn_fps_ass_m4.uses_parts, "wpn_fps_smg_olympic_s_short")
 	table.insert(self.wpn_fps_ass_m4_npc.uses_parts, "wpn_fps_smg_olympic_s_short")		
 	
-	--Faster/Slower ROF mods (Unused)
-	--[[
-	table.insert(self.wpn_fps_ass_m4.uses_parts, "wpn_fps_upg_i_slower_rof")
-	table.insert(self.wpn_fps_ass_m4_npc.uses_parts, "wpn_fps_upg_i_slower_rof")	
-	table.insert(self.wpn_fps_ass_m4.uses_parts, "wpn_fps_upg_i_faster_rof")
-	table.insert(self.wpn_fps_ass_m4_npc.uses_parts, "wpn_fps_upg_i_faster_rof")	
-	]]--
 	
 	self.wpn_fps_ass_m4_npc.uses_parts = deep_clone(self.wpn_fps_ass_m4.uses_parts)
 
@@ -1510,14 +1510,6 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_g18c", "resmod_g18c", function(sel
 	table.insert(self.wpn_fps_pis_g18c_npc.uses_parts, "wpn_fps_upg_i_singlefire")	
 	table.insert(self.wpn_fps_pis_g18c.uses_parts, "wpn_fps_upg_i_autofire")
 	table.insert(self.wpn_fps_pis_g18c_npc.uses_parts, "wpn_fps_upg_i_autofire")		
-
-	--Faster/Slower ROF mods (Unused)
-	--[[
-	table.insert(self.wpn_fps_pis_g18c.uses_parts, "wpn_fps_upg_i_slower_rof")
-	table.insert(self.wpn_fps_pis_g18c_npc.uses_parts, "wpn_fps_upg_i_slower_rof")	
-	table.insert(self.wpn_fps_pis_g18c.uses_parts, "wpn_fps_upg_i_faster_rof")
-	table.insert(self.wpn_fps_pis_g18c_npc.uses_parts, "wpn_fps_upg_i_faster_rof")	
-	]]--
 	
 	self.wpn_fps_pis_g18c_npc.uses_parts = deep_clone(self.wpn_fps_pis_g18c.uses_parts)
 
@@ -2545,14 +2537,6 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m14", "resmod_m14", function(self)
 	table.insert(self.wpn_fps_ass_m14_npc.uses_parts, "wpn_fps_upg_vg_ass_smg_stubby")	
 	table.insert(self.wpn_fps_ass_m14.uses_parts, "wpn_fps_upg_vg_ass_smg_afg")
 	table.insert(self.wpn_fps_ass_m14_npc.uses_parts, "wpn_fps_upg_vg_ass_smg_afg")		
-	
-	--ROF Mods (Unused)
-	--[[
-	table.insert(self.wpn_fps_ass_m14.uses_parts, "wpn_fps_upg_i_slower_rof")
-	table.insert(self.wpn_fps_ass_m14_npc.uses_parts, "wpn_fps_upg_i_slower_rof")	
-	table.insert(self.wpn_fps_ass_m14.uses_parts, "wpn_fps_upg_i_faster_rof")
-	table.insert(self.wpn_fps_ass_m14_npc.uses_parts, "wpn_fps_upg_i_faster_rof")		
-	]]--
 	
 	self.wpn_fps_ass_m14_npc.uses_parts = deep_clone(self.wpn_fps_ass_m14.uses_parts)
 
@@ -15636,20 +15620,6 @@ function WeaponFactoryTweakData:_init_icc()
 		stats = {
 			value = 0
 		},
-		--[[
-		forbids = {
-			"wpn_fps_upg_ns_pis_large",
-			"wpn_fps_upg_ns_pis_medium",
-			"wpn_fps_upg_ns_pis_small",
-			"wpn_fps_upg_ns_pis_large_kac",
-			"wpn_fps_upg_ns_pis_medium_gem",
-			"wpn_fps_upg_ns_pis_medium_slim",
-			"wpn_fps_upg_ns_ass_filter",
-			"wpn_fps_upg_ns_pis_jungle",
-			"wpn_fps_pis_g18c_co_comp_2",
-			"wpn_fps_pis_g18c_co_1"				
-		},				
-		]]--
 		third_unit = "units/pd2_dlc_icc/weapons/wpn_fps_pis_deagle_b_modern/wpn_third_pis_deagle_b_modern"
 	}
 	self.parts.wpn_fps_pis_beretta_body_modern = {
@@ -16707,12 +16677,6 @@ function WeaponFactoryTweakData:_init_x_olympic()
 				reload = 3,
 				concealment = 2
 			}},
-			--[[wpn_fps_upg_m4_m_drum = {supported = true,stats = {
-				value = 9,
-				extra_ammo = 80,
-				reload = -6,
-				concealment = -5
-			}}]]
 		},
 		animations = {
 			fire = "recoil",
@@ -21749,56 +21713,6 @@ Hooks:PostHook(WeaponFactoryTweakData, "_init_m60", "resmod_m60", function(self)
 		concealment = -1,
 		value = 1
 	}
-		
-	--M60 Part Additions
-	
-	--[[
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_specter")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_specter")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_aimpoint")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_aimpoint")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_docter")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_docter")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_eotech")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_eotech")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_t1micro")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_t1micro")		
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_cmore")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_cmore")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_aimpoint_2")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_aimpoint_2")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_cs")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_cs")		
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_rx30")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_rx30")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_rx01")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_rx01")		
-	
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_reflex")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_reflex")		
-	
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_eotech_xps")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_eotech_xps")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_sig")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_sig")	
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_uh")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_uh")		
-
-	table.insert(self.wpn_fps_lmg_m60.uses_parts, "wpn_fps_upg_o_fc1")
-	table.insert(self.wpn_fps_lmg_m60_npc.uses_parts, "wpn_fps_upg_o_fc1")		
-	
-	]]--
 			
 	self.wpn_fps_lmg_m60_npc.uses_parts = deep_clone(self.wpn_fps_lmg_m60.uses_parts)			
 
@@ -26185,34 +26099,6 @@ self.wpn_fps_pis_shatters_fury.uses_parts = {
 	"wpn_fps_upg_o_uh",
 	"wpn_fps_upg_o_fc1"		
 }
-
---OICW
-self.parts.wpn_fps_ass_osipr_scope.material_parameters = {
-	gfx_reddot = {
-		{
-			id = Idstring("holo_reticle_scale"),
-			value = Vector3(0.2, 1.5, 40),
-			condition = function ()
-				return not _G.IS_VR
-			end
-		},
-		{
-			id = Idstring("holo_reticle_scale"),
-			value = Vector3(0.2, 1, 20),
-			condition = function ()
-				return _G.IS_VR
-			end
-		}
-	}
-}
-self.parts.wpn_fps_ass_osipr_b_standard.custom = false
-self.parts.wpn_fps_ass_osipr_body.custom = false
-self.parts.wpn_fps_ass_osipr_bolt.custom = false
-self.parts.wpn_fps_ass_osipr_gl.custom = false
-self.parts.wpn_fps_ass_osipr_gl_incendiary.custom = false
-self.parts.wpn_fps_ass_osipr_scope.custom = false
-self.parts.wpn_fps_ass_osipr_m_gl.custom = false
-self.parts.wpn_fps_ass_osipr_m_gl_incendiary.custom = false
 
 --Deal with legendary and semi-hidden mods so they don't waste time triggering custom mod stat generation.
 --The game seems to ignore some of these because reasons???

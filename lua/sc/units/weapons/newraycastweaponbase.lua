@@ -155,37 +155,42 @@ function NewRaycastWeaponBase:moving_spread_penalty_reduction()
 	return spread_multiplier
 end
 
---Simpler spread function. Determines area bullets can hit then converts that to the max degrees by which the rays can fire.
-function NewRaycastWeaponBase:_get_spread(user_unit)
-	local current_state = user_unit:movement()._current_state
-	
+function NewRaycastWeaponBase:update_spread(current_state, dt)	
 	if not current_state then
-		return 0, 0
+		self._current_spread = 0
+		return
 	end
 	
 	--Get spread area from accuracy stat.
 	local spread_area = math.max(self._spread + 
 		managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) * tweak_data.weapon.stat_info.spread_per_accuracy, 0.05)
-	
+
 	--Moving penalty to spread, based on stability stat- added to total area.
 	if current_state._moving then
+
 		--Get spread area from stability stat.
-		local moving_spread = math.max(self._spread_moving + managers.blackmarket:stability_index_addend(self:categories(), self._silencer) * tweak_data.weapon.stat_info.spread_per_stability, 0)
+		local moving_spread = math.max(self._spread_moving, 0)
 
 		--Add moving spread penalty reduction.
 		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
 		spread_area = spread_area + moving_spread
 	end
 
+	--Apply bloom penalty to spread.
+	self._bloom_stacks = math.max(self._bloom_stacks - math.max((self._bloom_stacks^3)/2, 1) * dt, 0)
+	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom)
+
 	--Apply skill and stance multipliers to overall spread area.
 	local multiplier = tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
 	spread_area = spread_area * multiplier
 
 	--Convert spread area to degrees.
-	local spread_x = math.sqrt((spread_area)/math.pi)
-	local spread_y = spread_x
-	
-	return spread_x, spread_y
+	self._current_spread = math.sqrt((spread_area)/math.pi)
+end
+
+--Simpler spread function. Determines area bullets can hit then converts that to the max degrees by which the rays can fire.
+function NewRaycastWeaponBase:_get_spread(user_unit)
+	return self._current_spread, self._current_spread
 end
 
 local start_shooting_original = RaycastWeaponBase.start_shooting
@@ -662,15 +667,9 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 	if current_state then
 		--Get bonus from accuracy.
 		local acc_bonus = falloff_info.acc_bonus * (self._current_stats_indices.spread + managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) - 1)
-		
-		--Get bonus from stability.
-		local stab_bonus = falloff_info.stab_bonus * 25
-		if current_state._moving then
-			stab_bonus = falloff_info.stab_bonus * (self._current_stats_indices.recoil + managers.blackmarket:stability_index_addend(self:categories(), self._silencer) - 1)
-		end
-
+	
 		--Apply acc/stab bonuses.
-		base_falloff = base_falloff + stab_bonus + acc_bonus
+		base_falloff = base_falloff + acc_bonus
 
 		--Get ADS multiplier.
 		if current_state:in_steelsight() then

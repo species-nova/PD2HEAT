@@ -2200,32 +2200,29 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 					revert = true
 				},
 				{
+					round = true,
+					append = "m",
+					name = "range"
+				},
+				{
 					percent = true,
 					name = "recoil",
 					offset = true,
 					revert = true
 				},
 				{
-					index = true,
+					percent = true,
+					offset = true,
+					revert = true,
 					name = "concealment"
-				},
-				{
-					inverted = true,
-					name = "reload"
 				},
 				{
 					inverted = true,
 					name = "swap_speed"
 				},
 				{
-					round = true,
-					append = "m",
-					name = "standing_range"
-				},
-				{
-					round = true,
-					append = "m",
-					name = "moving_range"
+					inverted = true,
+					name = "reload"
 				}
 			}
 

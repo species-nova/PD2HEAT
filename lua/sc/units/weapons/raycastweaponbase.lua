@@ -28,8 +28,13 @@ function RaycastWeaponBase:setup(...)
 	
 	--self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
 
-	--Use stability stat to get the moving accuracy penalty.
-	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._current_stats_indices.recoil] or 0
+	--Use mobility stat to get the moving accuracy penalty.
+	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
+
+	--Use stability stat for dynamic bloom accuracy.
+	self._spread_bloom = tweak_data.weapon.stat_info.bloom_spread[self._current_stats_indices.recoil] or 0
+	self._bloom_stacks = 0
+	self._current_spread = 0
 
 	--Trackers for MG Specialist Ace
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
@@ -642,6 +647,12 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) or not is_player
 
 	if is_player then
+		self._bloom_stacks = self._bloom_stacks + 1
+
+		log("Bloom = " .. self._bloom_stacks)
+		log("Spread = " .. self._current_spread)
+
+
 		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 		if self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0 then

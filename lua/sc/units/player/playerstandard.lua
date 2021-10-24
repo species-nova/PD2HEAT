@@ -1263,6 +1263,7 @@ Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
 	self:_update_burst_fire(t)
 		
 	local weapon = self._unit:inventory():equipped_unit():base()
+	weapon:update_spread(self, dt)
 	if weapon:get_name_id() == "m134" then
 		weapon:update_spin()
 	end
