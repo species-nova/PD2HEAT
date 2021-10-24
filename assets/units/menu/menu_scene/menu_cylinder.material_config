@@ -1,8 +1,11 @@
 <materials version="3">
-    <material name="background" render_template="effect:BLEND_ADD:DIFFUSE0_TEXTURE" version="2">
+    <material name="background" render_template="generic:DIFFUSE_TEXTURE:DIFFUSE_UVANIM:SELF_ILLUMINATION" version="2">
+        <variable value="none" type="scalar" name="intensity"/>
         <diffuse_texture file="units/menu/menu_scene/menu_cylinder_texture"/>
+		<self_illumination_texture file="units/menu/menu_scene/menu_cylinder_texture"/>
+        <variable value="0 0 0" type="vector3" name="uv_speed"/>
     </material>
-    <material name="logo" render_template="effect:DIFFUSE0_TEXTURE" version="2">
+    <material name="logo" render_template="effect:BLEND_ADD:DIFFUSE0_TEXTURE" version="2">
         <variable value="sun" type="scalar" name="intensity"/>
         <diffuse_texture file="units/menu/menu_scene/menu_cylinder_logo"/>
     </material>

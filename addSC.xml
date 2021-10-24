@@ -147,6 +147,7 @@
 	<texture path="units/menu/menu_scene/menu_cylinder_smoke" force="true"/>
 	<texture path="units/menu/menu_scene/menu_cylinder_smoke_tile" force="true"/>
 	<material_config path="units/menu/menu_scene/menu_cylinder" force="true" />
+	<model path="units/menu/menu_scene/menu_logo" force="true" />
 	
 	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
 	<!--<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>-->
