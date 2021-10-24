@@ -206,6 +206,29 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 	local c_ref = self._bg_unit:get_object(Idstring("a_reference"))
 	local target_pos = Vector3(0, 0, ref:position().z)
 	local offset = Vector3(ref:position().x, ref:position().y, 0)
+	self._scene_templates.standard.lights = {
+		self:_create_light({ --Key Left
+			far_range = 200,
+			color = Vector3(0.003, 0.315, 1) * 4,
+			position = Vector3(-154, -6, 26)
+		}),
+		self:_create_light({ --Key Right
+			far_range = 160,
+			color = Vector3(0.905, 0.054, 0.235) * 1,
+			position = Vector3(35, -13, 26)
+		}),
+		self:_create_light({ --Rim Left
+			far_range = 200,
+			color = Vector3(1, 1, 1) * 6,
+			position = Vector3(-141, 65, 62)
+		}),
+		self:_create_light({ --Rim Right
+			far_range = 160,
+			color = Vector3(1, 1, 1) * 6,
+			position = Vector3(-11, 89, 56)
+		})
+	}
+	self._scene_templates.standard.show_mm10_event = false
 	self._scene_templates.infamy_preview = {
 		fov = 40,
 		can_change_fov = false,
@@ -436,7 +459,7 @@ function MenuSceneManager:_setup_bg()
 
 
 		--Menu logo.
-	self._menu_logo = World:spawn_unit(Idstring("units/menu/menu_scene/menu_logo"), Vector3(97, -200, -52), Rotation(yaw, 0, 0))
+	self._menu_logo = World:spawn_unit(Idstring("units/menu/menu_scene/menu_logo"), Vector3(0, 10, 0), Rotation(yaw, 0, 0))
 
 
 	self:set_character(managers.blackmarket:get_preferred_character())
