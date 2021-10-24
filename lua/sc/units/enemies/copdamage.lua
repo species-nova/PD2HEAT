@@ -84,9 +84,13 @@ local big_enemy_visor_shattering_table = {
 local old_init = CopDamage.init
 function CopDamage:init(...)
 	old_init(self, ...)
-
+	
+	self._autotarget_data = {
+		fast = self._unit:get_object(Idstring("Head"))
+	}
+	
 	--Replace head hitbox with a smaller one for non-dozer enemies.	
-	if self._head_body_name then
+	if self._head_body_name then	
 		local my_unit = self._unit
 		local base_ext = my_unit:base()
 

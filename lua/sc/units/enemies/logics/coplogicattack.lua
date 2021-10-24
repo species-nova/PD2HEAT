@@ -1598,6 +1598,7 @@ function CopLogicAttack.action_complete_clbk(data, action)
 			if action:expired() then
 				my_data.in_cover = my_data.moving_to_cover
 				my_data.cover_enter_t = TimerManager:game():time()
+				my_data.cover_test_step = 1
 			end
 
 			my_data.moving_to_cover = nil

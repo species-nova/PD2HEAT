@@ -3,7 +3,7 @@ function HuskTeamAIDamage:sync_damage_bullet(attacker_unit, hit_offset_height, r
 		return
 	end
 
-	managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
+	--managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
 
 	local result_type = result_index ~= 0 and self._RESULT_NAME_TABLE[result_index] or nil
 	local result = {
@@ -53,7 +53,7 @@ function HuskTeamAIDamage:sync_damage_explosion(attacker_unit, result_index, i_a
 
 	local variant = CopDamage._ATTACK_VARIANTS[i_attack_variant]
 
-	managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
+	--managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
 
 	local result_type = result_index ~= 0 and self._RESULT_NAME_TABLE[result_index] or nil
 	local result = {
@@ -103,7 +103,7 @@ function HuskTeamAIDamage:sync_damage_fire(attacker_unit, result_index, i_attack
 
 	local variant = CopDamage._ATTACK_VARIANTS[i_attack_variant]
 
-	managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
+	--managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
 
 	local result_type = result_index ~= 0 and self._RESULT_NAME_TABLE[result_index] or nil
 	local result = {
@@ -147,7 +147,7 @@ function HuskTeamAIDamage:sync_damage_melee(attacker_unit, hit_offset_height, re
 		return
 	end
 
-	managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
+	--managers.hud:set_mugshot_damage_taken(self._unit:unit_data().mugshot_id)
 
 	local result_type = result_index ~= 0 and self._RESULT_NAME_TABLE[result_index] or nil
 	local result = {

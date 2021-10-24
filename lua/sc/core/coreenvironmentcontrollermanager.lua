@@ -200,7 +200,6 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 	self._lut_modifier_material:set_variable(ids_LUT_contrast, flashbang * 0.5)
 end
 
-
 Hooks:PostHook(CoreEnvironmentControllerManager, "set_post_composite", "alt_down", function(self, t, dt)
     if not heat.Options:GetValue("AltLastDownColor") then
         return --you people were running this function twice, causing double the amount of updates

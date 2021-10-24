@@ -138,6 +138,7 @@
 		<hook file="sc/units/player_team/huskteamaimovement.lua" source_file="lib/units/player_team/huskteamaimovement"/>
 		<hook file="sc/units/player_team/teamaibase.lua" source_file="lib/units/player_team/teamaibase"/>
 		<hook file="sc/units/player_team/teamaibrain.lua" source_file="lib/units/player_team/teamaibrain"/>
+		<hook file="sc/units/player_team/teamaidamage.lua" source_file="lib/units/player_team/teamaidamage"/>
 		<hook file="sc/units/player_team/teamaiinventory.lua" source_file="lib/units/player_team/teamaiinventory"/>
 		<hook file="sc/units/player_team/teamaimovement.lua" source_file="lib/units/player_team/teamaimovement"/>
 		<hook file="sc/units/enemies/logics/coplogicinactive.lua" source_file="lib/units/enemies/cop/logics/coplogicinactive"/>
@@ -336,14 +337,15 @@
     <!-- <Localization directory="loc" default="english.json">
     </Localization> -->
 	<!--///MOD SETTINGS\\\-->
-    <Options name="Options" auto_build_menu="true" auto_load="true" save_file="restoration.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
+    <Options name="Options" auto_build_menu="true" auto_load="true" save_file="heat.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
 	    <options>
+			<option type="bool" default_value="false" name="AimAssist"/>
 			<option type="bool" default_value="false" name="RealAmmo"/>
 			<option type="bool" default_value="false" name="AltLastDownColor"/>
 			<option type="bool" default_value="false" name="NoBleedoutTilt"/>
 			<option type="bool" default_value="true" name="PONRTrack"/>
 			<option type="bool" default_value="true" name="Holiday"/>
-			<option type="bool" default_value="true" name="QuietRain"/>
+			<option type="bool" default_value="true" name="QuietRain"/>	
 			<option_group name="INFOHUD">
 				<option type="bool" default_value="true" name="Info_Hud"/>
 				<option type="number" default_value="36" min="24" max="48" step="2" show_value="true" name="Info_Size"/>

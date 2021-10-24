@@ -1,3 +1,44 @@
+local mvec3_set = mvector3.set
+local mvec3_add = mvector3.add
+local mvec3_dot = mvector3.dot
+local mvec3_sub = mvector3.subtract
+local mvec3_mul = mvector3.multiply
+local mvec3_norm = mvector3.normalize
+local mvec3_dis = mvector3.distance
+local mvec3_dir = mvector3.direction
+local mvec3_set_l = mvector3.set_length
+local mvec3_len = mvector3.length
+local mvec3_cpy = mvector3.copy
+local mvec3_add_scaled = mvector3.add_scaled
+
+local mvec_from = Vector3()
+local mvec_to = Vector3()
+local mvec_spread_direction = Vector3()
+local tmp_vec1 = Vector3()
+local tmp_vec2 = Vector3()
+
+local tmp_rot1 = Rotation()
+local pairs_g = pairs
+
+local table_insert = table.insert
+local table_contains = table.contains
+
+local math_ceil = math.ceil
+local math_random = math.random
+local math_clamp = math.clamp
+local math_min = math.min
+local math_cos = math.cos
+local math_sin = math.sin
+local math_rad = math.rad
+local math_lerp = math.lerp
+local math_floor = math.floor
+
+local t_cont = table.contains
+
+local next_g = next
+local alive_g = alive
+local world_g = World
+
 local init_original = RaycastWeaponBase.init
 local setup_original = RaycastWeaponBase.setup
 
@@ -389,6 +430,116 @@ end
 
 local mvec_to = Vector3()
 local mvec_spread_direction = Vector3()
+local mvec1 = Vector3()
+
+function RaycastWeaponBase:check_autoaim(from_pos, direction, max_dist, use_aim_assist, autohit_override_data)
+	local autohit = use_aim_assist and self._aim_assist_data or self._autohit_data
+	autohit = autohit_override_data or autohit
+	local autohit_near_angle = autohit.near_angle
+	local autohit_far_angle = autohit.far_angle
+	local far_dis = autohit.far_dis
+	local closest_error, closest_ray = nil
+	local tar_vec = tmp_vec1
+	local ignore_units = self._setup.ignore_units
+	local slotmask = self._bullet_slotmask
+
+	local cone_distance = max_dist or self:weapon_range() or 20000
+	local tmp_vec_to = Vector3()
+	mvector3.set(tmp_vec_to, mvector3.copy(direction))
+	mvector3.multiply(tmp_vec_to, cone_distance)
+	mvector3.add(tmp_vec_to, mvector3.copy(from_pos))
+
+	local cone_radius = mvector3.distance(mvector3.copy(from_pos), mvector3.copy(tmp_vec_to)) / 4
+	local enemies_in_cone = self._unit:find_units("cone", from_pos, tmp_vec_to, cone_radius, managers.slot:get_mask("player_autoaim"))
+	local ignore_rng = nil
+	
+	for _, enemy in pairs(enemies_in_cone) do
+		local com = enemy:character_damage():get_ranged_attack_autotarget_data_fast().object:position()
+
+		mvec3_set(tar_vec, com)
+		mvec3_sub(tar_vec, from_pos)
+
+		local tar_aim_dot = mvec3_dot(direction, tar_vec)
+
+		if tar_aim_dot > 0 and (not max_dist or tar_aim_dot < max_dist) then
+			local tar_vec_len = math_clamp(mvec3_norm(tar_vec), 1, 6000)
+			local error_dot = mvec3_dot(direction, tar_vec)
+			local error_angle = math.acos(error_dot)
+
+			if error_angle <= 1 then
+				local percent_error = error_angle / 1
+
+				if not closest_error or percent_error < closest_error then
+					ignore_rng = true
+					tar_vec_len = tar_vec_len + 100
+
+					mvec3_mul(tar_vec, tar_vec_len)
+					mvec3_add(tar_vec, from_pos)
+
+					local hit_enemy = false
+					local enemy_mask = managers.slot:get_mask("player_autoaim")
+					local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
+					local shield_mask = managers.slot:get_mask("enemy_shield_check")
+					local ai_vision_ids = Idstring("ai_vision")
+					local bulletproof_ids = Idstring("bulletproof")
+
+					local vis_ray = World:raycast_all("ray", from_pos, tar_vec, "slot_mask", slotmask, "ignore_unit", ignore_units)
+					local units_hit = {}
+					local unique_hits = {}
+
+					for i, hit in ipairs(vis_ray) do
+						if not units_hit[hit.unit:key()] then
+							units_hit[hit.unit:key()] = true
+							unique_hits[#unique_hits + 1] = hit
+							hit.hit_position = hit.position
+							hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
+							local weak_body = hit.body:has_ray_type(ai_vision_ids)
+							weak_body = weak_body or hit.body:has_ray_type(bulletproof_ids)
+
+							if hit_enemy then
+								break
+							elseif hit.unit:in_slot(wall_mask) then
+								if weak_body then
+									break
+								end
+							elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
+								break
+							end
+						end
+					end
+
+					for _, vis_ray in ipairs(unique_hits) do
+						if vis_ray and vis_ray.unit:key() == enemy:key() and (not closest_error or error_angle < closest_error) then
+							closest_error = error_angle
+							closest_ray = vis_ray
+
+							mvec3_set(tmp_vec1, com)
+							mvec3_sub(tmp_vec1, from_pos)
+
+							local d = mvec3_dot(direction, tmp_vec1)
+
+							mvec3_set(tmp_vec1, direction)
+							mvec3_mul(tmp_vec1, d)
+							mvec3_add(tmp_vec1, from_pos)
+							mvec3_sub(tmp_vec1, com)
+
+							closest_ray.distance_to_aim_line = mvec3_len(tmp_vec1)
+
+							break
+						end
+					end
+				end
+			end
+		end
+	end
+	
+	--log(tostring(ignore_rng))
+
+	return closest_ray
+end
+
+local mvec_to = Vector3()
+local mvec_spread_direction = Vector3()
 
 function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul)
 	if self:gadget_overrides_weapon_functions() then
@@ -414,39 +565,30 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	local damage = self:_get_current_damage(dmg_mul)
 	local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 	local hit_anyone = false
-	local auto_hit_candidate, suppression_enemies = self:check_autoaim(from_pos, direction)
 
 	if suppression_enemies and self._suppression then
 		result.enemies_in_cone = suppression_enemies
 	end
+	
+	local aimassist = heat.Options:GetValue("AimAssist")
 
-	if self._autoaim then
-		local weight = 0.1
+	if aimassist then
+		local auto_hit_candidate = not hit_enemy and self:check_autoaim(from_pos, direction)
 
-		if auto_hit_candidate and not hit_enemy then
-			local autohit_chance = 1 - math.clamp((self._autohit_current - self._autohit_data.MIN_RATIO) / (self._autohit_data.MAX_RATIO - self._autohit_data.MIN_RATIO), 0, 1)
+		if auto_hit_candidate then
+			--local line2 = Draw:brush(Color.green:with_alpha(0.5), 5)
+			--line2:cylinder(from_pos, mvec_to, 1)
+		
+			mvector3.set(mvec_to, from_pos)
+			mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
 
-			if autohit_mul then
-				autohit_chance = autohit_chance * autohit_mul
-			end
-
-			if math.random() < autohit_chance then
-				self._autohit_current = (self._autohit_current + weight) / (1 + weight)
-
-				mvector3.set(mvec_to, from_pos)
-				mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
-
-				ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
-			end
-		end
-
-		if hit_enemy then
-			self._autohit_current = (self._autohit_current + weight) / (1 + weight)
-		elseif auto_hit_candidate then
-			self._autohit_current = self._autohit_current / (1 + weight)
+			ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
+			mvector3.set(mvec_spread_direction, mvec_to)
+			--local line = Draw:brush(Color.blue:with_alpha(0.5), 5)
+			--line:cylinder(from_pos, mvec_to, 1)
 		end
 	end
-
+	
 	local hit_count = 0
 	local cop_kill_count = 0
 	local hit_through_wall = false

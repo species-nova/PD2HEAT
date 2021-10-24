@@ -215,7 +215,7 @@ function CopActionShoot:on_attention(attention, old_attention)
 
 		if vis_state and vis_state < 3 and self[self._ik_preset.get_blend](self) > 0 then
 			self._aim_transition = {
-				duration = 0.333,
+				duration = 0.7,
 				start_t = t,
 				start_vec = mvec3_copy(self._common_data.look_vec)
 			}

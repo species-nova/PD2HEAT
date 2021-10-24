@@ -153,7 +153,8 @@ function ShotgunBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoo
 	end
 
 	local damage = self:_get_current_damage(dmg_mul)
-	local autoaim, dodge_enemies = self:check_autoaim(from_pos, direction, self._range)
+	local aimassist = heat.Options:GetValue("AimAssist")
+	local autoaim = aimassist and self:check_autoaim(from_pos, direction, self._range)
 	local weight = 0.1
 	local enemy_died = false
 
@@ -219,8 +220,6 @@ function ShotgunBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoo
 
 		if self._autoaim and autoaim then
 			if col_ray and col_ray.unit:in_slot(managers.slot:get_mask("enemies")) then
-				self._autohit_current = (self._autohit_current + weight) / (1 + weight)
-
 				hit_enemy(col_ray)
 
 				autoaim = false
@@ -229,16 +228,17 @@ function ShotgunBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoo
 				local autohit = self:check_autoaim(from_pos, direction, self._range)
 
 				if autohit then
-					local autohit_chance = 1 - math.clamp((self._autohit_current - self._autohit_data.MIN_RATIO) / (self._autohit_data.MAX_RATIO - self._autohit_data.MIN_RATIO), 0, 1)
+					--local line2 = Draw:brush(Color.green:with_alpha(0.5), 5)
+					--line2:cylinder(from_pos, mvec_to, 1)
+					
+					mvector3.set(mvec_to, from_pos)
+					mvector3.add_scaled(mvec_to, autohit.ray, ray_distance)
+					mvector3.set(mvec_spread_direction, mvec_to)
+					
+					--local line = Draw:brush(Color.blue:with_alpha(0.5), 5)
+					--line:cylinder(from_pos, mvec_to, 1)
 
-					if math.random() < autohit_chance then
-						self._autohit_current = (self._autohit_current + weight) / (1 + weight)
-						hit_something = true
-
-						hit_enemy(autohit)
-					else
-						self._autohit_current = self._autohit_current / (1 + weight)
-					end
+					hit_enemy(autohit)
 				elseif col_ray then
 					hit_something = true
 
@@ -318,12 +318,6 @@ function ShotgunBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoo
 					end
 				end
 			end
-		end
-	end
-
-	if dodge_enemies and self._suppression then
-		for enemy_data, dis_error in pairs(dodge_enemies) do
-			enemy_data.unit:character_damage():build_suppression(suppr_mul * dis_error * self._suppression, self._panic_suppression_chance)
 		end
 	end
 

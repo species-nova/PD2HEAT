@@ -1326,7 +1326,7 @@ function CopLogicTravel._determine_destination_occupation(data, objective)
 		local dest_area = managers.groupai:state():get_area_from_nav_seg_id(dest_nav_seg_id)
 		local follow_pos, cover = nil
 
-		if CopLogicTravel._needs_cover_at_destination(data, dest_area) then			
+		if my_data.want_to_take_cover or CopLogicTravel._needs_cover_at_destination(data, dest_area) then			
 			local threat_pos, max_dist = nil
 			follow_pos = objective.follow_unit:movement():nav_tracker():field_position()
 
@@ -2474,8 +2474,13 @@ function CopLogicTravel._get_exact_move_pos(data, nav_index)
 	else
 		local nav_seg = coarse_path[nav_index][1]
 		local area = managers.groupai:state():get_area_from_nav_seg_id(nav_seg)
-		local cover = CopLogicTravel._needs_cover_at_destination(data, area) and managers.navigation:find_cover_in_nav_seg_1(area.nav_segs)
-
+		local cover = my_data.want_to_take_cover or CopLogicTravel._needs_cover_at_destination(data, area)
+		
+		if cover then
+			cover = nil
+			cover = managers.navigation:find_cover_in_nav_seg_1(area.nav_segs)
+		end
+		
 		if my_data.moving_to_cover then
 			managers.navigation:release_cover(my_data.moving_to_cover[1])
 
@@ -2524,6 +2529,10 @@ end
 function CopLogicTravel._needs_cover_at_destination(data, dest_area)
 	if data.cool then
 		return false
+	end
+	
+	if data.objective.attitude == "avoid" then
+		return true
 	end
 
 	local verify_u_key = nil
