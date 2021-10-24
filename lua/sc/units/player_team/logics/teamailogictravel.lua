@@ -8,6 +8,7 @@ local pairs_g = pairs
 local REACT_SURPRISED = AIAttentionObject.REACT_SURPRISED
 local REACT_CURIOUS = AIAttentionObject.REACT_CURIOUS
 local REACT_AIM = AIAttentionObject.REACT_AIM
+local REACT_COMBAT = AIAttentionObject.REACT_COMBAT
 
 function TeamAILogicTravel.enter(data, new_logic_name, enter_params)
 	CopLogicBase.enter(data, new_logic_name, enter_params)
@@ -433,6 +434,12 @@ function TeamAILogicTravel._upd_enemy_detection(data)
 	local new_attention, new_prio_slot, new_reaction = TeamAILogicIdle._get_priority_attention(data, data.detected_attention_objects, nil)
 
 	TeamAILogicBase._set_attention_obj(data, new_attention, new_reaction)
+	
+	if not is_cool then
+		if data.attention_obj and REACT_COMBAT <= data.attention_obj.reaction then
+			my_data.want_to_take_cover = TeamAILogicAssault._chk_wants_to_take_cover(data, my_data)
+		end
+	end
 
 	if is_cool then
 		if new_attention then
