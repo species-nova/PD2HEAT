@@ -15,7 +15,29 @@ function PlayerMovement:init(...)
 	self._underdog_chk_t = 0
 	self._nr_close_guys = 0
 	self._sprint_cost_multiplier = managers.player:upgrade_value("player", "armor_full_cheap_sprint", 1)
+
+	self._crosshair_states = {
+		standard = true,
+		carry = true,
+		bipod = true
+	}
 end
+
+--Determines states to show/hide crosshair panel in.
+
+local change_state = PlayerMovement.change_state
+function PlayerMovement:change_state(name)
+	change_state(self, name)
+
+	if not self._current_state_name then return end
+
+	if self._crosshair_states[self._current_state_name] then
+		managers.hud:show_crosshair_panel(true)
+	else
+		managers.hud:show_crosshair_panel(false)
+	end
+end
+
 
 function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
 	if managers.player:has_category_upgrade("player", "counter_strike_spooc") and self._current_state.in_melee and self._current_state:in_melee() and not tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()].chainsaw then

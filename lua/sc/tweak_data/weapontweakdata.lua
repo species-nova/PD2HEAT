@@ -2202,17 +2202,6 @@ function WeaponTweakData:_init_stats()
 		table.insert(self.stats.zoom, 65 / i)
 	end
 
-	--Stance multipliers for weapon spread.
-	self.stat_info.stance_spread_mults = {
-		moving_standing = 1,
-		standing = 1,
-		moving_crouching = 0.75,
-		crouching = 0.75,
-		moving_steelsight = 0.5,
-		steelsight = 0.5,
-		bipod = 0.5
-	}
-
 	--Multiplier for spread on multi-pellet shotguns. This compensates for linear spread scaling which would otherwise cripple their multikill potential.
 	self.stat_info.shotgun_spread_increase = 2.5
 	self.stat_info.base_spread = 6
@@ -2222,17 +2211,26 @@ function WeaponTweakData:_init_stats()
 		table.insert(self.stats.spread, self.stat_info.base_spread + (i * self.stat_info.spread_per_accuracy))
 	end
 
+	self.stat_info.damage_falloff = {
+		base = 1000,
+		max = 4000,
+		acc_bonus = 120,
+		near_mul = 1,
+		far_mul = 2,
+		shotgun_penalty = 0.3
+	}
+
 	--Generate table for moving_spread and how it relates to mobility.
 	--The values in the table correspond to the area of spread.
 	--These are added to the area for accuracy while moving before determining the final angles.
-	self.stat_info.base_move_spread = 4
-	self.stat_info.spread_per_mobility = -0.16
+	self.stat_info.base_move_spread = 5
+	self.stat_info.spread_per_mobility = -0.2
 	self.stats.spread_moving = {}
 	for i = 0, 25, 1 do
 		table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
 	end
 
-	--Keep for legacy purposes.
+	--Keep for legacy purposes, to allow for things to be displayed properly in certain areas without large refactors.
 	self.stats.concealment = {}
 	for i = 1, 26, 1 do
 		table.insert(self.stats.concealment, i)
@@ -2269,27 +2267,30 @@ function WeaponTweakData:_init_stats()
 		2.5
 	}
 
-	self.stat_info.base_bloom_spread = 3 --Amount of spread each stack of bloom gives.
+	self.stat_info.base_bloom_spread = 3.0 --Amount of spread each stack of bloom gives.
 	self.stat_info.spread_per_stability = -0.12 --Amount bloom spread is reduced by stability.
 	self.stat_info.bloom_spread = {}
 	for i = 0, 25, 1 do
 		table.insert(self.stat_info.bloom_spread, self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability))
 	end
 
-	self.stat_info.damage_falloff = {
-		base = 1000,
-		max = 4000,
-		acc_bonus = 120,
-		near_mul = 1,
-		far_mul = 2,
-		shotgun_penalty = 0.3
+	--Stance multipliers for weapon for the seconds/rate to remove 1 stack.
+	--Stacks above 1 are removed at an exponentially faster rate to keep things constrained on high fire-rate guns.
+	self.stat_info.stance_bloom_decay_rates = {
+		standing = 0.5,
+		moving_standing = 0.5,
+		crouching = 0.666667,
+		moving_crouching = 0.666667,
+		steelsight = 0.8333333,
+		moving_steelsight = 0.8333333,
+		bipod = 0.8333333
 	}
 
 	--Stance multipliers for weapon recoil.
 	self.stat_info.stance_recoil_mults = {
 		standing = 1,
-		crouching = 0.75,
-		steelsight = 0.5
+		crouching = 0.8,
+		steelsight = 0.6
 	}
 
 	--Recoil multiplier. Used for stability.
@@ -2694,7 +2695,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--Amcar
 	self.amcar.desc_id = "bm_menu_sc_amcar_desc"
 	self.amcar.CLIP_AMMO_MAX = 30
-	self.amcar.AMMO_MAX = 180
 	self.amcar.fire_mode_data.fire_rate = 0.075
 	self.amcar.auto.fire_rate = 0.075
 	self.amcar.kick = self.stat_info.kick_tables.even_recoil
@@ -2722,7 +2722,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
 	self.glock_17.fire_mode_data.fire_rate = 0.08571428571
 	self.glock_17.single.fire_rate = 0.08571428571
-	self.glock_17.AMMO_MAX = 90
 	self.glock_17.CLIP_AMMO_MAX = 18
 	self.glock_17.kick = self.stat_info.kick_tables.even_recoil
 	self.glock_17.supported = true
@@ -2742,6 +2741,30 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.glock_17.stats_modifiers = nil
 	self.glock_17.timers.reload_interrupt = 0.36
 	self.glock_17.timers.empty_reload_interrupt = 0.25
+
+	--M308
+	self.new_m14.CLIP_AMMO_MAX = 20
+	self.new_m14.fire_mode_data.fire_rate = 0.08571428571
+	self.new_m14.single.fire_rate = 0.08571428571
+	self.new_m14.kick = self.stat_info.kick_tables.moderate_kick
+	self.new_m14.supported = true
+	self.new_m14.stats = {
+		damage = 60,
+		spread = 23,
+		recoil = 14,
+		zoom = 1,
+		concealment = 14,
+		suppression = 5,
+		alert_size = 2,
+		extra_ammo = 101,
+		total_ammo_mod = 100,
+		value = 1,
+		reload = 20
+	}
+	self.new_m14.stats_modifiers = nil
+	self.new_m14.timers.reload_not_empty = 2.60
+	self.new_m14.timers.reload_interrupt = 0.3
+	self.new_m14.timers.empty_reload_interrupt = 0.33
 
 	--[[
 	--Car 4
@@ -3136,32 +3159,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.p90.stats_modifiers = nil
-
-	--m308
-	self.new_m14.CLIP_AMMO_MAX = 20
-	self.new_m14.fire_mode_data.fire_rate = 0.08571428571
-	self.new_m14.single.fire_rate = 0.08571428571
-	self.new_m14.kick = self.stat_info.kick_tables.moderate_kick
-	self.new_m14.AMMO_MAX = 60
-	self.new_m14.supported = true
-	self.new_m14.stats = {
-		damage = 60,
-		spread = 20,
-		recoil = 15,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 20,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.new_m14.stats_modifiers = nil
-	self.new_m14.timers.reload_not_empty = 2.60
-	self.new_m14.timers.reload_interrupt = 0.3
-	self.new_m14.timers.empty_reload_interrupt = 0.33
 
 	--Deagle
 	self.deagle.has_description = false
@@ -9067,7 +9064,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 				weap.use_data.selection_index = 4			
 			end
 
-			self:calculate_ammo_pickup(weap)
+			self:calculate_ammo_data(weap)
 
 			--[[
 			local weap_crew = self[name .. "_crew"]
@@ -9117,20 +9114,44 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	lmg = 0.9 --Undoes SMG ammo pickup bonus. These guys already pick up a bunch.
 }
 
-function WeaponTweakData:calculate_ammo_pickup(weapon)
+local category_ammo_max_muls = {
+	lmg = 1.25,
+	rocket_launcher = 1.15
+}
+
+function WeaponTweakData:calculate_ammo_data(weapon)
 	--Determine the damage tier the gun falls under.
 	weapon.AMMO_PICKUP = {0, 0}
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
+	local damage = weapon.stats.damage * damage_mul
 	for i, pickup_tier in ipairs(damage_tiers_pickup) do
 		weapon.AMMO_PICKUP[1] = pickup_tier.pickup[1]
 		weapon.AMMO_PICKUP[2] = pickup_tier.pickup[2]
-		if weapon.stats.damage * damage_mul <= pickup_tier.damage - 1 then --subtract 1 to counteract floating point error.
+		if damage <= pickup_tier.damage - 1 then --subtract 1 to counteract floating point error.
 			break
 		end
 	end
 
+
+	local ammo_max = 3600 / damage
+
+	if damage >= 1200 then
+		ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
+	end
+
+	--Get weapon category specific max ammo multipliers.
+	for i = 1, #weapon.categories do
+		local category = weapon.categories[i]
+		ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
+	end
+
 	--Determine how much to multiply things by.
-	local pickup_multiplier = weapon.AMMO_MAX
+	local pickup_multiplier = ammo_max
+
+	--Halve max ammo for guns in the secondary slot, without affecting pickup.
+	if weapon.use_data.selection_index == 1 then
+		ammo_max = ammo_max/ 2
+	end
 
 	--Get weapon category specific pickup multipliers.
 	for i = 1, #weapon.categories do
@@ -9138,14 +9159,10 @@ function WeaponTweakData:calculate_ammo_pickup(weapon)
 		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
 	end
 
-	--Double multiplier if gun is a secondary, to compensate for lower total ammo.
-	if weapon.use_data.selection_index == 1 then
-		pickup_multiplier = pickup_multiplier * 2
-	end
-
 	--Set actual pickup values to use.
 	weapon.AMMO_PICKUP[1] = weapon.AMMO_PICKUP[1] * pickup_multiplier
 	weapon.AMMO_PICKUP[2] = weapon.AMMO_PICKUP[2] * pickup_multiplier
+	weapon.AMMO_MAX = math.floor(ammo_max)
 end
 
 WeaponTweakData.clone__create_table_structure = WeaponTweakData._create_table_structure

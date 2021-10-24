@@ -155,7 +155,7 @@ function NewRaycastWeaponBase:moving_spread_penalty_reduction()
 	return spread_multiplier
 end
 
-function NewRaycastWeaponBase:update_spread(current_state, dt)	
+function NewRaycastWeaponBase:update_spread(current_state, t, dt)	
 	if not current_state then
 		self._current_spread = 0
 		return
@@ -166,23 +166,38 @@ function NewRaycastWeaponBase:update_spread(current_state, dt)
 		managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) * tweak_data.weapon.stat_info.spread_per_accuracy, 0.05)
 
 	--Moving penalty to spread, based on stability stat- added to total area.
-	if current_state._moving then
+	if current_state._moving or current_state._state_data.in_air then
 
 		--Get spread area from stability stat.
 		local moving_spread = math.max(self._spread_moving, 0)
 
 		--Add moving spread penalty reduction.
 		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
+
+		if current_state._state_data.in_air then
+			moving_spread = moving_spread * 2
+		end
+
 		spread_area = spread_area + moving_spread
 	end
 
-	--Apply bloom penalty to spread.
-	self._bloom_stacks = math.max(self._bloom_stacks - math.max((self._bloom_stacks^3)/2, 1) * dt, 0)
+	--Apply bloom penalty to spread. Decay existing stacks by desired amount.
+	--Bloom decay increases as more stacks are added, to provide a reasonable upper limit on stacks for full-auto guns.
+	if self._bloom_stacks > 0 then
+		local bloom_decay = math.max((self._bloom_stacks^2), 1) * dt * tweak_data.weapon.stat_info.stance_bloom_decay_rates[current_state:get_movement_state()]
+
+		--To ensure that stability remains relevant on really low rate of fire guns, and to improve the feel on fast-firing semi autos
+		--decay speed increases 4x if you're actively not shooting as fast as possible.
+		if t > self._next_fire_allowed then
+			bloom_decay = bloom_decay * 4
+		end
+		self._bloom_stacks = math.max(self._bloom_stacks - bloom_decay, 0)
+	end
+
 	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom)
 
-	--Apply skill and stance multipliers to overall spread area.
-	local multiplier = tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
-	spread_area = spread_area * multiplier
+	--Apply skill multipliers to overall spread area.
+	spread_area = spread_area * self:conditional_accuracy_multiplier(current_state)
 
 	--Convert spread area to degrees.
 	self._current_spread = math.sqrt((spread_area)/math.pi)

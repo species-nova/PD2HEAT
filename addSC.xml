@@ -147,9 +147,9 @@
 	<texture path="units/menu/menu_scene/menu_cylinder_smoke" force="true"/>
 	<texture path="units/menu/menu_scene/menu_cylinder_smoke_tile" force="true"/>
 	<material_config path="units/menu/menu_scene/menu_cylinder" force="true" />
-	
-	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
-	<!--<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>-->
+
+	<!-- Crosshair -->
+	<texture path="guis/textures/crosshair"/>
 	
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>

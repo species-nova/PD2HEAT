@@ -43,6 +43,7 @@
 		<hook file="sc/managers/hud/hudskills.lua" source_file="lib/managers/hud/HUDTemp"/>
 		<hook file="sc/managers/hud/huddodge.lua" source_file="lib/managers/hud/HUDTemp"/>
         <hook file="sc/managers/hud/hudeffect.lua" source_file="lib/managers/hud/HUDTemp"/>
+		<hook file="sc/managers/hud/hudcrosshair.lua" source_file="lib/managers/hudmanager"/>
         <!--///OVERHAUL\\\-->
 		<hook file="sc/network/base/hostnetworksession.lua" source_file="lib/network/base/hostnetworksession"/>
 		<hook file="sc/tweak_data/networktweakdata.lua" source_file="lib/tweak_data/networktweakdata"/>

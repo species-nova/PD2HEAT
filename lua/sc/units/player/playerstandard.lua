@@ -169,8 +169,6 @@ function PlayerStandard:_update_movement(t, dt)
 
 		if enter_moving then
 			self._last_sent_pos_t = t
-
-			self:_update_crosshair_offset()
 		end
 
 		mvector3.set(mvec_move_dir_normalized, self._move_dir)
@@ -227,7 +225,7 @@ function PlayerStandard:_update_movement(t, dt)
 			self._target_headbob = self._target_headbob * weapon_tweak_data.headbob.multiplier
 		end
 	elseif not mvector3.is_zero(self._last_velocity_xy) then
-        local decceleration = self._state_data.in_air and 250 or math.lerp(2000, 1500, math.min(self._last_velocity_xy:length() / WALK_SPEED_MAX, 1))
+		local decceleration = self._state_data.in_air and 250 or math.lerp(2000, 1500, math.min(self._last_velocity_xy:length() / WALK_SPEED_MAX, 1))
 		local achieved_walk_vel = math.step(self._last_velocity_xy, Vector3(), decceleration * dt)
 
 		pos_new = mvec_pos_new
@@ -250,9 +248,6 @@ function PlayerStandard:_update_movement(t, dt)
 		
 		self._moving = false
 		self._target_headbob = 0
-		
-
-		self:_update_crosshair_offset()
 	end
 
 	if self._headbob ~= self._target_headbob then
@@ -1258,15 +1253,66 @@ function PlayerStandard:_do_action_melee(t, input, skip_damage)
 	end
 end
 
+--Remove vanilla crosshair update function, and calls to it in functions that have been touched here.
+--The crosshair should only need to be updated once per frame, and it needs time data that many of the calls here do not provide.
+function PlayerStandard:_update_crosshair_offset(t)
+end
+
 --Updates burst fire and minigun spinup.
 Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
 	self:_update_burst_fire(t)
 		
 	local weapon = self._unit:inventory():equipped_unit():base()
-	weapon:update_spread(self, dt)
+	weapon:update_spread(self, t, dt)
 	if weapon:get_name_id() == "m134" then
 		weapon:update_spin()
 	end
+
+	--Update the crosshair.
+		local crosshair_visible = alive(self._equipped_unit) and
+								  not self:_is_meleeing() and
+								  not self:_interacting() and
+								  (not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
+
+		if crosshair_visible then
+			--Ensure that crosshair is actually visible.
+			managers.hud:set_crosshair_visible(true)
+
+			--Make the crosshair red when aiming at an enemy, or white otherwise.
+			if self._fwd_ray and self._fwd_ray.unit then
+				local unit = self._fwd_ray.unit
+				
+				if managers.enemy:is_enemy(unit) then
+					managers.hud:set_crosshair_color(Color.red)
+				else
+					managers.hud:set_crosshair_color(Color.white)
+				end
+			else
+				managers.hud:set_crosshair_color(Color.white)
+			end
+			
+			--Update hud's fov value. Easier and far less error prone to grab it here than there.
+			managers.hud:set_camera_fov(self._camera_unit:base()._fov.fov)
+
+			--Update crosshair size.
+				--Get current weapon's spread values to determine base size.
+				local crosshair_spread = weapon:_get_spread(self._unit)
+
+				--[[
+				--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
+				if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
+					crosshair_spread = crosshair_spread + (weapon._recoil) * 3
+					self._next_crosshair_jiggle = t + 0.1
+				end
+				]]
+
+				--Set the final size of the crosshair.
+				managers.hud:set_crosshair_offset(crosshair_spread)
+		else
+			--Hide the crosshair and set its size to 0 when it shouldn't be seen.
+			managers.hud:set_crosshair_visible(false)
+			managers.hud:set_crosshair_offset(0)
+		end
 end)
 
 --Deals with burst fire hud stuff when swapping from an underbarrel back to a weapon in burst fire.
@@ -1335,7 +1381,6 @@ function PlayerStandard:_start_action_steelsight(t, gadget_state)
 	self._steelsight_wanted = false
 	self._state_data.in_steelsight = true
 
-	self:_update_crosshair_offset()
 	self:_stance_entered()
 	self:_interupt_action_running(t)
 	self:_interupt_action_cash_inspect(t)
@@ -1591,6 +1636,23 @@ end
 Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_data)
 	self._ext_damage:set_dodge_points()
 	self._can_free_run = managers.player:has_category_upgrade("player", "can_free_run")
+
+	--Cooldown on crosshair expansion from shooting, allows for a satisfying jiggle for full auto guns.
+	self._next_crosshair_jiggle = 0.0
+
+	--Don't hide the crosshair during steelsight for weapons of these categories.
+	--Check for it whenever we enter PlayerStandard, or swap weapons.
+	self._crosshair_ignore_steelsight = true --self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+
+	--Set the crosshair to be visible.
+	managers.hud:show_crosshair_panel(true)
+end)
+
+--Update whenever the crosshair should ignore steelsights whenever the equipped gun changes.
+Hooks:PostHook(PlayerStandard, "inventory_clbk_listener", "ChangeActiveCategory", function(self, unit, event)
+	if event == "equip" then
+		self._crosshair_ignore_steelsight = true --self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+	end
 end)
 
 --Reload functions changed to allow for shotgun per-shell reloads to take ammo picked up over their duration into account.
