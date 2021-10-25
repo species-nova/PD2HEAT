@@ -306,4 +306,9 @@
 		<object force="true" path="units/payday2/props/shadow_mullplan/mullplan_branchbank_table_a" unload="true"/>
 		<unit force="true" path="units/payday2/props/shadow_mullplan/mullplan_branchbank_table_a" unload="true"/>
 	</add>
+	<add from_db="true" path="units/payday2/props/gen_prop_door_metal/gen_prop_door_metal_openable" type="unit">
+		<unit path="units/payday2/props/gen_prop_door_metal/gen_prop_door_metal_openable" unload="true"/>
+		<object path="units/payday2/props/gen_prop_door_metal/gen_prop_door_metal_openable" unload="true"/>
+		<material_config path="units/payday2/props/gen_prop_door_metal/gen_prop_door_metal" unload="true"/>
+	</add>
 </table>

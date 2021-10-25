@@ -1,25 +1,7 @@
-<table name="firestarter_res">
+<table name="firestarter_heat">
 	<level ai_group_type="america" brief_id="heist_firestarter_1_briefing" briefing_dialog="Play_pln_firestarter_stage1_brief" cube="cube_apply_heist_bank" id="firestarter_1_res" intro_event="Play_pln_firestarter_stage1_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_firestarter_01" max_bags="70" music="heist" name_id="heist_firestarter_1_hl" player_style="loud_suit">
 		<add file="levels/firestarter_1_res/add.xml"/>
 		<assets/>
-		<include directory="levels/firestarter_1_res">
-			<file file="world.world" type="binary"/>
-			<file file="continents.continents" type="binary"/>
-			<file file="mission.mission" type="binary"/>
-			<file file="nav_manager_data.nav_data" type="binary"/>
-			<file file="world_sounds.world_sounds" type="binary"/>
-			<file file="world_cameras.world_cameras" type="binary"/>
-			<file file="editor_only/editor_only.continent" type="binary"/>
-			<file file="editor_only/editor_only.mission" type="binary"/>
-			<file file="world/world.continent" type="binary"/>
-			<file file="world/world.mission" type="binary"/>
-			<file file="pc_only/pc_only.continent" type="binary"/>
-			<file file="pc_only/pc_only.mission" type="binary"/>
-			<file file="env/env.continent" type="binary"/>
-			<file file="env/env.mission" type="binary"/>
-			<file file="cover_data.cover_data" type="binary"/>
-			<file file="environments/firestarter1.environment" type="custom_xml"/>
-		</include>
 		<outro_event>
 			<value_node value="Play_pln_firestarter_stage1_end_a"/>
 			<value_node value="Play_pln_firestarter_stage1_end_b"/>
