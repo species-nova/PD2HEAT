@@ -9,28 +9,28 @@
 			<param key="sky_texture" value="guis/dlcs/cash/textures/pd2/safe_raffle/bg_black"/>
 			<param key="global_world_overlay_mask_texture" value=""/>
 			<param key="underlay" value="core/environments/skies/sky_1313_cloudy_dark/sky_1313_cloudy_dark"/>
-			<param key="sun_ray_color_scale" value="2.3945531845093"/>
+			<param key="sun_ray_color_scale" value="0.1"/>
 			<param key="global_world_overlay_texture" value=""/>
-			<param key="sun_ray_color" value="0.16862745583057 0 0"/>
-			<param key="global_texture" value="environments/cubemaps/cubemap_gold"/>
+			<param key="sun_ray_color" value="1 1 1"/>
+			<param key="global_texture" value="units/pd2_dlc_dah/environments/cubemaps/cubemap_dah_inner_vault"/>
 		</others>
 		<post_effect>
 			<deferred>
 				<deferred_lighting>
 					<apply_ambient>
 						<param key="ambient_scale" value="1"/>
-						<param key="sky_bottom_color" value="0 0.035294119268656 0"/>
+						<param key="sky_bottom_color" value="0 0 0"/>
 						<param key="fog_start_color" value="0 0 0"/>
 						<param key="effect_light_scale" value="1"/>
 						<param key="fog_far_low_color" value="0 0 0"/>
 						<param key="ambient_falloff_scale" value="0"/>
-						<param key="sky_bottom_color_scale" value="1.2133833169937"/>
-						<param key="ambient_color_scale" value="1.4281414747238"/>
-						<param key="ambient_color" value="0.078431375324726 0 0"/>
+						<param key="sky_bottom_color_scale" value="0.2"/>
+						<param key="ambient_color_scale" value="0.1"/>
+						<param key="ambient_color" value="1 1 1"/>
 						<param key="fog_max_range" value="55300.20703125"/>
 						<param key="bloom_threshold" value="0"/>
-						<param key="sky_top_color_scale" value="0.78386688232422"/>
-						<param key="sky_top_color" value="0.14117647707462 0 0"/>
+						<param key="sky_top_color_scale" value="0.1"/>
+						<param key="sky_top_color" value="1 1 1"/>
 						<param key="fog_min_range" value="0"/>
 						<param key="fog_max_density" value="1"/>
 					</apply_ambient>
@@ -52,8 +52,8 @@
 				<bloom_combine>
 					<bloom_lense>
 						<param key="lense_intensity" value="0"/>
-						<param key="bloom_blur_size" value="0"/>
-						<param key="bloom_intensity" value="0"/>
+						<param key="bloom_blur_size" value="2"/>
+						<param key="bloom_intensity" value="0.4"/>
 					</bloom_lense>
 				</bloom_combine>
 			</bloom_combine_post_processor>
