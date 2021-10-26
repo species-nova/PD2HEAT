@@ -6247,11 +6247,15 @@ function CharacterTweakData:_presets(tweak_data)
 						},
 						roll = {
 							chance = 3,
-							timeout = {3, 4}
+							timeout = {3, 4},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						},
 						wheel = {
 							chance = 1,
-							timeout = {1.2, 2}
+							timeout = {1.2, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						}
 					}
 				},
@@ -6267,11 +6271,15 @@ function CharacterTweakData:_presets(tweak_data)
 						},
 						roll = {
 							chance = 1,
-							timeout = {3, 4}
+							timeout = {3, 4},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						},
 						wheel = {
 							chance = 1,
-							timeout = {1.2, 2}
+							timeout = {1.2, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						}
 					}
 				},
@@ -6287,11 +6295,15 @@ function CharacterTweakData:_presets(tweak_data)
 						},
 						roll = {
 							chance = 3,
-							timeout = {3, 5}
+							timeout = {3, 5},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						},
 						wheel = {
 							chance = 1,
-							timeout = {1.2, 2}
+							timeout = {1.2, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						}
 					}
 				}
