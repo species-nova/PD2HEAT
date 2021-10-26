@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<unit type="cft" slot="1">
+  <object file="units/world/props/telephone_pole_suburbia/telephone_pole_suburbia" />
+  <extensions>
+    <extension name="unit_data" class="ScriptUnitData" />
+  </extensions>
+</unit>

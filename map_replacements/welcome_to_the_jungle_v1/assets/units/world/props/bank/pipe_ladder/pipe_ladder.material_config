@@ -1,0 +1,5 @@
+<materials version="3">
+    <material render_template="generic:DIFFUSE_TEXTURE" decal_material="cloth" version="2" name="pipe_ladder">
+        <diffuse_texture file="units/world/props/bank/pipe_ladder/pipe_ladder_df"/>
+    </material>
+</materials>

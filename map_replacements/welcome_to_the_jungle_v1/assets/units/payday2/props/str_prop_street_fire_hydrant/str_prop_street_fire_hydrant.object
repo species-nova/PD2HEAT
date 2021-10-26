@@ -1,0 +1,23 @@
+<dynamic_object>
+    <diesel orientation_object="rp_str_prop_street_fire_hydrant" materials="units/payday2/props/str_prop_street_fire_hydrant/str_prop_street_fire_hydrant" />
+    
+	<bodies>
+        <body enabled="true" template="static" name="static_body" >
+            <object name="rp_str_prop_street_fire_hydrant" />         
+            <object collision_type="capsule" name="c_capsule_000" padding="-2"/>
+
+        </body>
+		<body enabled="true" template="graph_blocker" name="nav_blocker0" >
+            <object collision_type="box" name="c_nav_blocker" padding="-2"/>
+        </body>
+    </bodies>
+	
+	<decal_surfaces default_material="metal">
+        <decal_mesh enabled="true" name="dm_metal" material="metal" />
+    </decal_surfaces>
+	
+	<graphics>
+        <object enabled="true" name="g_g" />
+		<object enabled="true" name="s_s" shadow_caster="true" />
+    </graphics>
+</dynamic_object>

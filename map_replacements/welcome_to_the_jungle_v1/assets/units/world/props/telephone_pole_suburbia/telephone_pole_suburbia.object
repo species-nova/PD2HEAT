@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<dynamic_object>
+  <diesel materials="units/world/props/telephone_pole_suburbia/telephone_pole_suburbia" orientation_object="rp_telephone_pole_suburbia" />
+  <bodies>
+    <body name="static_body" enabled="true" template="static">
+      <object name="c_telephone_pole_suburbia" collision_type="mesh_mopp" />
+    </body>
+  </bodies>
+  <decal_surfaces default_material="wood">
+	<decal_mesh name="g_telephone_pole_suburbia" enabled="true" material="wood"/>
+  </decal_surfaces>
+  <graphics>
+      <object name="g_telephone_pole_suburbia" shadow_caster="true" enabled="true"  />
+  </graphics>
+</dynamic_object>

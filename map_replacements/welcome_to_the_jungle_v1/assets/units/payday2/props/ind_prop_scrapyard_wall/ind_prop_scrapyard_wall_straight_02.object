@@ -1,0 +1,17 @@
+<dynamic_object>
+    <diesel orientation_object="rp_wall_straight_2" materials="units/payday2/props/ind_prop_scrapyard_wall/ind_prop_scrapyard_wall" />
+    <bodies>
+        <body enabled="true" template="static" name="static_body" >
+			<object name="c_box_01" collision_type="box" padding="-2.5"/>
+			<object name="c_box_02" collision_type="box" padding="-2.5"/>
+			<object name="c_box_03" collision_type="box" padding="-2.5"/>
+        </body>
+    </bodies>
+    <decal_surfaces>
+		<decal_mesh name="dm_concrete" enabled="true" material="concrete"/>
+    </decal_surfaces>
+    <graphics>
+        <object enabled="true" name="g_wall_straight_2" />
+        <object enabled="true" name="s_s" shadow_caster="true"/>
+    </graphics>
+</dynamic_object>

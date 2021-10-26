@@ -1,0 +1,34 @@
+<materials version="3">
+    <material name="mat_homerbuilding" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/homerbuilding_df"/>
+        <bump_normal_texture file="units/payday2/architecture/hcm/homerbuilding_nm"/>
+    </material>
+    <material name="mat_macybuilding" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/macybuilding_df"/>
+        <bump_normal_texture file="units/payday2/architecture/hcm/macybuilding_nm"/>
+    </material>
+    <material name="mat_farbackdrophouses_1" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/farbackdrophouses_1_df"/>
+        <bump_normal_texture file="units/payday2/architecture/hcm/farbackdrophouses_1_nm"/>
+    </material>
+    <material name="mat_farbackdrophouses_2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/farbackdrophouses_2_df"/>
+        <bump_normal_texture file="units/payday2/architecture/hcm/farbackdrophouses_2_nm"/>
+    </material>
+    <material name="mat_farbackdrophouses_3" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/farbackdrophouses_3_df"/>
+        <bump_normal_texture file="units/payday2/architecture/hcm/farbackdrophouses_3_nm"/>
+    </material>
+    <material name="mat_farbackdrophouses_4" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/farbackdrophouses_4_df"/>
+        <bump_normal_texture file="units/payday2/architecture/hcm/farbackdrophouses_4_nm"/>
+    </material>
+    <material name="mat_air_backdrop_vegetation" render_template="generic:ALPHA_MASKED:DIFFUSE_TEXTURE:DOUBLE_SIDED:EXTERNAL_ALPHA_REF:OPACITY_TEXTURE:RL_BACKDROP" version="2">
+        <variable value="0.5" type="scalar" name="alpha_ref"/>
+        <diffuse_texture file="units/payday2/architecture/air_backdrop/air_backdrop_vegetation_df"/>
+        <opacity_texture file="units/payday2/architecture/air_backdrop/air_backdrop_vegetation_op"/>
+    </material>
+    <material name="mat_backdrop_veg_and_prop" render_template="generic:DIFFUSE_TEXTURE:RL_BACKDROP" version="2">
+        <diffuse_texture file="units/payday2/architecture/hcm/backdrop_veg_and_prop_df"/>
+    </material>
+</materials>

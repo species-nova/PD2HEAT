@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<dynamic_object>
+	<diesel materials="units/world/architecture/diamondheist/props/diamondheist_roof_01" orientation_object="rp_diamondheist_roof_gen_large_01" />
+  <bodies enabled="true">
+    <body name="static_body" enabled="true" template="static">
+      <object name="rp_diamondheist_roof_gen_large_01" />
+			<object name="c_box_01" collision_type="box" padding="-2.5"/>
+			<object name="c_box_02" collision_type="box" padding="-2.5"/>
+			<object name="c_box_03" collision_type="box" padding="-2.5"/>
+			<object name="c_box_04" collision_type="box" padding="-2.5"/>
+			<object name="c_box_05" collision_type="box" padding="-2.5"/>
+			<object name="c_box_06" collision_type="box" padding="-2.5"/>
+			<object name="c_box_07" collision_type="box" padding="-2.5"/>
+			<object name="c_box_08" collision_type="box" padding="-2.5"/>
+		</body>
+	</bodies>
+  
+  <decal_surfaces default_material="metal_chassis">
+    <decal_mesh name="dm_dm" enabled="true" material="metal_chassis" />
+  </decal_surfaces>
+  
+  <graphics>
+    <object name="g_g" enabled="true" shadow_caster="true" instance_struct="world_tm"/>
+  </graphics>
+</dynamic_object> 

@@ -1,0 +1,8 @@
+<materials version="3">
+    <material name="blood_puddle" decal_material="water_puddle" render_template="opacity:CUBE_ENVIRONMENT_MAPPING:CUBE_FRESNEL:DIFFUSE_TEXTURE" version="2">
+        <variable value="1.4500000476837 0.13400000333786 1.2000000476837" type="vector3" name="fresnel_settings"/>
+        <opacity_texture file="units/world/brushes/puddle_blood/puddles_blood_df"/>
+        <diffuse_texture file="units/world/brushes/puddle_blood/puddles_blood_df"/>
+        <reflection_texture type="cubemap" global_texture="current_global_texture"/>
+    </material>
+</materials>

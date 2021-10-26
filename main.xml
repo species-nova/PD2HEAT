@@ -322,7 +322,7 @@
 		<hook file="sc/managers/menu/ContractBoxGUI.lua" source_file="lib/managers/menu/ContractBoxGUI"/>
 		<hook file="sc/core/managers/menu/items/menuitemslider.lua" source_file="core/lib/managers/menu/items/coremenuitemslider"/>
 		<hook file="sc/managers/menu/menupauserenderer.lua" source_file="lib/managers/menu/MenuPauseRenderer"/>
-		<!--///Comptatibility.\\\-->
+		<!--///COMPATIBILITY\\\-->
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
 		<hook file="sc/compatibility/WeaponStatGenerator.lua" source_file="lib/tweak_data/weapontweakdata"/>
 		<hook file="sc/compatibility/ModStatGenerator.lua" source_file="lib/tweak_data/weaponfactorytweakdata"/>

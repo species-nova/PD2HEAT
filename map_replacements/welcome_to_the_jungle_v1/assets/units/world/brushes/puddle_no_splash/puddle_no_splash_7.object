@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<dynamic_object>
+    <diesel materials="units/world/brushes/puddle_no_splash/puddles_blood" orientation_object="rp_puddle_7"/>
+    <bodies>
+        <body name="default_body" enabled="true" template="editor">
+            <object name="rp_puddle_7"/>
+            <object collision_type="box" enabled="true" name="g_blood_puddle_7"/>
+        </body>
+    </bodies>
+	<graphics>
+        <object enabled="true" name="g_blood_puddle_7"/>
+    </graphics>
+</dynamic_object>

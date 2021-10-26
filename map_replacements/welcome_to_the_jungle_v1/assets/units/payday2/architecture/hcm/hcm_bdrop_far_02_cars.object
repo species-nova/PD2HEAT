@@ -1,0 +1,13 @@
+<dynamic_object>
+    <diesel orientation_object="rp_hcm_bdrop_far_02_cars" materials="units/payday2/architecture/hcm/hcm_backdrop" />
+    <bodies>
+        <body enabled="true" template="editor" name="body0" >
+            <object collision_type="box" name="c_box_01" />
+            <object collision_type="box" name="c_box_02" />
+        </body>
+    </bodies>
+    <graphics>
+        <object enabled="true" name="rp_hcm_bdrop_far_02_cars" />
+        <object enabled="true" name="g_bnk_vehicles_car_2" />
+    </graphics>
+</dynamic_object>
