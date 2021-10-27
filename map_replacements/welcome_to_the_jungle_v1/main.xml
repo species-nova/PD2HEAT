@@ -2,24 +2,6 @@
 	<level ai_group_type="america" briefing_assets_gui="@IDeded1fc7ee5742f7@" briefing_dialog="Play_pln_bigoil_stage1_brief" cube="cube_apply_heist_bank" ghost_bonus="0.15" id="stage_1" intro_event="Play_pln_bigoil_stage1_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_01" max_bags="14" music="heist">
 		<add file="levels/stage_1/add.xml"/>
 		<assets/>
-		<include directory="levels/stage_1">
-			<file file="world.world" type="binary"/>
-			<file file="continents.continents" type="binary"/>
-			<file file="mission.mission" type="binary"/>
-			<file file="nav_manager_data.nav_data" type="binary"/>
-			<file file="world_sounds.world_sounds" type="binary"/>
-			<file file="world_cameras.world_cameras" type="binary"/>
-			<file file="pc_only/pc_only.continent" type="binary"/>
-			<file file="pc_only/pc_only.mission" type="binary"/>
-			<file file="world/world.continent" type="binary"/>
-			<file file="world/world.mission" type="binary"/>
-			<file file="backdrop/backdrop.continent" type="binary"/>
-			<file file="backdrop/backdrop.mission" type="binary"/>
-			<file file="editor_only/editor_only.continent" type="binary"/>
-			<file file="editor_only/editor_only.mission" type="binary"/>
-			<file file="cover_data.cover_data" type="binary"/>
-			<file file="environments/pd2_env_morning.environment" type="custom_xml"/>
-		</include>
 		<outro_event>
 			<value_node value="Play_pln_bigoil_stage1_end_a"/>
 			<value_node value="Play_pln_bigoil_stage1_end_b"/>
@@ -89,7 +71,7 @@
 	<Localization default="english.txt" directory="loc">
 		<loc file="english.txt" language="english"/>
 	</Localization>
-	<narrative contact="the_elephant" icon="guis/dlcs/bro/textures/pd2/crimenet/bigoil_01" id="welcome_to_the_jungle_wrapper_prof" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_01" brief_id="heist_welcome_to_the_jungle_crimenet" name_id="heist_welcome_to_the_jungle" briefing_event="elp_bigoil_brf" debrief_event="elp_bigoil_debrief">
+	<narrative brief_id="heist_welcome_to_the_jungle_crimenet" briefing_event="elp_bigoil_brf" contact="the_elephant" debrief_event="elp_bigoil_debrief" icon="guis/dlcs/bro/textures/pd2/crimenet/bigoil_01" id="welcome_to_the_jungle_wrapper_prof" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_01" name_id="heist_welcome_to_the_jungle">
 		<chain>
 			<table level_id="stage_1" type="d" type_id="heist_type_assault" world_setting="day">
 				<mission_filter>

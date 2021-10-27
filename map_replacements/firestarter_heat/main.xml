@@ -23,23 +23,6 @@
 	<level ai_group_type="america" brief_id="heist_firestarter_2_briefing" briefing_dialog="Play_pln_firestarter_stage2_brief" cube="cube_apply_heist_bank" ghost_bonus="0.15" id="firestarter_2_res" intro_event="Play_pln_firestarter_stage2_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_firestarter_02" max_bags="80" music="heist" name_id="heist_firestarter_2_hl" player_style="sneak_suit">
 		<add file="levels/firestarter_2_res/add.xml"/>
 		<assets/>
-		<include directory="levels/firestarter_2_res">
-			<file file="world.world" type="binary"/>
-			<file file="continents.continents" type="binary"/>
-			<file file="mission.mission" type="binary"/>
-			<file file="nav_manager_data.nav_data" type="binary"/>
-			<file file="world_sounds.world_sounds" type="binary"/>
-			<file file="world_cameras.world_cameras" type="binary"/>
-			<file file="pc_only/pc_only.continent" type="binary"/>
-			<file file="pc_only/pc_only.mission" type="binary"/>
-			<file file="world/world.continent" type="binary"/>
-			<file file="world/world.mission" type="binary"/>
-			<file file="background/background.continent" type="binary"/>
-			<file file="background/background.mission" type="binary"/>
-			<file file="editor_only/editor_only.continent" type="binary"/>
-			<file file="editor_only/editor_only.mission" type="binary"/>
-			<file file="cover_data.cover_data" type="binary"/>
-		</include>
 		<outro_event>
 			<value_node value="Play_pln_firestarter_stage2_end_a"/>
 			<value_node value="Play_pln_firestarter_stage2_end_b"/>
@@ -63,21 +46,6 @@
 	<level ai_group_type="america" brief_id="heist_firestarter_3_briefing" briefing_dialog="Play_pln_firestarter_stage3_brief" cube="cube_apply_heist_bank" id="firestarter_3_res" intro_event="Play_pln_firestarter_stage3_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_branchbank" max_bags="128" music="heist" name_id="heist_firestarter_3_hl">
 		<add file="levels/firestarter_3_res/add.xml"/>
 		<assets/>
-		<include directory="levels/firestarter_3_res">
-			<file file="world.world" type="binary"/>
-			<file file="continents.continents" type="binary"/>
-			<file file="mission.mission" type="binary"/>
-			<file file="nav_manager_data.nav_data" type="binary"/>
-			<file file="world_sounds.world_sounds" type="binary"/>
-			<file file="world_cameras.world_cameras" type="binary"/>
-			<file file="world/world.continent" type="binary"/>
-			<file file="world/world.mission" type="binary"/>
-			<file file="pc_only/pc_only.continent" type="binary"/>
-			<file file="pc_only/pc_only.mission" type="binary"/>
-			<file file="editor_only/editor_only.continent" type="binary"/>
-			<file file="editor_only/editor_only.mission" type="binary"/>
-			<file file="cover_data.cover_data" type="binary"/>
-		</include>
 		<mission_data>
 			<table mission="default"/>
 		</mission_data>
