@@ -5,7 +5,11 @@
 	<model path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />	
 	<texture path="core/environments/skies/sky_heated_avenue/sky_heated_avenue_df" />
 	<texture path="environments/heated_hox_cubemap/outdoors" load="true" />	
-		
+
+	<!--hurt screen-->
+	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/hurt_screen" />
+	<texture path="effects/pd2_mod_heatgen/particles/character/playerscreen/textures/hurt_screen_df" load="true" />
+	
 	<!--new flashbangs-->
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties" />
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties_pdth" />
