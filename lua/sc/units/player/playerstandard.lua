@@ -1298,13 +1298,11 @@ Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
 				--Get current weapon's spread values to determine base size.
 				local crosshair_spread = weapon:_get_spread(self._unit)
 
-				--[[
 				--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
 				if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
-					crosshair_spread = crosshair_spread + (weapon._recoil) * 3
+					crosshair_spread = crosshair_spread + (weapon._recoil) * 2
 					self._next_crosshair_jiggle = t + 0.1
 				end
-				]]
 
 				--Set the final size of the crosshair.
 				managers.hud:set_crosshair_offset(crosshair_spread)
@@ -1791,7 +1789,8 @@ function PlayerStandard:_get_swap_speed_multiplier()
 	local weapon_tweak_data = self._equipped_unit:base():weapon_tweak_data()
 	local player_manager = managers.player
 	local base_multiplier = (weapon_tweak_data.swap_speed_multiplier or 1) --Base Multiplier reflects weapon base stats, and uses multiplicative values.
-	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment() + 1] --Get concealment bonus/penalty.
+	log(self._equipped_unit:base():get_concealment())
+	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment()] --Get concealment bonus/penalty.
 	local skill_multiplier = 1 --Skill multiplier reflects bonuses from skills, and has additive scaling to match other skills.
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "passive_swap_speed_multiplier", 1) - 1

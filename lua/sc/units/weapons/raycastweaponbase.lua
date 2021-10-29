@@ -42,8 +42,8 @@ local world_g = World
 local init_original = RaycastWeaponBase.init
 local setup_original = RaycastWeaponBase.setup
 
-function RaycastWeaponBase:init(...)
-	init_original(self, ...)
+function RaycastWeaponBase:init(unit)
+	init_original(self, unit)
 	
 	self._shoot_through_data = {
 		kills = 0,
@@ -59,15 +59,16 @@ function RaycastWeaponBase:init(...)
 		self._bullet_slotmask = managers.modifiers:modify_value("RaycastWeaponBase:setup:weapon_slot_mask", self._bullet_slotmask)
 	end
 
-	self._headshot_pierce_damage_mult = 1
+	self._headshot_pierce_damage_mult = 1 --See NewRaycastWeaponBase for where upgrades set this value.
 	self._shield_pierce_damage_mult = 0.5
 	self._can_shoot_through_head = self._can_shoot_through_enemy
+
+	--Partially determines bloom decay rate.
+	self._base_fire_rate = (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0)
 end
 
 function RaycastWeaponBase:setup(...)
 	setup_original(self, ...)
-	
-	--self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
 
 	--Use mobility stat to get the moving accuracy penalty.
 	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
@@ -77,38 +78,10 @@ function RaycastWeaponBase:setup(...)
 	self._bloom_stacks = 0
 	self._current_spread = 0
 
-	--Trackers for MG Specialist Ace
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
-			self._bullets_until_free = managers.player:upgrade_value(category, "full_auto_free_ammo")
-			break
-		end
-	end
+	--Tracker for shots without releasing trigger. Used by Mag Dumper and Bullet Hell.
 	self._shots_without_releasing_trigger = 0
 
 	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
-
-	--Flag for Shell Shocked
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		if managers.player:has_category_upgrade(category, "last_shot_stagger") then
-			self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-			managers.hud:add_skill(category .. "_last_shot_stagger")
-			break
-		end
-	end
-
-	--Shots required for Bullet Hell
-	if managers.player:has_category_upgrade("temporary", "bullet_hell") then
-		local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
-		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
-	end
-end
-
---Check for ShellShocked.
-local on_reload_original = RaycastWeaponBase.on_reload
-function RaycastWeaponBase:on_reload(...)
-	self:check_last_bullet_stagger()
-	on_reload_original(self, ...)
 end
 
 --Fire no longer memes on shields.
@@ -761,19 +734,10 @@ function RaycastWeaponBase:_fire_sound(...)
 	end
 end
 
---Shell Shocked Skill Reset
-function RaycastWeaponBase:check_last_bullet_stagger()
-	if self:get_ammo_remaining_in_clip() >= self:get_ammo_max_per_clip() then
-		for _, category in ipairs(self:weapon_tweak_data().categories) do
-			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
-				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-				managers.hud:add_skill(category .. "_last_shot_stagger")
-				break
-			end
-		end
-	end
+function RaycastWeaponBase:update_next_shooting_time()
+	local next_fire = self._base_fire_rate / self:fire_rate_multiplier()
+	self._next_fire_allowed = self._next_fire_allowed + next_fire
 end
-
 
 --Adds auto fire sound fix, Shell Shocked skill, and MG Specialist skill.
 function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, target_unit)
@@ -788,12 +752,12 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local is_player = self._setup.user_unit == managers.player:player_unit()
 	local consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) or not is_player
 
+	if self._current_spread_area then
+		log(math.round(self._current_spread_area*100)/100)
+	end
+
 	if is_player then
-		self._bloom_stacks = self._bloom_stacks + 1
-
-		log("Bloom = " .. self._bloom_stacks)
-		log("Spread = " .. self._current_spread)
-
+		self._bloom_stacks = math.min(self._bloom_stacks + 1, tweak_data.weapon.stat_info.bloom_data.max_stacks)
 
 		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
@@ -910,6 +874,64 @@ function RaycastWeaponBase:stop_shooting()
 	end
 end
 
+--Calculate spread value. Done once per frame.
+function RaycastWeaponBase:update_spread(current_state, t, dt)	
+	if not current_state then
+		self._current_spread = 0
+		return
+	end
+
+	--Get spread area from accuracy stat.
+	local spread_area = self._spread
+		+ managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint)
+		* tweak_data.weapon.stat_info.spread_per_accuracy
+
+	--Moving penalty to spread, based on stability stat- added to total area.
+	if current_state._moving or current_state._state_data.in_air then
+
+		--Get spread area from stability stat.
+		local moving_spread = math.max(self._spread_moving, 0)
+
+		--Add moving spread penalty reduction.
+		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
+
+		if current_state._state_data.in_air then
+			moving_spread = moving_spread * 2
+		end
+
+		spread_area = spread_area + moving_spread
+	end
+
+	--Apply bloom penalty to spread. Decay existing stacks by desired amount.
+	--Bloom decay increases as more stacks are added, to provide a reasonable upper limit on stacks for full-auto guns.
+	if self._bloom_stacks > 0 then
+		local bloom_decay = dt * tweak_data.weapon.stat_info.bloom_data.hot_decay
+
+		--tweak_data.weapon.stat_info.stance_bloom_decay_rates[current_state:get_movement_state()]
+
+		--To ensure that stability remains relevant on really low rate of fire guns, and to improve the feel on fast-firing semi autos
+		--decay speed increases based on time spent not shooting.
+		if t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.cold_delay then
+			bloom_decay = bloom_decay * tweak_data.weapon.stat_info.bloom_data.cold_decay * ((t - self._next_fire_allowed)/self._base_fire_rate)
+		end
+
+		self._bloom_stacks = math.max(self._bloom_stacks - bloom_decay, 0)
+
+		if not self._old_stax and self._old_stax ~= -1 and self._bloom_stacks > 0 then
+			self._old_stax = self._bloom_stacks
+		end
+	end
+
+	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom)
+
+	--Apply skill multipliers to overall spread area.
+	spread_area = spread_area * tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
+
+	self._current_spread_area = spread_area
+
+	--Convert spread area to degrees.
+	self._current_spread = math.sqrt((spread_area)/math.pi)
+end
 
 --Multipliers for overall spread.
 function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
@@ -920,11 +942,13 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 		mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase
 	end
 
+	local pm = managers.player
+
+	mul = mul * pm:get_property("desperado", 1)
+
 	if not current_state then
 		return mul
 	end
-
-	local pm = managers.player
 
 	if current_state:in_steelsight() then
 		for _, category in ipairs(self:categories()) do
@@ -936,7 +960,7 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 		end
 	end
 
-	mul = mul * pm:get_property("desperado", 1)
+	mul = mul * pm:temporary_upgrade_value("temporary", "silent_precision", 1)
 
 	return mul
 end
@@ -950,57 +974,10 @@ function RaycastWeaponBase:moving_spread_penalty_reduction()
 	return spread_multiplier
 end
 
---Simpler spread function. Determines area bullets can hit then converts that to the max degrees by which the rays can fire.
+--Return cached spread value.
 function RaycastWeaponBase:_get_spread(user_unit)
-	local current_state = user_unit:movement()._current_state
-	if not current_state then
-		return 0, 0
-	end
-
-	--Get spread area from accuracy stat.
-	local spread_area = math.max(self._spread + 
-		managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) * tweak_data.weapon.stat_info.spread_per_accuracy, 0.05)
-	
-	--Moving penalty to spread, based on stability stat- added to total area.
-	if current_state._moving then
-		--Get spread area from stability stat.
-		local moving_spread = math.max(self._spread_moving + managers.blackmarket:stability_index_addend(self:categories(), self._silencer) * tweak_data.weapon.stat_info.spread_per_stability, 0)
-		--Add moving spread penalty reduction.
-		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
-		spread_area = spread_area + moving_spread
-	end
-
-	--Apply skill and stance multipliers to overall spread area.
-	local multiplier = tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
-	spread_area = spread_area * multiplier
-
-
-	--Convert spread area to degrees.
-	local spread_x = math.sqrt((spread_area)/math.pi)
-	local spread_y = spread_x
-
-	return spread_x, spread_y
-end
-
-function RaycastWeaponBase:on_equip(user_unit)
-	self:_check_magazine_empty()
-
-	if self._stagger_on_last_shot then
-		local categories = self:categories()
-		managers.hud:add_skill(categories[1] .. "_last_shot_stagger")
-	end
-end
-
-function RaycastWeaponBase:on_unequip(user_unit)
-	if self._tango_4_data then
-		self._tango_4_data = nil
-	end
-
-	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
-	managers.hud:remove_skill("bullet_hell")
-
-	local categories = self:categories()
-	managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
+	local spread = self._current_spread or self._spread
+	return spread, spread
 end
 
 function RaycastWeaponBase:remove_ammo(percent)

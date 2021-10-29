@@ -316,10 +316,6 @@ function PlayerInventoryGui:_update_info_weapon(name)
 			if math.round(value) >= 100 then
 				self._stats_texts[stat.name].total:set_color(tweak_data.screen_colors.stat_maxed)
 			end
-		elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-			if base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value >= tweak_data.concealment_cap then
-				self._stats_texts.concealment.total:set_color(tweak_data.screen_colors.stat_maxed)
-			end
 		elseif stat.index then
 			--nothing
 		elseif tweak_stats[stat.name] then

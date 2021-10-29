@@ -2223,8 +2223,8 @@ function WeaponTweakData:_init_stats()
 	--Generate table for moving_spread and how it relates to mobility.
 	--The values in the table correspond to the area of spread.
 	--These are added to the area for accuracy while moving before determining the final angles.
-	self.stat_info.base_move_spread = 5
-	self.stat_info.spread_per_mobility = -0.2
+	self.stat_info.base_move_spread = 8
+	self.stat_info.spread_per_mobility = -0.32
 	self.stats.spread_moving = {}
 	for i = 0, 25, 1 do
 		table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
@@ -2267,8 +2267,8 @@ function WeaponTweakData:_init_stats()
 		2.5
 	}
 
-	self.stat_info.base_bloom_spread = 3.0 --Amount of spread each stack of bloom gives.
-	self.stat_info.spread_per_stability = -0.12 --Amount bloom spread is reduced by stability.
+	self.stat_info.base_bloom_spread = 1.75 --Amount of spread each stack of bloom gives.
+	self.stat_info.spread_per_stability = -0.07 --Amount bloom spread is reduced by stability.
 	self.stat_info.bloom_spread = {}
 	for i = 0, 25, 1 do
 		table.insert(self.stat_info.bloom_spread, self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability))
@@ -2276,21 +2276,28 @@ function WeaponTweakData:_init_stats()
 
 	--Stance multipliers for weapon for the seconds/rate to remove 1 stack.
 	--Stacks above 1 are removed at an exponentially faster rate to keep things constrained on high fire-rate guns.
-	self.stat_info.stance_bloom_decay_rates = {
-		standing = 0.5,
-		moving_standing = 0.5,
-		crouching = 0.666667,
-		moving_crouching = 0.666667,
-		steelsight = 0.8333333,
-		moving_steelsight = 0.8333333,
-		bipod = 0.8333333
+	self.stat_info.bloom_data = {
+		hot_decay = 0.25,
+		cold_delay = 0.25,
+		cold_decay = 3,
+		max_stacks = 6
+	}
+
+	self.stat_info.stance_spread_mults = {
+		standing = 1,
+		moving_standing = 1,
+		crouching = 0.75,
+		moving_crouching = 0.75,
+		steelsight = 0.5,
+		moving_steelsight = 0.5,
+		bipod = 0.4
 	}
 
 	--Stance multipliers for weapon recoil.
 	self.stat_info.stance_recoil_mults = {
 		standing = 1,
-		crouching = 0.8,
-		steelsight = 0.6
+		crouching = 0.75,
+		steelsight = 0.5
 	}
 
 	--Recoil multiplier. Used for stability.
@@ -2701,10 +2708,10 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.amcar.supported = true
 	self.amcar.stats = {
 		damage = 20,
-		spread = 21,
+		spread = 19,
 		recoil = 19,
 		zoom = 1,
-		concealment = 16,
+		concealment = 19,
 		suppression = 9,
 		alert_size = 2,
 		extra_ammo = 101,
@@ -3236,9 +3243,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.colt_1911.timers.reload_interrupt = 0.36
 	self.colt_1911.timers.empty_reload_interrupt = 0.25
 
+	]]
 	--MAC-10
 	self.mac10.CLIP_AMMO_MAX = 20
-	self.mac10.AMMO_MAX = 60
 	self.mac10.fire_mode_data.fire_rate = 0.06
 	self.mac10.auto.fire_rate = 0.06
 	self.mac10.kick = self.stat_info.kick_tables.even_recoil
@@ -3247,9 +3254,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		damage = 30,
 		spread = 15,
 		recoil = 17,
-		spread_moving = 8,
 		zoom = 1,
-		concealment = 22,
+		concealment = 17,
 		suppression = 7,
 		alert_size = 2,
 		extra_ammo = 101,
@@ -3260,7 +3266,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mac10.stats_modifiers = nil
 	self.mac10.timers.reload_not_empty = 1.55
 	self.mac10.timers.reload_empty = 2.4	
-
+	
+	--[[
 	--Loco 12g
 	self.serbu.rays = 9
 	self.serbu.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -3349,21 +3356,20 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.b92fs.timers.reload_interrupt = 0.36
 	self.b92fs.timers.empty_reload_interrupt = 0.25
 
+	]]
 	--Bronco
 	self.new_raging_bull.fire_mode_data = {}
 	self.new_raging_bull.fire_mode_data.fire_rate = 0.19047619047
 	self.new_raging_bull.single = {}
 	self.new_raging_bull.single.fire_rate = 0.19047619047
-	self.new_raging_bull.AMMO_MAX = 30
 	self.new_raging_bull.kick = self.stat_info.kick_tables.moderate_kick
 	self.new_raging_bull.supported = true
 	self.new_raging_bull.stats = {
 		damage = 60,
-		spread = 17,
-		recoil = 18,
-		spread_moving = 5,
+		spread = 20,
+		recoil = 10,
 		zoom = 1,
-		concealment = 24,
+		concealment = 23,
 		suppression = 5,
 		alert_size = 2,
 		extra_ammo = 101,
@@ -3376,6 +3382,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_raging_bull.timers.reload_empty = 2.4		
 	self.new_raging_bull.timers.reload_interrupt = 0.16
 	self.new_raging_bull.timers.empty_reload_interrupt = 0.16
+	--[[
 
 	--OVE9000 Saw
 	self.saw.has_description = true
@@ -3783,8 +3790,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m95.supported = true
 	self.m95.stats = {
 		damage = 180,
-		spread = 26,
-		recoil = 4,
+		spread = 25,
+		recoil = 9,
 		zoom = 1,
 		concealment = 6,
 		suppression = 2,

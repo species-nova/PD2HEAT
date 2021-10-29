@@ -3058,10 +3058,6 @@ function BlackMarketGui:show_stats()
 				if math.round(value) >= 100 then
 					self._stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.stat_maxed)
 				end
-			elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-				if base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value >= tweak_data.concealment_cap then
-					self._stats_texts.concealment.equip:set_color(tweak_data.screen_colors.stat_maxed)
-				end
 			elseif stat.index then
 				--nothing
 			elseif tweak_stats[stat.name] then
@@ -3183,10 +3179,6 @@ function BlackMarketGui:show_stats()
 				if stat.percent then
 					if math.round(value) >= 100 then
 						self._stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.stat_maxed)
-					end
-				elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-					if base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value >= tweak_data.concealment_cap then
-						self._stats_texts.concealment.equip:set_color(tweak_data.screen_colors.stat_maxed)
 					end
 				elseif stat.index then
 					--nothing
@@ -3767,10 +3759,6 @@ function BlackMarketGui:show_stats()
 			if stat.percent then
 				if math.round(total_value) >= 100 then
 					self._stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.stat_maxed)
-				end
-			elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-				if total_base_stats.concealment.value + total_mods_stats.concealment.value + total_skill_stats.concealment.value >= tweak_data.concealment_cap then
-					self._stats_texts.concealment.equip:set_color(tweak_data.screen_colors.stat_maxed)
 				end
 			elseif stat.index then
 				--nothing
