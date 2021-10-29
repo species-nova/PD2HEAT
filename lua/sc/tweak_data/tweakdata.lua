@@ -7,6 +7,46 @@ end
 tweak_data.screen_colors.button_stage_2 = Color(255, 1, 161, 255) / 255
 tweak_data.screen_colors.button_stage_3 = Color(127, 1, 161, 255) / 255
 
+local orange = Vector3(204, 161, 102) / 255
+local green = Vector3(194, 252, 151) / 255
+local brown = Vector3(178, 104, 89) / 255
+local blue = Vector3(120, 183, 204) / 255
+local team_ai = Vector3(0.2, 0.8, 1)
+tweak_data.peer_vector_colors = {
+	green,
+	blue,
+	brown,
+	orange,
+	team_ai
+}
+tweak_data.peer_colors = {
+	"mrgreen",
+	"mrblue",
+	"mrbrown",
+	"mrorange",
+	"mrai"
+}
+tweak_data.system_chat_color = Color(255, 255, 212, 0) / 255
+tweak_data.chat_colors = {
+	Color(tweak_data.peer_vector_colors[1]:unpack()),
+	Color(tweak_data.peer_vector_colors[2]:unpack()),
+	Color(tweak_data.peer_vector_colors[3]:unpack()),
+	Color(tweak_data.peer_vector_colors[4]:unpack()),
+	Color(tweak_data.peer_vector_colors[5]:unpack())
+}
+tweak_data.preplanning_peer_colors = {
+	Color("ff82991e"),
+	Color("ff0055ff"),
+	Color("ffff7800"),
+	Color("ffffff00")
+	
+}
+tweak_data.contour.interactable_icon = {
+	standard_color = Vector3(0.905, 0.054, 0.235), --0,0,0
+	selected_color = Vector3(0.003, 0.63, 1), --0,1,0
+	standard_opacity = 0
+}
+
 tweak_data.ammo = {}
 tweak_data.ammo.ricochet = {}
 tweak_data.ammo.ricochet.max_ricochets = 5
