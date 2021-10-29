@@ -4504,7 +4504,7 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			{
 				r = 450,
-				acc = {0.3, 0.6},
+				acc = {0.4, 0.7},
 				dmg_mul = 1,
 				recoil = {0.3, 0.3},
 				burst_size = 3
@@ -4525,14 +4525,14 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			{
 				r = 1800,
-				acc = {0.5, 0.8},
+				acc = {0.3, 0.6},
 				dmg_mul = 1,
 				recoil = {0.6, 0.6},
 				burst_size = 1
 			},
 			{
 				r = 3600,
-				acc = {0.5, 0.8},
+				acc = {0.25, 0.5},
 				dmg_mul = 0.5,
 				recoil = {0.9, 0.9},
 				burst_size = 1
@@ -6247,11 +6247,15 @@ function CharacterTweakData:_presets(tweak_data)
 						},
 						roll = {
 							chance = 3,
-							timeout = {3, 4}
+							timeout = {3, 4},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						},
 						wheel = {
 							chance = 1,
-							timeout = {1.2, 2}
+							timeout = {1.2, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						}
 					}
 				},
@@ -6267,11 +6271,15 @@ function CharacterTweakData:_presets(tweak_data)
 						},
 						roll = {
 							chance = 1,
-							timeout = {3, 4}
+							timeout = {3, 4},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						},
 						wheel = {
 							chance = 1,
-							timeout = {1.2, 2}
+							timeout = {1.2, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						}
 					}
 				},
@@ -6287,11 +6295,15 @@ function CharacterTweakData:_presets(tweak_data)
 						},
 						roll = {
 							chance = 3,
-							timeout = {3, 5}
+							timeout = {3, 5},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						},
 						wheel = {
 							chance = 1,
-							timeout = {1.2, 2}
+							timeout = {1.2, 2},
+							shoot_chance = 1,
+							shoot_accuracy = 0.8
 						}
 					}
 				}
@@ -9358,6 +9370,24 @@ function CharacterTweakData:character_map()
 				"civ_male_dockworker_01",
 				"civ_male_dockworker_02",
 				"civ_male_dockworker_03"	
+			}
+		},
+		chca = {
+			path = "units/pd2_dlc_chca/characters/",
+			list = {
+				"civ_male_boss_1",
+				"civ_male_boss_2",
+				"ene_security_cruise_1",
+				"ene_security_cruise_2",
+				"ene_security_cruise_3",
+				"ene_triad_cruise_1",
+				"ene_triad_cruise_2",
+				"ene_triad_cruise_3",
+				"civ_male_bathhouse_1",
+				"civ_male_bathhouse_2",
+				"civ_male_bathhouse_3",
+				"civ_female_bathhouse_1",
+				"civ_female_bathhouse_2"
 			}
 		},
 		sharks = {

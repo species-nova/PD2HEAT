@@ -1,0 +1,16 @@
+<materials version="3">
+    <material version="2" render_template="generic:BLEND_DIFFUSE:BLEND_MASK_SEPERATE:BLEND_NORMAL:BLEND_SMOOTH:DIFFUSE_TEXTURE:NORMALMAP:RL_CORE_ENVIRONMENT:VERTEX_COLOR" name="mat_blend_gravel_to_mud">
+        <diffuse_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_1_df"/>
+        <diffuse_layer0_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_2_df"/>
+        <diffuse_layer1_texture file="units/payday2/nature/pnau/pnau_terrain/pnau_terrain_mossystone_01_mask_df"/>
+        <normal_layer0_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_1_nm"/>
+        <bump_normal_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_2_nm"/>
+    </material>
+    <material version="2" render_template="generic:BLEND_DIFFUSE:BLEND_MASK_SEPERATE:BLEND_NORMAL:BLEND_SMOOTH:DIFFUSE_TEXTURE:NORMALMAP:RL_CORE_ENVIRONMENT:VERTEX_COLOR" name="mat_blend_junk_to_mud">
+        <diffuse_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_0_df"/>
+        <diffuse_layer0_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_2_df"/>
+        <diffuse_layer1_texture file="units/payday2/nature/pnau/pnau_terrain/pnau_terrain_mossystone_01_mask_df"/>
+        <normal_layer0_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_0_nm"/>
+        <bump_normal_texture file="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_blend_2_nm"/>
+    </material>
+</materials>

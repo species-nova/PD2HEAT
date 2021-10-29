@@ -1,0 +1,141 @@
+<table name="welcome_to_the_jungle_v1">
+	<level ai_group_type="america" briefing_assets_gui="@IDeded1fc7ee5742f7@" briefing_dialog="Play_pln_bigoil_stage1_brief" cube="cube_apply_heist_bank" ghost_bonus="0.15" id="stage_1" intro_event="Play_pln_bigoil_stage1_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_01" max_bags="14" music="heist">
+		<add file="levels/stage_1/add.xml"/>
+		<assets/>
+		<outro_event>
+			<value_node value="Play_pln_bigoil_stage1_end_a"/>
+			<value_node value="Play_pln_bigoil_stage1_end_b"/>
+		</outro_event>
+		<packages>
+			<value_node value="packages/narr_jungle1"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/world"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/world_sounds"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/night_only/night_only"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/world/world"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/pc_only/pc_only"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/backdrop/backdrop"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/day_only/day_only"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_1/editor_only/editor_only"/>
+			<value_node value="levels/narratives/h_alex_must_die/stage_2/world/world"/>
+			<value_node value="levels/narratives/locke/mex/world/world"/>
+		</packages>
+		<script_data_mods directory="scriptdata">
+			<mod replacement="objectives.objective" replacement_type="custom_xml" target_ext="objective" target_path="gamedata/objectives">
+				<options merge_mode="add" mode="add"/>
+			</mod>
+		</script_data_mods>
+	</level>
+	<level ai_group_type="america" briefing_assets_gui="@ID22163786cf7929ac@" briefing_dialog="Play_pln_bigoil_stage2_brief" cube="cube_apply_heist_bank" id="stage_2" intro_event="Play_pln_bigoil_stage2_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_02" max_bags="15" music="heist">
+		<add directory="assets"/>
+		<assets/>
+		<include directory="levels/stage_2">
+			<file file="world.world" type="binary"/>
+			<file file="mission.mission" type="binary"/>
+			<file file="nav_manager_data.nav_data" type="binary"/>
+			<file file="cover_data.cover_data" type="binary"/>
+			<file file="world_sounds.world_sounds" type="binary"/>
+			<file file="world_cameras.world_cameras" type="binary"/>
+			<file file="world_cameras.world_cameras" type="binary"/>
+			<file file="continents.continents" type="binary"/>
+			<file file="pc_only/pc_only.continent" type="binary"/>
+			<file file="pc_only/pc_only.mission" type="binary"/>
+			<file file="world/world.continent" type="binary"/>
+			<file file="world/world.mission" type="binary"/>
+			<file file="backdrop/backdrop.continent" type="binary"/>
+			<file file="backdrop/backdrop.mission" type="binary"/>
+			<file file="editor_only/editor_only.continent" type="binary"/>
+			<file file="editor_only/editor_only.mission" type="binary"/>
+			<file file="nature/nature.continent" type="binary"/>
+			<file file="nature/nature.mission" type="binary"/>
+		</include>
+		<outro_event>
+			<value_node value="Play_pln_bigoil_stage2_end_a"/>
+			<value_node value="Play_pln_bigoil_stage2_end_b"/>
+		</outro_event>
+		<packages>
+			<value_node value="packages/narr_jungle2"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/world"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/world_sounds"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/pc_only/pc_only"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/world/world"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/backdrop/backdrop"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/editor_only/editor_only"/>
+			<value_node value="levels/narratives/e_welcome_to_the_jungle/stage_2/nature/nature"/>
+		</packages>
+		<script_data_mods directory="scriptdata">
+			<mod replacement="objectives.objective" replacement_type="custom_xml" target_ext="objective" target_path="gamedata/objectives">
+				<options merge_mode="add" mode="add"/>
+			</mod>
+		</script_data_mods>
+	</level>
+	<Localization default="english.txt" directory="loc">
+		<loc file="english.txt" language="english"/>
+	</Localization>
+	<narrative brief_id="heist_welcome_to_the_jungle_crimenet" briefing_event="elp_bigoil_brf" contact="the_elephant" debrief_event="elp_bigoil_debrief" icon="guis/dlcs/bro/textures/pd2/crimenet/bigoil_01" id="welcome_to_the_jungle_wrapper_prof" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_01" name_id="heist_welcome_to_the_jungle">
+		<chain>
+			<table level_id="stage_1" type="d" type_id="heist_type_assault" world_setting="day">
+				<mission_filter>
+					<value_node value="1"/>
+				</mission_filter>
+			</table>
+			<table level_id="stage_2" type="c" type_id="heist_type_stealth">
+				<mission_filter>
+					<value_node value="1"/>
+				</mission_filter>
+			</table>
+		</chain>
+		<contract_cost>
+			<value_node value="4000"/>
+			<value_node value="8000"/>
+			<value_node value="20000"/>
+			<value_node value="40000"/>
+			<value_node value="100000"/>
+			<value_node value="100000"/>
+			<value_node value="100000"/>
+		</contract_cost>
+		<crimenet_callouts>
+			<value_node value="elp_bigoil_cnc_01"/>
+		</crimenet_callouts>
+		<crimenet_videos>
+			<value_node value="cn_bigoil1"/>
+			<value_node value="cn_bigoil2"/>
+			<value_node value="cn_bigoil3"/>
+		</crimenet_videos>
+		<experience_mul>
+			<value_node value="1"/>
+			<value_node value="1"/>
+			<value_node value="1"/>
+			<value_node value="1"/>
+			<value_node value="3"/>
+			<value_node value="3"/>
+			<value_node value="3"/>
+		</experience_mul>
+		<max_mission_xp>
+			<value_node value="8000"/>
+			<value_node value="8000"/>
+			<value_node value="8000"/>
+			<value_node value="8000"/>
+			<value_node value="8000"/>
+			<value_node value="8000"/>
+			<value_node value="8000"/>
+		</max_mission_xp>
+		<min_mission_xp>
+			<value_node value="2000"/>
+			<value_node value="2000"/>
+			<value_node value="2000"/>
+			<value_node value="2000"/>
+			<value_node value="2000"/>
+			<value_node value="2000"/>
+			<value_node value="2000"/>
+		</min_mission_xp>
+		<payout>
+			<value_node value="6000"/>
+			<value_node value="12000"/>
+			<value_node value="30000"/>
+			<value_node value="50000"/>
+			<value_node value="60000"/>
+			<value_node value="60000"/>
+			<value_node value="60000"/>
+		</payout>
+	</narrative>
+</table>

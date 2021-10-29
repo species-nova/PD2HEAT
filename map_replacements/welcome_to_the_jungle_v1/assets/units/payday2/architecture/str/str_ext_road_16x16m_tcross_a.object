@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<dynamic_object>
+	<diesel materials="units/payday2/architecture/str/str_road" orientation_object="rp_str_ext_road_16x16m_tcross_a" />
+    <bodies>
+        <body name="static_body" template="static" enabled="true" >
+            <object name="rp_str_ext_road_16x16m_tcross_a"/>
+			<object name="c_box_01" collision_type="box" padding="-2.5"/>
+			<object name="c_mesh_01" collision_type="mesh_mopp" />
+        </body>
+    </bodies>
+	
+	<decal_surfaces default_material="stone" static="true">
+		<decal_mesh name="g_str_ext_road_16x16m_tcross_a" material="stone" enabled="true"/>
+	</decal_surfaces> 
+	
+    <graphics>
+        <object enabled="true" name="g_str_ext_road_16x16m_tcross_a" />
+        <object enabled="true" name="g_str_ext_road_16x16m_tcross_a_marking" />
+    </graphics>
+</dynamic_object> 

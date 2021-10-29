@@ -206,7 +206,13 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 	local c_ref = self._bg_unit:get_object(Idstring("a_reference"))
 	local target_pos = Vector3(0, 0, ref:position().z)
 	local offset = Vector3(ref:position().x, ref:position().y, 0)
+	
 	self._scene_templates.standard.lights = {
+		self:_create_light({ --Fill Front
+			far_range = 200,
+			color = Vector3(1, 1, 1) * 0.1,
+			position = Vector3(-55, -100, 30)
+		}),
 		self:_create_light({ --Key Left
 			far_range = 200,
 			color = Vector3(0.003, 0.315, 1) * 4,
@@ -214,7 +220,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		}),
 		self:_create_light({ --Key Right
 			far_range = 160,
-			color = Vector3(0.905, 0.054, 0.235) * 1,
+			color = Vector3(0.905, 0.054, 0.235) * 2,
 			position = Vector3(35, -13, 26)
 		}),
 		self:_create_light({ --Rim Left
@@ -228,7 +234,9 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 			position = Vector3(-11, 89, 56)
 		})
 	}
+	
 	self._scene_templates.standard.show_mm10_event = false
+	
 	self._scene_templates.infamy_preview = {
 		fov = 40,
 		can_change_fov = false,
@@ -271,6 +279,14 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 			})
 		}
 	}
+	
+	self._scene_templates.character_customization = {
+		use_character_grab = true,
+		camera_pos = Vector3(-73.1618, -168.021, -35.0786),
+		target_pos = Vector3(-73.1618, -168.021, -35.0786) + Vector3(0.31113, 0.944697, -0.103666) * 100,
+		lights = clone(self._scene_templates.standard.lights)
+	}
+	
 	self._scene_templates.lobby = {
 		use_character_grab = false,
 		hide_menu_logo = true,
@@ -280,25 +296,34 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		lobby_characters_visible = true,
 		fov = 40,
 		lights = {
-			self:_create_light({
+			-- self:_create_light({ --Fill Front
+				-- far_range = 300,
+				-- color = Vector3(1, 1, 1) * 0.1,
+				-- position = Vector3(-175, -10, -8)
+			-- }),
+			self:_create_light({ --Key Red
 				far_range = 300,
-				color = Vector3(0.86, 0.57, 0.31) * 3,
-				position = Vector3(56, 100, -10)
+				color = Vector3(0.905, 0.054, 0.235) * 2,
+				position = Vector3(-40, -144, -27)
 			}),
-			self:_create_light({
-				far_range = 3000,
-				specular_multiplier = 6,
-				color = Vector3(1, 2.5, 4.5) * 3,
-				position = Vector3(-1000, -300, 800)
+			self:_create_light({ --Key Blue
+				far_range = 300,
+				color = Vector3(0.003, 0.315, 1) * 4,
+				position = Vector3(-13, 116, 61)
 			}),
-			self:_create_light({
-				far_range = 800,
-				specular_multiplier = 0,
-				color = Vector3(1, 1, 1) * 0.35,
-				position = Vector3(300, 100, 0)
+			self:_create_light({ --Rim Left
+				far_range = 220,
+				color = Vector3(1, 1, 1) * 6,
+				position = Vector3(-150, -50, 80)
+			}),
+			self:_create_light({ --Rim Right
+				far_range = 200,
+				color = Vector3(1, 1, 1) * 6,
+				position = Vector3(-160, 50, 56)
 			})
 		}
 	}
+	
 	self._scene_templates.lobby1 = {
 		use_character_grab = false,
 		lobby_characters_visible = true,
@@ -308,6 +333,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		fov = 30,
 		lights = clone(self._scene_templates.lobby.lights)
 	}
+	
 	self._scene_templates.lobby2 = {
 		use_character_grab = false,
 		lobby_characters_visible = true,
@@ -317,6 +343,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		fov = 30,
 		lights = clone(self._scene_templates.lobby.lights)
 	}
+	
 	self._scene_templates.lobby3 = {
 		use_character_grab = false,
 		lobby_characters_visible = true,
@@ -326,6 +353,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		fov = 30,
 		lights = clone(self._scene_templates.lobby.lights)
 	}
+	
 	self._scene_templates.lobby4 = {
 		use_character_grab = false,
 		lobby_characters_visible = true,
@@ -335,6 +363,91 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		fov = 30,
 		lights = clone(self._scene_templates.lobby.lights)
 	}
+	
+	self._scene_templates.blackmarket_item.lights = {
+		self:_create_light({ -- Top
+			far_range = 350,
+			specular_multiplier = 155,
+			color = Vector3(1, 1, 1) * 8,
+			position = Vector3(40, 0, 300)
+		}),
+		self:_create_light({ -- Left
+			far_range = 450,
+			specular_multiplier = 155,
+			color = Vector3(1, 1, 1) * 0.5,
+			position = Vector3(100, -100, 200)
+		}),
+		self:_create_light({ -- Right
+			far_range = 370,
+			specular_multiplier = 55,
+			color = Vector3(0.95, 0.9, 1) * 2.25,
+			position = Vector3(200, 160, 180)
+		})
+	}
+	self._scene_templates.blackmarket_mask.lights = {
+		self:_create_light({ -- Top
+			far_range = 350,
+			specular_multiplier = 155,
+			color = Vector3(1, 1, 1) * 8,
+			position = Vector3(40, 0, 300)
+		}),
+		self:_create_light({ -- Left
+			far_range = 450,
+			specular_multiplier = 155,
+			color = Vector3(1, 1, 1) * 0.5,
+			position = Vector3(100, -100, 200)
+		}),
+		self:_create_light({ -- Right
+			far_range = 370,
+			specular_multiplier = 55,
+			color = Vector3(0.95, 0.9, 1) * 1.5,
+			position = Vector3(200, 160, 180)
+		})
+	}
+
+	self._scene_templates.inventory = {
+		fov = 50,
+		can_change_fov = true,
+		change_fov_sensitivity = 3,
+		use_character_grab2 = true,
+		use_character_pan = true,
+		character_visible = true,
+		recreate_character = true,
+		lobby_characters_visible = false,
+		hide_menu_logo = true,
+		camera_pos = ref:position(),
+		target_pos = target_pos - self._camera_start_rot:x() * 40 - self._camera_start_rot:z() * 5 + self._camera_start_rot:y() * 20,
+		character_pos = c_ref:position(),
+		remove_infamy_card = true
+	}
+	self._scene_templates.inventory.lights = {
+		self:_create_light({ --Fill Front
+			far_range = 200,
+			color = Vector3(1, 1, 1) * 0.9,
+			position = Vector3(-30, -100, 30)
+		}),
+		self:_create_light({ --Key Left
+			far_range = 200,
+			color = Vector3(0.003, 0.315, 1) * 5,
+			position = Vector3(-154, -6, 26)
+		}),
+		self:_create_light({ --Key Right
+			far_range = 160,
+			color = Vector3(0.905, 0.054, 0.235) * 2,
+			position = Vector3(35, -13, 26)
+		}),
+		self:_create_light({ --Rim Left
+			far_range = 200,
+			color = Vector3(1, 1, 1) * 8,
+			position = Vector3(-141, 65, 62)
+		}),
+		self:_create_light({ --Rim Right
+			far_range = 160,
+			color = Vector3(1, 1, 1) * 8,
+			position = Vector3(-11, 89, 56)
+		})
+	}
+	
 	self._scene_templates.blackmarket_customize = {
 		fov = 40,
 		use_item_grab = true,
@@ -346,6 +459,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		change_fov_sensitivity = 2,
 		camera_pos = Vector3(1500, -2000, 0)
 	}
+	
 	self._scene_templates.crime_spree_lobby = {
 		use_character_grab = false,
 		camera_pos = offset:rotate_with(Rotation(90)),
@@ -374,6 +488,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 			})
 		}
 	}
+	
 	self._scene_templates.crew_management = {
 		use_character_grab = false,
 		hide_menu_logo = true,
@@ -384,26 +499,35 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 		lobby_characters_visible = false,
 		henchmen_characters_visible = true,
 		fov = 40,
-		lights = {
-			self:_create_light({
+		lights  = {
+			self:_create_light({ --Fill
+				far_range = 250,
+				color = Vector3(1, 1, 1) * 0.2,
+				position = Vector3(40, -70, 60)
+			}),
+			self:_create_light({ --Key Blue
 				far_range = 300,
-				color = Vector3(0.86, 0.57, 0.31) * 3,
-				position = Vector3(56, 100, -10)
+				color = Vector3(0.003, 0.315, 1) * 4,
+				position = Vector3(-70, -30, 60)
 			}),
-			self:_create_light({
-				far_range = 3000,
-				specular_multiplier = 6,
-				color = Vector3(1, 2.5, 4.5) * 3,
-				position = Vector3(-1000, -300, 800)
+			self:_create_light({ --Key Red
+				far_range = 340,
+				color = Vector3(0.905, 0.054, 0.235) * 2,
+				position = Vector3(50, -70, -60)
 			}),
-			self:_create_light({
-				far_range = 800,
-				specular_multiplier = 0,
-				color = Vector3(1, 1, 1) * 0.35,
-				position = Vector3(300, 100, 0)
+			-- self:_create_light({ --Rim Top
+				-- far_range = 220,
+				-- color = Vector3(1, 1, 1) * 3,
+				-- position = Vector3(-100, 30, 150)
+			-- }),
+			self:_create_light({ --Rim Left
+				far_range = 220,
+				color = Vector3(1, 1, 1) * 5,
+				position = Vector3(-100, -170, 60)
 			})
 		}
 	}
+	
 	self._scene_templates.raid_menu = {
 		use_character_grab = false,
 		camera_pos = offset:rotate_with(Rotation(90)),
@@ -434,6 +558,7 @@ Hooks:PostHook(MenuSceneManager, "_set_up_templates", "HEATMenuTemplate", functi
 			})
 		}
 	}
+	
 	self._scene_templates.movie_theater = {
 		use_character_grab = false,
 		hide_menu_logo = true,

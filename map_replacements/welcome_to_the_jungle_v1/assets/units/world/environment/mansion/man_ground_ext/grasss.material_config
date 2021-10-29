@@ -1,0 +1,10 @@
+<materials version="3">
+    <material version="2" decal_material="grass" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP" name="mtr_man_ground_ext_grass_a">
+        <bump_normal_texture file="units/world/environment/mansion/man_ground_ext/man_ground_ext_grass_xy_nm"/>
+        <diffuse_texture file="units/world/environment/mansion/man_ground_ext/man_ground_ext_grass_xy_df"/>
+    </material>
+    <material version="2" decal_material="grass" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP" name="mtr_man_ground_ext_grass_a_lod_1">
+        <bump_normal_texture file="units/world/environment/mansion/man_ground_ext/man_ground_ext_grass_xy_nm" mip="6"/>
+        <diffuse_texture file="units/world/environment/mansion/man_ground_ext/man_ground_ext_grass_xy_df" mip="5"/>
+    </material>
+</materials>

@@ -1,4 +1,5 @@
 local mvec1 = Vector3()
+local alive_g = alive
 PlayerDamage._UPPERS_COOLDOWN = tweak_data.upgrades.values.first_aid_kit.uppers_cooldown
 
 function PlayerDamage:init(unit)
@@ -70,6 +71,8 @@ function PlayerDamage:init(unit)
 	self._dire_need = managers.player:has_category_upgrade("player", "armor_depleted_stagger_shot")
 	self._has_damage_speed = false --No longer used to store whether or not the upgrade is available. Now instead used to track whether it is currently active due to armor broken or bonus duration.
 	--Removed vanilla skill.
+	
+	managers.environment_controller:start_player_hurt_screen()
 
 	--Unique resmod stuff.
 	self._ally_attack = false --Whether or not an ally dealt the last attack. Prevents certain cheese with friendly fire.
@@ -199,6 +202,37 @@ function PlayerDamage:init(unit)
 
 	self:clear_delayed_damage()
 end
+
+function PlayerDamage:pre_destroy()
+	if alive_g(self._gui) and alive_g(self._ws) then
+		self._gui:destroy_workspace(self._ws)
+	end
+
+	if self._critical_state_heart_loop_instance then
+		self._critical_state_heart_loop_instance:stop()
+	end
+
+	if self._slomo_sound_instance then
+		self._slomo_sound_instance:stop()
+
+		self._slomo_sound_instance = nil
+	end
+
+	managers.player:unregister_message(Message.RevivePlayer, self)
+	managers.environment_controller:set_last_life(false)
+	managers.environment_controller:set_downed_value(0)
+	SoundDevice:set_rtpc("downed_state_progression", 0)
+	SoundDevice:set_rtpc("shield_status", 100)
+	managers.environment_controller:kill_player_hurt_screen()
+	managers.environment_controller:set_hurt_value(1)
+	managers.environment_controller:set_health_effect_value(1)
+	managers.environment_controller:set_suppression_value(0)
+	managers.sequence:remove_inflict_updator_body("fire", self._unit:key(), self._inflict_damage_body:key())
+	CopDamage.unregister_listener("on_damage")
+	managers.mission:remove_global_event_listener("player_regenerate_armor")
+	managers.mission:remove_global_event_listener("player_force_bleedout")
+	self._unit:sound():play("concussion_effect_off")
+end 
 
 function PlayerDamage:is_friendly_fire(unit, check_ally_attack, is_explosive)
 	if not unit then

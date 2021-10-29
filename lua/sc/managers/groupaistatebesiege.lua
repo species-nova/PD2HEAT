@@ -1673,7 +1673,7 @@ function GroupAIStateBesiege:_upd_recon_tasks()
 	if used_event or used_spawn_points or reassigned then
 		table.remove(self._task_data.recon.tasks, 1)
 
-		self._task_data.recon.next_dispatch_t = t + 10 * math.random()
+		self._task_data.recon.next_dispatch_t = t + math.lerp(5	, 20, math.random())
 	end
 end
 

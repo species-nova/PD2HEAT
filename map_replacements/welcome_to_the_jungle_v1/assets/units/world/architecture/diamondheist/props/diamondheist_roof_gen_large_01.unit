@@ -1,0 +1,6 @@
+<unit type="dia" slot="1" >
+    <object file="units/world/architecture/diamondheist/props/diamondheist_roof_gen_large_01" />
+    <extensions>
+        <extension class="ScriptUnitData" name="unit_data" />
+    </extensions>
+</unit>

@@ -16,6 +16,46 @@ function CoreEnvironmentControllerManager:init()
     self._GAME_DEFAULT_COLOR_GRADING = "color_payday"
 end
 
+function CoreEnvironmentControllerManager:set_chromatic_enabled(enabled)
+	self._chromatic_enabled = enabled
+
+	if self._material then
+		if self._chromatic_enabled then
+			self._material:set_variable(Idstring("chromatic_amount"), self._base_chromatic_amount)
+		else
+			self._material:set_variable(Idstring("chromatic_amount"), 0)
+		end
+	end
+end
+
+local hurt_screen_ids = Idstring("effects/pd2_mod_heatgen/particles/character/playerscreen/hurt_screen")
+local pain_ids = Idstring("pain")
+local pain_flash_ids = Idstring("painflash")
+local opacity_ids = Idstring("opacity")
+
+function CoreEnvironmentControllerManager:start_player_hurt_screen()
+	if not self._hurt_effect then
+		self._hurt_effect = self._effect_manager:spawn({
+			effect = hurt_screen_ids,
+			position = Vector3(),
+			rotation = Rotation()
+		})
+		local value = self._health_effect_value
+		local pain = math.lerp(255, 0, value)
+		local painflash = math.lerp(255, 0, value + value)
+		
+		self._effect_manager:set_simulator_var_float(self._hurt_effect, pain_ids, opacity_ids, opacity_ids, pain)
+		self._effect_manager:set_simulator_var_float(self._hurt_effect, pain_flash_ids, opacity_ids, opacity_ids, painflash)
+	end
+end
+
+function CoreEnvironmentControllerManager:kill_player_hurt_screen()
+	if self._hurt_effect then
+		self._effect_manager:kill(self._hurt_effect)
+		self._hurt_effect = nil
+	end
+end
+
 local ids_radial_pos = Idstring("radial_pos")
 local ids_radial_offset = Idstring("radial_offset")
 local ids_tgl_r = Idstring("tgl_r")
@@ -190,10 +230,23 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 	mvector3.add(temp_vec_1, Vector3(self._buff_effect_value, self._buff_effect_value, self._buff_effect_value, 0.5))
 	self._lut_modifier_material:set_variable(ids_LUT_settings_a, temp_vec_1)
 
+	if self._hurt_effect then
+		local value = self._health_effect_value
+		local pain = math.lerp(200, 0, value)
+		local painflash = math.lerp(255, 0, value + value)
+		
+		self._effect_manager:set_simulator_var_float(self._hurt_effect, pain_ids, opacity_ids, opacity_ids, pain)
+		self._effect_manager:set_simulator_var_float(self._hurt_effect, pain_flash_ids, opacity_ids, opacity_ids, painflash)
+	end
+
 	local last_life = 0
 
 	if self._last_life then
-		last_life = math.clamp((hurt_mod - 0.5) * 2, 0, 1)
+		if self._hurt_effect then
+			last_life = math.clamp((hurt_mod - 0.5) * 2, 0, 0.75)
+		else
+			last_life = math.clamp((hurt_mod - 0.5) * 2, 0, 1)
+		end
 	end
 
 	self._lut_modifier_material:set_variable(ids_LUT_settings_b, Vector3(last_life, flash_2 + math.clamp(hit_some_mod * 2, 0, 1) * 0.25 + blur_zone_val * 0.15, 0))

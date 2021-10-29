@@ -5,7 +5,11 @@
 	<model path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />	
 	<texture path="core/environments/skies/sky_heated_avenue/sky_heated_avenue_df" />
 	<texture path="environments/heated_hox_cubemap/outdoors" load="true" />	
-		
+
+	<!--hurt screen-->
+	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/hurt_screen" />
+	<texture path="effects/pd2_mod_heatgen/particles/character/playerscreen/textures/hurt_screen_df" load="true" />
+	
 	<!--new flashbangs-->
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties" />
 	<effect path="effects/pd2_mod_heatgen/particles/character/playerscreen/conc_floaties_pdth" />
@@ -304,7 +308,6 @@
 	<continent path="levels/narratives/skm/skm_cas/world/world" force="true" unload="true"/>
 
 	<!--mm yes H&K on [insert heist]-->	
-	<mission path="levels/narratives/e_framing_frame/stage_1/world/world" force="true" unload="true"/>
 	<mission path="levels/narratives/vlad/four_stores/world/world" force="true" unload="true"/>
 	
 	<!--fuck your powerboxes-->
@@ -2991,6 +2994,9 @@
 	<model path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>
 	<object path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>
 	<unit path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>
+
+	<!--Gui stuff>
+	<texture path="units/gui/gui_brackets_df" load="true" /-->
 
 	<!-- Actually Good Third Person Animations -->
 	<animation path="anims/shared/boss/tank/cbt_std_arrest_gesture_var1" force="true"/>
