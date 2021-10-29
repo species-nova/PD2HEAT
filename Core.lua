@@ -147,13 +147,14 @@ function heat:Init()
 		"pbr", --Beneath the Mountain
 		"dinner", --Slaughterhouse
 		"born", --Biker 1
-		"flat",
+		"flat",--Panic Room
 		"framing_frame_3", --Framing Frame 3
 		"des",	--Henry's Rock
 		"sah", --Shacklethorne
 		"chill_combat",	--Safehouse Raid
 		"man", --Undercover
 		"jolly", --Aftershock
+		"moon", --Stealing Xmas
 		"branchbank", --Bank heist
 		"firestarter_3", --firestarter day 3
 		"firestarter_3_res", --firestarter day 3, res edit
@@ -162,7 +163,9 @@ function heat:Init()
 		"family", --Diamond Store
 		"jewelry_store", --Ukrainian job left off since its bag moving is optional, to compensate for the extra easiness.
 		"fex", --Buluc's Mansion
-		"rat", --Cook Off
+		"rat",--Cook Off
+		"chca",--Black Cat
+		"chas",--Dragon Heist
 		--Custom Heists below--
 		"junk",
 		"wetwork_burn", --Burnout
