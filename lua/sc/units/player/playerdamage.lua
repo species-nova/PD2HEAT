@@ -1,4 +1,5 @@
 local mvec1 = Vector3()
+local alive_g = alive
 PlayerDamage._UPPERS_COOLDOWN = tweak_data.upgrades.values.first_aid_kit.uppers_cooldown
 
 function PlayerDamage:init(unit)

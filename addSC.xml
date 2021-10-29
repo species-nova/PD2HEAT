@@ -308,7 +308,6 @@
 	<continent path="levels/narratives/skm/skm_cas/world/world" force="true" unload="true"/>
 
 	<!--mm yes H&K on [insert heist]-->	
-	<mission path="levels/narratives/e_framing_frame/stage_1/world/world" force="true" unload="true"/>
 	<mission path="levels/narratives/vlad/four_stores/world/world" force="true" unload="true"/>
 	
 	<!--fuck your powerboxes-->
