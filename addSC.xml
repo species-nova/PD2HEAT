@@ -240,8 +240,8 @@
 	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 		
-	<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--adds a bikerdozer to the bunker, removes swat turret.-->	
-	<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> <!--fixes cars clipping into ground-->
+	<!--<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> adds a bikerdozer to the bunker, removes swat turret.-->	
+	<!--<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> fixes cars clipping into ground-->
 
 	<mission path="levels/narratives/elephant/chew/world/world" force="true" unload="true"/> <!--adds back in ponr, re-enables 4player c4 event, changes feedback-->
 	
