@@ -353,4 +353,14 @@
 		<object path="units/payday2/props/str_prop_street_fire_hydrant/str_prop_street_fire_hydrant" unload="true"/>
 		<unit path="units/payday2/props/str_prop_street_fire_hydrant/str_prop_street_fire_hydrant" unload="true"/>
 	</add>
+	<add from_db="true" path="core/environments/skies/sky_2003_dusk_blue/sky_2003_dusk_blue" type="scene">
+		<material_config path="core/environments/skies/sky_2003_dusk_blue/sky_2003_dusk_blue"/>
+		<scene path="core/environments/skies/sky_2003_dusk_blue/sky_2003_dusk_blue"/>
+	</add>
+	<add from_db="true" path="core/units/light_omni_seq/light_omni_seq" type="unit">
+		<unit path="core/units/light_omni_seq/light_omni_seq"/>
+		<object path="core/units/light_omni_seq/light_omni_seq"/>
+		<material_config path="core/material_configs/hub_elements"/>
+		<sequence_manager path="core/units/light_omni_seq/light_omni_seq"/>
+	</add>
 </table>
