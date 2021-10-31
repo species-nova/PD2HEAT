@@ -1753,7 +1753,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Stun Resistance--
 			["menu_oppressor_beta_sc"] = "Stun Resistance",
-			["menu_oppressor_beta_desc_sc"] = "BASIC: ##$basic##\nEnemy melee attacks push you back ##0.25%## less for every point of armor you have.\n\nACE: ##$pro##\nReduces the visual effect duration of Flashbangs by ##40%.##",
+			["menu_oppressor_beta_desc_sc"] = "BASIC: ##$basic##\nEnemy melee attacks push you back ##0.25%## less for every point of armor you have.\n\nACE: ##$pro##\nReduces the visual effect duration of Flashbangs by ##80%.##",
 
 			--Die Hard--
 			["menu_show_of_force_sc"] = "Die Hard",
