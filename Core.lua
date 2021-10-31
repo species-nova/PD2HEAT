@@ -167,7 +167,7 @@ function heat:Init()
 		"jewelry_store", --Ukrainian job left off since its bag moving is optional, to compensate for the extra easiness.
 		"fex", --Buluc's Mansion
 		"rat",--Cook Off
-		"chca",--Black Cat
+		--"chca",--Black Cat
 		"chas",--Dragon Heist
 		--Custom Heists below--
 		"junk",
