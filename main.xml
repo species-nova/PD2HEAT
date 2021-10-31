@@ -325,8 +325,6 @@
 		<hook file="sc/managers/menu/menupauserenderer.lua" source_file="lib/managers/menu/MenuPauseRenderer"/>
 		<!--///COMPATIBILITY\\\-->
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
-		<hook file="sc/compatibility/WeaponStatGenerator.lua" source_file="lib/tweak_data/weapontweakdata"/>
-		<hook file="sc/compatibility/ModStatGenerator.lua" source_file="lib/tweak_data/weaponfactorytweakdata"/>
 		<!--///MOD SAVE DATA\\\-->
 		<!--DO NOT MODIFY-->
 		<hook file="sc/managers/savefilemanager.lua" source_file="lib/managers/savefilemanager"/>

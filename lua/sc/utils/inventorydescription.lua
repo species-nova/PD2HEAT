@@ -1,20 +1,20 @@
 WeaponDescription._stats_shown = {
 	{
-		round_value = true,
+		round_integer = true,
 		name = "magazine",
 		stat_name = "extra_ammo"
 	},
 	{
-		round_value = true,
+		round_integer = true,
 		name = "totalammo",
 		stat_name = "total_ammo_mod"
 	},
 	{
-		round_value = true,
+		round_integer = true,
 		name = "fire_rate"
 	},
 	{
-		round_value = true,
+		round_integer = true,
 		present_multiplier = 10,
 		name = "damage"
 	},
@@ -34,19 +34,23 @@ WeaponDescription._stats_shown = {
 		name = "concealment"
 	},
 	{
+		round_decimal = true,
 		name = "reload"
 	},
 	{
 		derived = true,
+		round_decimal = true,
 		name = "swap_speed"
 	},
 	{
 		derived = true,
+		round_decimal = true,		
 		present_multiplier = 0.01,
 		name = "range"
 	},
 	{
 		derived = true,
+		--round_decimal = true, Don't round this, invisible decimal differences at the extreme low end (IE: Rocket Launchers vs Grenade Launchers) are still important!
 		name = "pickup"
 	}
 }
@@ -107,12 +111,12 @@ function WeaponDescription._get_base_stats(name)
 			base_stats.totalammo.index = weapon_tweak.stats.total_ammo_mod
 			base_stats.totalammo.value = weapon_tweak.AMMO_MAX
 		elseif stat.name == "fire_rate" then
-			local fire_rate = 60 * (weapon_tweak.fire_rate_multiplier or 1) / weapon_tweak.fire_mode_data.fire_rate
-			base_stats.fire_rate.value = fire_rate / 10 * 10
+			base_stats.fire_rate.value = 60 * (weapon_tweak.fire_rate_multiplier or 1) / weapon_tweak.fire_mode_data.fire_rate
 		elseif stat.name == "reload" then
 			index = math.clamp(weapon_tweak.stats.reload, 1, #tweak_stats[stat.name])
 			base_stats[stat.name].index = tweak_data.weapon[name].stats.reload
-			local reload_time = managers.blackmarket:get_reload_time(name) / (weapon_tweak.reload_speed_multiplier or 1)
+			--Rounding done to prevent pointless green/red resulting from very tiny decimals.
+			local reload_time = math.round(10 * managers.blackmarket:get_reload_time(name) / (weapon_tweak.reload_speed_multiplier or 1)) * 0.1
 			local mult = 1 / tweak_data.weapon.stats.reload[index]
 			base_stats.reload.value = reload_time * mult
 		elseif stat.name == "damage" then
@@ -392,8 +396,10 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 			if part_data and part_data.stats then
 				mod[stat.name] = mod[stat.name] * (stat.present_multiplier or 1)
 
-				if stat.round then
+				if stat.round_integer then
 					mod[stat.name] = math.round(mod[stat.name])
+				elseif stat.round_decimal then
+					mod[stat.name] = math.round(mod[stat.name] * 10) * 0.1
 				end
 			end
 		end
@@ -548,8 +554,10 @@ function WeaponDescription._apply_present_tweaks(stat_table, decrement_index)
 	for _, stat in pairs(WeaponDescription._stats_shown) do
 		stat_table[stat.name].value = (stat_table[stat.name].value - (decrement_index and stat.use_index and 1 or 0)) * (stat.present_multiplier or 1)
 
-		if stat.round then
+		if stat.round_integer then
 			stat_table[stat.name].value = math.round(stat_table[stat.name].value)
+		elseif stat.round_decimal then
+			stat_table[stat.name].value = math.round(stat_table[stat.name].value * 10) * 0.1
 		end
 	end
 end

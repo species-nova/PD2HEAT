@@ -64,7 +64,8 @@ function RaycastWeaponBase:init(unit)
 	self._can_shoot_through_head = self._can_shoot_through_enemy
 
 	--Partially determines bloom decay rate.
-	self._base_fire_rate = (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0)
+	local weapon_tweak = tweak_data.weapon[self._name_id]
+	self._base_fire_rate = (weapon_tweak.fire_mode_data and weapon_tweak.fire_mode_data.fire_rate or 0) / (weapon_tweak.fire_rate_multiplier or 1)
 end
 
 function RaycastWeaponBase:setup(...)

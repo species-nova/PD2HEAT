@@ -1640,7 +1640,8 @@ Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_da
 
 	--Don't hide the crosshair during steelsight for weapons of these categories.
 	--Check for it whenever we enter PlayerStandard, or swap weapons.
-	self._crosshair_ignore_steelsight = true --self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+	self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+	--self._crosshair_ignore_steelsight = true 
 
 	--Set the crosshair to be visible.
 	managers.hud:show_crosshair_panel(true)
@@ -1649,75 +1650,73 @@ end)
 --Update whenever the crosshair should ignore steelsights whenever the equipped gun changes.
 Hooks:PostHook(PlayerStandard, "inventory_clbk_listener", "ChangeActiveCategory", function(self, unit, event)
 	if event == "equip" then
-		self._crosshair_ignore_steelsight = true --self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+		self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+		--self._crosshair_ignore_steelsight = true 
 	end
 end)
 
 --Reload functions changed to allow for shotgun per-shell reloads to take ammo picked up over their duration into account.
 function PlayerStandard:_update_reload_timers(t, dt, input)
-	if self._state_data.reload_enter_expire_t and self._state_data.reload_enter_expire_t <= t then
-		self._state_data.reload_enter_expire_t = nil
+	local state = self._state_data
+	
+	if state.reload_enter_expire_t and state.reload_enter_expire_t <= t then
+		state.reload_enter_expire_t = nil
 
 		self:_start_action_reload(t)
 	end
-
-	--Moved earlier in function to avoid math on nil value.
-	local speed_multiplier = self._equipped_unit:base():reload_speed_multiplier()
 	
-	if self._state_data.reload_expire_t then
+	if state.reload_expire_t then
 		local interupt = nil
+		local speed_multiplier = self._equipped_unit:base():reload_speed_multiplier()
 
-		if self._equipped_unit:base():update_reloading(t, dt, self._state_data.reload_expire_t - t) then
+		if self._equipped_unit:base():update_reloading(t, dt, state.reload_expire_t - t) then --Update reloading if using a per-bullet reload.
 			managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
 			
 			if self._queue_reload_interupt then
 				self._queue_reload_interupt = nil
 				interupt = true
-			elseif self._state_data.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
-				self._state_data.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
+			elseif state.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
+				state.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
 			end
 		end
 
-		if self._state_data.reload_expire_t <= t or interupt then
-			managers.player:remove_property("shock_and_awe_reload_multiplier")
+		if state.refill_magazine_t and state.refill_magazine_t <= t then
+			self._equipped_unit:base():on_reload() --Load up the magazine.
+			
+			--Update trackers.
+			managers.statistics:reloaded()
+			managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
+			
+			state.refill_magazine_t = nil --Magazine loaded, so no time to reload it exists any more.
+		end
 
-			self._state_data.reload_expire_t = nil
+		if state.reload_expire_t <= t or interupt then --The reload is complete, or has been interrupted.
+			state.reload_expire_t = nil
 
 			if self._equipped_unit:base():reload_exit_expire_t() then
-
 				if self._equipped_unit:base():started_reload_empty() then
-					self._state_data.reload_exit_expire_t = t + self._equipped_unit:base():reload_exit_expire_t() / speed_multiplier
+					state.reload_exit_expire_t = t + self._equipped_unit:base():reload_exit_expire_t() / speed_multiplier
 
 					self._ext_camera:play_redirect(self:get_animation("reload_exit"), speed_multiplier)
 					self._equipped_unit:base():tweak_data_anim_play("reload_exit", speed_multiplier)
 				else
-					self._state_data.reload_exit_expire_t = t + self._equipped_unit:base():reload_not_empty_exit_expire_t() / speed_multiplier
+					state.reload_exit_expire_t = t + self._equipped_unit:base():reload_not_empty_exit_expire_t() / speed_multiplier
 
 					self._ext_camera:play_redirect(self:get_animation("reload_not_empty_exit"), speed_multiplier)
 					self._equipped_unit:base():tweak_data_anim_play("reload_not_empty_exit", speed_multiplier)
 				end
-			else
-				if not interupt then
-					self._equipped_unit:base():on_reload()
-				end
-
-				managers.statistics:reloaded()
-				managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
-
+			else --Reload animation is complete, return to business as usual.
 				if input.btn_steelsight_state then
 					self._steelsight_wanted = true
 				elseif self.RUN_AND_RELOAD and self._running and not self._end_running_expire_t and not self._equipped_unit:base():run_and_shoot_allowed() then
 					self._ext_camera:play_redirect(self:get_animation("start_running"))
 				end
 			end
-
-			--Reset Shell Shocked
-			self._equipped_unit:base():check_last_bullet_stagger() --Check Shell Shocked on manual reload.
 		end
 	end
 
-	if self._state_data.reload_exit_expire_t and self._state_data.reload_exit_expire_t <= t then
-		self._state_data.reload_exit_expire_t = nil
+	if state.reload_exit_expire_t and state.reload_exit_expire_t <= t then
+		state.reload_exit_expire_t = nil
 
 		if self._equipped_unit then
 			managers.statistics:reloaded()
@@ -1741,47 +1740,46 @@ function PlayerStandard:_start_action_reload(t)
 
 	if weapon and weapon:can_reload() then
 		weapon:tweak_data_anim_stop("fire")
-
-
-		local speed_multiplier = weapon:reload_speed_multiplier()
-		self._state_data.empty_reload = weapon:clip_empty() and 1 or 0 --Cache reload type for cost cancelling.
-		self._state_data.reload_start_t = t --Cache start time to allow for soft cancelling.
-
-		if weapon._use_shotgun_reload then
-			self._state_data.empty_reload  = weapon:get_ammo_max_per_clip() - weapon:get_ammo_remaining_in_clip()
-		end
-
-		local tweak_data = weapon:weapon_tweak_data()
-		local reload_anim = "reload"
-		local reload_prefix = weapon:reload_prefix() or ""
-		local reload_name_id = tweak_data.animations.reload_name_id or weapon.name_id
-		
 		weapon:start_reload() --Executed earlier to get accurate reload timers, otherwise may mess up normal and tactical for shotguns.
 
+		local shotgun_reload = weapon._use_shotgun_reload
+		local timers = weapon:weapon_tweak_data().timers
+		local reload_prefix = weapon:reload_prefix() or ""
+		local reload_name_id = weapon:weapon_tweak_data().reload_name_id or weapon.name_id
+		local speed_multiplier = weapon:reload_speed_multiplier()
 		if weapon:clip_empty() then
-			local reload_ids = Idstring(reload_prefix .. "reload_" .. reload_name_id)
-			local result = self._ext_camera:play_redirect(reload_ids, speed_multiplier)
+			--Tracks time until end of the animation for reloading.
+			self._state_data.reload_expire_t = t + (timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
 
-			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_ids)
+			--Set time to actually add ammo to the gun, pretty much always before the actual animation finishes.
+			self._state_data.refill_magazine_t = (not shotgun_reload and timers.empty_reload_operational and t + timers.empty_reload_operational / speed_multiplier) or self._state_data.reload_expire_t
 
-			self._state_data.reload_expire_t = t + (tweak_data.timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
-		else
-			reload_anim = "reload_not_empty"
-			local reload_ids = Idstring(reload_prefix .. "reload_not_empty_" .. reload_name_id)
-			local result = self._ext_camera:play_redirect(reload_ids, speed_multiplier)
+			--Set time where non-commital animations like sprinting or ADS can interrupt the reload.
+			--False == always interruptable. Make sure to set the timers!
+			self._state_data.reload_soft_interrupt_t = not shotgun_reload and timers.empty_reload_interrupt and t + timers.empty_reload_interrupt / speed_multiplier
 
-			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_ids)
-
-			self._state_data.reload_expire_t = t + (tweak_data.timers.reload_not_empty or weapon:reload_expire_t() or 2.2) / speed_multiplier
-		end
-
-
-		if not weapon:tweak_data_anim_play(reload_anim, speed_multiplier) then
+			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_" .. reload_name_id), speed_multiplier)
 			weapon:tweak_data_anim_play("reload", speed_multiplier)
-			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_anim)
+		else
+			self._state_data.reload_expire_t = t + (timers.reload_not_empty or weapon:reload_expire_t() or 2.2) / speed_multiplier
+			self._state_data.refill_magazine_t = (timers.reload_operational and t + timers.reload_operational / speed_multiplier) or self._state_data.reload_expire_t
+			self._state_data.reload_soft_interrupt_t = timers.reload_interrupt and t + timers.reload_interrupt / speed_multiplier
+
+			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_not_empty_" .. reload_name_id), speed_multiplier)
+			if not weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier) then
+				weapon:tweak_data_anim_play("reload", speed_multiplier)
+			end
+		end
+		
+
+		
+		--Gather network data for syncing.
+		local empty_reload = weapon:clip_empty() and 1 or 0
+		if shotgun_reload then
+			empty_reload = weapon:get_ammo_max_per_clip() - weapon:get_ammo_remaining_in_clip()
 		end
 
-		self._ext_network:send("reload_weapon", self._state_data.empty_reload , speed_multiplier)
+		self._ext_network:send("reload_weapon", empty_reload, speed_multiplier)
 	end
 end
 
@@ -2085,17 +2083,7 @@ function PlayerStandard:_soft_interrupt_action_reload(t)
 			self._queue_reload_interupt = true
 			return RELOAD_INTERRUPT_QUEUED
 		else --Otherwise instant reload cancel.
-			local timers = weap_base:weapon_tweak_data().timers
-			local reload_progress = (t - self._state_data.reload_start_t) / (self._state_data.reload_expire_t - self._state_data.reload_start_t)
-			--log(reload_progress)
-			local can_interrupt = nil
-			if self._state_data.empty_reload == 1 then
-				can_interrupt = reload_progress < (timers.empty_reload_interrupt or 1)
-			else
-				can_interrupt = reload_progress < (timers.reload_interrupt or 1)
-			end
-
-			if can_interrupt then
+			if self._state_data.reload_soft_interrupt_t and t <= self._state_data.reload_soft_interrupt_t then
 				self:_interupt_action_reload()
 				self._ext_camera:play_redirect(self:get_animation("idle"))
 				return RELOAD_INTERRUPTED
@@ -2121,11 +2109,14 @@ function PlayerStandard:_interupt_action_reload(t)
 		weap_base:tweak_data_anim_stop("reload_exit")
 	end
 
-	self._state_data.empty_reload = nil
 	self._state_data.reload_enter_expire_t = nil
-	self._state_data.reload_start_t = nil
 	self._state_data.reload_expire_t = nil
 	self._state_data.reload_exit_expire_t = nil
+	
+	--Clear custom timers.
+	self._state_data.refill_magazine_t = nil
+	self._state_data.reload_soft_interrupt_t = nil
+
 	--Fixes weapons using shotgun-style reloads occasionally only loading one shell in
 	self._queue_reload_interupt = nil
 

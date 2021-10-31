@@ -2457,6 +2457,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.weapon.stats.min_damage_effect = 5
 	self.melee_weapons.weapon.stats.max_damage_effect = 5
 	self.melee_weapons.weapon.stats.range = 150
+	self.melee_weapons.weapon.expire_t = 0.85
 	self.melee_weapons.weapon.repeat_expire_t = 0.5
 	self.melee_weapons.weapon.stats.concealment = 30
 
