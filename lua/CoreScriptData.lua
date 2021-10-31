@@ -279,7 +279,8 @@ local environment_replacers = {
 	},
 	stage_1 = {
 		{
-			["core/environments/default"] = "scriptdata/lxa_river_v4.custom_xml"
+			["core/environments/default"] = "scriptdata/lxa_river_v4.custom_xml",
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/lxa_river_v4.custom_xml"
 		}
 	},
 	jackal_surface_tension = {
