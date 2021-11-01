@@ -820,7 +820,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	self.omnia_lpf.melee_weapon = "baton"
 	self.omnia_lpf.rescue_hostages = false
 	self.omnia_lpf.steal_loot = nil
-	if is_reaper or then
+	if is_reaper then
 		self.omnia_lpf.custom_voicework = nil
 	elseif is_zombie then
 		self.omnia_lpf.custom_voicework = "awoolpf"
