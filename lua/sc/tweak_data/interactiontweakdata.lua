@@ -602,6 +602,9 @@ Hooks:PostHook( InteractionTweakData, "init", "SC_interact", function(self)
 	self.gage_assignment.timer = 0		
 	self.gage_assignment.sound_start = "money_grab"	
 	self.gage_assignment.sound_event = "money_grab"	
-	self.gage_assignment.sound_done = "money_grab"	
+	self.gage_assignment.sound_done = "money_grab"
 
+	--Make revives slightly snappier.
+	self.revive.interact_distance = 350
+	self.revive.timer = 5
 end)

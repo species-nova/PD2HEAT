@@ -577,7 +577,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet.access = "spooc"
 	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.elite
 	self.fbi_vet.move_speed = presets.move_speed.lightning
-	if is_reaper or is_federales then
+	if is_reaper then
 	   self.fbi_vet.custom_voicework = nil	
 	else   
 	   self.fbi_vet.custom_voicework = "bruce"
@@ -599,7 +599,7 @@ function CharacterTweakData:_init_fbi(presets)
 		end
 	}	
 	self.fbi_vet.static_dodge_preset = true
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.fbi_vet.speech_prefix_p1 = self._prefix_data_p1.swat()
 		self.fbi_vet.speech_prefix_p2 = self._speech_prefix_p2
 		self.fbi_vet.speech_prefix_count = 4
@@ -803,7 +803,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	}
 	self.omnia_lpf.weapon_voice = "2"
 	self.omnia_lpf.experience.cable_tie = "tie_swat"	
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.omnia_lpf.speech_prefix_p1 = self._prefix_data_p1.medic()
 		self.omnia_lpf.speech_prefix_count = nil
 		self.omnia_lpf.spawn_sound_event = "rmdc_entrance"
@@ -820,7 +820,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	self.omnia_lpf.melee_weapon = "baton"
 	self.omnia_lpf.rescue_hostages = false
 	self.omnia_lpf.steal_loot = nil
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.omnia_lpf.custom_voicework = nil
 	elseif is_zombie then
 		self.omnia_lpf.custom_voicework = "awoolpf"
@@ -1024,7 +1024,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat_sniper.static_melee_preset = true	
 	self.heavy_swat_sniper.custom_voicework = nil
 	self.heavy_swat_sniper.die_sound_event = "mga_death_scream"
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.heavy_swat_sniper.custom_voicework = "tswat_ru"
 	else
 		self.heavy_swat_sniper.custom_voicework = "tsniper_real"
@@ -1272,7 +1272,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat_titan.speech_prefix_p1 = "are you team cum pisser"
 	self.city_swat_titan.speech_prefix_p2 = "or team poop shitter"
 	self.city_swat_titan.speech_prefix_count = nil		
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.city_swat_titan.custom_voicework = "tswat_ru"
 	else
 		self.city_swat_titan.custom_voicework = "pdth"
@@ -2010,12 +2010,12 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank_titan.immune_to_knock_down = true
 	self.tank_titan.priority_shout_max_dis = 3000
 	self.tank_titan.ecm_vulnerability = 0		
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.tank_titan.custom_voicework = "tdozer_ru"
 	else
 		self.tank_titan.custom_voicework = "tdozer"
 	end			
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
 	else
 		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
@@ -2147,7 +2147,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan.headshot_dmg_mul = strong_headshot	
 	self.spooc_titan.damage.melee_damage_mul = 2
 	self.spooc_titan.damage.explosion_damage_mul = 2
-	if is_reaper or is_federales then	
+	if is_reaper then	
 		self.spooc_titan.speech_prefix_p1 = self._prefix_data_p1.cloaker()
 		self.spooc_titan.speech_prefix_count = nil
 	else
@@ -2163,7 +2163,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan.spawn_sound_event = "cloaker_presence_loop"
 	self.spooc_titan.die_sound_event = "cloaker_presence_stop"
 	self.spooc_titan.is_special = true
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.spooc_titan.custom_voicework = nil
 	else
 		self.spooc_titan.custom_voicework = "tspook"
@@ -2359,7 +2359,7 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	self.phalanx_minion.speech_prefix_p1 = "fug"
 	self.phalanx_minion.speech_prefix_p2 = nil
 	self.phalanx_minion.speech_prefix_count = 1	
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.phalanx_minion.custom_voicework = "tshield_ru"
 	else
 		self.phalanx_minion.custom_voicework = "tsniper"
@@ -2749,7 +2749,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser_titan.immune_to_concussion = true	
 	self.taser_titan.use_animation_on_fire_damage = false
 	self.taser_titan.can_be_tased = false	
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.taser_titan.spawn_sound_event = "rtsr_elite"
 	else
 		self.taser_titan.spawn_sound_event = "tsr_elite"
