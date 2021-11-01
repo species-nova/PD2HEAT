@@ -2163,7 +2163,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan.spawn_sound_event = "cloaker_presence_loop"
 	self.spooc_titan.die_sound_event = "cloaker_presence_stop"
 	self.spooc_titan.is_special = true
-	if is_reaper or then
+	if is_reaper then
 		self.spooc_titan.custom_voicework = nil
 	else
 		self.spooc_titan.custom_voicework = "tspook"
