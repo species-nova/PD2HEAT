@@ -7,30 +7,35 @@ end
 tweak_data.screen_colors.button_stage_2 = Color(255, 1, 161, 255) / 255
 tweak_data.screen_colors.button_stage_3 = Color(127, 1, 161, 255) / 255
 
-    local orange = Vector3( 224, 109, 81 )/255
-    local green = Vector3( 102, 204, 51 )/255
-    local brown = Vector3( 98, 70, 43 )/255
-    local blue = Vector3( 104, 133, 161 )/255
-    local team_ai = Vector3( 0.2, 0.8, 1 )
+    local orange = Vector3( 221, 88, 44 )/255 -- slot 2
+    local green = Vector3( 142, 221, 37 )/255 -- slot 3
+    local brown = Vector3( 221, 117, 214 )/255 -- slot 4, actually pink
+    local blue = Vector3( 108, 221, 193 )/255 -- slot 1
+    local team_ai = Vector3( 0.003, 0.631, 1 ) -- team AI
+	
     tweak_data.peer_vector_colors = { blue, orange, green, brown, team_ai }
     tweak_data.peer_colors = { "mrblue", "mrorange", "mrgreen", "mrbrown", "mrai" }    
 
-	-- these are used for name labels and the dot beside the player's name on the teammate panel in the vanilla HUD.
+-- these are used for name labels and the dot beside the player's name on the teammate panel in the vanilla HUD
     tweak_data.chat_colors = {     
-    Color(0.6, 0.6, 1), -- Blue/Purple/Peer1/Host.
-    Color(1, 0.6, 0.6), -- Orange/Red/Peer2.
-    Color(0.6, 1, 0.6), -- Green/Peer3.
-    Color(1, 1, 0.6), -- Brown/Peer4.
-    Color(0.2, 0.8, 1) -- Team AI.
+    Color(0.423, 0.866, 0.756), -- Blue/Purple/Peer1/Host.
+    Color(0.866, 0.345, 0.172), -- Orange/Red/Peer2.
+    Color(0.556, 0.866, 0.145), -- Green/Peer3.
+    Color(0.866, 0.458, 0.839), -- Brown/Peer4.  PINK ACTUALLY
+    Color(0.003, 0.631, 1) -- Team AI.
     }
-    -- preplanning colors.
+
+-- preplanning colors
     tweak_data.preplanning_peer_colors = {
-        Color("ff6885A1"),
-        Color("ffE06D51"),
-        Color("ff66CC36"),
-        Color("ff62462B")
+        Color("ff6CDDC1"),
+        Color("ffDD582C"),
+        Color("ff8EDD25"),
+        Color("ffDD75D6")
     }
---[[tweak_data.contour.interactable_icon = {
+
+-- interactable color changes, unused
+--[[
+	tweak_data.contour.interactable_icon = {
 	standard_color = Vector3(0.905, 0.054, 0.235), --0,0,0
 	selected_color = Vector3(0.003, 0.63, 1), --0,1,0
 	standard_opacity = 0
