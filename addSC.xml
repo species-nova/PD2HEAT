@@ -432,11 +432,6 @@
 	<!--Dynamite no rolly polly-->
 	<object path="units/pd2_dlc_west/weapons/wpn_gre_dynamite/wpn_gre_dynamite" force="true" />		
 
-	<!--REMOVED CAP REQUIREMENT FOR LMG SIGHTS FOLLOWING LID
-	<model path="units/pd2_dlc_gage_historical/weapons/wpn_fps_lmg_mg42_pts/wpn_fps_lmg_mg42_reciever" force="true"/>
-	<model path="units/pd2_dlc_gage_lmg/weapons/wpn_fps_lmg_m249_pts/wpn_fps_lmg_m249_upper_reciever" force="true"/>
-	<model path="units/pd2_dlc_par/weapons/wpn_fps_lmg_par_pts/wpn_fps_lmg_par_upper_reciever" force="true"/>
-	-->
 	<!-- M60 TROPICAL FOREGRIP FIX -->
 	<model path="units/pd2_dlc_atw/weapons/wpn_fps_lmg_m60_pts/wpn_fps_lmg_m60_fg_tropical" force="true"/>
 	
@@ -1414,7 +1409,6 @@
 	<texture path="units/pd2_dlc_vip/characters/ene_spring/heads_spring_df" force="false"/>	
 	<texture path="units/pd2_dlc_vip/characters/ene_spring/heads_spring_il" force="false"/>	   
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/spring_glass_op" force="false" load="true"/>    
-	<unit path="units/payday2/weapons/wpn_npc_mini/x_mini_npc" load="true" force="false"/>
 	
 	<!--Autumn-->
 	<sequence_manager path="units/pd2_dlc_vip/characters/ene_vip_autumn/ene_vip_autumn" force="false"/>
