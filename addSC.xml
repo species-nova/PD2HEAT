@@ -231,47 +231,10 @@
 	<texture path="guis/textures/pd2/skilltree/info_unseen_strike" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_survive_one_hit" force="false" load="false"/> <!-- Yakuza Oni Irezumi -->
 
-
 	<model path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container" force="true"/>
 	<texture path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_df" force="true"/>
 	<texture path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_nm" force="true"/>
-		<!--Updated ATM Assets (Commented out due to desync issues. Will be brought back once resolved. ) -->
-		
-		<!-- <unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing" unload="true"/>
-		<sequence_manager	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing" unload="true"/>
-		<cooked_physics		force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing" unload="true"/>
-		<material_config	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing" unload="true"/>
-		<material_config	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_v2" unload="true"/>
-		<material_config	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_v3" unload="true"/>
-		
-		<unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn" unload="true"/>
-		<sequence_manager	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn" unload="true"/>
-		<unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_1" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_1" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_1" unload="true"/>
-		<unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_2" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_2" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_2" unload="true"/>
-		<unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_3" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_3" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_3" unload="true"/>
-		<unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_4" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_4" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_standing_spawn_4" unload="true"/>
-		
-		<unit				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_jammer" unload="true"/>
-		<object				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_jammer" unload="true"/>
-		<model				force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_jammer" unload="true"/>
-		<cooked_physics		force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_jammer" unload="true"/>
-		<sequence_manager	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_jammer" unload="true"/>
-		<material_config	force="true" path="units/payday2/props/gen_prop_bank_atm_standing/gen_prop_bank_atm_jammer" unload="true"/>
-		
-		<physic_effect		force="true" path="physic_effects/push_sphere" unload="true"/> -->
-		<!--<bnk				force="true" path="soundbanks/regular_sfx" unload="true"/>-->
+
 	<texture path="units/payday2/equipment/gen_equipment_security_camera/gen_equipment_security_camera_df" force="true"/>
 	
 	<!--Tiny Heist Edits that Change like a few things-->	
@@ -1216,16 +1179,6 @@
 	<model path="units/pd2_dlc_xm20/characters/ene_acc_dozer_akan_santa_hat_sc/ene_acc_dozer_akan_santa_hat_sc"/>
 	<object path="units/pd2_dlc_xm20/characters/ene_acc_dozer_akan_santa_hat_sc/ene_acc_dozer_akan_santa_hat_sc"/>
 	<unit path="units/pd2_dlc_xm20/characters/ene_acc_dozer_akan_santa_hat_sc/ene_acc_dozer_akan_santa_hat_sc" load="false"/>	
-	
-
-	<!--S&W .500-->
-	<!-- <texture path="guis/textures/pd2/blackmarket/icons/weapons/jeb"/> -->
-	<!--
-	<cooked_physics path="units/mods/weapons/wpn_fps_pis_jeb/wpn_fps_pis_jeb"/>
-	<model path="units/mods/weapons/wpn_fps_pis_jeb/wpn_fps_pis_jeb"/>
-	<object path="units/mods/weapons/wpn_fps_pis_jeb/wpn_fps_pis_jeb"/>
-	<unit path="units/mods/weapons/wpn_fps_pis_jeb/wpn_fps_pis_jeb" load="false"/>
-	-->
 	
 	<!--HK21-->
 	<material_config path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
