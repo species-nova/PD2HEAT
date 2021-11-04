@@ -2957,19 +2957,6 @@
 	<!--Skill-based VFX-->
 	<!--these are used at all times and need to use load=true, their size is small, so it should be fine-->
 	<effect path="effects/pd2_mod_heatgen/explosions/overheat" load="true"/> 
-	
-	<!-- Halloween Sword icon -->
-	<texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/melee_weapons/halloween_sword"/>
-	
-	<!--Xmas menu assets-->
-	<cooked_physics path="units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"/>	
-	<model path="units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"/>
-	<object path="units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"/>
-	<unit path="units/pd2_dlc2/props/com_props_christmas_tree_sc/com_prop_christmas_tree_sc"/>
-	<cooked_physics path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>	
-	<model path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>
-	<object path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>
-	<unit path="units/pd2_dlc_cane/props/cne_prop_snow_pile_01_sc/cne_prop_snow_pile_01_sc"/>
 
 	<!--Gui stuff>
 	<texture path="units/gui/gui_brackets_df" load="true" /-->
