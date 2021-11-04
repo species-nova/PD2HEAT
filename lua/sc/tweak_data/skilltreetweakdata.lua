@@ -1198,20 +1198,20 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Aggressive Reload--
+			--Rapid Reset--
 			self.skills.shock_and_awe = {
 				["name_id"] = "menu_engineering_beta_sc",
 				["desc_id"] = "menu_engineering_beta_desc_sc",
 				["icon_xy"] = {8, 3},
 				[1] = {
 					upgrades = {
-						"temporary_single_shot_fast_reload_1"
+						"assault_rifle_headshot_bloom_reset"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"temporary_single_shot_fast_reload_2"
+						"temporary_single_shot_fast_reload_1"
 					},
 					cost = self.costs.hightierpro
 				}

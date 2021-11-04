@@ -544,6 +544,12 @@ function PlayerManager:check_skills()
 		self._message_system:unregister(Message.OnLethalHeadShot, "activate_aggressive_reload")
 	end
 
+	if self:has_category_upgrade("assault_rifle", "headshot_bloom_reset") then
+		self._message_system:register(Message.OnLethalHeadShot, "reset_bloom_from_headshot_kill", callback(self, self, "_trigger_rapid_reset_bloom_reset"))
+	else
+		self._message_system:unregister(Message.OnLethalHeadShot, "reset_bloom_from_headshot_kill")
+	end
+
 	if self:has_category_upgrade("player", "head_shot_ammo_return") then
 		self._ammo_efficiency = self:upgrade_value("player", "head_shot_ammo_return", nil)
 
@@ -1005,14 +1011,28 @@ function PlayerManager:can_hyper_crit()
 end
 
 function PlayerManager:_on_activate_aggressive_reload_event(attack_data)
-	if attack_data and attack_data.variant ~= "projectile" then
+	if attack_data and attack_data.variant == "bullet" then
 		local weapon_unit = self:equipped_weapon_unit()
 
 		if weapon_unit then
 			local weapon = weapon_unit:base()
 
-			if weapon and (weapon:fire_mode() == "single" or self:upgrade_value("temporary", "single_shot_fast_reload")[3] == true) and weapon:is_category("assault_rifle", "snp") then
+			if weapon and weapon:is_category("assault_rifle", "snp") then
 				self:activate_temporary_upgrade("temporary", "single_shot_fast_reload")
+			end
+		end
+	end
+end
+
+function PlayerManager:_trigger_rapid_reset_bloom_reset(attack_data)
+	if attack_data and attack_data.variant == "bullet" then
+		local weapon_unit = self:equipped_weapon_unit()
+
+		if weapon_unit then
+			local weapon = weapon_unit:base()
+
+			if weapon and weapon:is_category("assault_rifle", "snp") then
+				weapon:reset_bloom()
 			end
 		end
 	end

@@ -14,7 +14,6 @@ function NewRaycastWeaponBase:init(...)
 		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
 	end
 
-	self.headshot_repeat_damage_mult = 1
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
@@ -39,7 +38,7 @@ function NewRaycastWeaponBase:init(...)
 			break
 		end
 
-		self.headshot_repeat_damage_mult = math.max(self.headshot_repeat_damage_mult, managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 0))
+		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
 	end
 
 end
@@ -413,12 +412,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 
 		if stats.can_shoot_through_titan_shield then
 			self._can_shoot_through_titan_shield = true
-		end
-
-		if stats.is_pistol then
-			if self:weapon_tweak_data().categories then
-				self:weapon_tweak_data().categories = {"pistol"}
-			end
 		end
 
 		if stats.damage_near_mul then

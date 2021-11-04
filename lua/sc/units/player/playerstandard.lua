@@ -1278,19 +1278,6 @@ Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
 			--Ensure that crosshair is actually visible.
 			managers.hud:set_crosshair_visible(true)
 
-			--Make the crosshair red when aiming at an enemy, or white otherwise.
-			if self._fwd_ray and self._fwd_ray.unit then
-				local unit = self._fwd_ray.unit
-				
-				if managers.enemy:is_enemy(unit) then
-					managers.hud:set_crosshair_color(Color.red)
-				else
-					managers.hud:set_crosshair_color(Color.white)
-				end
-			else
-				managers.hud:set_crosshair_color(Color.white)
-			end
-			
 			--Update hud's fov value. Easier and far less error prone to grab it here than there.
 			managers.hud:set_camera_fov(self._camera_unit:base()._fov.fov)
 

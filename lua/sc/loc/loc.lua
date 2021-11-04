@@ -83,7 +83,7 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_SizeDescID"] = "Controls the size of icons on the buff tracker.",
 		["PD2HEATInfo_CountTitleID"] = "Row Count",
 		["PD2HEATInfo_CountDescID"] = "Controls the number of rows the buff tracker displays before adding a new column.",
-		["PD2HEATInfo_single_shot_fast_reloadTitleID"] = "Aggressive Reload",
+		["PD2HEATInfo_single_shot_fast_reloadTitleID"] = "Rapid Reset",
 		["PD2HEATInfo_single_shot_fast_reloadDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_ammo_efficiencyTitleID"] = "Ammo Efficiency",
 		["PD2HEATInfo_ammo_efficiencyDescID"] = "Enables or disables tracking of this specific skill.",
@@ -1961,9 +1961,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
 		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nRifles gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
 
-		--Aggressive Reload--
-		["menu_engineering_beta_sc"] = "Aggressive Reload",
-		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##30%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##45%##, and can be triggered regardless of fire mode.",
+		--Rapid Reset--
+		["menu_engineering_beta_sc"] = "Rapid Reset",
+		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles remove all of their bloom spread.\n\nACE: ##$pro##\nLethal headshots using Rifles will increase your reload speed by ##45%## for ##10## seconds.",
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",

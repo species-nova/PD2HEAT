@@ -440,25 +440,31 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 	--Test to just give everything sniper auto hit cause reasons
 	for i, weap in pairs(self) do
-		if weap.autohit then
-			weap.autohit.INIT_RATIO = 0.05
-			weap.autohit.MAX_RATIO = 0.4
-			weap.autohit.far_angle = 0.2
-			weap.autohit.far_dis = 5000
-			weap.autohit.MIN_RATIO = 0.2
-			weap.autohit.near_angle = 2
-		end
+		if weap.categories and weap.stats then --Only pre-filter player guns.
+			if weap.autohit then
+				weap.autohit.INIT_RATIO = 0.05
+				weap.autohit.MAX_RATIO = 0.4
+				weap.autohit.far_angle = 0.2
+				weap.autohit.far_dis = 5000
+				weap.autohit.MIN_RATIO = 0.2
+				weap.autohit.near_angle = 2
+			end
 
-		if weap.CAN_TOGGLE_FIREMODE then
-			weap.BURST_FIRE = false
-		end
+			if weap.CAN_TOGGLE_FIREMODE then
+				weap.BURST_FIRE = false
+			end
 
-		if weap.upgrade_blocks then
-			weap.upgrade_blocks = nil
-		end
+			if weap.upgrade_blocks then
+				weap.upgrade_blocks = nil
+			end
 
-		if weap.stats_modifiers then
-			weap.stats_modifiers = nil
+			if weap.stats_modifiers then
+				weap.stats_modifiers = nil
+			end
+
+			if weap.AMMO_MAX then
+				weap.AMMO_MAX = nil
+			end
 		end
 	end
 
@@ -480,13 +486,13 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 18,
 			--Controls the overall spread and range of the gun.
 			--Cosmetically, it influences passive weapon sway. (TODO)
-			spread = 22,
+			spread = 23,
 			--Controls the amount of recoil and bloom the gun has.
 			--Cosmetically, it influences camera shake from shooting.
-			recoil = 21,
+			recoil = 22,
 			--Controls the moving spread, swap speed, and ADS speed of the gun.
 			--Cosmetically, it influences weapon sway from camera movement. (TODO)
-			concealment = 13, --Corresponds to "mobility" from the player's perspective.
+			concealment = 14, --Corresponds to "mobility" from the player's perspective.
 			value = 1
 			--zoom = 1
 			--alert_size = 2 --Set to 1 for internally suppressed guns.
@@ -512,15 +518,14 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.7
 		}
 		--Set a hidden reload speed multiplier if reload speed needs to be changed for balance or game-feel. Use timers for animation syncing.
-		--self.tecci.reload_speed_multiplier = 1
+		self.tecci.reload_speed_multiplier = 1.1 --4.2/4.8s
 		--Ditto for swap speed.
-		self.tecci.swap_speed_multiplier = 1.1
+		--self.tecci.swap_speed_multiplier = 1.0 --
 
 	--Light Rifles (PRIMARY)
 		--Amcar
 		self.amcar.desc_id = "bm_menu_sc_amcar_desc"
 		self.amcar.CLIP_AMMO_MAX = 30
-		--self.amcar.fire_rate_multiplier = 1.467 --800 rpm
 		self.amcar.fire_mode_data.fire_rate = 0.075 --The audio and animation doesn't feel right when changed by the multiplier. 
 		self.amcar.auto.fire_rate = 0.075
 		self.amcar.kick = self.stat_info.kick_tables.even_recoil
@@ -529,7 +534,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 20,
 			spread = 23,
 			recoil = 21,
-			concealment = 17,
+			concealment = 18,
 			value = 1
 		}
 		self.amcar.timers = {
@@ -542,7 +547,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.55
 		}
-		self.amcar.reload_speed_multiplier = 1.1 --2.36/2.9s
 
 		--JP36
 		self.g36.BURST_FIRE = 3
@@ -554,7 +558,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.g36.stats = {
 			damage = 20,
 			spread = 24,
-			recoil = 22,
+			recoil = 23,
 			concealment = 17,
 			value = 1
 		}
@@ -580,7 +584,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.vhs.supported = true
 		self.vhs.stats = {
 			damage = 20,
-			spread = 24,
+			spread = 25,
 			recoil = 19,
 			concealment = 21,
 			value = 9
@@ -597,6 +601,32 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 		self.vhs.reload_speed_multiplier = 1.19 --3.5/4.4s
+
+		--Commando 553
+		self.s552.fire_mode_data.fire_rate = 0.08571428571
+		self.s552.auto.fire_rate = 0.08571428571
+		self.s552.BURST_FIRE = 3
+		self.s552.ADAPTIVE_BURST_SIZE = false
+		self.s552.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.s552.supported = true
+		self.s552.stats = {
+			damage = 20,
+			spread = 22,
+			recoil = 20,
+			concealment = 19,
+			value = 1
+		}
+		self.s552.timers = {
+			reload_not_empty = 2.4,
+			reload_empty = 3.05,
+			reload_operational = 1.7,
+			empty_reload_operational = 1.7,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.55,
+			equip = 0.7
+		}
+		self.s552.reload_speed_multiplier = 1.13 --2.1/2.7s
 
 		--Union 5.56
 		self.corgi.CLIP_AMMO_MAX = 30
@@ -622,7 +652,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.corgi.reload_speed_multiplier = 1.09 --2.3/3.1s
+		self.corgi.reload_speed_multiplier = 1.06 --2.5/3.2s
 
 	--Light Rifles (SECONDARY)
 		--Para
@@ -631,28 +661,28 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			"assault_rifle"
 		}
 		self.olympic.CLIP_AMMO_MAX = 30
-		self.olympic.AMMO_MAX = 90
 		self.olympic.fire_mode_data.fire_rate = 0.075
 		self.olympic.auto.fire_rate = 0.075
 		self.olympic.kick = self.stat_info.kick_tables.even_recoil
 		self.olympic.supported = true
 		self.olympic.stats = {
 			damage = 20,
-			spread = 17,
-			recoil = 21,
-			spread_moving = 8,
-			zoom = 1,
-			concealment = 28,
-			suppression = 9,
-			alert_size = 2,
-			extra_ammo = 101,
-			total_ammo_mod = 100,
-			value = 1,
-			reload = 20
+			spread = 22,
+			recoil = 20,
+			concealment = 19,
+			value = 1
 		}
-		self.olympic.stats_modifiers = nil
-		self.olympic.timers.reload_interrupt = 0.28
-		self.olympic.timers.empty_reload_interrupt = 0.2
+		self.olympic.timers = {
+			reload_not_empty = 3,
+			reload_empty = 3.85,
+			reload_interrupt = 0.7,
+			empty_reload_interrupt = 0.7,
+			reload_operational = 2,
+			empty_reload_operational = 2,
+			unequip = 0.6,
+			equip = 0.55
+		}
+		self.olympic.reload_speed_multiplier = 1.2 --2.5/3.2s
 
 		--Tempest 21
 		self.komodo.use_data.selection_index = 1
@@ -661,58 +691,247 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			"assault_rifle"
 		}
 		self.komodo.CLIP_AMMO_MAX = 30
-		self.komodo.AMMO_MAX = 90
-		self.komodo.fire_mode_data.fire_rate = 0.06666666666
-		self.komodo.auto.fire_rate = 0.06666666666
+		self.komodo.fire_rate_multiplier = 1.125
 		self.komodo.kick = self.stat_info.kick_tables.moderate_kick
 		self.komodo.supported = true
 		self.komodo.stats = {
 			damage = 20,
-			spread = 18,
-			recoil = 19,
-			spread_moving = 8,
-			zoom = 1,
-			concealment = 28,
-			suppression = 9,
-			alert_size = 2,
-			extra_ammo = 101,
-			total_ammo_mod = 100,
-			value = 1,
-			reload = 20
+			spread = 23,
+			recoil = 18,
+			concealment = 20,
+			value = 1
 		}
-		self.komodo.stats_modifiers = nil
-		self.komodo.timers.reload_interrupt = 0.24
-		self.komodo.timers.empty_reload_interrupt = 0.17
+		self.komodo.timers = {
+			reload_not_empty = 2.75,
+			reload_empty = 3.45,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			reload_operational = 2,
+			empty_reload_operational = 2,
+			unequip = 0.65,
+			equip = 0.6
+		}
 
 		--Clarion
-		self.famas.AMMO_MAX = 180
+		self.famas.use_data.selection_index = 1
 		self.famas.CLIP_AMMO_MAX = 25
-		self.famas.fire_mode_data.fire_rate = 0.06
+		self.famas.BURST_FIRE = 3
+		self.famas.ADAPTIVE_BURST_SIZE = false
 		self.famas.CAN_TOGGLE_FIREMODE = true
-		self.famas.auto = {}
-		self.famas.auto.fire_rate = 0.06
 		self.famas.kick = self.stat_info.kick_tables.vertical_kick
 		self.famas.supported = true
 		self.famas.stats = {
 			damage = 20,
-			spread = 19,
-			recoil = 17,
-			spread_moving = 4,
-			zoom = 1,
-			concealment = 28,
-			suppression = 9,
-			alert_size = 2,
-			extra_ammo = 101,
-			total_ammo_mod = 100,
-			value = 4,
-			reload = 20
+			spread = 24,
+			recoil = 19,
+			concealment = 20,
+			value = 1
 		}
-		self.famas.stats_modifiers = nil
-		self.famas.timers.reload_not_empty = 2.6
-		self.famas.BURST_FIRE = 3
-		self.famas.ADAPTIVE_BURST_SIZE = false
-		self.famas.timers.reload_interrupt = 0.26
-		self.famas.timers.empty_reload_interrupt = 0.18
+		self.famas.timers = {
+			reload_not_empty = 3.2,
+			reload_empty = 4.1,
+			reload_operational = 2.55,
+			empty_reload_operational = 2.55,
+			reload_interrupt = 0.7,
+			empty_reload_interrupt = 0.7,
+			unequip = 0.55,
+			equip = 0.6
+		}
+		self.famas.reload_speed_multiplier = 1.075 --2.9/3.8s
+
+	--Medium Rifles (PRIMARY)
+		--AK
+		self.ak74.desc_id = "bm_menu_sc_ak74_desc"
+		self.ak74.fire_mode_data.fire_rate = 0.0923076923
+		self.ak74.auto.fire_rate = 0.0923076923
+		self.ak74.kick = self.stat_info.kick_tables.right_recoil
+		self.ak74.supported = true
+		self.ak74.stats = {
+			damage = 24,
+			spread = 22,
+			recoil = 22,
+			concealment = 17,
+			value = 1
+		}
+		self.ak74.timers = {
+			reload_not_empty = 3.4,
+			reload_empty = 4.3,
+			reload_operational = 2.7,
+			empty_reload_operational = 2.7,
+			reload_interrupt = 0.66,
+			empty_reload_interrupt = 0.66,
+			unequip = 0.5,
+			equip = 0.5
+		}
+		self.ak74.reload_speed_multiplier = 1.23 --2.8/3.5s
+
+		--Car 4
+		self.new_m4.desc_id = "bm_menu_sc_m4_desc"
+		self.new_m4.fire_mode_data.fire_rate = 0.08571428571
+		self.new_m4.auto.fire_rate = 0.08571428571
+		self.new_m4.kick = self.stat_info.kick_tables.moderate_kick
+		self.new_m4.supported = true
+		self.new_m4.stats = {
+			damage = 24,
+			spread = 23,
+			recoil = 20,
+			concealment = 18,
+			value = 1
+		}
+		self.new_m4.timers = {
+			reload_not_empty = 3.3,
+			reload_empty = 4.1,
+			reload_operational = 2.665,
+			empty_reload_operational = 2.665,
+			reload_interrupt = 0.67,
+			empty_reload_interrupt = 0.75,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.new_m4.reload_speed_multiplier = 1.07 --3.1/3.8s
+
+		--UAR
+		self.aug.AMMO_MAX = 150
+		self.aug.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.aug.supported = true
+		self.aug.stats = {
+			damage = 24,
+			spread = 23,
+			recoil = 17,
+			concealment = 21,
+			value = 1
+		}
+		self.aug.timers = {
+			reload_not_empty = 3.65,
+			reload_empty = 4.1,
+			reload_operational = 2.5,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.85,
+			empty_reload_interrupt = 85,
+			unequip = 0.5,
+			equip = 0.5
+		}
+		self.aug.reload_speed_multiplier = 1.05 --3.5/3.9s
+
+		--Ak17
+		self.flint.CLIP_AMMO_MAX = 30
+		self.flint.BURST_FIRE = 3
+		self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.53846153833 --1000 rpm in burst fire, 700 otherwise.
+		self.flint.fire_mode_data.fire_rate = 0.09230769230 --700 rpm
+		self.flint.auto.fire_rate = 0.09230769230
+		self.flint.ADAPTIVE_BURST_SIZE = false
+		self.flint.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.flint.supported = true
+		self.flint.stats = {
+			damage = 24,
+			spread = 24,
+			recoil = 19,
+			concealment = 16,
+			value = 1
+		}
+		self.flint.timers = {
+			reload_not_empty = 2.7,
+			reload_empty = 3.7,
+			empty_reload_operational = 2.25,
+			reload_operational = 2.25,
+			reload_interrupt = 0.45,
+			empty_reload_interrupt = 0.45,
+			unequip = 0.5,
+			equip = 0.5
+		}
+
+		--Ak5
+		self.ak5.auto.fire_rate = 0.08571428571
+		self.ak5.fire_mode_data.fire_rate = 0.08571428571
+		self.ak5.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.ak5.supported = true
+		self.ak5.stats = {
+			damage = 24,
+			spread = 22,
+			recoil = 19,
+			concealment = 18,
+			value = 1
+		}
+		self.ak5.timers = {
+			reload_not_empty = 2.85,
+			reload_empty = 3.85,
+			reload_operational = 2,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.65,
+			unequip = 0.6,
+			equip = 0.45
+		}
+		self.ak5.reload_speed_multiplier = 1.20 --2.4/3.2s
+
+		--SABR
+		--TODO: Stats, won't play animation!
+		self.osipr.tactical_reload = 1
+		self.osipr.AMMO_MAX = 120
+		self.osipr.CLIP_AMMO_MAX = 30
+		self.osipr.fire_mode_data.fire_rate = 0.075
+		self.osipr.auto.fire_rate = 0.075
+		self.osipr.kick = self.stat_info.kick_tables.moderate_kick
+		self.osipr.supported = true
+		self.osipr.stats = {
+			damage = 24,
+			spread = 20,
+			recoil = 20,
+			concealment = 20,
+			value = 1
+		}
+		self.osipr.timers = {
+			reload_not_empty = 2.16,
+			reload_empty = 3.5,
+			reload_operational = 2,
+			empty_reload_operational = 2,
+			reload_interrupt = 0.67,
+			empty_reload_interrupt = 0.67,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.osipr.has_description = true
+		self.osipr.desc_id = "bm_w_osipr_desc"
+		self.osipr.custom = false	--TEMP fix for BeardLib sync
+
+		self.osipr_gl.AMMO_MAX = 8
+		self.osipr_gl.CLIP_AMMO_MAX = 6
+		self.osipr_gl.fire_mode_data.fire_rate = 0.75
+		self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
+		self.osipr_gl.supported = true
+		self.osipr_gl.stats = {
+			damage = 60,
+			spread = 20,
+			recoil = 20,
+			concealment = 20,
+			value = 1
+		}
+		self.osipr_gl.timers = {
+			reload_not_empty = 3.34,
+			reload_empty = 4.5,
+			reload_operational = 3,
+			empty_reload_operational = 3,
+			reload_interrupt = 1,
+			empty_reload_interrupt = 1,
+			equip = 0.6,
+			unequip = 0.6
+		}
+		self.osipr_gl.custom = false	--Temp fix for BeardLib sync
+
+		--Heh????
+			self.osipr_gl_npc.sounds.prefix = "contrabandm203_npc"
+			self.osipr_gl_npc.use_data.selection_index = 2
+			self.osipr_gl_npc.DAMAGE = 2
+			self.osipr_gl_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
+			self.osipr_gl_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
+			self.osipr_gl_npc.no_trail = true
+			self.osipr_gl_npc.CLIP_AMMO_MAX = 3
+			self.osipr_gl_npc.NR_CLIPS_MAX = 1
+			self.osipr_gl_npc.auto.fire_rate = 0.1
+			self.osipr_gl_npc.hold = "rifle"
+			self.osipr_gl_npc.alert_size = 2800
+			self.osipr_gl_npc.suppression = 1
+			self.osipr_gl_npc.FIRE_MODE = "auto"
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -755,33 +974,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.new_m14.timers.reload_not_empty = 2.60
 	self.new_m14.timers.reload_interrupt = 0.3
 	self.new_m14.timers.empty_reload_interrupt = 0.33
-
-	--Car 4
-	self.new_m4.desc_id = "bm_menu_sc_m4_desc"
-	self.new_m4.AMMO_MAX = 150
-	self.new_m4.CLIP_AMMO_MAX = 30
-	self.new_m4.fire_mode_data.fire_rate = 0.08571428571
-	self.new_m4.auto.fire_rate = 0.08571428571
-	self.new_m4.kick = self.stat_info.kick_tables.moderate_kick
-	self.new_m4.supported = true
-	self.new_m4.stats = {
-		damage = 24,
-		spread = 17,
-		recoil = 20,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.new_m4.stats_modifiers = nil
-	self.new_m4.timers.reload_empty = 3.5
-	self.new_m4.timers.reload_interrupt = 0.24
-	self.new_m4.timers.empty_reload_interrupt = 0.22
 
 	--CMP
 	self.mp9.desc_id = "bm_menu_sc_mp9_desc"
@@ -886,31 +1078,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m16.stats_modifiers = nil
 	self.m16.timers.reload_interrupt = 0.16
 	self.m16.timers.empty_reload_interrupt = 0.11
-
-	--AK
-	self.ak74.desc_id = "bm_menu_sc_ak74_desc"
-	self.ak74.AMMO_MAX = 150
-	self.ak74.fire_mode_data.fire_rate = 0.0923076923
-	self.ak74.auto.fire_rate = 0.0923076923
-	self.ak74.kick = self.stat_info.kick_tables.right_recoil
-	self.ak74.supported = true
-	self.ak74.stats = {
-		damage = 24,
-		spread = 18,
-		recoil = 21,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 25,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.ak74.stats_modifiers = nil
-	self.ak74.timers.reload_interrupt = 0.24
-	self.ak74.timers.empty_reload_interrupt = 0.17
 
 	--AK.762
 	self.akm.desc_id = "bm_menu_sc_akm_desc"
@@ -1018,56 +1185,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.saiga.stats_modifiers = nil
 	self.saiga.reload_speed_multiplier = 1.25
-
-	--Ak5
-	self.ak5.auto.fire_rate = 0.08571428571
-	self.ak5.fire_mode_data.fire_rate = 0.08571428571
-	self.ak5.kick = self.stat_info.kick_tables.moderate_right_kick
-	self.ak5.supported = true
-	self.ak5.stats = {
-		damage = 24,
-		spread = 16,
-		recoil = 20,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 25,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.ak5.stats_modifiers = nil
-	self.ak5.timers.reload_empty = 3.15
-	self.ak5.timers.reload_interrupt = 0.3
-	self.ak5.timers.empty_reload_interrupt = 0.21
-
-	--Aug
-	self.aug.AMMO_MAX = 150
-	self.aug.auto.fire_rate = 0.08
-	self.aug.fire_mode_data.fire_rate = 0.08
-	self.aug.kick = self.stat_info.kick_tables.moderate_left_kick
-	self.aug.supported = true
-	self.aug.stats = {
-		damage = 24,
-		spread = 17,
-		recoil = 19,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.aug.stats_modifiers = nil
-	self.aug.timers.reload_empty = 3.4
-	self.aug.CLIP_AMMO_MAX = 30
-	self.aug.timers.reload_interrupt = 0.35
-	self.aug.timers.empty_reload_interrupt = 0.24
 
 	--P90
 	self.p90.desc_id = "bm_ap_weapon_sc_desc"
@@ -1465,39 +1582,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.m45.stats_modifiers = nil
 	self.m45.timers.reload_not_empty = 2.8
 	self.m45.timers.reload_empty = 3.8
-
-	--Commando 553
-	self.s552.fire_mode_data.fire_rate = 0.08571428571
-	self.s552.auto.fire_rate = 0.08571428571
-	self.s552.BURST_FIRE = 3
-	self.s552.ADAPTIVE_BURST_SIZE = false
-	self.s552.kick = self.stat_info.kick_tables.moderate_left_kick
-	self.s552.AMMO_MAX = 150
-	self.s552.supported = true
-	self.s552.stats = {
-		damage = 24,
-		spread = 15,
-		recoil = 20,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 24,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.s552.stats_modifiers = nil
-	if SystemFS:exists("assets/mod_overrides/Classic Weapon Animations") then
-		self.s552.timers.reload_not_empty = 2.5
-		self.s552.timers.reload_empty = 3.45
-	else
-		self.s552.timers.reload_not_empty = 1.7
-		self.s552.timers.reload_empty = 2.35
-	end
-	self.s552.timers.reload_interrupt = 0.29
-	self.s552.timers.empty_reload_interrupt = 0.24
 
 	--Gruber Kurz
 	self.ppk.AMMO_MAX = 90
@@ -3727,34 +3811,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.siltstone.stats_modifiers = nil
 
-	--Ak17
-	self.flint.AMMO_MAX = 150
-	self.flint.CLIP_AMMO_MAX = 30
-	self.flint.BURST_FIRE = 3
-	self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.42857142857
-	self.flint.ADAPTIVE_BURST_SIZE = false
-	self.flint.fire_mode_data.fire_rate = 0.08571428571
-	self.flint.auto.fire_rate = 0.08571428571
-	self.flint.kick = self.stat_info.kick_tables.moderate_right_kick
-	self.flint.supported = true
-	self.flint.stats = {
-		damage = 24,
-		spread = 17,
-		recoil = 19,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 4,
-		reload = 20
-	}
-	self.flint.stats_modifiers = nil
-	self.flint.timers.reload_interrupt = 0.2
-	self.flint.timers.empty_reload_interrupt = 0.14
-
 	--Tatonka
 	self.coal.AMMO_MAX = 100
 	self.coal.CLIP_AMMO_MAX = 64
@@ -5003,74 +5059,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--this line doesn't do shit
 	--self.shatters_fury.custom = true
 
-	--OICW
-	self.osipr.tactical_reload = 1
-	self.osipr.AMMO_MAX = 120
-	self.osipr.CLIP_AMMO_MAX = 30
-	self.osipr.fire_mode_data.fire_rate = 0.075
-	self.osipr.auto.fire_rate = 0.075
-	self.osipr.kick = self.stat_info.kick_tables.moderate_kick
-	self.osipr.supported = true
-	self.osipr.stats = {
-		damage = 24,
-		spread = 17,
-		recoil = 18,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 20,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.osipr.stats_modifiers = nil
-	self.osipr.timers.reload_not_empty = 2.16
-	self.osipr.timers.reload_empty = 3.5
-	self.osipr.has_description = true
-	self.osipr.desc_id = "bm_w_osipr_desc"
-	self.osipr.custom = false	--TEMP fix for BeardLib sync
-	self.osipr.timers.reload_interrupt = 0.31
-	self.osipr.timers.empty_reload_interrupt = 0.19
-
-	self.osipr_gl.AMMO_MAX = 9
-	self.osipr_gl.CLIP_AMMO_MAX = 6
-	self.osipr_gl.fire_mode_data.fire_rate = 0.75
-	self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
-	self.osipr_gl.supported = true
-	self.osipr_gl.stats = {
-		damage = 60,
-		spread = 6,
-		recoil = 8,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 15,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.osipr_gl.stats_modifiers = nil
-	self.osipr_gl.timers.reload_not_empty = 3.34
-	self.osipr_gl.timers.reload_empty = 4.5
-	self.osipr_gl.custom = false	--Temp fix for BeardLib sync
-	self.osipr_gl_npc.sounds.prefix = "contrabandm203_npc"
-	self.osipr_gl_npc.use_data.selection_index = 2
-	self.osipr_gl_npc.DAMAGE = 2
-	self.osipr_gl_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
-	self.osipr_gl_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_9mm"
-	self.osipr_gl_npc.no_trail = true
-	self.osipr_gl_npc.CLIP_AMMO_MAX = 3
-	self.osipr_gl_npc.NR_CLIPS_MAX = 1
-	self.osipr_gl_npc.auto.fire_rate = 0.1
-	self.osipr_gl_npc.hold = "rifle"
-	self.osipr_gl_npc.alert_size = 2800
-	self.osipr_gl_npc.suppression = 1
-	self.osipr_gl_npc.FIRE_MODE = "auto"
-
 	--Anubis .45
 	self.socom.timers = {
 		reload_not_empty = 1.5435,
@@ -5313,23 +5301,26 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	weapon.AMMO_PICKUP[1] = damage_tier.pickup[1]
 	weapon.AMMO_PICKUP[2] = damage_tier.pickup[2]
 
-	local ammo_max = 3600 / damage_tier.damage
+	local ammo_max = weapon.AMMO_MAX
+	if not ammo_max then
+		ammo_max = 3600 / damage_tier.damage
 
-	if damage_tier.damage >= 1200 then
-		ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
-	end
+		if damage_tier.damage >= 1200 then
+			ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
+		end
 
-	--Get weapon category specific max ammo multipliers.
-	for i = 1, #weapon.categories do
-		local category = weapon.categories[i]
-		ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
+		--Get weapon category specific max ammo multipliers.
+		for i = 1, #weapon.categories do
+			local category = weapon.categories[i]
+			ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
+		end
 	end
 
 	--Determine how much to multiply things by.
 	local pickup_multiplier = ammo_max
 
 	--Halve max ammo for guns in the secondary slot, without affecting pickup.
-	if weapon.use_data.selection_index == 1 then
+	if not weapon.AMMO_MAX and weapon.use_data.selection_index == 1 then
 		ammo_max = ammo_max/ 2
 	end
 

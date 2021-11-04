@@ -907,19 +907,17 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					{ ammo = 0.04, time = 10, headshots = 2, to_magazine = true } --Ace
 				}
 
-			--Aggressive Reload
-				self.values.temporary.single_shot_fast_reload = {
-					{ --Basic
-						1.3,
-						10,
-						false --Whether or not to allow full-auto
-					},
-					{ --Ace
-						1.5,
-						10,
-						true
-					},
-				}
+			--Rapid Reset
+				--Basic
+					self.values.assault_rifle.headshot_bloom_reset = {true}
+
+				--Ace
+					self.values.temporary.single_shot_fast_reload = {
+						{ --Ace
+							1.5,
+							10
+						},
+					}
 
 			--Helmet Popping
 				--Basic
@@ -2448,15 +2446,6 @@ function UpgradesTweakData:_player_definitions()
 			upgrade = "pick_lock_easy_speed_multiplier",
 			category = "player"
 		}
-	}		
-	self.definitions.temporary_single_shot_fast_reload_2 = {
-		name_id = "menu_temporary_single_shot_fast_reload",
-		category = "temporary",
-		upgrade = {
-			value = 2,
-			upgrade = "single_shot_fast_reload",
-			category = "temporary"
-		}
 	}
 	self.definitions.grenade_launcher_reload_speed_multiplier = {
 		name_id = "menu_assault_rifle_reload_speed_multiplier",
@@ -3492,6 +3481,15 @@ function UpgradesTweakData:_saw_definitions()
 			value = 1,
 			upgrade = "headshot_pierce_damage_mult",
 			category = "snp"
+		}
+	}
+	self.definitions.assault_rifle_headshot_bloom_reset = {
+		name_id = "menu_player_assault_rifle_headshot_bloom_reset",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_bloom_reset",
+			category = "assault_rifle"
 		}
 	}
 	self.definitions.assault_rifle_headshot_repeat_damage_mult = {
