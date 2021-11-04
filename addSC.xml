@@ -1411,6 +1411,7 @@
 	<texture path="units/pd2_dlc_vip/characters/ene_spring/heads_spring_df" force="false"/>	
 	<texture path="units/pd2_dlc_vip/characters/ene_spring/heads_spring_il" force="false"/>	   
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/spring_glass_op" force="false" load="true"/>    
+	<unit path="units/payday2/weapons/wpn_npc_mini/x_mini_npc" load="true" force="false"/>
 	
 	<!--Autumn-->
 	<sequence_manager path="units/pd2_dlc_vip/characters/ene_vip_autumn/ene_vip_autumn" force="false"/>
