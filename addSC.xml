@@ -1767,13 +1767,6 @@
 	
 	<!--SC Skill atlas-->
 	<texture path="guis/textures/pd2/skilltree/icons_atlas_sc"/>
-	
-	<!--I LOVE TO RELOAD DURING A HEIST-->
-	<unit path="units/pd2_dlc_west/weapons/wpn_fps_x_peacemaker/wpn_fps_x_peacemaker" load="false"/>
-	<cooked_physics path="units/pd2_dlc_west/weapons/wpn_fps_x_peacemaker/wpn_fps_x_peacemaker" load="false"/>
-	<model path="units/pd2_dlc_west/weapons/wpn_fps_x_peacemaker/wpn_fps_x_peacemaker" load="false"/>
-	<object path="units/pd2_dlc_west/weapons/wpn_fps_x_peacemaker/wpn_fps_x_peacemaker" load="false"/>
-	<unit path="units/pd2_dlc_west/weapons/wpn_fps_x_peacemaker/wpn_fps_x_peacemaker_npc" load="false"/>
 
 	<!--SKR-7 SPREE BABY!!!-->
 	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_smg_mac10_s_no"/> 			
