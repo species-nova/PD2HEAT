@@ -19,15 +19,15 @@ local environment_replacers = {
 		}
 	},
 	rvd1 = {
-		--[[{ --Nightlife
+		{ --Pink
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_exterior"] = "scriptdata/rvd1_alt1.custom_xml",
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_inside"] = "scriptdata/rvd1_alt1.custom_xml"
-		},]]--
-		{}, --Default
-		{ --Pink Smog
+		},
+		{} --Default
+		--[[{ --Nightlife
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_exterior"] = "scriptdata/rvd1_alt2.custom_xml",
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_inside"] = "scriptdata/rvd1_alt2.custom_xml"
-		}
+		}]]--
 	},
 	pbr2 = {
 		{ --Pink Skies
