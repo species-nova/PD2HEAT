@@ -47,6 +47,9 @@
 	<animation path="anims/fps/g3/g3_unequip" force="true"/>
 	<animation path="anims/fps/g3/g3_use" force="true"/>
 	
+	<!--level icon stuff-->
+	<texture path="guis/dlcs/bro/textures/pd2/crimenet/chill_combat"/>
+	
 	<!--env stuff-->
 	<scene path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />
 	<material_config path="core/environments/skies/sky_heated_avenue/sky_heated_avenue" load="true" />
