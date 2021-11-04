@@ -1515,23 +1515,6 @@
 	<object path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/ene_acc_shield_vip" force="true"/>	
 	<texture path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/shield_vip_df" force="true"/>	
 	
-	<!--RAPHAEL CHRIST IS Rino-->	
-	<!--LOD Vet Cop-->		
-	<object path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false"/>
-	<cooked_physics path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false"/>
-	<model path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false"/>
-	<unit path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false" load="true"/>
-	<material_config path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1" force="false"/>
-	<material_config path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1_contour" force="false"/>
-	<unit path="units/payday2/characters/ene_veteran_lod_1/ene_veteran_lod_1_husk" force="false" load="true"/>
-
-	<object path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2" force="false"/>
-	<cooked_physics path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2" force="false"/>
-	<model path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2" force="false"/>
-	<unit path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2" force="false" load="true"/>
-	<material_config path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2" force="false"/>
-	<material_config path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2_contour" force="false"/>
-	<unit path="units/payday2/characters/ene_veteran_lod_2/ene_veteran_lod_2_husk" force="false" load="true"/>	
 	
 	<!--One step closer to heaven.-->	
 	<unit path="units/payday2/weapons/wpn_npc_raging_bull/x_raging_bull_npc" load="false" force="false"/>
