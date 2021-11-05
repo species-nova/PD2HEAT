@@ -190,9 +190,6 @@
 	<material_config path="units/menu/menu_scene/menu_cylinder" force="true" />
 	<model path="units/menu/menu_scene/menu_logo" force="true" />
 	
-	<!--fundamentalist tree background !!CURRENTLY PLACEHOLDER!!-->
-	<!--<texture path="guis/textures/pd2/skilltree/bg_fundamentalist" force="true"/>-->
-	
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_single_shot_fast_reload" force="false" load="false"/> <!-- Aggressive Reload -->
@@ -445,7 +442,7 @@
 	<!--PDTH Smokebomb-->
 	<effect path="effects/particles/explosions/smoke_grenade_smoke" force="true"/>
 
-	<!--Security Guard 7 fixed cap (Thanks Baddy!) el chupacabras-->	
+	<!--Security Guard 7 fixed cap (Thanks Baddy!)-->	
 	<object path="units/payday2/characters/ene_security_7/ene_security_7" force="true" />	
 
 	<!--Corrected NPC Weapon Sounds-->	
@@ -519,7 +516,7 @@
 	<!--epic hd cloaker eyes thanks jarey-->
 	<texture path="units/payday2/characters/shared_textures/spook_il"/>
 
-	<!--More Cop Facial Variety (Thanks AGAIN Wekk!!!!)-->			
+	<!--More Cop Facial Variety (Thanks AGAIN Wekk!!!!)>			
 	<material_config path="units/payday2/characters/ene_fbi_1/ene_fbi_1" force="true" />
 	<object path="units/payday2/characters/ene_fbi_1/ene_fbi_1" />	
 	<model path="units/payday2/characters/ene_fbi_1/ene_fbi_1" />	
@@ -581,7 +578,7 @@
 	<material_config path="units/payday2/characters/ene_security_5/ene_security_5" force="true" />
 	<material_config path="units/payday2/characters/ene_security_5/ene_security_5_contour" force="true" />	
 
-	<!-- material configs-->
+	<material configs>
 	<material_config path="units/payday2/characters/ene_fbi_vars/ene_fbi_var1" />
 	<material_config path="units/payday2/characters/ene_fbi_vars/ene_fbi_var1_contour" />
 	<material_config path="units/payday2/characters/ene_fbi_vars/ene_fbi_var2" />
@@ -640,7 +637,8 @@
 	<texture path="units/pd2_mod_lapd/characters/shared_textures/heads_cop_la_nm" />	
 	<texture path="units/pd2_dlc1/characters/shared_textures/ene_security_gensec_heads_df" force="true" />	
 	
-	<!--More Cop Facial Variety END-->	
+	<-More Cop Facial Variety END
+	god i dont know what would be used for the cop face randomization and whats not so im just doing this lord help me-->	
 	
 	<!--restored uniforms for security_6, welcome back home buddy :)-->
 	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true" />
