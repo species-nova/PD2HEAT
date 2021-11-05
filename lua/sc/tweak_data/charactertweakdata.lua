@@ -1179,39 +1179,36 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.weekend.surrender = presets.surrender.bravo
 	table.insert(self._enemy_list, "weekend")				
 	
-	self.city_swat_titan = deep_clone(self.city_swat) --titan riot swat
-	self.city_swat_titan.can_slide_on_suppress = true
-	self.city_swat_titan.speech_prefix_p1 = "are you team cum pisser"
-	self.city_swat_titan.speech_prefix_p2 = "or team poop shitter"
-	self.city_swat_titan.speech_prefix_count = nil		
+	self.riot_swat = deep_clone(self.city_swat) --titan riot swat
+	self.riot_swat.can_slide_on_suppress = true
+	self.riot_swat.speech_prefix_p1 = "are you team cum pisser"
+	self.riot_swat.speech_prefix_p2 = "or team poop shitter"
+	self.riot_swat.speech_prefix_count = nil		
 	if is_reaper then
-		self.city_swat_titan.custom_voicework = "tswat_ru"
+		self.riot_swat.custom_voicework = "tswat_ru"
 	else
-		self.city_swat_titan.custom_voicework = "pdth"
+		self.riot_swat.custom_voicework = "pdth"
 	end				
-	self.city_swat_titan.HEALTH_INIT = 42
-	self.city_swat_titan.headshot_dmg_mul = normal_headshot
-	self.city_swat_titan.weapon = presets.weapon.good
-	self.city_swat_titan.damage.hurt_severity = presets.hurt_severities.elite_easy
-	self.city_swat_titan.damage.explosion_damage_mul = 0.5
-	self.city_swat_titan.use_animation_on_fire_damage = true
-	self.city_swat_titan.move_speed = presets.move_speed.fast
-	self.city_swat_titan.dodge = presets.dodge.elite
-	self.city_swat_titan.static_weapon_preset = true
-	self.city_swat_titan.static_dodge_preset = true
-	self.city_swat_titan.static_melee_preset = true	
-	self.city_swat_titan.heal_cooldown = true
-	table.insert(self._enemy_list, "city_swat_titan")
+	self.riot_swat.HEALTH_INIT = 42
+	self.riot_swat.headshot_dmg_mul = normal_headshot
+	self.riot_swat.weapon = presets.weapon.good
+	self.riot_swat.damage.hurt_severity = presets.hurt_severities.elite_easy
+	self.riot_swat.damage.explosion_damage_mul = 0.5
+	self.riot_swat.use_animation_on_fire_damage = true
+	self.riot_swat.move_speed = presets.move_speed.fast
+	self.riot_swat.dodge = presets.dodge.elite
+	self.riot_swat.static_weapon_preset = true
+	self.riot_swat.static_dodge_preset = true
+	self.riot_swat.static_melee_preset = true	
+	self.riot_swat.heal_cooldown = true
+	table.insert(self._enemy_list, "riot_swat")
 	
-	self.city_swat_titan_assault = deep_clone(self.city_swat_titan) --literally just a clone of the riot swat tweak zero need for this to exist
-	table.insert(self._enemy_list, "city_swat_titan_assault")
-	
-	self.skeleton_swat_titan = deep_clone(self.city_swat_titan) --zombie riot titan swat
+	self.skeleton_swat_titan = deep_clone(self.riot_swat) --zombie riot titan swat
 	self.skeleton_swat_titan.custom_voicework = "skeleton"
 	table.insert(self._enemy_list, "skeleton_swat_titan")	
 	
 	--Bravo LMG
-	self.weekend_lmg = deep_clone(self.city_swat_titan)		
+	self.weekend_lmg = deep_clone(self.riot_swat)		
 	if is_reaper then
 		self.weekend_lmg.custom_voicework = "tswat_ru"
 	elseif is_murky then
@@ -2932,7 +2929,7 @@ function CharacterTweakData:_init_drunk_pilot(presets) --almir on white xmas
 	self.drunk_pilot.ignores_aggression = true
 end
 
-function CharacterTweakData:_init_boris(presets) --huh??? unused????
+function CharacterTweakData:_init_boris(presets) --goat sim 2 feller 
 	self.boris = deep_clone(self.civilian)
 	self.boris.flee_type = "hide"
 	self.boris.access = "civ_male"
@@ -9664,10 +9661,10 @@ function CharacterTweakData:_set_overkill_290()
 	self.city_swat_guard.can_slide_on_suppress = true
 	
 	--Titan SWAT stun resistance
-	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.city_swat_titan.use_animation_on_fire_damage = false
-	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.city_swat_titan_assault.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.riot_swat.use_animation_on_fire_damage = false
+	self.riot_swat_assault.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.riot_swat_assault.use_animation_on_fire_damage = false
 	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
 	self.skeleton_swat_titan.use_animation_on_fire_damage = false	
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
@@ -9802,10 +9799,10 @@ function CharacterTweakData:_set_sm_wish()
 	}		
 	
 	--Titan SWAT stun resistance
-	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.city_swat_titan.use_animation_on_fire_damage = false
-	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.city_swat_titan_assault.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.riot_swat.use_animation_on_fire_damage = false
+	self.riot_swat_assault.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.riot_swat_assault.use_animation_on_fire_damage = false
 	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
 	self.skeleton_swat_titan.use_animation_on_fire_damage = false
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite

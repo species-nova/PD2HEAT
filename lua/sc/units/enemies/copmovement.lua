@@ -68,8 +68,7 @@ function CopMovement:init(unit)
 	CopMovement._action_variants.fbi_swat_vet = security_variant
 	CopMovement._action_variants.swat_titan = security_variant
 	CopMovement._action_variants.city_swat_guard = security_variant
-	CopMovement._action_variants.city_swat_titan = security_variant
-	CopMovement._action_variants.city_swat_titan_assault = security_variant
+	CopMovement._action_variants.riot_swat = security_variant
 	CopMovement._action_variants.skeleton_swat_titan = security_variant
 	CopMovement._action_variants.weekend = security_variant
 	CopMovement._action_variants.weekend_dmr = security_variant

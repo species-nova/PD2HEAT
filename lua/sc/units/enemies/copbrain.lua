@@ -218,8 +218,7 @@ function CopBrain:init(unit)
 	CopBrain._logic_variants.fbi_swat_vet = security_variant
 	CopBrain._logic_variants.swat_titan = security_variant
 	CopBrain._logic_variants.city_swat_guard = security_variant
-	CopBrain._logic_variants.city_swat_titan = security_variant
-	CopBrain._logic_variants.city_swat_titan_assault = security_variant
+	CopBrain._logic_variants.riot_swat = security_variant
 	CopBrain._logic_variants.skeleton_swat_titan = security_variant
 	CopBrain._logic_variants.weekend = security_variant
 	CopBrain._logic_variants.weekend_dmr = security_variant
