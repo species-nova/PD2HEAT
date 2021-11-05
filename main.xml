@@ -394,9 +394,9 @@
 	<Package id="packages/secret_stash" file="secret_stash.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/white_house" file="white_house.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/hoxout_2" file="hox_2.xml" use_clbk="self:DebugLoadAssets"/>
+	<Package id="packages/kh_guards" file="kh_guards.xml" use_clbk="self:LoadSCAssets"/>
 	<Package id="packages/rex_gold" file="rex_gold.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/bikers" file="addbikers.xml" use_clbk="self:DebugLoadAssets"/>
-	<Package id="packages/classicmovies" file="classicmovies.xml" use_clbk="self:LoadClassicMovies"/>
 	<Package id="packages/custom_fonts" file="fonts.xml" use_clbk="self:LoadFonts"/>
 	<Package id="packages/addhudmisc" file="addhudmisc.xml"/>
 	<Package id="packages/addrain" file="addRAIN.xml"/>
