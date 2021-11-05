@@ -299,7 +299,7 @@
 	<cover_data path="levels/narratives/locke/vit/cover_data" force="true" unload="true"/>
 	<nav_data path="levels/narratives/locke/vit/nav_manager_data" force="true" unload="true"/>
 
-	<nav_data path="levels/narratives/vlad/bex/nav_manager_data" force="true" unload="true"/>
+	<!--<nav_data path="levels/narratives/vlad/bex/nav_manager_data" force="true" unload="true"/>-->
 
 	<!--I LOVE GOOOOOOOOOOOOOLD-->
 	<continent path="levels/instances/unique/kenaz/vault/world/world" force="true" unload="true"/>
@@ -381,10 +381,6 @@
 	<object path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
 	<unit path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" load="true"/>
 	
-	<!-- Hoxton Breakout FBI Boss Vetcop -->
-	<unit path="units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1" load="true" force="true" />
-	<object path="units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1" force="true" />	
-	<unit path="units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1_husk" load="true" force="true" />
 	
 	<!-- Gensec Security: Beret Poppin' -->
 	<unit path="units/pd2_dlc1/characters/ene_security_gensec_1/ene_security_gensec_1" load="true" force="true" />
