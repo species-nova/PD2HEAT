@@ -274,6 +274,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.hox_1.player_style = "slaughterhouse"
 	
 	self.hox_2.player_style = "slaughterhouse"
+	self.hox_2.package = {"packages/narr_hox_2", "packages/hoxout_2"}
 	
 	self.hox_3.player_style = "slaughterhouse"
 	
