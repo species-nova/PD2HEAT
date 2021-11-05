@@ -519,9 +519,6 @@
 	<!--epic hd cloaker eyes thanks jarey-->
 	<texture path="units/payday2/characters/shared_textures/spook_il"/>
 
-	<!--epic hd ggc casino civs-->
-	<texture path="units/pd2_dlc_casino/characters/civ_male_casino_1/civ_male_casino_1_head_df" force="true"/>
-
 	<!--More Cop Facial Variety (Thanks AGAIN Wekk!!!!)-->			
 	<material_config path="units/payday2/characters/ene_fbi_1/ene_fbi_1" force="true" />
 	<object path="units/payday2/characters/ene_fbi_1/ene_fbi_1" />	
@@ -647,54 +644,7 @@
 	
 	<!--restored uniforms for security_6, welcome back home buddy :)-->
 	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true" />
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true" />		
-
-	<!--KH Guards, "Low Risk Location"-->
-	<object path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
-	<model path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
-	<unit path="units/payday2/characters/ene_security_4/ene_security_4" force="true" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_4/ene_security_4" force="true"/>
-	<material_config path="units/payday2/characters/ene_security_4/ene_security_4_contour" force="true"/>
-	<unit path="units/payday2/characters/ene_security_4/ene_security_4_husk" force="true" load="true"/> 
-	<texture path="units/payday2/characters/shared_textures/security_2_df" force="true"/>
-
-	<object path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
-	<model path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
-	<unit path="units/payday2/characters/ene_security_5/ene_security_5" force="true" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_5/ene_security_5" force="true"/>
-	<material_config path="units/payday2/characters/ene_security_5/ene_security_5_contour" force="true"/>
-	<unit path="units/payday2/characters/ene_security_5/ene_security_5_husk" force="true" load="true"/> 
-
-	<object path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
-	<model path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
-	<unit path="units/payday2/characters/ene_security_6/ene_security_6" force="true" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true"/>
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true"/>
-	<unit path="units/payday2/characters/ene_security_6/ene_security_6_husk" force="true" load="true"/> 
-	
-	<object path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
-	<model path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
-	<unit path="units/payday2/characters/ene_security_7/ene_security_7" force="true" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_7/ene_security_7" force="true"/>
-	<material_config path="units/payday2/characters/ene_security_7/ene_security_7_contour" force="true"/>
-	<unit path="units/payday2/characters/ene_security_7/ene_security_7_husk" force="true" load="true"/> 
-	
-	<material_config path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true"/>
-	<model path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true"/>
-	<unit path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true" load="true"/>
-	<object path="units/payday2/characters/ene_acc_security_cap_2/ene_acc_security_cap_2" force="true"/>
-	
-	<object path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
-	<cooked_physics path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
-	<model path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
-	<unit path="units/payday2/characters/ene_security_8/ene_security_8" force="true" load="true"/>
-	<material_config path="units/payday2/characters/ene_security_8/ene_security_8" force="true"/>
-	<material_config path="units/payday2/characters/ene_security_8/ene_security_8_contour" force="true"/>
-	<unit path="units/payday2/characters/ene_security_8/ene_security_8_husk" force="true" load="true"/> 
+	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true" />
 
 	<!--Risk Level-->
 	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_4_sc" force="false"/>
@@ -1220,7 +1170,7 @@
 	<!--textures-->
 	<texture path="units/pd2_mod_halloween/characters/ene_headless_hatman/hatman_df" force="false"/>	
 	
-	<!--Titan Cloaca-->	
+	<!--Titan Cloaker-->	
 	<model path="units/pd2_mod_halloween/characters/ene_spook_cloak_1/ene_spook_cloak_1"/>
 	<object path="units/pd2_mod_halloween/characters/ene_spook_cloak_1/ene_spook_cloak_1"/>
 	<sequence_manager path="units/pd2_mod_halloween/characters/ene_spook_cloak_1/ene_spook_cloak_1"/>
@@ -1263,7 +1213,7 @@
 	<unit path="units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3" force="false" load="true"/>
 	<unit path="units/payday2/characters/ene_fbi_swat_3/ene_fbi_swat_3_husk" force="false" load="true"/>	
 
-	<!-- FBI 3 :))))))))))))))))))))))))))))))))))))))))))))))))))))))-->
+	<!-- FBI 3 -->
 	<model path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/>	
 	<unit path="units/payday2/characters/ene_fbi_3/ene_fbi_3" force="true"/>
 	<unit path="units/payday2/characters/ene_fbi_3/ene_fbi_3_husk" force="true"/>		
@@ -1321,6 +1271,7 @@
 	<cooked_physics path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/-->
 
 	<!--NEEDS TO BE KILLED vivinite enhanced caps-->
+	<!--DELETE ME ONCE FULLY SCRUBBED-->
 	<object path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<cooked_physics path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<model path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
@@ -1443,7 +1394,6 @@
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/vip_head_df" force="true"/>		
 
 	<!--Winter with his cool shield (Jarey)-->
-	<!--doesn't exist yet :c NVM IT DOES NOW BAYBEEEEEE-->	
 	<model path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/ene_acc_shield_vip" force="true"/>
 	<object path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/ene_acc_shield_vip" force="true"/>	
 	<texture path="units/pd2_dlc_vip/characters/ene_acc_shield_vip/shield_vip_df" force="true"/>	
@@ -1530,9 +1480,6 @@
 	<material_config path="units/payday2/characters/ene_sniper_3/ene_sniper_3" />	
 	<material_config path="units/payday2/characters/ene_sniper_3/ene_sniper_3_contour" />	
 	<cooked_physics  path="units/payday2/characters/ene_sniper_3/ene_sniper_3" />
-	
-	<!--National Guard-->
-	<!--never ever ;)-->
 	
 	<!--Gensec Shield Acc-->
 	<model path="units/payday2/characters/ene_acc_shield_city/ene_acc_shield_city" force="false"/>
@@ -2209,26 +2156,6 @@
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/swat_heavy_head_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/shared_textures/swat_heavy_df" />	
 	<texture path="units/pd2_dlc_gitgud/characters/ene_zeal_swat_heavy/swat_heavy_nm" />	
-	<!--fbi ready team 1 -->
-	<!--
-    <object path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1"/>
-	<cooked_physics path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1"/>
-	<model path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1"/>
-	<unit path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1" load="true"/>
-	<material_config path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1"/>
-	<material_config path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1_contour"/>
-	<unit path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_1/ene_fbi_ready_guard_1_husk" load="true"/>
-	-->
-	<!--fbi ready team 2 -->
-	<!--
-    <object path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2"/>
-	<cooked_physics path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2"/>
-	<model path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2"/>
-	<unit path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2" load="true"/>
-	<material_config path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2"/>
-	<material_config path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2_contour"/>
-	<unit path="units/pd2_dlc_gitgud/characters/ene_fbi_ready_guard_2/ene_fbi_ready_guard_2_husk" load="true"/>
-	-->
 	<!--new zeals end-->
 		
 	<!--My son... (NYPD BRONCO COP) -->
