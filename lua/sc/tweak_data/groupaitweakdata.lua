@@ -889,12 +889,12 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 				Idstring("units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2")
 			},
 			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_nypd_veteran_cop_1/ene_nypd_veteran_cop_1"),
-				Idstring("units/pd2_mod_nypd/characters/ene_nypd_veteran_cop_2/ene_nypd_veteran_cop_2")
+				Idstring("units/payday2/characters/ene_veteran_cop_1/ene_veteran_cop_1"),
+				Idstring("units/payday2/characters/ene_veteran_cop_2/ene_veteran_cop_2")
 			},
 			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_lapd_veteran_cop_1/ene_lapd_veteran_cop_1"),
-				Idstring("units/pd2_mod_lapd/characters/ene_lapd_veteran_cop_2/ene_lapd_veteran_cop_2")
+				Idstring("units/payday2/characters/ene_veteran_cop_1/ene_veteran_cop_1"),
+				Idstring("units/payday2/characters/ene_veteran_cop_2/ene_veteran_cop_2")
 			},
 			omnia_skm = {
 				Idstring("units/pd2_mod_sharks/characters/ene_murky_veteran_1/ene_murky_veteran_1")
