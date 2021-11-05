@@ -46,13 +46,6 @@ Hooks:PostHook(CopBase, "post_init", "postinithooksex", function(self)
 	
 end)
 
-for i, material_config_path in pairs(material_config_paths) do
-  local normal_ids = ids_func(material_config_path)
-  local contour_ids = ids_func(material_config_path .. "_contour")
-
-  CopBase._material_translation_map[tostring(normal_ids:key())] = contour_ids
-  CopBase._material_translation_map[tostring(contour_ids:key())] = normal_ids 
-end
 
 --Deleting dozer hats cause it blows people up, pls gib standalone that's always loaded
 function CopBase:_chk_spawn_gear()
