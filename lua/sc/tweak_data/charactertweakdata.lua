@@ -443,7 +443,7 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop.speech_prefix_p1 = self._prefix_data_p1.cop()
 	self.cop.speech_prefix_p2 = "n"
 	self.cop.speech_prefix_count = 4
-	if job == "wwh" then
+	if job == "wwh" then 
 		self.cop.access = "cop"
 	else
 		self.cop.access = "fbi"
@@ -492,24 +492,6 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop_civ.melee_weapon = nil
 	self.cop_civ.move_speed = presets.move_speed.very_fast
 	table.insert(self._enemy_list, "cop_civ")
-	
-	self.dave = deep_clone(self.cop)
-	self.dave.weapon = presets.weapon.good
-	self.dave.detection = presets.detection.good
-	self.dave.dodge = presets.dodge.elite
-	self.dave.HEALTH_INIT = 24
-	self.dave.headshot_dmg_mul = 2
-	self.dave.silent_priority_shout = nil
-	self.dave.melee_weapon = "fists_dozer"
-	self.dave.move_speed = presets.move_speed.lightning
-	self.dave.custom_voicework = "big_dave"
-	self.dave.can_shoot_while_dodging = true
-	self.dave.can_slide_on_suppress = true
-	self.dave.steal_loot = true
-	self.dave.access = "fbi"
-	self.dave.speech_prefix_p1 = "fuckyou"
-	self.dave.speech_prefix_count = nil   
-	self.dave.heal_cooldown = 10
 end
 
 function CharacterTweakData:_init_fbi(presets)
