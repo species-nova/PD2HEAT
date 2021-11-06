@@ -973,35 +973,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		}
 	end
 
-	--[[
-	self.unit_categories.Titan_HRT = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_dlc_vip/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			},
-			murkywater = {
-				Idstring("units/pd2_dlc_vip/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_mad/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_fbi_titan_1/ene_fbi_titan_1")
-			}
-		},
-		access = access_type_all
-	}
-	]]
-
 	self.unit_categories.CS_swat_R870 = {
 		unit_types = {
 			america = {
@@ -7546,19 +7517,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.00
 			},
 			swats_n = {
-				0.21,
-				0.36,
-				0.51
+				0.24,
+				0.38,
+				0.53
 			},
 			heavys_n = {
 				0.11,
-				0.17,
-				0.17
+				0.18,
+				0.18
 			},
 			hostage_rescue_n = {
-				0.08,
-				0.06,
-				0.06
+				0.05,
+				0.03,
+				0.03
 			},
 			shield_n = {
 				0.10,
@@ -7579,29 +7550,29 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	elseif difficulty_index == 3 then
 		self.besiege.assault.groups = {
 			cops_h = {
-				0.15,
+				0.16,
 				0.10,
 				0.00
 			},
 			swats_h = {
-				0.31,
-				0.31,
+				0.32,
+				0.32,
 				0.37
 			},
 			heavys_h = {
 				0.2,
-				0.17,
-				0.17
+				0.18,
+				0.18
 			},
 			hostage_rescue_h = {
-				0.08,
 				0.05,
-				0.05
+				0.02,
+				0.02
 			},
 			shotguns_h = {
 				0.00,
-				0.05,
-				0.05
+				0.06,
+				0.07
 			},
 			shield_h = {
 				0.12,
@@ -7632,24 +7603,24 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.3
 			},
 			heavys_vh = {
-				0.2,
-				0.17,
-				0.14
+				0.21,
+				0.18,
+				0.15
 			},
 			hostage_rescue_vh = {
-				0.08,
 				0.05,
-				0.05
+				0.02,
+				0.02
 			},
 			bomb_squad_vh = {
-				0.05,
-				0.05,
-				0.05
+				0.06,
+				0.06,
+				0.06
 			},
 			shotguns_vh = {
-				0.05,
-				0.05,
-				0.05
+				0.06,
+				0.06,
+				0.06
 			},
 			shield_vh = {
 				0.12,
@@ -7685,29 +7656,29 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	elseif difficulty_index == 5 then
 		self.besiege.assault.groups = {
 			swats_ovk = {
-				0.25,
-				0.22,
+				0.27,
+				0.24,
 				0.19
 			},
 			heavys_ovk = {
-				0.12,
-				0.1,
-				0.1
+				0.13,
+				0.11,
+				0.11
 			},
 			hostage_rescue_ovk = {
-				0.08,
 				0.05,
-				0.05
+				0.02,
+				0.02
 			},
 			bomb_squad_ovk = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shotguns_ovk = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shield_ovk = {
 				0.12,
@@ -7743,29 +7714,29 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	elseif difficulty_index == 6 then
 		self.besiege.assault.groups = {
 			swats_mh = {
+				0.26,
 				0.24,
-				0.22,
 				0.19
 			},
 			heavys_mh = {
-				0.12,
-				0.1,
-				0.1
+				0.13,
+				0.11,
+				0.11
 			},
 			hostage_rescue_mh = {
-				0.08,
 				0.05,
-				0.05
+				0.02,
+				0.02
 			},
 			bomb_squad_mh = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shotguns_mh = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shield_mh = {
 				0.105,
@@ -7811,29 +7782,29 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	elseif difficulty_index == 7 then
 		self.besiege.assault.groups = {
 			swats_dw = {
-				0.22,
-				0.19,
+				0.23,
+				0.21,
 				0.18
 			},
 			heavys_dw = {
-				0.1,
-				0.1,
-				0.1
+				0.12,
+				0.11,
+				0.11
 			},
 			hostage_rescue_dw = {
-				0.08,
 				0.05,
-				0.05
+				0.02,
+				0.02
 			},
 			bomb_squad_dw = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shotguns_dw = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shield_dw = {
 				0.1,
@@ -7890,29 +7861,29 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		--death sentence assaults below, intentionally fairly mean. Later difficulties will scale down from this.
 		self.besiege.assault.groups = {
 			swats_ds = {
-				0.22,
-				0.19,
+				0.23,
+				0.2,
 				0.17
 			},
 			heavys_ds = {
+				0.11,
 				0.1,
-				0.09,
 				0.08
 			},
 			hostage_rescue_ds = {
-				0.08,
-				0.04,
-				0.02
+				0.07, --Higher chance == More likely to clear out map civs early.
+				0.02,
+				0.0
 			},
 			bomb_squad_ds = {
 				0.1,
 				0.1,
-				0.09
+				0.1
 			},
 			shotguns_ds = {
 				0.1,
 				0.1,
-				0.08
+				0.09
 			},
 			shield_ds = {
 				0.1,
