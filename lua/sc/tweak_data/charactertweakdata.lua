@@ -9663,8 +9663,8 @@ function CharacterTweakData:_set_overkill_290()
 	--Titan SWAT stun resistance
 	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
 	self.riot_swat.use_animation_on_fire_damage = false
-	self.riot_swat_assault.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.riot_swat_assault.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.riot_swat.use_animation_on_fire_damage = false
 	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
 	self.skeleton_swat_titan.use_animation_on_fire_damage = false	
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
@@ -9801,8 +9801,8 @@ function CharacterTweakData:_set_sm_wish()
 	--Titan SWAT stun resistance
 	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
 	self.riot_swat.use_animation_on_fire_damage = false
-	self.riot_swat_assault.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.riot_swat_assault.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.riot_swat.use_animation_on_fire_damage = false
 	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
 	self.skeleton_swat_titan.use_animation_on_fire_damage = false
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite
