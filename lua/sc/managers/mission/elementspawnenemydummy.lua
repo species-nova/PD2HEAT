@@ -969,9 +969,9 @@ function ElementSpawnEnemyDummy:produce(params)
 				
 				if spawn_limit < current_active_count + 1 then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
 					if diff_index < 4 then
-						enemy_name = Idstring("units/payday2/characters/ene_fbi_heavy_1/ene_fbi_heavy_1")
+						enemy_name = Idstring("units/payday2/characters/ene_tazer_1")
 					else
-						enemy_name = Idstring("units/payday2/characters/ene_spook_1/ene_spook_1") 
+						enemy_name = Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser") 
 					end
 				end
 			end
