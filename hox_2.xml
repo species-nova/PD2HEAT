@@ -1,0 +1,8 @@
+<table directory="assets">	
+
+	<!-- Hoxton Breakout FBI Boss Vetcop -->
+	<unit path="units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1" load="true" force="true" />
+	<object path="units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1" force="true" />	
+	<unit path="units/payday2/characters/ene_fbi_boss_1/ene_fbi_boss_1_husk" load="true" force="true" />
+	
+</table>

@@ -161,14 +161,7 @@ function StatisticsManager:init()
 			explosion = 0,
 			tied = 0
 		}
-	self._defaults.killed.city_swat_titan = {
-			count = 0,
-			head_shots = 0,
-			melee = 0,
-			explosion = 0,
-			tied = 0
-		}
-	self._defaults.killed.city_swat_titan_assault = {
+	self._defaults.killed.riot_swat = {
 			count = 0,
 			head_shots = 0,
 			melee = 0,
