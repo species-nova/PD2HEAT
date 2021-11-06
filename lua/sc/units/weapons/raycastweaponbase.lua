@@ -66,6 +66,9 @@ function RaycastWeaponBase:init(unit)
 	--Partially determines bloom decay rate.
 	local weapon_tweak = tweak_data.weapon[self._name_id]
 	self._base_fire_rate = (weapon_tweak.fire_mode_data and weapon_tweak.fire_mode_data.fire_rate or 0) / (weapon_tweak.fire_rate_multiplier or 1)
+
+	self._curr_kick = 0
+	self._kick_pattern = weapon_tweak.kick_pattern
 end
 
 function RaycastWeaponBase:setup(...)
@@ -873,6 +876,21 @@ function RaycastWeaponBase:stop_shooting()
 	if self:_soundfix_should_play_normal() then
 		self:play_tweak_data_sound("stop_fire")
 	end
+end
+
+--Updates the position in the weapon kick pattern table, and returns the desired value.
+function RaycastWeaponBase:do_kick_pattern()
+	if not self._kick_pattern then
+		log(self._name_id .. " is missing a kick pattern!")
+		return {math_random(), math_random()}
+	end
+
+	self._curr_kick = self._curr_kick + math.round(math_random(self._kick_pattern.random_range[1], self._kick_pattern.random_range[2]))
+	if self._curr_kick > #self._kick_pattern.pattern then
+		self._curr_kick = self._curr_kick - #self._kick_pattern.pattern
+	end
+
+	return self._kick_pattern.pattern[self._curr_kick]
 end
 
 --Calculate spread value. Done once per frame.

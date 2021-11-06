@@ -116,7 +116,7 @@ end
 
 --Add more recoil to burn through.
 --Also no longer arbitrarily caps vertical recoil.
-function FPCameraPlayerBase:recoil_kick(up, down, left, right)
+function FPCameraPlayerBase:recoil_kick(up, down, left, right, shooting)
 	local player_state = managers.player:current_state()
 	if player_state == "bipod" then
 		up = up * 0.4
@@ -125,10 +125,25 @@ function FPCameraPlayerBase:recoil_kick(up, down, left, right)
 		right = right * 0.4
 	end
 
-	local v = math.lerp(up, down, math.random())
-	self._recoil_kick.accumulated = (self._recoil_kick.accumulated or 0) + v
+	local lerp_x, lerp_y
+	if shooting then
+		local weapon_unit = managers.player:equipped_weapon_unit()
+		if weapon_unit then
+			local kick_lerp = weapon_unit:base():do_kick_pattern()
+			lerp_x = kick_lerp[1]
+			lerp_y = kick_lerp[2]
+		end
+	end
 
-	local h = math.lerp(left, right, math.random())
+	if not lerp_x then
+		lerp_x = math.random()
+		lerp_y = math.random()
+	end
+
+	local v = math.lerp(up, down, lerp_y)
+	self._recoil_kick.accumulated = (self._recoil_kick.accumulated or 0) + v
+	
+	local h = math.lerp(left, right, lerp_x)
 	self._recoil_kick.h.accumulated = (self._recoil_kick.h.accumulated or 0) + h
 end
 
@@ -136,10 +151,10 @@ end
 function FPCameraPlayerBase:_vertical_recoil_kick(t, dt)
 	local r_value = 0
 
-	if self._recoil_kick.accumulated and self._episilon < self._recoil_kick.accumulated then
-		local degrees_to_move = 40 * dt --Move camera 40 degrees per second, just like vanilla, but in a less fucky way.
+	if self._recoil_kick.accumulated and self._episilon < math.abs(self._recoil_kick.accumulated) then
+		local degrees_to_move = 40 * dt
 		r_value = math.min(self._recoil_kick.accumulated, degrees_to_move)
-		self._recoil_kick.accumulated = self._recoil_kick.accumulated - r_value --
+		self._recoil_kick.accumulated = self._recoil_kick.accumulated - r_value
 	elseif self._recoil_wait then
 		self._recoil_wait = self._recoil_wait - dt
 
@@ -157,7 +172,7 @@ function FPCameraPlayerBase:_horizonatal_recoil_kick(t, dt)
 	local r_value = 0
 
 	if self._recoil_kick.h.accumulated and self._episilon < math.abs(self._recoil_kick.h.accumulated) then
-		local degrees_to_move = 80 * dt --Track horizontal recoil twice as aggressively, since it tends to self compensate unlike vertical recoil.
+		local degrees_to_move = 40 * dt
 		r_value = math.min(self._recoil_kick.h.accumulated, degrees_to_move)
 		self._recoil_kick.h.accumulated = self._recoil_kick.h.accumulated - r_value
 	elseif self._recoil_wait then
