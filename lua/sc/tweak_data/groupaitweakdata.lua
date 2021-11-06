@@ -7861,7 +7861,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		--death sentence assaults below, intentionally fairly mean. Later difficulties will scale down from this.
 		self.besiege.assault.groups = {
 			swats_ds = {
-				0.22,
+				0.23,
 				0.2,
 				0.17
 			},
