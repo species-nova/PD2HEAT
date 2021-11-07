@@ -1920,7 +1920,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--{
 
 			--Swan Song--
-			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##60%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reached ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
+			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##60%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reaches ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
 
 
 
@@ -2043,7 +2043,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Tequila Time--
 		["menu_akimbo_skill_sc"] = "Tequila Time",
-		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkibmo weapons gain ##16## stability.\n\nACE: ##$pro##\nAkimbo weapons gain ##25%## more total ammo capacity and pickup.",
+		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkimbo weapons gain ##16## stability.\n\nACE: ##$pro##\nAkimbo weapons gain ##25%## more total ammo capacity and pickup.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",
@@ -2055,7 +2055,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Running From Death--
 		["menu_nine_lives_beta_sc"] = "Running from Death",
-		["menu_nine_lives_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##25%## faster for ##10## seconds after reviving.\n\nACE: ##$pro##\nYou gain a ##20%## damage reduction for ##10## seconds after reviving.\n\nYour weapons are instantly reloaded after reviving.",
+		["menu_nine_lives_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##25%## faster for ##10## seconds after being revived.\n\nACE: ##$pro##\nYou gain a ##20%## damage reduction for ##10## seconds after being revived.\n\nYour weapons are instantly reloaded after reviving.",
 
 		--Undying--
 		["menu_running_from_death_beta_sc"] = "Undying",
