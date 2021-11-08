@@ -697,7 +697,7 @@ function CopActionHurt:init(action_desc, common_data)
 		self.update = self._upd_bleedout
 
 		if common_data.ext_inventory then
-			--if self._is_server then
+			if self._is_server then
 				common_data.ext_inventory:equip_selection(1, true)
 			end
 
