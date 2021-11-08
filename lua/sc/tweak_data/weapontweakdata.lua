@@ -38,6 +38,7 @@ function WeaponTweakData:_init_stats()
 		--All spread values are in terms of AREA, to prevent things from scaling exponentially due to the number of additive modifiers.
 		--Generic spread, applied at all times.
 		--Keep this between 0.5x-1x the other stats to ensure that accuracy min/maxxed guns have the lowest *overall* spread; but worse spread than guns specialized in moving or spraying.
+			--Currently, other stats provide up to -8 spread in their respective areas, whereas this provides -6. So investing elsewhere will reduce spread more situationally, but this will reduce it more overall.
 		self.stat_info.base_spread = 6
 		self.stat_info.spread_per_accuracy = -0.24
 		self.stats.spread = {}
@@ -53,6 +54,14 @@ function WeaponTweakData:_init_stats()
 			far_mul = 2,
 			shotgun_penalty = 0.3
 		}
+		
+		self.stat_info.base_breathing_amplitude = 0.52
+		self.stat_info.breathing_amplitude_per_accuracy = -0.015
+		self.stat_info.steelsight_breathing_amplitude_mul = 0.1
+		self.stat_info.breathing_amplitude = {}
+		for i = 1, 26, 1 do
+			table.insert(self.stat_info.breathing_amplitude, self.stats.spread[i], self.stat_info.base_breathing_amplitude + ((i - 1) * self.stat_info.breathing_amplitude_per_accuracy))
+		end
 
 	--MOBILITY
 		--Keep for legacy purposes, to allow for things to be displayed properly in certain areas without large refactors.
@@ -81,16 +90,16 @@ function WeaponTweakData:_init_stats()
 		end
 
 	--STABILITY
-		self.stat_info.base_bloom_spread = 1.5 --Amount of spread each stack of bloom gives.
-		self.stat_info.spread_per_stability = -0.06 --Amount bloom spread is reduced by stability.
+		self.stat_info.base_bloom_spread = 1.3338 --Amount of spread each stack of bloom gives.
+		self.stat_info.spread_per_stability = -0.0513 --Amount bloom spread is reduced by stability.
 		self.stat_info.bloom_spread = {}
 		for i = 0, 25, 1 do
-			table.insert(self.stat_info.bloom_spread, self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability))
+			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
 		end
 
 		self.stat_info.bloom_data = {
-			hot_decay = 0.25, --# of stacks removed per second while the player is actively shooting. Keep this very low.
-			cold_delay = 0.25, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before switching to cold_decay.
+			hot_decay = 0.3, --# of stacks removed per second while the player is actively shooting. Keep this very low.
+			cold_delay = 0.2, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before switching to cold_decay.
 			cold_decay = 3, --# of stacks removed per second while the player is no longer shooting. Is modulated by the delay between shots, so it's far higher on most guns.
 			max_stacks = 6 --Maximum number of bloom stacks that can be had at once.
 		}
@@ -111,18 +120,18 @@ function WeaponTweakData:_init_stats()
 	self.stat_info.stance_spread_mults = {
 		standing = 1,
 		moving_standing = 1,
-		crouching = 0.75,
-		moving_crouching = 0.75,
-		steelsight = 0.5,
-		moving_steelsight = 0.5,
-		bipod = 0.4
+		crouching = 0.7,
+		moving_crouching = 0.7,
+		steelsight = 0.4,
+		moving_steelsight = 0.4,
+		bipod = 0.3
 	}
 
 	--Stance multipliers for weapon recoil.
 	self.stat_info.stance_recoil_mults = {
 		standing = 1,
-		crouching = 0.75,
-		steelsight = 0.5
+		crouching = 0.7,
+		steelsight = 0.4
 		--bipod = 0.4 TODO: Change recoil.lua to use this.
 	}
 
@@ -471,9 +480,9 @@ function WeaponTweakData:_init_stats()
 		zigzag_1 = {pattern = circle_cw, random_range = {2, 4}},
 		zigzag_2 = {pattern = circle_ccw, random_range = {2, 4}},
 		zigzag_3 = {pattern = circle_switch, random_range = {2, 4}},
-		jumpy_cw = {pattern = circle_cw, random_range = {3, 6}},
-		jumpy_ccw = {pattern = circle_ccw, random_range = {3, 6}},
-		jumpy_switch = {pattern = circle_switch, random_range = {3, 6}},
+		jumpy_1 = {pattern = circle_cw, random_range = {3, 6}},
+		jumpy_2 = {pattern = circle_ccw, random_range = {3, 6}},
+		jumpy_3 = {pattern = circle_switch, random_range = {3, 6}},
 		random = {pattern = circle_cw, random_range = {1, 15}}
 	}
 
@@ -643,7 +652,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.vhs.auto = {}
 		self.vhs.auto.fire_rate = 0.06976744186
 		self.vhs.kick = self.stat_info.kick_tables.even_recoil
-		self.vhs.kick_pattern = self.stat_info.kick_patterns.jumpy_cw
+		self.vhs.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.vhs.supported = true
 		self.vhs.stats = {
 			damage = 20,
@@ -697,7 +706,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.corgi.fire_rate_multiplier = 1.0501 --900 rpm
 		self.corgi.CAN_TOGGLE_FIREMODE = true
 		self.corgi.kick = self.stat_info.kick_tables.moderate_kick
-		self.corgi.kick_pattern = self.stat_info.kick_patterns.jumpy_cw
+		self.corgi.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.corgi.supported = true
 		self.corgi.stats = {
 			damage = 20,
@@ -759,7 +768,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.komodo.CLIP_AMMO_MAX = 30
 		self.komodo.fire_rate_multiplier = 1.125
 		self.komodo.kick = self.stat_info.kick_tables.moderate_kick
-		self.komodo.kick_pattern = self.stat_info.kick_patterns.jumpy_ccw
+		self.komodo.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.komodo.supported = true
 		self.komodo.stats = {
 			damage = 20,
@@ -786,7 +795,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.famas.ADAPTIVE_BURST_SIZE = false
 		self.famas.CAN_TOGGLE_FIREMODE = true
 		self.famas.kick = self.stat_info.kick_tables.vertical_kick
-		self.famas.kick_pattern = self.stat_info.kick_patterns.jumpy_cw
+		self.famas.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.famas.supported = true
 		self.famas.stats = {
 			damage = 20,
@@ -863,7 +872,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--UAR
 		self.aug.AMMO_MAX = 150
 		self.aug.kick = self.stat_info.kick_tables.moderate_left_kick
-		self.aug.kick_pattern = self.stat_info.kick_patterns.jumpy_switch
+		self.aug.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.aug.supported = true
 		self.aug.stats = {
 			damage = 24,
@@ -1098,7 +1107,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.l85a2.auto = {}
 		self.l85a2.auto.fire_rate = 0.0923076923
 		self.l85a2.kick = self.stat_info.kick_tables.moderate_kick
-		self.l85a2.kick_pattern = self.stat_info.kick_tables.jumpy_switch
+		self.l85a2.kick_pattern = self.stat_info.kick_tables.jumpy_3
 		self.l85a2.supported = true
 		self.l85a2.stats = {
 			damage = 30,
@@ -1174,6 +1183,211 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 		self.fal.reload_speed_multiplier = 1.17 --2.4/3.2s
+
+	--Light DMR (Primary)
+		--Eagle Heavy
+		self.scar.fire_rate_multiplier = 1.029 --630 rpm.
+		self.scar.CAN_TOGGLE_FIREMODE = true
+		self.scar.CLIP_AMMO_MAX = 20
+		self.scar.kick = self.stat_info.kick_tables.vertical_kick
+		self.scar.kick_pattern = self.stat_info.kick_patterns.random
+		self.scar.supported = true
+		self.scar.stats = {
+			damage = 45,
+			spread = 22,
+			recoil = 19,
+			concealment = 16,
+			value = 9
+		}
+		self.scar.timers = {
+			reload_not_empty = 2.8,
+			reload_empty = 3.65,
+			reload_operational = 1.7,
+			empty_reload_operational = 1.7,
+			reload_interrupt = 0.56,
+			empty_reload_interrupt = 0.59,
+			unequip = 0.6,
+			equip = 0.5
+		}
+		self.scar.reload_speed_multiplier = 0.9125 --3.1/4s
+		self.scar.swap_speed_multiplier = 0.9
+
+		--Byk-1
+		self.groza.desc_id = "bm_m203_weapon_sc_desc"
+		self.groza.has_description = true
+		self.groza.AMMO_MAX = 60
+		self.groza.tactical_reload = 1
+		self.groza.fire_rate_multiplier = 1.00333333333 --700 rpm.
+		self.groza.kick = self.stat_info.kick_tables.vertical_kick
+		self.groza.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.groza.supported = true
+		self.groza.stats = {
+			damage = 45,
+			spread = 20,
+			recoil = 15,
+			concealment = 19,
+			value = 1
+		}
+		self.groza.timers = {
+			reload_not_empty = 2.75,
+			reload_empty = 3.4,
+			reload_operational = 2.1,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.45,
+			empty_reload_interrupt = 0.45,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.groza.reload_speed_multiplier = 0.89 --3.1/3.8s
+		self.groza_underbarrel.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.groza_underbarrel.kick = self.stat_info.kick_tables.vertical_kick
+		self.groza_underbarrel.kick_pattern = self.stat_info.kick_patterns.random
+		self.groza_underbarrel.ignore_damage_upgrades = true
+		self.groza_underbarrel.AMMO_MAX = 6
+		self.groza_underbarrel.supported = true
+		self.groza_underbarrel.stats = {
+			damage = 40,
+			spread = 10,
+			recoil = 10,
+			concealment = 15,
+			value = 1
+		}
+		self.groza_underbarrel.timers = {
+			reload_not_empty = 1.3,
+			reload_empty = 1.3,
+			reload_operational = 0.85,
+			empty_reload_operational = 0.85,
+			reload_interrupt = 0.55,
+			empty_reload_interrupt = 0.55,
+			unequip = 0.6,
+			equip = 0.6,
+			equip_underbarrel = 0.55,
+			unequip_underbarrel = 0.65
+		}
+		self.groza_underbarrel.reload_speed_multiplier = 0.75
+		self.groza_underbarrel.stats_modifiers = {damage = 10}
+
+		--Valkyria
+		self.asval.sounds.fire = "akm_fire_single"
+		self.asval.sounds.fire_single = "akm_fire_single"
+		self.asval.sounds.fire_auto = "akm_fire"
+		self.asval.sounds.stop_fire = "akm_stop"
+		self.asval.sounds.dryfire = "primary_dryfire"
+		self.asval.fire_rate_multiplier = 1.005 --900 rpm
+		self.asval.CLIP_AMMO_MAX = 20
+		self.asval.kick = self.stat_info.kick_tables.moderate_kick
+		self.asval.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.asval.supported = true
+		self.asval.stats = {
+			damage = 45,
+			spread = 23,
+			recoil = 15,
+			alert_size = 1,
+			concealment = 17,
+			value = 1
+		}
+		self.asval.timers = {
+			reload_not_empty = 3.1,
+			reload_empty = 4.2,
+			reload_operational = 2.55,
+			empty_reload_interrupt = 2.55,
+			reload_interrupt = 0.65,
+			empty_reload_interrupt = 0.65,
+			unequip = 0.5,
+			equip = 0.5
+		}
+		self.asval.swap_speed_multiplier = 0.9
+
+		--Gecko 7.62
+		self.galil.fire_rate_multiplier = 0.8875 --750 rpm
+		self.galil.CLIP_AMMO_MAX = 30
+		self.galil.kick = self.stat_info.kick_tables.left_recoil
+		self.galil.kick_pattern = self.stat_info.kick_patterns.random
+		self.galil.supported = true
+		self.galil.stats = {
+			damage = 45,
+			spread = 23,
+			recoil = 17,
+			concealment = 11,
+			value = 4
+		}
+		self.galil.timers = {
+			reload_not_empty = 3.3,
+			reload_empty = 4.2,
+			reload_operational = 2.5,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.52,
+			empty_reload_interrupt = 0.47,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.galil.reload_speed_multiplier = 0.933333 --3.5/4.5/s
+		self.asval.swap_speed_multiplier = 0.9
+		
+		--Little Friend Rifle
+		self.contraband.desc_id = "bm_m203_weapon_sc_desc"
+		self.contraband.has_description = true
+		self.contraband.AMMO_MAX = 60
+		self.contraband.tactical_reload = 1
+		self.contraband.FIRE_MODE = "auto"
+		self.contraband.fire_mode_data.fire_rate = 0.1
+		self.contraband.CAN_TOGGLE_FIREMODE = true
+		self.contraband.auto.fire_rate = 0.1
+		self.contraband.kick = self.stat_info.kick_tables.vertical_kick
+		self.contraband.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.contraband.supported = true
+		self.contraband.stats = {
+			damage = 45,
+			spread = 23,
+			recoil = 19,
+			concealment = 14,
+			value = 1
+		}
+		self.contraband.timers = {
+			reload_not_empty = 3.2,
+			reload_empty = 3.9,
+			reload_operational = 2.5,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.59,
+			empty_reload_interrupt = 0.59,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.contraband_m203.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.contraband_m203.kick = self.stat_info.kick_tables.vertical_kick
+		self.contraband_m203.kick_pattern = self.stat_info.kick_patterns.random
+		self.contraband_m203.ignore_damage_upgrades = true
+		self.contraband_m203.AMMO_MAX = 6
+		self.contraband_m203.supported = true
+		self.contraband_m203.stats = {
+			damage = 80,
+			spread = 20,
+			recoil = 10,
+			concealment = 10,
+			value = 1
+		}
+		self.contraband_m203.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 2.5,
+			reload_operational = 1.8,
+			empty_reload_operational = 1.8,
+			reload_interrupt = 0.34,
+			empty_reload_interrupt = 0.34,
+			unequip = 0.6,
+			equip = 0.6,
+			equip_underbarrel = 0.4,
+			unequip_underbarrel = 0.4
+		}
+		self.contraband_m203.reload_speed_multiplier = 1.25 --2s
+		self.contraband_m203.stats_modifiers = {damage = 10}
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -1801,32 +2015,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mp7.timers.reload_not_empty = 1.75
 	self.mp7.timers.reload_empty = 2.4
 
-	--Eagle Heavy
-	self.scar.AMMO_MAX = 80
-	self.scar.fire_mode_data.fire_rate = 0.09523809523
-	self.scar.CAN_TOGGLE_FIREMODE = true
-	self.scar.auto.fire_rate = 0.09523809523
-	self.scar.kick = self.stat_info.kick_tables.vertical_kick
-	self.scar.supported = true
-	self.scar.stats = {
-		damage = 45,
-		spread = 18,
-		recoil = 18,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 22,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.scar.stats_modifiers = nil
-	self.scar.timers.reload_not_empty = 1.75
-	self.scar.timers.reload_interrupt = 0.32
-	self.scar.timers.empty_reload_interrupt = 0.185
-
 	--Signature .40
 	self.p226.AMMO_MAX = 75
 	self.p226.CLIP_AMMO_MAX = 16
@@ -2158,36 +2346,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.g3.stats_modifiers = nil
 	self.g3.timers.reload_interrupt = 0.36
 	self.g3.timers.empty_reload_interrupt = 0.32
-
-	--Gecko 7.62
-	self.galil.AMMO_MAX = 80
-	self.galil.FIRE_MODE = "auto"
-	self.galil.fire_mode_data = {}
-	self.galil.fire_mode_data.fire_rate = 0.08
-	self.galil.CAN_TOGGLE_FIREMODE = true
-	self.galil.auto = {}
-	self.galil.auto.fire_rate = 0.08
-	self.galil.kick = self.stat_info.kick_tables.left_recoil
-	self.galil.supported = true
-	self.galil.stats = {
-		damage = 45,
-		spread = 17,
-		recoil = 16,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 20,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 4,
-		reload = 20
-	}
-	self.galil.stats_modifiers = nil
-	self.galil.timers.reload_not_empty = 2.6
-	self.galil.timers.reload_empty = 3.9
-	self.galil.timers.reload_interrupt = 0.2
-	self.galil.timers.empty_reload_interrupt = 0.12
 
 	--Cobra
 	self.scorpion.AMMO_MAX = 90
@@ -3013,39 +3171,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mateba.timers.empty_reload_interrupt = 0.13
 	self.mateba.timers.reload_interrupt = 0.13
 
-	--Valkyria
-	self.asval.sounds.fire = "akm_fire_single"
-	self.asval.sounds.fire_single = "akm_fire_single"
-	self.asval.sounds.fire_auto = "akm_fire"
-	self.asval.sounds.stop_fire = "akm_stop"
-	self.asval.sounds.dryfire = "primary_dryfire"
-	self.asval.AMMO_MAX = 80
-	self.asval.FIRE_MODE = "auto"
-	self.asval.fire_mode_data = {}
-	self.asval.fire_mode_data.fire_rate = 0.06666666666
-	self.asval.CAN_TOGGLE_FIREMODE = true
-	self.asval.auto = {}
-	self.asval.auto.fire_rate = 0.06666666666
-	self.asval.kick = self.stat_info.kick_tables.moderate_kick
-	self.asval.supported = true
-	self.asval.stats = {
-		damage = 45,
-		spread = 18,
-		recoil = 14,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 22,
-		suppression = 18,
-		alert_size = 1,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.asval.stats_modifiers = nil
-	self.asval.timers.reload_interrupt = 0.25
-	self.asval.timers.empty_reload_interrupt = 0.18
-
 	--Cavity 9mm
 	self.sub2000.categories = {"pistol"}
 	self.sub2000.recategorize = "pistol_carbine"
@@ -3738,60 +3863,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.arbiter.stats_modifiers = {damage = 10}
 	self.arbiter.kick = self.stat_info.kick_tables.vertical_kick
 	self.arbiter.reload_speed_multiplier = 0.85
-
-	--Little Friend Rifle
-	self.contraband.desc_id = "bm_m203_weapon_sc_desc"
-	self.contraband.has_description = true
-	self.contraband.AMMO_MAX = 60
-	self.contraband.tactical_reload = 1
-	self.contraband.FIRE_MODE = "auto"
-	self.contraband.fire_mode_data.fire_rate = 0.1
-	self.contraband.CAN_TOGGLE_FIREMODE = true
-	self.contraband.auto.fire_rate = 0.1
-	self.contraband.kick = self.stat_info.kick_tables.vertical_kick
-	self.contraband.supported = true
-	self.contraband.stats = {
-		damage = 45,
-		spread = 18,
-		recoil = 19,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 16,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.contraband.stats_modifiers = nil
-	self.contraband.timers.reload_interrupt = 0.22
-	self.contraband.timers.empty_reload_interrupt = 0.19
-	self.contraband_m203.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.contraband_m203.kick = self.stat_info.kick_tables.vertical_kick
-	self.contraband_m203.ignore_damage_upgrades = true
-	self.contraband_m203.AMMO_MAX = 6
-	self.contraband_m203.supported = true
-	self.contraband_m203.stats = {
-		damage = 80,
-		spread = 19,
-		recoil = 9,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 25,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.contraband_m203.stats_modifiers = {damage = 10}
-	self.contraband_m203.timers.empty_reload_interrupt = 0.14
 
 	--Commando 101
 	self.ray.upgrade_blocks = {
@@ -5039,60 +5110,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.qbu88.armor_piercing_chance = 1
 	self.qbu88.stats_modifiers = nil
-
-	--Byk-1
-	self.groza.desc_id = "bm_m203_weapon_sc_desc"
-	self.groza.has_description = true
-	self.groza.AMMO_MAX = 60
-	self.groza.tactical_reload = 1
-	self.groza.FIRE_MODE = "auto"
-	self.groza.fire_mode_data.fire_rate = 0.08571428571
-	self.groza.CAN_TOGGLE_FIREMODE = true
-	self.groza.auto.fire_rate = 0.08571428571
-	self.groza.kick = self.stat_info.kick_tables.vertical_kick
-	self.groza.supported = true
-	self.groza.stats = {
-		damage = 45,
-		spread = 17,
-		recoil = 18,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 18,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.groza.stats_modifiers = nil
-	self.groza.timers.reload_interrupt = 0.3
-	self.groza.timers.empty_reload_interrupt = 0.21
-	self.groza_underbarrel.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.groza_underbarrel.kick = self.stat_info.kick_tables.vertical_kick
-	self.groza_underbarrel.ignore_damage_upgrades = true
-	self.groza_underbarrel.AMMO_MAX = 6
-	self.groza_underbarrel.supported = true
-	self.groza_underbarrel.stats = {
-		damage = 40,
-		spread = 17,
-		recoil = 9,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 25,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.groza_underbarrel.stats_modifiers = {damage = 10}
-	self.groza_underbarrel.timers.empty_reload_interrupt = 0.34
 
 	--Restoration Weapons--
 

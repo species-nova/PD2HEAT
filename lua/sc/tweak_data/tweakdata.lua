@@ -784,16 +784,3 @@ local blight = {
 	}
 }
 table.insert(tweak_data.achievement.complete_heist_achievements, blight)
-
-tweak_data.player.stances.msr.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.r93.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.m95.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.mosin.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.winchester1874.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.wa2000.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.model70.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.tti.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.siltstone.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.r700.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.sbl.steelsight.shakers.breathing.amplitude = 0
-tweak_data.player.stances.desertfox.steelsight.shakers.breathing.amplitude = 0

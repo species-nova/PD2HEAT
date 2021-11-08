@@ -893,6 +893,10 @@ function RaycastWeaponBase:do_kick_pattern()
 	return self._kick_pattern.pattern[self._curr_kick]
 end
 
+function RaycastWeaponBase:get_accuracy_addend(current_state)
+	return managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint)
+end
+
 --Calculate spread value. Done once per frame.
 function RaycastWeaponBase:update_spread(current_state, t, dt)	
 	if not current_state then
@@ -901,9 +905,7 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	end
 
 	--Get spread area from accuracy stat.
-	local spread_area = self._spread
-		+ managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint)
-		* tweak_data.weapon.stat_info.spread_per_accuracy
+	local spread_area = self._spread + self:get_accuracy_addend(current_state) * tweak_data.weapon.stat_info.spread_per_accuracy
 
 	--Moving penalty to spread, based on stability stat- added to total area.
 	if current_state._moving or current_state._state_data.in_air then

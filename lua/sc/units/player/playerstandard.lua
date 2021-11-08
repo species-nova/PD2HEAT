@@ -1264,6 +1264,15 @@ Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
 		
 	local weapon = self._unit:inventory():equipped_unit():base()
 	weapon:update_spread(self, t, dt)
+
+	log(tostring(weapon:weapon_tweak_data().stats.spread))
+	log(tostring(weapon:get_accuracy_addend(self)))
+
+	--Having this in update is less than ideal, but it appears that this is normally set in-engine in most cases rather than via lua.
+	--self._ext_camera:set_shaker_parameter("breathing", "amplitude", 
+	--	tweak_data.weapon.stat_info.breathing_amplitude[weapon:weapon_tweak_data().stats.spread + weapon:get_accuracy_addend(self)]
+	--	* (self._state_data.in_steelsight and tweak_data.weapon.stat_info.steelsight_breathing_amplitude_mul or 1))
+
 	if weapon:get_name_id() == "m134" then
 		weapon:update_spin()
 	end
@@ -1271,8 +1280,8 @@ Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
 	--Update the crosshair.
 		local crosshair_visible = alive(self._equipped_unit) and
 								  not self:_is_meleeing() and
-								  not self:_interacting() and
-								  (not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
+								  not self:_interacting() --and
+								  --(not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
 
 		if crosshair_visible then
 			--Ensure that crosshair is actually visible.
@@ -1638,7 +1647,6 @@ end)
 Hooks:PostHook(PlayerStandard, "inventory_clbk_listener", "ChangeActiveCategory", function(self, unit, event)
 	if event == "equip" then
 		self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
-		--self._crosshair_ignore_steelsight = true 
 	end
 end)
 
