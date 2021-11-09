@@ -812,7 +812,7 @@ function CharacterTweakData:_init_swat(presets) --blue light swat
 	self.swat.dodge = presets.dodge.athletic
 	self.swat.no_arrest = false
 	self.swat.chatter = presets.enemy_chatter.swat
-	self.swat.melee_weapon = "fists"
+	self.swat.melee_weapon = "knife_1"
 	if is_murky then
 	    self.swat.has_alarm_pager = true
 	else
