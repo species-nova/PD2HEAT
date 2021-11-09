@@ -539,10 +539,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--Bootleg tier (Primary)
 		--Bootleg
 		self.tecci.supported = true --ALWAYS include this flag for weapons indended to be used by players. Without it, the gun becomes unselectable.
-		self.tecci.categories = {
-			"assault_rifle"
-		}
-		self.tecci.recategorize = "assault_rifle"
 		self.tecci.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.tecci.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.tecci.CLIP_AMMO_MAX = 100
@@ -1184,7 +1180,35 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.fal.reload_speed_multiplier = 1.17 --2.4/3.2s
 
-	--Light DMR (Primary)
+	--Heavy Rifles (SECONDARY)
+		--Krinkov
+		self.akmsu.categories = {
+			"assault_rifle"
+		}
+		self.akmsu.fire_rate_multiplier = 0.7908333 --650 rpm
+		self.akmsu.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.akmsu.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.akmsu.supported = true
+		self.akmsu.stats = {
+			damage = 30,
+			spread = 21,
+			recoil = 18,
+			concealment = 18,
+			value = 1
+		}
+		self.akmsu.timers = {
+			reload_not_empty = 2.6,
+			reload_empty = 4.4,
+			reload_operational = 1.95,
+			empty_reload_operational = 1.95,
+			reload_interrupt = 0.48,
+			empty_reload_interrupt = 0.48,
+			unequip = 0.55,
+			equip = 0.6
+		}
+		self.akmsu.reload_speed_multiplier = 1.135 --2.3/3.9s
+
+	--Light DMR (PRIMARY)
 		--Eagle Heavy
 		self.scar.fire_rate_multiplier = 1.029 --630 rpm.
 		self.scar.CAN_TOGGLE_FIREMODE = true
@@ -1389,6 +1413,108 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.contraband_m203.reload_speed_multiplier = 1.25 --2s
 		self.contraband_m203.stats_modifiers = {damage = 10}
 
+	--Heavy DMR (PRIMARY)
+		--Galant--
+		self.ching.CLIP_AMMO_MAX = 8
+		self.ching.CAN_TOGGLE_FIREMODE = false
+		self.ching.kick = self.stat_info.kick_tables.vertical_kick
+		self.ching.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.ching.supported = true
+		self.ching.stats = {
+			damage = 60,
+			spread = 24,
+			recoil = 15,
+			concealment = 19,
+			value = 9
+		}
+		self.ching.timers = {
+			reload_not_empty = 3.2,
+			reload_empty = 2.3,
+			reload_operational = 2.1,
+			empty_reload_operational = 1.05,
+			reload_interrupt = 0.34,
+			empty_reload_interrupt = 0.001,
+			unequip = 0.6,
+			equip = 0.55
+		}
+		self.ching.unlock_func = nil
+
+		--M308
+		self.new_m14.CLIP_AMMO_MAX = 20
+		self.new_m14.fire_mode_data.fire_rate = 0.08571428571 --700rpm
+		self.new_m14.single.fire_rate = 0.08571428571
+		self.new_m14.kick = self.stat_info.kick_tables.moderate_kick
+		self.new_m14.kick_pattern = self.stat_info.kick_patterns.zigzag_3
+		self.new_m14.supported = true
+		self.new_m14.stats = {
+			damage = 60,
+			spread = 24,
+			recoil = 14,
+			concealment = 12,
+			value = 1
+		}
+		self.new_m14.timers = {
+			reload_not_empty = 3.1,
+			reload_empty = 3.8,
+			reload_operational = 2.55,
+			empty_reload_operational = 2.55,
+			reload_interrupt = 0.78,
+			empty_reload_interrupt = 1.04,
+			unequip = 0.6,
+			equip = 0.55
+		}
+		self.new_m14.reload_speed_multiplier = 0.926 --3.3/4.1s
+
+		--Gewehr 3
+		self.g3.FIRE_MODE = "single"
+		self.g3.CLIP_AMMO_MAX = 20
+		self.g3.fire_mode_data.fire_rate = 0.1 --600 rpm
+		self.g3.auto.fire_rate = 0.1
+		self.g3.kick = self.stat_info.kick_tables.right_kick
+		self.g3.kick_pattern = self.stat_info.kick_patterns.random
+		self.g3.supported = true
+		self.g3.stats = {
+			damage = 60,
+			spread = 22,
+			recoil = 17,
+			concealment = 14,
+			value = 4
+		}
+		self.g3.timers = {
+			reload_not_empty = 3.6,
+			reload_empty = 4.6,
+			reload_operational = 2.5,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.64,
+			empty_reload_interrupt = 0.64,
+			unequip = 0.6,
+			equip = 0.65
+		}
+
+		--KS12 Urban
+		self.shak12.CLIP_AMMO_MAX = 20
+		self.shak12.kick = self.stat_info.kick_tables.moderate_kick
+		self.shak12.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.shak12.tactical_reload = 1
+		--self.shak12.supported = true
+		self.shak12.stats = {
+			damage = 60,
+			spread = 20,
+			recoil = 14,
+			concealment = 21,
+			value = 1
+		}
+		self.shak12.timers = {
+			reload_not_empty = 2.1,
+			reload_empty = 2.9,
+			reload_operational = 1.9,
+			empty_reload_interrupt = 1.9,
+			reload_interrupt = 0.55,
+			empty_reload_interrupt = 0.55,
+			unequip = 0.6,
+			equip = 0.6
+		}
+
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
 	self.glock_17.fire_mode_data.fire_rate = 0.11009174311
@@ -1406,30 +1532,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.glock_17.stats_modifiers = nil
 	self.glock_17.timers.reload_interrupt = 0.36
 	self.glock_17.timers.empty_reload_interrupt = 0.25
-
-	--M308
-	self.new_m14.CLIP_AMMO_MAX = 20
-	self.new_m14.fire_mode_data.fire_rate = 0.08571428571
-	self.new_m14.single.fire_rate = 0.08571428571
-	self.new_m14.kick = self.stat_info.kick_tables.moderate_kick
-	self.new_m14.supported = true
-	self.new_m14.stats = {
-		damage = 60,
-		spread = 23,
-		recoil = 14,
-		zoom = 1,
-		concealment = 14,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.new_m14.stats_modifiers = nil
-	self.new_m14.timers.reload_not_empty = 2.60
-	self.new_m14.timers.reload_interrupt = 0.3
-	self.new_m14.timers.empty_reload_interrupt = 0.33
 
 	--CMP
 	self.mp9.desc_id = "bm_menu_sc_mp9_desc"
@@ -1506,35 +1608,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.glock_18c.stats_modifiers = nil
 	self.glock_18c.timers.reload_interrupt = 0.3
 	self.glock_18c.timers.empty_reload_interrupt = 0.22
-
-	--Krinkov
-	self.akmsu.categories = {
-		"assault_rifle"
-	}
-	self.akmsu.AMMO_MAX = 60
-	self.akmsu.fire_mode_data.fire_rate = 0.0923076923
-	self.akmsu.auto.fire_rate = 0.0923076923
-	self.akmsu.kick = self.stat_info.kick_tables.moderate_right_kick
-	self.akmsu.supported = true
-	self.akmsu.stats = {
-		damage = 30,
-		spread = 17,
-		recoil = 20,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 25,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.akmsu.stats_modifiers = nil
-	self.akmsu.timers.reload_not_empty = 1.95
-	self.akmsu.timers.reload_empty = 3.7
-	self.akmsu.timers.reload_interrupt = 0.25
-	self.akmsu.timers.empty_reload_interrupt = 0.13
 
 	--Izhma 12G
 	self.saiga.rays = 9
@@ -2319,33 +2392,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.gre_m79.stats_modifiers = {damage = 10}
-
-	--Gewehr 3
-	self.g3.AMMO_MAX = 60
-	self.g3.CLIP_AMMO_MAX = 20
-	self.g3.fire_mode_data.fire_rate = 0.1
-	self.g3.CAN_TOGGLE_FIREMODE = true
-	self.g3.auto = {}
-	self.g3.auto.fire_rate = 0.1
-	self.g3.kick = self.stat_info.kick_tables.right_kick
-	self.g3.supported = true
-	self.g3.stats = {
-		damage = 60,
-		spread = 18,
-		recoil = 17,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 20,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 4,
-		reload = 20
-	}
-	self.g3.stats_modifiers = nil
-	self.g3.timers.reload_interrupt = 0.36
-	self.g3.timers.empty_reload_interrupt = 0.32
 
 	--Cobra
 	self.scorpion.AMMO_MAX = 90
@@ -4087,42 +4133,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.breech.stats_modifiers = nil
 	self.breech.timers.reload_interrupt = 0.16
 	self.breech.timers.empty_reload_interrupt = 0.11
-
-	--Galant--
-	self.ching.categories = {"assault_rifle"}
-	self.ching.recategorize = "rifle"
-	self.ching.FIRE_MODE = "single"
-	self.ching.fire_mode_data = {fire_rate = 0.1}
-	self.ching.CAN_TOGGLE_FIREMODE = false
-	self.ching.single = {fire_rate = 0.1}
-	self.ching.has_description = true
-	self.ching.desc_id = "bm_galant_sc_desc"
-	self.ching.CLIP_AMMO_MAX = 8
-	self.ching.AMMO_MAX = 60
-	self.ching.CAN_TOGGLE_FIREMODE = false
-	self.ching.kick = self.stat_info.kick_tables.vertical_kick
-	self.ching.supported = true
-	self.ching.stats = {
-		damage = 60,
-		spread = 18,
-		recoil = 19,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.ching.stats_modifiers = nil
-	self.ching.armor_piercing_chance = nil
-	self.ching.can_shoot_through_enemy = false
-	self.ching.can_shoot_through_shield = false
-	self.ching.can_shoot_through_wall = false
-	self.ching.timers.reload_interrupt = 0.13
-	self.ching.timers.empty_reload_interrupt = 0.0
 
 	--Mp40
 	self.erma.use_data.selection_index = 2
