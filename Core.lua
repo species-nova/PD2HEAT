@@ -152,7 +152,6 @@ function heat:Init()
 		"born", --Biker 1
 		"flat",--Panic Room
 		"framing_frame_3", --Framing Frame 3
-		"des",	--Henry's Rock
 		"sah", --Shacklethorne
 		"chill_combat",	--Safehouse Raid
 		"man", --Undercover
@@ -182,6 +181,7 @@ function heat:Init()
 		"rvd2", --Resivoir Dogs 2, has very aggressive scripted spawns.
 		"spa", --Brooklyn 10-10
 		"mia_2", --Hotline Miami 2
+		"des",	--Henry's Rock
 		"nail",	--Lab Rats. Fuck this heist	
 		"hox_1",
 		"xmn_hox_1",
