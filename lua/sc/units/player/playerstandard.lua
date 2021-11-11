@@ -477,6 +477,37 @@ function PlayerStandard:_check_action_interact(t, input,...)
 	return new_action
 end
 
+function PlayerStandard:update(t, dt)
+	PlayerMovementState.update(self, t, dt)
+	self:_calculate_standard_variables(t, dt)
+	self:_update_ground_ray()
+	self:_update_fwd_ray()
+	self:_update_check_actions(t, dt)
+
+	if self._menu_closed_fire_cooldown > 0 then
+		self._menu_closed_fire_cooldown = self._menu_closed_fire_cooldown - dt
+	end
+
+	self:_update_movement(t, dt)
+	self:_upd_nav_data()
+	managers.hud:_update_crosshair_offset(t, dt)
+	self:_update_omniscience(t, dt)
+	self:_upd_stance_switch_delay(t, dt)
+
+	if self._last_equipped then
+		if self._last_equipped ~= self._equipped_unit then
+			self._equipped_visibility_timer = t + 0.1
+		end
+
+		if self._equipped_visibility_timer and self._equipped_visibility_timer < t and alive(self._equipped_unit) then
+			self._equipped_visibility_timer = nil
+			self._equipped_unit:base():set_visibility_state(true)
+		end
+	end
+
+	self._last_equipped = self._equipped_unit
+end
+
 function PlayerStandard:_update_check_actions(t, dt, paused)
 	local input = self:_get_input(t, dt, paused)
 

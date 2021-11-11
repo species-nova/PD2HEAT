@@ -204,6 +204,7 @@ function PlayerBleedOut:_get_unit_intimidation_action(intimidate_enemies, intimi
 	local prime_target = self:_get_interaction_target(char_table, my_head_pos, cam_fwd)
 	return self:_get_intimidation_action(prime_target, char_table, intimidation_amount, primary_only, detect_only)
 end
+
 local update_orig = PlayerBleedOut.update
 function PlayerBleedOut:update(t, dt)
 	if heat.Options:GetValue("NoBleedoutTilt") then

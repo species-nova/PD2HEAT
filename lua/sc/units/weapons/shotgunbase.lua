@@ -125,7 +125,7 @@ function ShotgunBase:fire_rate_multiplier()
 	local user_unit = self._setup and self._setup.user_unit
 	local current_state = alive(user_unit) and user_unit:movement() and user_unit:movement()._current_state
 	if current_state and not current_state:in_steelsight() then
-		mul = mul + 1 - player_manager:upgrade_value("shotgun", "hip_rate_of_fire", 1)
+		mul = mul + player_manager:upgrade_value("shotgun", "hip_rate_of_fire", 1) - 1
 	end
 
 	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
