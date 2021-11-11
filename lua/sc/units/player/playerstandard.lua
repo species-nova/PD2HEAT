@@ -504,7 +504,7 @@ function PlayerStandard:_update_check_actions(t, dt, paused)
 		self._change_weapon_pressed_expire_t = nil
 	end
 
-	self:_update_steelsight_timers(t, dt)
+	--self:_update_steelsight_timers(t, dt)
 
 	if input.btn_stats_screen_press then
 		self._unit:base():set_stats_screen_visible(true)
