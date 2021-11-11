@@ -11,7 +11,9 @@ function heat:Init()
 		"arena", --Alesso
 		"welcome_to_the_jungle_1", --Big Oil Day 1
 		"welcome_to_the_jungle_1_night", --Big Oil Day 1 Night
+		"stage_1", --Big Oil Day 1 EDIT
 		"welcome_to_the_jungle_2", --Big Oil Day 2
+		"stage_2", --Big Oil Day 2 EDIT
 		"election_day_1", --Election Day 1
 		"election_day_2", --Election Day 2
 		"election_day_3", --Election Day 3
@@ -137,6 +139,7 @@ function heat:Init()
 	--Slightly reduced spawns, generally use for heists with lengthy sections where players typically hold out in one smallish position, or 'early game' heists.
 	heat.tiny_levels = {
 		"welcome_to_the_jungle_2", --Big Oil 2. Scripted cloaker hell.
+		"stage_2", --Big Oil Day 2 EDIT
 		"cane", --Santa's Workshop
 		"brb", --Brooklyn Bank
 		"mus", --The Diamond
@@ -147,13 +150,13 @@ function heat:Init()
 		"pbr", --Beneath the Mountain
 		"dinner", --Slaughterhouse
 		"born", --Biker 1
-		"flat",
+		"flat",--Panic Room
 		"framing_frame_3", --Framing Frame 3
-		"des",	--Henry's Rock
 		"sah", --Shacklethorne
 		"chill_combat",	--Safehouse Raid
 		"man", --Undercover
 		"jolly", --Aftershock
+		"moon", --Stealing Xmas
 		"branchbank", --Bank heist
 		"firestarter_3", --firestarter day 3
 		"firestarter_3_res", --firestarter day 3, res edit
@@ -162,7 +165,9 @@ function heat:Init()
 		"family", --Diamond Store
 		"jewelry_store", --Ukrainian job left off since its bag moving is optional, to compensate for the extra easiness.
 		"fex", --Buluc's Mansion
-		"rat", --Cook Off
+		"rat",--Cook Off
+		--"chca",--Black Cat
+		"chas",--Dragon Heist
 		--Custom Heists below--
 		"junk",
 		"wetwork_burn", --Burnout
@@ -176,6 +181,7 @@ function heat:Init()
 		"rvd2", --Resivoir Dogs 2, has very aggressive scripted spawns.
 		"spa", --Brooklyn 10-10
 		"mia_2", --Hotline Miami 2
+		"des",	--Henry's Rock
 		"nail",	--Lab Rats. Fuck this heist	
 		"hox_1",
 		"xmn_hox_1",

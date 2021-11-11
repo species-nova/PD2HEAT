@@ -266,7 +266,8 @@ function CharacterTweakData:_init_security(presets)
 	if self:get_ai_group_type() == "federales" then
 		is_federales = true
 	end		
-	self.security = deep_clone(presets.base)
+	
+	self.security = deep_clone(presets.base) --Security Guard
 	self.security.tags = {"law"}
 	self.security.experience = {}
 	self.security.weapon = presets.weapon.normal
@@ -305,12 +306,12 @@ function CharacterTweakData:_init_security(presets)
 	self.security.heal_cooldown = 2
 	table.insert(self._enemy_list, "security")
 	
-	self.security_undominatable = deep_clone(self.security)
+	self.security_undominatable = deep_clone(self.security) --tutorial guard
 	self.security_undominatable.surrender = nil
 	self.security_undominatable.unintimidateable = true
 	table.insert(self._enemy_list, "security_undominatable")
 	
-	self.mute_security_undominatable = deep_clone(self.security)
+	self.mute_security_undominatable = deep_clone(self.security) --tutorial guard
 	self.mute_security_undominatable.suppression = nil
 	self.mute_security_undominatable.surrender = nil
 	self.mute_security_undominatable.has_alarm_pager = false
@@ -325,7 +326,7 @@ function CharacterTweakData:_init_security(presets)
 	end
 	table.insert(self._enemy_list, "mute_security_undominatable")	
 	
-	self.security_mex = deep_clone(self.security)
+	self.security_mex = deep_clone(self.security) --mex guard
 	self.security_mex.speech_prefix_p1 = "m"
 	self.security_mex.radio_prefix = "mex_"
 	if job == "fex" then
@@ -336,7 +337,7 @@ function CharacterTweakData:_init_security(presets)
 
 	table.insert(self._enemy_list, "security_mex")	
 	
-	self.security_mex_no_pager = deep_clone(self.security)
+	self.security_mex_no_pager = deep_clone(self.security) --mex guard w/o pager
 	self.security_mex_no_pager.speech_prefix_p1 = "m"
 	self.security_mex_no_pager.radio_prefix = "mex_"
 	self.security_mex_no_pager.has_alarm_pager = false
@@ -349,7 +350,7 @@ function CharacterTweakData:_init_security(presets)
 	table.insert(self._enemy_list, "security_mex_no_pager")		
 end
 
-function CharacterTweakData:_init_gensec(presets)
+function CharacterTweakData:_init_gensec(presets) --gensec guard, used on armored transport
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -400,13 +401,13 @@ function CharacterTweakData:_init_gensec(presets)
 	self.gensec.heal_cooldown = 2
 	table.insert(self._enemy_list, "gensec")
 	
-	--Guard variant, different entry type as a failsafe
+	--Guard variant, different entry type as a failsafe --unused iirc?
 	self.gensec_guard = deep_clone(self.gensec)	
 	self.gensec_guard.access = "security"
 	table.insert(self._enemy_list, "gensec_guard")
 end
 
-function CharacterTweakData:_init_cop(presets)
+function CharacterTweakData:_init_cop(presets) --beat cop
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -443,7 +444,7 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop.speech_prefix_p1 = self._prefix_data_p1.cop()
 	self.cop.speech_prefix_p2 = "n"
 	self.cop.speech_prefix_count = 4
-	if job == "wwh" then
+	if job == "wwh" then 
 		self.cop.access = "cop"
 	else
 		self.cop.access = "fbi"
@@ -463,19 +464,19 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop.has_alarm_pager = false
 	self.cop.heal_cooldown = 2
 	table.insert(self._enemy_list, "cop")
-	self.cop_scared = deep_clone(self.cop)
+	self.cop_scared = deep_clone(self.cop) --scary i dont know, tutorial cop?
 	self.cop_scared.surrender = presets.surrender.always
 	self.cop_scared.surrender_break_time = nil
 	table.insert(self._enemy_list, "cop_scared")
 	
-	self.cop_forest = deep_clone(self.cop)
+	self.cop_forest = deep_clone(self.cop) --bomb forest cop
 	self.cop_forest.speech_prefix_p1 = "l"
 	self.cop_forest.speech_prefix_p2 = "n"
 	self.cop_forest.speech_prefix_count = 4		
 	self.cop_forest.access = "gangster"
 	table.insert(self._enemy_list, "cop_forest")
 	
-	self.cop_female = deep_clone(self.cop)
+	self.cop_female = deep_clone(self.cop) --female cop
 	self.cop_female.speech_prefix_p1 = "fl"
 	self.cop_female.speech_prefix_p2 = "n"
 	self.cop_female.speech_prefix_count = 1
@@ -492,27 +493,9 @@ function CharacterTweakData:_init_cop(presets)
 	self.cop_civ.melee_weapon = nil
 	self.cop_civ.move_speed = presets.move_speed.very_fast
 	table.insert(self._enemy_list, "cop_civ")
-	
-	self.dave = deep_clone(self.cop)
-	self.dave.weapon = presets.weapon.good
-	self.dave.detection = presets.detection.good
-	self.dave.dodge = presets.dodge.elite
-	self.dave.HEALTH_INIT = 24
-	self.dave.headshot_dmg_mul = 2
-	self.dave.silent_priority_shout = nil
-	self.dave.melee_weapon = "fists_dozer"
-	self.dave.move_speed = presets.move_speed.lightning
-	self.dave.custom_voicework = "big_dave"
-	self.dave.can_shoot_while_dodging = true
-	self.dave.can_slide_on_suppress = true
-	self.dave.steal_loot = true
-	self.dave.access = "fbi"
-	self.dave.speech_prefix_p1 = "fuckyou"
-	self.dave.speech_prefix_count = nil   
-	self.dave.heal_cooldown = 10
 end
 
-function CharacterTweakData:_init_fbi(presets)
+function CharacterTweakData:_init_fbi(presets) --fbi hrt
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -559,14 +542,14 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi.no_arrest = false
 	self.fbi.heal_cooldown = 2
 	table.insert(self._enemy_list, "fbi")
-	self.fbi_female = deep_clone(self.fbi)
+	self.fbi_female = deep_clone(self.fbi) --fbi office female
 	self.fbi_female.speech_prefix_p1 = "fl"
 	self.fbi_female.speech_prefix_p2 = "n"
 	self.fbi_female.speech_prefix_count = 1
 	self.fbi_female.tags = {"law", "female_enemy"}
 	table.insert(self._enemy_list, "fbi_female")
 	
-	self.fbi_vet = deep_clone(self.fbi)
+	self.fbi_vet = deep_clone(self.fbi) --vet cop
 	self.fbi_vet.weapon = presets.weapon.expert
 	table.insert(self.fbi_vet.tags, "fbi_vet")
 	self.fbi_vet.can_shoot_while_dodging = true
@@ -577,7 +560,7 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet.access = "spooc"
 	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.elite
 	self.fbi_vet.move_speed = presets.move_speed.lightning
-	if is_reaper or is_federales then
+	if is_reaper then
 	   self.fbi_vet.custom_voicework = nil	
 	else   
 	   self.fbi_vet.custom_voicework = "bruce"
@@ -599,7 +582,7 @@ function CharacterTweakData:_init_fbi(presets)
 		end
 	}	
 	self.fbi_vet.static_dodge_preset = true
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.fbi_vet.speech_prefix_p1 = self._prefix_data_p1.swat()
 		self.fbi_vet.speech_prefix_p2 = self._speech_prefix_p2
 		self.fbi_vet.speech_prefix_count = 4
@@ -610,72 +593,17 @@ function CharacterTweakData:_init_fbi(presets)
 	self.fbi_vet.heal_cooldown = 2
 	table.insert(self._enemy_list, "fbi_vet")	
 
-	self.fbi_vet_boss = deep_clone(self.fbi_vet)
+	self.fbi_vet_boss = deep_clone(self.fbi_vet) --hoxout fbi boss
 	self.fbi_vet_boss.HEALTH_INIT = 72
 	self.fbi_vet_boss.weapon = presets.weapon.expert
 	self.fbi_vet_boss.headshot_dmg_mul = normal_headshot	
 	self.fbi_vet_boss.melee_weapon = "buzzer_summer"
 	self.fbi_vet_boss.tase_on_melee = true
 	self.fbi_vet_boss.heal_cooldown = true
-	table.insert(self._enemy_list, "fbi_vet_boss")	
-	
-	self.meme_man = deep_clone(self.fbi_vet)		
-	self.meme_man.tags = {"law", "tank", "special"}		
-	self.meme_man.HEALTH_INIT = 540
-	self.meme_man.damage.explosion_damage_mul = 2
-	self.meme_man.headshot_dmg_mul = strong_headshot		
-	self.meme_man.can_shoot_while_dodging = true
-	self.meme_man.smoke_dodge_increase = 10
-	self.meme_man.priority_shout = "f30"
-	self.meme_man.bot_priority_shout = "f30x_any"
-	self.meme_man.priority_shout_max_dis = 3000		
-	self.meme_man.dodge = presets.dodge.ninja_complex
-	self.meme_man.allowed_stances = {cbt = true} 
-	self.meme_man.access = "gangster"
-	self.meme_man.use_animation_on_fire_damage = false
-	self.meme_man.move_speed = presets.move_speed.lightning
-	self.meme_man.weapon = presets.weapon.meme_man
-	self.meme_man.surrender = nil
-	self.meme_man.is_special = true
-	self.meme_man.unintimidateable = true
-	self.meme_man.heal_cooldown = 1
-	table.insert(self._enemy_list, "meme_man")	
-	self.meme_man_shield = deep_clone(self.meme_man)
-	self.meme_man_shield.damage.shield_explosion_damage_mul = 1
-	self.meme_man_shield.damage.shield_explosion_ally_damage_mul = 1
-	self.meme_man_shield.tags = {"medic", "special", "shield"}		
-	self.meme_man_shield.priority_shout = "f30"
-	self.meme_man_shield.bot_priority_shout = "f30x_any"
-	self.meme_man_shield.priority_shout_max_dis = 3000				
-	self.meme_man_shield.access = "gangster"
-	self.meme_man_shield.use_animation_on_fire_damage = false
-	self.meme_man_shield.weapon = presets.weapon.meme_man
-	self.meme_man_shield.move_speed = presets.move_speed.lightning
-	self.meme_man_shield.surrender = nil
-	self.meme_man_shield.is_special = true
-	self.meme_man_shield.unintimidateable = true
-	self.meme_man_shield.allowed_poses = {crouch = true}
-	self.meme_man_shield.always_face_enemy = true
-	self.meme_man_shield.move_speed = presets.move_speed.lightning
-	self.meme_man_shield.no_run_start = true
-	self.meme_man_shield.no_run_stop = true
-	self.meme_man_shield.no_retreat = true
-	self.meme_man_shield.no_limping = true
-	self.meme_man_shield.no_arrest = true
-	self.meme_man_shield.no_equip_anim = true
-	self.meme_man_shield.wall_fwd_offset = 100
-	self.meme_man_shield.calls_in = nil
-	self.meme_man_shield.ignore_medic_revive_animation = true
-	self.meme_man_shield.damage.hurt_severity = presets.hurt_severities.only_explosion_hurts
-	self.meme_man_shield.damage.shield_knocked = true		
-	table.insert(self._enemy_list, "meme_man_shield")				
-	self.vetlod = deep_clone(self.fbi_vet)		
-	self.vetlod.custom_voicework = "tdozer"
-	self.vetlod.access = "fbi"
-	table.insert(self._enemy_list, "vetlod")							
+	table.insert(self._enemy_list, "fbi_vet_boss")							
 end
 
-function CharacterTweakData:_init_medic(presets)
+function CharacterTweakData:_init_medic(presets) --Medic
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -735,7 +663,7 @@ function CharacterTweakData:_init_medic(presets)
 	self.medic.priority_shout_max_dis = 3000
 	self.medic.is_special = true
 	table.insert(self._enemy_list, "medic")
-	self.medic_summers = deep_clone(self.medic)
+	self.medic_summers = deep_clone(self.medic) --Doc
 	self.medic_summers.HEALTH_INIT = 180
 	self.medic_summers.headshot_dmg_mul = normal_headshot
 	self.medic_summers.weapon = presets.weapon.good
@@ -769,7 +697,7 @@ function CharacterTweakData:_init_medic(presets)
 	table.insert(self._enemy_list, "medic_summers")
 end
 
-function CharacterTweakData:_init_omnia_lpf(presets)
+function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -803,7 +731,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	}
 	self.omnia_lpf.weapon_voice = "2"
 	self.omnia_lpf.experience.cable_tie = "tie_swat"	
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.omnia_lpf.speech_prefix_p1 = self._prefix_data_p1.medic()
 		self.omnia_lpf.speech_prefix_count = nil
 		self.omnia_lpf.spawn_sound_event = "rmdc_entrance"
@@ -820,7 +748,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	self.omnia_lpf.melee_weapon = "baton"
 	self.omnia_lpf.rescue_hostages = false
 	self.omnia_lpf.steal_loot = nil
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.omnia_lpf.custom_voicework = nil
 	elseif is_zombie then
 		self.omnia_lpf.custom_voicework = "awoolpf"
@@ -838,7 +766,7 @@ function CharacterTweakData:_init_omnia_lpf(presets)
 	table.insert(self._enemy_list, "omnia_lpf")
 end
 
-function CharacterTweakData:_init_swat(presets)
+function CharacterTweakData:_init_swat(presets) --blue light swat
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -884,7 +812,7 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat.dodge = presets.dodge.athletic
 	self.swat.no_arrest = false
 	self.swat.chatter = presets.enemy_chatter.swat
-	self.swat.melee_weapon = "fists"
+	self.swat.melee_weapon = "knife_1"
 	if is_murky then
 	    self.swat.has_alarm_pager = true
 	else
@@ -902,29 +830,13 @@ function CharacterTweakData:_init_swat(presets)
 	self.swat.heal_cooldown = true
 	table.insert(self._enemy_list, "swat")
 	
-	self.hrt = deep_clone(self.swat)
+	self.hrt = deep_clone(self.swat) --fbi 3 whys he have his own tweakdata?????
 	self.hrt.access = "fbi"
 	self.hrt.rescue_hostages = true
 	table.insert(self._enemy_list, "hrt")
-	
-	self.swat_titan = deep_clone(self.swat)
-	self.swat_titan.can_slide_on_suppress = true
-	self.swat_titan.damage.hurt_severity = presets.hurt_severities.elite_easy
-	self.swat_titan.gas_on_death = true
-	self.swat_titan.use_animation_on_fire_damage = true
-	self.swat_titan.move_speed = presets.move_speed.very_fast
-	self.swat_titan.weapon = presets.weapon.expert
-	self.swat_titan.dodge = presets.dodge.elite
-	self.swat_titan.HEALTH_INIT = 24
-	self.swat_titan.headshot_dmg_mul = normal_headshot
-	self.swat_titan.custom_voicework = nil
-	self.swat_titan.static_dodge_preset = true
-	self.swat_titan.heal_cooldown = true
-	self.swat_titan.rescue_hostages = true
-	table.insert(self._enemy_list, "swat_titan")
 end
 
-function CharacterTweakData:_init_heavy_swat(presets)
+function CharacterTweakData:_init_heavy_swat(presets) --blue heavy swat
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -990,7 +902,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat.heal_cooldown = 5
 	table.insert(self._enemy_list, "heavy_swat")
 	
-	self.heavy_swat_sniper = deep_clone(self.heavy_swat)
+	self.heavy_swat_sniper = deep_clone(self.heavy_swat) --titan sniper marksman marksmen
 	self.heavy_swat_sniper.tags = {"law", "sniper", "special", "customvo"}
 	self.heavy_swat_sniper.priority_shout = "f34"
 	self.heavy_swat_sniper.bot_priority_shout = "f34x_any"
@@ -1024,7 +936,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	self.heavy_swat_sniper.static_melee_preset = true	
 	self.heavy_swat_sniper.custom_voicework = nil
 	self.heavy_swat_sniper.die_sound_event = "mga_death_scream"
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.heavy_swat_sniper.custom_voicework = "tswat_ru"
 	else
 		self.heavy_swat_sniper.custom_voicework = "tsniper_real"
@@ -1034,7 +946,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	table.insert(self._enemy_list, "heavy_swat_sniper")
 	
 	--Weekend Snipers
-	self.weekend_dmr = deep_clone(self.heavy_swat_sniper)
+	self.weekend_dmr = deep_clone(self.heavy_swat_sniper) --bravo marksman marksmen sniper
 	self.weekend_dmr.speech_prefix_p1 = "cum"
 	self.weekend_dmr.speech_prefix_p2 = nil
 	self.weekend_dmr.speech_prefix_count = nil
@@ -1056,7 +968,7 @@ function CharacterTweakData:_init_heavy_swat(presets)
 	table.insert(self._enemy_list, "weekend_dmr")
 end
 
-function CharacterTweakData:_init_fbi_swat(presets)
+function CharacterTweakData:_init_fbi_swat(presets) --green light fbi swat
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -1113,7 +1025,7 @@ function CharacterTweakData:_init_fbi_swat(presets)
 	table.insert(self._enemy_list, "fbi_swat_vet")
 end
 
-function CharacterTweakData:_init_fbi_heavy_swat(presets)
+function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec swat
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -1168,7 +1080,7 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets)
 	table.insert(self._enemy_list, "fbi_heavy_swat")
 end
 
-function CharacterTweakData:_init_city_swat(presets)
+function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -1232,7 +1144,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat.heal_cooldown = true
 	table.insert(self._enemy_list, "city_swat")
 	
-	--Guard variant, different entry type as a failsafe
+	--Unused pretty sure
 	self.city_swat_guard = deep_clone(self.city_swat)
 	self.city_swat_guard.weapon = presets.weapon.good
 	self.city_swat_guard.HEALTH_INIT = 24
@@ -1243,7 +1155,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.city_swat_guard.use_radio = nil
 	table.insert(self._enemy_list, "city_swat_guard")
 			
-	--Weekend
+	--Bravo Shotgunner Rifle
 	self.weekend = deep_clone(self.city_swat)
 	if is_reaper then
 		self.weekend.custom_voicework = "tswat_ru"
@@ -1267,39 +1179,36 @@ function CharacterTweakData:_init_city_swat(presets)
 	self.weekend.surrender = presets.surrender.bravo
 	table.insert(self._enemy_list, "weekend")				
 	
-	self.city_swat_titan = deep_clone(self.city_swat)
-	self.city_swat_titan.can_slide_on_suppress = true
-	self.city_swat_titan.speech_prefix_p1 = "are you team cum pisser"
-	self.city_swat_titan.speech_prefix_p2 = "or team poop shitter"
-	self.city_swat_titan.speech_prefix_count = nil		
-	if is_reaper or is_federales then
-		self.city_swat_titan.custom_voicework = "tswat_ru"
+	self.riot_swat = deep_clone(self.city_swat) --titan riot swat
+	self.riot_swat.can_slide_on_suppress = true
+	self.riot_swat.speech_prefix_p1 = "are you team cum pisser"
+	self.riot_swat.speech_prefix_p2 = "or team poop shitter"
+	self.riot_swat.speech_prefix_count = nil		
+	if is_reaper then
+		self.riot_swat.custom_voicework = "tswat_ru"
 	else
-		self.city_swat_titan.custom_voicework = "pdth"
+		self.riot_swat.custom_voicework = "pdth"
 	end				
-	self.city_swat_titan.HEALTH_INIT = 42
-	self.city_swat_titan.headshot_dmg_mul = normal_headshot
-	self.city_swat_titan.weapon = presets.weapon.good
-	self.city_swat_titan.damage.hurt_severity = presets.hurt_severities.elite_easy
-	self.city_swat_titan.damage.explosion_damage_mul = 0.5
-	self.city_swat_titan.use_animation_on_fire_damage = true
-	self.city_swat_titan.move_speed = presets.move_speed.fast
-	self.city_swat_titan.dodge = presets.dodge.elite
-	self.city_swat_titan.static_weapon_preset = true
-	self.city_swat_titan.static_dodge_preset = true
-	self.city_swat_titan.static_melee_preset = true	
-	self.city_swat_titan.heal_cooldown = true
-	table.insert(self._enemy_list, "city_swat_titan")
+	self.riot_swat.HEALTH_INIT = 42
+	self.riot_swat.headshot_dmg_mul = normal_headshot
+	self.riot_swat.weapon = presets.weapon.good
+	self.riot_swat.damage.hurt_severity = presets.hurt_severities.elite_easy
+	self.riot_swat.damage.explosion_damage_mul = 0.5
+	self.riot_swat.use_animation_on_fire_damage = true
+	self.riot_swat.move_speed = presets.move_speed.fast
+	self.riot_swat.dodge = presets.dodge.elite
+	self.riot_swat.static_weapon_preset = true
+	self.riot_swat.static_dodge_preset = true
+	self.riot_swat.static_melee_preset = true	
+	self.riot_swat.heal_cooldown = true
+	table.insert(self._enemy_list, "riot_swat")
 	
-	self.city_swat_titan_assault = deep_clone(self.city_swat_titan)
-	table.insert(self._enemy_list, "city_swat_titan_assault")
-	
-	self.skeleton_swat_titan = deep_clone(self.city_swat_titan)
+	self.skeleton_swat_titan = deep_clone(self.riot_swat) --zombie riot titan swat
 	self.skeleton_swat_titan.custom_voicework = "skeleton"
 	table.insert(self._enemy_list, "skeleton_swat_titan")	
 	
-	--Weekend LMG
-	self.weekend_lmg = deep_clone(self.city_swat_titan)		
+	--Bravo LMG
+	self.weekend_lmg = deep_clone(self.riot_swat)		
 	if is_reaper then
 		self.weekend_lmg.custom_voicework = "tswat_ru"
 	elseif is_murky then
@@ -1327,7 +1236,7 @@ function CharacterTweakData:_init_city_swat(presets)
 	end
 end
 
-function CharacterTweakData:_init_sniper(presets)
+function CharacterTweakData:_init_sniper(presets) --sniper
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -1388,7 +1297,7 @@ function CharacterTweakData:_init_sniper(presets)
 	table.insert(self._enemy_list, "sniper")
 end
 
-function CharacterTweakData:_init_gangster(presets)
+function CharacterTweakData:_init_gangster(presets) --gangster
 	self.gangster = deep_clone(presets.base)
 	self.gangster.experience = {}
 	self.gangster.weapon = presets.weapon.gangster
@@ -1455,7 +1364,7 @@ function CharacterTweakData:_init_gangster(presets)
 	table.insert(self._enemy_list, "gangster")
 end
 
-function CharacterTweakData:_init_biker(presets)
+function CharacterTweakData:_init_biker(presets) --biker
 	self.biker = deep_clone(self.gangster)
 	if job == "mex" then
 		self.biker.access = "security"
@@ -1506,7 +1415,7 @@ function CharacterTweakData:_init_biker(presets)
 	table.insert(self._enemy_list, "biker_guard")
 end
 
-function CharacterTweakData:_init_triad(presets)
+function CharacterTweakData:_init_triad(presets) --triad gangster
 	self.triad = deep_clone(self.gangster)
 	self.triad.access = "gangster"
 	self.triad.calls_in = true
@@ -1515,7 +1424,7 @@ function CharacterTweakData:_init_triad(presets)
 	table.insert(self._enemy_list, "triad")
 end
 
-function CharacterTweakData:_init_captain(presets)
+function CharacterTweakData:_init_captain(presets) --alaskan deal friendly captain
 	self.captain = deep_clone(self.gangster)
 	self.captain.calls_in = true
 	self.captain.no_limping = true
@@ -1533,7 +1442,7 @@ function CharacterTweakData:_init_captain(presets)
 	table.insert(self._enemy_list, "captain")
 end
 
-function CharacterTweakData:_init_biker_escape(presets)
+function CharacterTweakData:_init_biker_escape(presets) --unused, prolly for old firestarter day 1
 	self.biker_escape = deep_clone(self.gangster)
 	self.biker_escape.melee_weapon = "knife_1"
 	self.biker_escape.move_speed = presets.move_speed.very_fast
@@ -1541,7 +1450,7 @@ function CharacterTweakData:_init_biker_escape(presets)
 	table.insert(self._enemy_list, "biker_escape")
 end
 
-function CharacterTweakData:_init_mobster(presets)
+function CharacterTweakData:_init_mobster(presets) --hotline miami mobster gangster
 	self.mobster = deep_clone(self.gangster)
 	self.mobster.calls_in = true
 	self.mobster.melee_weapon = "fists"
@@ -1561,7 +1470,7 @@ function CharacterTweakData:_init_mobster(presets)
 	table.insert(self._enemy_list, "mobster")
 end
 
-function CharacterTweakData:_init_mobster_boss(presets)
+function CharacterTweakData:_init_mobster_boss(presets) --the commissar 
 	self.mobster_boss = deep_clone(presets.base)
 	self.mobster_boss.tags = {"custom", "special"}
 	self.mobster_boss.experience = {}
@@ -1613,7 +1522,7 @@ function CharacterTweakData:_init_mobster_boss(presets)
 	table.insert(self._enemy_list, "mobster_boss")
 end
 
-function CharacterTweakData:_init_biker_boss(presets)
+function CharacterTweakData:_init_biker_boss(presets) --biker heist day 2 Female boss
 	self.biker_boss = deep_clone(presets.base)
 	self.biker_boss.tags = {"custom", "special"}
 	self.biker_boss.experience = {}
@@ -1664,7 +1573,7 @@ function CharacterTweakData:_init_biker_boss(presets)
 	table.insert(self._enemy_list, "biker_boss")
 end
 
-function CharacterTweakData:_init_hector_boss(presets)
+function CharacterTweakData:_init_hector_boss(presets) --hoxvenge hector boss
 	self.hector_boss = deep_clone(self.mobster_boss)
 	self.hector_boss.tags = {"custom", "special"}
 	self.hector_boss.weapon = presets.weapon.good
@@ -1681,7 +1590,7 @@ function CharacterTweakData:_init_hector_boss(presets)
 	table.insert(self._enemy_list, "hector_boss")
 end
 
-function CharacterTweakData:_init_hector_boss_no_armor(presets)
+function CharacterTweakData:_init_hector_boss_no_armor(presets) --stealth hoxvenge hector boss
 	self.hector_boss_no_armor = deep_clone(self.fbi)
 	self.hector_boss_no_armor.no_retreat = true
 	self.hector_boss_no_armor.no_limping = true
@@ -1700,7 +1609,7 @@ function CharacterTweakData:_init_hector_boss_no_armor(presets)
 	table.insert(self._enemy_list, "hector_boss_no_armor")
 end
 
-function CharacterTweakData:_init_chavez_boss(presets)
+function CharacterTweakData:_init_chavez_boss(presets) --chavez 
 	self.chavez_boss = deep_clone(presets.base)
 	self.chavez_boss.experience = {}
 	self.chavez_boss.tags = {"custom", "special"}
@@ -1753,7 +1662,7 @@ function CharacterTweakData:_init_chavez_boss(presets)
 	table.insert(self._enemy_list, "chavez_boss")
 end
 
-function CharacterTweakData:_init_bolivians(presets)
+function CharacterTweakData:_init_bolivians(presets) --Scarface guards
 	self.bolivian = deep_clone(self.gangster)
 	self.bolivian.detection = presets.detection.normal
 	self.bolivian.access = "security"
@@ -1802,7 +1711,7 @@ function CharacterTweakData:_init_bolivians(presets)
 	self.bolivian_indoors.unintimidateable = false
 	table.insert(self._enemy_list, "bolivian_indoors")
 	
-	self.bolivian_indoors_mex = deep_clone(self.bolivian_indoors)
+	self.bolivian_indoors_mex = deep_clone(self.bolivian_indoors) --border crossing gangster guard
 	self.bolivian_indoors_mex.has_alarm_pager = true
 	if job == "mex" then
 		self.bolivian_indoors_mex.access = "security"
@@ -1813,7 +1722,7 @@ function CharacterTweakData:_init_bolivians(presets)
 	table.insert(self._enemy_list, "bolivian_indoors_mex")		
 end
 
-function CharacterTweakData:_init_drug_lord_boss(presets)
+function CharacterTweakData:_init_drug_lord_boss(presets) --sosa
 	self.drug_lord_boss = deep_clone(presets.base)
 	self.drug_lord_boss.experience = {}
 	self.drug_lord_boss.tags = {"custom", "special"}
@@ -1867,7 +1776,7 @@ function CharacterTweakData:_init_drug_lord_boss(presets)
 	table.insert(self._enemy_list, "drug_lord_boss")
 end
 
-function CharacterTweakData:_init_drug_lord_boss_stealth(presets)
+function CharacterTweakData:_init_drug_lord_boss_stealth(presets) --sosa stealth
 	self.drug_lord_boss_stealth = deep_clone(presets.base)
 	self.drug_lord_boss_stealth.experience = {}
 	self.drug_lord_boss_stealth.weapon = presets.weapon.gangster
@@ -1908,7 +1817,7 @@ function CharacterTweakData:_init_drug_lord_boss_stealth(presets)
 	table.insert(self._enemy_list, "drug_lord_boss_stealth")
 end
 
-function CharacterTweakData:_init_tank(presets)
+function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -1992,13 +1901,13 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank.heal_cooldown = 45
 	table.insert(self._enemy_list, "tank")
 	
-	self.tank_medic = deep_clone(self.tank)
+	self.tank_medic = deep_clone(self.tank) --medic dozer
 	self.tank_medic.is_special = true
 	table.insert(self.tank_medic.tags, "medic")
 	table.insert(self.tank_medic.tags, "backliner")
 	table.insert(self._enemy_list, "tank_medic")
 	
-	self.tank_titan = deep_clone(self.tank)
+	self.tank_titan = deep_clone(self.tank) --titan dozer
 	self.tank_titan.weapon = presets.weapon.sniper
 	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo", "no_run", "backliner"}	
 	self.tank_titan.move_speed = presets.move_speed.very_slow
@@ -2010,12 +1919,12 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank_titan.immune_to_knock_down = true
 	self.tank_titan.priority_shout_max_dis = 3000
 	self.tank_titan.ecm_vulnerability = 0		
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.tank_titan.custom_voicework = "tdozer_ru"
 	else
 		self.tank_titan.custom_voicework = "tdozer"
 	end			
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
 	else
 		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
@@ -2033,11 +1942,11 @@ function CharacterTweakData:_init_tank(presets)
 	self.tank_titan.heal_cooldown = 45
 	table.insert(self._enemy_list, "tank_titan")
 	
-	self.tank_titan_assault = deep_clone(self.tank_titan)
+	self.tank_titan_assault = deep_clone(self.tank_titan) --unsure
 	self.tank_titan_assault.tags = {"law", "tank", "special", "tank_titan", "no_run", "backliner"}
 	table.insert(self._enemy_list, "tank_titan_assault")
 	
-	self.tank_hw = deep_clone(self.tank_titan_assault)
+	self.tank_hw = deep_clone(self.tank_titan_assault) --headless dozer
 	self.tank_hw.weapon = presets.weapon.good	
 	self.tank_hw.ignore_headshot = false
 	self.tank_hw.melee_anims = nil
@@ -2045,7 +1954,7 @@ function CharacterTweakData:_init_tank(presets)
 	table.insert(self._enemy_list, "tank_hw")	
 end
 
-function CharacterTweakData:_init_tank_biker(presets)
+function CharacterTweakData:_init_tank_biker(presets) --biker dozer
 	self.tank_biker = deep_clone(self.tank)
 	self.tank_biker.spawn_sound_event = nil
 	self.tank_biker.spawn_sound_event_2 = nil
@@ -2060,7 +1969,7 @@ function CharacterTweakData:_init_tank_biker(presets)
 	self.tank_biker.chatter = presets.enemy_chatter.swat
 end
 
-function CharacterTweakData:_init_spooc(presets)
+function CharacterTweakData:_init_spooc(presets) --cloaker
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -2139,7 +2048,7 @@ function CharacterTweakData:_init_spooc(presets)
 	}
 	table.insert(self._enemy_list, "spooc")
 
-	self.spooc_titan = deep_clone(self.spooc)
+	self.spooc_titan = deep_clone(self.spooc) --titan cloaker
 	self.spooc_titan.weapon = presets.weapon.normal
 	self.spooc_titan.tags = {"law", "custom", "special", "spooc"}
 	self.spooc_titan.special_deaths = nil
@@ -2147,7 +2056,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan.headshot_dmg_mul = strong_headshot	
 	self.spooc_titan.damage.melee_damage_mul = 2
 	self.spooc_titan.damage.explosion_damage_mul = 2
-	if is_reaper or is_federales then	
+	if is_reaper then	
 		self.spooc_titan.speech_prefix_p1 = self._prefix_data_p1.cloaker()
 		self.spooc_titan.speech_prefix_count = nil
 	else
@@ -2163,7 +2072,7 @@ function CharacterTweakData:_init_spooc(presets)
 	self.spooc_titan.spawn_sound_event = "cloaker_presence_loop"
 	self.spooc_titan.die_sound_event = "cloaker_presence_stop"
 	self.spooc_titan.is_special = true
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.spooc_titan.custom_voicework = nil
 	else
 		self.spooc_titan.custom_voicework = "tspook"
@@ -2172,7 +2081,7 @@ function CharacterTweakData:_init_spooc(presets)
 	table.insert(self._enemy_list, "spooc_titan")	
 end
 
-function CharacterTweakData:_init_shadow_spooc(presets)
+function CharacterTweakData:_init_shadow_spooc(presets) --white house shadow cloaker
 	self.shadow_spooc = deep_clone(presets.base)
 	self.shadow_spooc.tags = {"law", "spooc", "special"}
 	self.shadow_spooc.experience = {}
@@ -2226,7 +2135,7 @@ function CharacterTweakData:_init_shadow_spooc(presets)
 	table.insert(self._enemy_list, "shadow_spooc")
 end	
 
-function CharacterTweakData:_init_shield(presets)
+function CharacterTweakData:_init_shield(presets) --shielddddd
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -2301,7 +2210,7 @@ function CharacterTweakData:_init_shield(presets)
 	table.insert(self._enemy_list, "shield")
 end
 
-function CharacterTweakData:_init_phalanx_minion(presets)
+function CharacterTweakData:_init_phalanx_minion(presets) --titan shield
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -2359,7 +2268,7 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	self.phalanx_minion.speech_prefix_p1 = "fug"
 	self.phalanx_minion.speech_prefix_p2 = nil
 	self.phalanx_minion.speech_prefix_count = 1	
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.phalanx_minion.custom_voicework = "tshield_ru"
 	else
 		self.phalanx_minion.custom_voicework = "tsniper"
@@ -2370,7 +2279,7 @@ function CharacterTweakData:_init_phalanx_minion(presets)
 	table.insert(self._enemy_list, "phalanx_minion_assault")
 end
 
-function CharacterTweakData:_init_phalanx_vip(presets)
+function CharacterTweakData:_init_phalanx_vip(presets) --captain winters
 	self.phalanx_vip = deep_clone(self.phalanx_minion)
 	self.phalanx_vip.tags = {"law", "shield", "special", "shield_titan", "captain"}
 	self.phalanx_vip.damage.shield_knocked = false
@@ -2422,7 +2331,7 @@ function CharacterTweakData:_init_phalanx_vip(presets)
 	table.insert(self._enemy_list, "phalanx_vip")
 end
 
-function CharacterTweakData:_init_spring(presets)
+function CharacterTweakData:_init_spring(presets) --captain spring
 	self.spring = deep_clone(self.tank)
 	self.spring.weapon = presets.weapon.dozer
 	self.spring.tags = {"law", "custom", "special", "captain", "no_run"}
@@ -2482,7 +2391,7 @@ function CharacterTweakData:_init_spring(presets)
 	table.insert(self._enemy_list, "headless_hatman")
 end
 
-function CharacterTweakData:_init_summers(presets)
+function CharacterTweakData:_init_summers(presets) --captain summers
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -2555,7 +2464,7 @@ function CharacterTweakData:_init_summers(presets)
 	table.insert(self._enemy_list, "summers")
 end
 
-function CharacterTweakData:_init_autumn(presets)
+function CharacterTweakData:_init_autumn(presets) --captain autumn
 	self.autumn = deep_clone(presets.base)
 	self.autumn.tags = {"law", "custom", "special", "customvo"}
 	self.autumn.experience = {}
@@ -2631,7 +2540,7 @@ function CharacterTweakData:_init_autumn(presets)
 	table.insert(self._enemy_list, "autumn")
 end	
 
-function CharacterTweakData:_init_taser(presets)
+function CharacterTweakData:_init_taser(presets) --taser
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -2701,7 +2610,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser.heal_cooldown = 15
 	table.insert(self._enemy_list, "taser")
 	
-	self.taser_summers = deep_clone(self.taser)
+	self.taser_summers = deep_clone(self.taser) --elytra
 	self.taser_summers.weapon = presets.weapon.taser_summers
 	self.taser_summers.HEALTH_INIT = 180
 	self.taser_summers.headshot_dmg_mul = normal_headshot
@@ -2739,7 +2648,7 @@ function CharacterTweakData:_init_taser(presets)
 	}
 	table.insert(self._enemy_list, "taser_summers")
 	
-	self.taser_titan = deep_clone(self.taser)
+	self.taser_titan = deep_clone(self.taser) --titan taser
 	self.taser_titan.weapon = presets.weapon.good
 	self.taser_titan.tags = {"taser", "taser_titan", "custom", "special"}
 	self.taser_titan.HEALTH_INIT = 81
@@ -2749,7 +2658,7 @@ function CharacterTweakData:_init_taser(presets)
 	self.taser_titan.immune_to_concussion = true	
 	self.taser_titan.use_animation_on_fire_damage = false
 	self.taser_titan.can_be_tased = false	
-	if is_reaper or is_federales then
+	if is_reaper then
 		self.taser_titan.spawn_sound_event = "rtsr_elite"
 	else
 		self.taser_titan.spawn_sound_event = "tsr_elite"
@@ -2770,7 +2679,7 @@ function CharacterTweakData:_init_taser(presets)
 	table.insert(self._enemy_list, "taser_titan")
 end
 
-function CharacterTweakData:_init_boom(presets)
+function CharacterTweakData:_init_boom(presets) --grenadier
 	local is_murky
 	if self:get_ai_group_type() == "murkywater" then
 		is_murky = true
@@ -2848,7 +2757,7 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom.heal_cooldown = 15
 	table.insert(self._enemy_list, "boom")
 	
-	self.boom_summers = deep_clone(self.boom)
+	self.boom_summers = deep_clone(self.boom) --molly
 	self.boom_summers.weapon = presets.weapon.expert
 	self.boom_summers.use_animation_on_fire_damage = false
 	self.boom_summers.damage.explosion_damage_mul = 1
@@ -2881,12 +2790,12 @@ function CharacterTweakData:_init_boom(presets)
 	self.boom_summers.ecm_hurts = {}		
 	table.insert(self._enemy_list, "boom_summers")		
 	
-	self.boom_titan = deep_clone(self.boom)
+	self.boom_titan = deep_clone(self.boom) --unused
 	self.boom_titan.heal_cooldown = true
 	table.insert(self._enemy_list, "boom_titan")		
 end
 
-function CharacterTweakData:_init_inside_man(presets)
+function CharacterTweakData:_init_inside_man(presets) --fwb insider
 	self.inside_man = deep_clone(presets.base)
 	self.inside_man.experience = {}
 	self.inside_man.weapon = presets.weapon.good
@@ -2914,7 +2823,7 @@ function CharacterTweakData:_init_inside_man(presets)
 	self.inside_man.calls_in = nil
 end
 
-function CharacterTweakData:_init_civilian(presets)
+function CharacterTweakData:_init_civilian(presets) --civilian (shoot on sight)
 	self.civilian = {
 		experience = {}
 	}
@@ -2974,7 +2883,7 @@ function CharacterTweakData:_init_civilian_mariachi(presets)
 	self.civilian_mariachi = deep_clone(self.civilian)
 end	
 
-function CharacterTweakData:_init_bank_manager(presets)
+function CharacterTweakData:_init_bank_manager(presets) --i think this is Bo
 	self.bank_manager = {
 		experience = {},
 		escort = {}
@@ -3009,7 +2918,7 @@ function CharacterTweakData:_init_bank_manager(presets)
 	self.bank_manager.calls_in = true
 end
 
-function CharacterTweakData:_init_drunk_pilot(presets)
+function CharacterTweakData:_init_drunk_pilot(presets) --almir on white xmas
 	self.drunk_pilot = deep_clone(self.civilian)
 	self.drunk_pilot.move_speed = presets.move_speed.civ_fast
 	self.drunk_pilot.flee_type = "hide"
@@ -3020,7 +2929,7 @@ function CharacterTweakData:_init_drunk_pilot(presets)
 	self.drunk_pilot.ignores_aggression = true
 end
 
-function CharacterTweakData:_init_boris(presets)
+function CharacterTweakData:_init_boris(presets) --goat sim 2 feller 
 	self.boris = deep_clone(self.civilian)
 	self.boris.flee_type = "hide"
 	self.boris.access = "civ_male"
@@ -3030,7 +2939,7 @@ function CharacterTweakData:_init_boris(presets)
 	self.boris.ignores_aggression = true
 end
 
-function CharacterTweakData:_init_old_hoxton_mission(presets)
+function CharacterTweakData:_init_old_hoxton_mission(presets) --prison hoxton
 	self.old_hoxton_mission = deep_clone(presets.base)
 	self.old_hoxton_mission.experience = {}
 	self.old_hoxton_mission.no_run_start = true
@@ -3065,10 +2974,10 @@ function CharacterTweakData:_init_old_hoxton_mission(presets)
 	self.old_hoxton_mission.speech_escort = "f38"
 	self.old_hoxton_mission.escort_idle_talk = false	
 	
-	self.anubis = deep_clone(self.old_hoxton_mission)	
+	self.anubis = deep_clone(self.old_hoxton_mission)	 --m?--
 end
 
-function CharacterTweakData:_init_spa_vip(presets)
+function CharacterTweakData:_init_spa_vip(presets) --charon 
 	self.spa_vip = deep_clone(self.old_hoxton_mission)
 	self.spa_vip.melee_weapon = "fists"
 	self.spa_vip.spotlight_important = 100
@@ -3077,7 +2986,7 @@ function CharacterTweakData:_init_spa_vip(presets)
 	self.spa_vip.escort_scared_dist = 100
 end
 
-function CharacterTweakData:_init_spa_vip_hurt(presets)
+function CharacterTweakData:_init_spa_vip_hurt(presets) --unused i thinks
 	self.spa_vip_hurt = deep_clone(self.civilian)
 	self.spa_vip_hurt.move_speed = presets.move_speed.slow
 	self.spa_vip_hurt.flee_type = "hide"
@@ -9372,6 +9281,24 @@ function CharacterTweakData:character_map()
 				"civ_male_dockworker_03"	
 			}
 		},
+		chca = {
+			path = "units/pd2_dlc_chca/characters/",
+			list = {
+				"civ_male_boss_1",
+				"civ_male_boss_2",
+				"ene_security_cruise_1",
+				"ene_security_cruise_2",
+				"ene_security_cruise_3",
+				"ene_triad_cruise_1",
+				"ene_triad_cruise_2",
+				"ene_triad_cruise_3",
+				"civ_male_bathhouse_1",
+				"civ_male_bathhouse_2",
+				"civ_male_bathhouse_3",
+				"civ_female_bathhouse_1",
+				"civ_female_bathhouse_2"
+			}
+		},
 		sharks = {
 			path = "units/pd2_mod_sharks/characters/",
 			list = {
@@ -9734,10 +9661,10 @@ function CharacterTweakData:_set_overkill_290()
 	self.city_swat_guard.can_slide_on_suppress = true
 	
 	--Titan SWAT stun resistance
-	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.city_swat_titan.use_animation_on_fire_damage = false
-	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.city_swat_titan_assault.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.riot_swat.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
+	self.riot_swat.use_animation_on_fire_damage = false
 	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
 	self.skeleton_swat_titan.use_animation_on_fire_damage = false	
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
@@ -9872,16 +9799,16 @@ function CharacterTweakData:_set_sm_wish()
 	}		
 	
 	--Titan SWAT stun resistance
-	self.city_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.city_swat_titan.use_animation_on_fire_damage = false
-	self.city_swat_titan_assault.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.city_swat_titan_assault.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.riot_swat.use_animation_on_fire_damage = false
+	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
+	self.riot_swat.use_animation_on_fire_damage = false
 	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
 	self.skeleton_swat_titan.use_animation_on_fire_damage = false
 	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite
 	self.weekend_lmg.use_animation_on_fire_damage = false
 
-	--Fast Titan HRTs
+	--Fast HRTs
 	self.fbi.move_speed = self.presets.move_speed.lightning
 	self.hrt.move_speed = self.presets.move_speed.lightning
 	

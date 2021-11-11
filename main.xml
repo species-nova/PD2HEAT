@@ -382,18 +382,20 @@
 	<Package id="packages/scassets" file="addSC.xml" use_clbk="self:LoadSCAssets"/>
 	<Package id="packages/zombieassets" file="addzombie.xml"use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/nypdassets" file="addNYPD.xml" use_clbk="self:DebugLoadAssets"/>	
-	<Package id="packages/lapdassets" file="addLAPD.xml" use_clbk="self:DebugLoadAssets"/>	
 	<Package id="packages/mexicoassets" file="addMEXICO.xml" use_clbk="self:DebugLoadAssets"/>	
 	<Package id="packages/akanassets" file="addakan.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/murkyassets" file="addmurky.xml" use_clbk="self:DebugLoadAssets"/>
+	<Package id="packages/slaughter_murky" file="slaughterhouse_murkies.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/miscassets" file="addMISC.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/outfitassets" file="addoutfit.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/akanassetsnew" file="addakannew.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/zombieassetsnew" file="addzombienew.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/secret_stash" file="secret_stash.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/white_house" file="white_house.xml" use_clbk="self:DebugLoadAssets"/>
+	<Package id="packages/hoxout_2" file="hox_2.xml" use_clbk="self:DebugLoadAssets"/>
+	<Package id="packages/kh_guards" file="kh_guards.xml" use_clbk="self:LoadSCAssets"/>
 	<Package id="packages/rex_gold" file="rex_gold.xml" use_clbk="self:DebugLoadAssets"/>
-	<Package id="packages/classicmovies" file="classicmovies.xml" use_clbk="self:LoadClassicMovies"/>
+	<Package id="packages/bikers" file="addbikers.xml" use_clbk="self:DebugLoadAssets"/>
 	<Package id="packages/custom_fonts" file="fonts.xml" use_clbk="self:LoadFonts"/>
 	<Package id="packages/addhudmisc" file="addhudmisc.xml"/>
 	<Package id="packages/addrain" file="addRAIN.xml"/>

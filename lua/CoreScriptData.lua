@@ -19,14 +19,15 @@ local environment_replacers = {
 		}
 	},
 	rvd1 = {
-		{ --Nightlife
+		{ --Pink
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_exterior"] = "scriptdata/rvd1_alt1.custom_xml",
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_inside"] = "scriptdata/rvd1_alt1.custom_xml"
 		},
-		{ --Pink Smog
+		{} --Default
+		--[[{ --Nightlife
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_exterior"] = "scriptdata/rvd1_alt2.custom_xml",
 			["units/pd2_dlc_rvd/environments/pd2_env_rvd/pd2_env_rvd_day1_inside"] = "scriptdata/rvd1_alt2.custom_xml"
-		}
+		}]]--
 	},
 	pbr2 = {
 		{ --Pink Skies
@@ -44,12 +45,12 @@ local environment_replacers = {
 		}
 	},
 	crojob2 = {
-		{}, --Default
-		{ --Night Shift
+		{} --Default
+		--[[{ --Night Shift
 			["environments/pd2_env_sunset/pd2_env_sunset"] = "scriptdata/dockyard_alt.custom_xml",
 			["environments/pd2_env_jew_street/pd2_env_jew_street"] = "scriptdata/dockyard_alt.custom_xml",
 			["environments/pd2_env_hox1_02/pd2_env_hox1_02"] = "scriptdata/dockyard_alt.custom_xml"
-		}
+		}]]--
 	},
  	arm_und = {
  		{}, --Default
@@ -100,6 +101,7 @@ local environment_replacers = {
  		}
  	},
  	big = {
+			{}, --Default
  		{
  			["environments/pd2_env_bigbank/pd2_env_bigbank"] = "scriptdata/xbox_bank.custom_xml"
  		},
@@ -273,6 +275,12 @@ local environment_replacers = {
 	jolly = {
 		{
 			["environments/pd2_lxa_river/pd2_lxa_river"] = "scriptdata/lxa_river_v4.custom_xml"
+		}
+	},
+	stage_1 = {
+		{
+			["core/environments/default"] = "scriptdata/lxa_river_v4.custom_xml",
+			["environments/pd2_env_mid_day/pd2_env_mid_day"] = "scriptdata/lxa_river_v4.custom_xml"
 		}
 	},
 	jackal_surface_tension = {

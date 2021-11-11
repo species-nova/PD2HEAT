@@ -397,11 +397,11 @@ function PlayerTweakData:init()
 		self.movement_state.stamina.STAMINA_INIT = 1
 	end
 
-	self.movement_state.stamina.STAMINA_REGEN_RATE = 1.25
+	self.movement_state.stamina.STAMINA_REGEN_RATE = 1.15
 	self.movement_state.stamina.STAMINA_DRAIN_RATE = 1
 	self.movement_state.stamina.STAMINA_DRAIN_RATE_WARP = 2
-	self.movement_state.stamina.REGENERATE_TIME = 3
-	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 2.5
+	self.movement_state.stamina.REGENERATE_TIME = 2
+	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 3
 	self.movement_state.stamina.JUMP_STAMINA_DRAIN = 0
 	
 	self.camera = {}

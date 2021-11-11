@@ -697,9 +697,9 @@ function CopActionHurt:init(action_desc, common_data)
 		self.update = self._upd_bleedout
 
 		if common_data.ext_inventory then
-			--[[if self._is_server then
+			if self._is_server then
 				common_data.ext_inventory:equip_selection(1, true)
-			end]]
+			end
 
 			local weapon_unit = common_data.ext_inventory:equipped_unit()
 			
@@ -1367,9 +1367,9 @@ function CopActionHurt:on_exit()
 			self._common_data.ext_network:send("action_hurt_end")
 		end
 
-		--[[if self._hurt_type == "bleedout" or self._hurt_type == "fatal" then
+		if self._hurt_type == "bleedout" or self._hurt_type == "fatal" then
 			self._ext_inventory:equip_selection(2, true)
-		end]]
+		end
 	end
 
 	if self._hurt_type == "fatal" or self._variant == "tase" then
