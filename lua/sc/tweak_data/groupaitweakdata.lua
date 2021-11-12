@@ -1241,36 +1241,111 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		special_type = "taser_titan"
 	}
 
-	self.unit_categories.CS_shield = {
-		unit_types = {
-			america = {
-				Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+--In cases where we need a unique replacer group, we can just make a new one, or adjust existing ones that scale properly with difficulty.
+	if difficulty_index < 3 then
+		self.unit_categories.swat_shield = {
+			unit_types = {
+				america = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				russia = {
+						Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				zombie = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				murkywater = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				federales = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				nypd = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				omnia_skm = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				}
 			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45")
+			access = access_type_all,
+			special_type = "shield"
+		}
+	elseif difficulty_index < 6 then
+		self.unit_categories.REPL_shield = {
+			unit_types = {
+				america = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				russia = {
+						Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				zombie = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},	
+				murkywater = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				federales = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				nypd = {
+						Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				}
 			},
-			zombie = {
-				Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2")
+			access = access_type_all,
+			special_type = "shield"
+		}
+	elseif difficulty_index < 8 then
+		self.unit_categories.REPL_shield = {
+			unit_types = {
+				america = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				russia = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				zombie = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				murkywater = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				federales = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				nypd = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				}
 			},
-			murkywater = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_yellow/ene_murky_shield_yellow")
+			access = access_type_all,
+			special_type = "shield"
+		}
+	else
+		self.unit_categories.REPL_shield = {
+			unit_types = {
+				america = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				russia = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				zombie = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				murkywater = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				federales = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				},
+				nypd = {
+					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
+				}
 			},
-			federales = {
-				Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_c45/ene_swat_shield_policia_federale_c45")
-			},
-			nypd = {
-				Idstring("units/pd2_mod_nypd/characters/ene_nypd_shield/ene_nypd_shield")
-			},
-			lapd = {
-				Idstring("units/pd2_mod_lapd/characters/ene_shield_2/ene_shield_2")
-			},
-			omnia_skm = {
-				Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_yellow/ene_murky_shield_yellow")
-			}
-		},
-		access = access_type_all,
-		special_type = "shield"
-	}
+			access = access_type_all,
+			special_type = "shield"
+		}
+	end
 
 	if difficulty_index <= 7 then
 		self.unit_categories.FBI_suit_C45 = {
@@ -2046,147 +2121,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		}
 	end
 
-	if difficulty_index <= 4 then
-		self.unit_categories.FBI_shield = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_shield_1/ene_shield_1")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_fbi/ene_murky_shield_fbi")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_fbi/ene_swat_shield_policia_federale_mp9_fbi")
-				},
-				nypd = {
-					Idstring("units/pd2_mod_nypd/characters/ene_shield_1/ene_shield_1")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_1/ene_shield_1")
-				}
-			},
-			access = access_type_all,
-			special_type = "shield"
-		}
-	elseif difficulty_index == 5 then
-		self.unit_categories.FBI_shield = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_shield_1/ene_shield_1")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_fbi/ene_murky_shield_fbi")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_fbi/ene_swat_shield_policia_federale_mp9_fbi")
-				},
-				nypd = {
-					Idstring("units/pd2_mod_nypd/characters/ene_shield_1/ene_shield_1")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_1/ene_shield_1")
-				}
-			},
-			access = access_type_all,
-			special_type = "shield"
-		}
-	elseif difficulty_index == 6 then
-		self.unit_categories.FBI_shield = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_shield_1/ene_shield_1")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg")
-				},
-				zombie = {
-					Idstring("units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_fbi/ene_murky_shield_fbi")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_fbi/ene_swat_shield_policia_federale_mp9_fbi")
-				},
-				nypd = {
-					Idstring("units/pd2_mod_nypd/characters/ene_shield_1/ene_shield_1")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_shield_1/ene_shield_1")
-				}
-			},
-			access = access_type_all,
-			special_type = "shield"
-		}
-	elseif difficulty_index == 7 then
-		self.unit_categories.FBI_shield = {
-			unit_types = {
-				america = {
-					Idstring("units/payday2/characters/ene_shield_gensec/ene_shield_gensec")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg")
-				},
-				zombie = {
-					Idstring("units/pd2_mod_halloween/characters/ene_shield_gensec/ene_shield_gensec")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_sharks/characters/ene_murky_shield_fbi/ene_murky_shield_fbi")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_sc/ene_swat_shield_policia_federale_mp9_sc")
-				},
-				nypd = {
-					Idstring("units/payday2/characters/ene_shield_gensec/ene_shield_gensec")
-				},
-				lapd = {
-					Idstring("units/pd2_mod_lapd/characters/ene_city_shield/ene_city_shield")
-				}
-			},
-			access = access_type_all,
-			special_type = "shield"
-		}
-	else
-		self.unit_categories.FBI_shield = {
-			unit_types = {
-				america = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield")
-				},
-				russia = {
-					Idstring("units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg")
-				},
-				zombie = {
-					Idstring("units/pd2_mod_halloween/characters/ene_zeal_swat_shield/ene_zeal_swat_shield")
-				},
-				murkywater = {
-					Idstring("units/pd2_mod_omnia/characters/ene_omnia_shield/ene_omnia_shield")
-				},
-				federales = {
-					Idstring("units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9_zeal/ene_swat_shield_policia_federale_mp9_zeal")
-				},
-				nypd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield")
-				},
-				lapd = {
-					Idstring("units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield")
-				}
-			},
-			access = access_type_all,
-			special_type = "shield"
-		}
-	end
+
 
 	--Titan Shield
 	self.unit_categories.Titan_shield = {
@@ -3200,7 +3135,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"groupcsr"
 		},
 		--Standard SWAT Shield, will charge forward against player positions
-		CS_shield = {
+		swat_shield = {
 			"charge",
 			"provide_coverfire",
 			"provide_support",
@@ -3208,7 +3143,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"deathguard"
 		},
 		--Back up ranged units to Shields. Will prefer to stay behind the shield and give fire support at range
-		CS_shield_ranged_support = {
+		swat_shield_ranged_support = {
 			"ranged_fire",
 			"provide_coverfire",
 			"provide_support",
@@ -3347,7 +3282,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"groupcsr"
 		},
 		--FBI Shield, basically the same as the CS shield.
-		FBI_shield = {
+		REPL_shield = {
 			"charge",
 			"provide_coverfire",
 			"provide_support",
@@ -3355,7 +3290,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"deathguard"
 		},
 		--FBI shield backup units, passive. Now use support grenades
-		FBI_shield_ranged_support = {
+		REPL_shield_ranged_support = {
 			"ranged_fire",
 			"smoke_grenade",
 			"flash_grenade",
@@ -3365,7 +3300,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"deathguard"
 		},
 		--FBI Shield, passive. Covers whoever they spawned with
-		FBI_shield_flank = {
+		REPL_shield_flank = {
 			"flank",
 			"ranged_fire",
 			"provide_coverfire",
@@ -3881,29 +3816,29 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		}
 	}
 
-	self.enemy_spawn_groups.CS_shields = {
+	self.enemy_spawn_groups.swat_shields = {
 		amount = {2, 3},
 		spawn = {
 			{
-				unit = "CS_shield",
+				unit = "swat_shield",
 				freq = 1,
 				amount_min = 1,
 				amount_max = 2,
-				tactics = self._tactics.CS_shield,
+				tactics = self._tactics.swat_shield,
 				rank = 3
 			},
 			{
 				unit = "CS_cop_stealth_MP5",
 				freq = 0.5,
 				amount_max = 1,
-				tactics = self._tactics.CS_shield_ranged_support,
+				tactics = self._tactics.swat_shield_ranged_support,
 				rank = 1
 			},
 			{
 				unit = "CS_swat_MP5",
 				freq = 0.75,
 				amount_max = 1,
-				tactics = self._tactics.CS_shield_ranged_support,
+				tactics = self._tactics.swat_shield_ranged_support,
 				rank = 2
 			}
 		}
@@ -5218,15 +5153,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "CS_heavy_M4_w",
 					freq = 0.5,
-					tactics = self._tactics.CS_shield_ranged_support,
+					tactics = self._tactics.swat_shield_ranged_support,
 					rank = 1
 				},
 				{
-					unit = "CS_shield",
+					unit = "swat_shield",
 					freq = 0.5,
 					amount_min = 1,
 					amount_max = 2,
-					tactics = self._tactics.CS_shield,
+					tactics = self._tactics.swat_shield,
 					rank = 2
 				}
 			}
@@ -5238,15 +5173,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "CS_heavy_M4_w",
 					freq = 0.4,
-					tactics = self._tactics.CS_shield_ranged_support,
+					tactics = self._tactics.swat_shield_ranged_support,
 					rank = 2
 				},
 				{
-					unit = "CS_shield",
+					unit = "swat_shield",
 					freq = 0.5,
 					amount_min = 1,
 					amount_max = 2,
-					tactics = self._tactics.CS_shield,
+					tactics = self._tactics.swat_shield,
 					rank = 3
 				},
 				{
@@ -5265,15 +5200,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_heavy_G36_w",
 					freq = 0.4,
-					tactics = self._tactics.FBI_shield_ranged_support,
+					tactics = self._tactics.REPL_shield_ranged_support,
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.4,
 					amount_min = 1,
 					amount_max = 3,
-					tactics = self._tactics.FBI_shield,
+					tactics = self._tactics.REPL_shield,
 					rank = 3
 				},
 				{
@@ -5299,22 +5234,22 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_heavy_G36_w",
 					freq = 0.4,
-					tactics = self._tactics.FBI_shield_ranged_support,
+					tactics = self._tactics.REPL_shield_ranged_support,
 					rank = 2
 				},
 				{
 					unit = "Titan_shield",
 					freq = 0.05,
 					amount_max = 1,
-					tactics = self._tactics.FBI_shield,
+					tactics = self._tactics.REPL_shield,
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.35,
 					amount_min = 1,
 					amount_max = 3,
-					tactics = self._tactics.FBI_shield,
+					tactics = self._tactics.REPL_shield,
 					rank = 3
 				},
 				{
@@ -5351,7 +5286,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.3,
 					amount_min = 1,
 					amount_max = 3,
@@ -5392,7 +5327,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.3,
 					amount_min = 1,
 					amount_max = 3,
@@ -5433,7 +5368,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.25,
 					amount_min = 1,
 					amount_max = 3,
@@ -5474,7 +5409,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.2,
 					amount_min = 1,
 					amount_max = 3,
@@ -5524,7 +5459,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.45,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield,
@@ -5558,7 +5493,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.35,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield,
@@ -5593,7 +5528,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.3,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield_flank,
@@ -5628,7 +5563,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.3,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield_flank,
@@ -5749,10 +5684,10 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.1,
 					amount_max = 1,
-					tactics = self._tactics.FBI_shield_flank,
+					tactics = self._tactics.REPL_shield_flank,
 					rank = 4
 				},
 				{
@@ -5789,7 +5724,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.1,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
@@ -5829,7 +5764,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
@@ -5863,7 +5798,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.1,
 					amount_min = 1,
 					amount_max = 2,
@@ -5898,7 +5833,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "FBI_shield",
+					unit = "REPL_shield",
 					freq = 0.1,
 					amount_min = 1,
 					amount_max = 2,
@@ -5964,10 +5899,10 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "FBI_shield",
+						unit = "REPL_shield",
 						freq = 0.1,
 						amount_max = 1,
-						tactics = self._tactics.FBI_shield_flank,
+						tactics = self._tactics.REPL_shield_flank,
 						rank = 2
 					}
 				}
@@ -5993,7 +5928,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "FBI_shield",
+						unit = "REPL_shield",
 						freq = 0.1,
 						amount_max = 1,
 						tactics = self._tactics.MH_shield,
@@ -6029,7 +5964,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "FBI_shield",
+						unit = "REPL_shield",
 						freq = 0.1,
 						amount_max = 2,
 						tactics = self._tactics.MH_shield,
@@ -6072,7 +6007,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "FBI_shield",
+						unit = "REPL_shield",
 						freq = 0.1,
 						amount_max = 2,
 						tactics = self._tactics.MH_shield,
@@ -6115,7 +6050,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "FBI_shield",
+						unit = "REPL_shield",
 						freq = 0.1,
 						amount_max = 2,
 						tactics = self._tactics.MH_shield,
