@@ -8083,17 +8083,17 @@ function CharacterTweakData:_presets(tweak_data)
 				},
 				cosmetics = {}
 			},
-			[2] = {
-				factory_name = "wpn_fps_ass_galil_npc",
-				blueprint = {
-					"wpn_fps_ass_galil_fg_sniper",
-					"wpn_fps_ass_galil_s_sniper",
-					"wpn_fps_upg_o_specter",
-					"wpn_fps_upg_fl_ass_smg_sho_surefire"
-				},
-				cosmetics = {}
-			}
-		},
+			--[2] = {
+			--	factory_name = "wpn_fps_ass_galil_npc",
+				--blueprint = {
+				--	"wpn_fps_ass_galil_fg_sniper",
+				--	"wpn_fps_ass_galil_s_sniper",
+				--	"wpn_fps_upg_o_specter",
+				--	"wpn_fps_upg_fl_ass_smg_sho_surefire"
+			--	},
+			--	cosmetics = {}
+			--}
+		--},
 		secondaries = {
 			[1] = {
 				factory_name = "wpn_fps_pis_sparrow_npc",
