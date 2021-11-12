@@ -8082,7 +8082,7 @@ function CharacterTweakData:_presets(tweak_data)
 					"wpn_fps_upg_fl_ass_peq15"
 				},
 				cosmetics = {}
-			},
+			}
 			--[2] = {
 			--	factory_name = "wpn_fps_ass_galil_npc",
 				--blueprint = {
@@ -8093,7 +8093,7 @@ function CharacterTweakData:_presets(tweak_data)
 			--	},
 			--	cosmetics = {}
 			--}
-		--},
+		},
 		secondaries = {
 			[1] = {
 				factory_name = "wpn_fps_pis_sparrow_npc",
