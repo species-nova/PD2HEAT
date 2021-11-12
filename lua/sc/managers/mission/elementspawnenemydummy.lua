@@ -8,22 +8,25 @@ local groupai_enemy_replacements = {
     --For enemies with multiple spawngroups per difficulty, creating a new spawngroup that merges everything together would be the best choice, with new scaling for scripted spawns.
 	
 	--shields here--
-    ["units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"] = "CS_shield",
-    ["units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"] = "CS_shield",
-    ["units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg"] = "CS_shield",
-	["units/payday2/characters/ene_shield_1/ene_shield_1"] = "CS_shield",
-	["units/payday2/characters/ene_shield_2/ene_shield_2"] = "CS_shield",
-	["units/payday2/characters/ene_city_shield/ene_city_shield"] = "CS_shield",
-	["units/payday2/characters/ene_shield_gensec/ene_shield_gensec"] = "CS_shield",
-	["units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield"] = "CS_shield",
-	["units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"] = "CS_shield",
-	["units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2"] = "CS_shield",
-	["units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1"] = "CS_shield",
+    ["units/pd2_dlc_mad/characters/ene_akan_cs_shield_c45/ene_akan_cs_shield_c45"] = "swat_shield",
+    ["units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"] = "swat_shield",
+    ["units/pd2_dlc_mad/characters/ene_akan_fbi_shield_sr2_smg/ene_akan_fbi_shield_sr2_smg"] = "swat_shield",
+	["units/payday2/characters/ene_shield_1/ene_shield_1"] = "swat_shield",
+	["units/payday2/characters/ene_shield_2/ene_shield_2"] = "swat_shield",
+	["units/payday2/characters/ene_city_shield/ene_city_shield"] = "swat_shield",
+	["units/payday2/characters/ene_shield_gensec/ene_shield_gensec"] = "swat_shield",
+	["units/pd2_dlc_gitgud/characters/ene_zeal_swat_shield/ene_zeal_swat_shield"] = "swat_shield",
+	["units/pd2_dlc_mad/characters/ene_akan_fbi_shield_dw_sr2_smg/ene_akan_fbi_shield_dw_sr2_smg"] = "swat_shield",
+	["units/pd2_dlc_hvh/characters/ene_shield_hvh_2/ene_shield_hvh_2"] = "swat_shield",
+	["units/pd2_dlc_hvh/characters/ene_shield_hvh_1/ene_shield_hvh_1"] = "swat_shield",
+	["units/pd2_dlc_bph/characters/ene_murkywater_shield/ene_murkywater_shield"] = "swat_shield",
+	["units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_c45/ene_swat_shield_policia_federale_c45"] = "swat_shield",
+	["units/pd2_dlc_bex/characters/ene_swat_shield_policia_federale_mp9/ene_swat_shield_policia_federale_mp9"] = "swat_shield",
 	
 	--test guy--
-	["units/payday2/characters/ene_security_1/ene_security_1"] = "CS_shield",
-	["units/payday2/characters/ene_security_2/ene_security_2"] = "CS_shield",
-	["units/payday2/characters/ene_security_3/ene_security_3"] = "CS_shield",
+	["units/payday2/characters/ene_security_1/ene_security_1"] = "swat_shield",
+	["units/payday2/characters/ene_security_2/ene_security_2"] = "swat_shield",
+	["units/payday2/characters/ene_security_3/ene_security_3"] = "swat_shield",
 
     --Cloakers
     ["units/payday2/characters/ene_spook_1/ene_spook_1"] = "spooc",
