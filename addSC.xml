@@ -90,12 +90,6 @@
 	<object path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" />	
 	<texture path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/spook_hvh_df" force="true" />	
 	
-	<environment path="environments/pd2_env_night/pd2_env_night" force="true"/>
-	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
-	<object path="units/payday2/props/lcm_prop_securitydoor/lcm_prop_securitydoor_01" force="true"/>
-	<texture path="units/payday2/props/str_prop_street_signs/str_prop_street_signs_lamppost_df" force="true"/>
-	<material_config path="units/pd2_dlc_friend/nature/terrain/sfm_backdrop" force="true"/>
-	
 	<object path="units/vehicles/animated_cars/police_ny_bank_anim" force="true"/>
 	<!-- Dark window cop cars with fixed uniforms -->
 	<!--Washington DC-->
@@ -114,41 +108,7 @@
 	
 	<texture path="units/payday2/props/off_prop_office_monitor/display_master_jewelry_il" force="true"/>
 	
-	<!--New logo-->
-	<texture path="guis/textures/game_small_logo" force="true"/>
-	<texture path="guis/textures/menu_title_screen" force="true"/>
-	<texture path="units/menu/menu_scene/menu_cylinder_logo" force="true"/>
-	<texture path="units/menu/menu_scene/menu_cylinder_smoke" force="true"/>
-	<texture path="units/menu/menu_scene/menu_cylinder_smoke_tile" force="true"/>
-	<material_config path="units/menu/menu_scene/menu_cylinder" force="true" />
-	<model path="units/menu/menu_scene/menu_logo" force="true" />
-	
-	<!--Info Hud Skill Icons-->
-	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_single_shot_fast_reload" force="false" load="false"/> <!-- Aggressive Reload -->
-	<texture path="guis/textures/pd2/skilltree/info_bloodthirst_reload_speed" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_bullet_hell" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_bullet_storm" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_revive_damage_reduction" force="false" load="false"/> <!-- Combat Medic -->
-	<texture path="guis/textures/pd2/skilltree/info_desperado" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_doctor_bag_health_regen" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_grinder" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_infiltrator" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_long_dis_revive" force="false" load="false"/> <!-- inspire -->
-	<texture path="guis/textures/pd2/skilltree/info_messiah" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_overheat_stacks" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_revived_damage_reduction" force="false" load="false"/> <!-- Painkillers -->
-	<texture path="guis/textures/pd2/skilltree/info_first_aid_damage_reduction" force="false" load="false"/> <!-- Quick Fix -->
-	<texture path="guis/textures/pd2/skilltree/info_rogue" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_increased_movement_speed" force="false" load="false"/> <!-- Running From Death -->
-	<texture path="guis/textures/pd2/skilltree/info_damage_speed_multiplier" force="false" load="false"/> <!-- Second Wind -->
-	<texture path="guis/textures/pd2/skilltree/info_headshot_accuracy_addend" force="false" load="false"/> <!-- Sharpshooter Ace -->
-	<texture path="guis/textures/pd2/skilltree/info_shotgun_last_shot_stagger" force="false" load="false"/> <!-- Shell Shocked -->
-	<texture path="guis/textures/pd2/skilltree/info_silent_precision" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_trigger_happy" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_close_combat" force="false" load="false"/> <!-- Underdog -->
-	<texture path="guis/textures/pd2/skilltree/info_unseen_strike" force="false" load="false"/>
-	<texture path="guis/textures/pd2/skilltree/info_survive_one_hit" force="false" load="false"/> <!-- Yakuza Oni Irezumi -->
+
 
 	<model path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container" force="true"/>
 	<texture path="units/payday2/props/str_prop_alley_trash_container/str_prop_alley_trash_container_df" force="true"/>
@@ -230,87 +190,8 @@
 	<nav_data path="levels/narratives/locke/vit/nav_manager_data" force="true" unload="true"/>
 
 	<!--<nav_data path="levels/narratives/vlad/bex/nav_manager_data" force="true" unload="true"/>-->
-
-	<!--I LOVE GOOOOOOOOOOOOOLD-->
-	<continent path="levels/instances/unique/kenaz/vault/world/world" force="true" unload="true"/>
-
-	<!--ffs ovk, dont load the entire map if you force the players in one area-->
-	<continent path="levels/narratives/skm/skm_cas/world/world" force="true" unload="true"/>
-
-	<!--mm yes H&K on [insert heist]-->	
-	<mission path="levels/narratives/vlad/four_stores/world/world" force="true" unload="true"/>
-	
-	<!--fuck your powerboxes-->
-	<mission path="levels/narratives/e_framing_frame/stage_3/world/world" force="true" unload="true"/>
-
-	<!--5 minute edit-->
-	<mission path="levels/narratives/vlad/shout/world/world" force="true" unload="true"/>
-
-	<!--First World Bank-->
-	<mission path="levels/narratives/classics/red2/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/red2/world/world" force="true" unload="true"/> 
-	<nav_data path="levels/narratives/classics/red2/nav_manager_data" force="true" unload="true"/>	
-	<cover_data path="levels/narratives/classics/red2/cover_data" force="true" unload="true"/>
-	
-	<!--Green Bridge-->
-	<mission path="levels/narratives/classics/glace/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/glace/world/world" force="true" unload="true"/> 
-	<continent path="levels/narratives/classics/glace/level_art/level_art" force="true" unload="true"/>
-	<nav_data path="levels/narratives/classics/glace/nav_manager_data" force="true" unload="true"/>	
-	
-    <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" load="true"/>
-    <model path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" />
-    <object path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" />
-	<sequence_manager path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam" force="true" />	
-   
-	<material_config path="units/equipment/apartment_saw/apartment_saw" force="true" />	
-	
-    <unit path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" load="true"/>	
-    <model path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" />	
-    <object path="units/pd2_dlc_glace/equipment/gen_interactable_saw_no_jam/gen_interactable_saw_no_jam_rotated" force="true" />
-	
-	<!--UNDERCOVER-->
-	<mission path="levels/narratives/classics/man/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/man/world/world" force="true" unload="true"/> 
-	<continent path="levels/narratives/classics/man/shadow_caster/shadow_caster" force="true" unload="true"/>
-	<nav_data path="levels/narratives/classics/man/nav_manager_data" force="true" unload="true"/>	
-	<cover_data path="levels/narratives/classics/man/cover_data" force="true" unload="true"/>
-	
-	<sequence_manager path="units/world/architecture/secret_stash/props/secret_stash_hack_computer_interaction" force="true"/>
-	<sequence_manager path="units/pd2_dlc_jolly/equipment/gen_interactable_saw/gen_interactable_saw" force="true"/>
-	
-	<!--PANIC ROOM-->
-	<!--<mission path="levels/narratives/classics/flat/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/flat/world/world" force="true" unload="true"/>-->
-	<nav_data path="levels/narratives/classics/flat/nav_manager_data" force="true" unload="true"/>	
-	<cover_data path="levels/narratives/classics/flat/cover_data" force="true" unload="true"/>
-	<!--<continent path="levels/narratives/classics/flat/art_dhruva/art_dhruva" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/flat/lights/lights" force="true" unload="true"/>
-	<continent path="levels/narratives/classics/flat/collision/collision" force="true" unload="true"/>-->
-
-	<!--GGC-->
-	<mission path="levels/narratives/dentist/cas/world/world" force="true" unload="true"/>
-	
-	<!--AFTERSHOCK-->
-	<world path="levels/narratives/vlad/jolly/world" force="true" unload="true"/>
-	<continent path="levels/narratives/vlad/jolly/world/world" force="true" unload="true"/>
-	<continent path="levels/narratives/vlad/jolly/lights/lights" force="true" unload="true"/>
-	<continent path="levels/narratives/vlad/jolly/jason_mkp/jason_mkp" force="true" unload="true"/>
-	<continent path="levels/narratives/vlad/jolly/backdrop/backdrop" force="true" unload="true"/>
-	<continent path="levels/narratives/vlad/jolly/rob_geo/rob_geo" force="true" unload="true"/>
 	
 	<!--Misc. Changes and Fixes to Base Game Objects-->
-	
-	<!--Ovk's Murky light beret never despawning fix-->
-	
-	<!--game crashes if i dont load ALL of these fucking files-->
-	<model path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
-	<unit path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
-	<cooked_physics path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
-	<material_config path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
-	<object path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
-	<unit path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" load="true"/>
-	
 	
 	<!-- Gensec Security: Beret Poppin' -->
 	<unit path="units/pd2_dlc1/characters/ene_security_gensec_1/ene_security_gensec_1" load="true" force="true" />
@@ -344,46 +225,15 @@
 	<unit path="units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3" load="true" />
 	<unit path="units/pd2_dlc1/characters/ene_security_gensec_guard_3/ene_security_gensec_guard_3_husk" load="true" />		
 	
-	<!--better taser thread-->
-	<effect path="effects/payday2/particles/character/taser_thread" force="true"/>
-	
-	<!--Improved Flashlight-->	
-	<texture path="effects/particles/weapons/flashlight/e_gradient_radial2" force="true"/>	
-	<texture path="units/lights/spot_light_projection_textures/spotprojection_11_flashlight_df" force="true"/>	
 
-	<!--Reduced Sicario Smoke-->	
-	<effect path="effects/particles/explosions/smoke_screen" force="true"/>
-	<!--concussion grenade depth scaling vanilla bug-->	
-	<material_config path="units/pd2_crimefest_2016/fez1/weapons/wpn_fps_gre_pressure/wpn_fps_gre_pressure_husk" force="true" />
-	<!--Dynamite no rolly polly-->
-	<object path="units/pd2_dlc_west/weapons/wpn_gre_dynamite/wpn_gre_dynamite" force="true" />		
 
 	<!-- M60 TROPICAL FOREGRIP FIX -->
 	<model path="units/pd2_dlc_atw/weapons/wpn_fps_lmg_m60_pts/wpn_fps_lmg_m60_fg_tropical" force="true"/>
 	
-	<!-- AS VAL GRIP ATTACHMENT STUFF  -->
-	<unit_obj path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_pgrip" />
-	<unit_obj path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_hgrip" />
-	
-	<unit_mat_cc path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_hgrip" />	
-	<unit_mat_cc path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_pgrip" />
-	
-	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval/wpn_fps_ass_asval" force="true"/>
-	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_standard" force="true"/>
-	<model path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_standard" force="true"/>
-	
-	<!--PDTH Smokebomb-->
-	<effect path="effects/particles/explosions/smoke_grenade_smoke" force="true"/>
 
-	<!--Security Guard 7 fixed cap (Thanks Baddy!)-->	
-	<object path="units/payday2/characters/ene_security_7/ene_security_7" force="true" />	
+	
 
-	<!--Corrected NPC Weapon Sounds-->	
-	<unit path="units/payday2/weapons/wpn_npc_ump/wpn_npc_ump" force="true" load="true" />		
-	<unit path="units/payday2/weapons/wpn_npc_c45/wpn_npc_c45" force="true" load="true"/>	
-	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_sr2/wpn_npc_sr2" force="true" load="true"/>			
-	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_rpk/wpn_npc_rpk" force="true" load="true"/>	
-	<unit path="units/pd2_dlc_chico/weapons/wpn_npc_sg417/wpn_npc_sg417" force="true" load="true"/>		
+
 
 	<!--Reaper Bullet Impact Fixes-->	
 	<object path="units/pd2_dlc_mad/characters/ene_akan_fbi_swat_dw_r870/ene_akan_fbi_swat_dw_r870" force="true" />
@@ -426,8 +276,6 @@
 	<object path="units/pd2_dlc_flat/characters/npc_chavez/npc_chavez" force="true" />
 	<object path="units/pd2_dlc_flat/characters/npc_jamaican/npc_jamaican" force="true" />	
 	
-	<!--Parachute Collision edit (No more Boiling Point suicides)-->
-	<object path="units/pd2_dlc_jerry/props/jry_equipment_parachute/jry_equipment_parachute_ragdoll" force="true"/>
 	
 	<!--Scarface Guys-->		
 	<object path="units/pd2_dlc_friend/characters/ene_bolivian_thug_outdoor_01/ene_bolivian_thug_outdoor_01" force="true" />
@@ -443,8 +291,7 @@
 	<material_config path="units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1_contour" force="true" />	
 	<effect path="effects/payday2/particles/character/flashlight_ss" load="true"/>
 	
-	<!--Fixes for Objects not Casting Shadows-->		
-	<object path="units/payday2/architecture/air_hangar_segment/air_shed_welcometothejungle_a" force="true" />	
+
 	
 	<!--epic hd cloaker eyes thanks jarey-->
 	<texture path="units/payday2/characters/shared_textures/spook_il"/>
@@ -573,33 +420,11 @@
 	<-More Cop Facial Variety END
 	god i dont know what would be used for the cop face randomization and whats not so im just doing this lord help me-->	
 	
-	<!--restored uniforms for security_6, welcome back home buddy :)-->
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6" force="true" />
-	<material_config path="units/payday2/characters/ene_security_6/ene_security_6_contour" force="true" />
 
-	<!--Risk Level-->
-	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_4_sc" force="false"/>
-	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_5_sc" force="false"/>
-	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_6_sc" force="false"/>
-	<texture path="guis/textures/pd2/mission_briefing/assets/risk_bexico" force="false"/>
-	<texture path="guis/textures/pd2/mission_briefing/assets/risk_murky" force="false"/>
-	<texture path="guis/textures/pd2/mission_briefing/assets/risk_zombie" force="false"/>
-	
-	<!--Briefing assets-->
-	<texture path="guis/textures/pd2/mission_briefing/assets/alex_1_zipline" force="false"/>
-	
-	<!--New Crime Spree icons-->
-	<texture path="guis/dlcs/sc/textures/pd2/crime_spree/modifiers_atlas_sc"/>		
 
-	<!--New Crime Spree level icons-->
-	<texture path="guis/dlcs/sc/textures/pd2/crime_spree/mission_atlas_sc"/>
+
 	
-	<!--Crimewar skull icon for HUD Stealth Suspicion meter-->
-	<texture path="guis/textures/restoration/crimewar_skull"/>
-	<texture path="guis/textures/restoration/crimewar_skull_2"/>
-	
-	<!--TeamAI Enduring ability very epic-->
-	<texture path="guis/dlcs/mom/textures/pd2/ai_abilities" force="true"/>
+
 	
 	<!--Mats/Patterns-->
 	<texture path="units/pd2_mod_jack/matcaps/jkl_matt01" force="false"/>
@@ -650,22 +475,6 @@
 	<texture path="units/mods/masks/instinct/instinct_df" force="false"/>
 	<texture path="units/mods/masks/instinct/instinct_il" force="false"/>
 	<texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/masks/instinct" force="false"/>	
-	
-	<!--Muldon Stock Unfolded (thx Jarey_!!!!)-->
-	<cooked_physics path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
-	<material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
-	<model path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
-	<object path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
-	<unit path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
-	<material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded_thq"/>
-	<material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded_cc"/>
-    <material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded_cc_thq"/>
-	<texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/mods/wpn_fps_shot_r870_s_muldonunfolded"/> 	
-	<cooked_physics path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>
-	<model path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>
-	<object path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>
-    <material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>	
-	<unit path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>		
 	
 	<!--Mask: Hockey Hell-->
 	<material_config path="units/pd2_mod_sharks/masks/msk_hockey_sc/msk_hockey_sc" force="false"/>
@@ -1041,14 +850,7 @@
 	<object path="units/pd2_dlc_xm20/characters/ene_acc_dozer_akan_santa_hat_sc/ene_acc_dozer_akan_santa_hat_sc"/>
 	<unit path="units/pd2_dlc_xm20/characters/ene_acc_dozer_akan_santa_hat_sc/ene_acc_dozer_akan_santa_hat_sc" load="false"/>	
 	
-	<!--HK21-->
-	<material_config path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
-	<model path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
-	<object path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
-	<sequence_manager path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
-	<cooked_physics path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
-	<unit path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" load="true" force="false"/>
-	<texture path="units/payday2/weapons/wpn_npc_hk21_sc/hk21_sc_df" force="false"/>
+
 
 	<!--Russian Reaper Weapons looking nicer-->
 	<material_config path="units/pd2_dlc_mad/weapons/wpn_npc_ak47/wpn_npc_ak47" force="true"/>
