@@ -53,7 +53,6 @@ end
 
 function PlayerTweakData:_set_overkill_145()
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.45
-	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.3
 	self.damage.MIN_DAMAGE_INTERVAL = 0.25
 	self.suspicion.max_value = 8
 	self.suspicion.range_mul = 1
