@@ -506,6 +506,55 @@ function PlayerStandard:update(t, dt)
 	end
 
 	self._last_equipped = self._equipped_unit
+
+	self:_update_burst_fire(t)
+	
+	--Update the current weapon's spread value based on recent actions.
+	local weapon = self._unit:inventory():equipped_unit():base()
+	weapon:update_spread(self, t, dt)
+	self:_update_crosshair(t, dt, weapon)
+
+	--Having this in update is less than ideal, but it appears that this is normally set in-engine in most cases rather than via lua.
+	--self._ext_camera:set_shaker_parameter("breathing", "amplitude", 
+	--	tweak_data.weapon.stat_info.breathing_amplitude[weapon:weapon_tweak_data().stats.spread + weapon:get_accuracy_addend(self)]
+	--	* (self._state_data.in_steelsight and tweak_data.weapon.stat_info.steelsight_breathing_amplitude_mul or 1))
+
+	if weapon:get_name_id() == "m134" then
+		weapon:update_spin()
+	end
+end
+
+function PlayerStandard:_update_crosshair(t, dt, weapon)
+	--Update the crosshair.
+	local crosshair_visible = alive(self._equipped_unit) and
+							  not self:_is_meleeing() and
+							  not self:_interacting() and
+							  (not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
+
+	if crosshair_visible then
+		--Ensure that crosshair is actually visible.
+		managers.hud:set_crosshair_visible(true)
+
+		--Update hud's fov value. Easier and far less error prone to grab it here than there.
+		managers.hud:set_camera_fov(self._camera_unit:base()._fov.fov)
+
+		--Update crosshair size.
+			--Get current weapon's spread values to determine base size.
+			local crosshair_spread = weapon:_get_spread(self._unit)
+
+			--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
+			if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
+				crosshair_spread = crosshair_spread + (weapon._recoil) * 2
+				self._next_crosshair_jiggle = t + 0.1
+			end
+
+			--Set the final size of the crosshair.
+			managers.hud:set_crosshair_offset(crosshair_spread)
+	else
+		--Hide the crosshair and set its size to 0 when it shouldn't be seen.
+		managers.hud:set_crosshair_visible(false)
+		managers.hud:set_crosshair_offset(0)
+	end
 end
 
 function PlayerStandard:_update_check_actions(t, dt, paused)
@@ -1288,57 +1337,6 @@ end
 --The crosshair should only need to be updated once per frame, and it needs time data that many of the calls here do not provide.
 function PlayerStandard:_update_crosshair_offset(t)
 end
-
---Updates burst fire and minigun spinup.
-Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
-	self:_update_burst_fire(t)
-		
-	local weapon = self._unit:inventory():equipped_unit():base()
-	weapon:update_spread(self, t, dt)
-
-	log(tostring(weapon:weapon_tweak_data().stats.spread))
-	log(tostring(weapon:get_accuracy_addend(self)))
-
-	--Having this in update is less than ideal, but it appears that this is normally set in-engine in most cases rather than via lua.
-	--self._ext_camera:set_shaker_parameter("breathing", "amplitude", 
-	--	tweak_data.weapon.stat_info.breathing_amplitude[weapon:weapon_tweak_data().stats.spread + weapon:get_accuracy_addend(self)]
-	--	* (self._state_data.in_steelsight and tweak_data.weapon.stat_info.steelsight_breathing_amplitude_mul or 1))
-
-	if weapon:get_name_id() == "m134" then
-		weapon:update_spin()
-	end
-
-	--Update the crosshair.
-		local crosshair_visible = alive(self._equipped_unit) and
-								  not self:_is_meleeing() and
-								  not self:_interacting() --and
-								  --(not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
-
-		if crosshair_visible then
-			--Ensure that crosshair is actually visible.
-			managers.hud:set_crosshair_visible(true)
-
-			--Update hud's fov value. Easier and far less error prone to grab it here than there.
-			managers.hud:set_camera_fov(self._camera_unit:base()._fov.fov)
-
-			--Update crosshair size.
-				--Get current weapon's spread values to determine base size.
-				local crosshair_spread = weapon:_get_spread(self._unit)
-
-				--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
-				if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
-					crosshair_spread = crosshair_spread + (weapon._recoil) * 2
-					self._next_crosshair_jiggle = t + 0.1
-				end
-
-				--Set the final size of the crosshair.
-				managers.hud:set_crosshair_offset(crosshair_spread)
-		else
-			--Hide the crosshair and set its size to 0 when it shouldn't be seen.
-			managers.hud:set_crosshair_visible(false)
-			managers.hud:set_crosshair_offset(0)
-		end
-end)
 
 --Deals with burst fire hud stuff when swapping from an underbarrel back to a weapon in burst fire.
 local _check_action_deploy_underbarrel_original = PlayerStandard._check_action_deploy_underbarrel	

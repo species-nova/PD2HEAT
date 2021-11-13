@@ -73,8 +73,8 @@ function WeaponTweakData:_init_stats()
 		--Generate table for moving_spread and how it relates to mobility.
 		--The values in the table correspond to the area of spread.
 		--These are added to the area for accuracy while moving before determining the final angles.
-		self.stat_info.base_move_spread = 8
-		self.stat_info.spread_per_mobility = -0.32
+		self.stat_info.base_move_spread = 9
+		self.stat_info.spread_per_mobility = -0.36
 		self.stats.spread_moving = {}
 		for i = 0, 25, 1 do
 			table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
@@ -90,8 +90,8 @@ function WeaponTweakData:_init_stats()
 		end
 
 	--STABILITY
-		self.stat_info.base_bloom_spread = 1.3338 --Amount of spread each stack of bloom gives.
-		self.stat_info.spread_per_stability = -0.0513 --Amount bloom spread is reduced by stability.
+		self.stat_info.base_bloom_spread = 1.5 --Amount of spread each stack of bloom gives.
+		self.stat_info.spread_per_stability = -0.06 --Amount bloom spread is reduced by stability.
 		self.stat_info.bloom_spread = {}
 		for i = 0, 25, 1 do
 			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
