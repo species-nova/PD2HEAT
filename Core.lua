@@ -141,7 +141,6 @@ function heat:Init()
 		"welcome_to_the_jungle_2", --Big Oil 2. Scripted cloaker hell.
 		"stage_2", --Big Oil Day 2 EDIT
 		"cane", --Santa's Workshop
-		"brb", --Brooklyn Bank
 		"mus", --The Diamond
 		"run", --Heat Street
 		"run_res", --Whurr's Heat Street Edit
@@ -182,6 +181,7 @@ function heat:Init()
 		"spa", --Brooklyn 10-10
 		"mia_2", --Hotline Miami 2
 		"des",	--Henry's Rock
+		"brb", --Brooklyn Bank
 		"nail",	--Lab Rats. Fuck this heist	
 		"hox_1",
 		"xmn_hox_1",
