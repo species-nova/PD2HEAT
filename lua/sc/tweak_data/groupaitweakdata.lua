@@ -1210,7 +1210,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "shield"
 		}
 	elseif difficulty_index < 6 then
-		self.unit_categories.REPL_shield = {
+		self.unit_categories.swat_shield = {
 			unit_types = {
 				america = {
 					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
@@ -1235,7 +1235,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "shield"
 		}
 	elseif difficulty_index < 8 then
-		self.unit_categories.REPL_shield = {
+		self.unit_categories.swat_shield = {
 			unit_types = {
 				america = {
 					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
@@ -1260,7 +1260,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			special_type = "shield"
 		}
 	else
-		self.unit_categories.REPL_shield = {
+		self.unit_categories.swat_shield = {
 			unit_types = {
 				america = {
 					Idstring("units/payday2/characters/ene_shield_2/ene_shield_2")
@@ -3015,7 +3015,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"groupcsr"
 		},
 		--FBI Shield, basically the same as the CS shield.
-		REPL_shield = {
+		fbi_shield = {
 			"charge",
 			"provide_coverfire",
 			"provide_support",
@@ -3023,7 +3023,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"deathguard"
 		},
 		--FBI shield backup units, passive. Now use support grenades
-		REPL_shield_ranged_support = {
+		fbi_shield_ranged_support = {
 			"ranged_fire",
 			"smoke_grenade",
 			"flash_grenade",
@@ -3033,7 +3033,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"deathguard"
 		},
 		--FBI Shield, passive. Covers whoever they spawned with
-		REPL_shield_flank = {
+		fbi_shield_flank = {
 			"flank",
 			"ranged_fire",
 			"provide_coverfire",
@@ -4933,15 +4933,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_heavy_G36_w",
 					freq = 0.4,
-					tactics = self._tactics.REPL_shield_ranged_support,
+					tactics = self._tactics.fbi_shield_ranged_support,
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.4,
 					amount_min = 1,
 					amount_max = 3,
-					tactics = self._tactics.REPL_shield,
+					tactics = self._tactics.fbi_shield,
 					rank = 3
 				},
 				{
@@ -4967,22 +4967,22 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_heavy_G36_w",
 					freq = 0.4,
-					tactics = self._tactics.REPL_shield_ranged_support,
+					tactics = self._tactics.fbi_shield_ranged_support,
 					rank = 2
 				},
 				{
 					unit = "Titan_shield",
 					freq = 0.05,
 					amount_max = 1,
-					tactics = self._tactics.REPL_shield,
+					tactics = self._tactics.fbi_shield,
 					rank = 3
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.35,
 					amount_min = 1,
 					amount_max = 3,
-					tactics = self._tactics.REPL_shield,
+					tactics = self._tactics.fbi_shield,
 					rank = 3
 				},
 				{
@@ -5019,7 +5019,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.3,
 					amount_min = 1,
 					amount_max = 3,
@@ -5060,7 +5060,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.3,
 					amount_min = 1,
 					amount_max = 3,
@@ -5101,7 +5101,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.25,
 					amount_min = 1,
 					amount_max = 3,
@@ -5142,7 +5142,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.2,
 					amount_min = 1,
 					amount_max = 3,
@@ -5192,7 +5192,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.45,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield,
@@ -5226,7 +5226,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.35,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield,
@@ -5261,7 +5261,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.3,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield_flank,
@@ -5296,7 +5296,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.3,
 					amount_max = 3,
 					tactics = self._tactics.MH_shield_flank,
@@ -5417,10 +5417,10 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.1,
 					amount_max = 1,
-					tactics = self._tactics.REPL_shield_flank,
+					tactics = self._tactics.fbi_shield_flank,
 					rank = 4
 				},
 				{
@@ -5457,7 +5457,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.1,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
@@ -5497,7 +5497,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
@@ -5531,7 +5531,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.1,
 					amount_min = 1,
 					amount_max = 2,
@@ -5566,7 +5566,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "REPL_shield",
+					unit = "fbi_shield",
 					freq = 0.1,
 					amount_min = 1,
 					amount_max = 2,
@@ -5632,10 +5632,10 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "REPL_shield",
+						unit = "fbi_shield",
 						freq = 0.1,
 						amount_max = 1,
-						tactics = self._tactics.REPL_shield_flank,
+						tactics = self._tactics.fbi_shield_flank,
 						rank = 2
 					}
 				}
@@ -5661,7 +5661,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "REPL_shield",
+						unit = "fbi_shield",
 						freq = 0.1,
 						amount_max = 1,
 						tactics = self._tactics.MH_shield,
@@ -5697,7 +5697,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "REPL_shield",
+						unit = "fbi_shield",
 						freq = 0.1,
 						amount_max = 2,
 						tactics = self._tactics.MH_shield,
@@ -5740,7 +5740,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "REPL_shield",
+						unit = "fbi_shield",
 						freq = 0.1,
 						amount_max = 2,
 						tactics = self._tactics.MH_shield,
@@ -5783,7 +5783,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 						rank = 1
 					},
 					{
-						unit = "REPL_shield",
+						unit = "fbi_shield",
 						freq = 0.1,
 						amount_max = 2,
 						tactics = self._tactics.MH_shield,
