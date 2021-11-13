@@ -75,7 +75,7 @@ function heat:Init()
 		"pex", --police station mex
 		"man", --undercover--
 		"rvd2", --garnet group boutique 
-		"brb", --brooklyn bank 
+		--"brb", --brooklyn bank THIS SUCKS CURRENTLY.  REDO THE SCRIPTED SPAWNS ON BRB BEFORE GIVING IT A CAPTAIN!!!
 		--custom heists
 		"wetwork", --res map package wetworks
 		"alex_1_res", --Rats Day 1 res edit version
