@@ -41,7 +41,6 @@
 	<texture path="units/pd2_dlc_vip/characters/ene_vip_autumn/autumn_glow_df" force="false" load="true"/>
 	<texture path="units/pd2_dlc_vip/characters/ene_vip_autumn/autumn_head_glow_df" force="false" load="true"/>
 	<texture path="units/pd2_dlc_vip/characters/ene_vip_autumn/autumn_cloak_glow_df" force="false" load="true"/>	
-
 	<!--Winter with his cool cigar (Jarey)-->
 	<material_config path="units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1" force="true"/>
 	<material_config path="units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1_contour" force="true"/>	

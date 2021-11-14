@@ -229,6 +229,11 @@
 	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_standard" force="true"/>
 	<model path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_standard" force="true"/>
 
+	<!--reinbeck muzzleflash-->
+	<effect path="effects/particles/shotgun/muzzleflash" load="false"/>
+	<!--shotgun muzzleflash-->
+	<effect path="effects/particles/shotgun/shotgun_gen" load="false"/>
+
 	<!--P90 Tan Body To be Scrubbed-->
 	<texture path="units/payday2/weapons/wpn_fps_smg_p90_pts/body_tan_df"/>
 	<unit path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan" load="false"/>
@@ -405,6 +410,8 @@
 	<!--Fixes for Objects not Casting Shadows-->		
 	<object path="units/payday2/architecture/air_hangar_segment/air_shed_welcometothejungle_a" force="true" />
 
+	<!--stronger joker convert money effect-->
+	<effect path="effects/payday2/particles/impacts/money_impact_pd2" force="true" load="false"/>
 
 		<!--Hud Related Shit-->
 	<!--Briefing assets-->
