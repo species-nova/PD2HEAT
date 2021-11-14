@@ -973,8 +973,7 @@
 	<sequence_manager path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/>
 	<cooked_physics path="units/payday2/weapons/wpn_npc_socom/wpn_npc_socom"/-->
 
-	<!--NEEDS TO BE KILLED vivinite enhanced caps-->
-	<!--DELETE ME ONCE FULLY SCRUBBED-->
+	<!--Cap used on various units: a lot of units. i wanna look at making this not have to be loaded at all times, or figure out another solution.-->
 	<object path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<cooked_physics path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<model path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
@@ -1100,16 +1099,10 @@
 	<sequence_manager path="units/payday2/weapons/wpn_npc_m4_boom/wpn_npc_m4_boom" force="false"/>
 	<material_config path="units/payday2/weapons/wpn_npc_m4_boom/wpn_npc_m4_boom_contour" force="false"/>
 
-	<!--NPC AKMSU-->	
+	<!--NPC AKMSU note: huh-->	
 	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_akmsu/wpn_npc_x_akmsu" force="false" load="false"/>
 
-	<!--NPC XC45-->	
-	<unit path="units/payday2/weapons/wpn_npc_c45/wpn_npc_x_c45" force="true" load="false"/>
-	
-	<!--NPC Mosconi less ugly-->
-	<model path="units/payday2/weapons/wpn_npc_sawnoff_shotgun/wpn_npc_sawnoff_shotgun" force="true"/>	
-	<texture path="units/payday2/weapons/wpn_npc_sawnoff_shotgun/sawnoff_df" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_sawnoff_shotgun/sawnoff_nm" force="true"/>
+
 
 	<!--Fixed Sniper-->
 	<object path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper" force="true"/>
@@ -1151,16 +1144,6 @@
 	<unit path="units/payday2/characters/ene_medic_mp5/ene_medic_mp5" force="false" load="true"/>
 	<unit path="units/payday2/characters/ene_medic_mp5/ene_medic_mp5_husk" force="false" load="true"/>
 
-
-
-
-
-
-
-	<unit path="units/payday2/weapons/wpn_fps_ass_m16/wpn_fps_ass_m16_summers_npc" load="false" force="false"/>
-
-
-
 	<!--Omnia LPF-->
 	<object path="units/pd2_dlc_vip/characters/ene_omnia_lpf/ene_omnia_lpf" force="false"/>
 	<cooked_physics path="units/pd2_dlc_vip/characters/ene_omnia_lpf/ene_omnia_lpf" force="false"/>
@@ -1179,86 +1162,7 @@
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/ene_mask_lpf_nm" force="false" load="true"/>
 	<texture path="units/pd2_dlc_vip/characters/shared_textures/ene_mask_lpf_il" force="false" load="true"/>	
 
-	<!--Buzz-->
-	<object path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1" force="false"/>
-	<cooked_physics path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1" force="false"/>
-	<model path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1" force="false"/>
-	<unit path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1" force="false" load="false"/>
-	<material_config path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1" force="false"/>
-	<texture path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1_df" force="false"/>
-	<texture path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1_nm" force="false"/>
-
-
-
-
-
-	
-
-	
-
-	
-	
-
-
-	<!--SKR-7 SPREE BABY!!!-->
-	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_smg_mac10_s_no"/> 			
-	
-	<!--G3 Sniper Barrel Icon-->	
-	<texture path="guis/dlcs/gage_pack_assault/textures/pd2/blackmarket/icons/mods/wpn_fps_ass_g3_b_sniper" force="true"/>
-	
-	<!--Saiga Drum Mag fix-->
-	<material_config path="units/payday2/weapons/wpn_fps_shot_saiga_pts/wpn_upg_saiga_m_20rnd_thq"/>
-		
-	<!--M4 Drum Mag fix (note: could probably add a proper THQ config now)-->
-	<material_config path="units/payday2/weapons/wpn_fps_upg_m4_reusable/wpn_fps_upg_m4_m_drum" force="true"/>
-	<model path="units/payday2/weapons/wpn_fps_upg_m4_reusable/wpn_fps_upg_m4_m_drum" force="true"/>
-	
-	<!--Test skin texture for M4 Drum, remove? I don't know how well this works.-->
-	<texture path="units/payday2/weapons/wpn_fps_upg_m4_reusable/wpn_fps_upg_m4_m_drum_df_cc" force="true"/>
-	
-	<!--Not getting rid of my NPC weps dammit-->
-	<!--NPC M4-->
-	<model path="units/payday2/weapons/wpn_npc_m4/wpn_npc_m4" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_m4/m4_df" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_m4/m4_nm" force="true"/>
-
-	<!--NPC g36-->
-	<texture path="units/payday2/weapons/wpn_npc_g36/g36_df" force="true"/>
-	
-	<!--NPC UMP-->
-	<model path="units/payday2/weapons/wpn_npc_ump/wpn_npc_ump" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_ump/wpn_npc_ump_df" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_ump/wpn_npc_ump_nm" force="true"/>		
-	
-	<!--NPC M4 Yellow-->
-	<model path="units/payday2/weapons/wpn_npc_m4_yellow/wpn_npc_m4_yellow" force="true"/>
-	<material_config path="units/payday2/weapons/wpn_npc_m4_yellow/wpn_npc_m4_yellow" force="true"/>
-	<material_config path="units/payday2/weapons/wpn_npc_m4_yellow/wpn_npc_m4_yellow_contour" force="true"/>
-	<object path="units/payday2/weapons/wpn_npc_m4_yellow/wpn_npc_m4_yellow" force="true"/>	
-	
-	<!--NPC Mp5-->
-	<model path="units/payday2/weapons/wpn_npc_mp5/wpn_npc_mp5" force="true"/>
-	
-	<!--NPC R870-->
-	<model path="units/payday2/weapons/wpn_npc_r870/wpn_npc_r870" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_r870/r870_df" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_r870/r870_nm" force="true"/>	
-
-	<!--NPC M1014 Benelli-->
-	<model path="units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli" force="true"/>
-	<material_config path="units/payday2/weapons/wpn_npc_benelli/wpn_npc_benelli" force="true"/>
-
-	<!--NPC Saiga-->
-	<model path="units/payday2/weapons/wpn_npc_saiga/wpn_npc_saiga" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_saiga/saiga_df" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_saiga/saiga_nm" force="true"/>
-	
-	<!--NPC M308 again? Might need to look into that other texture-->
-	<model path="units/payday2/weapons/wpn_npc_scar_murkywater/wpn_npc_scar_murkywater" force="true"/>
-	<texture path="units/payday2/weapons/wpn_npc_scar_murkywater/mk17_df" force="true"/>
-	<material_config path="units/payday2/weapons/wpn_npc_scar_murkywater/wpn_npc_scar_murkywater" force="true"/>
-
-	<!--NPC Sniper Overrides-->
+	<!--NPC Sniper Overrides Note: What is this?-->
 	<!--swat-->
 	<material_config path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper_contour" force="true"/>
 	<material_config path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper" force="true"/>
@@ -1289,24 +1193,11 @@
 	<material_config path="units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc" />
 	<material_config path="units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc_contour" />
 	
-	<!--P90 Tan Body-->
-	<texture path="units/payday2/weapons/wpn_fps_smg_p90_pts/body_tan_df"/>
-	<unit path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan" load="false"/>
-	<model path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan"/>
-	<material_config path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan"/>
-	<material_config path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan_cc"/>
-	<material_config path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan_cc_thq"/>
-	<material_config path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan_thq"/>
-	<object path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan"/>
-	<cooked_physics path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan"/>
-	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_smg_p90_body_tan"/>
-	
-	<!--Commando Rocket-->
-	<texture path="units/pd2_dlc_friend/weapons/wpn_third_gre_ray_pts/wpn_third_gre_ray_rocket_df" force="true"/>
-	<material_config path="units/pd2_dlc_friend/weapons/wpn_third_ray_fired_rocket/wpn_third_ray_fired_rocket" force="true"/>
-	<model path="units/pd2_dlc_friend/weapons/wpn_third_ray_fired_rocket/wpn_third_ray_fired_rocket" force="true"/>
 
-	<!--Classic Medic Dozer-->
+	
+
+
+	<!--Classic Medic Dozer Note: Needs to be sorted somewhere-->
 	<unit path="units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic" load="true"/>
 	<unit path="units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic_husk" load="true"/>
 	<cooked_physics path="units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic"/>
@@ -1396,6 +1287,7 @@
 	<material_config path="units/payday2/weapons/wpn_npc_mp5_cloak/wpn_npc_mp5_cloak_dead"/>
 	<sequence_manager path="units/payday2/weapons/wpn_npc_mp5_cloak/wpn_npc_mp5_cloak"/>
 	<cooked_physics path="units/payday2/weapons/wpn_npc_mp5_cloak/wpn_npc_mp5_cloak"/>
+	
 	<!--OVERKILL removed this at somepoint-->
 	<texture path="units/characters/enemies/textures/police_force_nm" />
 		
@@ -1490,7 +1382,7 @@
 	
 	<texture path="units/payday2/characters/shared_textures/mask_df" force="true"/>	
 	
-	<!--ben guy acc-->	
+	<!--ben guy acc note: this filepath infuriates me. K i l l .-->	
 	<material_config path="units/payday2/characters/ene_acc_benfucker/ene_acc_benfucker" />
 	<cooked_physics path="units/payday2/characters/ene_acc_benfucker/ene_acc_benfucker" />	
 	<unit path="units/payday2/characters/ene_acc_benfucker/ene_acc_benfucker" load="true" />		
