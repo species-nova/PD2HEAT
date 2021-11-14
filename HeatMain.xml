@@ -204,6 +204,7 @@
     <material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>	
 	<unit path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>		
 	
+	
 	<!--HK21-->
 	<material_config path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
 	<model path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
@@ -289,4 +290,6 @@
 	<!--TeamAI Enduring ability very epic-->
 	<texture path="guis/dlcs/mom/textures/pd2/ai_abilities" force="true"/>	
 	
+		<!--Enemy Stuff-->
+
 </table>
