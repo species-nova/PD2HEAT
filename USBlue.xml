@@ -1,28 +1,8 @@
 <table directory="assets">
-	<!--Headless TitanDozer (Boss)-->	
-	<unit path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman" force="true" load="true"/>
-	<unit path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman_husk" force="true" load="true"/>	
-	<object path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman" force="false"/>
-	<cooked_physics path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman" force="false"/>
-	<model path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman" force="false"/>
-	<material_config path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman" force="false"/>
-	<material_config path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman_contour" force="false"/>
-	<sequence_manager path="units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman" force="false"/>
-	<!--textures-->
-	<texture path="units/pd2_mod_halloween/characters/ene_headless_hatman/hatman_df" force="false"/>	
-	<!--Halloween Sword>-->
-	<object path="units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword" force="false"/>
-	<cooked_physics path="units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword" force="false"/>
-	<model path="units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword" force="false"/>
-	<unit path="units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword" force="false" load="false"/>
-	<material_config path="units/payday2/weapons/wpn_mel_hw_sword/wpn_mel_hw_sword" force="false"/>
-	<!--Halloween Molotov-->
-	<object path="units/pd2_mod_halloween/weapons/wpn_npc_hatman_molotov/wpn_npc_hatman_molotov" force="false"/>
-	<cooked_physics path="units/pd2_mod_halloween/weapons/wpn_npc_hatman_molotov/wpn_npc_hatman_molotov" force="false"/>
-	<model path="units/pd2_mod_halloween/weapons/wpn_npc_hatman_molotov/wpn_npc_hatman_molotov" force="false"/>
-	<unit path="units/pd2_mod_halloween/weapons/wpn_npc_hatman_molotov/wpn_npc_hatman_molotov" force="false" load="true"/>
-	<material_config path="units/pd2_mod_halloween/weapons/wpn_npc_hatman_molotov/wpn_npc_hatman_molotov" force="false"/>	
-	
+
+
+		<!--Misc-->
+	<!--Headless Dozer-->
 	<unit path="units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4" force="true" load="true"/>
 	<unit path="units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4_husk" force="true" load="true"/>
 	

@@ -381,6 +381,7 @@
 	<!--///PACKAGES\\\-->
 	<Package id="packages/heatmain" file="HeatMain.xml" use_clbk="self:LoadSCAssets"/>
 	<Package id="packages/usblue" file="USBlue.xml" use_clbk="self:LoadSCAssets"/>
+	<{ackage id="packages/captains" file="Captains.xml" use_clbk="self:LoadSCAssets"/>
 	<Package id="packages/scassets" file="addSC.xml" use_clbk="self:LoadSCAssets"/>
 	<Package id="packages/nypdassets" file="addNYPD.xml" use_clbk="self:DebugLoadAssets"/>	
 	<Package id="packages/mexicoassets" file="addMEXICO.xml" use_clbk="self:DebugLoadAssets"/>	

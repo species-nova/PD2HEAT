@@ -187,7 +187,8 @@
 	<object path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" />
 	<unit path="units/pd2_dlc_bph/characters/ene_acc_murkywater_hat/ene_acc_murkywater_hat" force="true" load="true"/>
 	
-		<!--WEAPON STUFF-->
+			<!--WEAPON STUFF-->
+		<!--Player Weapon STuff-->
 	<!--Muldon Stock Unfolded (thx Jarey_!!!!)-->
 	<cooked_physics path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
 	<material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_fps_shot_r870_s_muldonunfolded"/>
@@ -204,6 +205,82 @@
     <material_config path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>	
 	<unit path="units/mods/weapons/wpn_fps_shot_r870_pts_mod/wpn_third_shot_r870_s_muldonunfolded"/>		
 	
+	<!--Improved Flashlight-->	
+	<texture path="effects/particles/weapons/flashlight/e_gradient_radial2" force="true"/>	
+	<texture path="units/lights/spot_light_projection_textures/spotprojection_11_flashlight_df" force="true"/>	
+
+	<!--Reduced Sicario Smoke-->	
+	<effect path="effects/particles/explosions/smoke_screen" force="true"/>
+	<!--concussion grenade depth scaling vanilla bug-->	
+	<material_config path="units/pd2_crimefest_2016/fez1/weapons/wpn_fps_gre_pressure/wpn_fps_gre_pressure_husk" force="true" />
+	<!--Dynamite no rolly polly-->
+	<object path="units/pd2_dlc_west/weapons/wpn_gre_dynamite/wpn_gre_dynamite" force="true" />		
+	<!--Incendiary Grenade-->
+	<effect path="effects/payday2/particles/explosions/grenade_incendiary_explosion_sc" load="false"/>
+	
+	<!-- AS VAL GRIP ATTACHMENT STUFF Note: Not sure what this is for-->
+	<unit_obj path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_pgrip" />
+	<unit_obj path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_hgrip" />
+	
+	<unit_mat_cc path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_hgrip" />	
+	<unit_mat_cc path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_pgrip" />
+	
+	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval/wpn_fps_ass_asval" force="true"/>
+	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_standard" force="true"/>
+	<model path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_standard" force="true"/>
+
+	<!--Stat Boost-->
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_concealment_p1_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_concealment_p2_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_concealment_p3_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_damage_p1_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_damage_p2_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_recoil_p1_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_spread_n1_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_spread_p1_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_total_ammo_p1_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_total_ammo_p3_sc"/>
+	<texture path="guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_team_exp_money_p3_sc"/>
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_sc_none"/>
+	
+	<!--Incendiary Slug-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_a_slug_fire"/>
+	
+	<!--RPK banana mag-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_lmg_rpk_m_standard"/>	
+	
+	<!--AK drum mag-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_upg_ak_m_drum"/>
+
+	<!--M4 Drum-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_m4_m_drum"/>
+	
+	<!--Some angled grip, forgot what this one was lol-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_vg_ass_smg_afg"/>
+	
+	<!--that ugly tan vert grip-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_vg_ass_smg_stubby"/>
+	
+	<!--The other vert grip-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_vg_ass_smg_verticalgrip"/>
+	
+	<!--Saiga Drum-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_upg_saiga_m_20rnd"/>
+	
+	<!--MP5 Drum-->
+	<texture path="guis/textures/pd2/blackmarket/icons/mods/wpn_fps_smg_mp5_m_drum"/>
+	
+		<!--NPC WEAPON CRAP-->
+	<!--PDTH Smokebomb-->
+	<effect path="effects/particles/explosions/smoke_grenade_smoke" force="true"/>
+	
+	<!--Optimized gas-->
+	<effect path="effects/particles/explosions/cs_grenade_smoke_sc" force="false"/>
+	<effect path="effects/particles/explosions/cs_grenade_smoke_ds_sc" force="false"/>
+	
+	<!--Sniper Trails-->
+	<effect path="effects/particles/weapons/sniper_trail_sc" force="false"/>
+	<effect path="effects/particles/weapons/titan_trail_sc" force="false"/>
 	
 	<!--HK21-->
 	<material_config path="units/payday2/weapons/wpn_npc_hk21_sc/wpn_npc_hk21_sc" force="false"/>
@@ -217,37 +294,13 @@
 	<!--better taser thread-->
 	<effect path="effects/payday2/particles/character/taser_thread" force="true"/>
 	
-	<!--Improved Flashlight-->	
-	<texture path="effects/particles/weapons/flashlight/e_gradient_radial2" force="true"/>	
-	<texture path="units/lights/spot_light_projection_textures/spotprojection_11_flashlight_df" force="true"/>	
-
-	<!--Reduced Sicario Smoke-->	
-	<effect path="effects/particles/explosions/smoke_screen" force="true"/>
-	<!--concussion grenade depth scaling vanilla bug-->	
-	<material_config path="units/pd2_crimefest_2016/fez1/weapons/wpn_fps_gre_pressure/wpn_fps_gre_pressure_husk" force="true" />
-	<!--Dynamite no rolly polly-->
-	<object path="units/pd2_dlc_west/weapons/wpn_gre_dynamite/wpn_gre_dynamite" force="true" />		
-	
-	<!-- AS VAL GRIP ATTACHMENT STUFF  Not sure what this is for-->
-	<unit_obj path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_pgrip" />
-	<unit_obj path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_hgrip" />
-	
-	<unit_mat_cc path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_hgrip" />	
-	<unit_mat_cc path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_pgrip" />
-	
-	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval/wpn_fps_ass_asval" force="true"/>
-	<model path="units/pd2_dlc_character_sokol/weapons/wpn_fps_ass_asval_pts/wpn_fps_ass_asval_g_standard" force="true"/>
-	<model path="units/pd2_dlc_character_sokol/weapons/wpn_third_ass_asval_pts/wpn_third_ass_asval_g_standard" force="true"/>
-	
-	<!--PDTH Smokebomb-->
-	<effect path="effects/particles/explosions/smoke_grenade_smoke" force="true"/>
-	
 	<!--Corrected NPC Weapon Sounds-->	
 	<unit path="units/payday2/weapons/wpn_npc_ump/wpn_npc_ump" force="true" load="true" />		
 	<unit path="units/payday2/weapons/wpn_npc_c45/wpn_npc_c45" force="true" load="true"/>	
 	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_sr2/wpn_npc_sr2" force="true" load="true"/>			
 	<unit path="units/pd2_dlc_mad/weapons/wpn_npc_rpk/wpn_npc_rpk" force="true" load="true"/>	
 	<unit path="units/pd2_dlc_chico/weapons/wpn_npc_sg417/wpn_npc_sg417" force="true" load="true"/>	
+
 
 		<!--Random Stuff-->
 	<!--Security Guard 7 fixed cap (Thanks Baddy!) Could be moved to HK Package?-->	
@@ -290,6 +343,34 @@
 	<!--TeamAI Enduring ability very epic-->
 	<texture path="guis/dlcs/mom/textures/pd2/ai_abilities" force="true"/>	
 	
-		<!--Enemy Stuff-->
-
+	<!--Loading Screen Tips: Note: Need to be updated-->
+	<texture path="guis/textures/loading/hints/grenadier_load" force="false"/>	
+	<texture path="guis/textures/loading/hints/vet_cop_loading" force="false"/>	
+	<texture path="guis/textures/loading/hints/generic_tip" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_akantits" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_autumn" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_bex" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_bravos" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_chad" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_doc" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_gear" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_keith" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_lpf" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_murkies" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_spring" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_squad" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_summers" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_tdozer" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_thrt" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_tshield" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_tsniper" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_tspook" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_tswat" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_ttaser" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_winters_sc" force="false"/>	
+	<texture path="guis/textures/loading/hints/enemy_zeal_sc" force="false"/>	
+	<texture path="guis/textures/loading/hints/loading_australia" force="false"/>	
+	<texture path="guis/textures/loading/hints/loading_jackal" force="false"/>	
+	<texture path="guis/textures/loading/hints/loading_omnia" force="false"/>	
+	
 </table>
