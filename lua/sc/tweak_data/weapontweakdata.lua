@@ -1209,7 +1209,7 @@ function WeaponTweakData:_init_data_flamethrower_mk2_crew()
 	self.flamethrower_mk2_flamer.CLIP_AMMO_MAX = 60
 	self.flamethrower_mk2_flamer.NR_CLIPS_MAX = 4
 	self.flamethrower_mk2_flamer.FIRE_RANGE = 1400
-	self.flamethrower_mk2_flamer.DAMAGE = 9
+	self.flamethrower_mk2_flamer.DAMAGE = 6
 	self.flamethrower_mk2_flamer.fire_dot_data = {
 		dot_trigger_chance = 0,
 		dot_damage = 0,

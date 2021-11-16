@@ -2714,6 +2714,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 			
 			if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 2 then --if we're in the destination and we have stayed still for longer than 2 seconds, if anyone is camping in a specific spot, try to path to them
 				push = true
+				charge = true
 			elseif not current_objective.open_fire or not current_objective.area or current_objective.area.id ~= obstructed_area.id then --have to check for this here or open_fire might not get set
 				open_fire = true
 			end
@@ -2826,6 +2827,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 			type = "assault_area",
 			stance = "hos",
 			open_fire = true,
+			moving_in = nil,
 			tactic = current_objective.tactic,
 			area = obstructed_area or objective_area
 		}
@@ -2967,7 +2969,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 				moving_in = push,
 				open_fire = push,
 				pushed = push,
-				charge = push,
+				charge = charge,
 				interrupt_dis = nil
 			}
 			group.is_chasing = nil
@@ -3520,7 +3522,6 @@ function GroupAIStateBesiege:_assign_assault_groups_to_retire()
 
 	self:_assign_groups_to_retire(self._tweak_data.recon.groups, suitable_grp_func)
 end
-
 
 function GroupAIStateBesiege:_assign_recon_groups_to_retire()
 	local function suitable_grp_func(group)
