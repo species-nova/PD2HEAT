@@ -7,6 +7,7 @@ Day = os.date("%d")
 
 heat._mod_path = heat:GetPath()
 function heat:Init()
+	--Winters
 	heat.captain_camper = {
 		"arena", --Alesso
 		"welcome_to_the_jungle_1", --Big Oil Day 1
@@ -30,6 +31,7 @@ function heat:Init()
 		"office_strike", --office strike
 		"firestarter_2_res" --firestarter day 2 res edit version
 	}
+	--Summers
 	heat.captain_teamwork = {
 		"pal", --counterfeit
 		"mia_1", --Hotline Day 1
@@ -39,12 +41,15 @@ function heat:Init()
 		"rvd1", --highland mortuary 
 		"mad", --boiling point
 		"wwh", --alaskan deal
+		"run", --Heat Street
+		"run_res", --Whurr's Heat Street Edit
 		"watchdogs_2", --watch dogs 2
 		"watchdogs_2_day", --Watchdogs Day 2 Daytime
 		"jolly_CD", --jolly crackdown edit
 		--custom heists		
 		"firestarter_3_res" --firestarter day 3 res edit version
 	}
+	--Spring
 	heat.captain_murderdozer = {
 		"dah", --diamond heist
 		"hox_2", --Hoxout Day 2
@@ -61,6 +66,7 @@ function heat:Init()
 		"firestarter_1_res", --firestarter day 1 res edit version
 		"lvl_friday" --Crashing Capitol
 	}
+	--Autumn
 	heat.captain_stelf = {
 		"alex_1", --Rats Day 1
 		"rat",	--cook off
@@ -83,6 +89,7 @@ function heat:Init()
 		"ukrainian_job_res", --Ukrainian Job res edit version
 		"hntn" --harvest and trustee north
 	}
+	--Headless
 	heat.what_a_horrible_heist_to_have_a_curse = {
 		"help", --Prison Nightmare
 		"nail" --lab rats
@@ -127,7 +134,7 @@ function heat:Init()
 			"lvl_friday" --Crashing Capitol
 		}		
 	end
-	
+	--Monsoon
 	--[[heat.captain_viper = {
 		"jackal_zero_day_stage7" --Zero Day 7
 	}]]--
