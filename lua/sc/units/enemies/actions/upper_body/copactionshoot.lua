@@ -607,7 +607,7 @@ function CopActionShoot:_stop_autofire(play_redirect)
 end
 
 --Returns the lerp value used to interpolate between current falloff and previous falloff values.
-function CopActionShoot:_get_dis_lerp(p_falloff, c_falloff, dis)
+function CopActionShoot:_get_dis_lerp(c_falloff, p_falloff, dis)
 	if (c_falloff.r == p_falloff.r) then
 		return dis / c_falloff.r
 	end
@@ -659,12 +659,12 @@ function CopActionShoot:_get_unit_shoot_pos(t, pos, dis, falloff, i_range, shoot
 
 		--Calculate nil values if we don't have them, this code should be cut once CopActionHurt is redone. 
 		if not dis_lerp then
-			dis_lerp = CopActionShoot._get_dis_lerp(self, falloff, prev_falloff, dis)
+			dis_lerp = CopActionShoot:_get_dis_lerp(falloff, prev_falloff, dis)
 		end
 
 		--See above.
 		if not focus_prog then
-			focus_prog = CopActionShoot._get_focus_prog(self, t)
+			focus_prog = CopActionShoot:_get_focus_prog(t)
 		end
 		
 		local p_hit_chance = math_lerp(prev_falloff.acc[1], prev_falloff.acc[2], focus_prog)
