@@ -21,7 +21,7 @@ function heat:Init()
 		"election_day_3_skip1", --Election Day 3 (Skipped 1)
 		"election_day_3_skip2", --Election Day 3 (Skipped 2)
 		"firestarter_2", --firestarter day 2
-		"four_stores", --Gee, I wonder what this could be.
+		--"four_stores", --this absolutely does not need a captain, it's a beginner level
 		"moon", --Stealing Xmas
 		"mus",	--the diamond
 		"gallery", --art gallery
