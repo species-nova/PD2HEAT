@@ -146,6 +146,7 @@ function heat:Init()
 	--Slightly reduced spawns, generally use for heists with lengthy sections where players typically hold out in one smallish position, or 'early game' heists.
 	heat.tiny_levels = {
 		"welcome_to_the_jungle_2", --Big Oil 2. Scripted cloaker hell.
+		"four_stores",
 		"stage_2", --Big Oil Day 2 EDIT
 		"cane", --Santa's Workshop
 		"mus", --The Diamond
