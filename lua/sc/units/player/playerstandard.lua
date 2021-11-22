@@ -911,11 +911,9 @@ function PlayerStandard:_end_action_running(t)
 end
 
 --Stores running input, is a workaround for other things that may interrupt running.
-Hooks:PreHook(PlayerStandard, "_start_action_melee", "ResPlayerStandardPreStartActionMelee", function(self, t, input, instant)
-	self._state_data.melee_running_wanted = true and self._running and not self._end_running_expire_t
-end)
-
 Hooks:PostHook(PlayerStandard, "_start_action_melee", "ResPlayerStandardPostStartActionMelee", function(self, t, input, instant)
+	self._state_data.melee_running_wanted = true and self._running and not self._end_running_expire_t
+
 	--Passes in running input, is a workaround for other things that may interrupt running.
 	if self._state_data.melee_running_wanted then
 		self._running_wanted = true
@@ -1666,7 +1664,6 @@ Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_da
 	--Don't hide the crosshair during steelsight for weapons of these categories.
 	--Check for it whenever we enter PlayerStandard, or swap weapons.
 	self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
-	--self._crosshair_ignore_steelsight = true 
 
 	--Set the crosshair to be visible.
 	managers.hud:show_crosshair_panel(true)

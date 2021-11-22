@@ -568,11 +568,11 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			--Because actions that can cancel reloads between the reload_operational time and the end of the animation require commitment, use these for informing balance.
 			reload_not_empty = 4.6,
 			reload_empty = 5.3,
-			--Set this to equal the time at which the magazine is inserted into the gun.
+			--Set this to equal the time at which the magazine is inserted into the gun, or when the bolt is re-cocked.
 			--This is the point at which the ammo counter for the gun is updated, (hard) cancelling the animation from this point forward will.
 			--No effect on shotgun-style reloads.
 			reload_operational = 3.8,
-			empty_reload_operational = 3.8,
+			empty_reload_operational = 4.6,
 			--Set this to equal the latest time in the reload animation the gun is still operational.
 			--Prior to this, non-animation-locking actions like sprinting or aiming down sights will cancel the reload. 
 			--No effect on shotgun-style reloads.
@@ -608,8 +608,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_empty = 3.2,
 			reload_interrupt = 0.8,
 			empty_reload_interrupt = 0.7,
-			reload_operational = 1.95,
-			empty_reload_operational = 2.0,
+			reload_operational = 2.0,
+			empty_reload_operational = 2.65,
 			unequip = 0.6,
 			equip = 0.55
 		}
@@ -635,7 +635,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_interrupt = 0.8,
 			empty_reload_interrupt = 0.8,
 			reload_operational = 2.75,
-			empty_reload_operational = 2.75,
+			empty_reload_operational = 3.55,
 			unequip = 0.6,
 			equip = 0.6
 		}
@@ -647,7 +647,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.vhs.CAN_TOGGLE_FIREMODE = true
 		self.vhs.auto = {}
 		self.vhs.auto.fire_rate = 0.06976744186
-		self.vhs.kick = self.stat_info.kick_tables.even_recoil
+		self.vhs.kick = self.stat_info.kick_tables.right_recoil
 		self.vhs.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.vhs.supported = true
 		self.vhs.stats = {
@@ -664,7 +664,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_interrupt = 0.95,
 			empty_reload_interrupt = 0.9,
 			reload_operational = 3.3,
-			empty_reload_operational = 3.3,
+			empty_reload_operational = 4.5,
 			unequip = 0.6,
 			equip = 0.6
 		}
@@ -675,7 +675,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.s552.auto.fire_rate = 0.08571428571
 		self.s552.BURST_FIRE = 3
 		self.s552.ADAPTIVE_BURST_SIZE = false
-		self.s552.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.s552.kick = self.stat_info.kick_tables.right_recoil
 		self.s552.kick_pattern = self.stat_info.kick_patterns.random
 		self.s552.supported = true
 		self.s552.stats = {
@@ -689,7 +689,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.4,
 			reload_empty = 3.05,
 			reload_operational = 1.7,
-			empty_reload_operational = 1.7,
+			empty_reload_operational = 2.25,
 			reload_interrupt = 0.6,
 			empty_reload_interrupt = 0.6,
 			unequip = 0.55,
@@ -718,7 +718,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_interrupt = 0.8,
 			empty_reload_interrupt = 0.7,
 			reload_operational = 2.0,
-			empty_reload_operational = 2.0,
+			empty_reload_operational = 2.75,
 			unequip = 0.6,
 			equip = 0.6
 		}
@@ -749,7 +749,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_interrupt = 0.7,
 			empty_reload_interrupt = 0.7,
 			reload_operational = 2,
-			empty_reload_operational = 2,
+			empty_reload_operational = 3.2,
 			unequip = 0.6,
 			equip = 0.55
 		}
@@ -779,7 +779,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_interrupt = 0.6,
 			empty_reload_interrupt = 0.6,
 			reload_operational = 2,
-			empty_reload_operational = 2,
+			empty_reload_operational = 2.7,
 			unequip = 0.65,
 			equip = 0.6
 		}
@@ -804,7 +804,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.2,
 			reload_empty = 4.1,
 			reload_operational = 2.55,
-			empty_reload_operational = 2.55,
+			empty_reload_operational = 3.6,
 			reload_interrupt = 0.7,
 			empty_reload_interrupt = 0.7,
 			unequip = 0.55,
@@ -831,7 +831,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.4,
 			reload_empty = 4.3,
 			reload_operational = 2.7,
-			empty_reload_operational = 2.7,
+			empty_reload_operational = 3.8,
 			reload_interrupt = 0.66,
 			empty_reload_interrupt = 0.66,
 			unequip = 0.5,
@@ -857,7 +857,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.3,
 			reload_empty = 4.1,
 			reload_operational = 2.665,
-			empty_reload_operational = 2.665,
+			empty_reload_operational = 3.4,
 			reload_interrupt = 0.67,
 			empty_reload_interrupt = 0.75,
 			unequip = 0.6,
@@ -867,7 +867,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 		--UAR
 		self.aug.AMMO_MAX = 150
-		self.aug.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.aug.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.aug.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.aug.supported = true
 		self.aug.stats = {
@@ -881,7 +881,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.65,
 			reload_empty = 4.1,
 			reload_operational = 2.5,
-			empty_reload_operational = 2.5,
+			empty_reload_operational = 3.25,
 			reload_interrupt = 0.85,
 			empty_reload_interrupt = 85,
 			unequip = 0.5,
@@ -909,8 +909,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.flint.timers = {
 			reload_not_empty = 2.7,
 			reload_empty = 3.7,
-			empty_reload_operational = 2.25,
 			reload_operational = 2.25,
+			empty_reload_operational = 3.2,
 			reload_interrupt = 0.45,
 			empty_reload_interrupt = 0.45,
 			unequip = 0.5,
@@ -935,7 +935,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.85,
 			reload_empty = 3.85,
 			reload_operational = 2,
-			empty_reload_operational = 2.1,
+			empty_reload_operational = 3.1,
 			reload_interrupt = 0.6,
 			empty_reload_interrupt = 0.65,
 			unequip = 0.6,
@@ -1034,7 +1034,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.5,
 			reload_empty = 3.7,
 			reload_operational = 1.8,
-			empty_reload_operational = 1.8,
+			empty_reload_operational = 3.15,
 			reload_interrupt = 0.51,
 			empty_reload_interrupt = 0.54,
 			equip = 0.6,
@@ -1060,7 +1060,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.0,
 			reload_empty = 4.5,
 			reload_operational = 2.15,
-			empty_reload_operational = 2.2,
+			empty_reload_operational = 3.7,
 			reload_interrupt = 0.67,
 			empty_reload_interrupt = 0.67,
 			unequip = 0.5,
@@ -1086,7 +1086,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.0,
 			reload_empty = 4.5,
 			reload_operational = 2.15,
-			empty_reload_operational = 2.2,
+			empty_reload_operational = 3.65,
 			reload_interrupt = 0.67,
 			empty_reload_interrupt = 0.67,
 			unequip = 0.5,
@@ -1103,7 +1103,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.l85a2.auto = {}
 		self.l85a2.auto.fire_rate = 0.0923076923
 		self.l85a2.kick = self.stat_info.kick_tables.moderate_kick
-		self.l85a2.kick_pattern = self.stat_info.kick_tables.jumpy_3
+		self.l85a2.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.l85a2.supported = true
 		self.l85a2.stats = {
 			damage = 30,
@@ -1116,7 +1116,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.8,
 			reload_empty = 4.5,
 			reload_operational = 3,
-			empty_reload_operational = 2.4,
+			empty_reload_operational = 3.8,
 			reload_interrupt = 0.9,
 			empty_reload_interrupt = 0.6,
 			unequip = 0.45,
@@ -1144,7 +1144,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.35,
 			reload_empty = 4.2,
 			reload_operational = 2.6,
-			empty_reload_operational = 2.6,
+			empty_reload_operational = 3.55,
 			reload_interrupt = 0.45,
 			empty_reload_interrupt = 0.45,
 			unequip = 0.6,
@@ -1172,7 +1172,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.8,
 			reload_empty = 3.75,
 			reload_operational = 2.1,
-			empty_reload_interrupt = 2.1,
+			empty_reload_operational = 3.05,
 			reload_interrupt = 0.86,
 			empty_reload_interrupt = 0.86,
 			unequip = 0.6,
@@ -1200,7 +1200,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.6,
 			reload_empty = 4.4,
 			reload_operational = 1.95,
-			empty_reload_operational = 1.95,
+			empty_reload_operational = 3.55,
 			reload_interrupt = 0.48,
 			empty_reload_interrupt = 0.48,
 			unequip = 0.55,
@@ -1227,7 +1227,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.8,
 			reload_empty = 3.65,
 			reload_operational = 1.7,
-			empty_reload_operational = 1.7,
+			empty_reload_operational = 2.8,
 			reload_interrupt = 0.56,
 			empty_reload_interrupt = 0.59,
 			unequip = 0.6,
@@ -1256,7 +1256,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 2.75,
 			reload_empty = 3.4,
 			reload_operational = 2.1,
-			empty_reload_operational = 2.1,
+			empty_reload_operational = 2.8,
 			reload_interrupt = 0.45,
 			empty_reload_interrupt = 0.45,
 			unequip = 0.6,
@@ -1318,7 +1318,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.1,
 			reload_empty = 4.2,
 			reload_operational = 2.55,
-			empty_reload_interrupt = 2.55,
+			empty_reload_operational = 3.35,
 			reload_interrupt = 0.65,
 			empty_reload_interrupt = 0.65,
 			unequip = 0.5,
@@ -1329,7 +1329,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Gecko 7.62
 		self.galil.fire_rate_multiplier = 0.8875 --750 rpm
 		self.galil.CLIP_AMMO_MAX = 30
-		self.galil.kick = self.stat_info.kick_tables.left_recoil
+		self.galil.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.galil.kick_pattern = self.stat_info.kick_patterns.random
 		self.galil.supported = true
 		self.galil.stats = {
@@ -1343,7 +1343,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.3,
 			reload_empty = 4.2,
 			reload_operational = 2.5,
-			empty_reload_operational = 2.5,
+			empty_reload_operational = 3.65,
 			reload_interrupt = 0.52,
 			empty_reload_interrupt = 0.47,
 			unequip = 0.6,
@@ -1375,7 +1375,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.2,
 			reload_empty = 3.9,
 			reload_operational = 2.5,
-			empty_reload_operational = 2.5,
+			empty_reload_operational = 3.15,
 			reload_interrupt = 0.59,
 			empty_reload_interrupt = 0.59,
 			unequip = 0.6,
@@ -1424,14 +1424,14 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 60,
 			spread = 24,
 			recoil = 15,
-			concealment = 19,
+			concealment = 18,
 			value = 9
 		}
 		self.ching.timers = {
 			reload_not_empty = 3.2,
 			reload_empty = 2.3,
 			reload_operational = 2.1,
-			empty_reload_operational = 1.05,
+			empty_reload_operational = 1.4,
 			reload_interrupt = 0.34,
 			empty_reload_interrupt = 0.001,
 			unequip = 0.6,
@@ -1457,7 +1457,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.1,
 			reload_empty = 3.8,
 			reload_operational = 2.55,
-			empty_reload_operational = 2.55,
+			empty_reload_operational = 3.0,
 			reload_interrupt = 0.78,
 			empty_reload_interrupt = 1.04,
 			unequip = 0.6,
@@ -1484,7 +1484,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_not_empty = 3.6,
 			reload_empty = 4.6,
 			reload_operational = 2.5,
-			empty_reload_operational = 2.5,
+			empty_reload_operational = 3.5,
 			reload_interrupt = 0.64,
 			empty_reload_interrupt = 0.64,
 			unequip = 0.6,
