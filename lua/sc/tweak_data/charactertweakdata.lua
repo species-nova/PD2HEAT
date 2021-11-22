@@ -1947,10 +1947,8 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 	table.insert(self._enemy_list, "tank_titan_assault")
 	
 	self.tank_hw = deep_clone(self.tank_titan_assault) --headless dozer
-	self.tank_hw.weapon = presets.weapon.good	
 	self.tank_hw.ignore_headshot = false
 	self.tank_hw.melee_anims = nil
-	self.tank_hw.move_speed = presets.move_speed.very_slow
 	table.insert(self._enemy_list, "tank_hw")	
 end
 

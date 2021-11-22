@@ -7,6 +7,7 @@ Day = os.date("%d")
 
 heat._mod_path = heat:GetPath()
 function heat:Init()
+	--Winters
 	heat.captain_camper = {
 		"arena", --Alesso
 		"welcome_to_the_jungle_1", --Big Oil Day 1
@@ -20,7 +21,7 @@ function heat:Init()
 		"election_day_3_skip1", --Election Day 3 (Skipped 1)
 		"election_day_3_skip2", --Election Day 3 (Skipped 2)
 		"firestarter_2", --firestarter day 2
-		"four_stores", --Gee, I wonder what this could be.
+		--"four_stores", --this absolutely does not need a captain, it's a beginner level
 		"moon", --Stealing Xmas
 		"mus",	--the diamond
 		"gallery", --art gallery
@@ -30,6 +31,7 @@ function heat:Init()
 		"office_strike", --office strike
 		"firestarter_2_res" --firestarter day 2 res edit version
 	}
+	--Summers
 	heat.captain_teamwork = {
 		"pal", --counterfeit
 		"mia_1", --Hotline Day 1
@@ -39,12 +41,15 @@ function heat:Init()
 		"rvd1", --highland mortuary 
 		"mad", --boiling point
 		"wwh", --alaskan deal
+		"run", --Heat Street
+		"run_res", --Whurr's Heat Street Edit
 		"watchdogs_2", --watch dogs 2
 		"watchdogs_2_day", --Watchdogs Day 2 Daytime
 		"jolly_CD", --jolly crackdown edit
 		--custom heists		
 		"firestarter_3_res" --firestarter day 3 res edit version
 	}
+	--Spring
 	heat.captain_murderdozer = {
 		"dah", --diamond heist
 		"hox_2", --Hoxout Day 2
@@ -61,6 +66,7 @@ function heat:Init()
 		"firestarter_1_res", --firestarter day 1 res edit version
 		"lvl_friday" --Crashing Capitol
 	}
+	--Autumn
 	heat.captain_stelf = {
 		"alex_1", --Rats Day 1
 		"rat",	--cook off
@@ -75,7 +81,7 @@ function heat:Init()
 		"pex", --police station mex
 		"man", --undercover--
 		"rvd2", --garnet group boutique 
-		"brb", --brooklyn bank 
+		--"brb", --brooklyn bank THIS SUCKS CURRENTLY.  REDO THE SCRIPTED SPAWNS ON BRB BEFORE GIVING IT A CAPTAIN!!!
 		--custom heists
 		"wetwork", --res map package wetworks
 		"alex_1_res", --Rats Day 1 res edit version
@@ -83,6 +89,7 @@ function heat:Init()
 		"ukrainian_job_res", --Ukrainian Job res edit version
 		"hntn" --harvest and trustee north
 	}
+	--Headless
 	heat.what_a_horrible_heist_to_have_a_curse = {
 		"help", --Prison Nightmare
 		"nail" --lab rats
@@ -127,7 +134,7 @@ function heat:Init()
 			"lvl_friday" --Crashing Capitol
 		}		
 	end
-	
+	--Monsoon
 	--[[heat.captain_viper = {
 		"jackal_zero_day_stage7" --Zero Day 7
 	}]]--
@@ -139,9 +146,9 @@ function heat:Init()
 	--Slightly reduced spawns, generally use for heists with lengthy sections where players typically hold out in one smallish position, or 'early game' heists.
 	heat.tiny_levels = {
 		"welcome_to_the_jungle_2", --Big Oil 2. Scripted cloaker hell.
+		"four_stores",
 		"stage_2", --Big Oil Day 2 EDIT
 		"cane", --Santa's Workshop
-		"brb", --Brooklyn Bank
 		"mus", --The Diamond
 		"run", --Heat Street
 		"run_res", --Whurr's Heat Street Edit
@@ -182,6 +189,7 @@ function heat:Init()
 		"spa", --Brooklyn 10-10
 		"mia_2", --Hotline Miami 2
 		"des",	--Henry's Rock
+		"brb", --Brooklyn Bank
 		"nail",	--Lab Rats. Fuck this heist	
 		"hox_1",
 		"xmn_hox_1",

@@ -170,9 +170,16 @@ function SpoocLogicAttack.update(data)
 	end
 
 	if AIAttentionObject.REACT_COMBAT <= data.attention_obj.reaction then
+		my_data.attitude = data.objective and data.objective.attitude or "avoid"
+			
 		my_data.want_to_take_cover = CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 
 		CopLogicAttack._update_cover(data)
+		
+		if my_data.in_cover then
+			my_data.in_cover[3], my_data.in_cover[4] = CopLogicAttack._chk_covered(data, data.m_pos, data.attention_obj.m_head_pos, data.visibility_slotmask)
+		end
+		
 		CopLogicAttack._upd_combat_movement(data)
 		
 		if not data.logic.action_taken(data, my_data) then
@@ -241,10 +248,21 @@ function SpoocLogicAttack.queued_update(data)
 	end
 
 	if AIAttentionObject.REACT_COMBAT <= data.attention_obj.reaction then
+		my_data.attitude = data.objective and data.objective.attitude or "avoid"
+			
 		my_data.want_to_take_cover = CopLogicAttack._chk_wants_to_take_cover(data, my_data)
 
 		CopLogicAttack._update_cover(data)
+		
+		if my_data.in_cover then
+			my_data.in_cover[3], my_data.in_cover[4] = CopLogicAttack._chk_covered(data, data.m_pos, data.attention_obj.m_head_pos, data.visibility_slotmask)
+		end
+		
 		CopLogicAttack._upd_combat_movement(data)
+		
+		if not data.logic.action_taken(data, my_data) then
+			CopLogicAttack._chk_start_action_move_out_of_the_way(data, my_data)
+		end
 	end
 
 	SpoocLogicAttack.queue_update(data, my_data)
