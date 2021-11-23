@@ -1374,7 +1374,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.galil.reload_speed_multiplier = 0.933333 --3.5/4.5/s
+		self.galil.reload_speed_multiplier = 0.933333 --3.5/4.5s
 		self.asval.swap_speed_multiplier = 0.9
 		
 		--Little Friend Rifle
@@ -1600,6 +1600,131 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			deploy_bipod = 1
 		}
 		self.hk21.reload_speed_multiplier = 1.15 --5.2/6.7
+
+	--Heavy LMG (PRIMARY)
+		--Buzzsaw
+		self.mg42.categories = {
+			"lmg",
+			"smg"
+		}
+		self.mg42.CLIP_AMMO_MAX = 50
+		self.mg42.kick = self.stat_info.kick_tables.horizontal_right_recoil
+		self.mg42.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.mg42.supported = true
+		self.mg42.stats = {
+			damage = 30,
+			spread = 15,
+			recoil = 21,
+			concealment = 15,
+			value = 9
+		}
+		self.mg42.timers = {
+			reload_not_empty = 7.8,
+			reload_empty = 7.8,
+			reload_operational = 6.5,
+			empty_reload_operational = 6.5,
+			reload_interrupt = 2.4,
+			empty_reload_interrupt = 2.4,
+			unequip = 0.6,
+			equip = 1.0,
+			deploy_bipod = 1
+		}
+		self.mg42.reload_speed_multiplier = 1.16 --6.7s
+
+		--M60
+		self.m60.categories = {
+			"lmg",
+			"smg"
+		}
+		self.m60.CLIP_AMMO_MAX = 100
+		self.m60.fire_mode_data.fire_rate = 0.10909090909
+		self.m60.auto.fire_rate = 0.10909090909
+		self.m60.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.m60.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.m60.supported = true
+		self.m60.stats = {
+			damage = 30,
+			spread = 14,
+			recoil = 24,
+			concealment = 14,
+			value = 9
+		}
+		self.m60.timers = {
+			reload_not_empty = 7.25,
+			reload_empty = 7.25,
+			reload_operational = 6,
+			empty_reload_operational = 6,
+			reload_interrupt = 0.56,
+			empty_reload_interrupt = 0.56,
+			unequip = 0.6,
+			equip = 1.0,
+			deploy_bipod = 1
+		}
+		self.m60.reload_speed_multiplier = 1.15 --6.3s
+
+		--RPK
+		self.rpk.categories = {
+			"lmg",
+			"smg"
+		}
+		self.rpk.CLIP_AMMO_MAX = 75
+		self.rpk.CAN_TOGGLE_FIREMODE = false
+		self.rpk.fire_rate_multiplier = 0.8 --600rpm
+		self.rpk.kick = self.stat_info.kick_tables.horizontal_right_recoil
+		self.rpk.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.rpk.supported = true
+		self.rpk.stats = {
+			damage = 30,
+			spread = 11,
+			recoil = 23,
+			concealment = 16,
+			value = 9
+		}
+		self.rpk.timers = {
+			reload_not_empty = 4.2,
+			reload_empty = 5.4,
+			reload_operational = 3.15,
+			empty_reload_operational = 4.3,
+			reload_interrupt = 0.93,
+			empty_reload_interrupt = 0.93,
+			unequip = 0.6,
+			equip = 1.0,
+			deploy_bipod = 1
+		}
+		self.rpk.swap_speed_multiplier = 0.9
+		self.rpk.timers.reload_interrupt = 0.27
+		self.rpk.timers.empty_reload_interrupt = 0.2
+		self.rpk.reload_speed_multiplier = 1.05 --4/5.1s
+
+		--KSP 58
+		self.par.categories = {
+			"lmg",
+			"smg"
+		}
+		self.par.CLIP_AMMO_MAX = 150
+		self.par.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.par.kick_pattern = self.stat_info.kick_patterns.random
+		self.par.supported = true
+		self.par.stats = {
+			damage = 30,
+			spread = 17,
+			recoil = 23,
+			concealment = 8,
+			value = 9,
+			reload = 20
+		}
+		self.par.timers = {
+			reload_not_empty = 7.2,
+			reload_empty = 7.2,
+			reload_operational = 6.5,
+			empty_reload_operational = 6.5,
+			reload_interrupt = 2.34,
+			empty_reload_interrupt = 2.34,
+			unequip = 0.6,
+			equip = 1.0,
+			deploy_bipod = 1
+		}
+		self.par.fire_rate_multiplier = 0.715 --650 rpm.
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -2199,38 +2324,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.p226.timers.reload_interrupt = 0.36
 	self.p226.timers.empty_reload_interrupt = 0.25
 
-	--RPK
-	self.rpk.categories = {
-		"lmg",
-		"smg"
-	}
-	self.rpk.CLIP_AMMO_MAX = 100
-	self.rpk.AMMO_MAX = 225
-	self.rpk.fire_mode_data.fire_rate = 0.0923076923
-	self.rpk.CAN_TOGGLE_FIREMODE = false
-	self.rpk.auto = {}
-	self.rpk.auto.fire_rate = 0.0923076923
-	self.rpk.kick = self.stat_info.kick_tables.horizontal_right_recoil
-	self.rpk.supported = true
-	self.rpk.stats = {
-		damage = 24,
-		spread = 12,
-		recoil = 24,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 21,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.rpk.stats_modifiers = nil
-	self.rpk.swap_speed_multiplier = 0.9
-	self.rpk.timers.reload_interrupt = 0.27
-	self.rpk.timers.empty_reload_interrupt = 0.2
-
 	--Thanatos .50 cal
 	self.m95.upgrade_blocks = nil
 	self.m95.has_description = true
@@ -2651,36 +2744,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.spas12.stats_modifiers = nil
 	self.spas12.stats_modifiers = {damage = 1}
-
-	--Buzzsaw
-	self.mg42.categories = {
-		"lmg",
-		"smg"
-	}
-	self.mg42.CLIP_AMMO_MAX = 75
-	self.mg42.AMMO_MAX = 225
-	self.mg42.kick = self.stat_info.kick_tables.horizontal_left_recoil
-	self.mg42.supported = true
-	self.mg42.stats = {
-		damage = 24,
-		spread = 16,
-		recoil = 16,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 18,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.mg42.stats_modifiers = nil
-	self.mg42.timers.reload_not_empty = 6.25
-	self.mg42.timers.reload_empty = 6.25
-	self.mg42.swap_speed_multiplier = 0.9
-	self.mg42.timers.empty_reload_interrupt = 0.38
-	self.mg42.timers.reload_interrupt = 0.38
 
 	--Broomstick--
 	self.c96.sounds.fire = "c96_fire"
@@ -3484,39 +3547,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.long.stats_modifiers = {damage = 4}
-
-	--KSP 58
-	self.par.categories = {
-		"lmg",
-		"smg"
-	}
-	self.par.CLIP_AMMO_MAX = 100
-	self.par.fire_mode_data.fire_rate = 0.075
-	self.par.auto.fire_rate = 0.075
-	self.par.AMMO_MAX = 270
-	self.par.timers.reload_not_empty = 6.5
-	self.par.timers.reload_empty = 6.5
-	self.par.kick = {}
-	self.par.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.par.supported = true
-	self.par.stats = {
-		damage = 20,
-		spread = 13,
-		recoil = 24,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 20,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.par.stats_modifiers = nil
-	self.par.swap_speed_multiplier = 0.9
-	self.par.timers.empty_reload_interrupt = 0.36
-	self.par.timers.reload_interrupt = 0.36
 
 	--Baby Deagle
 	self.sparrow.AMMO_MAX = 75
@@ -4851,35 +4881,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.x_holt.stats_modifiers = nil
-	--M60
-	self.m60.categories = {
-		"lmg",
-		"smg"
-	}
-	self.m60.CLIP_AMMO_MAX = 90
-	self.m60.AMMO_MAX = 180
-	self.m60.fire_mode_data.fire_rate = 0.10909090909
-	self.m60.auto.fire_rate = 0.10909090909
-	self.m60.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.m60.supported = true
-	self.m60.stats = {
-		damage = 30,
-		spread = 14,
-		recoil = 22,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 18,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.m60.stats_modifiers = nil
-	self.m60.swap_speed_multiplier = 0.9
-	self.m60.timers.reload_interrupt = 0.09
-	self.m60.timers.empty_reload_interrupt = 0.09
 
 	--R700
 	self.r700.upgrade_blocks = nil
