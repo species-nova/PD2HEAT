@@ -1685,11 +1685,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--None in the Chamber--
 			["menu_scavenger_sc"] = "None in the Chamber",
-			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##30%## faster when your magazine is completely empty.",
+			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nMovement spread is reduced by ##30%## for SMGs and LMGs.\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##30%## faster when your magazine is completely empty.",
 
-			--Mag-Dumper--
+			--Spray 'n Pray--
 			["menu_sharpshooter_sc"] = "Spray 'n Pray",
-			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nThe movement penalty to accuracy is reduced by ##40%## for SMGs and LMGs.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
+			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nBloom spread is reduced by ##30%## for SMGs and LMGs.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
 
 			--Quintstacked Mags--
 			["menu_spotter_teamwork_beta_sc"] = "Quintstacked Mags",
@@ -1944,11 +1944,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
-		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##5## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
+		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##8## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
-		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nRifles gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
+		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nYour guns gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
 
 		--Rapid Reset--
 		["menu_engineering_beta_sc"] = "Rapid Reset",
@@ -1962,7 +1962,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_rifleman_sc"] = "Helmet Popping",
 		["menu_rifleman_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads. Rifle bullets that pierce through heads deal ##100%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifle headshots deal ##25%## more damage to enemies you have already headshot.",
 
-		--Mind Blown, formerly Explosive Headshot--
+		--Mind Blown--
 		["menu_kilmer_sc"] = "Mind Blown",
 		["menu_kilmer_desc_sc"] = "BASIC: ##$basic##\nHeadshots with Rifles deal ##70%## of the damage dealt to the closest enemy in a ##5## meter radius.\n\nFor every ##8## meters away you are from the enemy, the effect chains to an additional enemy.\n\nACE: ##$pro##\nIf you are more than ##8## meters away from the enemy, the chaining effect deals a full ##100%## damage dealt.",
 
@@ -2004,15 +2004,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Silent Precision--
 		["menu_silence_expert_beta_sc"] = "Silent Precision",
-		["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##20%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
+		["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
 
 		--Unseen Strike--
 		["menu_hitman_beta_sc"] = "Unseen Strike",
-		["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##20%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
+		["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
 
 		--Backstab--
 		["menu_backstab_beta_sc"] = "Backstab",
-		["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by an additional ##50%## when attacking enemies from behind with guns or melee.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
+		["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by an additional ##40%## when attacking enemies from behind with guns or melee.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
 
 		--Low Blow--
 		["menu_unseen_strike_beta_sc"] = "Low Blow",

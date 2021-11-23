@@ -611,7 +611,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--None in the Chamber
 				--Basic
-					self.values.smg.hip_fire_spread_multiplier = {0.85}
+					self.values.smg.move_spread_multiplier = {0.7}
 				--Ace
 
 					self.values.smg.empty_reload_speed_multiplier = {1.3}
@@ -624,7 +624,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Spray 'n Pray
 				--Basic
-					self.values.smg.move_spread_multiplier = {0.6}
+					self.values.smg.bloom_spread_multiplier = {0.7}
 				--Ace
 					self.values.smg.fire_rate_multiplier = {1.15, 1.15}
 					self.values.smg.full_auto_free_ammo = {5}
@@ -884,17 +884,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Combat Engineer--
 			--Sharpshooter
 				--Basic
-					self.values.temporary.headshot_accuracy_addend = {{1, 10}}
+					self.values.temporary.headshot_accuracy_addend = {{2, 10}}
 				--Ace
 					self.values.temporary.headshot_fire_rate_mult = {{1.2, 10}}
 
 			--Tactical Precision
 				--Basic
 					self.values.weapon.enter_steelsight_speed_multiplier = {1.75}
-					self.values.assault_rifle.steelsight_accuracy_inc = {0.85}
-					self.values.snp.steelsight_accuracy_inc = {0.85}
-					self.values.assault_rifle.steelsight_range_inc = {1.15}
-					self.values.snp.steelsight_range_inc = {1.15}
+					self.values.weapon.steelsight_accuracy_inc = {0.8}
+					self.values.weapon.steelsight_range_inc = {1.2}
 				--Ace
 					self.values.assault_rifle.hidden_reload_speed_multiplier = {1.25}
 					self.values.snp.hidden_reload_speed_multiplier = {1.25}
@@ -1081,11 +1079,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Silent Precision
 				self.values.temporary.silent_precision = {
 					{ --Basic
-						0.8,
+						0.75,
 						0.01 --Workaround for Buff Tracker sanity checks.
 					},
 					{ --Ace
-						0.8,
+						0.75,
 						4
 					}
 				}
@@ -1101,11 +1099,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Unseen Strike
 				self.values.temporary.unseen_strike = {
 					{ --Basic
-						1.2,
+						1.3,
 						0.01 --Workaround for Buff Tracker sanity checks.
 					},
 					{ --Ace
-						1.2,
+						1.3,
 						4
 					}
 				}
@@ -1120,7 +1118,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Backstab
 				--Basic
-					self.values.player.backstab_crits = {0.5}
+					self.values.player.backstab_crits = {0.4}
 				--Ace
 					self.values.player.backstab_dodge = {1}
 
@@ -2750,12 +2748,21 @@ function UpgradesTweakData:_player_definitions()
 end
 
 function UpgradesTweakData:_smg_definitions()
-	self.definitions.smg_hip_fire_recoil_multiplier = {
-		name_id = "menu_smg_hip_fire_recoil_multiplier",
+	self.definitions.smg_move_spread_multiplier = {
+		name_id = "menu_snp_move_spread_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "hip_fire_recoil_multiplier",
+			upgrade = "move_spread_multiplier",
+			category = "smg"
+		}
+	}
+	self.definitions.smg_bloom_spread_multiplier = {
+		name_id = "menu_snp_bloom_spread_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "bloom_spread_multiplier",
 			category = "smg"
 		}
 	}
@@ -3549,40 +3556,22 @@ function UpgradesTweakData:_saw_definitions()
 end
 
 Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", function(self)
-	self.definitions.snp_steelsight_accuracy_inc_1 = {
-		name_id = "menu_snp_steelsight_accuracy_inc",
+	self.definitions.weapon_steelsight_accuracy_inc_1 = {
+		name_id = "menu_weapon_steelsight_accuracy_inc",
 		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "steelsight_accuracy_inc",
-			category = "snp"
+			category = "weapon"
 		}
 	}
-	self.definitions.assault_rifle_steelsight_accuracy_inc_1 = {
-		name_id = "menu_assault_rifle_steelsight_accuracy_inc",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "steelsight_accuracy_inc",
-			category = "assault_rifle"
-		}
-	}
-	self.definitions.snp_steelsight_range_inc_1 = {
-		name_id = "menu_snp_steelsight_range_inc",
+	self.definitions.weapon_steelsight_range_inc_1 = {
+		name_id = "menu_weapon_steelsight_range_inc",
 		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "steelsight_range_inc",
-			category = "snp"
-		}
-	}
-	self.definitions.assault_rifle_steelsight_range_inc_1 = {
-		name_id = "menu_assault_rifle_steelsight_range_inc",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "steelsight_range_inc",
-			category = "assault_rifle"
+			category = "weapon"
 		}
 	}
 	self.definitions.pistol_ap_bullets_1 = {

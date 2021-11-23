@@ -116,9 +116,10 @@ function WeaponDescription._get_base_stats(name)
 			index = math.clamp(weapon_tweak.stats.reload, 1, #tweak_stats[stat.name])
 			base_stats[stat.name].index = tweak_data.weapon[name].stats.reload
 			--Rounding done to prevent pointless green/red resulting from very tiny decimals.
-			local reload_time = math.round(10 * managers.blackmarket:get_reload_time(name) / (weapon_tweak.reload_speed_multiplier or 1)) * 0.1
+			local reload_time = managers.blackmarket:get_reload_time(name) / (weapon_tweak.reload_speed_multiplier or 1)
 			local mult = 1 / tweak_data.weapon.stats.reload[index]
 			base_stats.reload.value = reload_time * mult
+			log("Base = " .. base_stats.reload.value)
 		elseif stat.name == "damage" then
 			getGenericStatValue(stat)
 			local modifier_stats = weapon_tweak.stats_modifiers
@@ -341,11 +342,12 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 					mod.totalammo = base_stats.totalammo.value * tweak_stats.total_ammo_mod[chosen_index]
 				elseif stat.name == "reload" then
 					local chosen_index = part_data.stats.reload or 0
-					chosen_index = math.clamp(base_stats.reload.index + chosen_index, 1, #tweak_stats.reload)
-					local reload_time = managers.blackmarket:get_reload_time(weapon_name)
-					local mult = 1 / tweak_data.weapon.stats.reload[chosen_index]
-					local mod_value = reload_time * mult
-					mod.reload = mod_value - base_stats.reload.value
+					if chosen_index ~= 0 then
+						chosen_index = math.clamp(base_stats.reload.index + chosen_index, 1, #tweak_stats.reload)
+						local reload_time = managers.blackmarket:get_reload_time(name) / (weapon_tweak.reload_speed_multiplier or 1)
+						local mult = 1 / tweak_data.weapon.stats.reload[chosen_index]
+						mod.reload = reload_time * mult
+					end
 				elseif stat.name == "damage" then
 					getGenericStatValue(mod, part_data, stat)
 					local modifier_stats = weapon_tweak.stats_modifiers
@@ -631,11 +633,6 @@ function WeaponDescription.get_stats_for_mod(mod_name, weapon_name, category, sl
 
 	local base_stats = WeaponDescription._get_base_stats(weapon_name)
 	local mods_stats = WeaponDescription._get_mods_stats(weapon_name, base_stats, equipped_mods, bonus_stats, blueprint)
-
-	--[[
-	WeaponDescription._apply_present_tweaks(base_stats, true)
-	WeaponDescription._apply_present_tweaks(mods_stats)
-	]]
 
 	return WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_stats, mods_stats, equipped_mods)
 end

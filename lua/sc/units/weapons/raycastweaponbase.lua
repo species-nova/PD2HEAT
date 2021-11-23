@@ -927,7 +927,7 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	if self._bloom_stacks > 0 and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay then
 		self._bloom_stacks = math.max(self._bloom_stacks - tweak_data.weapon.stat_info.bloom_data.decay * dt, 0)
 	end
-	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom)
+	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom * self:bloom_spread_penality_reduction())
 
 	--Apply skill multipliers to overall spread area.
 	spread_area = spread_area * tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
@@ -960,12 +960,9 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 	end
 
 	if current_state:in_steelsight() then
+		mul = mul * pm:upgrade_value("weapon", "steelsight_accuracy_inc", 1)
 		for _, category in ipairs(self:categories()) do
 			mul = mul * pm:upgrade_value(category, "steelsight_accuracy_inc", 1)
-		end
-	else
-		for _, category in ipairs(self:categories()) do
-			mul = mul * pm:upgrade_value(category, "hip_fire_spread_multiplier", 1)
 		end
 	end
 
@@ -979,6 +976,14 @@ function RaycastWeaponBase:moving_spread_penalty_reduction()
 	local spread_multiplier = 1
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
 		spread_multiplier = spread_multiplier * managers.player:upgrade_value(category, "move_spread_multiplier", 1)
+	end
+	return spread_multiplier
+end
+
+function RaycastWeaponBase:bloom_spread_penality_reduction()
+	local spread_multiplier = 1
+	for _, category in ipairs(self:weapon_tweak_data().categories) do
+		spread_multiplier = spread_multiplier * managers.player:upgrade_value(category, "bloom_spread_multiplier", 1)
 	end
 	return spread_multiplier
 end

@@ -416,18 +416,19 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--None in the Chamber--
 			self.skills.rifleman = {
-				["name_id"] = "menu_scavenger_sc",
-				["desc_id"] = "menu_scavenger_desc_sc",
-				["icon_xy"] = {3, 3},
+				["name_id"] = "menu_sharpshooter_sc",
+				["desc_id"] = "menu_sharpshooter_desc_sc",
+				["icon_xy"] = {10, 0},
 				[1] = {
 					upgrades = {
-						"smg_hip_fire_spread_multiplier"
+						"smg_bloom_spread_multiplier"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					upgrades = {
-						"smg_empty_reload_speed_multiplier"
+						"smg_fire_rate_multiplier_1",
+						"smg_full_auto_free_ammo"
 					},
 					cost = self.costs.pro
 				}
@@ -435,9 +436,9 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Mag-Dumper--
 			self.skills.sharpshooter = {
-				["name_id"] = "menu_sharpshooter_sc",
-				["desc_id"] = "menu_sharpshooter_desc_sc",
-				["icon_xy"] = {10, 0},
+				["name_id"] = "menu_scavenger_sc",
+				["desc_id"] = "menu_scavenger_desc_sc",
+				["icon_xy"] = {3, 3},
 				[1] = {
 					upgrades = {
 						"smg_move_spread_multiplier"
@@ -446,8 +447,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"smg_fire_rate_multiplier_1",
-						"smg_full_auto_free_ammo"
+						"smg_empty_reload_speed_multiplier"
 					},
 					cost = self.costs.pro
 				}
@@ -1153,7 +1153,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Kilmer--
+			--Tactical Precision--
 			self.skills.heavy_impact = {
 				["name_id"] = "menu_heavy_impact_beta_sc",
 				["desc_id"] = "menu_heavy_impact_beta_desc_sc",
@@ -1161,10 +1161,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					upgrades = {
 						"weapon_enter_steelsight_speed_multiplier",
-						"assault_rifle_steelsight_accuracy_inc_1",
-						"snp_steelsight_accuracy_inc_1",
-						"assault_rifle_steelsight_range_inc_1",
-						"snp_steelsight_range_inc_1"
+						"weapon_steelsight_accuracy_inc_1",
+						"weapon_steelsight_range_inc_1"
 					},
 					cost = self.costs.default
 				},
