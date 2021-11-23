@@ -761,7 +761,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	end
 
 	if is_player then
-		self._bloom_stacks = math.min(self._bloom_stacks + 1, tweak_data.weapon.stat_info.bloom_data.max_stacks)
+		self._bloom_stacks = math.min(self._bloom_stacks + self._base_fire_rate, 1)
 
 		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
@@ -923,24 +923,10 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 		spread_area = spread_area + moving_spread
 	end
 
-	--Apply bloom penalty to spread. Decay existing stacks by desired amount.
-	--Bloom decay increases as more stacks are added, to provide a reasonable upper limit on stacks for full-auto guns.
-	if self._bloom_stacks > 0 then
-		local bloom_decay = dt * tweak_data.weapon.stat_info.bloom_data.hot_decay
-
-		--To ensure that stability remains relevant on really low rate of fire guns, and to improve the feel on fast-firing semi autos
-		--decay speed increases based on time spent not shooting.
-		if t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.cold_delay then
-			bloom_decay = bloom_decay * tweak_data.weapon.stat_info.bloom_data.cold_decay * ((t - self._next_fire_allowed)/self._base_fire_rate)
-		end
-
-		self._bloom_stacks = math.max(self._bloom_stacks - bloom_decay, 0)
-
-		if not self._old_stax and self._old_stax ~= -1 and self._bloom_stacks > 0 then
-			self._old_stax = self._bloom_stacks
-		end
+	--Apply bloom penalty to spread. Decay existing stacks if player is not firing.
+	if self._bloom_stacks > 0 and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay then
+		self._bloom_stacks = math.max(self._bloom_stacks - tweak_data.weapon.stat_info.bloom_data.decay * dt, 0)
 	end
-
 	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom)
 
 	--Apply skill multipliers to overall spread area.

@@ -116,18 +116,17 @@ function WeaponTweakData:_init_stats()
 		end
 
 	--STABILITY
-		self.stat_info.base_bloom_spread = 1.5 --Amount of spread each stack of bloom gives.
-		self.stat_info.spread_per_stability = -0.06 --Amount bloom spread is reduced by stability.
+		self.stat_info.base_bloom_spread = 9 --Amount of spread each stack of bloom gives.
+		self.stat_info.spread_per_stability = -0.36 --Amount bloom spread is reduced by stability.
 		self.stat_info.bloom_spread = {}
 		for i = 0, 25, 1 do
 			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
 		end
 
 		self.stat_info.bloom_data = {
-			hot_decay = 0.3, --# of stacks removed per second while the player is actively shooting. Keep this very low.
-			cold_delay = 0.2, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before switching to cold_decay.
-			cold_decay = 3, --# of stacks removed per second while the player is no longer shooting. Is modulated by the delay between shots, so it's far higher on most guns.
-			max_stacks = 6 --Maximum number of bloom stacks that can be had at once.
+			decay_delay = 0.2, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before bloom starts to decay.
+			decay = 1, --The rate at which bloom decays.
+			gain = 1 --Seconds of continuous fire it takes to max out bloom.
 		}
 
 		--Recoil multiplier. Used for stability, and cosmetic camera shake.

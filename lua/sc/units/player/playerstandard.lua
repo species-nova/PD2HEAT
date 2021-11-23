@@ -539,7 +539,7 @@ function PlayerStandard:_update_crosshair(t, dt, weapon)
 
 			--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
 			if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
-				crosshair_spread = crosshair_spread + (weapon._recoil) * 2
+				crosshair_spread = crosshair_spread + (weapon._recoil) * 4 --Magic number that feels good.
 				self._next_crosshair_jiggle = t + 0.1
 			end
 
