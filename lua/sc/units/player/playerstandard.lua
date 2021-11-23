@@ -514,11 +514,6 @@ function PlayerStandard:update(t, dt)
 	weapon:update_spread(self, t, dt)
 	self:_update_crosshair(t, dt, weapon)
 
-	--Having this in update is less than ideal, but it appears that this is normally set in-engine in most cases rather than via lua.
-	--self._ext_camera:set_shaker_parameter("breathing", "amplitude", 
-	--	tweak_data.weapon.stat_info.breathing_amplitude[weapon:weapon_tweak_data().stats.spread + weapon:get_accuracy_addend(self)]
-	--	* (self._state_data.in_steelsight and tweak_data.weapon.stat_info.steelsight_breathing_amplitude_mul or 1))
-
 	if weapon:get_name_id() == "m134" then
 		weapon:update_spin()
 	end
@@ -2358,4 +2353,44 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 	end
 
 	return new_action
+end
+
+function PlayerStandard:_stance_entered(unequipped)
+	local stance_standard = tweak_data.player.stances.default[managers.player:current_state()] or tweak_data.player.stances.default.standard
+	local head_stance = self._state_data.ducking and tweak_data.player.stances.default.crouched.head or stance_standard.head
+	local stance_id = nil
+	local stance_mod = {
+		translation = Vector3(0, 0, 0)
+	}
+
+	local weap_base = self._equipped_unit:base()
+	local vel_overshot = nil
+	local sway = nil
+	if not unequipped then
+		stance_id = weap_base:get_stance_id()
+
+		if self._state_data.in_steelsight and weap_base.stance_mod then
+			stance_mod = weap_base:stance_mod() or stance_mod
+		end
+
+		if not self:_is_meleeing() and not self:_is_throwing_projectile() then
+			local move_state = self:get_movement_state()
+			sway = weap_base:sway_mul(move_state)
+			vel_overshot = weap_base:vel_overshot_mul(move_state, self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standard")
+		end
+	end
+
+	local stances = nil
+	stances = (self:_is_meleeing() or self:_is_throwing_projectile()) and tweak_data.player.stances.default or tweak_data.player.stances[stance_id] or tweak_data.player.stances.default
+	local misc_attribs = stances.standard
+	misc_attribs = (not self:_is_using_bipod() or self:_is_throwing_projectile() or stances.bipod) and (self._state_data.in_steelsight and stances.steelsight or self._state_data.ducking and stances.crouched or stances.standard)
+	sway = sway or misc_attribs.shakers
+	vel_overshot = vel_overshot or misc_attribs.vel_overshot	
+	
+	local duration = tweak_data.player.TRANSITION_DURATION + (weap_base:transition_duration() or 0)
+	local duration_multiplier = self._state_data.in_steelsight and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
+	local new_fov = self:get_zoom_fov(misc_attribs) + 0
+
+	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration)
+	managers.menu:set_mouse_sensitivity(self:in_steelsight())
 end

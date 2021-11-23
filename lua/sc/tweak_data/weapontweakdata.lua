@@ -55,12 +55,21 @@ function WeaponTweakData:_init_stats()
 			shotgun_penalty = 0.3
 		}
 		
-		self.stat_info.base_breathing_amplitude = 0.52
-		self.stat_info.breathing_amplitude_per_accuracy = -0.015
-		self.stat_info.steelsight_breathing_amplitude_mul = 0.1
+		--Cosmetic camera movement.
+		self.stat_info.base_breathing_amplitude = 0.65
+		self.stat_info.breathing_amplitude_per_accuracy = -0.025
+		self.stat_info.breathing_amplitude_stance_muls = {
+			standing = 1,
+			moving_standing = 1,
+			crouching = 0.6,
+			moving_crouching = 0.6,
+			steelsight = 0.1,
+			moving_steelsight = 0.1,
+			bipod = 0.0
+		}
 		self.stat_info.breathing_amplitude = {}
 		for i = 1, 26, 1 do
-			table.insert(self.stat_info.breathing_amplitude, self.stats.spread[i], self.stat_info.base_breathing_amplitude + ((i - 1) * self.stat_info.breathing_amplitude_per_accuracy))
+			table.insert(self.stat_info.breathing_amplitude, self.stat_info.base_breathing_amplitude + ((i - 1) * self.stat_info.breathing_amplitude_per_accuracy))
 		end
 
 	--MOBILITY
@@ -89,6 +98,23 @@ function WeaponTweakData:_init_stats()
 			table.insert(self.stats.mobility, 1 / math.lerp(self.stat_info.swap_speed_min_mul, self.stat_info.swap_speed_max_mul, i/25))
 		end
 
+		--Cosmetic camera movement.
+		self.stat_info.min_vel_overshot_mul = 15 --0 mobility should make the gun heavily lag behind camera movement.
+		self.stat_info.vel_overshot_per_mobility = -0.55 --Each point of mobility should make it lag behind less.
+		self.stat_info.vel_overshot_stance_muls = {
+			standing = 1,
+			moving_standing = 1,
+			crouching = 0.6,
+			moving_crouching = 0.6,
+			steelsight = 0.05,
+			moving_steelsight = 0.05,
+			bipod = 0.0
+		}
+		self.stat_info.vel_overshot = {}
+		for i = 1, 26, 1 do
+			table.insert(self.stat_info.vel_overshot, self.stat_info.min_vel_overshot_mul + ((i - 1) * self.stat_info.vel_overshot_per_mobility))
+		end
+
 	--STABILITY
 		self.stat_info.base_bloom_spread = 1.5 --Amount of spread each stack of bloom gives.
 		self.stat_info.spread_per_stability = -0.06 --Amount bloom spread is reduced by stability.
@@ -104,7 +130,7 @@ function WeaponTweakData:_init_stats()
 			max_stacks = 6 --Maximum number of bloom stacks that can be had at once.
 		}
 
-		--Recoil multiplier. Used for stability.
+		--Recoil multiplier. Used for stability, and cosmetic camera shake.
 		self.stat_info.base_recoil_mult = 4
 		self.stat_info.recoil_per_stability = -0.14
 		self.stats.recoil = {}
@@ -1515,6 +1541,67 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 
+	--Light LMG (PRIMARY)
+		--KSP
+		self.m249.categories = {
+			"lmg",
+			"smg" --All LMGs are placed in the smg category for legacy skill reasons.
+		}
+		self.m249.desc_id = "bm_menu_sc_m249_desc"
+		self.m249.CLIP_AMMO_MAX = 200
+		self.m249.fire_rate_multiplier = 0.77 --700 rpm
+		self.m249.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.m249.kick_pattern = self.stat_info.kick_patterns.random
+		self.m249.supported = true
+		self.m249.stats = {
+			damage = 24,
+			spread = 17,
+			recoil = 25,
+			concealment = 7,
+			value = 9
+		}
+		self.m249.timers = {
+			reload_not_empty = 6.4,
+			reload_empty = 6.4,
+			reload_operational = 5.3,
+			empty_reload_operational = 5.3,
+			reload_interrupt = 0.53,
+			empty_reload_interrupt = 0.55,
+			unequip = 0.6,
+			equip = 1.0,
+			deploy_bipod = 1
+		}
+
+		--Brenner 21
+		self.hk21.categories = {
+			"lmg",
+			"smg"
+		}
+		self.hk21.CLIP_AMMO_MAX = 100
+		self.hk21.fire_rate_multiplier = 1.0373 --750 rpm
+		self.hk21.kick = self.stat_info.kick_tables.horizontal_right_recoil
+		self.hk21.kick_pattern = self.stat_info.kick_patterns.random
+		self.hk21.supported = true
+		self.hk21.stats = {
+			damage = 24,
+			spread = 14,
+			recoil = 25,
+			concealment = 13,
+			value = 9
+		}
+		self.hk21.timers = {
+			reload_not_empty = 6,
+			reload_empty = 7.7,
+			reload_operational = 4.5,
+			empty_reload_operational = 6.65,
+			reload_interrupt = 1.02,
+			empty_reload_interrupt = 2.28,
+			unequip = 0.6,
+			equip = 1.0,
+			deploy_bipod = 1
+		}
+		self.hk21.reload_speed_multiplier = 1.15 --5.2/6.7
+
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
 	self.glock_17.fire_mode_data.fire_rate = 0.11009174311
@@ -2112,69 +2199,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.p226.stats_modifiers = nil
 	self.p226.timers.reload_interrupt = 0.36
 	self.p226.timers.empty_reload_interrupt = 0.25
-
-	--Brenner 21
-	self.hk21.categories = {
-		"lmg",
-		"smg"
-	}
-	self.hk21.CLIP_AMMO_MAX = 100
-	self.hk21.AMMO_MAX = 270
-	self.hk21.fire_mode_data.fire_rate = 0.075
-	self.hk21.auto.fire_rate = 0.075
-	self.hk21.kick = self.stat_info.kick_tables.horizontal_right_recoil
-	self.hk21.supported = true
-	self.hk21.stats = {
-		damage = 20,
-		spread = 12,
-		recoil = 24,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 20,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.hk21.swap_speed_multiplier = 0.9
-	self.hk21.stats_modifiers = nil
-	self.hk21.timers.reload_interrupt = 0.22
-	self.hk21.timers.empty_reload_interrupt = 0.34
-
-	--KSP
-	self.m249.categories = {
-		"lmg",
-		"smg"
-	}
-	self.m249.desc_id = "bm_menu_sc_m249_desc"
-	self.m249.CLIP_AMMO_MAX = 200
-	self.m249.AMMO_MAX = 300
-	self.m249.fire_mode_data.fire_rate = 0.075
-	self.m249.auto.fire_rate = 0.075
-	self.m249.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.m249.supported = true
-	self.m249.stats = {
-		damage = 18,
-		spread = 13,
-		recoil = 23,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 19,
-		suppression = 10,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.m249.stats_modifiers = nil
-	self.m249.timers.reload_not_empty = 5.5
-	self.m249.timers.reload_empty = 5.5
-	self.m249.swap_speed_multiplier = 0.9
-	self.m249.timers.reload_interrupt = 0.1
-	self.m249.timers.empty_reload_interrupt = 0.1
 
 	--RPK
 	self.rpk.categories = {
@@ -5388,11 +5412,11 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	smg = 1.1,
 	akimbo = 1.1,
 	saw = 1.25, --Compensate for jankiness.
-	lmg = 0.9 --Undoes SMG ammo pickup bonus. These guys already pick up a bunch.
+	lmg = 0.61 --Keeps ammo pickup comparable to other guns.
 }
 
 local category_ammo_max_muls = {
-	lmg = 1.25,
+	lmg = 1.5,
 	rocket_launcher = 1.15
 }
 

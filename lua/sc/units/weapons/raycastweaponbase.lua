@@ -893,8 +893,8 @@ function RaycastWeaponBase:do_kick_pattern()
 	return self._kick_pattern.pattern[self._curr_kick]
 end
 
-function RaycastWeaponBase:get_accuracy_addend(current_state)
-	return managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint)
+function RaycastWeaponBase:get_accuracy_addend()
+	return managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, nil, self:fire_mode(), self._blueprint)
 end
 
 --Calculate spread value. Done once per frame.
@@ -905,7 +905,7 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	end
 
 	--Get spread area from accuracy stat.
-	local spread_area = self._spread + self:get_accuracy_addend(current_state) * tweak_data.weapon.stat_info.spread_per_accuracy
+	local spread_area = self._spread + self:get_accuracy_addend() * tweak_data.weapon.stat_info.spread_per_accuracy
 
 	--Moving penalty to spread, based on stability stat- added to total area.
 	if current_state._moving or current_state._state_data.in_air then
@@ -927,8 +927,6 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	--Bloom decay increases as more stacks are added, to provide a reasonable upper limit on stacks for full-auto guns.
 	if self._bloom_stacks > 0 then
 		local bloom_decay = dt * tweak_data.weapon.stat_info.bloom_data.hot_decay
-
-		--tweak_data.weapon.stat_info.stance_bloom_decay_rates[current_state:get_movement_state()]
 
 		--To ensure that stability remains relevant on really low rate of fire guns, and to improve the feel on fast-firing semi autos
 		--decay speed increases based on time spent not shooting.

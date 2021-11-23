@@ -14,6 +14,19 @@ function NewRaycastWeaponBase:init(...)
 		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
 	end
 
+	--Pre-allocate some tables so we don't waste time making new ones on every state change, or touching global state in potentially weird ways.
+	--Actual data is set in the sway and vel_overshot functions.
+	self.shakers = {breathing = {amplitude = 0}}
+	self.vel_overshot = {
+		pivot = nil, --Use the pivot from PlayerTweakData in getter.
+		yaw_neg = 0,
+		yaw_pos = 0,
+		pitch_neg = 0,
+		pitch_pos = 0
+	}
+	self._stance_table = tweak_data.player.stances[self:get_stance_id()] or tweak_data.player.stances.default
+
+
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
@@ -689,4 +702,26 @@ function NewRaycastWeaponBase:on_unequip(user_unit)
 	for _, category in ipairs(self:categories()) do
 		managers.hud:remove_skill(category .. "_last_shot_stagger")
 	end
+end
+
+function NewRaycastWeaponBase:sway_mul(move_state)
+	self.shakers.breathing.amplitude = tweak_data.weapon.stat_info.breathing_amplitude[self:weapon_tweak_data().stats.spread + self:get_accuracy_addend()]
+		* tweak_data.weapon.stat_info.breathing_amplitude_stance_muls[move_state]
+	return self.shakers
+end
+
+function NewRaycastWeaponBase:vel_overshot_mul(move_state, alt_state)
+	local vel_overshot = tweak_data.weapon.stat_info.vel_overshot[self:get_concealment()] * tweak_data.weapon.stat_info.vel_overshot_stance_muls[move_state]
+	self.vel_overshot.yaw_neg = -vel_overshot
+	self.vel_overshot.yaw_pos = vel_overshot
+	self.vel_overshot.pitch_neg = vel_overshot
+	self.vel_overshot.pitch_pos = -vel_overshot
+	
+	if not self._stance_table[alt_state] then
+		log("Unknown state: " .. alt_state)
+		return
+	end
+
+	self.vel_overshot.pivot = self._stance_table[alt_state].vel_overshot.pivot
+	return self.vel_overshot
 end
