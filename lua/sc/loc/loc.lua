@@ -909,6 +909,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_w_osipr_desc_pc"] = "X-Generation weapon technology.\nEquipped with a 20mm grenade launcher.\nPress $BTN_BIPOD to switch to the Grenade Launcher.",
 		["bm_w_osipr_desc"] = "X-Generation weapon technology.\nEquipped with a 20mm grenade launcher.\nHold $BTN_BIPOD to switch to the Grenade Launcher.",
 
+		--Contractor .308--
+		["bm_w_tti"] = "Contractor .308 Rifle",
+
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
 
