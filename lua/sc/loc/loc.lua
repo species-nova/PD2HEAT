@@ -23,8 +23,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 
 		["PD2HEATOptionsButtonTitleID"] = "Heat Options",
 		["PD2HEATOptionsButtonDescID"] = "Heat's Options.",
-		["PD2HEATAimAssistTitleID"] = "Aim Assist",
-		["PD2HEATAimAssistDescID"] = "Provides soft bullet-magnetism for players who have trouble hitting enemies.",
 		["PD2HEATHUDOptionsButtonTitleID"] = "Heat HUD & UI Options",
 		["PD2HEATHUDOptionsButtonDescID"] = "Heat's HUD & UI Options.",
 		["PD2HEATOTHEROptionsButtonTitleID"] = "Extra Heat Options",
@@ -1684,7 +1682,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Sturdy Arm--
 			["menu_stable_shot_beta_sc"] = "Sturdy Arm",
-			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nYou and your crews' stability rating for all weapons is increased by ##4.##\n\nACE: ##$pro##\nReduces the hipfire recoil of SMGs and LMGs by ##25%.##",
+			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nYou and your crews' stability rating for all weapons is increased by ##5.##\n\nACE: ##$pro##\nReduces the hipfire recoil of SMGs and LMGs by ##25%.##",
 
 			--None in the Chamber--
 			["menu_scavenger_sc"] = "None in the Chamber",
@@ -1947,7 +1945,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
-		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##8## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
+		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##10## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",

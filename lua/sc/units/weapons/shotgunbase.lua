@@ -153,8 +153,7 @@ function ShotgunBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoo
 	end
 
 	local damage = self:_get_current_damage(dmg_mul)
-	local aimassist = heat.Options:GetValue("AimAssist")
-	local autoaim = aimassist and self:check_autoaim(from_pos, direction, self._range)
+	local autoaim = self:check_autoaim(from_pos, direction, self._range)
 	local weight = 0.1
 	local enemy_died = false
 

@@ -20,17 +20,17 @@ WeaponDescription._stats_shown = {
 	},
 	{
 		use_index = true,
-		present_multiplier = 4,
+		present_multiplier = 5,
 		name = "spread"
 	},
 	{
 		use_index = true,
-		present_multiplier = 4,
+		present_multiplier = 5,
 		name = "recoil"
 	},
 	{
 		use_index = true,
-		present_multiplier = 4,
+		present_multiplier = 5,
 		name = "concealment"
 	},
 	{

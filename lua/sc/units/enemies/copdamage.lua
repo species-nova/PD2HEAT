@@ -86,7 +86,8 @@ function CopDamage:init(...)
 	old_init(self, ...)
 	
 	self._autotarget_data = {
-		fast = self._unit:get_object(Idstring("Head"))
+		head = self._unit:get_object(Idstring("Head")),
+		body = self._unit:get_object(Idstring("Spine1"))
 	}
 	
 	--Replace head hitbox with a smaller one for non-dozer enemies.	
@@ -115,6 +116,10 @@ function CopDamage:init(...)
 		self._RECLOAK_THRESHOLD = self._HEALTH_INIT * (self._char_tweak.recloak_damage_threshold or 0)
 		self._next_defensive_recloak = self._HEALTH_INIT - self._RECLOAK_THRESHOLD
 	end
+end
+
+function CopDamage:get_ranged_attack_autotarget_data_fast()
+	return self._autotarget_data
 end
 
 function CopDamage:_spawn_head_gadget(params)
