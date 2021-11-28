@@ -705,15 +705,13 @@ function NewRaycastWeaponBase:on_unequip(user_unit)
 end
 
 function NewRaycastWeaponBase:sway_mul(move_state)
-	self.shakers.breathing.amplitude = tweak_data.weapon.stat_info.breathing_amplitude[
-		(self:weapon_tweak_data().stats.spread or 10)
-		+ (self:get_accuracy_addend() or 0)]
-		* (tweak_data.weapon.stat_info.breathing_amplitude_stance_muls[move_state] or 1)
+	self.shakers.breathing.amplitude = tweak_data.weapon.stat_info.breathing_amplitude[math.min(self:weapon_tweak_data().stats.spread + self:get_accuracy_addend(), 21)]
+		* tweak_data.weapon.stat_info.breathing_amplitude_stance_muls[move_state]
 	return self.shakers
 end
 
 function NewRaycastWeaponBase:vel_overshot_mul(move_state, alt_state)
-	local vel_overshot = tweak_data.weapon.stat_info.vel_overshot[self:get_concealment() or 10] * (tweak_data.weapon.stat_info.vel_overshot_stance_muls[move_state] or 1)
+	local vel_overshot = tweak_data.weapon.stat_info.vel_overshot[self:get_concealment()] * tweak_data.weapon.stat_info.vel_overshot_stance_muls[move_state]
 	self.vel_overshot.yaw_neg = -vel_overshot
 	self.vel_overshot.yaw_pos = vel_overshot
 	self.vel_overshot.pitch_neg = vel_overshot
