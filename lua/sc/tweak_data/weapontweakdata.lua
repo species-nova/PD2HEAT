@@ -88,6 +88,9 @@ function WeaponTweakData:_init_stats()
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
 		end
+		for i, v in ipairs(self.stats.spread_moving) do
+			log(i .. " = " .. v)
+		end
 
 		--Weapon swap speed multiplier from concealment.
 		--Values calculated using the inverse to ensure they scale linearly with swap *time*.
@@ -1958,9 +1961,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.glock_17.supported = true
 	self.glock_17.stats = {
 		damage = 20,
-		spread = 24,
-		recoil = 23,
-		concealment = 26,
+		spread = 21,
+		recoil = 21,
+		concealment = 21,
 		value = 1
 	}
 	self.glock_17.stats_modifiers = nil
