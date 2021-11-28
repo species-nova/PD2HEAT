@@ -1176,8 +1176,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.m16.supported = true
 		self.m16.stats = {
 			damage = 30,
-			spread = 17,
-			recoil = 14,
+			spread = 16,
+			recoil = 15,
 			concealment = 12,
 			value = 1
 		}
