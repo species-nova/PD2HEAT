@@ -119,7 +119,6 @@ function WeaponDescription._get_base_stats(name)
 			local reload_time = managers.blackmarket:get_reload_time(name) / (weapon_tweak.reload_speed_multiplier or 1)
 			local mult = 1 / tweak_data.weapon.stats.reload[index]
 			base_stats.reload.value = reload_time * mult
-			log("Base = " .. base_stats.reload.value)
 		elseif stat.name == "damage" then
 			getGenericStatValue(stat)
 			local modifier_stats = weapon_tweak.stats_modifiers
