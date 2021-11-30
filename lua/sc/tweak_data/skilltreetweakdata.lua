@@ -15,7 +15,7 @@ function SkillTreeTweakData:init(tweak_data)
 	self.tier_unlocks = {
 		digest(0),
 		digest(1),
-		digest(7),
+		digest(6),
 		digest(16)
 	}
 	self.tier_cost = {
@@ -947,18 +947,18 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Jack of All Trades--
 			self.skills.engineering = {
-				["name_id"] = "menu_jack_of_all_trades_beta_sc",
-				["desc_id"] = "menu_jack_of_all_trades_beta_desc_sc",
-				["icon_xy"] = {9, 4},
+				["name_id"] = "menu_iron_man_sc",
+				["desc_id"] = "menu_iron_man_desc_sc",
+				["icon_xy"] = {6, 4},
 				[1] = {
 					upgrades = {
-						"player_throwables_multiplier"
+						"player_unpierceable_armor"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"second_deployable_1"
+						"player_armor_regen_timer_multiplier"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -986,18 +986,18 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Bulletproof--
 			self.skills.tower_defense = {
-				["name_id"] = "menu_iron_man_sc",
-				["desc_id"] = "menu_iron_man_desc_sc",
-				["icon_xy"] = {6, 4},
+				["name_id"] = "menu_jack_of_all_trades_beta_sc",
+				["desc_id"] = "menu_jack_of_all_trades_beta_desc_sc",
+				["icon_xy"] = {9, 4},
 				[1] = {
 					upgrades = {
-						"player_unpierceable_armor"
+						"player_throwables_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_armor_regen_timer_multiplier"
+						"second_deployable_1"
 					},
 					cost = self.costs.hightierpro
 				}
