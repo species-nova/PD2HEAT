@@ -819,12 +819,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.sentry_gun.armor_multiplier = {1.4}
 				--Ace
 					self.values.sentry_gun.armor_multiplier2 = {1.6}
-		
-			--Jack of All Trades
-				--Basic
-					self.values.player.throwables_multiplier = {1.5}
-				--Ace
-					self.values.player.second_deployable = {true}
 	
 			--Tower Defense
 				--Basic
@@ -837,8 +831,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Basic
 						self.values.player.unpierceable_armor = {true}
 					--Ace
-						self.values.player.armor_regen_timer_multiplier = {0.75}		
-			
+						self.values.player.armor_regen_timer_multiplier = {0.8}			
+		
+			--Jack of All Trades
+				--Basic
+					self.values.player.throwables_multiplier = {2}
+				--Ace
+					self.values.player.second_deployable = {true}
+
 		--Breacher--
 			--Hardware Expert
 				self.values.player.drill_fix_interaction_speed_multiplier = {

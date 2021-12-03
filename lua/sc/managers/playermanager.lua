@@ -1508,3 +1508,55 @@ function PlayerManager:close_combat_upgrade_value(category, upgrade, default)
 
 	return value
 end
+
+function PlayerManager:_add_equipment(params)
+	if self:has_equipment(params.equipment) then
+		print("Allready have equipment", params.equipment)
+
+		return
+	end
+
+	local equipment = params.equipment
+	local tweak_data = tweak_data.equipments[equipment]
+	local amount = {}
+	local amount_digest = {}
+	local quantity = tweak_data.quantity
+
+	for i = 1, #quantity do
+		local equipment_name = equipment
+
+		if tweak_data.upgrade_name then
+			equipment_name = tweak_data.upgrade_name[i]
+		end
+
+		local amt = (quantity[i] or 0) + self:equiptment_upgrade_value(equipment_name, "quantity")
+		amt = managers.modifiers:modify_value("PlayerManager:GetEquipmentMaxAmount", amt, params)
+
+		table.insert(amount, amt)
+		table.insert(amount_digest, Application:digest_value(0, true))
+	end
+
+	local icon = params.icon or tweak_data and tweak_data.icon
+	local use_function_name = params.use_function_name or tweak_data and tweak_data.use_function_name
+	local use_function = use_function_name or nil
+
+	--JOAT gives full deployable count.
+
+	table.insert(self._equipment.selections, {
+		equipment = equipment,
+		amount = amount_digest,
+		use_function = use_function,
+		action_timer = tweak_data.action_timer,
+		icon = icon,
+		unit = tweak_data.unit,
+		on_use_callback = tweak_data.on_use_callback
+	})
+
+	self._equipment.selected_index = self._equipment.selected_index or 1
+
+	add_hud_item(amount, icon)
+
+	for i = 1, #amount do
+		self:add_equipment_amount(equipment, amount[i], i)
+	end
+end
