@@ -1936,7 +1936,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 90,
 			spread = 19,
 			recoil = 14,
-			concealment = 12,
+			concealment = 11,
 			value = 9
 		}
 		self.siltstone.timers = {
