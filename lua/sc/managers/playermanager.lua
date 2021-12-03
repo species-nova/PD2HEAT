@@ -557,10 +557,10 @@ function PlayerManager:check_skills()
 		self._message_system:unregister(Message.OnLethalHeadShot, "activate_aggressive_reload")
 	end
 
-	if self:has_category_upgrade("assault_rifle", "headshot_bloom_reset") then
-		self._message_system:register(Message.OnLethalHeadShot, "reset_bloom_from_headshot_kill", callback(self, self, "_trigger_rapid_reset_bloom_reset"))
+	if self:has_category_upgrade("assault_rifle", "headshot_bloom_reduction") then
+		self._message_system:register(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill", callback(self, self, "_trigger_rapid_reset_bloom_reduction"))
 	else
-		self._message_system:unregister(Message.OnLethalHeadShot, "reset_bloom_from_headshot_kill")
+		self._message_system:unregister(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill")
 	end
 
 	if self:has_category_upgrade("player", "head_shot_ammo_return") then
@@ -1040,7 +1040,7 @@ function PlayerManager:_on_activate_aggressive_reload_event(attack_data)
 	end
 end
 
-function PlayerManager:_trigger_rapid_reset_bloom_reset(attack_data)
+function PlayerManager:_trigger_rapid_reset_bloom_reduction(attack_data)
 	if attack_data and attack_data.variant == "bullet" then
 		local weapon_unit = self:equipped_weapon_unit()
 
@@ -1048,7 +1048,7 @@ function PlayerManager:_trigger_rapid_reset_bloom_reset(attack_data)
 			local weapon = weapon_unit:base()
 
 			if weapon and weapon:is_category("assault_rifle", "snp") then
-				weapon:reset_bloom()
+				weapon:multiply_bloom(self:upgrade_value("assault_rifle", "headshot_bloom_reduction", 1))
 			end
 		end
 	end

@@ -890,8 +890,8 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	self._current_spread = math.sqrt((spread_area)/math.pi)
 end
 
-function RaycastWeaponBase:reset_bloom()
-	self._bloom_stacks = 0
+function RaycastWeaponBase:multiply_bloom(amount)
+	self._bloom_stacks = self._bloom_stacks * amount
 end
 
 --Multipliers for overall spread.

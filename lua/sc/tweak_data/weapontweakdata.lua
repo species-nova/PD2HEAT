@@ -47,7 +47,7 @@ function WeaponTweakData:_init_stats()
 		end
 
 		self.stat_info.damage_falloff = {
-			base = 1600,
+			base = 1480,
 			max = 4000,
 			acc_bonus = 120,
 			near_mul = 1,
@@ -61,10 +61,10 @@ function WeaponTweakData:_init_stats()
 		self.stat_info.breathing_amplitude_stance_muls = {
 			standing = 1,
 			moving_standing = 1,
-			crouching = 0.6,
-			moving_crouching = 0.6,
-			steelsight = 0.1,
-			moving_steelsight = 0.1,
+			crouching = 0.65,
+			moving_crouching = 0.65,
+			steelsight = 0.2,
+			moving_steelsight = 0.2,
 			bipod = 0.0
 		}
 		self.stat_info.breathing_amplitude = {}
@@ -88,9 +88,6 @@ function WeaponTweakData:_init_stats()
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
 		end
-		for i, v in ipairs(self.stats.spread_moving) do
-			log(i .. " = " .. v)
-		end
 
 		--Weapon swap speed multiplier from concealment.
 		--Values calculated using the inverse to ensure they scale linearly with swap *time*.
@@ -107,10 +104,10 @@ function WeaponTweakData:_init_stats()
 		self.stat_info.vel_overshot_stance_muls = {
 			standing = 1,
 			moving_standing = 1,
-			crouching = 0.6,
-			moving_crouching = 0.6,
-			steelsight = 0.05,
-			moving_steelsight = 0.05,
+			crouching = 0.65,
+			moving_crouching = 0.65,
+			steelsight = 0.2,
+			moving_steelsight = 0.2,
 			bipod = 0.0
 		}
 		self.stat_info.vel_overshot = {}
@@ -1481,12 +1478,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.55
 		}
-		--Stripper clip fed weapon, cannot get magic bullets in mag.
-		self.ching.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 
 		--M308
 		self.new_m14.CLIP_AMMO_MAX = 20
@@ -1564,7 +1555,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 
-
 		--Contractor .308
 		self.tti.upgrade_blocks = nil
 		self.tti.categories = {
@@ -1584,7 +1574,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.tti.stats = {
 			damage = 60,
 			spread = 21,
-			recoil = 12,
+			recoil = 13,
 			concealment = 11,
 			value = 9
 		}
@@ -1599,6 +1589,41 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 		self.tti.stats_modifiers = nil
+
+	--Heavy DMR (Secondary)
+		--Kang Arms X1
+		self.qbu88.use_data.selection_index = 1
+		self.qbu88.upgrade_blocks = nil
+		self.qbu88.categories = {
+			"assault_rifle"
+		}
+		self.qbu88.armor_piercing_chance = 0
+		self.qbu88.can_shoot_through_enemy = false
+		self.qbu88.can_shoot_through_shield = false
+		self.qbu88.can_shoot_through_wall = false
+		self.qbu88.has_description = false
+		self.qbu88.kick = self.stat_info.kick_tables.right_kick
+		self.qbu88.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.qbu88.supported = true
+		self.qbu88.stats = {
+			damage = 60,
+			spread = 20,
+			recoil = 10,
+			concealment = 15,
+			value = 9
+		}
+		self.qbu88.timers = {
+			reload_not_empty = 2.7,
+			reload_empty = 3.45,
+			reload_operational = 2.1,
+			empty_reload_operational = 2.7,
+			reload_interrupt = 0.55,
+			empty_reload_interrupt = 0.55,
+			unequip = 0.9,
+			equip = 0.9
+		}
+		self.qbu88.fire_mode_data.fire_rate = 0.3
+		self.qbu88.single.fire_rate = 0.3
 
 	--Light LMG (PRIMARY)
 		--KSP
@@ -1789,7 +1814,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--Light Sniper (PRIMARY)
 		--Rattlesnake
 		self.msr.has_description = true
-		self.msr.upgrade_blocks = nil --Is magazine fed, mag size increase should apply to it along with other mag-fed sniper rifles.
+		self.msr.upgrade_blocks = nil --Mag size increase should apply to it along with other sniper rifles.
 		self.msr.desc_id = "bm_ap_weapon_sc_desc"
 		self.msr.fire_mode_data.fire_rate = 0.75
 		self.msr.kick = self.stat_info.kick_tables.vertical_kick
@@ -1797,8 +1822,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.msr.supported = true
 		self.msr.stats = {
 			damage = 90,
-			spread = 20,
-			recoil = 13,
+			spread = 19,
+			recoil = 12,
 			concealment = 14,
 			value = 9
 		}
@@ -1838,33 +1863,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.75
 		}
 
-		--Kang Arms X1
-		self.r700.upgrade_blocks = nil
-		self.qbu88.has_description = true
-		self.qbu88.desc_id = "bm_ap_weapon_sc_desc"
-		self.qbu88.kick = self.stat_info.kick_tables.right_kick
-		self.qbu88.kick_pattern = self.stat_info.kick_patterns.jumpy_1
-		self.qbu88.supported = true
-		self.qbu88.stats = {
-			damage = 90,
-			spread = 16,
-			recoil = 9,
-			concealment = 16,
-			value = 9
-		}
-		self.qbu88.timers = {
-			reload_not_empty = 2.7,
-			reload_empty = 3.45,
-			reload_operational = 2.1,
-			empty_reload_operational = 2.7,
-			reload_interrupt = 0.55,
-			empty_reload_interrupt = 0.55,
-			unequip = 0.9,
-			equip = 0.9
-		}
-		self.qbu88.reload_speed_multiplier = 0.75 --3.6/4.6s
-		self.qbu88.swap_speed_multiplier = 0.85
-
 		--Lebensauger .308
 		self.wa2000.upgrade_blocks = nil
 		self.wa2000.has_description = true
@@ -1899,6 +1897,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.winchester1874.upgrade_blocks = nil
 		self.winchester1874.has_description = true
 		self.winchester1874.desc_id = "bm_ap_weapon_sc_desc"
+		self.winchester1874.CLIP_AMMO_MAX = 14
 		self.winchester1874.fire_mode_data.fire_rate = 1.5
 		self.winchester1874.single.fire_rate = 1.5
 		self.winchester1874.fire_rate_multiplier = 1.75
@@ -1909,13 +1908,13 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.winchester1874.stats = {
 			damage = 90,
 			spread = 19,
-			recoil = 12,
+			recoil = 11,
 			concealment = 17,
 			value = 9
 		}
 		self.winchester1874.timers = {
 			shotgun_reload_enter = 0.43333333333333335,
-			shotgun_reload_exit_empty = 0.7666666666666667,
+			shotgun_reload_exit_empty = 0.76666666666666,
 			shotgun_reload_exit_not_empty = 0.4,
 			shotgun_reload_shell = 0.5666666666666667,
 			shotgun_reload_first_shell_offset = 0.2,
@@ -1935,9 +1934,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.siltstone.supported = true
 		self.siltstone.stats = {
 			damage = 90,
-			spread = 18,
+			spread = 19,
 			recoil = 14,
-			concealment = 11,
+			concealment = 12,
 			value = 9
 		}
 		self.siltstone.timers = {
@@ -1951,6 +1950,181 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.9
 		}
 		self.siltstone.reload_speed_multiplier = 0.85 --3.4/4.6s
+
+	--Heavy Sniper (Primary)
+		--Bernetti Rangehitter
+		self.sbl.upgrade_blocks = nil
+		self.sbl.has_description = true
+		self.sbl.desc_id = "bm_ap_weapon_sc_desc"
+		self.sbl.FIRE_MODE = "single"
+		self.sbl.CLIP_AMMO_MAX = 5
+		self.sbl.fire_mode_data = {}
+		self.sbl.fire_mode_data.fire_rate = 0.5
+		self.sbl.CAN_TOGGLE_FIREMODE = false
+		self.sbl.single = {}
+		self.sbl.single.fire_rate = 0.5
+		self.sbl.kick = self.stat_info.kick_tables.left_kick
+		self.sbl.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.sbl.tactical_reload = 1
+		self.sbl.supported = true
+		self.sbl.stats = {
+			damage = 120,
+			spread = 18,
+			recoil = 9,
+			concealment = 15,
+			value = 9
+		}
+		self.sbl.timers = {
+			shotgun_reload_enter = 0.43333333333333335,
+			shotgun_reload_exit_empty = 0.7666666666666667,
+			shotgun_reload_exit_not_empty = 0.4,
+			shotgun_reload_shell = 0.5666666666666667,
+			shotgun_reload_first_shell_offset = 0.2,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.sbl.swap_speed_multiplier = 0.8
+
+		--Platypus 70
+		self.model70.upgrade_blocks = nil
+		self.model70.has_description = true
+		self.model70.desc_id = "bm_ap_weapon_sc_desc"
+		self.model70.CLIP_AMMO_MAX = 6
+		self.model70.kick = self.stat_info.kick_tables.vertical_kick
+		self.model70.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.model70.supported = true
+		self.model70.stats = {
+			damage = 120,
+			spread = 21,
+			recoil = 13,
+			concealment = 11,
+			value = 9
+		}
+		self.model70.timers = {
+			reload_not_empty = 4,
+			reload_empty = 4.8,
+			reload_operational = 3.2,
+			empty_reload_operational = 4.2,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.4,
+			unequip = 0.45,
+			equip = 0.75
+		}
+		self.model70.reload_speed_multiplier = 1.12 --3.6/4.3s
+
+		--Desert Fox
+		self.desertfox.upgrade_blocks = nil
+		self.desertfox.has_description = true
+		self.desertfox.desc_id = "bm_ap_weapon_sc_desc"
+		self.desertfox.CLIP_AMMO_MAX = 5
+		self.desertfox.fire_rate_multiplier = 1.1667 --70rpm
+		self.desertfox.kick = self.stat_info.kick_tables.right_kick
+		self.desertfox.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.desertfox.supported = true
+		self.desertfox.stats = {
+			damage = 120,
+			spread = 19,
+			recoil = 11,
+			concealment = 15,
+			value = 9
+		}
+		self.desertfox.timers = {
+			reload_not_empty = 3.5,
+			reload_empty = 4.3,
+			reload_operational = 2.6,
+			empty_reload_operational = 3.75,
+			reload_interrupt = 0.72,
+			empty_reload_interrupt = 0.72,
+			unequip = 0.45,
+			equip = 0.75
+		}
+
+		--R93
+		self.r93.upgrade_blocks = nil
+		self.r93.has_description = true
+		self.r93.desc_id = "bm_ap_weapon_sc_desc"
+		self.r93.CLIP_AMMO_MAX = 6 --Has 5 rounds irl, but 6 makes for more interesting tradeoffs.
+		self.r93.fire_mode_data.fire_rate = 1
+		self.r93.kick = self.stat_info.kick_tables.vertical_kick
+		self.r93.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.r93.supported = true
+		self.r93.stats = {
+			damage = 120,
+			spread = 21,
+			recoil = 16,
+			concealment = 8,
+			value = 9
+		}
+		self.r93.timers = {
+			reload_not_empty = 3.5,
+			reload_empty = 4.5,
+			reload_operational = 2.8,
+			empty_reload_operational = 3.8,
+			reload_interrupt = 0.7,
+			empty_reload_interrupt = 0.7,
+			unequip = 0.7,
+			equip = 0.65
+		}
+		self.r93.reload_speed_multiplier = 1.05 --3.3/4.3s
+
+		--Nagant
+		self.mosin.upgrade_blocks = nil
+		self.mosin.has_description = true
+		self.mosin.desc_id = "bm_mosin_sc_desc"
+		self.mosin.CLIP_AMMO_MAX = 5
+		self.mosin.fire_mode_data.fire_rate = 1
+		self.mosin.kick = self.stat_info.kick_tables.vertical_kick
+		self.mosin.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.mosin.supported = true
+		self.mosin.stats = {
+			damage = 120,
+			spread = 20,
+			recoil = 14,
+			concealment = 11,
+			value = 9
+		}
+		self.mosin.timers = {
+			reload_not_empty = 4.2,
+			reload_empty = 4.2,
+			reload_operational = 3.6,
+			empty_reload_operational = 3.6,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.6,
+			equip = 0.5
+		}
+		self.mosin.reload_speed_multiplier = 1.2 --3.5s
+
+	--O LAWD HE COMING Sniper (Primary)
+		--Thanatos .50 cal
+		self.m95.upgrade_blocks = nil
+		self.m95.has_description = true
+		self.m95.desc_id = "bm_heavy_ap_weapon_sc_desc"
+		self.m95.can_shoot_through_titan_shield = true
+		self.m95.fire_rate_multiplier = 1.25 --50 rpm
+		self.m95.kick = self.stat_info.kick_tables.right_kick
+		self.m95.kick_pattern = self.stat_info.kick_patterns.random
+		self.m95.supported = true
+		self.m95.stats = {
+			damage = 180,
+			spread = 21,
+			recoil = 6,
+			concealment = 8,
+			value = 9
+		}
+		self.m95.timers = {
+			reload_not_empty = 4.9,
+			reload_empty = 6,	
+			reload_operational = 3.96,
+			empty_reload_operational = 5.23,
+			reload_interrupt = 1.36,
+			empty_reload_interrupt = 1.36,
+			unequip = 0.9,
+			equip = 0.7
+		}
+		self.m95.swap_speed_multiplier = 1.2
+		self.m95.reload_speed_multiplier = 1.2 --4.2/5s
+
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -2549,58 +2723,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.p226.timers.reload_interrupt = 0.36
 	self.p226.timers.empty_reload_interrupt = 0.25
 
-	--Thanatos .50 cal
-	self.m95.upgrade_blocks = nil
-	self.m95.has_description = true
-	self.m95.desc_id = "bm_heavy_ap_weapon_sc_desc"
-	self.m95.AMMO_MAX = 20
-	self.m95.fire_mode_data.fire_rate = 1.2
-	self.m95.kick = self.stat_info.kick_tables.left_kick
-	self.m95.supported = false
-	self.m95.stats = {
-		damage = 180,
-		spread = 25,
-		recoil = 9,
-		zoom = 1,
-		concealment = 6,
-		suppression = 2,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.m95.armor_piercing_chance = 1
-	self.m95.can_shoot_through_titan_shield = true
-	self.m95.stats_modifiers = nil
-	self.m95.swap_speed_multiplier = 1.15
-
-	--R93
-	self.r93.upgrade_blocks = nil
-	self.r93.has_description = true
-	self.r93.desc_id = "bm_ap_weapon_sc_desc"
-	self.r93.CLIP_AMMO_MAX = 6
-	self.r93.AMMO_MAX = 30
-	self.r93.fire_mode_data.fire_rate = 1
-	self.r93.kick = self.stat_info.kick_tables.vertical_kick
-	self.r93.supported = false
-	self.r93.stats = {
-		damage = 120,
-		spread = 18,
-		recoil = 11,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 19,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.r93.armor_piercing_chance = 1
-	self.r93.stats_modifiers = nil
-
 	--M1014
 	self.benelli.AMMO_MAX = 80
 	self.benelli.rays = 9
@@ -3005,30 +3127,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.sterling.stats_modifiers = nil
-
-	--Nagant
-	self.mosin.has_description = true
-	self.mosin.desc_id = "bm_mosin_sc_desc"
-	self.mosin.CLIP_AMMO_MAX = 5
-	self.mosin.AMMO_MAX = 30
-	self.mosin.fire_mode_data.fire_rate = 1
-	self.mosin.kick = self.stat_info.kick_tables.vertical_kick
-	self.mosin.supported = false
-	self.mosin.stats = {
-		damage = 120,
-		spread = 19,
-		recoil = 12,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 20,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.mosin.stats_modifiers = nil
 
 	--chicago typewriter
 	self.m1928.use_data.selection_index = 1
@@ -3712,31 +3810,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.sparrow.timers.reload_interrupt = 0.33
 	self.sparrow.timers.empty_reload_interrupt = 0.22
 
-	--Platypus 70
-	self.model70.upgrade_blocks = nil
-	self.model70.has_description = true
-	self.model70.desc_id = "bm_ap_weapon_sc_desc"
-	self.model70.AMMO_MAX = 30
-	self.model70.CLIP_AMMO_MAX = 6
-	self.model70.kick = self.stat_info.kick_tables.vertical_kick
-	self.model70.supported = false
-	self.model70.stats = {
-		damage = 120,
-		spread = 19,
-		recoil = 11,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 18,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.model70.stats_modifiers = nil
-	self.model70.timers.reload_empty = 4.3
-
 	--GSPS--
 	self.m37.rays = 9
 	self.m37.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -3999,30 +4072,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.schakal.stats_modifiers = nil
-
-	--Desert Fox
-	self.desertfox.has_description = true
-	self.desertfox.desc_id = "bm_ap_weapon_sc_desc"
-	self.desertfox.CLIP_AMMO_MAX = 5
-	self.desertfox.AMMO_MAX = 30
-	self.desertfox.fire_mode_data.fire_rate = 0.85714285714
-	self.desertfox.kick = self.stat_info.kick_tables.right_kick
-	self.desertfox.supported = false
-	self.desertfox.stats = {
-		damage = 120,
-		spread = 19,
-		recoil = 11,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 20,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 10,
-		reload = 20
-	}
-	self.desertfox.stats_modifiers = nil
 
 	--Akimbo Contractor Pistols
 	self.x_packrat.AMMO_MAX = 180
@@ -4963,36 +5012,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.x_holt.stats_modifiers = nil
 
-	--Bernetti Rangehitter
-	self.sbl.upgrade_blocks = nil
-	self.sbl.has_description = true
-	self.sbl.desc_id = "bm_ap_weapon_sc_desc"
-	self.sbl.AMMO_MAX = 30
-	self.sbl.FIRE_MODE = "single"
-	self.sbl.fire_mode_data = {}
-	self.sbl.fire_mode_data.fire_rate = 0.5
-	self.sbl.CAN_TOGGLE_FIREMODE = false
-	self.sbl.single = {}
-	self.sbl.single.fire_rate = 0.5
-	self.sbl.kick = self.stat_info.kick_tables.left_kick
-	self.sbl.tactical_reload = 1
-	self.sbl.supported = false
-	self.sbl.stats = {
-		damage = 120,
-		spread = 15,
-		recoil = 7,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 18,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.sbl.stats_modifiers = nil
-
 	--Frenchman Model 87
 	self.model3.fire_mode_data = {}
 	self.model3.fire_mode_data.fire_rate = 0.15789473684
@@ -5384,7 +5403,7 @@ local damage_tier_data = {
 	{damage = 60,  pickup = {0.048, 0.025}, suppression = 12},
 	{damage = 90,  pickup = {0.044, 0.023}, suppression = 13},
 	{damage = 120, pickup = {0.040, 0.022}, suppression = 14},
-	{damage = 180, pickup = {0.036, 0.020}, suppression = 15},
+	{damage = 180, pickup = {0.038, 0.021}, suppression = 15},
 	{damage = 240, pickup = {0.031, 0.018}, suppression = 16}, --All guns above here.
 	{damage = 360, pickup = {0.029, 0.017}, suppression = 17}, --Heavy bows.
 	{damage = 600, pickup = {0.026, 0.016}, suppression = 18}, --Light GLs

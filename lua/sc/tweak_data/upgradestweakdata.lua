@@ -907,7 +907,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Rapid Reset
 				--Basic
-					self.values.assault_rifle.headshot_bloom_reset = {true}
+					self.values.assault_rifle.headshot_bloom_reduction = {0.4}
 
 				--Ace
 					self.values.temporary.single_shot_fast_reload = {
@@ -3490,12 +3490,12 @@ function UpgradesTweakData:_saw_definitions()
 			category = "snp"
 		}
 	}
-	self.definitions.assault_rifle_headshot_bloom_reset = {
-		name_id = "menu_player_assault_rifle_headshot_bloom_reset",
+	self.definitions.assault_rifle_headshot_bloom_reduction = {
+		name_id = "menu_player_assault_rifle_headshot_bloom_reduction",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "headshot_bloom_reset",
+			upgrade = "headshot_bloom_reduction",
 			category = "assault_rifle"
 		}
 	}

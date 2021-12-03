@@ -945,7 +945,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Jack of All Trades--
+			--Bulletproof--
 			self.skills.engineering = {
 				["name_id"] = "menu_iron_man_sc",
 				["desc_id"] = "menu_iron_man_desc_sc",
@@ -984,7 +984,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Bulletproof--
+			--Jack of All Trades--
 			self.skills.tower_defense = {
 				["name_id"] = "menu_jack_of_all_trades_beta_sc",
 				["desc_id"] = "menu_jack_of_all_trades_beta_desc_sc",
@@ -1203,7 +1203,7 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {8, 3},
 				[1] = {
 					upgrades = {
-						"assault_rifle_headshot_bloom_reset"
+						"assault_rifle_headshot_bloom_reduction"
 					},
 					cost = self.costs.hightier
 				},

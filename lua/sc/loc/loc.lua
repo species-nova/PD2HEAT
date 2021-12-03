@@ -910,6 +910,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Contractor .308--
 		["bm_w_tti"] = "Contractor .308 Rifle",
 
+		--Kang Arms X1--
+		["bm_w_qbu88"] = "Káng Arms X1 Rifle",
+
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
 
@@ -1953,7 +1956,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Rapid Reset--
 		["menu_engineering_beta_sc"] = "Rapid Reset",
-		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles remove all of their bloom spread.\n\nACE: ##$pro##\nLethal headshots using Rifles will increase your reload speed by ##50%## for ##10## seconds.",
+		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles remove ##60%## of their bloom spread.\n\nACE: ##$pro##\nLethal headshots using Rifles will increase your reload speed by ##50%## for ##10## seconds.",
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",
