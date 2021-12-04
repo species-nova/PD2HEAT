@@ -331,7 +331,7 @@ tweak_data.projectiles.gas_grenade = {
 	damage_tick_period = 0.2,
 	damage_per_tick = 0.6,
 	no_stamina_damage_mul = 2,
-	stamina_per_tick = 1.5,
+	stamina_per_tick = 2,
 	duration = 7.5,
 	timer = 1.5
 }
