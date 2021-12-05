@@ -39,8 +39,8 @@ function WeaponTweakData:_init_stats()
 		--Generic spread, applied at all times.
 		--Keep this between 0.5x-1x the other stats to ensure that accuracy min/maxxed guns have the lowest *overall* spread; but worse spread than guns specialized in moving or spraying.
 			--Currently, other stats provide up to -8 spread in their respective areas, whereas this provides -6. So investing elsewhere will reduce spread more situationally, but this will reduce it more overall.
-		self.stat_info.base_spread = 5
-		self.stat_info.spread_per_accuracy = -0.25
+		self.stat_info.base_spread = 6
+		self.stat_info.spread_per_accuracy = -0.3
 		self.stats.spread = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread, self.stat_info.base_spread + (i * self.stat_info.spread_per_accuracy))
@@ -82,8 +82,8 @@ function WeaponTweakData:_init_stats()
 		--Generate table for moving_spread and how it relates to mobility.
 		--The values in the table correspond to the area of spread.
 		--These are added to the area for accuracy while moving before determining the final angles.
-		self.stat_info.base_move_spread = 7.5
-		self.stat_info.spread_per_mobility = -0.375
+		self.stat_info.base_move_spread = 9
+		self.stat_info.spread_per_mobility = -0.45
 		self.stats.spread_moving = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
@@ -116,8 +116,8 @@ function WeaponTweakData:_init_stats()
 		end
 
 	--STABILITY
-		self.stat_info.base_bloom_spread = 7.5 --Amount of spread each stack of bloom gives.
-		self.stat_info.spread_per_stability = -0.375 --Amount bloom spread is reduced by stability.
+		self.stat_info.base_bloom_spread = 9 --Amount of spread each stack of bloom gives.
+		self.stat_info.spread_per_stability = -0.45 --Amount bloom spread is reduced by stability.
 		self.stat_info.bloom_spread = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
