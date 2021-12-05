@@ -8354,10 +8354,10 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	}
 
+	self.besiege.scripted_dozer_min_diff = 0.4
 	local captain_cooldown = 2700
 	local captain_min_diff = 0.3
 	local dozer_cooldown = 45
-
 	if Global.game_settings and Global.game_settings.one_down then
 		captain_cooldown = 1800
 	end
