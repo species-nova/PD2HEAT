@@ -2130,6 +2130,84 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.m95.swap_speed_multiplier = 1.2
 		self.m95.reload_speed_multiplier = 1.2 --4.2/5s
 
+	--PDW SMG (Primary)
+		--Tatonka
+		self.coal.use_data.selection_index = 2
+		self.coal.CLIP_AMMO_MAX = 64
+		self.coal.fire_mode_data.fire_rate = 0.08823529411
+		self.coal.auto.fire_rate = 0.08823529411
+		self.coal.kick = self.stat_info.kick_tables.horizontal_right_recoil
+		self.coal.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.coal.supported = true
+		self.coal.stats = {
+			damage = 18,
+			spread = 15,
+			recoil = 17,
+			concealment = 18,
+			value = 1
+		}
+		self.coal.timers = {
+			reload_not_empty = 3.75,
+			reload_empty = 4.75,
+			reload_operational = 3.2,
+			empty_reload_operational = 4.2,
+			reload_interrupt = 0.52,
+			empty_reload_interrupt = 0.52,
+			unequip = 0.6,
+			equip = 0.5
+		}
+
+	--PDW Smg (Secondary)
+		--CMP
+		self.mp9.CLIP_AMMO_MAX = 20
+		self.mp9.auto.fire_rate = 0.0545454545454
+		self.mp9.fire_mode_data.fire_rate = 0.0545454545454
+		self.mp9.kick = self.stat_info.kick_tables.even_recoil
+		self.mp9.kick_pattern = self.stat_info.kick_patterns.random
+		self.mp9.supported = true
+		self.mp9.stats = {
+			damage = 18,
+			spread = 14,
+			recoil = 13,
+			concealment = 21,
+			value = 1
+		}
+		self.mp9.timers = {
+			reload_not_empty = 2.1,
+			reload_empty = 3,
+			reload_operational = 1.51,
+			empty_reload_operational = 2.48,
+			reload_interrupt = 0.33,
+			empty_reload_interrupt = 0.33,
+			unequip = 0.5,
+			equip = 0.4
+		}
+
+		--Kobus 90
+		self.p90.AMMO_MAX = 100
+		self.p90.fire_mode_data.fire_rate = 0.06666666666
+		self.p90.auto.fire_rate = 0.06666666666
+		self.p90.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.p90.kick_pattern = self.stat_info.jumpy_3
+		self.p90.supported = true
+		self.p90.stats = {
+			damage = 18,
+			spread = 11,
+			recoil = 15,
+			concealment = 17,
+			value = 1
+		}
+		self.p90.timers = {
+			reload_not_empty = 3,
+			reload_empty = 3.9,
+			reload_operational = 2.55,
+			empty_reload_operational = 3.35,
+			reload_interrupt = 0.57,
+			empty_reload_interrupt = 0.57,
+			unequip = 0.68,
+			equip = 0.65
+		}
+
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -2148,30 +2226,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.glock_17.stats_modifiers = nil
 	self.glock_17.timers.reload_interrupt = 0.36
 	self.glock_17.timers.empty_reload_interrupt = 0.25
-
-	--CMP
-	self.mp9.desc_id = "bm_menu_sc_mp9_desc"
-	self.mp9.CLIP_AMMO_MAX = 20
-	self.mp9.auto.fire_rate = 0.06666666666
-	self.mp9.fire_mode_data.fire_rate = 0.06666666666
-	self.mp9.AMMO_MAX = 100
-	self.mp9.kick = self.stat_info.kick_tables.even_recoil
-	self.mp9.supported = false
-	self.mp9.stats = {
-		damage = 18,
-		spread = 17,
-		recoil = 24,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 30,
-		suppression = 10,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.mp9.stats_modifiers = nil
 
 	--Reinfeld 880
 	self.r870.desc_id = "bm_menu_sc_r870_desc"
@@ -2252,29 +2306,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.saiga.stats_modifiers = nil
 	self.saiga.reload_speed_multiplier = 1.25
-
-	--P90
-	self.p90.desc_id = "bm_ap_weapon_sc_desc"
-	self.p90.AMMO_MAX = 100
-	self.p90.fire_mode_data.fire_rate = 0.06666666666
-	self.p90.auto.fire_rate = 0.06666666666
-	self.p90.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.p90.supported = false
-	self.p90.stats = {
-		damage = 18,
-		spread = 15,
-		recoil = 23,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 26,
-		suppression = 10,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.p90.stats_modifiers = nil
 
 	--Deagle
 	self.deagle.has_description = false
@@ -4189,29 +4220,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ray.stats_modifiers = {damage = 3}
 	self.ray.swap_speed_multiplier = 1.2
 	self.ray.turret_instakill = true
-
-	--Tatonka
-	self.coal.AMMO_MAX = 100
-	self.coal.CLIP_AMMO_MAX = 64
-	self.coal.fire_mode_data.fire_rate = 0.08823529411
-	self.coal.auto.fire_rate = 0.08823529411
-	self.coal.kick = self.stat_info.kick_tables.horizontal_right_recoil
-	self.coal.supported = false
-	self.coal.stats = {
-		damage = 18,
-		spread = 16,
-		recoil = 24,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 25,
-		suppression = 10,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.coal.stats_modifiers = nil
 
 	--5/7 AP
 	self.lemming.CLIP_AMMO_MAX = 20

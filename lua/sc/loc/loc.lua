@@ -1705,7 +1705,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",
-			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nFiring ##5## rounds from an SMG or LMG without releasing the trigger grants the gun a ##50%## chance to not consume ammo, increased rate of fire, and reduced recoil until you stop firing.\n\nACE: ##$pro##\nBullet Hell's effect persists for ##3## seconds after releasing the trigger as long as you don't swap guns, and can be triggered by any automatic gun.\n\nKilling an enemy while Bullet Hell's effect is active loads up to ##3## bullets into the magazine from your total ammo pool.",
+			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nFiring ##5## rounds from an SMG or LMG without releasing the trigger grants the gun a ##40%## chance to not consume ammo, increased rate of fire, and reduced recoil until you stop firing.\n\nACE: ##$pro##\nBullet Hell's effect persists for ##3## seconds after releasing the trigger as long as you don't swap guns, and can be triggered by any automatic gun.\n\nKilling an enemy while Bullet Hell's effect is active loads up to ##3## bullets into the magazine from your total ammo pool.",
 
 			--}
 		--}
