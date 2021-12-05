@@ -2080,7 +2080,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 120,
 			spread = 20,
 			recoil = 14,
-			concealment = 11,
+			concealment = 13,
 			value = 9
 		}
 		self.mosin.timers = {
