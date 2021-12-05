@@ -907,7 +907,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Rapid Reset
 				--Basic
-					self.values.assault_rifle.headshot_bloom_reduction = {0.4}
+					self.values.assault_rifle.headshot_bloom_reduction = {0.5}
 
 				--Ace
 					self.values.temporary.single_shot_fast_reload = {

@@ -1275,7 +1275,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.5
 		}
 		self.scar.reload_speed_multiplier = 0.9125 --3.1/4s
-		self.scar.swap_speed_multiplier = 0.9
+		self.scar.swap_speed_multiplier = 0.81
 
 		--Byk-1
 		self.groza.desc_id = "bm_m203_weapon_sc_desc"
@@ -1304,6 +1304,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 		self.groza.reload_speed_multiplier = 0.89 --3.1/3.8s
+		self.groza.swap_speed_multiplier = 0.9
 		self.groza_underbarrel.upgrade_blocks = {
 			weapon = {
 				"clip_ammo_increase"
@@ -1365,7 +1366,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.5
 		}
-		self.asval.swap_speed_multiplier = 0.9
+		self.asval.swap_speed_multiplier = 0.81
 
 		--Gecko 7.62
 		self.galil.fire_rate_multiplier = 0.8875 --750 rpm
@@ -1391,7 +1392,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 		self.galil.reload_speed_multiplier = 0.933333 --3.5/4.5s
-		self.asval.swap_speed_multiplier = 0.9
+		self.asval.swap_speed_multiplier = 0.81
 		
 		--Little Friend Rifle
 		self.contraband.desc_id = "bm_m203_weapon_sc_desc"
@@ -1412,6 +1413,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			concealment = 9,
 			value = 1
 		}
+		self.contraband.swap_speed_multiplier = 0.9
 		self.contraband.timers = {
 			reload_not_empty = 3.2,
 			reload_empty = 3.9,
@@ -1478,6 +1480,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.55
 		}
+		self.ching.swap_speed_multiplier = 0.9
 
 		--M308
 		self.new_m14.CLIP_AMMO_MAX = 20
@@ -1504,6 +1507,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.55
 		}
 		self.new_m14.reload_speed_multiplier = 0.926 --3.3/4.1s
+		self.new_m14.swap_speed_multiplier = 0.9
 
 		--Gewehr 3
 		self.g3.FIRE_MODE = "single"
@@ -1530,6 +1534,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.65
 		}
+		self.g3.swap_speed_multiplier = 0.9
 
 		--KS12 Urban
 		self.shak12.CLIP_AMMO_MAX = 20
