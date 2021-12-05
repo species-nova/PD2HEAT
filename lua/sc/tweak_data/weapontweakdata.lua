@@ -1260,7 +1260,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.scar.stats = {
 			damage = 45,
 			spread = 16,
-			recoil = 15,
+			recoil = 14,
 			concealment = 11,
 			value = 9
 		}
@@ -1289,7 +1289,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.groza.stats = {
 			damage = 45,
 			spread = 14,
-			recoil = 11,
+			recoil = 10,
 			concealment = 14,
 			value = 1
 		}
@@ -1351,7 +1351,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.asval.stats = {
 			damage = 45,
 			spread = 17,
-			recoil = 11,
+			recoil = 10,
 			concealment = 12,
 			value = 1,
 			alert_size = 1
@@ -1377,7 +1377,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.galil.stats = {
 			damage = 45,
 			spread = 17,
-			recoil = 13,
+			recoil = 12,
 			concealment = 6,
 			value = 4
 		}
@@ -1409,7 +1409,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.contraband.stats = {
 			damage = 45,
 			spread = 17,
-			recoil = 15,
+			recoil = 14,
 			concealment = 9,
 			value = 1
 		}
