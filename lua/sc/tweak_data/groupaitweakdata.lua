@@ -1935,6 +1935,9 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		access = access_type_all
 	}
 
+	self.unit_categories.Titan_sniper_boss = deep_clone(self.unit_categories.Titan_sniper)
+	self.unit_categories.Titan_sniper_boss.ignore_spawn_cap = true
+
 	self.unit_categories.Bravo_sharpshooter = {
 		unit_types = {
 			america = {
@@ -2633,7 +2636,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all,
 		special_type = "shield",
-		is_captain = true
+		ignore_spawn_cap = true
 	}
 
 	--Captain Autumn
@@ -2696,7 +2699,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all,
 		special_type = "spooc",
-		is_captain = true
+		ignore_spawn_cap = true
 	}
 
 	self.unit_categories.Titan_Spooc_Boss = {
@@ -2725,7 +2728,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all,
 		special_type = "spooc",
-		is_captain = true
+		ignore_spawn_cap = true
 	}
 	--Captain Summers
 	self.unit_categories.Cap_Summers = {
@@ -2898,7 +2901,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all,
 		special_type = "tank_titan",
-		is_captain = true
+		ignore_spawn_cap = true
 	}
 
 	--titan tasers that spawn with spring
@@ -2931,7 +2934,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all,
 		special_type = "taser_titan",
-		is_captain = true
+		ignore_spawn_cap = true
 	}
 
 	--Headless Titandozer Boss
@@ -2992,7 +2995,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all,
 			special_type = "tank",
-			is_captain = true
+			ignore_spawn_cap = true
 		}
 	else
 		self.unit_categories.HVH_Boss_Headless = {
@@ -3021,7 +3024,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			},
 			access = access_type_all,
 			special_type = "tank",
-			is_captain = true
+			ignore_spawn_cap = true
 		}
 	end
 
@@ -3052,7 +3055,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		access = access_type_all,
 		special_type = "spooc",
-		is_captain = true
+		ignore_spawn_cap = true
 	}
 end
 
@@ -6816,7 +6819,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 	--New Winters
 	if difficulty_index <= 5 then
 		self.enemy_spawn_groups.Cap_Winters = {
-			amount = 7,
+			amount = 5,
 			force = true,
 			spawn = {
 				{
@@ -6830,14 +6833,37 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "Phalanx_minion_new",
 					freq = 1,
-					amount_min = 6,
-					amount_max = 6,
+					amount_min = 4,
+					amount_max = 4,
 					tactics = self._tactics.Cap_winters_minion,
 					rank = 2
 				}
 			}
 		}
 	elseif difficulty_index <= 7 then
+		self.enemy_spawn_groups.Cap_Winters = {
+			amount = 7,
+			force = true,
+			spawn = {
+				{
+					unit = "Phalanx_vip_new",
+					freq = 1,
+					amount_min = 1,
+					amount_max = 1,
+					tactics = self._tactics.Cap_winters,
+					rank = 2
+				},
+				{
+					unit = "Phalanx_minion_new",
+					freq = 1,
+					amount_min = 6,
+					amount_max = 6,
+					tactics = self._tactics.Cap_winters_minion,
+					rank = 3
+				}
+			}
+		}
+	else
 		self.enemy_spawn_groups.Cap_Winters = {
 			amount = 9,
 			force = true,
@@ -6851,30 +6877,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Phalanx_minion_new",
-					freq = 1,
-					amount_min = 8,
-					amount_max = 8,
-					tactics = self._tactics.Cap_winters_minion,
-					rank = 3
-				}
-			}
-		}
-	else
-		self.enemy_spawn_groups.Cap_Winters = {
-			amount = 11,
-			force = true,
-			spawn = {
-				{
-					unit = "Phalanx_vip_new",
-					freq = 1,
-					amount_min = 1,
-					amount_max = 1,
-					tactics = self._tactics.Cap_winters,
-					rank = 2
-				},
-				{
-					unit = "Titan_sniper",
+					unit = "Titan_sniper_boss",
 					freq = 1,
 					amount_min = 2,
 					amount_max = 2,
@@ -6884,8 +6887,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "Phalanx_minion_new",
 					freq = 1,
-					amount_min = 8,
-					amount_max = 8,
+					amount_min = 6,
+					amount_max = 6,
 					tactics = self._tactics.Cap_winters_minion,
 					rank = 3
 				}
