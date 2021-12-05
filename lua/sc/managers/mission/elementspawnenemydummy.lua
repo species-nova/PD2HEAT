@@ -958,16 +958,17 @@ function ElementSpawnEnemyDummy:produce(params)
 				local name = Idstring(name)
 				if name == params.name then
 					is_dozer = true
+					break
 				end
 			end
 			
-			if is_dozer then --cant use local enemy_name for the above since it causes problems
+			if is_dozer and not (Global.level_data and Global.level_data.level_id == "modders_devmap") then --cant use local enemy_name for the above since it causes problems
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = groupai:_get_special_unit_type_count("tank") --current active dozer count
 				local diff = groupai._difficulty_value
 				
-				if spawn_limit <= current_active_count or diff < (groupai._tweak_data.scripted_dozer_min_diff or 1) then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+				if spawn_limit <= current_active_count or diff < (groupai._tweak_data.scripted_dozer_min_diff or 0) then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
 					local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 					local diff_index = tweak_data:difficulty_to_index(difficulty)
 					if diff_index < 4 then
@@ -993,16 +994,17 @@ function ElementSpawnEnemyDummy:produce(params)
 				local name = Idstring(name)
 				if name == enemy_name then
 					is_dozer = true
+					break
 				end
 			end
 			
-			if is_dozer then --cant use local enemy_name for the above since it causes problems
+			if is_dozer and not (Global.level_data and Global.level_data.level_id == "modders_devmap") then --cant use local enemy_name for the above since it causes problems
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = groupai:_get_special_unit_type_count("tank") --current active dozer count
 				local diff = groupai._difficulty_value
 
-				if spawn_limit <= current_active_count or diff < (groupai._tweak_data.scripted_dozer_min_diff or 1) then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+				if spawn_limit <= current_active_count or diff < (groupai._tweak_data.scripted_dozer_min_diff or 0) then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
 					local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 					local diff_index = tweak_data:difficulty_to_index(difficulty)
 					if diff_index < 4 then
