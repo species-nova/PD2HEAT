@@ -511,11 +511,16 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 	local auto_hit_candidate = not hit_enemy and self:check_autoaim(from_pos, direction)
 	if auto_hit_candidate then	
+		local line2 = Draw:brush(Color.green:with_alpha(0.5), 5)
+		line2:cylinder(from_pos, mvec_to, 1)
+	
 		mvector3.set(mvec_to, from_pos)
 		mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
 
 		ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 		mvector3.set(mvec_spread_direction, mvec_to)
+		local line = Draw:brush(Color.blue:with_alpha(0.5), 5)
+		line:cylinder(from_pos, mvec_to, 1)
 	end
 	
 	local hit_count = 0

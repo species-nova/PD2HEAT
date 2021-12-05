@@ -523,32 +523,9 @@ function WeaponTweakData:_init_stats()
 		end
 	end
 
-	self.stat_info.autohit_angle = 2
+	self.stat_info.autohit_angle = 2.5
 	self.stat_info.autohit_head_difficulty_factor = 0.75
 	self.stat_info.aim_assist_angle = 4
-	self.stat_info.autohit_prog_table = {}
-	local max_spread = self.stat_info.shotgun_spread_increase * (self.stat_info.base_spread + self.stat_info.base_move_spread + self.stat_info.base_bloom_spread)
-	local autohit_spread_increment = 0.24
-	for i = 0, max_spread / autohit_spread_increment do
-		table.insert(self.stat_info.autohit_prog_table, i + 1, math.pow(i * autohit_spread_increment + 1, 1/10)/(i * autohit_spread_increment + 1))
-	end
-	--Automatically interpolate between table values when an access occurs.
-	local autohit_prog_metatable = {
-		__index = function(t, k)
-			if not k then
-				return 0
-			elseif type(k) == "string" then
-				return rawget(t, tonumber(k))
-			else
-				local lerp_val = k / autohit_spread_increment
-				local low_index = tostring(math.clamp(math.floor(lerp_val), 1, #t - 1))
-				local high_index = tostring(math.clamp(math.ceil(lerp_val), 2, #t))
-				lerp_val = lerp_val - tonumber(low_index)
-				return math.lerp(t[low_index] or 0, t[high_index] or 0, lerp_val)
-			end
-		end
-	}
-	setmetatable(self.stat_info.autohit_prog_table, autohit_prog_metatable)
 end
 
 Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
@@ -2188,7 +2165,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.p90.fire_mode_data.fire_rate = 0.06666666666
 		self.p90.auto.fire_rate = 0.06666666666
 		self.p90.kick = self.stat_info.kick_tables.horizontal_recoil
-		self.p90.kick_pattern = self.stat_info.jumpy_3
+		self.p90.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.p90.supported = true
 		self.p90.stats = {
 			damage = 18,

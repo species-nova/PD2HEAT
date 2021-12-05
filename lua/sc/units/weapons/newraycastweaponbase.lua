@@ -24,7 +24,6 @@ function NewRaycastWeaponBase:init(...)
 		pitch_neg = 0,
 		pitch_pos = 0
 	}
-	self._stance_table = tweak_data.player.stances[self:get_stance_id()] or tweak_data.player.stances.default
 
 
 	for _, category in ipairs(self:categories()) do
@@ -716,12 +715,6 @@ function NewRaycastWeaponBase:vel_overshot_mul(move_state, alt_state)
 	self.vel_overshot.yaw_pos = vel_overshot
 	self.vel_overshot.pitch_neg = vel_overshot
 	self.vel_overshot.pitch_pos = -vel_overshot
-	
-	if not self._stance_table[alt_state] then
-		log("Unknown state: " .. alt_state)
-		return
-	end
-
-	self.vel_overshot.pivot = self._stance_table[alt_state].vel_overshot.pivot
+	self.vel_overshot.pivot = (tweak_data.player.stances.default[self:get_stance_id()] or tweak_data.player.stances.default.standard).vel_overshot.pivot
 	return self.vel_overshot
 end
