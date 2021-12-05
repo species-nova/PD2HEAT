@@ -964,10 +964,12 @@ function ElementSpawnEnemyDummy:produce(params)
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = managers.groupai:state():_get_special_unit_type_count("tank") --current active dozer count
-				local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
-				local diff_index = tweak_data:difficulty_to_index(difficulty)
+				local diff = managers.groupai:state()._difficulty_value
 				
-				if spawn_limit < current_active_count + 1 then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+
+				if spawn_limit <= current_active_count and diff > tweak_data.groupai.besiege.scripted_dozer_min_diff then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+					local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+					local diff_index = tweak_data:difficulty_to_index(difficulty)
 					if diff_index < 4 then
 						enemy_name = Idstring("units/payday2/characters/ene_tazer_1")
 					else
@@ -998,10 +1000,11 @@ function ElementSpawnEnemyDummy:produce(params)
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = managers.groupai:state():_get_special_unit_type_count("tank") --current active dozer count
-				local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
-				local diff_index = tweak_data:difficulty_to_index(difficulty)
-				
-				if spawn_limit < current_active_count + 1 then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+				local diff = managers.groupai:state()._difficulty_value
+
+				if spawn_limit <= current_active_count and diff > tweak_data.groupai.besiege.scripted_dozer_min_diff then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+					local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
+					local diff_index = tweak_data:difficulty_to_index(difficulty)
 					if diff_index < 4 then
 						enemy_name = Idstring("units/payday2/characters/ene_tazer_1")
 					else
