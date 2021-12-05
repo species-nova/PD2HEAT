@@ -818,7 +818,8 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 		end
 
 		if cat_data.special_type then --Determine if special unit is valid, or if spawning needs to be delayed.
-			remaining_special_pools[cat_data.special_type] = managers.job:current_spawn_limit(cat_data.special_type) - self:_get_special_unit_type_count(cat_data.special_type)
+			--Units marked with "ignore_spawn_cap" get an effectively uncapped special pool.
+			remaining_special_pools[cat_data.special_type] = cat_data.ignore_spawn_cap and 100 or managers.job:current_spawn_limit(cat_data.special_type) - self:_get_special_unit_type_count(cat_data.special_type)
 			if remaining_special_pools[cat_data.special_type] < (spawn_entry.amount_min or 0) then --If essential spawn would go above cap, then delay spawn group and return.
 				spawn_group.delay_t = self._t + 10
 				return
