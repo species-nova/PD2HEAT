@@ -2143,7 +2143,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 18,
 			spread = 14,
 			recoil = 17,
-			concealment = 18,
+			concealment = 17,
 			value = 1
 		}
 		self.coal.timers = {
