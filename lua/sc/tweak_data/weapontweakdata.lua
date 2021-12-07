@@ -2141,7 +2141,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.coal.supported = true
 		self.coal.stats = {
 			damage = 18,
-			spread = 15,
+			spread = 14,
 			recoil = 17,
 			concealment = 18,
 			value = 1
@@ -2191,7 +2191,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.p90.supported = true
 		self.p90.stats = {
 			damage = 18,
-			spread = 12,
+			spread = 11,
 			recoil = 15,
 			concealment = 17,
 			value = 1
