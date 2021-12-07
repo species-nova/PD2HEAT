@@ -466,7 +466,7 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 				skill_stats.reload.value = skill_stats.reload.value + diff
 				skill_stats.reload.skill_in_effect = skill_in_effect
 			elseif not stat.derived then
-				base_value = math.max(base_stats[stat.name].value + mods_stats[stat.name].value, 0)
+				base_value = base_stats[stat.name].value + mods_stats[stat.name].value
 				if base_stats[stat.name].index and mods_stats[stat.name].index then
 					base_index = base_stats[stat.name].index + mods_stats[stat.name].index
 				end
@@ -505,14 +505,14 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 				skill_multiplier = skill_multiplier + managers.player:upgrade_value("player", "silencer_swap_increase", 1) - 1
 			end
 
-			local multiplier = base_multiplier * skill_multiplier * tweak_data.weapon.stats.mobility[math.max(base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value, 0)]
+			local multiplier = base_multiplier * skill_multiplier * tweak_data.weapon.stats.mobility[base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value]
 			skill_value = ((tweak_data.weapon[name].timers.equip + tweak_data.weapon[name].timers.unequip) / multiplier) - base_stats.swap_speed.value - mods_stats.swap_speed.value
 		elseif stat.name == "range" then
 			local category_mul = get_range_mul(weapon_tweak)
 			if category_mul then
 				local falloff_info = tweak_data.weapon.stat_info.damage_falloff
 				local base_falloff = falloff_info.base
-				local acc_bonus = falloff_info.acc_bonus * math.max(base_stats.spread.value + mods_stats.spread.value + skill_stats.spread.value, 0)
+				local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mods_stats.spread.value + skill_stats.spread.value)
 				local range = (base_falloff + acc_bonus) * category_mul
 
 				if weapon_tweak.rays and weapon_tweak.rays > 1 and not (ammo_data.rays and ammo_data.rays == 1) then

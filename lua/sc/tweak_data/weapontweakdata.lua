@@ -14,6 +14,14 @@ function WeaponTweakData:_init_stats()
 	self.stats = {}
 	self.stat_info = {} --Certain custom RM stuff falls under this for compatibility reasons.
 
+	--Automatically clamps extreme values to the size of the table.
+	local stat_meta_table = {
+		__index = function(t, k)
+			if type(k) ~= "number" then return end
+			return rawget(t, math.min(math.max(k, 1), #t))
+		end
+	}
+
 	self.stats.alert_size = {
 		0, --Silenced
 		2500 --Unsilenced
@@ -23,16 +31,19 @@ function WeaponTweakData:_init_stats()
 	for i = 4.2, 0.199, -0.2 do --Middle value slightly off to avoid floating point shenanigans.
 		table.insert(self.stats.suppression, i)
 	end
+	setmetatable(self.stats.suppression, stat_meta_table)
 
 	self.stats.damage = {}
 	for i = 0.1, 40.01, 0.1 do
 		table.insert(self.stats.damage, i)
 	end
+	setmetatable(self.stats.damage, stat_meta_table)
 
 	self.stats.zoom = {}
 	for i = 1, 12.1, 0.1 do
 		table.insert(self.stats.zoom, 65 / i)
 	end
+	setmetatable(self.stats.zoom, stat_meta_table)
 
 	--ACCURACY
 		--All spread values are in terms of AREA, to prevent things from scaling exponentially due to the number of additive modifiers.
@@ -45,6 +56,7 @@ function WeaponTweakData:_init_stats()
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread, self.stat_info.base_spread + (i * self.stat_info.spread_per_accuracy))
 		end
+		setmetatable(self.stats.spread, stat_meta_table)
 
 		self.stat_info.damage_falloff = {
 			base = 1480,
@@ -71,6 +83,7 @@ function WeaponTweakData:_init_stats()
 		for i = 1, 21, 1 do
 			table.insert(self.stat_info.breathing_amplitude, self.stat_info.base_breathing_amplitude + ((i - 1) * self.stat_info.breathing_amplitude_per_accuracy))
 		end
+		setmetatable(self.stat_info.breathing_amplitude, stat_meta_table)
 
 	--MOBILITY
 		--Keep for legacy purposes, to allow for things to be displayed properly in certain areas without large refactors.
@@ -78,6 +91,7 @@ function WeaponTweakData:_init_stats()
 		for i = 1, 21, 1 do
 			table.insert(self.stats.concealment, i)
 		end
+		setmetatable(self.stats.concealment, stat_meta_table)
 
 		--Generate table for moving_spread and how it relates to mobility.
 		--The values in the table correspond to the area of spread.
@@ -88,6 +102,7 @@ function WeaponTweakData:_init_stats()
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
 		end
+		setmetatable(self.stats.spread_moving, stat_meta_table)
 
 		--Weapon swap speed multiplier from concealment.
 		--Values calculated using the inverse to ensure they scale linearly with swap *time*.
@@ -97,6 +112,7 @@ function WeaponTweakData:_init_stats()
 		for i = 20, 0, -1 do
 			table.insert(self.stats.mobility, 1 / math.lerp(self.stat_info.swap_speed_min_mul, self.stat_info.swap_speed_max_mul, i/25))
 		end
+		setmetatable(self.stats.mobility, stat_meta_table)
 
 		--Cosmetic camera movement.
 		self.stat_info.min_vel_overshot_mul = 12 --0 mobility should make the gun heavily lag behind camera movement.
@@ -114,6 +130,7 @@ function WeaponTweakData:_init_stats()
 		for i = 1, 21, 1 do
 			table.insert(self.stat_info.vel_overshot, self.stat_info.min_vel_overshot_mul + ((i - 1) * self.stat_info.vel_overshot_per_mobility))
 		end
+		setmetatable(self.stat_info.vel_overshot, stat_meta_table)
 
 	--STABILITY
 		self.stat_info.base_bloom_spread = 12 --Amount of spread each stack of bloom gives.
@@ -122,6 +139,7 @@ function WeaponTweakData:_init_stats()
 		for i = 0, 20, 1 do
 			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
 		end
+		setmetatable(self.stat_info.bloom_spread, stat_meta_table)
 
 		self.stat_info.bloom_data = {
 			decay_delay = 0.2, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before bloom starts to decay.
@@ -136,6 +154,7 @@ function WeaponTweakData:_init_stats()
 		for i = 0, 20, 1 do
 			table.insert(self.stats.recoil, self.stat_info.base_recoil_mult + (i * self.stat_info.recoil_per_stability))
 		end
+		setmetatable(self.stats.recoil, stat_meta_table)
 
 	--Multiplier for spread on multi-pellet shotguns. This compensates for linear spread scaling which would otherwise cripple their multikill potential.
 	self.stat_info.shotgun_spread_increase = 2.5
@@ -163,21 +182,25 @@ function WeaponTweakData:_init_stats()
 	for i = 1, 10.01, 1 do
 		table.insert(self.stats.value, i)
 	end
+	setmetatable(self.stats.value, stat_meta_table)
 
 	self.stats.extra_ammo = {}
 	for i = -100, 1500, 1 do
 		table.insert(self.stats.extra_ammo, clamp_near_zero(i))
 	end
+	setmetatable(self.stats.extra_ammo, stat_meta_table)
 
 	self.stats.total_ammo_mod = {}
 		for i = -0.99, 1.155, 0.01 do
 		table.insert(self.stats.total_ammo_mod, clamp_near_zero(i))
 	end
+	setmetatable(self.stats.total_ammo_mod, stat_meta_table)
 
 	self.stats.reload = {}
 	for i = 0.05, 2.01, 0.05 do
 		table.insert(self.stats.reload, clamp_near_zero(i - 1) + 1)
 	end
+	setmetatable(self.stats.reload, stat_meta_table)
 
 	--Different recoil tables.
 	--With the exception of the none table, all of them average out to '0.85'
@@ -523,7 +546,7 @@ function WeaponTweakData:_init_stats()
 		end
 	end
 
-	self.stat_info.autohit_angle = 2.5
+	self.stat_info.autohit_angle = 2
 	self.stat_info.autohit_head_difficulty_factor = 0.75
 	self.stat_info.aim_assist_angle = 4
 end
@@ -2111,7 +2134,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Tatonka
 		self.coal.use_data.selection_index = 2
 		self.coal.CLIP_AMMO_MAX = 64
-		self.coal.fire_mode_data.fire_rate = 0.08823529411
+		self.coal.fire_mode_data.fire_rate = 0.08823529411 --680 rpm
 		self.coal.auto.fire_rate = 0.08823529411
 		self.coal.kick = self.stat_info.kick_tables.horizontal_right_recoil
 		self.coal.kick_pattern = self.stat_info.kick_patterns.zigzag_2
@@ -2137,7 +2160,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--PDW Smg (Secondary)
 		--CMP
 		self.mp9.CLIP_AMMO_MAX = 20
-		self.mp9.auto.fire_rate = 0.0545454545454
+		self.mp9.auto.fire_rate = 0.0545454545454 --1100 rpm
 		self.mp9.fire_mode_data.fire_rate = 0.0545454545454
 		self.mp9.kick = self.stat_info.kick_tables.even_recoil
 		self.mp9.kick_pattern = self.stat_info.kick_patterns.random
@@ -2162,7 +2185,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 		--Kobus 90
 		self.p90.AMMO_MAX = 100
-		self.p90.fire_mode_data.fire_rate = 0.06666666666
+		self.p90.fire_mode_data.fire_rate = 0.06666666666 --900 rpm
 		self.p90.auto.fire_rate = 0.06666666666
 		self.p90.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.p90.kick_pattern = self.stat_info.kick_patterns.jumpy_3
@@ -2184,6 +2207,57 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.68,
 			equip = 0.65
 		}
+
+	--Light SMG (Primary)
+		--Miyaka 10 Special
+		self.pm9.use_data.selection_index = 2
+		self.pm9.fire_mode_data.fire_rate = 0.05454545454 --1100 rpm
+		self.pm9.auto.fire_rate = 0.05454545454
+		self.pm9.kick = self.stat_info.kick_tables.even_recoil
+		self.pm9.kick_pattern = self.stat_info.kick_patterns.random
+		self.pm9.supported = true
+		self.pm9.stats = {
+			damage = 20,
+			spread = 10,
+			recoil = 14,
+			concealment = 19,
+			value = 1
+		}
+		self.pm9.timers = {
+			reload_not_empty = 2.3,
+			reload_empty = 3,
+			reload_operational = 1.85,
+			empty_reload_operational = 2.6,
+			reload_interrupt = 0.63,
+			empty_reload_interrupt = 0.63,
+			unequip = 0.7,
+			equip = 0.5
+		}
+
+		--Singature SMG
+		self.shepheard.use_data.selection_index = 2
+		self.shepheard.fire_rate_multiplier = 1.13334 --850 rpm
+		self.shepheard.kick = self.stat_info.kick_tables.even_recoil
+		self.shepheard.kick_pattern = self.stat_info.zigzag_1
+		self.shepheard.supported = true
+		self.shepheard.stats = {
+			damage = 20,
+			spread = 15,
+			recoil = 18,
+			concealment = 17,
+			value = 1
+		}
+		self.shepheard.timers = {
+			reload_not_empty = 2.65,
+			reload_empty = 3.4,
+			reload_operational = 2.02,
+			empty_reload_operational = 2.7,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.6,
+			equip = 0.5
+		}
+		self.shepheard.reload_speed_multiplier = 1.13333 --2.3/3s
 
 
 	--Chimano 88
@@ -4712,31 +4786,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.system.stats_modifiers = nil
 
-	--Singature SMG
-	--HOW MANY SIGNATURES DOES THIS GAME HAVE AAAAAAAAAAAAAAAAAAAAAA
-	self.shepheard.use_data.selection_index = 2
-	self.shepheard.CLIP_AMMO_MAX = 30
-	self.shepheard.fire_mode_data.fire_rate = 0.07058823529
-	self.shepheard.auto.fire_rate = 0.07058823529
-	self.shepheard.kick = self.stat_info.kick_tables.even_recoil
-	self.shepheard.AMMO_MAX = 180
-	self.shepheard.supported = false
-	self.shepheard.stats = {
-		damage = 20,
-		spread = 15,
-		recoil = 22,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 28,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.shepheard.stats_modifiers = nil
-
 	--DECA Technologies Compound Bow
 	self.elastic.upgrade_blocks = {
 		weapon = {
@@ -5155,31 +5204,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.vityaz.stats_modifiers = nil
-
-	--Miyaka 10
-	--Moved to Primary slot
-	self.pm9.use_data.selection_index = 2
-	self.pm9.CLIP_AMMO_MAX = 25
-	self.pm9.AMMO_MAX = 180
-	self.pm9.fire_mode_data.fire_rate = 0.05454545454
-	self.pm9.auto.fire_rate = 0.05454545454
-	self.pm9.kick = self.stat_info.kick_tables.even_recoil
-	self.pm9.supported = false
-	self.pm9.stats = {
-		damage = 20,
-		spread = 16,
-		recoil = 18,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 29,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.pm9.stats_modifiers = nil
 
 	--Restoration Weapons--
 
