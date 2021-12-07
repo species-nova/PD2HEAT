@@ -546,7 +546,7 @@ function WeaponTweakData:_init_stats()
 		end
 	end
 
-	self.stat_info.autohit_angle = 2
+	self.stat_info.autohit_angle = 1.5
 	self.stat_info.autohit_head_difficulty_factor = 0.75
 	self.stat_info.aim_assist_angle = 4
 end
@@ -2184,7 +2184,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 
 		--Kobus 90
-		self.p90.AMMO_MAX = 100
 		self.p90.fire_mode_data.fire_rate = 0.06666666666 --900 rpm
 		self.p90.auto.fire_rate = 0.06666666666
 		self.p90.kick = self.stat_info.kick_tables.horizontal_recoil
