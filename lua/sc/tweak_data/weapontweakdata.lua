@@ -2168,8 +2168,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.mp9.stats = {
 			damage = 18,
 			spread = 14,
-			recoil = 13,
-			concealment = 21,
+			recoil = 16,
+			concealment = 19,
 			value = 1
 		}
 		self.mp9.timers = {
@@ -2182,6 +2182,31 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.4
 		}
+
+		--Heather
+		self.sr2.fire_rate_multiplier = 1.2666667 --950 rpm
+		self.sr2.CLIP_AMMO_MAX = 30
+		self.sr2.kick = self.stat_info.kick_tables.left_recoil
+		self.sr2.kick_pattern = self.stat_info.kick_patterns.random
+		self.sr2.supported = true
+		self.sr2.stats = {
+			damage = 18,
+			spread = 15,
+			recoil = 14,
+			concealment = 18,
+			value = 1
+		}
+		self.sr2.timers = {
+			reload_not_empty = 2.7,
+			reload_empty = 4.7,
+			reload_operational = 2,
+			empty_reload_operational = 3.9,
+			reload_interrupt = 0.58,
+			empty_reload_interrupt = 0.58,
+			unequip = 0.55,
+			equip = 0.5
+		}
+		self.sr2.reload_speed_multiplier = 1.24 --2.2/3.8s
 
 		--Kobus 90
 		self.p90.fire_mode_data.fire_rate = 0.06666666666 --900 rpm
@@ -2217,9 +2242,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.pm9.supported = true
 		self.pm9.stats = {
 			damage = 20,
-			spread = 11,
+			spread = 12,
 			recoil = 14,
-			concealment = 19,
+			concealment = 18,
 			value = 1
 		}
 		self.pm9.timers = {
@@ -2257,6 +2282,108 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.5
 		}
 		self.shepheard.reload_speed_multiplier = 1.13333 --2.3/3s
+
+	--Light SMG (Secondary)
+		--Mark-10
+		self.mac10.CLIP_AMMO_MAX = 20
+		self.mac10.kick = self.stat_info.kick_tables.even_recoil
+		self.mac10.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.mac10.supported = true
+		self.mac10.stats = {
+			damage = 20,
+			spread = 14,
+			recoil = 14,
+			concealment = 18,
+			value = 1
+		}
+		self.mac10.timers = {
+			reload_not_empty = 2.2,
+			reload_empty = 3,
+			reload_operational = 1.55,
+			empty_reload_operational = 2.25,
+			reload_interrupt = 0.48,
+			empty_reload_interrupt = 0.48,
+			unequip = 0.5,
+			equip = 0.5
+		}
+		self.mac10.reload_speed_multiplier = 1.11111 --2/2.7s
+
+		--Jacket's Piece
+		self.cobray.timers.reload_not_empty = 2
+		self.cobray.timers.reload_empty = 4.25
+		self.cobray.CLIP_AMMO_MAX = 30
+		self.cobray.kick = self.stat_info.kick_tables.even_recoil
+		self.cobray.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.cobray.auto.fire_rate = 0.06
+		self.cobray.fire_mode_data.fire_rate = 0.06
+		self.cobray.supported = true
+		self.cobray.stats = {
+			damage = 20,
+			spread = 14,
+			recoil = 14,
+			concealment = 16,
+			value = 1
+		}
+		self.cobray.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 4.9,
+			reload_operational = 1.95,
+			empty_reload_operational = 4.25,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.55,
+			equip = 0.5
+		}
+
+		--Compact-5
+		self.new_mp5.fire_rate_multiplier = 1.0666667 --800 rpm
+		self.new_mp5.BURST_FIRE = 3
+		self.new_mp5.ADAPTIVE_BURST_SIZE = false
+		self.new_mp5.kick = self.stat_info.kick_tables.right_recoil
+		self.new_mp5.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.new_mp5.supported = true
+		self.new_mp5.stats = {
+			damage = 20,
+			spread = 16,
+			recoil = 15,
+			concealment = 16,
+			value = 1
+		}
+		self.new_mp5.timers = {
+			reload_not_empty = 3,
+			reload_empty = 4.1,
+			reload_operational = 2.4,
+			empty_reload_operational = 3.5,
+			reload_interrupt = 0.68,
+			empty_reload_interrupt = 1.36,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.new_mp5.reload_speed_multiplier = 1.2 --2.5/3.4s
+
+		--Cobra
+		self.scorpion.fire_rate_multiplier = 0.85 --1000 rpm
+		self.scorpion.kick = self.stat_info.kick_tables.even_recoil
+		self.scorpion.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.scorpion.supported = true
+		self.scorpion.stats = {
+			damage = 20,
+			spread = 12,
+			recoil = 18,
+			concealment = 20,
+			value = 7
+		}
+		self.scorpion.timers  = {
+			reload_not_empty = 2.4,
+			reload_empty = 3.2,
+			reload_operational = 1.95,
+			empty_reload_operational = 2.7,
+			reload_interrupt = 0.48,
+			empty_reload_interrupt = 0.48,
+			unequip = 0.7,
+			equip = 0.5
+		}
+		self.scorpion.reload_speed_multiplier = 1.07 --2.2/3s
 
 
 	--Chimano 88
@@ -2384,30 +2511,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.deagle.timers.reload_interrupt = 0.32
 	self.deagle.timers.empty_reload_interrupt = 0.2
 
-	--Compact-5
-	self.new_mp5.fire_mode_data.fire_rate = 0.075
-	self.new_mp5.auto.fire_rate = 0.075
-	self.new_mp5.BURST_FIRE = 3
-	self.new_mp5.ADAPTIVE_BURST_SIZE = false
-	self.new_mp5.kick = self.stat_info.kick_tables.even_recoil
-	self.new_mp5.AMMO_MAX = 90
-	self.new_mp5.supported = false
-	self.new_mp5.stats = {
-		damage = 20,
-		spread = 17,
-		recoil = 23,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 28,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.new_mp5.stats_modifiers = nil
-
 	--Crosskill
 	self.colt_1911.fire_mode_data.fire_rate = 0.08571428571
 	self.colt_1911.single.fire_rate = 0.08571428571
@@ -2432,29 +2535,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.colt_1911.stats_modifiers = nil
 	self.colt_1911.timers.reload_interrupt = 0.36
 	self.colt_1911.timers.empty_reload_interrupt = 0.25
-
-	--MAC-10
-	self.mac10.CLIP_AMMO_MAX = 20
-	self.mac10.fire_mode_data.fire_rate = 0.06
-	self.mac10.auto.fire_rate = 0.06
-	self.mac10.kick = self.stat_info.kick_tables.even_recoil
-	self.mac10.supported = false
-	self.mac10.stats = {
-		damage = 30,
-		spread = 15,
-		recoil = 17,
-		zoom = 1,
-		concealment = 17,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.mac10.stats_modifiers = nil
-	self.mac10.timers.reload_not_empty = 1.55
-	self.mac10.timers.reload_empty = 2.4
 
 	--Loco 12g
 	self.serbu.rays = 9
@@ -2916,35 +2996,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.gre_m79.stats_modifiers = {damage = 10}
 
-	--Cobra
-	self.scorpion.AMMO_MAX = 90
-	self.scorpion.FIRE_MODE = "auto"
-	self.scorpion.fire_mode_data = {}
-	self.scorpion.fire_mode_data.fire_rate = 0.07058823529
-	self.scorpion.CAN_TOGGLE_FIREMODE = true
-	self.scorpion.auto = {}
-	self.scorpion.auto.fire_rate = 0.07058823529
-	self.scorpion.kick = self.stat_info.kick_tables.even_recoil
-	self.scorpion.supported = false
-	self.scorpion.stats = {
-		damage = 20,
-		spread = 16,
-		recoil = 22,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 29,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 7,
-		reload = 20
-	}
-	self.scorpion.stats_modifiers = nil
-	self.scorpion.timers.reload_not_empty = 1.95
-	self.scorpion.swap_speed_multiplier = 1.1
-	self.scorpion.reload_speed_multiplier = 1.1
-
 	--Blaster 9mm
 	self.tec9.AMMO_MAX = 75
 	self.tec9.CLIP_AMMO_MAX = 20
@@ -3334,34 +3385,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.rpg7.swap_speed_multiplier = 1.25
 	self.rpg7.reload_speed_multiplier = 1.1
 	self.rpg7.turret_instakill = true
-
-	--Jacket's Piece
-	self.cobray.timers.reload_not_empty = 2
-	self.cobray.timers.reload_empty = 4.25
-	self.cobray.CLIP_AMMO_MAX = 30
-	self.cobray.NR_CLIPS_MAX = 4
-	self.cobray.AMMO_MAX = 60
-	self.cobray.kick = self.stat_info.kick_tables.even_recoil
-	self.cobray.fire_mode_data.fire_rate = 0.06
-	self.cobray.CAN_TOGGLE_FIREMODE = true
-	self.cobray.auto = {}
-	self.cobray.auto.fire_rate = 0.06
-	self.cobray.supported = false
-	self.cobray.stats = {
-		damage = 30,
-		spread = 17,
-		recoil = 17,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 22,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.cobray.stats_modifiers = nil
 
 	--Joceline O/U 12G
 	self.b682.rays = 9
@@ -3950,31 +3973,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.china.stats_modifiers = {damage = 10}
 	self.china.timers.shotgun_reload_first_shell_offset = 0.5
-
-	--Heather
-	self.sr2.auto.fire_rate = 0.06666666666
-	self.sr2.fire_mode_data.fire_rate = 0.06666666666
-	self.sr2.CLIP_AMMO_MAX = 30
-	self.sr2.AMMO_MAX = 90
-	self.sr2.kick = {}
-	self.sr2.kick = self.stat_info.kick_tables.even_recoil
-	self.sr2.supported = false
-	self.sr2.stats = {
-		damage = 20,
-		spread = 16,
-		recoil = 21,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 29,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.sr2.stats_modifiers = nil
-	self.sr2.timers.reload_not_empty = 2
 
 	--Akimbo Heather
 	self.x_sr2.fire_mode_data.fire_rate = 0.06666666666
