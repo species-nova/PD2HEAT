@@ -2320,7 +2320,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.cobray.stats = {
 			damage = 20,
 			spread = 14,
-			recoil = 14,
+			recoil = 13,
 			concealment = 16,
 			value = 1
 		}
