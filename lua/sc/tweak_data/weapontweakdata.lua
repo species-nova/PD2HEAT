@@ -1644,9 +1644,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.m249.supported = true
 		self.m249.stats = {
 			damage = 24,
-			spread = 13,
+			spread = 10,
 			recoil = 20,
-			concealment = 3,
+			concealment = 6,
 			value = 9
 		}
 		self.m249.timers = {
@@ -1797,9 +1797,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.par.supported = true
 		self.par.stats = {
 			damage = 30,
-			spread = 12,
+			spread = 9,
 			recoil = 18,
-			concealment = 3,
+			concealment = 6,
 			value = 9,
 			reload = 20
 		}
