@@ -2383,8 +2383,85 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.7,
 			equip = 0.5
 		}
-		self.scorpion.reload_speed_multiplier = 1.07 --2.2/3s
 
+	--Medium SMG (Primary)
+		--AK GEN 21 Tactical
+		self.vityaz.tactical_reload = 1
+		self.vityaz.use_data.selection_index = 2
+		self.vityaz.kick = self.stat_info.kick_tables.right_recoil
+		self.vityaz.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.vityaz.supported = true
+		self.vityaz.stats = {
+			damage = 24,
+			spread = 15,
+			recoil = 14,
+			concealment = 17,
+			value = 5
+		}
+		self.vityaz.timers = {
+			reload_not_empty = 2.75,
+			reload_empty = 3.85,
+			reload_operational = 2.05,
+			empty_reload_operational = 3.08,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.6,
+			equip = 0.45
+		}
+		self.vityaz.reload_speed_multiplier = 1.15 --2.4/3.4s
+		self.vityaz.fire_rate_multiplier = 1.0666667 --800rpm
+
+		--Chicago Typewriter
+		self.m1928.use_data.selection_index = 2
+		self.m1928.fire_rate_multiplier = 0.968188 --700 rpm
+		self.m1928.CLIP_AMMO_MAX = 50
+		self.m1928.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.m1928.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.m1928.supported = true
+		self.m1928.stats = {
+			damage = 24,
+			spread = 10,
+			recoil = 18,
+			concealment = 15,
+			value = 9
+		}
+		self.m1928.timers = {
+			reload_not_empty = 4.4,
+			reload_empty = 5.3,
+			reload_operational = 3.3,
+			empty_reload_operational = 4.3,
+			reload_interrupt = 1.04,
+			empty_reload_interrupt = 1.04,
+			unequip = 0.6,
+			equip = 1
+		}
+		self.m1928.reload_speed_multiplier = 1.13 --3.9/4.7s
+
+		--Mp40
+		self.erma.use_data.selection_index = 2
+		self.erma.CLIP_AMMO_MAX = 32
+		self.erma.fire_mode_data.fire_rate = 0.10909090909
+		self.erma.auto.fire_rate = 0.10909090909
+		self.erma.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.erma.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.erma.supported = true
+		self.erma.stats = {
+			damage = 24,
+			spread = 14,
+			recoil = 17,
+			concealment = 18,
+			value = 5
+		}
+		self.erma.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 3.65,
+			reload_operational = 1.85,
+			empty_reload_operational = 3.05,
+			reload_interrupt = 0.17,
+			empty_reload_interrupt = 0.17,
+			unequip = 0.5,
+			equip = 0.6
+		}
 
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
@@ -3264,33 +3341,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.sterling.stats_modifiers = nil
-
-	--chicago typewriter
-	self.m1928.use_data.selection_index = 1
-	self.m1928.fire_mode_data.fire_rate = 0.075
-	self.m1928.CAN_TOGGLE_FIREMODE = true
-	self.m1928.auto = {}
-	self.m1928.auto.fire_rate = 0.075
-	self.m1928.CLIP_AMMO_MAX = 50
-	self.m1928.AMMO_MAX = 75
-	self.m1928.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.m1928.supported = false
-	self.m1928.stats = {
-		damage = 24,
-		spread = 14,
-		recoil = 22,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 22,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.m1928.stats_modifiers = nil
-	self.m1928.timers.reload_not_empty = 3.3
 
 	--Leo
 	self.hs2000.CLIP_AMMO_MAX = 14
@@ -4378,32 +4428,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.breech.timers.reload_interrupt = 0.16
 	self.breech.timers.empty_reload_interrupt = 0.11
 
-	--Mp40
-	self.erma.use_data.selection_index = 2
-	self.erma.CLIP_AMMO_MAX = 32
-	self.erma.BURST_FIRE = false
-	self.erma.AMMO_MAX = 150
-	self.erma.fire_mode_data.fire_rate = 0.10909090909
-	self.erma.auto.fire_rate = 0.10909090909
-	self.erma.CAN_TOGGLE_FIREMODE = true
-	self.erma.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.erma.supported = false
-	self.erma.stats = {
-		damage = 24,
-		spread = 16,
-		recoil = 25,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 5,
-		reload = 20
-	}
-	self.erma.stats_modifiers = nil
-
 	--Airbow
 	self.ecp.upgrade_blocks = {
 		weapon = {
@@ -5177,30 +5201,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.m590.stats_modifiers = nil
-
-	--AK GEN 21 Tactical
-	self.vityaz.tactical_reload = 1
-	self.vityaz.use_data.selection_index = 2
-	self.vityaz.BURST_FIRE = false
-	self.vityaz.AMMO_MAX = 150
-	self.vityaz.CAN_TOGGLE_FIREMODE = true
-	self.vityaz.kick = self.stat_info.kick_tables.right_recoil
-	self.vityaz.supported = false
-	self.vityaz.stats = {
-		damage = 24,
-		spread = 15,
-		recoil = 23,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 5,
-		reload = 20
-	}
-	self.vityaz.stats_modifiers = nil
 
 	--Restoration Weapons--
 
