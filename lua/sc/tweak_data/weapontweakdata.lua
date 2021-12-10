@@ -2447,7 +2447,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.erma.supported = true
 		self.erma.stats = {
 			damage = 24,
-			spread = 14,
+			spread = 15,
 			recoil = 17,
 			concealment = 18,
 			value = 5
