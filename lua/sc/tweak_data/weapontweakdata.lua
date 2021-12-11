@@ -50,8 +50,8 @@ function WeaponTweakData:_init_stats()
 		--Generic spread, applied at all times.
 		--Keep this between 0.5x-1x the other stats to ensure that accuracy min/maxxed guns have the lowest *overall* spread; but worse spread than guns specialized in moving or spraying.
 			--Currently, other stats provide up to -8 spread in their respective areas, whereas this provides -6. So investing elsewhere will reduce spread more situationally, but this will reduce it more overall.
-		self.stat_info.base_spread = 8
-		self.stat_info.spread_per_accuracy = -0.4
+		self.stat_info.base_spread = 7.5
+		self.stat_info.spread_per_accuracy = -0.375
 		self.stats.spread = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread, self.stat_info.base_spread + (i * self.stat_info.spread_per_accuracy))
@@ -96,8 +96,8 @@ function WeaponTweakData:_init_stats()
 		--Generate table for moving_spread and how it relates to mobility.
 		--The values in the table correspond to the area of spread.
 		--These are added to the area for accuracy while moving before determining the final angles.
-		self.stat_info.base_move_spread = 12
-		self.stat_info.spread_per_mobility = -0.6
+		self.stat_info.base_move_spread = 10
+		self.stat_info.spread_per_mobility = -0.5
 		self.stats.spread_moving = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread_moving, self.stat_info.base_move_spread + (i * self.stat_info.spread_per_mobility))
@@ -133,8 +133,8 @@ function WeaponTweakData:_init_stats()
 		setmetatable(self.stat_info.vel_overshot, stat_meta_table)
 
 	--STABILITY
-		self.stat_info.base_bloom_spread = 12 --Amount of spread each stack of bloom gives.
-		self.stat_info.spread_per_stability = -0.6 --Amount bloom spread is reduced by stability.
+		self.stat_info.base_bloom_spread = 10 --Amount of spread each stack of bloom gives.
+		self.stat_info.spread_per_stability = -0.5 --Amount bloom spread is reduced by stability.
 		self.stat_info.bloom_spread = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
@@ -2463,6 +2463,206 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 
+	--Medium SMG (Secondary)
+		--Spec Ops
+		self.mp7.fire_mode_data.fire_rate = 0.06315789473
+		self.mp7.auto.fire_rate = 0.06315789473
+		self.mp7.kick = self.stat_info.kick_tables.left_recoil
+		self.mp7.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.mp7.supported = true
+		self.mp7.stats = {
+			damage = 24,
+			spread = 12,
+			recoil = 13,
+			concealment = 18,
+			value = 7
+		}
+		self.mp7.timers = {
+			reload_not_empty = 2.4,
+			reload_empty = 3,
+			reload_operational = 1.75,
+			empty_reload_operational = 2.25,
+			reload_interrupt = 0.41,
+			empty_reload_interrupt = 0.41,
+			unequip = 0.6,
+			equip = 0.5
+		}
+
+		--Blaster
+		self.tec9.CLIP_AMMO_MAX = 20
+		self.tec9.fire_rate_multiplier = 1.11666667 --1000 rpm.
+		self.tec9.CAN_TOGGLE_FIREMODE = false
+		self.tec9.kick = self.stat_info.kick_tables.even_recoil
+		self.tec9.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.tec9.supported = true
+		self.tec9.stats = {
+			damage = 24,
+			spread = 11,
+			recoil = 15,
+			concealment = 17,
+			value = 7
+		}
+		self.tec9.timers = {
+			reload_not_empty = 2.8,
+			reload_empty = 4.2,
+			reload_operational = 2.315,
+			empty_reload_operational = 3.28,
+			reload_interrupt = 0.82,
+			empty_reload_interrupt = 0.82,
+			unequip = 0.6,
+			equip = 0.5
+		}
+
+		--Patchett
+		self.sterling.CLIP_AMMO_MAX = 20
+		self.sterling.fire_mode_data.fire_rate = 0.10909090909
+		self.sterling.auto.fire_rate = 0.10909090909
+		self.sterling.kick = self.stat_info.kick_tables.left_recoil 
+		self.sterling.kick_pattern = self.stat_info.kick_patterns.zigzag_3
+		self.sterling.supported = true
+		self.sterling.stats = {
+			damage = 24,
+			spread = 18,
+			recoil = 16,
+			concealment = 17,
+			value = 7
+		}
+		self.sterling.timers = {
+			reload_not_empty = 2.9,
+			reload_empty = 3.8,
+			reload_operational = 2.3,
+			empty_reload_operational = 3.3,
+			reload_interrupt = 0.68,
+			empty_reload_interrupt = 0.68,
+			unequip = 0.55,
+			equip = 0.65
+		}
+		self.sterling.reload_speed_multiplier = 1.1 --2.6/3.5s
+
+	--Heavy SMG (Primary)
+		--Jackal
+		self.schakal.use_data.selection_index = 2
+		self.schakal.fire_rate_multiplier = 0.92 --600 rpm
+		self.schakal.CLIP_AMMO_MAX = 25
+		self.schakal.BURST_FIRE = 3
+		self.schakal.ADAPTIVE_BURST_SIZE = false
+		self.schakal.kick = self.stat_info.kick_tables.even_recoil
+		self.schakal.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.schakal.supported = true
+		self.schakal.stats = {
+			damage = 30,
+			spread = 14,
+			recoil = 15,
+			concealment = 16,
+			value = 1
+		}
+		self.schakal.timers = {
+			reload_not_empty = 2.9,
+			reload_empty = 4,
+			reload_operational = 2.36,
+			empty_reload_operational = 3.6,
+			reload_interrupt = 0.62,
+			empty_reload_interrupt = 0.62,
+			unequip = 0.6,
+			equip = 0.5
+		} 
+
+		--Kross Vertex
+		self.polymer.use_data.selection_index = 2
+		self.polymer.BURST_FIRE = 3
+		self.polymer.ADAPTIVE_BURST_SIZE = false
+		self.polymer.kick = self.stat_info.kick_tables.even_recoil
+		self.polymer.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.polymer.supported = true
+		self.polymer.stats = {
+			damage = 30,
+			spread = 8,
+			recoil = 15,
+			concealment = 16,
+			value = 1
+		}
+		self.polymer.timers = {
+			reload_not_empty = 2.6,
+			reload_empty = 3.1,
+			reload_operational = 2,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.58,
+			empty_reload_interrupt = 0.58,
+			unequip = 0.6,
+			equip = 0.5
+		}
+
+	--Heavy SMG (Secondary)
+		--Swedish K
+		self.m45.CLIP_AMMO_MAX = 30
+		self.m45.kick = self.stat_info.kick_tables.left_recoil
+		self.m45.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.m45.supported = true
+		self.m45.stats = {
+			damage = 30,
+			spread = 14,
+			recoil = 15,
+			concealment = 15,
+			value = 5
+		}
+		self.m45.timers = {
+			reload_not_empty = 3.4,
+			reload_empty = 4.5,
+			reload_operational = 2.6,
+			empty_reload_operational = 3.7,
+			reload_interrupt = 0.56,
+			empty_reload_interrupt = 0.56,
+			unequip = 0.5,
+			equip = 0.6
+		}
+		self.m45.reload_speed_multiplier = 1.125 --3/4s
+
+		--Micro Uzi
+		self.baka.kick = self.stat_info.kick_tables.left_recoil
+		self.baka.kick_pattern = self.stat_info.kick_patterns.random
+		self.baka.supported = true
+		self.baka.stats = {
+			damage = 30,
+			spread = 6,
+			recoil = 13,
+			concealment = 19,
+			value = 1
+		}
+		self.baka.timers = {
+			reload_not_empty = 2.4,
+			reload_empty = 3.1,
+			reload_operational = 1.85,
+			empty_reload_operational = 2.55,
+			reload_interrupt = 0.66,
+			empty_reload_interrupt = 0.66,
+			unequip = 0.7,
+			equip = 0.5
+		}
+
+		--Uzi
+		self.uzi.CLIP_AMMO_MAX = 22
+		self.uzi.fire_rate_multiplier = 0.86 --600 rpm
+		self.uzi.kick = self.stat_info.kick_tables.even_recoil
+		self.uzi.kick_pattern = self.stat_info.kick_patterns.random
+		self.uzi.supported = true
+		self.uzi.stats = {
+			damage = 30,
+			spread = 14,
+			recoil = 17,
+			concealment = 17,
+			value = 7
+		}
+		self.uzi.timers = {
+			reload_not_empty = 3.1,
+			reload_empty = 4.1,
+			reload_operational = 2.4,
+			empty_reload_operational = 3.4,
+			reload_interrupt = 0.57,
+			empty_reload_interrupt = 0.57,
+			unequip = 0.55,
+			equip = 0.6
+		}
+
 	--Chimano 88
 	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
 	self.glock_17.fire_mode_data.fire_rate = 0.11009174311
@@ -2864,29 +3064,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.judge.timers.reload_interrupt = 0.12
 	self.judge.timers.empty_reload_interrupt = 0.12
 
-	--Swedish K
-	self.m45.CLIP_AMMO_MAX = 30
-	self.m45.AMMO_MAX = 75
-	self.m45.kick = self.stat_info.kick_tables.even_recoil
-	self.m45.supported = false
-	self.m45.stats = {
-		damage = 24,
-		spread = 15,
-		recoil = 23,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 25,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 5,
-		reload = 20
-	}
-	self.m45.stats_modifiers = nil
-	self.m45.timers.reload_not_empty = 2.8
-	self.m45.timers.reload_empty = 3.8
-
 	--Gruber Kurz
 	self.ppk.AMMO_MAX = 90
 	self.ppk.CLIP_AMMO_MAX = 12
@@ -2913,33 +3090,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ppk.timers.reload_empty = 2.2
 	self.ppk.timers.reload_interrupt = 0.36
 	self.ppk.timers.empty_reload_interrupt = 0.25
-
-	--Spec Ops
-	self.mp7.desc_id = "bm_ap_weapon_sc_desc"
-	self.mp7.AMMO_MAX = 75
-	self.mp7.fire_mode_data.fire_rate = 0.06315789473
-	self.mp7.CAN_TOGGLE_FIREMODE = true
-	self.mp7.auto = {}
-	self.mp7.auto.fire_rate = 0.06315789473
-	self.mp7.kick = self.stat_info.kick_tables.even_recoil
-	self.mp7.supported = false
-	self.mp7.stats = {
-		damage = 24,
-		spread = 14,
-		recoil = 19,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 7,
-		reload = 20
-	}
-	self.mp7.stats_modifiers = nil
-	self.mp7.timers.reload_not_empty = 1.75
-	self.mp7.timers.reload_empty = 2.4
 
 	--Signature .40
 	self.p226.AMMO_MAX = 75
@@ -3072,62 +3222,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.gre_m79.stats_modifiers = {damage = 10}
-
-	--Blaster 9mm
-	self.tec9.AMMO_MAX = 75
-	self.tec9.CLIP_AMMO_MAX = 20
-	self.tec9.FIRE_MODE = "auto"
-	self.tec9.fire_mode_data = {}
-	self.tec9.fire_mode_data.fire_rate = 0.06
-	self.tec9.CAN_TOGGLE_FIREMODE = true
-	self.tec9.auto = {}
-	self.tec9.auto.fire_rate = 0.06
-	self.tec9.kick = self.stat_info.kick_tables.left_recoil
-	self.tec9.supported = false
-	self.tec9.stats = {
-		damage = 24,
-		spread = 16,
-		recoil = 18,
-		spread_moving = 10,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 7,
-		reload = 20
-	}
-	self.tec9.stats_modifiers = nil
-
-	--Uzi
-	self.uzi.AMMO_MAX = 60
-	self.uzi.CLIP_AMMO_MAX = 22
-	self.uzi.FIRE_MODE = "auto"
-	self.uzi.fire_mode_data = {}
-	self.uzi.fire_mode_data.fire_rate = 0.1
-	self.uzi.CAN_TOGGLE_FIREMODE = true
-	self.uzi.auto = {}
-	self.uzi.auto.fire_rate = 0.1
-	self.uzi.kick = self.stat_info.kick_tables.even_recoil
-	self.uzi.supported = false
-	self.uzi.stats = {
-		damage = 30,
-		spread = 15,
-		recoil = 23,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 25,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 7,
-		reload = 20
-	}
-	self.uzi.stats_modifiers = nil
-	self.uzi.timers.reload_not_empty = 2.40
-	self.uzi.timers.reload_empty = 3.6
 
 	--Akimbo Chimano Compact
 	self.jowi.kick = self.stat_info.kick_tables.even_recoil
@@ -3316,31 +3410,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.c96.timers.reload_not_empty = 3.7
 	self.c96.timers.reload_interrupt = 0.3
 	self.c96.timers.empty_reload_interrupt = 0.3
-
-	--Patchett
-	self.sterling.CLIP_AMMO_MAX = 20
-	self.sterling.AMMO_MAX = 75
-	self.sterling.fire_mode_data.fire_rate = 0.10909090909
-	self.sterling.CAN_TOGGLE_FIREMODE = true
-	self.sterling.auto = {}
-	self.sterling.auto.fire_rate = 0.10909090909
-	self.sterling.kick = self.stat_info.kick_tables.right_recoil
-	self.sterling.supported = false
-	self.sterling.stats = {
-		damage = 24,
-		spread = 16,
-		recoil = 24,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 7,
-		reload = 20
-	}
-	self.sterling.stats_modifiers = nil
 
 	--Leo
 	self.hs2000.CLIP_AMMO_MAX = 14
@@ -3765,36 +3834,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.sub2000.timers.empty_reload_interrupt = 0.19
 	self.sub2000.timers.reload_interrupt = 0.28
 
-	--Kross Vertex
-	self.polymer.use_data.selection_index = 2
-	self.polymer.CLIP_AMMO_MAX = 30
-	self.polymer.AMMO_MAX = 120
-	self.polymer.FIRE_MODE = "auto"
-	self.polymer.fire_mode_data = {}
-	self.polymer.fire_mode_data.fire_rate = 0.05
-	self.polymer.CAN_TOGGLE_FIREMODE = true
-	self.polymer.auto = {}
-	self.polymer.auto.fire_rate = 0.05
-	self.polymer.BURST_FIRE = 3
-	self.polymer.ADAPTIVE_BURST_SIZE = false
-	self.polymer.kick = self.stat_info.kick_tables.moderate_kick
-	self.polymer.supported = false
-	self.polymer.stats = {
-		damage = 30,
-		spread = 14,
-		recoil = 16,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 24,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.polymer.stats_modifiers = nil
-
 	--Pistol Crossbow
 	self.hunter.upgrade_blocks = {
 		weapon = {
@@ -3823,35 +3862,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.hunter.stats_modifiers = {damage = 2}
-
-	--Micro Uzi
-	self.baka.CLIP_AMMO_MAX = 30
-	self.baka.NR_CLIPS_MAX = 4
-	self.baka.AMMO_MAX = 90
-	self.baka.FIRE_MODE = "auto"
-	self.baka.fire_mode_data = {}
-	self.baka.fire_mode_data.fire_rate = 0.06315789473
-	self.baka.CAN_TOGGLE_FIREMODE = true
-	self.baka.auto = {}
-	self.baka.auto.fire_rate = 0.06315789473
-	self.baka.kick = {}
-	self.baka.kick = self.stat_info.kick_tables.even_recoil
-	self.baka.supported = false
-	self.baka.stats = {
-		damage = 20,
-		spread = 15,
-		recoil = 19,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 28,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.baka.stats_modifiers = nil
 
 	--Heavy Crossbow
 	self.arblast.upgrade_blocks = {
@@ -4180,32 +4190,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.packrat.stats_modifiers = nil
 	self.packrat.timers.reload_interrupt = 0.21
 	self.packrat.timers.empty_reload_interrupt = 0.13
-
-
-	--Jackal SMG
-	self.schakal.fire_mode_data.fire_rate = 0.1
-	self.schakal.auto.fire_rate = 0.1
-	self.schakal.AMMO_MAX = 60
-	self.schakal.CLIP_AMMO_MAX = 25
-	self.schakal.BURST_FIRE = 3
-	self.schakal.ADAPTIVE_BURST_SIZE = false
-	self.schakal.kick = self.stat_info.kick_tables.even_recoil
-	self.schakal.supported = false
-	self.schakal.stats = {
-		damage = 30,
-		spread = 15,
-		recoil = 23,
-		spread_moving = 14,
-		zoom = 1,
-		concealment = 24,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.schakal.stats_modifiers = nil
 
 	--Akimbo Contractor Pistols
 	self.x_packrat.AMMO_MAX = 180

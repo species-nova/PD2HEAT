@@ -1080,8 +1080,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_w_x_judge"] = "Judge & Jury",
 		["bm_w_x_shrew"] = "Barry & Paul",
 		["bm_w_x_1911"] = "Mustang & Sally",
-		["bm_w_tec9"] = "T3K Urban Submachine Gun",
-		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns", 
 
 		-- default attachment name stuff		
 		["bm_wp_mp5_fg_mp5sd"] = "SPOOC Foregrip",
