@@ -337,11 +337,11 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	local next_allowed_dmg_t_old = self._next_allowed_dmg_t --Needed to check if grace piercing occured.
 	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
 	if type(next_allowed_dmg_t_old) == "number" and next_allowed_dmg_t_old > t then --Check if grace piercing occurred, and if so, apply the difference in damage taken.
-		local damage_taken = math.max(attack_data.damage, 0.1)
+		local damage_taken = math.max(math.round(attack_data.damage * 10) * 0.1, 0.1)
 		attack_data.damage = math.max(attack_data.damage - self._last_taken_dmg, 0.1)
 		self._last_taken_dmg = damage_taken
 	else
-		attack_data.damage = math.max(attack_data.damage, 0.1)
+		attack_data.damage = math.max(math.round(attack_data.damage * 10) * 0.1, 0.1)
 		self._last_taken_dmg = attack_data.damage
 	end
 
@@ -1441,7 +1441,12 @@ end
 
 --Applies custody penalties to players on spawn in.
 function PlayerDamage:exit_custody(down_timer)
-	self._revives = Application:digest_value(tweak_data.player.damage.CUSTODY_LIVES, true)
+	if down_timer > 0 then
+		self._revives = Application:digest_value(tweak_data.player.damage.CUSTODY_LIVES, true)
+	else
+		self._revives = 0
+		managers.environment_controller:set_last_life(Application:digest_value(self._revives, false) <= 1)
+	end
 	self._down_time = down_timer
 	self._messiah_charges = managers.player:upgrade_value("player", "pistol_revive_from_bleed_out", 0)
 	managers.player:refill_messiah_charges()

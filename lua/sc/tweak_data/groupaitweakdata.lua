@@ -7249,20 +7249,20 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	}
 	self.besiege.assault.build_duration = 45
 	self.besiege.assault.sustain_duration_min = {
-		90,
-		130,
-		170
+		60,
+		80,
+		100
 	}
 	self.besiege.assault.sustain_duration_max = {
-		90,
-		130,
-		170
+		60,
+		80,
+		100
 	}
 	self.besiege.assault.sustain_duration_balance_mul = {
 		1,
-		1.1,
-		1.2,
-		1.3
+		1,
+		1,
+		1
 	}
 	self.besiege.assault.fade_duration = 35
 	self.besiege.assault.delay = {
@@ -7320,16 +7320,12 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		1.0 * map_scale_factor
 	}
 
+	local assault_pool_mul = 2.5
 	if difficulty_index <= 2 then
 		self.besiege.assault.force = {
 			12,
 			15,
 			18
-		}
-		self.besiege.assault.force_pool = {
-			60,
-			75,
-			90
 		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
@@ -7353,11 +7349,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			15,
 			18
 		}
-		self.besiege.assault.force_pool = {
-			60,
-			75,
-			90
-		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
 			taser = math.max(math.round(2 * map_scale_factor), 1),
@@ -7379,11 +7370,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			14,
 			18,
 			21
-		}
-		self.besiege.assault.force_pool = {
-			70,
-			90,
-			105
 		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
@@ -7407,11 +7393,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			18,
 			21
 		}
-		self.besiege.assault.force_pool = {
-			70,
-			90,
-			105
-		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7433,11 +7414,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			16,
 			20,
 			24
-		}
-		self.besiege.assault.force_pool = {
-			80,
-			100,
-			120
 		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
@@ -7461,11 +7437,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			20,
 			24
 		}
-		self.besiege.assault.force_pool = {
-			80,
-			100,
-			120
-		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7488,11 +7459,6 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			23,
 			28
 		}
-		self.besiege.assault.force_pool = {
-			90,
-			115,
-			140
-		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(4 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7510,7 +7476,12 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			summers = 1
 		}
 	end
-
+	self.besiege.assault.force_pool = {
+		self.besiege.assault.force[1] * assault_pool_mul,
+		self.besiege.assault.force[2] * assault_pool_mul,
+		self.besiege.assault.force[3] * assault_pool_mul
+	}
+	
 	--Assault groups
 	if difficulty_index <= 2 then
 		self.besiege.assault.groups = {
