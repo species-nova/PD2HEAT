@@ -7249,14 +7249,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	}
 	self.besiege.assault.build_duration = 45
 	self.besiege.assault.sustain_duration_min = {
-		90,
-		120,
-		180
+		60,
+		75,
+		100
 	}
 	self.besiege.assault.sustain_duration_max = {
-		90,
-		120,
-		180
+		60,
+		75,
+		100
 	}
 	self.besiege.assault.sustain_duration_balance_mul = {
 		1,
