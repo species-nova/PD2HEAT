@@ -442,7 +442,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Doctor Bags: Intended to offer consistent sustain over a long period of time.
 	self.doctor_bag_base = 2 --Starting Number
 	self.values.doctor_bag.heal_amount = 0.2 --Heals 20% of max health on use.
-	self.values.temporary.doctor_bag_health_regen = {{0.04, 180.1}} --Heals 4% of max health every 4 seconds for the next 3 minutes or until you enter bleedout.
+	self.values.temporary.doctor_bag_health_regen = {{0.03, 240.1}} --Heals 3% of max health every 4 seconds for the next 4 minutes.
 	
 	--ECMs: They're ECMs
 	self.ecm_jammer_base_battery_life = 10
@@ -1228,7 +1228,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--What Doesn't Kill
 				--Basic
-					self.values.player.damage_absorption_low_revives = {0.1}
+					self.values.player.damage_absorption_low_revives = {0.15}
 				--Ace
 					self.values.player.damage_absorption_addend = {0.3}
 
@@ -1242,7 +1242,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Haunt
 				--Basic
-					self.values.player.killshot_spooky_panic_chance = {0.03}
+					self.values.player.killshot_spooky_panic_chance = {0.05}
 				--Ace
 					self.values.player.killshot_extra_spooky_panic_chance = {0.1}
 				

@@ -191,13 +191,13 @@ function heat:Init()
 		"des",	--Henry's Rock
 		"brb", --Brooklyn Bank
 		"nail",	--Lab Rats. Fuck this heist	
-		"hox_1",
-		"xmn_hox_1",
 		--Custom Heists below--
 		"thechase"
 	}	
 	--Mostly for stuff like Cursed Killed Room and other crap puny heists
 	heat.extremely_tiny_levels = {
+		"hox_1", --Hoxout 1. Not nessecarily 'extra tiny,' but its assault setup makes it more important to 
+		"xmn_hox_1",
 		"vit", --White House
 		"hvh", --CKR
 		"chew", --Biker day 2

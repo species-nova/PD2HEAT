@@ -2018,7 +2018,7 @@ function GroupAIStateBase:hostage_killed(killer_unit)
 		return
 	end
 
-	self:set_difficulty(nil, 0.1) --Increase diff on civ kill
+	self:set_difficulty(nil, 0.05) --Increase diff on civ kill
 			
 	--Potentially play civ killed megaphone line?
 	if is_first or self._assault_number and self._assault_number >= 1 then
@@ -2066,8 +2066,8 @@ function GroupAIStateBase:hostage_killed(killer_unit)
 	end
 end
 --this function has been repurposed. instead of overriding any previous value, this ADDS diff
---this is set to 0.5 on loud, while other events increase it
---+0.1 on civilian kill (watch your fire!), +0.3 on assault end
+--this is set to 0.1 on loud, while other events increase it
+--+0.05 on civilian kill (watch your fire!), +0.15 on assault end
 --script value is used by the base game, we usually ignore it after the beginning of a level
 --thanks (again) to hoxi for helping out with this
 --perhaps modify these values at one point in crime spree? who knows
@@ -2084,7 +2084,7 @@ function GroupAIStateBase:set_difficulty(script_value, manual_value)
 	if script_value then
 		if script_value == 0 then
 			self._difficulty_value = 0
-			--if diff is set to 0 in the middle of a mission, heists cannot start assaults. this ensures that we can set diff to default 0.5 again if a script sets it to 0
+			--if diff is set to 0 in the middle of a mission, heists cannot start assaults. this ensures that we can set diff to default 0.1 again if a script sets it to 0
 			--i dont think any heists do this but there's no harm in having this check here
 			self._loud_diff_set = false 
             self:_calculate_difficulty_ratio()
