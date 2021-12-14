@@ -340,6 +340,7 @@
     <Options name="Options" auto_build_menu="true" auto_load="true" save_file="heat.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
 	    <options>
 			<option type="bool" default_value="false" name="AimAssist"/>
+			<option type="bool" default_value="false" name="ScreenFX"/>
 			<option type="bool" default_value="false" name="RealAmmo"/>
 			<option type="bool" default_value="false" name="AltLastDownColor"/>
 			<option type="bool" default_value="false" name="NoBleedoutTilt"/>

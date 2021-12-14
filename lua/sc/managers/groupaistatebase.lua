@@ -8,12 +8,15 @@ local mvec3_cpy = mvector3.copy
 
 local tmp_vec1 = Vector3()
 
-local math_random = math.random
-local math_floor = math.floor
 local math_clamp = math.clamp
+local math_up = math.UP
+local math_random = math.random
 local math_lerp = math.lerp
+local math_min = math.min
 
-local table_contains = table.contains
+local table_insert = table.insert
+local table_remove = table.remove
+local table_size = table.size
 
 local ipairs_g = ipairs
 local pairs_g = pairs
@@ -66,6 +69,201 @@ function GroupAIStateBase:set_debug_draw_state(state)
 	end
 
 	self._draw_enabled = state
+end
+
+function GroupAIStateBase:on_wgt_report_empty(u_key)
+	if u_key then
+		local e_data = self._police[u_key]
+
+		if e_data and e_data.importance > 0 then
+			--log("you're a cock")
+			
+			e_data.importance = 0
+			
+			for c_key, c_data in pairs_g(self._player_criminals) do
+				local imp_keys = c_data.important_enemies
+				
+				for i = 1, #imp_keys do
+					local test_e_key = imp_keys[i]
+
+					if test_e_key == u_key then
+						table_remove(imp_keys, i)
+						table_remove(c_data.important_dis, i)
+
+						break
+					end
+				end
+			end
+			
+			e_data.unit:brain():set_important(nil)
+		end
+	end
+end 
+
+--run when enemies get tied up into hostage mode to prevent them from taking up space in the list
+function GroupAIStateBase:on_enemy_logic_intimidated(u_key)
+	if u_key then
+		local e_data = self._police[u_key]
+
+		if e_data and e_data.importance > 0 then
+			--log("you're a cock")
+			
+			e_data.importance = 0
+			
+			for c_key, c_data in pairs_g(self._player_criminals) do
+				local imp_keys = c_data.important_enemies
+				
+				for i = 1, #imp_keys do
+					local test_e_key = imp_keys[i]
+
+					if test_e_key == u_key then
+						table_remove(imp_keys, i)
+						table_remove(c_data.important_dis, i)
+
+						break
+					end
+				end
+			end
+			
+			e_data.unit:brain():set_important(nil)
+		end
+	end
+end
+
+function GroupAIStateBase:set_importance_weight(u_key, wgt_report)
+	if not wgt_report or #wgt_report == 0 or not self._police[u_key] then
+		--reporting an empty weight means the enemy has switched to brain updating or has switched slotmasks and should no longer take up space in the list
+		self:on_wgt_report_empty(u_key) 
+		
+		return
+	end
+
+	local t_rem = table_remove
+	local t_ins = table_insert
+	--this number is per player, at it currently stands, when four players are present, there is a max of 2 important enemies per player
+	--when in solo, this number is set at a static 8
+	local max_nr_imp = self._nr_important_cops 
+	local imp_adj = 0
+	local criminals = self._player_criminals
+
+	for i_dis_rep = #wgt_report - 1, 1, -2 do
+		local c_key = wgt_report[i_dis_rep]
+		local c_dis = wgt_report[i_dis_rep + 1]
+		local c_record = criminals[c_key]
+		local imp_enemies = c_record.important_enemies
+		local imp_dis = c_record.important_dis
+		local was_imp = nil
+
+		for i_imp = #imp_enemies, 1, -1 do
+			if imp_enemies[i_imp] == u_key then
+				t_rem(imp_enemies, i_imp)
+				t_rem(imp_dis, i_imp)
+
+				was_imp = true
+
+				break
+			end
+		end
+
+		local i_imp = #imp_dis 
+
+		while i_imp > 0 do --rank new importance for the cop
+			if imp_dis[i_imp] < c_dis then
+				break
+			end
+
+			i_imp = i_imp - 1
+		end
+
+		if i_imp < max_nr_imp then --the cop is currently more important than at least one of the enemies in the list, or fits into the list as it is
+			i_imp = i_imp + 1
+
+			while max_nr_imp <= #imp_enemies do --list is full, kick the guy thats been surpassed out
+				local dump_e_key = imp_enemies[#imp_enemies]
+
+				self:_adjust_cop_importance(dump_e_key, -1)
+				t_rem(imp_enemies)
+				t_rem(imp_dis)
+			end
+
+			t_ins(imp_enemies, i_imp, u_key)
+			t_ins(imp_dis, i_imp, c_dis)
+
+			if not was_imp then
+				imp_adj = imp_adj + 1
+			end
+		elseif was_imp then --else, if they're still important, make them unimportant
+			imp_adj = imp_adj - 1
+		end
+	end
+
+	if imp_adj ~= 0 then
+		self:_adjust_cop_importance(u_key, imp_adj)
+	end
+end
+
+function GroupAIStateBase:_draw_enemy_importancies()
+	for e_key, e_data in pairs_g(self._police) do
+		local imp = e_data.importance
+
+		while imp > 0 do
+			local tint_r = 1
+			local tint_g = 1
+			local tint_b = 1
+			
+			if e_data.unit:brain().active_searches and next(e_data.unit:brain().active_searches) then
+				tint_g = tint_g - 0.5
+			end
+			
+			if e_data.unit:brain()._logic_data and e_data.unit:brain()._logic_data.internal_data then
+				if e_data.unit:brain()._logic_data.internal_data.processing_cover_path then
+					tint_g = tint_g - 0.5
+				end
+				
+				if e_data.unit:brain()._logic_data.internal_data.want_to_take_cover and e_data.unit:brain()._logic_data.internal_data.in_cover then
+					tint_r = 0
+				end
+			end
+			
+			Application:draw_sphere(e_data.m_pos, 50 * imp, tint_r, tint_g, tint_b)
+
+			imp = imp - 1
+		end
+
+		if e_data.unit:brain()._important then
+			local tint_r = 0
+			local tint_g = 1
+			local tint_b = 0
+			
+			if e_data.unit:brain().active_searches and next(e_data.unit:brain().active_searches) then
+				tint_b = tint_b + 0.5
+			end
+			
+			if e_data.unit:brain()._logic_data and e_data.unit:brain()._logic_data.internal_data then
+				if e_data.unit:brain()._logic_data.internal_data.processing_cover_path then
+					tint_b = tint_b + 0.5
+				end
+				
+				if e_data.unit:brain()._logic_data.internal_data.want_to_take_cover and e_data.unit:brain()._logic_data.internal_data.in_cover then
+					tint_g = 0
+					tint_r = 1
+				end
+			end
+			
+			
+			Application:draw_cylinder(e_data.m_pos, e_data.m_pos + math_up * 300, 35, tint_r, tint_g, tint_b)
+		end
+	end
+
+	for c_key, c_data in pairs_g(self._player_criminals) do
+		local imp_enemies = c_data.important_enemies
+
+		for imp, e_key in ipairs(imp_enemies) do
+			local tint = math_clamp(1 - imp / self._nr_important_cops, 0, 1)
+
+			Application:draw_cylinder(self._police[e_key].m_pos, c_data.m_pos, 10, tint, 0, 0, 1 - tint)
+		end
+	end
 end
 
 function GroupAIStateBase:set_current_objective_area(pos)
@@ -292,6 +490,8 @@ function GroupAIStateBase:_init_misc_data()
 		self._weapons_hot_threshold = 0.45
 		self._suspicion_threshold = 0.9
 	end
+	
+	self._nr_important_cops = 8
 	self._blackout_units = {} --offy wuz hear
 end
 
@@ -361,6 +561,7 @@ function GroupAIStateBase:on_simulation_started()
 		self._suspicion_threshold = 0.9
 	end
 	
+	self._nr_important_cops = 8
 end
 
 function GroupAIStateBase:chk_guard_detection_mul()
@@ -1091,6 +1292,14 @@ function GroupAIStateBase:update(t, dt)
 		level_suspicion = self._old_guard_detection_mul_raw
 		alarm_threshold = self._weapons_hot_threshold
 		--self:_draw_current_logics()
+		
+		if not Global.game_settings.single_player then
+			local new_value = 8 / table.size(self:all_player_criminals()) 
+
+			self._nr_important_cops = new_value
+		end
+		
+		--self:_draw_enemy_importancies()
 	else
 		--use suspicion values synced from host
 		level_suspicion = self._dummy_old_guard_detection_mul_raw or 0
@@ -1118,8 +1327,6 @@ function GroupAIStateBase:update(t, dt)
 	if is_server and self._last_detection_mul and self._last_detection_mul ~= self._old_guard_detection_mul_raw then 
 		LuaNetworking:SendToPeers("restoration_sync_level_suspicion",tostring(self._old_guard_detection_mul_raw) .. ":" .. tostring(self._weapons_hot_threshold))
 	end
-			
-	
 	
 	if is_whisper_mode then
 		local warning_1_threshold = self._weapons_hot_threshold * 0.25

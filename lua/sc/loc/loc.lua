@@ -25,6 +25,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATOptionsButtonDescID"] = "Heat's Options.",
 		["PD2HEATAimAssistTitleID"] = "Aim Assist",
 		["PD2HEATAimAssistDescID"] = "Provides soft bullet-magnetism for players who have trouble hitting enemies.",
+		["PD2HEATScreenFXTitleID"] = "HEATed Screen Effects",
+		["PD2HEATScreenFXDescID"] = "Adds a variety of tweaks to screen effects meant to give a more intense feeling to gun fights. NOTE: Not recommended for those with epilepsy.",
 		["PD2HEATHUDOptionsButtonTitleID"] = "Heat HUD & UI Options",
 		["PD2HEATHUDOptionsButtonDescID"] = "Heat's HUD & UI Options.",
 		["PD2HEATOTHEROptionsButtonTitleID"] = "Extra Heat Options",

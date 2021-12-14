@@ -121,10 +121,6 @@ function NPCRaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_
 		char_hit = InstantBulletBase:on_collision(col_ray, self._unit, user_unit, damage)
 	end
 
-	if (not col_ray or col_ray.unit ~= target_unit) and target_unit and target_unit:character_damage() and target_unit:character_damage().build_suppression then
-		target_unit:character_damage():build_suppression(tweak_data.weapon[self._name_id].suppression)
-	end
-
 	if not col_ray or col_ray.distance > 600 or result.guaranteed_miss then
 		local num_rays = (tweak_data.weapon[self._name_id] or {}).rays or 1
 

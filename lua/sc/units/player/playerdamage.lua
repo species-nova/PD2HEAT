@@ -11,7 +11,7 @@ function PlayerDamage:init(unit)
 	self._healing_reduction = managers.player:upgrade_value("player", "healing_reduction", 1)
 	self._revives = Application:digest_value(0, true)
 	self._uppers_elapsed = 0
-
+	
 	--Unique resmod stuff, needs to be declared earlier.
 	self._temp_health = 0 --Hitman temporary health.
 	self._health_without_temp = 0 --Health below temp hp. Needed for correct max health calculations.
@@ -72,6 +72,7 @@ function PlayerDamage:init(unit)
 	self._has_damage_speed = false --No longer used to store whether or not the upgrade is available. Now instead used to track whether it is currently active due to armor broken or bonus duration.
 	--Removed vanilla skill.
 	
+	managers.environment_controller:set_extra_exposure_value(0)
 	managers.environment_controller:start_player_hurt_screen()
 
 	--Unique resmod stuff.
@@ -224,6 +225,7 @@ function PlayerDamage:pre_destroy()
 	SoundDevice:set_rtpc("downed_state_progression", 0)
 	SoundDevice:set_rtpc("shield_status", 100)
 	managers.environment_controller:kill_player_hurt_screen()
+	managers.environment_controller:set_extra_exposure_value(0)
 	managers.environment_controller:set_hurt_value(1)
 	managers.environment_controller:set_health_effect_value(1)
 	managers.environment_controller:set_suppression_value(0)
@@ -965,9 +967,27 @@ function PlayerDamage:_check_chico_heal(attack_data)
 	end
 end
 
---This mechanic is disabled to give players predictable armor regen.
+
+
+--This mechanic is disabled to give players predictable armor regen, using these functions for a fun graphical effect instead.
+
+function PlayerDamage:build_suppression(ignore_this)
+	if heat.Options:GetValue("ScreenFX") then
+		self._suppression_effect = 0.06
+	end
+end
+
 function PlayerDamage:_upd_suppression(t, dt)
-	--nothing
+	if self._suppression_effect then
+		self._suppression_effect = self._suppression_effect - dt
+		
+		if self._suppression_effect <= 0 then
+			managers.environment_controller:set_extra_exposure_value(0)
+			self._suppression_effect = nil
+		else
+			managers.environment_controller:set_extra_exposure_value(self._suppression_effect)
+		end
+	end
 end
 
 function PlayerDamage:revive(silent)

@@ -12,6 +12,8 @@ local init_orig = CoreEnvironmentControllerManager.init
 function CoreEnvironmentControllerManager:init()
     init_orig(self)
 	self._effect_manager = World:effect_manager()
+	self._base_contrast = -0
+	self._extra_exposure = 0
 	self._base_chromatic_amount = -0.4
     self._GAME_DEFAULT_COLOR_GRADING = "color_payday"
 end
@@ -54,6 +56,10 @@ function CoreEnvironmentControllerManager:kill_player_hurt_screen()
 		self._effect_manager:kill(self._hurt_effect)
 		self._hurt_effect = nil
 	end
+end
+
+function CoreEnvironmentControllerManager:set_extra_exposure_value(exposure)
+	self._extra_exposure = exposure
 end
 
 local ids_radial_pos = Idstring("radial_pos")
@@ -189,10 +195,21 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 	end
 
 	self._material:set_variable(ids_radial_offset, Vector3((self._hit_left - self._hit_right) * 0.2, (self._hit_up - self._hit_down) * 0.2, self._hit_front - self._hit_back + blur_zone_flashbang * 0.1))
-	self._material:set_variable(Idstring("contrast"), self._base_contrast + self._hit_some * 0.25)
+	
+	self._material:set_variable(Idstring("contrast"), self._base_contrast + self._extra_exposure + self._hit_some * 0.25)
 
 	if self._chromatic_enabled then
-		self._material:set_variable(Idstring("chromatic_amount"), self._base_chromatic_amount + blur_zone_val * 0.3 + flash_1 * 0.5)
+		local chrom = 0.4 + blur_zone_val * 0.3 + flash_1 * 0.5
+		chrom = chrom + math.lerp(0, self._extra_exposure, math.random())
+		
+		if heat.Options:GetValue("ScreenFX") then
+			if self._last_life then
+				chrom = chrom + math.lerp(0, 0.2, math.random())
+			end
+		end
+		
+		chrom = chrom * -1
+		self._material:set_variable(Idstring("chromatic_amount"), chrom)
 	else
 		self._material:set_variable(Idstring("chromatic_amount"), 0)
 	end
@@ -248,8 +265,16 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 			last_life = math.clamp((hurt_mod - 0.5) * 2, 0, 1)
 		end
 	end
+	
+	local exposure = math.abs(self._base_contrast + self._hit_some * 0.25) + self._extra_exposure
+	
+	if self._last_life then
+		exposure = exposure * math.lerp(-0.75, -0, last_life)
+	else
+		exposure = exposure * -1
+	end
 
-	self._lut_modifier_material:set_variable(ids_LUT_settings_b, Vector3(last_life, flash_2 + math.clamp(hit_some_mod * 2, 0, 1) * 0.25 + blur_zone_val * 0.15, 0))
+	self._lut_modifier_material:set_variable(ids_LUT_settings_b, Vector3(last_life, flash_2 + math.clamp(hit_some_mod * 2, 0, 1) * 0.25 + blur_zone_val * 0.15, exposure))
 	self._lut_modifier_material:set_variable(ids_LUT_contrast, flashbang * 0.5)
 end
 
