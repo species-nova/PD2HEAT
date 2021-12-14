@@ -264,6 +264,8 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 		else
 			last_life = math.clamp((hurt_mod - 0.5) * 2, 0, 1)
 		end
+	else
+		last_life = self._extra_exposure
 	end
 	
 	local exposure = math.abs(self._base_contrast + self._hit_some * 0.25) + self._extra_exposure
