@@ -1410,8 +1410,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_crouch_dodge_chance_1",
-						"player_crouch_speed_multiplier_2"
+						"player_crouch_dodge_chance_1"
 					},
 					cost = self.costs.pro
 				}

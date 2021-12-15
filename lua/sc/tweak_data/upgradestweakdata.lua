@@ -1005,7 +1005,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.player.stamina_regen_timer_multiplier = {0.75}
 					self.values.player.stamina_regen_multiplier = {1.25}
 				--Ace
-					self.values.player.crouch_dodge_chance = {0.06, 0.06}
+					self.values.player.crouch_dodge_chance = {0.08, 0.08}
 
 			--Evasion
 				--Basic

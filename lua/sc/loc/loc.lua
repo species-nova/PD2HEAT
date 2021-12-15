@@ -1961,7 +1961,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",
-		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##6%## of your dodge every second while crouching.\n\nYou gain a ##10%## boost in your movement speed when crouching.",
+		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##8%## of your dodge every second while crouching.",
 
 		--Sneaky Bastard--
 		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of concealment under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every ##1## point of concealment under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##15## health. This can only occur once every time your armor breaks.",
