@@ -1230,12 +1230,11 @@ function CopActionShoot:anim_clbk_melee_strike()
 
 				--Empty Palm Kata gimmick to deal counterstrike damage.
 				--This bit of code *should* only occur client side, so it's probably fine.
+				--TODO: Make this a flag that gets sent to discharge_melee() to have it just deal bonus damage, rather than reinventing the wheel.
 				if melee_tweak.counter_damage then
 					local dmg_multiplier = 1
 					local player_state = character_unit:movement()._current_state
-					local t = Application:time()
-
-					dmg_multiplier = dmg_multiplier * managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
+					local t = managers.player:player_timer():time()
 
 					if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 						player_state._state_data.stacking_dmg_mul = player_state._state_data.stacking_dmg_mul or {}
@@ -1248,11 +1247,6 @@ function CopActionShoot:anim_clbk_melee_strike()
 						end
 						stack[1] = t + managers.player:upgrade_value(primary_category, "stacking_hit_expire_t", 1)
 						stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_weapon_dmg_mul_stacks or 5)
-					end
-
-					local damage_health_ratio = managers.player:get_damage_health_ratio(character_unit:character_damage():health_ratio(), "melee")
-					if damage_health_ratio > 0 then
-						dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 0) * damage_health_ratio)
 					end
 
 					if self._unit:character_damage().dead and not self._unit:character_damage():dead() and managers.enemy:is_enemy(self._unit) and not tweak_data.character[self._unit:base()._tweak_table].is_escort and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then

@@ -438,6 +438,18 @@ function BlackMarketGui:_get_armor_stats(name)
 	return base_stats, mods_stats, skill_stats
 end
 
+local orig_get_melee_weapon_stats = BlackMarketGui._get_melee_weapon_stats
+function BlackMarketGui:_get_melee_weapon_stats(name)
+	local base, mods, skill = orig_get_melee_weapon_stats(self, name)
+	base.concealment.value = (base.concealment.value - 1) * 5
+	mods.concealment.value = (mods.concealment.value) * 5
+	skill.concealment.value = skill.concealment.value * 5
+	if base.concealment.value + skill.concealment.value > 100 then
+		skill.concealment.value = math.max(100 - base.concealment.value, 0)
+	end
+	return base, mods, skill
+end
+
 --If this breaks then copy the vanilla version and change the value of self._armor_stats_shown to be
 --[[
 			self._armor_stats_shown = {

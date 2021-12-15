@@ -1079,11 +1079,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Silent Precision
 				self.values.temporary.silent_precision = {
 					{ --Basic
-						0.75,
+						0.8,
 						0.01 --Workaround for Buff Tracker sanity checks.
 					},
 					{ --Ace
-						0.75,
+						0.8,
 						4
 					}
 				}
@@ -1249,42 +1249,51 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				self.values.player.additional_lives = {1, 3}
 			
 		--Brawler--
-			--Martial Arts
+			--Iron Knuckles
 				--Basic
 					self.values.player.melee_damage_dampener = {0.50}
 				--Ace
-					self.values.player.melee_knockdown_mul = {1.5}
+					self.values.player.deflect_ranged = {0.85}
+					
 				
 			--Bloodthirst
-				--Basic
-					self.values.temporary.melee_kill_increase_reload_speed = {{1.3, 10}}
-				--Ace
-					self.values.player.melee_damage_stacking = {{melee_multiplier = 0.25, max_multiplier = 2}}
+				self.values.player.melee_damage_stacking = {
+					{ --Basic
+						knockdown_multiplier = 0.3,
+						damage_multiplier = 0.0,
+						max_stacks = 3
+					},
+					{ --Ace
+						knockdown_multiplier = 0.3,
+						damage_multiplier = 0.2,
+						max_stacks = 3
+					}
+				}
 
 			--Pumping Iron
 				self.values.player.melee_swing_multiplier = {1.2, 1.5}
 				self.values.player.melee_swing_multiplier_delay = {0.8, 0.5}
 				
 			--Counter Strike
-				self.values.player.spooc_damage_resist = {
-					0.2, --Basic
-					0.5 --Ace
-				}
 				--Basic
 					self.values.player.counter_strike_spooc = {true}
 				--Ace
-					self.values.player.deflect_ranged = {0.9}
+					self.values.player.counter_strike_dozer = {true}
 
-			--Frenzy (Berserker)
-				self.values.player.max_health_reduction = {0.25}
-				self.values.player.healing_reduction = {0.00, 0.25}
-				self.values.player.frenzy_deflection = {0.20, 0.45}
-				
-			--Berserker (Frenzy)
+			--Snatch
 				--Basic
-					self.values.player.melee_damage_health_ratio_multiplier = {1.50}
+					self.values.player.melee_kill_auto_load = { 3 }
+				--Ace
+					self.values.temporary.melee_kill_increase_reload_speed = {{1.5, 10}}
+				
+			--Frenzy
+				--Basic
+					self.values.player.melee_damage_health_ratio_multiplier = {2.50} --No longer scale off of max health
+					self.values.player.max_health_reduction = {0.25}
+					
 				--Aced
-					self.values.player.damage_health_ratio_multiplier = {0.75}
+					self.values.player.damage_health_ratio_multiplier = {1.75}
+					self.values.player.frenzy_deflection = {0.3}
 
 	--Singleplayer stealth stuff, to give them access to resources closer to what they would have in coop.
 	if Global.game_settings and Global.game_settings.single_player then
@@ -1924,24 +1933,15 @@ function UpgradesTweakData:_player_definitions()
 		}
 	}	
     self.definitions.player_detection_risk_add_movement_speed_1 = {
-            category = "feature",
-            name_id = "menu_player_detection_risk_add_movement_speed",
-            upgrade = {
-                category = "player",
-                upgrade = "detection_risk_add_movement_speed",
-                value = 1
-            }
-        } 
-	self.definitions.player_melee_knockdown_mul = {
-		category = "feature",
-		name_id = "menu_player_melee_knockdown_mul",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_knockdown_mul",
-			value = 1
-		}
-	}    
-        self.definitions.player_detection_risk_add_movement_speed_2 = {
+        category = "feature",
+        name_id = "menu_player_detection_risk_add_movement_speed",
+        upgrade = {
+            category = "player",
+            upgrade = "detection_risk_add_movement_speed",
+            value = 1
+        }
+    }
+    self.definitions.player_detection_risk_add_movement_speed_2 = {
             category = "feature",
             name_id = "menu_player_detection_risk_add_movement_speed",
             upgrade = {
@@ -2084,7 +2084,43 @@ function UpgradesTweakData:_player_definitions()
 			upgrade = "melee_swing_multiplier_delay",
 			value = 2
 		}
-	}		
+	}
+	self.definitions.player_melee_damage_stacking_1 = {
+		category = "feature",
+		name_id = "menu_player_melee_damage_stacking",
+		upgrade = {
+			category = "player",
+			upgrade = "melee_damage_stacking",
+			value = 1
+		}
+	}
+	self.definitions.player_melee_damage_stacking_2 = {
+		category = "feature",
+		name_id = "menu_player_melee_damage_stacking",
+		upgrade = {
+			category = "player",
+			upgrade = "melee_damage_stacking",
+			value = 2
+		}
+	}
+	self.definitions.player_melee_kill_auto_load = {
+		category = "feature",
+		name_id = "menu_player_melee_kill_auto_load",
+		upgrade = {
+			category = "player",
+			upgrade = "melee_kill_auto_load",
+			value = 1
+		}
+	}
+	self.definitions.player_counter_strike_dozer = {
+		category = "feature",
+		name_id = "menu_player_counter_strike_dozer",
+		upgrade = {
+			category = "player",
+			upgrade = "counter_strike_dozer",
+			value = 1
+		}
+	}
 	self.definitions.player_messiah_revive_from_bleed_out_2 = {
 		category = "feature",
 		name_id = "menu_player_pistol_revive_from_bleed_out",
@@ -3085,38 +3121,11 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_spooc_damage_resist_1 = {
-		name_id = "menu_player_spooc_damage_resist",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "spooc_damage_resist",
-			category = "player"
-		}
-	}
-	self.definitions.player_spooc_damage_resist_2 = {
-		name_id = "menu_player_spooc_damage_resist",
-		category = "feature",
-		upgrade = {
-			value = 2,
-			upgrade = "spooc_damage_resist",
-			category = "player"
-		}
-	}
-	self.definitions.player_frenzy_deflection_1 = {
+	self.definitions.player_frenzy_deflection = {
 		name_id = "menu_player_frenzy_deflection",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "frenzy_deflection",
-			category = "player"
-		}
-	}
-	self.definitions.player_frenzy_deflection_2 = {
-		name_id = "menu_player_frenzy_deflection",
-		category = "feature",
-		upgrade = {
-			value = 2,
 			upgrade = "frenzy_deflection",
 			category = "player"
 		}

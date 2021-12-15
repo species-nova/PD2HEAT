@@ -939,10 +939,9 @@ function PlayerStandard:_do_chainsaw_damage(t)
 
 	if col_ray and alive(col_ray.unit) then
 		local damage, damage_effect = managers.blackmarket:equipped_melee_weapon_damage_info(0)
-		local damage_effect_mul = math.max(managers.player:upgrade_value("player", "melee_knockdown_mul", 1), managers.player:upgrade_value(self._equipped_unit:base():weapon_tweak_data().categories and self._equipped_unit:base():weapon_tweak_data().categories[1], "melee_knockdown_mul", 1))
 		damage = tweak_data.blackmarket.melee_weapons[melee_entry].chainsaw.tick_damage
 		damage = damage * managers.player:get_melee_dmg_multiplier()
-		damage_effect = damage_effect * damage_effect_mul
+		damage_effect = damage_effect * managers.player:get_melee_knockdown_multiplier()
 		col_ray.sphere_cast_radius = sphere_cast_radius
 		local hit_unit = col_ray.unit
 
@@ -1003,8 +1002,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
 			local dmg_multiplier = 1
-			
-			dmg_multiplier = dmg_multiplier * managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
 
 			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
@@ -1019,11 +1016,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 				else
 					stack[2] = 0
 				end
-			end
-
-			local damage_health_ratio = managers.player:get_damage_health_ratio(self._ext_damage:health_ratio(), "melee")
-			if damage_health_ratio > 0 then
-				dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 0) * damage_health_ratio)
 			end
 
 			local target_dead = character_unit:character_damage().dead and not character_unit:character_damage():dead()
@@ -1473,9 +1465,8 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 	end
 	if col_ray and alive(col_ray.unit) then
 		local damage, damage_effect = managers.blackmarket:equipped_melee_weapon_damage_info(charge_lerp_value)
-		local damage_effect_mul = math.max(managers.player:upgrade_value("player", "melee_knockdown_mul", 1), managers.player:upgrade_value(self._equipped_unit:base():weapon_tweak_data().categories and self._equipped_unit:base():weapon_tweak_data().categories[1], "melee_knockdown_mul", 1))
 		damage = damage * managers.player:get_melee_dmg_multiplier()
-		damage_effect = damage_effect * damage_effect_mul
+		damage_effect = damage_effect * managers.player:get_melee_knockdown_multiplier()
 		col_ray.sphere_cast_radius = sphere_cast_radius
 		local hit_unit = col_ray.unit
 		if hit_unit:character_damage() then
@@ -1545,8 +1536,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
 			local dmg_multiplier = self._melee_repeat_damage_bonus or 1
 
-			dmg_multiplier = dmg_multiplier * managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
-
 			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
 				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {nil, 0}
@@ -1556,11 +1545,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 				else
 					stack[2] = 0
 				end
-			end
-
-			local damage_health_ratio = managers.player:get_damage_health_ratio(self._ext_damage:health_ratio(), "melee")
-			if damage_health_ratio > 0 then
-				dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 0) * damage_health_ratio)
 			end
 
 			if character_unit:character_damage().dead and not character_unit:character_damage():dead() and managers.enemy:is_enemy(character_unit) and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then
@@ -2222,14 +2206,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 					local health_ratio = self._ext_damage:health_ratio()
 					local primary_category = weap_base:weapon_tweak_data().categories[1]
-					local damage_health_ratio = managers.player:get_damage_health_ratio(health_ratio, primary_category)
-
-					if damage_health_ratio > 0 then
-						local upgrade_name = weap_base:is_category("saw") and "melee_damage_health_ratio_multiplier" or "damage_health_ratio_multiplier"
-						local damage_ratio = damage_health_ratio
-						dmg_mul = dmg_mul * (1 + managers.player:upgrade_value("player", upgrade_name, 0) * damage_ratio)
-					end
-
+					local upgrade_name = weap_base:is_category("saw") and "melee_damage_health_ratio_multiplier" or "damage_health_ratio_multiplier"
+					dmg_mul = dmg_mul * managers.player:upgrade_value("player", upgrade_name, 1)
 					dmg_mul = dmg_mul * managers.player:temporary_upgrade_value("temporary", "berserker_damage_multiplier", 1)
 					dmg_mul = dmg_mul * managers.player:get_property("trigger_happy", 1)
 					--Add Underdog Basic to damage mult.
@@ -2392,4 +2370,21 @@ function PlayerStandard:_stance_entered(unequipped)
 
 	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration)
 	managers.menu:set_mouse_sensitivity(self:in_steelsight())
+end
+
+function PlayerStandard:_get_melee_charge_lerp_value(t, offset)
+	offset = offset or 0
+	local melee_entry = managers.blackmarket:equipped_melee_weapon()
+	local max_charge_time = tweak_data.blackmarket.melee_weapons[melee_entry].stats.charge_time
+
+	if not self._state_data.melee_start_t then
+		return 0
+	end
+
+	local charge = math.clamp(t - self._state_data.melee_start_t - offset, 0, max_charge_time) / max_charge_time
+	if charge > 0.99 then
+		charge = 1
+	end
+
+	return charge
 end

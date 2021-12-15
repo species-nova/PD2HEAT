@@ -85,8 +85,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_single_shot_fast_reloadDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_ammo_efficiencyTitleID"] = "Ammo Efficiency",
 		["PD2HEATInfo_ammo_efficiencyDescID"] = "Enables or disables tracking of this specific skill.",
-		["PD2HEATInfo_bloodthirst_reload_speedTitleID"] = "Bloodthirst",
-		["PD2HEATInfo_bloodthirst_reload_speedDescID"] = "Enables or disables tracking of this specific skill.",
+		["PD2HEATInfo_bloodthirst_stacksTitleID"] = "Bloodthirst",
+		["PD2HEATInfo_bloodthirst_stacksDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_bullet_hellTitleID"] = "Bullet Hell",
 		["PD2HEATInfo_bullet_hellDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_bullet_stormTitleID"] = "Bullet Storm",
@@ -123,6 +123,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_shotgun_last_shot_staggerDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_silent_precisionTitleID"] = "Silent Precision",
 		["PD2HEATInfo_silent_precisionDescID"] = "Enables or disables tracking of this specific skill.",
+		["PD2HEATInfo_melee_kill_increase_reload_speedTitleID"] = "Snatch",
+		["PD2HEATInfo_melee_kill_increase_reload_speedDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_trigger_happyTitleID"] = "Trigger Happy",
 		["PD2HEATInfo_trigger_happyDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_unseen_strikeTitleID"] = "Unseen Strike",
@@ -972,7 +974,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		-- Melee weapon descriptions (don't forget to call them in blackmarkettweakdata, not weapontweakdata) --
 		["bm_melee_katana_info"] = "While playing as Jiro, killing a Cloaker with a charged attack triggers a special kill animation.",
-		["bm_melee_buck_info"] = "Surprisingly effective against modern weapons, too.\n\nReduces incoming ranged damage by 10% while charging.", --Buckler Shield
+		["bm_melee_buck_info"] = "Surprisingly effective against modern weapons, too.\n\nReduces incoming damage by 15% while charging.", --Buckler Shield
 		["bm_melee_cs_info"] = "Did you know Chainsaws were invented to help with surgery for childbirth?\n\nDeals 30 damage every 0.25 seconds to targets in front of you while charging. This can be increased with skills. Cannot parry enemy attacks.", -- ROAMING FR-
 		["bm_melee_ostry_info"] = "Spiiiiiiiiiin.\n\nDeals 18 damage every 0.25 seconds to targets in front of you while charging. This can be increased with skills. Cannot parry enemy attacks.", --Kazaguruma
 		["bm_melee_wing_info"] = "Goes great with a disguise kit!\n\nDeals quadruple damage when attacking enemies from behind.",-- Wing Butterfly Knife
@@ -1748,7 +1750,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Die Hard--
 			["menu_show_of_force_sc"] = "Die Hard",
-			["menu_show_of_force_desc_sc"] = "BASIC: ##$basic##\nYou gain ##5## deflection.\n\nEach point of deflection makes you take ##1%## less health damage, and is applied after other forms of damage reduction.\n\nACE: ##$pro##\nYou gain an additional ##5## deflection.",
+			["menu_show_of_force_desc_sc"] = "BASIC: ##$basic##\nYou gain ##5## deflection.\n\nEach point of deflection makes you take ##1%## less health damage.\n\nACE: ##$pro##\nYou gain an additional ##5## deflection.",
 
 			--Transporter--
 			["menu_pack_mule_beta_sc"] = "Transporter",
@@ -1891,7 +1893,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Dexterous Hands--
 			["menu_scavenger_beta_sc"] = "Dexterous Hands",
-			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the concealment of melee weapons by ##2.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
+			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the mobility of melee weapons by ##10.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
 
 
 
@@ -1920,13 +1922,30 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   BRAWLER SUBTREE   ]]--
 			--{
 
-			--Counter Strike--
-			["menu_drop_soap_beta_sc"] = "Counter Strike",
-			["menu_drop_soap_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now parry cloaker kicks while you have your melee weapon drawn, knocking them down.\n\nYou take ##20%## less damage from cloaker kicks and taser shocks.\n\nACE: ##$pro##\nRanged damage against you is reduced by ##10%## while charging your melee weapon.\n\nYou take an additional ##30%## less damage from cloaker kicks and taser shocks.",
+			--Martial Arts--
+			["menu_martial_arts_beta_sc"] = "Iron Knuckles",
+			["menu_martial_arts_beta_desc_sc"] = "BASIC: ##$basic##\nYou take ##50%## less damage from all melee attacks because of training.\n\nACE: ##$pro##\nYou gain a ##15%## damage reduction while your melee weapon is drawn.",
 
 			--Bloodthirst--
 			["menu_bloodthirst_sc"] = "Bloodthirst",
-			["menu_bloodthirst_desc_sc"] = "BASIC: ##$basic##\nWhenever you kill an enemy with a melee attack, you will gain a ##30%## increase in reload speed for ##10## seconds.\n\nACE: ##$pro##\nEvery kill you get will increase your next melee attack damage by ##25%##, up to a maximum of ##100%.##\n\nThis effect gets reset when striking an enemy with a melee attack.",
+			["menu_bloodthirst_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy outside of melee increases your next melee attack's knockdown by ##30%##, up to a maximum of ##90%.##\n\nACE: ##$pro##\nKilling an enemy outside of melee increases your next melee attack's damage by ##20%##, up to a maximum of ##60%.##.",
+			
+			--Pumping Iron--
+			["menu_steroids_beta_sc"] = "Pumping Iron",
+			["menu_steroids_beta_desc_sc"] = "BASIC: ##$basic##\nYou swing and charge melee weapons ##20%## faster.\n\nACE: ##$pro##\nYou swing and charge melee weapons an additional ##30%## faster.",
+
+			--Snatch--
+			["menu_wolverine_beta_sc"] = "Snatch",
+			["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nMelee kills instantly load ##3## bullets into your current gun from your total ammo pool.\n\nACE: ##$pro##\nMelee kills increase your reload speed by ##50%## for ##10## seconds.",
+
+			--Counter Strike--
+			["menu_drop_soap_beta_sc"] = "Counter Strike",
+			["menu_drop_soap_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now parry cloaker kicks while you have your melee weapon drawn, knocking them down.\n\nACE: ##$pro##\nYou can now parry dozer punches while you have your melee weapon drawn, briefly stunning them.",
+
+			--Frenzy--
+			["menu_frenzy_sc"] = "Frenzy",
+			["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nYour health cannot be increased above ##25%##, but you deal ##150%## more saw and melee damage.\n\nACE: ##$pro##\nYou gain ##30## deflection, and you deal ##75%## more gun damage.\n\nEach point of deflection makes you take ##1%## less health damage.",
+
 
 
 			--}
@@ -2063,22 +2082,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		--Messiah--
 		["menu_pistol_beta_messiah_sc"] = "Messiah",
 		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nWhile in bleedout, killing an enemy will allow you to revive yourself. You have ##1## charge which is replenished when leaving custody.\n\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nMessiah now has infinite charges, but has a ##120## second cooldown. Kills while downed reduce the cooldown by ##10## seconds.",
-
-		--Martial Arts--
-		["menu_martial_arts_beta_sc"] = "Martial Arts",
-		["menu_martial_arts_beta_desc_sc"] = "BASIC: ##$basic##\nYou take ##50%## less damage from all melee attacks because of training.\n\nACE: ##$pro##\nYou are ##50%## more likely to knock down enemies with a melee strike because of training.",
-
-		--Pumping Iron--
-		["menu_steroids_beta_sc"] = "Pumping Iron",
-		["menu_steroids_beta_desc_sc"] = "BASIC: ##$basic##\nYou swing and charge melee weapons ##20%## faster.\n\nACE: ##$pro##\nYou swing and charge melee weapons an additional ##30%## faster.",
-
-		--Frenzy--
-		["menu_wolverine_beta_sc"] = "Frenzy",
-		["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nYou start with and cannot heal above ##25%## of your maximum health.\n\nYou gain ##20## deflection but ##you can no longer heal##.\n\nEach point of deflection makes you take ##1%## less health damage, and is applied after other forms of damage reduction.\n\nACE: ##$pro##\nYou gain an additional ##25## deflection, and healing is instead reduced by ##75%##.",
-
-		--Berserker--
-		["menu_frenzy_sc"] = "Berserker",
-		["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##150%## more melee and saw damage.\n\nACE: ##$pro##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##75%## more damage with firearms.",
 	})
 end)
 
@@ -2117,7 +2120,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck5_3_desc_sc"] = "Your dodge meter fills up by ##100%## of your dodge when your armor is restored.\n\nYou gain ##5## dodge points.",
 		["menu_deck5_5_desc_sc"] = "You store ##60%## more health.",
 		["menu_deck5_7_desc_sc"] = "You gain ##120## temporary health when you are revived.\n\nYou gain an additional ##5## dodge points.",
-		["menu_deck5_9_desc_sc"] = "While you have temporary health, you gain ##20## deflection and ##20%## additional movement speed.\n\nEach point of deflection makes you take ##1%## less health damage, and is applied after other forms of damage reduction.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
+		["menu_deck5_9_desc_sc"] = "While you have temporary health, you gain ##20## deflection and ##20%## additional movement speed.\n\nEach point of deflection makes you take ##1%## less health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		["menu_deck2_1_desc_sc"] = "You gain ##10%## more health.",
 		["menu_deck2_3_desc_sc"] = "You gain an additional ##10%## more health.",

@@ -1896,7 +1896,7 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   BRAWLER SUBTREE   ]]--
 			--{
 
-			--Martial Arts--
+			--Iron Knuckles--
 			self.skills.martial_arts = {
 				["name_id"] = "menu_martial_arts_beta_sc",
 				["desc_id"] = "menu_martial_arts_beta_desc_sc",
@@ -1909,7 +1909,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_melee_knockdown_mul"
+						"player_deflect_ranged"
 					},
 					cost = self.costs.pro
 				}
@@ -1917,20 +1917,18 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Counter Strike, formally bloodthirst--
 			self.skills.bloodthirst = {
-				["name_id"] = "menu_drop_soap_beta_sc",
-				["desc_id"] = "menu_drop_soap_beta_desc_sc",
-				["icon_xy"] = {4, 12},
+				["name_id"] = "menu_bloodthirst_sc",
+				["desc_id"] = "menu_bloodthirst_desc_sc",
+				["icon_xy"] = {11, 6},
 				[1] = {
 					upgrades = {
-						"player_counter_strike_spooc",
-						"player_spooc_damage_resist_1"						
-					},		
+						"player_melee_damage_stacking_1"
+					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_deflect_ranged",
-						"player_spooc_damage_resist_2"
+						"player_melee_damage_stacking_2"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1959,18 +1957,18 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Bloodthirst, formally counter-strike--
 			self.skills.drop_soap = {
-				["name_id"] = "menu_bloodthirst_sc",
-				["desc_id"] = "menu_bloodthirst_desc_sc",
-				["icon_xy"] = {11, 6},
+				["name_id"] = "menu_wolverine_beta_sc",
+				["desc_id"] = "menu_wolverine_beta_desc_sc",
+				["icon_xy"] = {11, 8},
 				[1] = {
 					upgrades = {
-						"player_temp_melee_kill_increase_reload_speed_1"
+						"player_melee_kill_auto_load"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_melee_damage_stacking_1"
+						"player_temp_melee_kill_increase_reload_speed_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1978,40 +1976,39 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Frenzy--
 			self.skills.wolverine = {
-				["name_id"] = "menu_wolverine_beta_sc",
-				["desc_id"] = "menu_wolverine_beta_desc_sc",
-				["icon_xy"] = {11, 8},
+				["name_id"] = "menu_drop_soap_beta_sc",
+				["desc_id"] = "menu_drop_soap_beta_desc_sc",
+				["icon_xy"] = {4, 12},
 				[1] = {
 					upgrades = {
-						"player_healing_reduction_1",
-						"player_frenzy_deflection_1",
-						"player_max_health_reduction_1"
-					},
+						"player_counter_strike_spooc"					
+					},		
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_healing_reduction_2",
-						"player_frenzy_deflection_2"
+						"player_counter_strike_dozer"	
 					},
 					cost = self.costs.hightierpro
 				}
 			}
 
-			--Berserker--
+			--Frenzy--
 			self.skills.frenzy = {
 				["name_id"] = "menu_frenzy_sc",
 				["desc_id"] = "menu_frenzy_desc_sc",
 				["icon_xy"] = {2, 2},
 				[1] = {
 					upgrades = {
+						"player_max_health_reduction_1",
 						"player_melee_damage_health_ratio_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_damage_health_ratio_multiplier"
+						"player_damage_health_ratio_multiplier",
+						"player_frenzy_deflection"
 					},
 					cost = self.costs.hightierpro
 				}

@@ -191,6 +191,7 @@
 		<hook file="sc/units/pickups/ammoclip.lua" source_file="lib/units/pickups/ammoclip"/>
 		<hook file="sc/units/pickups/gageassignmentbase.lua" source_file="lib/units/pickups/gageassignmentbase"/>
 		<hook file="sc/units/pickups/pickup.lua" source_file="lib/units/pickups/pickup"/>
+		<hook file="sc/utils/messages.lua" source_file="lib/utils/messages"/>
 		<hook file="sc/player_actions/skills/playeractiondamagecontrol.lua" source_file="lib/player_actions/skills/playeractiondamagecontrol"/>
 		<hook file="sc/player_actions/skills/playeractiontriggerhappy.lua" source_file="lib/player_actions/skills/playeractiontriggerhappy"/>
 		<hook file="sc/player_actions/skills/playeractionexperthandling.lua" source_file="lib/player_actions/skills/playeractionexperthandling"/>
@@ -350,7 +351,7 @@
 				<option type="number" default_value="8" min="1" max="8" step="1" show_value="true" name="Info_Count"/>
 				<option type="bool" default_value="true" name="Info_ammo_efficiency"/>
 				<option type="bool" default_value="true" name="Info_single_shot_fast_reload"/> <!-- aggressive reload -->
-				<option type="bool" default_value="true" name="Info_bloodthirst_reload_speed"/>
+				<option type="bool" default_value="true" name="Info_bloodthirst_stacks"/>
 				<option type="bool" default_value="true" name="Info_bullet_hell"/>
 				<option type="bool" default_value="true" name="Info_bullet_storm"/>
 				<option type="bool" default_value="true" name="Info_revive_damage_reduction"/> <!-- Combat Medic -->
@@ -371,6 +372,7 @@
 				<option type="bool" default_value="true" name="Info_headshot_accuracy_addend"/> <!-- Sharpshooter -->
 				<option type="bool" default_value="true" name="Info_shotgun_last_shot_stagger"/> <!-- Shell Shocked -->
 				<option type="bool" default_value="true" name="Info_silent_precision"/>
+				<option type="bool" default_value="true" name="Info_melee_kill_increase_reload_speed"/> <!-- Snatch -->
 				<option type="bool" default_value="true" name="Info_trigger_happy"/>
 				<option type="bool" default_value="true" name="Info_unseen_strike"/>
 			</option_group>

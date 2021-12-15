@@ -196,7 +196,7 @@
 	<!--Info Hud Skill Icons-->
 	<texture path="guis/textures/pd2/skilltree/info_ammo_efficiency" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_single_shot_fast_reload" force="false" load="false"/> <!-- Aggressive Reload -->
-	<texture path="guis/textures/pd2/skilltree/info_bloodthirst_reload_speed" force="false" load="false"/>
+	<texture path="guis/textures/pd2/skilltree/info_bloodthirst_stacks" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_bullet_hell" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_bullet_storm" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_revive_damage_reduction" force="false" load="false"/> <!-- Combat Medic -->
@@ -215,6 +215,7 @@
 	<texture path="guis/textures/pd2/skilltree/info_headshot_accuracy_addend" force="false" load="false"/> <!-- Sharpshooter Ace -->
 	<texture path="guis/textures/pd2/skilltree/info_shotgun_last_shot_stagger" force="false" load="false"/> <!-- Shell Shocked -->
 	<texture path="guis/textures/pd2/skilltree/info_silent_precision" force="false" load="false"/>
+	<texture path="guis/textures/pd2/skilltree/info_melee_kill_increase_reload_speed" force="false" load="false"/> <!-- Snatch -->
 	<texture path="guis/textures/pd2/skilltree/info_trigger_happy" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_close_combat" force="false" load="false"/> <!-- Underdog -->
 	<texture path="guis/textures/pd2/skilltree/info_unseen_strike" force="false" load="false"/>

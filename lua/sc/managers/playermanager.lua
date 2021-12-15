@@ -40,6 +40,7 @@ Hooks:PostHook(PlayerManager, "init", "ResInit", function(self)
 		power = 0, --% slow when first started.
 		start_time = 0 --Time when slow was started.
 	}
+	self._melee_knockdown_mul = 1
 end)
 
 --Make armor bot boost increase armor by % instead of adding.
@@ -448,18 +449,12 @@ function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 			multiplier = multiplier * self:upgrade_value("player", "interacting_damage_multiplier", 1) --Nerves of Steel Ace
 		elseif current_state:in_melee() then
 			local melee_name_id = managers.blackmarket:equipped_melee_weapon()
-			if damage_type == "bullet" then --Counter Strike
-				multiplier = multiplier * self:upgrade_value("player", "deflect_ranged", 1)
-			end
+			multiplier = multiplier * self:upgrade_value("player", "deflect_ranged", 1) --Iron Knuckles Ace
 
 			if tweak_data.blackmarket.melee_weapons[melee_name_id].block then --Buck shield.
 				multiplier = multiplier * tweak_data.blackmarket.melee_weapons[melee_name_id].block
 			end
 		end
-	end
-	
-	if self._current_state == "bipod" then
-		multiplier = multiplier * self:upgrade_value("player", "bipod_damage_reduction", 1) --Heavy Impact
 	end
 
 	return multiplier
@@ -479,9 +474,10 @@ function PlayerManager:skill_dodge_chance(running, crouching, on_zipline, overri
 	return chance
 end
 
---Now can also trigger from Yakuza DR.
+--Now can also trigger from Yakuza DR. No longer triggers from damage skills
 function PlayerManager:is_damage_health_ratio_active(health_ratio)
-	return self:has_category_upgrade("player", "melee_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "melee") > 0 or self:has_category_upgrade("player", "resistance_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "armor_regen") > 0 or self:has_category_upgrade("player", "damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "damage") > 0 or self:has_category_upgrade("player", "movement_speed_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "movement_speed") > 0
+	return self:has_category_upgrade("player", "resistance_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "armor_regen") > 0
+		or self:has_category_upgrade("player", "movement_speed_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "movement_speed") > 0
 end
 
 function PlayerManager:health_skill_multiplier()
@@ -517,19 +513,15 @@ function PlayerManager:check_skills()
 	end
 
 	if self:has_category_upgrade("player", "melee_damage_stacking") then
-		local function start_bloodthirst_base(weapon_unit, variant)
-			if variant ~= "melee" and not self._coroutine_mgr:is_running(PlayerAction.BloodthirstBase) then
-				local data = self:upgrade_value("player", "melee_damage_stacking", nil)
-
-				if data and type(data) ~= "number" then
-					self._coroutine_mgr:add_coroutine(PlayerAction.BloodthirstBase, PlayerAction.BloodthirstBase, self, data.melee_multiplier, data.max_multiplier)
-				end
-			end
-		end
-
-		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_base", start_bloodthirst_base)
+		self._bloodthirst_stacks = 0
+		self._bloodthirst_data = self:upgrade_value("player", "melee_damage_stacking", nil)
+		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_stacking", callback(self, self, "_trigger_bloodthirst"))
+		self._message_system:register(Message.OnEnemyHit, "bloodthirst_consuming", callback(self, self, "_consume_bloodthirst"))
 	else
+		self._bloodthirst_stacks = 0
+		self._bloodthirst_data = nil
 		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_base")
+		self._message_system:unregister(Message.OnEnemyHit, "bloodthirst_consuming")
 	end
 
 
@@ -573,10 +565,16 @@ function PlayerManager:check_skills()
 		self._message_system:unregister(Message.OnHeadShot, "ammo_efficiency")
 	end
 
-	if self:has_category_upgrade("player", "melee_kill_increase_reload_speed") then
-		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_reload_speed", callback(self, self, "_on_enemy_killed_bloodthirst"))
+	if self:has_category_upgrade("player", "melee_kill_auto_load") then
+		self._message_system:register(Message.OnEnemyKilled, "snatch_auto_load", callback(self, self, "_trigger_snatch_auto_load"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_reload_speed")
+		self._message_system:unregister(Message.OnEnemyKilled, "snatch_auto_load")
+	end
+
+	if self:has_category_upgrade("player", "melee_kill_increase_reload_speed") then
+		self._message_system:register(Message.OnEnemyKilled, "snatch_reload_speed", callback(self, self, "_on_enemy_killed_bloodthirst"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "snatch_reload_speed")
 	end
 
 	if self:has_category_upgrade("player", "super_syndrome") then
@@ -691,12 +689,16 @@ function PlayerManager:check_skills()
 	end
 end
 
+
+
+function PlayerManager:enemy_hit(unit, attack_data)
+	self._message_system:notify(Message.OnEnemyHit, nil, self._unit, attack_data)
+end
+
 local mvec3_norm = mvector3.normalize
 local mvec3_dis_sq = mvector3.distance_sq
 local mvec3_cpy = mvector3.copy
-
 local ovh_idstr = Idstring("effects/pd2_mod_heatgen/explosions/overheat")
-
 function PlayerManager:enemy_shot(unit, attack_data)
 	self._message_system:notify(Message.OnEnemyShot, nil, self._unit, attack_data)
 
@@ -968,11 +970,26 @@ function PlayerManager:_internal_load()
 	self._detection_risk = math.round(managers.blackmarket:get_suspicion_offset_of_local(tweak_data.player.SUSPICION_OFFSET_LERP or 0.75) * 100)
 end
 
---Why these aren't all handled here will eternally baffle me.
---Will move everything in here soon.
---Adds Underdog basic.
+function PlayerManager:set_melee_knockdown_multiplier(value)
+	self._melee_knockdown_mul = value
+end
+
+function PlayerManager:reset_melee_knockdown_multiplier()
+	self._melee_knockdown_mul = 1
+end
+
+function PlayerManager:get_melee_knockdown_multiplier() 
+	return self._melee_knockdown_mul
+end
+
+--Moves skills to here for a central point of contact for melee damage multipliers.
 function PlayerManager:get_melee_dmg_multiplier()
-	return self._melee_dmg_mul * (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
+	log(self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1))
+	log(tostring(self:has_category_upgrade("player", "melee_damage_health_ratio_multiplier")))
+	return self._melee_dmg_mul
+		* managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
+		* (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
+		* self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
 end
 
 --Adds rogue health regen stack on dodge.
@@ -1138,6 +1155,35 @@ function PlayerManager:_on_spawn_extra_ammo_event(killed_unit)
 		managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
 	else
 		self:spawn_extra_ammo(killed_unit)
+	end
+end
+
+--Because listeners execute after the frame they are called on, vanilla Bloodthirst can fail to catch some kills since the coroutine to handle stacks doesn't exist yet.
+--The solution is to directly handle it inside PlayerManager, since the couroutine pretty much just existed to change PlayerManager state anyway.
+function PlayerManager:_trigger_bloodthirst(weapon_unit, variant)
+	if variant ~= "melee" and not self._coroutine_mgr:is_running(PlayerAction.BloodthirstBase) then
+		self._bloodthirst_stacks = math.min(self._bloodthirst_stacks + 1, self._bloodthirst_data.max_stacks)
+		managers.hud:set_stacks("bloodthirst_stacks", self._bloodthirst_stacks)
+		self:set_melee_knockdown_multiplier(1 + (self._bloodthirst_stacks * self._bloodthirst_data.knockdown_multiplier))
+		self:set_melee_dmg_multiplier(1 + (self._bloodthirst_stacks * self._bloodthirst_data.damage_multiplier))
+	end
+end
+
+--Likewise, we make bloodthirst go away after a melee hit instead of a melee kill.
+function PlayerManager:_consume_bloodthirst(unit, attack_data)
+	self._bloodthirst_stacks = 0
+	managers.hud:remove_skill("bloodthirst_stacks")
+	managers.player:reset_melee_knockdown_multiplier()
+	managers.player:reset_melee_dmg_multiplier()
+end
+
+function PlayerManager:_trigger_snatch_auto_load(equipped_unit, variant, killed_unit)
+	if variant == "melee" then
+		local weapon_unit = equipped_unit:base()
+		local bullets_loaded = weapon_unit:get_ammo_remaining_in_clip() + self:upgrade_value("player", "melee_kill_auto_load", 0)
+		bullets_loaded = math.min(bullets_loaded, math.min(weapon_unit:get_ammo_total(), weapon_unit:get_ammo_max_per_clip()))
+		weapon_unit:set_ammo_remaining_in_clip(bullets_loaded)
+		managers.hud:set_ammo_amount(weapon_unit:selection_index(), weapon_unit:ammo_info())
 	end
 end
 

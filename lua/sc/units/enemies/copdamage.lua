@@ -1216,12 +1216,6 @@ function CopDamage:damage_melee(attack_data)
 			local critical_hits = self._char_tweak.critical_hits or {}
 			local critical_damage_mul = critical_hits.damage_mul or self._char_tweak.headshot_dmg_mul
 
-			if critical_damage_mul then
-				damage_effect = damage_effect * critical_damage_mul
-			else
-				damage_effect = self._health * 10
-			end
-
 			attack_data.critical_hit = true
 
 			if damage > 0 then
@@ -1262,19 +1256,17 @@ function CopDamage:damage_melee(attack_data)
 
 	if head and not self._damage_reduction_multiplier then
 		if self._char_tweak.headshot_dmg_mul then
-			--Use math.max to cover edge cases (mostly Capt. Summers) where cleaver type weapons would deal *less* damage on a headshot than a bodyshot.
 			headshot_multiplier = math_max(self._char_tweak.headshot_dmg_mul * headshot_multiplier, 1)
 			damage = damage * headshot_multiplier
 			damage_effect = damage_effect * headshot_multiplier
 		else
-			damage = self._health * 10
-			damage_effect = self._health * 10
+			damage = self._health * 2
+			damage_effect = self._health * 2
 		end
 	end
 
 	if self._marked_dmg_mul then
 		damage = damage * self._marked_dmg_mul
-		damage_effect = damage_effect * self._marked_dmg_mul
 	end
 
 	if self._char_tweak.damage.melee_damage_mul then
@@ -1284,12 +1276,6 @@ function CopDamage:damage_melee(attack_data)
 
 	damage = self:_apply_damage_reduction(damage)
 	damage_effect = self:_apply_damage_reduction(damage_effect)
-
-	if self._char_tweak.DAMAGE_CLAMP_MELEE then
-		damage = math_min(damage, self._char_tweak.DAMAGE_CLAMP_MELEE)
-		damage_effect = math_min(damage_effect, self._char_tweak.DAMAGE_CLAMP_MELEE)
-	end
-
 	attack_data.raw_damage = damage
 
 	local damage_percent = 0
@@ -1377,7 +1363,7 @@ function CopDamage:damage_melee(attack_data)
 					self._tased_down_time = self._tased_time * 2
 				end
 			end
-		elseif attack_data.variant == "counter_spooc" and not self._unit:base():has_tag("tank") and not self._unit:base():has_tag("boss") then
+		elseif attack_data.variant == "counter_spooc" then
 			result_type = "expl_hurt"
 		end
 
@@ -1565,6 +1551,10 @@ function CopDamage:damage_melee(attack_data)
 
 	self:_send_melee_attack_result(attack_data, damage_percent, damage_effect_percent, hit_offset_height, i_result, body_index)
 	self:_on_damage_received(attack_data)
+
+	if not is_civilian then
+		managers.player:enemy_hit(self._unit, attack_data)
+	end
 
 	return result
 end

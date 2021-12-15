@@ -83,6 +83,7 @@ function PlayerDamage:init(unit)
 	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
 	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
+	self._can_counter_dozers = managers.player:has_category_upgrade("player", "counter_strike_dozer")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
 	if self._can_survive_one_hit then
 		managers.hud:add_skill("survive_one_hit")
@@ -534,7 +535,7 @@ function PlayerDamage:damage_melee(attack_data)
 	if parried or dodged then
 		--prevent the player from countering Dozers or other players through FF, for obvious reasons
 		if alive(attacker_unit) and attacker_unit:base() and not attacker_unit:base().is_husk_player then
-			local is_dozer = attacker_unit:base().has_tag and attacker_unit:base():has_tag("tank")
+			local is_dozer = not self._can_counter_dozers and attacker_unit:base().has_tag and attacker_unit:base():has_tag("tank")
 
 			if not is_dozer then
 				if parried then
@@ -543,7 +544,7 @@ function PlayerDamage:damage_melee(attack_data)
 
 				return "countered"
 			elseif dodged then --Dodged an uncounterable attack.
-				return
+				return self._can_counter_dozers and "countered" or nil
 			end
 		end
 	end
