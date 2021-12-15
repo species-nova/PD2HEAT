@@ -339,6 +339,11 @@
 	<!--///MOD SETTINGS\\\-->
     <Options name="Options" auto_build_menu="true" auto_load="true" save_file="heat.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
 	    <options>
+<<<<<<< HEAD
+=======
+			<option type="bool" default_value="false" name="AimAssist"/>
+			<option type="bool" default_value="false" name="ScreenFX"/>
+>>>>>>> 422bd590946d17dce2abaac90ab3af3ca6a0702a
 			<option type="bool" default_value="false" name="RealAmmo"/>
 			<option type="bool" default_value="false" name="AltLastDownColor"/>
 			<option type="bool" default_value="false" name="NoBleedoutTilt"/>
