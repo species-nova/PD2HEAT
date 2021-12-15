@@ -1939,7 +1939,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Snatch--
 			["menu_wolverine_beta_sc"] = "Snatch",
-			["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nMelee kills instantly load ##3## bullets into your current gun from your total ammo pool.\n\nACE: ##$pro##\nMelee kills increase your reload speed by ##50%## for ##10## seconds.",
+			["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nMelee kills instantly load ##2## bullets into your current gun from your total ammo pool.\n\nACE: ##$pro##\nMelee kills increase your reload speed by ##50%## for ##10## seconds.",
 
 			--Counter Strike--
 			["menu_drop_soap_beta_sc"] = "Counter Strike",

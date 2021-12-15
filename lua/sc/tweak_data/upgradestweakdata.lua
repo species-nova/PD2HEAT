@@ -1282,7 +1282,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Snatch
 				--Basic
-					self.values.player.melee_kill_auto_load = { 3 }
+					self.values.player.melee_kill_auto_load = {2}
 				--Ace
 					self.values.temporary.melee_kill_increase_reload_speed = {{1.5, 10}}
 				
