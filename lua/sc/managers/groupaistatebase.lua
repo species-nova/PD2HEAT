@@ -650,9 +650,9 @@ function GroupAIStateBase:_update_point_of_no_return(t, dt)
 
 	local prev_time = self._point_of_no_return_timer
 	self._point_of_no_return_timer = self._point_of_no_return_timer - dt
-	local sec = math_floor(self._point_of_no_return_timer)
+	local sec = math.floor(self._point_of_no_return_timer)
 
-	if sec < math_floor(prev_time) then
+	if sec < math.floor(prev_time) then
 		managers.hud:flash_point_of_no_return_timer(sec <= 10)
 	end
 
