@@ -2,6 +2,153 @@ local function format_round(num, round_value)
 	return round_value and tostring(math.round(num)) or string.format("%.1f", num):gsub("%.?0+$", "")
 end
 
+function PlayerInventoryGui:_get_melee_weapon_stats(name)
+	local base_stats = {}
+	local mods_stats = {}
+	local skill_stats = {}
+	local stats_data = managers.blackmarket:get_melee_weapon_stats(name)
+	local multiple_of = {}
+	local has_non_special = managers.player:has_category_upgrade("player", "non_special_melee_multiplier")
+	local has_special = managers.player:has_category_upgrade("player", "melee_damage_multiplier")
+	local non_special = managers.player:upgrade_value("player", "non_special_melee_multiplier", 1) - 1
+	local special = managers.player:upgrade_value("player", "melee_damage_multiplier", 1) - 1
+
+	for i, stat in ipairs(self._stats_shown) do
+		local skip_rounding = stat.num_decimals
+		base_stats[stat.name] = {
+			value = 0,
+			max_value = 0,
+			min_value = 0
+		}
+		mods_stats[stat.name] = {
+			value = 0,
+			max_value = 0,
+			min_value = 0
+		}
+		skill_stats[stat.name] = {
+			value = 0,
+			max_value = 0,
+			min_value = 0
+		}
+
+		if stat.name == "damage" then
+			local base_min = stats_data.min_damage * tweak_data.gui.stats_present_multiplier
+			local base_max = stats_data.max_damage * tweak_data.gui.stats_present_multiplier
+			local dmg_mul = managers.player:upgrade_value("player", "melee_" .. tostring(tweak_data.blackmarket.melee_weapons[name].stats.weapon_type) .. "_damage_multiplier", 1)
+			local skill_mul = dmg_mul * ((has_non_special and has_special and math.max(non_special, special) or 0) + 1) - 1
+			local skill_min = skill_mul
+			local skill_max = skill_mul
+			base_stats[stat.name] = {
+				min_value = base_min,
+				max_value = base_max,
+				value = (base_min + base_max) / 2
+			}
+			skill_stats[stat.name] = {
+				min_value = skill_min,
+				max_value = skill_max,
+				value = (skill_min + skill_max) / 2,
+				skill_in_effect = skill_min > 0 or skill_max > 0
+			}
+		elseif stat.name == "damage_effect" then
+			local base_min = stats_data.min_damage_effect
+			local base_max = stats_data.max_damage_effect
+			base_stats[stat.name] = {
+				min_value = base_min,
+				max_value = base_max,
+				value = (base_min + base_max) / 2
+			}
+			local dmg_mul = managers.player:upgrade_value("player", "melee_" .. tostring(tweak_data.blackmarket.melee_weapons[name].stats.weapon_type) .. "_damage_multiplier", 1) - 1
+			local gst_skill = managers.player:upgrade_value("player", "melee_knockdown_mul", 1) - 1
+			local skill_mul = (1 + dmg_mul) * (1 + gst_skill) - 1
+			local skill_min = skill_mul
+			local skill_max = skill_mul
+			skill_stats[stat.name] = {
+				skill_min = skill_min,
+				skill_max = skill_max,
+				min_value = skill_min,
+				max_value = skill_max,
+				value = (skill_min + skill_max) / 2,
+				skill_in_effect = skill_min > 0 or skill_max > 0
+			}
+		elseif stat.name == "charge_time" then
+			local base = stats_data.charge_time
+			base_stats[stat.name] = {
+				value = base,
+				min_value = base,
+				max_value = base
+			}
+		elseif stat.name == "range" then
+			local base_min = stats_data.range
+			local base_max = stats_data.range
+			base_stats[stat.name] = {
+				min_value = base_min,
+				max_value = base_max,
+				value = (base_min + base_max) / 2
+			}
+		elseif stat.name == "concealment" then
+			local base = (managers.blackmarket:_calculate_melee_weapon_concealment(name) - 1) * 5
+			local skill = managers.blackmarket:concealment_modifier("melee_weapons") * 5
+			base_stats[stat.name] = {
+				min_value = base,
+				max_value = base,
+				value = base
+			}
+			skill_stats[stat.name] = {
+				min_value = skill,
+				max_value = skill,
+				value = skill,
+				skill_in_effect = skill > 0
+			}
+		end
+
+		if stat.multiple_of then
+			table.insert(multiple_of, {
+				stat.name,
+				stat.multiple_of
+			})
+		end
+
+		base_stats[stat.name].real_value = base_stats[stat.name].value
+		mods_stats[stat.name].real_value = mods_stats[stat.name].value
+		skill_stats[stat.name].real_value = skill_stats[stat.name].value
+		base_stats[stat.name].real_min_value = base_stats[stat.name].min_value
+		mods_stats[stat.name].real_min_value = mods_stats[stat.name].min_value
+		skill_stats[stat.name].real_min_value = skill_stats[stat.name].min_value
+		base_stats[stat.name].real_max_value = base_stats[stat.name].max_value
+		mods_stats[stat.name].real_max_value = mods_stats[stat.name].max_value
+		skill_stats[stat.name].real_max_value = skill_stats[stat.name].max_value
+	end
+
+	for i, data in ipairs(multiple_of) do
+		local multiplier = data[1]
+		local stat = data[2]
+		base_stats[multiplier].min_value = base_stats[stat].real_min_value * base_stats[multiplier].real_min_value
+		base_stats[multiplier].max_value = base_stats[stat].real_max_value * base_stats[multiplier].real_max_value
+		base_stats[multiplier].value = (base_stats[multiplier].min_value + base_stats[multiplier].max_value) / 2
+	end
+
+	for i, stat in ipairs(self._stats_shown) do
+		if not stat.index then
+			if skill_stats[stat.name].value and base_stats[stat.name].value then
+				skill_stats[stat.name].value = base_stats[stat.name].value * skill_stats[stat.name].value
+				base_stats[stat.name].value = base_stats[stat.name].value
+			end
+
+			if skill_stats[stat.name].min_value and base_stats[stat.name].min_value then
+				skill_stats[stat.name].min_value = base_stats[stat.name].min_value * skill_stats[stat.name].min_value
+				base_stats[stat.name].min_value = base_stats[stat.name].min_value
+			end
+
+			if skill_stats[stat.name].max_value and base_stats[stat.name].max_value then
+				skill_stats[stat.name].max_value = base_stats[stat.name].max_value * skill_stats[stat.name].max_value
+				base_stats[stat.name].max_value = base_stats[stat.name].max_value
+			end
+		end
+	end
+
+	return base_stats, mods_stats, skill_stats
+end
+
 function PlayerInventoryGui:_get_armor_stats(name)
 	local base_stats = {}
 	local mods_stats = {}
@@ -42,13 +189,6 @@ function PlayerInventoryGui:_get_armor_stats(name)
 			skill_stats[stat.name] = {
 				value = base_stats[stat.name].value * managers.player:health_skill_multiplier() - base_stats[stat.name].value
 			}
-		elseif stat.name == "concealment" then
-			base_stats[stat.name] = {
-				value = managers.player:body_armor_value("concealment", upgrade_level)
-			}
-			skill_stats[stat.name] = {
-				value = managers.blackmarket:concealment_modifier("armors", upgrade_level)
-			}
 		elseif stat.name == "movement" then
 			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX / 100
 			local movement_penalty = managers.player:body_armor_value("movement", upgrade_level)
@@ -74,6 +214,14 @@ function PlayerInventoryGui:_get_armor_stats(name)
 			skill_stats[stat.name] = {
 				value = managers.player:skill_dodge_chance(false, false, false, name, detection_risk) * 100
 			}
+		elseif stat.name == "regen_time" then
+			local base = tweak_data.player.damage.REGENERATE_TIME
+			base_stats[stat.name] = {value = base}
+			if managers.player:has_category_upgrade("player", "armor_grinding") then
+				skill_stats[stat.name] = {value = tweak_data.upgrades.values.player.armor_grinding[1][upgrade_level][2] - base}
+			else
+				skill_stats[stat.name] = {value = base * managers.player:body_armor_regen_multiplier(false, 0) - base}
+			end
 		elseif stat.name == "deflection" then
 			local base = 0
 			local mod = managers.player:body_armor_value("deflection", upgrade_level, 0)
@@ -136,20 +284,18 @@ function PlayerInventoryGui:setup_player_stats(panel)
 			name = "deflection"
 		},
 		{
-			name = "dodge",
-			procent = true,
-			revert = true
+			name = "dodge"
 		},
 		{
-			index = true,
-			name = "concealment"
-		},
-		{
-			procent = true,
-			name = "movement"
+			name = "movement",
+			append = "m/s"
 		},
 		{
 			name = "stamina"
+		},
+		{
+			name = "regen_time",
+			inverted = true
 		}
 	}
 	local stats_panel = panel:child("stats_panel")
@@ -272,6 +418,35 @@ function PlayerInventoryGui:setup_player_stats(panel)
 			if column.name == "name" then
 				self._player_stats_texts[stat.name].name:set_text(managers.localization:to_upper_text("bm_menu_" .. stat.name))
 			end
+		end
+	end
+end
+
+function PlayerInventoryGui:_update_player_stats()
+	local player_loadout_data = managers.blackmarket:player_loadout_data()
+	local category = "armors"
+	local equipped_item = managers.blackmarket:equipped_item(category)
+	local equipped_slot = managers.blackmarket:equipped_armor_slot()
+	local temp_stats_shown = self._stats_shown
+	self._stats_shown = self._player_stats_shown
+	local base_stats, mods_stats, skill_stats = self:_get_armor_stats(equipped_item)
+	self._stats_shown = temp_stats_shown
+
+	for _, stat in ipairs(self._player_stats_shown) do
+		local value = math.max(base_stats[stat.name].value + mods_stats[stat.name].value + skill_stats[stat.name].value, 0)
+		local base = base_stats[stat.name].value
+
+		self._player_stats_texts[stat.name].total:set_alpha(1)
+		self._player_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
+		self._player_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.append or ""))
+		self._player_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.append or "") or "")
+
+		if value ~= 0 and ((stat.inverted and base > value) or base < value) then
+			self._player_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.stats_positive)
+		elseif value ~= 0 and ((stat.inverted and base < value) or base > value) then
+			self._player_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.stats_negative)
+		else
+			self._player_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.text)
 		end
 	end
 end

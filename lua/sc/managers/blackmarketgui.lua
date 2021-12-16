@@ -366,9 +366,6 @@ function BlackMarketGui:_get_armor_stats(name)
 			local mod = managers.player:health_skill_addend()
 			base_stats[stat.name] = {value = (base + mod) * tweak_data.gui.stats_present_multiplier}
 			skill_stats[stat.name] = {value = base_stats[stat.name].value * managers.player:health_skill_multiplier() - base_stats[stat.name].value}
-		elseif stat.name == "concealment" then
-			base_stats[stat.name] = {value = managers.player:body_armor_value("concealment", upgrade_level)}
-			skill_stats[stat.name] = {value = managers.blackmarket:concealment_modifier("armors", upgrade_level)}
 		elseif stat.name == "movement" then
 			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX / 100
 			local movement_penalty = managers.player:body_armor_value("movement", upgrade_level)
@@ -450,107 +447,6 @@ function BlackMarketGui:_get_melee_weapon_stats(name)
 	return base, mods, skill
 end
 
---If this breaks then copy the vanilla version and change the value of self._armor_stats_shown to be
---[[
-			self._armor_stats_shown = {
-				{
-					name = "armor"
-				},
-				{
-					name = "health"
-				},
-				{
-					name = "deflection"
-				},
-				{
-					revert = true,
-					name = "dodge"
-				},
-				{
-					index = true,
-					name = "concealment"
-				},
-				{
-					name = "movement"
-				},
-				{
-					name = "stamina"
-				},
-				{
-					name = "regen_time",
-					inverted = true
-				}
-			}
-
-			--Insert swap speed into weapon stats table.
-			--Also make reload not use table.insert because that's stupid.
-			self._stats_shown = {
-				{
-					round_value = true,
-					name = "magazine",
-					stat_name = "extra_ammo"
-				},
-				{
-					round_value = true,
-					name = "totalammo",
-					stat_name = "total_ammo_mod"
-				},
-				{
-					round_value = true,
-					name = "fire_rate"
-				},
-				{
-					name = "damage"
-				},
-				{
-					percent = true,
-					name = "spread",
-					offset = true,
-					revert = true
-				},
-				{
-					percent = true,
-					name = "recoil",
-					offset = true,
-					revert = true
-				},
-				{
-					index = true,
-					name = "concealment"
-				},
-				{
-					percent = false,
-					inverted = true,
-					name = "suppression",
-					offset = true
-				},
-				{
-					inverted = true,
-					name = "reload"
-				},
-				{
-					inverted = true,
-					name = "swap_speed"
-				}
-			}
-
-			Also add the following to the end off local BTNS
-			,
-			bm_modshop = {
-				prio = 5,
-				btn = "BTN_BACK",
-				pc_btn = "toggle_chat",
-				name = "gm_gms_purchase",
-				callback = callback(self, self, "modshop_purchase_mask_callback")
-			},
-			mp_modshop = {
-				prio = 5,
-				btn = "BTN_BACK",
-				pc_btn = "toggle_chat",
-				name = "gm_gms_purchase",
-				callback = callback(self, self, "modshop_purchase_mask_part_callback")
-			}
-]]
 -- Or just add the name = "deflection" to the table somewhere if you don't care much for a logical layout.
 function BlackMarketGui:_setup(is_start_page, component_data)
 	self._in_setup = true
@@ -2417,11 +2313,8 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 					name = "dodge"
 				},
 				{
-					index = true,
-					name = "concealment"
-				},
-				{
-					name = "movement"
+					name = "movement",
+					append = "m/s"
 				},
 				{
 					name = "stamina"
@@ -3319,9 +3212,9 @@ function BlackMarketGui:show_stats()
 				local base = base_stats[stat.name].value
 
 				self._armor_stats_texts[stat.name].equip:set_alpha(1)
-				self._armor_stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value))
-				self._armor_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value))
-				self._armor_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) or "")
+				self._armor_stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
+				self._armor_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.append or ""))
+				self._armor_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.append or "") or "")
 				self._armor_stats_texts[stat.name].total:set_text("")
 				self._armor_stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.text)
 
@@ -3339,10 +3232,10 @@ function BlackMarketGui:show_stats()
 				local equip = math.max(equip_base_stats[stat.name].value + equip_mods_stats[stat.name].value + equip_skill_stats[stat.name].value, 0)
 
 				self._armor_stats_texts[stat.name].equip:set_alpha(0.75)
-				self._armor_stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value))
+				self._armor_stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value) .. (stat.append or ""))
 				self._armor_stats_texts[stat.name].base:set_text("")
 				self._armor_stats_texts[stat.name].skill:set_text("")
-				self._armor_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value))
+				self._armor_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
 
 				--Allow armor stats with "inverted" flag to have inverted green/red colors.
 				if equip < value then

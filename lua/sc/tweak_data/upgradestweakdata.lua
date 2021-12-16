@@ -329,19 +329,19 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.25,
 		0.15,
 		0.05,
+		0.0,
 		-0.05,
 		-0.1,
-		-0.15,
-		-0.25
+		-0.15
 	}
 	self.values.player.body_armor.concealment = {
+		36,
+		34,
 		31,
-		30,
-		28,
-		26,
-		16,
-		6,
-		0
+		27,
+		23,
+		19,
+		11
 	}
 	self.values.player.body_armor.damage_shake = { 
 		1, 

@@ -1276,9 +1276,7 @@ end)
  end
 
 Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
-	LocalizationManager:add_localized_strings({
-		["bm_menu_movement"] = "M/S",
-	
+	LocalizationManager:add_localized_strings({	
 		["menu_toggle_one_down"] = "Pro-Job",
 		["menu_one_down"] = "Pro-Job",
 		["menu_es_pro_job_bonus"] = "Pro-Job",
@@ -1964,7 +1962,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##8%## of your dodge every second while crouching.",
 
 		--Sneaky Bastard--
-		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of concealment under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every ##1## point of concealment under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##15## health. This can only occur once every time your armor breaks.",
+		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of detection risk under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every point of detection risk under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##15## health. This can only occur once every time your armor breaks.",
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
@@ -2020,7 +2018,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Moving Target--
 		["menu_dire_need_beta_sc"] = "Moving Target",
-		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of concealment under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every ##1## point of concealment under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
+		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of detection risk under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every point of detection risk under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
 
 		--Optical Illusions--
 		["menu_optic_illusions_sc"] = "Optical Illusions",
@@ -2040,7 +2038,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Low Blow--
 		["menu_unseen_strike_beta_sc"] = "Low Blow",
-		["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of concealment under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every ##1## point of concealment under ##35## up to a maximum of ##30%.##\n\nWhile your armor is broken, your attacks gain a ##100%## critical hit chance; which can stack with your existing critical hit chance. This can only occur once every time your armor breaks.",
+		["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of detection risk under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every point of detection risk under ##35## up to a maximum of ##30%.##\n\nWhile your armor is broken, your attacks gain a ##100%## critical hit chance; which can stack with your existing critical hit chance. This can only occur once every time your armor breaks.",
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Equilibrium",
