@@ -7437,6 +7437,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			20,
 			24
 		}
+		assault_pool_mul = 3
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7459,6 +7460,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			23,
 			28
 		}
+		assault_pool_mul = 3
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(4 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
