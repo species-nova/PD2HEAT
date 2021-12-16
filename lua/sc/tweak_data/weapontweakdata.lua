@@ -142,7 +142,7 @@ function WeaponTweakData:_init_stats()
 		setmetatable(self.stat_info.bloom_spread, stat_meta_table)
 
 		self.stat_info.bloom_data = {
-			decay_delay = 0.2, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before bloom starts to decay.
+			decay_delay = 0.25, --How long after the player stops shooting (past the gun's innate ROF limits) to wait before bloom starts to decay.
 			decay = 1, --The rate at which bloom decays.
 			gain = 1 --Seconds of continuous fire it takes to max out bloom.
 		}
