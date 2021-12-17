@@ -520,7 +520,7 @@ function PlayerManager:check_skills()
 	else
 		self._bloodthirst_stacks = 0
 		self._bloodthirst_data = nil
-		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_base")
+		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_stacking")
 		self._message_system:unregister(Message.OnEnemyHit, "bloodthirst_consuming")
 	end
 
