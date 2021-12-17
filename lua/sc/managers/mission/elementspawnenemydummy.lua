@@ -966,9 +966,8 @@ function ElementSpawnEnemyDummy:produce(params)
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = groupai:_get_special_unit_type_count("tank") --current active dozer count
-				local diff = groupai._difficulty_value
 				
-				if spawn_limit <= current_active_count or diff < (groupai._tweak_data.scripted_dozer_min_diff or 0) then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+				if spawn_limit <= current_active_count then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
 					local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 					local diff_index = tweak_data:difficulty_to_index(difficulty)
 					if diff_index < 4 then
@@ -976,6 +975,8 @@ function ElementSpawnEnemyDummy:produce(params)
 					else
 						enemy_name = Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser") 
 					end
+				else
+					groupai:reserve_tank_token()
 				end
 			end
 		end
@@ -1002,9 +1003,8 @@ function ElementSpawnEnemyDummy:produce(params)
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = groupai:_get_special_unit_type_count("tank") --current active dozer count
-				local diff = groupai._difficulty_value
 
-				if spawn_limit <= current_active_count or diff < (groupai._tweak_data.scripted_dozer_min_diff or 0) then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
+				if spawn_limit <= current_active_count then --if adding one more dozer to the active dozer count would go above the spawn cap, replace the unit
 					local difficulty = Global.game_settings and Global.game_settings.difficulty or "normal"
 					local diff_index = tweak_data:difficulty_to_index(difficulty)
 					if diff_index < 4 then
@@ -1012,6 +1012,8 @@ function ElementSpawnEnemyDummy:produce(params)
 					else
 						enemy_name = Idstring("units/pd2_dlc_vip/characters/ene_titan_taser/ene_titan_taser") 
 					end
+				else
+					groupai:reserve_tank_token()
 				end
 			end
 		end
