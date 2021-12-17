@@ -747,8 +747,9 @@ end
 --Tank tokens limit the number of Dozers and Captains that can spawn in a given timeframe.
 --A single cooldown is tracked, and all tokens are refunded once the cooldown ticks over.
 --But, the cooldown is incremented up for every token used.
---This means that a large number of spawns in a short timeframe result in a long period of downtime
---For example, 3 back-to-back dozers + a captain on DS at diff 1 gives you a 3 minute period of no dozers.
+--Tokens used while the cooldown is active increase the length of the cooldown even further, since stacked dozer/captain spawns are more dangerous.
+--This means that a large number of spawns in a short timeframe result in a long period of downtime.
+--For example, 3 back-to-back dozers + a captain on DS at diff 1 gives you a ~4 minute period of no dozers.
 --While those spawns can be sustained indefinitely as long as they occur 45 seconds apart from each other.
 --The number of tokens, and their cooldown, scales with heist diff.
 function GroupAIStateBesiege:get_tank_tokens()
@@ -757,7 +758,8 @@ end
 
 function GroupAIStateBesiege:reserve_tank_token()
 	self._reserved_tank_tokens = self._reserved_tank_tokens + 1
-	self._tank_token_cooldown = (self._tank_token_cooldown or self._t) + self:_get_difficulty_dependent_value(self._tweak_data.tank_token_cooldown)
+	self._tank_token_cooldown = (self._tank_token_cooldown * self._tweak_data.multiple_tank_token_cooldown_mul or self._t) 
+		+ self:_get_difficulty_dependent_value(self._tweak_data.tank_token_cooldown)
 end
 
 function GroupAIStateBesiege:free_tank_tokens()

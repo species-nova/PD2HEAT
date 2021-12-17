@@ -7321,6 +7321,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	}
 
 	local assault_pool_mul = 2.5
+	self.besiege.multiple_tank_token_cooldown_mul = 1.2
 	if difficulty_index <= 2 then
 		self.besiege.assault.force = {
 			12,
@@ -7390,8 +7391,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 		self.besiege.tank_token_cooldown = {
 			90,
-			90,
-			75
+			75,
+			60
 		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
@@ -7418,8 +7419,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 		self.besiege.tank_token_cooldown = {
 			90,
-			90,
-			75
+			75,
+			60
 		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
@@ -7445,9 +7446,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			2
 		}
 		self.besiege.tank_token_cooldown = {
-			90,
-			75,
-			60
+			85,
+			65,
+			50
 		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
@@ -7473,9 +7474,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			3
 		}
 		self.besiege.tank_token_cooldown = {
-			90,
-			75,
-			60
+			85,
+			65,
+			50
 		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
@@ -7501,8 +7502,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			4
 		}
 		self.besiege.tank_token_cooldown = {
-			75,
-			60,
+			95,
+			65,
 			45
 		}
 		self.special_unit_spawn_limits = {
