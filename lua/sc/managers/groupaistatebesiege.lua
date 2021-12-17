@@ -758,7 +758,7 @@ end
 
 function GroupAIStateBesiege:reserve_tank_token()
 	self._reserved_tank_tokens = self._reserved_tank_tokens + 1
-	self._tank_token_cooldown = (self._tank_token_cooldown * self._tweak_data.multiple_tank_token_cooldown_mul or self._t) 
+	self._tank_token_cooldown = (self._tank_token_cooldown and self._tank_token_cooldown * self._tweak_data.multiple_tank_token_cooldown_mul or self._t) 
 		+ self:_get_difficulty_dependent_value(self._tweak_data.tank_token_cooldown)
 end
 
