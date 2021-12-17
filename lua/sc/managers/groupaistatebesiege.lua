@@ -68,7 +68,7 @@ function GroupAIStateBesiege:update(t, dt)
 		self:_draw_enemy_activity_client(t)
 	end
 
-	if t > self._tank_token_cooldown then
+	if t and t > self._tank_token_cooldown then
 		self:free_tank_tokens()
 	end
 end
