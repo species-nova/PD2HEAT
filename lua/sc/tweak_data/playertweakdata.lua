@@ -5,7 +5,7 @@ end
 function PlayerTweakData:_set_normal()
 	self.damage.automatic_respawn_time = 175
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.6
-	self.damage.MIN_DAMAGE_INTERVAL = 0.3
+	self.damage.MIN_DAMAGE_INTERVAL = 0.6 / 2
 	self.suspicion.max_value = 7
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
@@ -14,7 +14,7 @@ end
 function PlayerTweakData:_set_hard()
 	self.damage.automatic_respawn_time = 220
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.6
-	self.damage.MIN_DAMAGE_INTERVAL = 0.3
+	self.damage.MIN_DAMAGE_INTERVAL = 0.6 / 2
 	self.suspicion.max_value = 7
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
@@ -22,7 +22,7 @@ end
 
 function PlayerTweakData:_set_overkill()
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.55
-	self.damage.MIN_DAMAGE_INTERVAL = 0.275
+	self.damage.MIN_DAMAGE_INTERVAL = 0.55 / 2
 	self.suspicion.max_value = 8
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
@@ -32,7 +32,7 @@ end
 
 function PlayerTweakData:_set_overkill_145()
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.55
-	self.damage.MIN_DAMAGE_INTERVAL = 0.275
+	self.damage.MIN_DAMAGE_INTERVAL = 0.55 / 2
 	self.suspicion.max_value = 8
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
@@ -45,7 +45,7 @@ function PlayerTweakData:_set_easy_wish()
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.5
-	self.damage.MIN_DAMAGE_INTERVAL = 0.25
+	self.damage.MIN_DAMAGE_INTERVAL = 0.5 / 2
 	self.damage.custody_ammo_drained  = 0.75
 	self.damage.DOWNED_TIME_DEC = 10
 end
@@ -54,8 +54,8 @@ function PlayerTweakData:_set_overkill_290()
 	self.suspicion.max_value = 9
 	self.suspicion.range_mul = 1.1
 	self.suspicion.buildup_mul = 1.1
-	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.45
-	self.damage.MIN_DAMAGE_INTERVAL = 0.225
+	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.4
+	self.damage.MIN_DAMAGE_INTERVAL = 0.4 / 2
 	self.alarm_pager = {
 		first_call_delay = {2, 4},
 		call_duration = {
@@ -85,7 +85,7 @@ function PlayerTweakData:_set_sm_wish()
 	self.suspicion.range_mul = 1.2
 	self.suspicion.buildup_mul = 1.2
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.4
-	self.damage.MIN_DAMAGE_INTERVAL = 0.2
+	self.damage.MIN_DAMAGE_INTERVAL = 0.4 / 3
 	self.alarm_pager = {
 		first_call_delay = {2, 4},
 		call_duration = {

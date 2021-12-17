@@ -126,3 +126,28 @@ function JobManager:_check_add_heat_to_jobs(debug_job_id, ignore_debug_prints)
 
 	Application:debug("------------------------------------------")
 end
+
+--Plug in token system for dozers/captains.
+function JobManager:current_spawn_limit(special_type)
+	if not special_type then
+		return math.huge
+	end
+	
+	local tank_tokens = math.huge
+	if special_type == "tank" or special_type == "tank_titan" or special_type == "captain" then
+		tank_tokens = managers.groupai:state():get_tank_tokens() --Groupai is better suited to handling tank tokens since it has an update function.
+	end
+
+	local level_data = self:current_level_data()
+	local is_skirmish = level_data and level_data.group_ai_state == "skirmish"
+
+	if is_skirmish then
+		local limits_table = tweak_data.skirmish.special_unit_spawn_limits
+		local wave_number = managers.groupai:state():get_assault_number()
+		local limit_index = math.clamp(wave_number, 1, #limits_table)
+
+		return limits_table[limit_index][special_type] or math.huge
+	end
+
+	return math.min(tank_tokens, tweak_data.group_ai.special_unit_spawn_limits[special_type] or math.huge)
+end

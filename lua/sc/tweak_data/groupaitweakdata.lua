@@ -2606,7 +2606,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		max_amount = 1,
 		access = access_type_all,
-		special_type = "phalanx_vip"
+		special_type = "captain"
 	}
 
 	--Titan shields that spawn with Winters. Ignores spawn caps.
@@ -2666,7 +2666,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		max_amount = 1,
 		access = access_type_all,
-		special_type = "autumn"
+		special_type = "captain"
 	}
 
 	--Cloakers that spawn with Autumn, ignores spawncaps
@@ -2757,7 +2757,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		max_amount = 1,
 		access = access_type_all,
-		special_type = "summers"
+		special_type = "captain"
 	}
 
 	--Molly
@@ -2871,7 +2871,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		max_amount = 1,
 		access = access_type_all,
-		special_type = "spring"
+		special_type = "captain"
 	}
 
 	--Titan Dozers that specifically spawn with Spring (Ignores Spawncaps)
@@ -2900,7 +2900,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			}
 		},
 		access = access_type_all,
-		special_type = "tank_titan",
+		special_type = "tank_titan", 
 		ignore_spawn_cap = true
 	}
 
@@ -2964,7 +2964,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		},
 		max_amount = 1,
 		access = access_type_all,
-		special_type = "headless_hatman"
+		special_type = "captain"
 	}
 
 	--Headless Titandozers that spawn with boss
@@ -7327,6 +7327,16 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			15,
 			18
 		}
+		self.besiege.tank_tokens = {
+			0,
+			0,
+			1
+		}
+		self.besiege.tank_token_cooldown = {
+			90,
+			90,
+			90
+		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
 			taser = 1,
@@ -7337,17 +7347,23 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = 0,
 			medic = 0,
 			medic_lpf = 0,
-			phalanx_vip = 0,
-			spring = 0,
-			headless_hatman = 0,
-			autumn = 0,
-			summers = 0
+			captain = 0
 		}
 	elseif difficulty_index == 3 then
 		self.besiege.assault.force = {
-			12,
-			15,
-			18
+			13,
+			16,
+			19
+		}
+		self.besiege.tank_tokens = {
+			0,
+			0.5,
+			1
+		}
+		self.besiege.tank_token_cooldown = {
+			90,
+			90,
+			90
 		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
@@ -7359,17 +7375,23 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = 0,
 			medic = math.max(math.round(2 * map_scale_factor), 1),
 			medic_lpf = 0,
-			phalanx_vip = 0,
-			spring = 0,
-			headless_hatman = 0,
-			autumn = 0,
-			summers = 0
+			captain = 0
 		}
 	elseif difficulty_index == 4 then
 		self.besiege.assault.force = {
 			14,
 			18,
 			21
+		}
+		self.besiege.tank_tokens = {
+			0,
+			1,
+			2
+		}
+		self.besiege.tank_token_cooldown = {
+			90,
+			90,
+			75
 		}
 		self.special_unit_spawn_limits = {
 			tank = 1,
@@ -7381,17 +7403,23 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = 0,
 			medic = math.max(math.round(2 * map_scale_factor), 1),
 			medic_lpf = 0,
-			phalanx_vip = 1,
-			spring = 1,
-			headless_hatman = 1,
-			autumn = 1,
-			summers = 1
+			captain = 1
 		}
 	elseif difficulty_index == 5 then
 		self.besiege.assault.force = {
-			14,
-			18,
-			21
+			15,
+			19,
+			22
+		}
+		self.besiege.tank_tokens = {
+			1,
+			1.5,
+			2
+		}
+		self.besiege.tank_token_cooldown = {
+			90,
+			90,
+			75
 		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
@@ -7403,17 +7431,23 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = 1,
 			medic = math.max(math.round(3 * map_scale_factor), 1),
 			medic_lpf = 0,
-			phalanx_vip = 1,
-			spring = 1,
-			headless_hatman = 1,
-			autumn = 1,
-			summers = 1
+			captain = 1
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.assault.force = {
 			16,
 			20,
 			24
+		}
+		self.besiege.tank_tokens = {
+			1,
+			2,
+			2
+		}
+		self.besiege.tank_token_cooldown = {
+			90,
+			75,
+			60
 		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
@@ -7425,19 +7459,24 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = 1,
 			medic = math.max(math.round(3 * map_scale_factor), 1),
 			medic_lpf = 0,
-			phalanx_vip = 1,
-			spring = 1,
-			headless_hatman = 1,
-			autumn = 1,
-			summers = 1
+			captain = 1
 		}
 	elseif difficulty_index == 7 then
 		self.besiege.assault.force = {
-			16,
-			20,
-			24
+			17,
+			21,
+			26
 		}
-		assault_pool_mul = 3
+		self.besiege.tank_tokens = {
+			1,
+			2,
+			3
+		}
+		self.besiege.tank_token_cooldown = {
+			90,
+			75,
+			60
+		}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7448,11 +7487,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = math.max(math.round(2 * map_scale_factor), 1),
 			medic = math.max(math.round(4 * map_scale_factor), 1),
 			medic_lpf = 1,
-			phalanx_vip = 1,
-			spring = 1,
-			headless_hatman = 1,
-			autumn = 1,
-			summers = 1
+			captain = 1
 		}
 	else
 		self.besiege.assault.force = {
@@ -7460,9 +7495,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			23,
 			28
 		}
+		self.besiege.tank_tokens = {
+			1,
+			2.5,
+			4
+		}
+		self.besiege.tank_token_cooldown = {
+			75,
+			60,
+			45
+		}
 		assault_pool_mul = 3
 		self.special_unit_spawn_limits = {
-			tank = math.max(math.round(4 * map_scale_factor), 1),
+			tank = math.max(math.round(3 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
 			taser_titan = math.max(math.round(2 * map_scale_factor), 1),
 			boom = math.max(math.round(3 * map_scale_factor), 1),
@@ -7471,11 +7516,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			shield_titan = math.max(math.round(3 * map_scale_factor), 1),
 			medic = math.max(math.round(4 * map_scale_factor), 1),
 			medic_lpf = 1,
-			phalanx_vip = 1,
-			spring = 1,
-			headless_hatman = 1,
-			autumn = 1,
-			summers = 1
+			captain = 1
 		}
 	end
 	self.besiege.assault.force_pool = {
@@ -8328,11 +8369,10 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	}
 
 	self.besiege.scripted_dozer_min_diff = 0.4
-	local captain_cooldown = 2700
+	local captain_cooldown = 1800 --30 minutes
 	local captain_min_diff = 0.3
-	local dozer_cooldown = 45
 	if Global.game_settings and Global.game_settings.one_down then
-		captain_cooldown = 1800
+		captain_cooldown = 1200 --20 minutes
 	end
 
 	--Table to define various restrictions for how different spawn groups can appear.
@@ -8358,82 +8398,18 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			sustain_only = true
 		},
 		Cap_Autumn = {
-			cooldown = captain_cooldown / 2,
+			cooldown = captain_cooldown,
 			min_diff = captain_min_diff,
 			sustain_only = true
 		},
 		common_wave_rush_ds = {
-			cooldown = 120,
+			cooldown = 90,
 			min_diff = 0.5,
 			sustain_only = true
 		},
 		common_wave_rush_skm = {
 			cooldown = 90,
 			sustain_only = true
-		},
-		GREEN_tanks_n = {
-			cooldown = dozer_cooldown,
-			min_diff = 0.9
-		},
-		GREEN_tanks_h = {
-			cooldown = dozer_cooldown
-		},
-		GREEN_tanks_vh = {
-			cooldown = dozer_cooldown
-		},
-		GREEN_tanks_ovk = {
-			cooldown = dozer_cooldown
-		},
-		GREEN_tanks_mh = {
-			cooldown = dozer_cooldown
-		},
-		GREEN_tanks_dw = {
-			cooldown = dozer_cooldown
-		},
-		GREEN_tanks_ds = {
-			cooldown = dozer_cooldown
-		},
-		GREEN_tanks_skm = {
-			cooldown = dozer_cooldown
-		},
-		BLACK_tanks_vh = {
-			cooldown = dozer_cooldown
-		},
-		BLACK_tanks_ovk = {
-			cooldown = dozer_cooldown
-		},
-		BLACK_tanks_mh = {
-			cooldown = dozer_cooldown
-		},
-		BLACK_tanks_dw = {
-			cooldown = dozer_cooldown
-		},
-		BLACK_tanks_ds = {
-			cooldown = dozer_cooldown
-		},
-		BLACK_tanks_skm = {
-			cooldown = dozer_cooldown
-		},
-		SKULL_tank_mh = {
-			cooldown = dozer_cooldown
-		},
-		SKULL_tank_dw = {
-			cooldown = dozer_cooldown
-		},
-		SKULL_tank_ds = {
-			cooldown = dozer_cooldown
-		},
-		SKULL_tank_skm = {
-			cooldown = dozer_cooldown
-		},
-		Titan_tanks_dw = {
-			cooldown = dozer_cooldown
-		},
-		Titan_tanks_ds = {
-			cooldown = dozer_cooldown
-		},
-		Titan_tanks_skm = {
-			cooldown = dozer_cooldown
 		}
 	}
 

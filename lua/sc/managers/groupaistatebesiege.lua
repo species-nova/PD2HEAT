@@ -41,6 +41,8 @@ function GroupAIStateBesiege:init(group_ai_state)
 	self._spawn_group_timers = {}
 	self._graph_distance_cache = {}
 	self._ponr_is_on = nil
+	self._reserved_tank_tokens = 0
+	self._tank_token_cooldown = nil
 	--Sets functions that determine chatter for spawn group leaders to say upon spawning.
 	self:_init_group_entry_lines()
 	--self:set_debug_draw_state(true) --Uncomment to debug AI stuff.
@@ -64,6 +66,10 @@ function GroupAIStateBesiege:update(t, dt)
 		end
 	elseif self._draw_enabled then
 		self:_draw_enemy_activity_client(t)
+	end
+
+	if t > self._tank_token_cooldown then
+		self:free_tank_tokens()
 	end
 end
 
@@ -736,6 +742,27 @@ function GroupAIStateBesiege:_choose_best_groups(best_groups, group, group_types
 	end
 
 	return total_weight
+end
+
+--Tank tokens limit the number of Dozers and Captains that can spawn in a given timeframe.
+--A single cooldown is tracked, and all tokens are refunded once the cooldown ticks over.
+--But, the cooldown is incremented up for every token used.
+--This means that a large number of spawns in a short timeframe result in a long period of downtime
+--For example, 3 back-to-back dozers + a captain on DS at diff 1 gives you a 3 minute period of no dozers.
+--While those spawns can be sustained indefinitely as long as they occur 45 seconds apart from each other.
+--The number of tokens, and their cooldown, scales with heist diff.
+function GroupAIStateBesiege:get_tank_tokens()
+	return math.floor(self:_get_difficulty_dependent_value(self._tweak_data.tank_tokens)) - self._reserved_tank_tokens
+end
+
+function GroupAIStateBesiege:reserve_tank_token()
+	self._reserved_tank_tokens = self._reserved_tank_tokens + 1
+	self._tank_token_cooldown = (self._tank_token_cooldown or self._t) + self:_get_difficulty_dependent_value(self._tweak_data.tank_token_cooldown)
+end
+
+function GroupAIStateBesiege:free_tank_tokens()
+	self._reserved_tank_tokens = 0
+	self._tank_token_cooldown = nil
 end
 
 function GroupAIStateBesiege:_pregenerate_coarse_path(grp_objective, spawn_group)
