@@ -4364,7 +4364,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.base.static_dodge_preset = false
 	presets.base.static_melee_preset = false
 	presets.gang_member_damage = {}
-	presets.gang_member_damage.HEALTH_INIT = 100
+	presets.gang_member_damage.HEALTH_INIT = 120
 	presets.gang_member_damage.no_run_start = true
 	presets.gang_member_damage.no_run_stop = true
 	presets.gang_member_damage.headshot_dmg_mul = normal_headshot
