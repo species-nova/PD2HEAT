@@ -135,7 +135,7 @@ function JobManager:current_spawn_limit(special_type)
 	
 	local tank_tokens = math.huge
 	if special_type == "tank" or special_type == "tank_titan" or special_type == "captain" then
-		return managers.groupai:state():get_tank_tokens() --Groupai is better suited to handling tank tokens since it has an update function.
+		tank_tokens = managers.groupai:state():get_tank_tokens() --Groupai is better suited to handling tank tokens since it has an update function.
 	end
 
 	local level_data = self:current_level_data()
