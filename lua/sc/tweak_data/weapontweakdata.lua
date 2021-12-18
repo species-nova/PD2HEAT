@@ -7335,7 +7335,7 @@ end
 		self.r870_npc.categories = clone(self.r870.categories)
 		self.r870_npc.sounds.prefix = "remington_npc"
 		self.r870_npc.use_data.selection_index = 2
-		self.r870_npc.DAMAGE = 14
+		self.r870_npc.DAMAGE = 11
 		self.r870_npc.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.r870_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_slug_semi"
 		self.r870_npc.CLIP_AMMO_MAX = 8
@@ -7577,6 +7577,7 @@ end
 		self.scar_npc.FIRE_MODE = "single"
 		self.scar_npc.titan_trail = true
 		self.scar_npc.usage = "is_dmr"
+		self.scar_npc.armor_piercing = true
 		self.scar_secondary_npc = deep_clone(self.scar_npc)
 		self.scar_secondary_npc.use_data.selection_index = 1
 	end

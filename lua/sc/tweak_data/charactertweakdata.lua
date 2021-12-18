@@ -1258,7 +1258,7 @@ function CharacterTweakData:_init_sniper(presets) --sniper
 	self.sniper.experience = {}
 	self.sniper.weapon = presets.weapon.sniper
 	self.sniper.detection = presets.detection.sniper
-	self.sniper.HEALTH_INIT = 6
+	self.sniper.HEALTH_INIT = 18
 	self.sniper.headshot_dmg_mul = normal_headshot
 	self.sniper.damage.hurt_severity = presets.hurt_severities.no_hurts
 	self.sniper.allowed_poses = {stand = true}
