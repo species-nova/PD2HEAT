@@ -366,7 +366,7 @@ end
 --Called when players get kills while downed.
 function PlayerManager:_on_messiah_event()
 	if self._current_state == "bleed_out" and not self._coroutine_mgr:is_running("get_up_messiah") then
-		if self._messiah_cooldown < self._player_timer:time() then
+		if self._messiah_cooldown < Application:time() then
 			self._coroutine_mgr:add_coroutine("get_up_messiah", PlayerAction.MessiahGetUp, self)
 		else
 			self._messiah_cooldown = self._messiah_cooldown - 10 --Downed kill CDR.
@@ -764,7 +764,7 @@ function PlayerManager:on_headshot_dealt(unit, attack_data)
 
 	self._message_system:notify(Message.OnHeadShot, nil, unit, attack_data)
 
-	local t = self._player_timer:time()
+	local t = Application:time()
 
 	if self._on_headshot_dealt_t and t < self._on_headshot_dealt_t then
 		return
