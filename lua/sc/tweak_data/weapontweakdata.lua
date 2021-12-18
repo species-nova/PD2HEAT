@@ -50,8 +50,8 @@ function WeaponTweakData:_init_stats()
 		--Generic spread, applied at all times.
 		--Keep this between 0.5x-1x the other stats to ensure that accuracy min/maxxed guns have the lowest *overall* spread; but worse spread than guns specialized in moving or spraying.
 			--Currently, other stats provide up to -8 spread in their respective areas, whereas this provides -6. So investing elsewhere will reduce spread more situationally, but this will reduce it more overall.
-		self.stat_info.base_spread = 7.5
-		self.stat_info.spread_per_accuracy = -0.375
+		self.stat_info.base_spread = 8
+		self.stat_info.spread_per_accuracy = -0.4
 		self.stats.spread = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.spread, self.stat_info.base_spread + (i * self.stat_info.spread_per_accuracy))
@@ -133,8 +133,8 @@ function WeaponTweakData:_init_stats()
 		setmetatable(self.stat_info.vel_overshot, stat_meta_table)
 
 	--STABILITY
-		self.stat_info.base_bloom_spread = 10 --Amount of spread each stack of bloom gives.
-		self.stat_info.spread_per_stability = -0.5 --Amount bloom spread is reduced by stability.
+		self.stat_info.base_bloom_spread = 12 --Amount of spread each stack of bloom gives.
+		self.stat_info.spread_per_stability = -0.6 --Amount bloom spread is reduced by stability.
 		self.stat_info.bloom_spread = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stat_info.bloom_spread, math.max(self.stat_info.base_bloom_spread + (i * self.stat_info.spread_per_stability), 0))
