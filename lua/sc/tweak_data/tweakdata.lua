@@ -328,7 +328,7 @@ tweak_data.interaction.gen_int_saw_upgrade.timer = 2
 tweak_data.projectiles.gas_grenade = {
 	radius = 300,
 	radius_blurzone_multiplier = 1.3,
-	damage_tick_period = 0.2,
+	damage_tick_period = 0.4 / 3,
 	damage_per_tick = 0.6,
 	no_stamina_damage_mul = 2,
 	stamina_per_tick = 2,
@@ -341,34 +341,34 @@ local difficulty_index = tweak_data:difficulty_to_index(difficulty)
 local enemy_grenade_damage_mul = 1
 if difficulty_index == 8 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 15
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.2
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.4 / 3
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.6
 elseif difficulty_index == 7 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 12.5
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.25
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.4 / 2
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.6
 elseif difficulty_index == 6 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 10
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.25
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.5 / 2
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.6
 elseif difficulty_index == 5 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 10
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.25
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.55 / 2
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.5
 	enemy_grenade_damage_mul = 0.9
 elseif difficulty_index == 4 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 10
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.3
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.55 / 2
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.4
 	enemy_grenade_damage_mul = 0.7
 elseif difficulty_index == 3 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 10
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.3
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.6 / 2
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.3
 	enemy_grenade_damage_mul = 0.5
 elseif difficulty_index <= 2 then
 	tweak_data.interaction.corpse_alarm_pager.timer = 10
-	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.3
+	tweak_data.projectiles.gas_grenade.damage_tick_period = 0.6 / 2
 	tweak_data.projectiles.gas_grenade.damage_per_tick = 0.2
 	enemy_grenade_damage_mul = 0.3
 end	

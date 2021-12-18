@@ -354,31 +354,23 @@ end
 
 --Messiah functions updated to work indefinitely but with a cooldown.
 function PlayerManager:refill_messiah_charges()
-	if self._max_messiah_charges then --Refill charges.
-		self._messiah_charges = self._max_messiah_charges
-	end
-
 	self._messiah_cooldown = 0
 end
 
 --Called when people jump to get up.
 function PlayerManager:use_messiah_charge()
-	if self:has_category_upgrade("player", "infinite_messiah") then --If player has infinite messiah, set the cooldown timer.
-		self._messiah_cooldown = Application:time() + 120 --Replace with tweakdata once we settle on something.
-		managers.hud:start_cooldown("messiah", 120)
-	elseif self._messiah_charges then --Eat a messiah charge if not infinite.
-		self._messiah_charges = math.max(self._messiah_charges - 1, 0)
-		managers.hud:remove_skill("messiah")
-	end
+	self._messiah_cooldown = Application:time() + 120 --Replace with tweakdata once we settle on something.
+	managers.hud:start_cooldown("messiah", 120)
 end
 
 --Called when players get kills while downed.
 function PlayerManager:_on_messiah_event()
 	if self._current_state == "bleed_out" and not self._coroutine_mgr:is_running("get_up_messiah") then
-		self._messiah_cooldown = self._messiah_cooldown - 10 --Downed kill CDR.
-		managers.hud:change_cooldown("messiah", -10)
-		if self._messiah_charges > 0 and self._messiah_cooldown < Application:time() then
+		if self._messiah_cooldown < self._player_timer:time() then
 			self._coroutine_mgr:add_coroutine("get_up_messiah", PlayerAction.MessiahGetUp, self)
+		else
+			self._messiah_cooldown = self._messiah_cooldown - 10 --Downed kill CDR.
+			managers.hud:change_cooldown("messiah", -10)
 		end
 	end
 end
@@ -512,13 +504,12 @@ function PlayerManager:check_skills()
 		self._message_system:unregister(Message.OnHeadShot, "trigger_happy")
 	end
 
+	self._bloodthirst_stacks = 0
 	if self:has_category_upgrade("player", "melee_damage_stacking") then
-		self._bloodthirst_stacks = 0
 		self._bloodthirst_data = self:upgrade_value("player", "melee_damage_stacking", nil)
 		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_stacking", callback(self, self, "_trigger_bloodthirst"))
 		self._message_system:register(Message.OnEnemyHit, "bloodthirst_consuming", callback(self, self, "_consume_bloodthirst"))
 	else
-		self._bloodthirst_stacks = 0
 		self._bloodthirst_data = nil
 		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_stacking")
 		self._message_system:unregister(Message.OnEnemyHit, "bloodthirst_consuming")
@@ -526,14 +517,10 @@ function PlayerManager:check_skills()
 
 
 	if self:has_category_upgrade("player", "messiah_revive_from_bleed_out") then
-		self._messiah_charges = self:upgrade_value("player", "messiah_revive_from_bleed_out", 0)
-		self._max_messiah_charges = self._messiah_charges
 		self._messiah_cooldown = 0
 		self._message_system:register(Message.OnEnemyKilled, "messiah_revive_from_bleed_out", callback(self, self, "_on_messiah_event"))
 	else
-		self._messiah_charges = 0	--Messiah init stuff to handle how the skill was changed.
-		self._max_messiah_charges = self._messiah_charges
-		self._messiah_cooldown = 0
+		self._messiah_cooldown = nil
 		self._message_system:unregister(Message.OnEnemyKilled, "messiah_revive_from_bleed_out")
 	end
 
@@ -557,11 +544,9 @@ function PlayerManager:check_skills()
 
 	if self:has_category_upgrade("player", "head_shot_ammo_return") then
 		self._ammo_efficiency = self:upgrade_value("player", "head_shot_ammo_return", nil)
-
 		self._message_system:register(Message.OnHeadShot, "ammo_efficiency", callback(self, self, "_on_enter_ammo_efficiency_event"))
 	else
 		self._ammo_efficiency = nil
-
 		self._message_system:unregister(Message.OnHeadShot, "ammo_efficiency")
 	end
 
@@ -687,10 +672,15 @@ function PlayerManager:check_skills()
 	else
 		self._message_system:unregister(Message.OnEnemyKilled, "sprint_kill_stamina_regen")
 	end
+
+	if self:has_category_upgrade("player", "survive_one_hit_kill_cdr") then
+		self._message_system:register(Message.OnEnemyKilled, "yakuza_on_kill_cdr", callback(self, self, "_trigger_survive_one_hit_cdr"))
+	else
+		self._message_system:unregister(Message.OnEnemyKilled, "yakuza_on_kill_cdr")
+	end
 end
 
-
-
+--Passes on a notification when an enemy is hit with a melee attack.
 function PlayerManager:enemy_hit(unit, attack_data)
 	self._message_system:notify(Message.OnEnemyHit, nil, self._unit, attack_data)
 end
@@ -774,7 +764,7 @@ function PlayerManager:on_headshot_dealt(unit, attack_data)
 
 	self._message_system:notify(Message.OnHeadShot, nil, unit, attack_data)
 
-	local t = Application:time()
+	local t = self._player_timer:time()
 
 	if self._on_headshot_dealt_t and t < self._on_headshot_dealt_t then
 		return
@@ -931,6 +921,10 @@ function PlayerManager:_internal_load()
 		managers.hud:add_skill("long_dis_revive")
 	end
 
+	if self:has_category_upgrade("cooldown", "survive_one_hit") then
+		managers.hud:add_skill("survive_one_hit")
+	end
+
 	if self:has_category_upgrade("cooldown", "shotgun_reload_interrupt_stagger") then
 		managers.hud:add_skill("shotgun_reload_interrupt_stagger")
 	end
@@ -984,8 +978,6 @@ end
 
 --Moves skills to here for a central point of contact for melee damage multipliers.
 function PlayerManager:get_melee_dmg_multiplier()
-	log(self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1))
-	log(tostring(self:has_category_upgrade("player", "melee_damage_health_ratio_multiplier")))
 	return self._melee_dmg_mul
 		* managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
 		* (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
@@ -1289,6 +1281,10 @@ function PlayerManager:_trigger_overheat_stack(equipped_unit, variant, killed_un
 	managers.hud:set_stacks("overheat_stacks", math.min(math.round(self:get_temporary_property("overheat_stacks", 0) / stacking_data.chance_inc), 6))
 end
 
+function PlayerManager:_trigger_survive_one_hit_cdr(equipped_unit, variant, killed_unit)
+	self:extend_cooldown_upgrade("cooldown", "survive_one_hit", -self:upgrade_value("player", "survive_one_hit_kill_cdr"))
+end
+
 function PlayerManager:_attempt_chico_injector()
 	if self:has_activate_temporary_upgrade("temporary", "chico_injector") then
 		return false
@@ -1311,18 +1307,6 @@ function PlayerManager:_attempt_chico_injector()
 	damage_ext:fill_dodge_meter(damage_ext:get_dodge_points() * self:upgrade_value("player", "chico_injector_dodge", 0))
 
 	return true
-end
-
---The vanilla version of this function is actually nonfunctional. No wonder it's never used.
---This fixes it to fulfill its intended purpose of letting active temporary upgrade durations be changed.
-function PlayerManager:extend_temporary_upgrade(category, upgrade, time)
-	local upgrade_value = self:upgrade_value(category, upgrade)
-
-	if upgrade_value == 0 then
-		return
-	end
-
-	self._temporary_upgrades[category][upgrade].expire_time = self._temporary_upgrades[category][upgrade].expire_time + time
 end
 
 --Restores 1 down when enough assaults have passed and bots have the skill. Counter is paused when player is in custody or has max revives; or if the crew loses access to the skill.
@@ -1481,6 +1465,15 @@ function PlayerManager:use_cooldown_upgrade(category, upgrade, default)
 	end
 end
 
+function PlayerManager:extend_cooldown_upgrade(category, upgrade, time)
+	local cooldown_timestamp = self._global.cooldown_upgrades[category] and self._global.cooldown_upgrades[category][upgrade] and self._global.cooldown_upgrades[category][upgrade].cooldown_time
+
+	if cooldown_timestamp then	
+		self._global.cooldown_upgrades[category][upgrade].cooldown_time = cooldown_timestamp + time
+		managers.hud:change_cooldown(upgrade, time)
+	end
+end
+
 --Adds buff tracker call.
 function PlayerManager:activate_temporary_upgrade(category, upgrade)
 	local upgrade_value = self:upgrade_value(category, upgrade)
@@ -1532,6 +1525,18 @@ function PlayerManager:deactivate_temporary_upgrade(category, upgrade)
 
 	self._temporary_upgrades[category][upgrade] = nil
 	managers.hud:remove_skill(upgrade)
+end
+
+--The vanilla version of this function is actually nonfunctional. No wonder it's never used.
+--This fixes it to fulfill its intended purpose of letting active temporary upgrade durations be changed.
+function PlayerManager:extend_temporary_upgrade(category, upgrade, time)
+	local upgrade_value = self:upgrade_value(category, upgrade)
+
+	if upgrade_value == 0 then
+		return
+	end
+
+	self._temporary_upgrades[category][upgrade].expire_time = self._temporary_upgrades[category][upgrade].expire_time + time
 end
 
 --Returns the value for an upgrade that scales off of the number of nearby enemies.

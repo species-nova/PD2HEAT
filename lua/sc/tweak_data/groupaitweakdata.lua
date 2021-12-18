@@ -6349,15 +6349,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_tank",
-					freq = 1,
+					freq = 0.1,
 					amount_min = 1,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.GREEN_tank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36_w",
-					freq = 0.7,
+					freq = 0.6,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 1
 				},
@@ -6376,15 +6376,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_tank",
-					freq = 1,
+					freq = 0.1,
 					amount_min = 1,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.GREEN_tank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36_w",
-					freq = 0.6,
+					freq = 0.5,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 1
 				},
@@ -6403,15 +6403,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_tank",
-					freq = 1,
+					freq = 0.1,
 					amount_min = 1,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.GREEN_tank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36",
-					freq = 0.6,
+					freq = 0.5,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 1
 				},
@@ -7934,7 +7934,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			},
 			common_wave_rush_ds = {
 				0.0,
-				0.03,
+				0.02,
 				0.04
 			},
 			GREEN_tanks_ds = {
@@ -7950,12 +7950,12 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			SKULL_tanks_ds = {
 				0.01,
 				0.02,
-				0.04
+				0.03
 			},
 			Titan_tanks_ds = {
 				0.0,
-				0.01,
-				0.02
+				0.02,
+				0.03
 			}
 		}
 	end

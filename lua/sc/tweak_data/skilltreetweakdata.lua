@@ -1876,14 +1876,13 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {2, 9},
 				[1] = {
 					upgrades = {
-						"player_messiah_revive_from_bleed_out_1",
 						"player_additional_lives_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_infinite_messiah"
+						"player_messiah_revive_from_bleed_out_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -3113,7 +3112,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck8,
 			{
 				upgrades = {
-					"player_survive_one_hit",
+					"cooldown_survive_one_hit",
+					"player_survive_one_hit_kill_cdr",
 					"player_passive_loot_drop_multiplier"
 				},
 				cost = 4000,

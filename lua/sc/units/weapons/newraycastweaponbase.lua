@@ -327,7 +327,6 @@ function RaycastWeaponBase:get_concealment()
 	if result then
 		return math.max(result, 1)
 	else
-		log("Error: Missing concealment information")
 		return 20
 	end
 	

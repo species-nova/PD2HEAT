@@ -1914,7 +1914,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--{
 
 			--Swan Song--
-			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##60%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reaches ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
+			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##50%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reaches ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
 
 
 
@@ -2066,7 +2066,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Running From Death--
 		["menu_nine_lives_beta_sc"] = "Running from Death",
-		["menu_nine_lives_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##25%## faster for ##10## seconds after being revived.\n\nACE: ##$pro##\nYou gain a ##20%## damage reduction for ##10## seconds after being revived.\n\nYour weapons are instantly reloaded after reviving.",
+		["menu_nine_lives_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##25%## faster for ##10## seconds after being revived.\n\nACE: ##$pro##\nYou gain a ##30%## damage reduction for ##10## seconds after being revived.\n\nYour weapons are instantly reloaded after reviving.",
 
 		--Undying--
 		["menu_running_from_death_beta_sc"] = "Undying",
@@ -2082,7 +2082,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Messiah--
 		["menu_pistol_beta_messiah_sc"] = "Messiah",
-		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nWhile in bleedout, killing an enemy will allow you to revive yourself. You have ##1## charge which is replenished when leaving custody.\n\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nMessiah now has infinite charges, but has a ##120## second cooldown. Kills while downed reduce the cooldown by ##10## seconds.",
+		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nWhile in bleedout, killing an enemy will allow you to revive yourself. This effect has a ##120## second cooldown. Kills while downed reduce the cooldown by ##10## seconds.",
 	})
 end)
 
@@ -2238,7 +2238,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck12_3_desc_sc"] = "The lower your health the more your dodge meter is filled when you kill an enemy. When your health is below ##50%##, your meter fills by up to ##50%## of your dodge.",
 		["menu_deck12_5_desc_sc"] = "The lower your health, the less damage you take. When your health is below ##50%##, you will take up to ##25%## less damage.",
 		["menu_deck12_7_desc_sc"] = "The lower your health the more your dodge meter is filled when you kill an enemy in melee. When your health is below ##50%##, your meter fills by up to ##50%## of your dodge.\n\nThis effect stacks with Hebi Irezumi.",
-		["menu_deck12_9_desc_sc"] = "Once per down, if you would be downed you instead survive with ##1## health and you regain ##50## armor.\n\nNote: This effect does not apply to, nor is it refreshed by, downs caused by cloaker kicks and taser shocks.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck12_9_desc_sc"] = "Once every ##300## seconds, if you would be downed as a result of your health depleting you instead survive with ##1## health and ##50## armor. Killing an enemy reduces this cooldown by ##5## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Hacker--
 		["menu_deck21_1_desc_sc"] = "Unlocks and equips the ##Pocket ECM Device##.\n\nWhile in game you can use the throwable key to activate the Pocket ECM Device.\n\nActivating the Pocket ECM Device before the alarm is raised will trigger the jamming effect, disabling all electronics and pagers for a ##12## second duration.\n\nActivating the Pocket ECM Device after the alarm is raised will trigger the feedback effect, granting a chance to stun enemies on the map every second for a ##12## second duration.\n\nThe Pocket ECM Device has ##1## charge with a ##80## second cooldown timer, but each kill you perform will shorten the cooldown timer by ##3## seconds.",

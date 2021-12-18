@@ -307,11 +307,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Armor Stats--
 	--Add 20 to the values in this table to get in game amounts.
 	self.values.player.body_armor.armor = {
-		0, --Suit
+		0.5, --Suit
 		4, --LBV
 		6, --BV
 		8, --HBV
-		11, --Flak
+		10, --Flak
 		13, --CTV
 		18 --ICTV
 	}
@@ -1211,7 +1211,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.temporary.increased_movement_speed = {{1.25, 10}}
 				--Ace
-					self.values.temporary.revived_damage_resist = {{0.8, 10}}
+					self.values.temporary.revived_damage_resist = {{0.7, 10}}
 					self.values.player.revive_reload = {true}
 				
 			--Undying (Formerly Nine Lives, Formerly Running From Death)
@@ -1233,6 +1233,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					{1, 3}, --Basic
 					{1, 9} --Ace
 				}
+				self.berserker_movement_speed_multiplier = 0.5
 				--Ace
 					self.values.player.swan_song_instant_reload = {true}
 
@@ -1245,7 +1246,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Messiah
 				self.values.player.messiah_revive_from_bleed_out = {1, 3}
 				self.values.player.pistol_revive_from_bleed_out = {1, 3}
-				self.values.player.infinite_messiah = {true}
 				self.values.player.additional_lives = {1, 3}
 			
 		--Brawler--
@@ -1688,8 +1688,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	
 	--Yakuza--
-	self.values.player.survive_one_hit = {true}
-	self.values.survive_one_hit_armor = {5.0}
+	self.values.cooldown.survive_one_hit = {{true, 300}}
+	self.values.player.survive_one_hit_kill_cdr = {5}
+	self.values.survive_one_hit_armor = 5.0
 
 	self.values.player.resistance_damage_health_ratio_multiplier = {
 		0.25
@@ -3058,15 +3059,6 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_survive_one_hit = {
-		name_id = "menu_player_survive_one_hit",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "survive_one_hit",
-			category = "player"
-		}
-	}
 	self.definitions.player_dodge_regen_damage_health_ratio_multiplier = {
 		name_id = "menu_player_dodge_regen_damage_health_ratio_multiplier",
 		category = "feature",
@@ -3190,15 +3182,6 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "damage_absorption_low_revives",
-			category = "player"
-		}
-	}
-	self.definitions.player_infinite_messiah = {
-		name_id = "menu_player_infinite_messiah",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "infinite_messiah",
 			category = "player"
 		}
 	}
@@ -3692,6 +3675,24 @@ function UpgradesTweakData:_cooldown_definitions()
 			value = 1,
 			upgrade = "killshot_close_panic_chance",
 			category = "cooldown"
+		}
+	}
+	self.definitions.cooldown_survive_one_hit = {
+		name_id = "menu_cooldown_survive_one_hit",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "survive_one_hit",
+			category = "cooldown"
+		}
+	}
+	self.definitions.player_survive_one_hit_kill_cdr = {
+		name_id = "menu_player_survive_one_hit_kill_cdr",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "survive_one_hit_kill_cdr",
+			category = "player"
 		}
 	}
 end

@@ -81,14 +81,10 @@ function PlayerDamage:init(unit)
 	self._dodge_meter = 0.0 --Amount of dodge built up as meter. Caps at '150' dodge.
 	self._dodge_meter_prev = 0.0 --dodge in meter from previous frame.
 	self.in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
-	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
 	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
 	self._can_counter_dozers = managers.player:has_category_upgrade("player", "counter_strike_dozer")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
-	if self._can_survive_one_hit then
-		managers.hud:add_skill("survive_one_hit")
-	end
 	self._biker_armor_regen_t = 0.0 --Used to track the time until the next biker armor regen tick.
 	self._melee_push_multiplier = 1 - math.min(math.max(player_manager:upgrade_value("player", "resist_melee_push", 0.0) * self:_max_armor(), 0.0), 0.95) --Stun Resistance melee push resist.
 	self._deflection = 1 - player_manager:body_armor_value("deflection", nil, 0) - player_manager:get_deflection_from_skills() --Damage reduction for health. Crashes here mean there is a syntax error in playermanager.
@@ -437,7 +433,7 @@ function PlayerDamage:damage_bullet(attack_data)
 	if attack_data.damage > 0 then
 		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
 		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
-			self._unit:sound():play_impact_sound({material_name = Idstring("cloth_stuffed")})
+			self._unit:sound():play_impact_sound({material_name = Idstring("paper")})
 			self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
 			self:_send_damage_drama(attack_data, 0)
 			self:_call_listeners(damage_info)
@@ -515,7 +511,7 @@ function PlayerDamage:damage_melee(attack_data)
 	if self._dodge_melee and attack_data.damage > 0 then
 		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
 		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
-			self._unit:sound():play_impact_sound({material_name = Idstring("cloth_stuffed")})
+			self._unit:sound():play_impact_sound({material_name = Idstring("paper")})
 			if attack_data.damage > 0 then
 				self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
 				self:_send_damage_drama(attack_data, 0)
@@ -770,6 +766,19 @@ end
 
 --Does not use _apply_damage, instead uses its own stuff.
 function PlayerDamage:damage_killzone(attack_data)
+	if attack_data.damage and attack_data.damage == 0.75 and not attack_data.instant_death then
+		local gas_grenade_tweak = tweak_data.projectiles.gas_grenade
+		self:damage_gas({
+			damage = gas_grenade_tweak.damage_per_tick * 2 or 1.2, --Map gas ticks at a slower rate than gas grenades.
+			no_stamina_damage_mul = gas_grenade_tweak.no_stamina_damage_mul or 2,
+			stamina_damage = gas_grenade_tweak.stamina_per_tick * 2 or 4,
+			ignore_deflection = true,
+			col_ray = attack_data.col_ray,
+			variant = "gas"
+		})		
+		return
+	end
+
 	local damage_info = {
 		result = {
 			variant = "killzone",
@@ -1031,12 +1040,6 @@ function PlayerDamage:revive(silent)
 	self._revive_health_multiplier = nil
 	self._listener_holder:call("on_revive")
 
-	--Add Yakuza survive one hit icon.
-	--Done on revive for intuitiveness.
-	if self._can_survive_one_hit then
-		managers.hud:add_skill("survive_one_hit")
-	end
-
 	if managers.player:has_inactivate_temporary_upgrade("temporary", "revived_damage_resist") then
 		managers.player:activate_temporary_upgrade("temporary", "revived_damage_resist")
 	end
@@ -1097,6 +1100,7 @@ function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 		"bullet",
 		"explosion",
 		"melee",
+		"gas",
 		"delayed_tick"
 	}, attack_data.variant)
 
@@ -1369,25 +1373,16 @@ function PlayerDamage:_upd_health_regen(t, dt)
 	managers.hud:set_stacks(self._hot_type, #self._damage_to_hot_stack)
 end
 
+local orig_check_bleed_out = PlayerDamage._check_bleed_out
+function PlayerDamage:_check_bleed_out(can_activate_berserker, ...)
+	if can_activate_berserker and self:get_real_health() == 0 and not self._check_berserker_done --If you would be in bleedout but you dont want to, then don't.
+		and managers.player:use_cooldown_upgrade("cooldown", "survive_one_hit") == true then --Assuming the skill is off cooldown.
+		self:change_health(0.1)
+		self:restore_armor(tweak_data.upgrades.values.survive_one_hit_armor)
+	end
 
-Hooks:PreHook(PlayerDamage, "_check_bleed_out", "ResYakuzaCaptstoneCheck", function(self, can_activate_berserker, ignore_movement_state)
-	if self._check_berserker_done then --Deals with swan song shenanigans.
-		if self._can_survive_one_hit then
-			self._can_survive_one_hit = false
-			managers.hud:remove_skill("survive_one_hit")
-		end
-	end
-	if self:get_real_health() == 0 and not self._check_berserker_done then --If you would be in bleedout but you dont want to, then don't.
-		if self._can_survive_one_hit then
-			self:change_health(0.1)
-			self._can_survive_one_hit = false
-			self:restore_armor(tweak_data.upgrades.values.survive_one_hit_armor[1])
-			managers.hud:remove_skill("survive_one_hit")
-		else
-			self._can_survive_one_hit = managers.player:has_category_upgrade("player", "survive_one_hit")
-		end
-	end
-end)
+	orig_check_bleed_out(self, can_activate_berserker, ...)
+end
 
 --Damage speed functionality has been changed, and is now only checked when armor damage is taken rather than on every single damage event.
 --As a result, all that's left to do here is to reset the armor regen timer.

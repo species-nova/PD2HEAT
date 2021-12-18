@@ -5002,7 +5002,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Murder at <14m. Useless beyond that. Similar to autoshotgun beyond that.
 	presets.weapon.expert.is_flamethrower = {
-		aim_delay = {0.6, 0.8},
+		aim_delay = {0.7, 0.9},
 		focus_delay = 1,
 		focus_dis = 200,
 		spread = 20,
