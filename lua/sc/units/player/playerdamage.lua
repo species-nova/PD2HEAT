@@ -75,7 +75,7 @@ function PlayerDamage:init(unit)
 	managers.environment_controller:set_extra_exposure_value(0)
 	managers.environment_controller:start_player_hurt_screen()
 
-	--Unique resmod stuff.
+	--Unique heat stuff.
 	self._ally_attack = false --Whether or not an ally dealt the last attack. Prevents certain cheese with friendly fire.
 	self._dodge_points = 0.0 --The player's dodge stat, gets set by set_dodge_points once players enter their standard state.
 	self._dodge_meter = 0.0 --Amount of dodge built up as meter. Caps at '150' dodge.
@@ -83,6 +83,7 @@ function PlayerDamage:init(unit)
 	self.in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
 	self._can_counter_dozers = managers.player:has_category_upgrade("player", "counter_strike_dozer")
+	self._autocounter_melee_tase = managers.player:has_category_upgrade("player", "counter_melee_tase")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
 	self._biker_armor_regen_t = 0.0 --Used to track the time until the next biker armor regen tick.
 	self._melee_push_multiplier = 1 - math.min(math.max(player_manager:upgrade_value("player", "resist_melee_push", 0.0) * self:_max_armor(), 0.0), 0.95) --Stun Resistance melee push resist.
@@ -454,7 +455,6 @@ function PlayerDamage:damage_bullet(attack_data)
 	
 	local shake_armor_multiplier = pm:body_armor_value("damage_shake") * pm:upgrade_value("player", "damage_shake_multiplier", 1)
 	local gui_shake_number = tweak_data.gui.armor_damage_shake_base / shake_armor_multiplier
-	gui_shake_number = gui_shake_number + pm:upgrade_value("player", "damage_shake_addend", 0)
 	shake_armor_multiplier = tweak_data.gui.armor_damage_shake_base / gui_shake_number
 	local shake_multiplier = math.clamp(attack_data.damage, 0.2, 2) * shake_armor_multiplier
 	self._unit:camera():play_shaker("player_bullet_damage", 1 * shake_multiplier)
@@ -551,8 +551,31 @@ function PlayerDamage:damage_melee(attack_data)
 	local player_unit = managers.player:player_unit()
 	if alive(attacker_unit) then
 		if attacker_char_tweak and attacker_char_tweak.tase_on_melee then
-			attacker_unit:sound():say("post_tasing_taunt")
-			attack_data.variant = "taser_tased"
+			if self._autocounter_melee_tase then
+				local attacker_pos = attacker_unit:movement():m_com()
+				local attack_dir = self._unit:movement():m_com() - attacker_pos
+				mvector3.normalize(attack_dir)
+				local counter_data = {
+					damage = attacker_unit:character_damage()._HEALTH_INIT * tweak_data.upgrades.counter_taser_damage,
+					damage_effect = 1,
+					variant = "counter_tased",
+					attacker_unit = self._unit,
+					attack_dir = attack_dir,
+					col_ray = {
+						position = attacker_pos,
+						body = attacker_unit:body("body"),
+						attack_dir = attack_dir
+					},
+					name_id = "weapon"
+				}
+				self._unit:camera():play_shaker(vars[math.random(#vars)], math.max(1 * self._melee_push_multiplier, 0.2))
+				self._unit:sound():play("tase_counter_attack")
+				attacker_unit:character_damage():damage_melee(counter_data)
+				return
+			else
+				attacker_unit:sound():say("post_tasing_taunt")
+				attack_data.variant = "taser_tased"
+			end
 		elseif attacker_char_tweak and attacker_char_tweak.cuff_on_melee then
 			if attacker_unit:base()._tweak_table == "autumn" then
 				attacker_unit:sound():say("i03", true, nil, true)
@@ -582,12 +605,7 @@ function PlayerDamage:damage_melee(attack_data)
 	if attacker_unit:base()._tweak_table == "tank" then
 		managers.achievment:set_script_data("dodge_this_fail", true)
 	end
-	
-	local shake_armor_multiplier = pm:body_armor_value("damage_shake") * pm:upgrade_value("player", "damage_shake_multiplier", 1)
-	local gui_shake_number = tweak_data.gui.armor_damage_shake_base / shake_armor_multiplier
-	gui_shake_number = gui_shake_number + pm:upgrade_value("player", "damage_shake_addend", 0)
-	shake_armor_multiplier = tweak_data.gui.armor_damage_shake_base / gui_shake_number
-	local shake_multiplier = math.clamp(attack_data.damage, 0.2, 2) * shake_armor_multiplier
+
 	managers.rumble:play("damage_bullet")
 	
 	if not self:_apply_damage(attack_data, damage_info, "melee", pm:player_timer():time()) then

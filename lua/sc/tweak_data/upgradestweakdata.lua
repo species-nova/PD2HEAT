@@ -737,10 +737,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 				--Shockproof
 					--Basic
-						self.values.player.taser_malfunction = {{
-								interval = 1,
-								chance_to_trigger = 0.15
-						}}
+						self.values.player.counter_melee_tase = {true}
+						self.values.player.slow_duration_multiplier = {0.5}
 					--Ace
 						self.values.player.taser_self_shock = {
 							true
@@ -791,12 +789,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Fully Loaded
 				--Basic
-					self.values.player.extra_ammo_multiplier = {1.25}
+					self.values.player.regain_throwable_from_ammo = {20}
 				--Ace
+					self.values.player.extra_ammo_multiplier = {1.5}
 					self.values.player.fully_loaded_pick_up_multiplier = {1.5}
-					self.values.player.regain_throwable_from_ammo = {
-						{chance = 0.05, chance_inc = 0.01}
-					}
 		
 	--TECHNICIAN--
 		--Fortress--
@@ -3317,6 +3313,24 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "unpierceable_armor",
+			category = "player"
+		}
+	}
+	self.definitions.player_counter_melee_tase = {
+		name_id = "menu_player_counter_melee_tase",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "counter_melee_tase",
+			category = "player"
+		}
+	}
+	self.definitions.player_slow_duration_multiplier = {
+		name_id = "menu_player_slow_duration_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "slow_duration_multiplier",
 			category = "player"
 		}
 	}

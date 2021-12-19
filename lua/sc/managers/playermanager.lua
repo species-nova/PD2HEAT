@@ -493,6 +493,7 @@ function PlayerManager:check_skills()
 	self._saw_panic_when_kill = self:has_category_upgrade("saw", "panic_when_kill")
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
 	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
+	self._slow_duration_multiplier = self:upgrade_value("player", "slow_duration_multiplier", 1)
 
 	--Make Trigger Happy and Desperado stack off of headshots.
 	if self:has_category_upgrade("pistol", "stacked_accuracy_bonus") then
@@ -966,8 +967,7 @@ function PlayerManager:_internal_load()
 	--Removed armor kit weirdness.
 
 	--Fully loaded aced checks
-	self._throwable_chance_data = self:upgrade_value("player", "regain_throwable_from_ammo", {chance = 0, chance_inc = 0})
-	self._throwable_chance = self._throwable_chance_data.chance
+	self._ammo_boxes_until_throwable = self:upgrade_value("player", "regain_throwable_from_ammo")
 
 	--Reset when players are spawned, just in case.
 	self._slow_data = {
@@ -1125,7 +1125,7 @@ end
 function PlayerManager:apply_slow_debuff(duration, power)
 	if power > 1 - self:_slow_debuff_mult() then
 		self._slow_data = {
-			duration = duration,
+			duration = duration * self._slow_duration_multiplier,
 			power = power,
 			start_time = Application:time()
 		}
@@ -1429,14 +1429,17 @@ end
 
 --Replacement for vanilla fully loaded throwable coroutine. The vanilla code has 0 benefits from being a coroutine, and it seems to have issues resetting the chance or firing at all.
 function PlayerManager:regain_throwable_from_ammo()
-	local roll = math.random()
-	
-	if self._throwable_chance then --Fixes bizzare startup crash
-		if roll < self._throwable_chance then
-			self._throwable_chance = self._throwable_chance_data.chance
-			self:add_grenade_amount(1, true)
-		else
-			self._throwable_chance = self._throwable_chance + self._throwable_chance_data.chance_inc
+	if self._ammo_boxes_until_throwable then --Cheap workaround for vanilla main menu somehow calling this code and causing crashes.
+		local peer_id = managers.network:session():local_peer():id()
+		local curr_amount = self._global.synced_grenades[peer_id].amount
+		local max_amount = self:get_max_grenades()
+
+		if Application:digest_value(curr_amount, false) < max_amount then
+			self._ammo_boxes_until_throwable = self._ammo_boxes_until_throwable - 1	
+			if self._ammo_boxes_until_throwable == 0 then
+				self:add_grenade_amount(1, true)
+				self._ammo_boxes_until_throwable = self:upgrade_value("player", "regain_throwable_from_ammo")
+			end
 		end
 	end
 end

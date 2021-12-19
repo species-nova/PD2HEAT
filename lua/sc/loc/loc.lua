@@ -1799,7 +1799,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Fully Loaded--
 			["menu_bandoliers_beta_sc"] = "Fully Loaded",
-			["menu_bandoliers_desc_sc"] = "BASIC: ##$basic##\nYour total ammo capacity is increased by ##25%##.\n\nACE: ##$pro##\nYou pick up ##50%## more ammo.\n\nYou gain a ##5%## chance to get a throwable from an ammo box. This increases by an additional ##1%## every time you do not get a throwable until you get one.",
+			["menu_bandoliers_desc_sc"] = "BASIC: ##$basic##\nYou replenish a throwable for every ##20## ammo boxes you pick up.\n\nACE: ##$pro##\nYou carry and pick up ##50%## more ammo.",
 
 			--}
 		--}
@@ -1886,7 +1886,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shockproof--
 			["menu_insulation_beta_sc"] = "Shockproof",
-			["menu_insulation_beta_desc_sc"] = "BASIC: ##$basic##\nA Taser's shock attack has a ##15%## chance to backfire when targeted at you, knocking back the Taser in the process.\n\nACE: ##$pro##\nInteracting with an enemy Taser within ##2## seconds of him electrocuting you will counter-electrocute him, dealing ##50%## damage to his health.",
+			["menu_insulation_beta_desc_sc"] = "BASIC: ##$basic##\nMelee attacks that would electrocute you instead counter-electrocute the attacker, dealing ##50%## damage to his health.\n\nSlows last ##50%## of their normal duration.\n\nACE: ##$pro##\nInteracting with an enemy Taser within ##2## seconds of him electrocuting you will counter-electrocute him, dealing ##50%## damage to his health.",
 
 
 			--}

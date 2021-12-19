@@ -3383,7 +3383,6 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.nin.stats.range = 500
 	self.melee_weapons.nin.repeat_expire_t = 1
 	self.melee_weapons.nin.melee_damage_delay = 0.15
-	self.melee_weapons.nin.stats.instant = true
 	self.melee_weapons.nin.concealment_override = 11
 	
 	self.melee_weapons.nin.melee_charge_shaker = ""
@@ -3607,8 +3606,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.clean.stats.min_damage_effect = 0.4
 	self.melee_weapons.clean.stats.max_damage_effect = 0.4
 	self.melee_weapons.clean.stats.charge_time = 0.00001
-	self.melee_weapons.clean.stats.instant = true
-	self.melee_weapons.clean.stats.range = 150
+	self.melee_weapons.clean.stats.range = 145
 	self.melee_weapons.clean.repeat_expire_t = 0.5
 	self.melee_weapons.clean.melee_damage_delay = 0
 	self.melee_weapons.clean.expire_t = 0.6

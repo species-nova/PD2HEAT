@@ -724,7 +724,8 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {3, 5},
 				[1] = {
 					upgrades = {
-						"player_taser_malfunction"
+						"player_counter_melee_tase",
+						"player_slow_duration_multiplier"
 					},
 					cost = self.costs.hightier
 				},
@@ -867,14 +868,14 @@ function SkillTreeTweakData:init(tweak_data)
 					["icon_xy"] = {3, 0},
 					[1] = {
 						upgrades = {
-							"extra_ammo_multiplier1"
+							"player_regain_throwable_from_ammo_1"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
 						upgrades = {
 							"player_fully_loaded_pick_up_multiplier",
-							"player_regain_throwable_from_ammo_1"
+							"extra_ammo_multiplier1"
 						},
 						cost = self.costs.hightierpro
 					}
