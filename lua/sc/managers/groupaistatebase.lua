@@ -796,7 +796,7 @@ function GroupAIStateBase:check_ponr_escape_area()
 					local trigger = values.trigger_on
 
 					if trigger == "on_enter" or trigger == "while_inside" then
-						if not self._point_of_no_return_areas[1] or not table_contains(self._point_of_no_return_areas, element) then
+						if not self._point_of_no_return_areas[1] or not table.contains(self._point_of_no_return_areas, element) then
 							self._point_of_no_return_areas[#self._point_of_no_return_areas + 1] = element
 						end
 					end
