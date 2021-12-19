@@ -1403,7 +1403,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		damage_dampener = 1
 	}
 	self.values.team.health.hostage_multiplier = {1.05}
-	self.values.team.stamina.hostage_multiplier = {1.10}
+	self.values.team.stamina.hostage_multiplier = {1.05}
 	self.values.team.damage = {
 		hostage_absorption = {0.1},
 		hostage_absorption_limit = 4
