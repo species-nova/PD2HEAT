@@ -595,7 +595,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 
 					--Ace
-						self.values.player.hostage_health_regen_max_mult = { 1 }
+						self.values.player.hostage_health_regen_max_mult = { 1.5 }
 						self.values.team.damage = {
 							hostage_absorption = {0.1},
 							hostage_absorption_limit = 4
