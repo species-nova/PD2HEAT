@@ -1678,7 +1678,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Hostage Taker--
 			["menu_black_marketeer_beta_sc"] = "Hostage Taker",
-			["menu_black_marketeer_beta_desc_sc"] = "BASIC: ##$basic##\nYou regenerate ##1## health every ##4## seconds for each hostage, up to ##4## times.\n\nACE: ##$pro##\nHealth regen from Hostage Taker is increased by ##150%## when you have ##4## or more hostages.\n\nIncoming damage is reduced by ##1## point for you and your crew for each hostage up to ##4## times.\n\nNote: Hostage Taker does not stack.",
+			["menu_black_marketeer_beta_desc_sc"] = "BASIC: ##$basic##\nYou regenerate ##1## health every ##4## seconds for each hostage, up to ##4## times.\n\nACE: ##$pro##\nHealth regen from Hostage Taker is increased by ##150%## when you have ##4## or more hostages.\n\nNote: Hostage Taker does not stack.",
 
 
 			--}
