@@ -596,10 +596,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 					--Ace
 						self.values.player.hostage_health_regen_max_mult = { 1.5 }
-						self.values.team.damage = {
-							hostage_absorption = {0.1},
-							hostage_absorption_limit = 4
-						}
 
 			
 		--Assault--
@@ -1408,6 +1404,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	self.values.team.health.hostage_multiplier = {1.05}
 	self.values.team.stamina.hostage_multiplier = {1.10}
+	self.values.team.damage = {
+		hostage_absorption = {0.1},
+		hostage_absorption_limit = 4
+	}
 	self.values.player.passive_dodge_chance = {
 		0.05,
 		0.1,

@@ -2443,7 +2443,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_tier_armor_multiplier_1"
+					"team_damage_hostage_absorption"
 				},
 				cost = 2400,
 				icon_xy = {6, 0},
