@@ -7304,7 +7304,7 @@ end
 		self.m14_sniper_npc.categories = {"snp"}
 		self.m14_sniper_npc.sounds.prefix = "sniper_npc"
 		self.m14_sniper_npc.use_data.selection_index = 2
-		self.m14_sniper_npc.DAMAGE = 21.5
+		self.m14_sniper_npc.DAMAGE = 28
 		self.m14_sniper_npc.can_shoot_through_enemy = true
 		self.m14_sniper_npc.can_shoot_through_shield = true
 		self.m14_sniper_npc.can_shoot_through_wall = true
