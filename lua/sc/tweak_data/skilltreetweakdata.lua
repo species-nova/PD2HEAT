@@ -1540,20 +1540,20 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Optical Illusions--
+			--Fast Feet--
 			self.skills.optic_illusions = {
 				["name_id"] = "menu_optic_illusions_sc",
 				["desc_id"] = "menu_optic_illusions_desc_sc",
 				["icon_xy"] = {10, 10},
 				[1] = {
 					upgrades = {
-						"player_silencer_swap_increase"
+						"player_melee_hit_stamina"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_silencer_concealment_increase_1"
+						"temporary_sprint_speed_boost"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1634,7 +1634,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					upgrades = {
 						"player_detection_risk_add_crit_chance_2",
-						"player_hyper_crit"
+						"player_hyper_crits"
 					},
 					cost = self.costs.hightierpro
 				}

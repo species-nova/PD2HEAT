@@ -203,6 +203,7 @@
 	<texture path="guis/textures/pd2/skilltree/info_desperado" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_doctor_bag_health_regen" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_grinder" force="false" load="false"/>
+	<texture path="guis/textures/pd2/skilltree/info_hyper_crits" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_infiltrator" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_long_dis_revive" force="false" load="false"/> <!-- inspire -->
 	<texture path="guis/textures/pd2/skilltree/info_messiah" force="false" load="false"/>

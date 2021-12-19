@@ -360,6 +360,7 @@
 				<option type="bool" default_value="true" name="Info_desperado"/>
 				<option type="bool" default_value="true" name="Info_doctor_bag_health_regen"/>
 				<option type="bool" default_value="true" name="Info_grinder"/>
+				<option type="bool" default_value="true" name="Info_hyper_crits"/> <!-- Low Blow Ace -->
 				<option type="bool" default_value="true" name="Info_infiltrator"/>
 				<option type="bool" default_value="true" name="Info_long_dis_revive"/> <!-- inspire -->
 				<option type="bool" default_value="true" name="Info_messiah"/>

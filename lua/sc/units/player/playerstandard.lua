@@ -837,6 +837,14 @@ function PlayerStandard:_get_max_walk_speed(t, force_run)
 	return final_speed
 end
 
+local orig_set_running = PlayerStandard.set_running
+function PlayerStandard:set_running(running, ...)
+	orig_set_running(self, running, ...)
+	if running then
+		self._unit:movement():attempt_sprint_dash()
+	end
+end
+
 --Baseline sprint in any direction.
 function PlayerStandard:_update_running_timers(t)
 	if self._end_running_expire_t then
@@ -1797,10 +1805,6 @@ function PlayerStandard:_get_swap_speed_multiplier()
 		base_multiplier = base_multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
 		skill_multiplier = skill_multiplier + player_manager:upgrade_value(category, "swap_speed_multiplier", 1) - 1
 		skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value(category, "close_combat_swap_speed_multiplier", 1) - 1
-	end
-
-	if self._equipped_unit:base():got_silencer() then
-		skill_multiplier = skill_multiplier + player_manager:upgrade_value("player", "silencer_swap_increase", 1) - 1
 	end
 
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("team", "crew_faster_swap", 1) - 1

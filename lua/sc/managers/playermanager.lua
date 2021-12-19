@@ -111,6 +111,9 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Second Wind
 	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
 
+	--Fast Feet
+	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "sprint_speed_boost", 1) - 1
+
 	--Swan Song movespeed penalty.
 	if managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") then	
 		multiplier = multiplier * (tweak_data.upgrades.berserker_movement_speed_multiplier or 1)	
@@ -118,7 +121,7 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 
 	--Apply slowing debuff if active.
 	multiplier = multiplier * self:_slow_debuff_mult()
-
+	
 	return multiplier
 end
 
@@ -493,73 +496,73 @@ function PlayerManager:check_skills()
 
 	--Make Trigger Happy and Desperado stack off of headshots.
 	if self:has_category_upgrade("pistol", "stacked_accuracy_bonus") then
-		self._message_system:register(Message.OnHeadShot, self, callback(self, self, "_on_expert_handling_event"))
+		self:register_message(Message.OnHeadShot, self, callback(self, self, "_on_expert_handling_event"))
 	else
-		self._message_system:unregister(Message.OnHeadShot, self)
+		self:unregister_message(Message.OnHeadShot, self)
 	end
 
 	if self:has_category_upgrade("pistol", "stacking_hit_damage_multiplier") then
-		self._message_system:register(Message.OnHeadShot, "trigger_happy", callback(self, self, "_on_enter_trigger_happy_event"))
+		self:register_message(Message.OnHeadShot, "trigger_happy", callback(self, self, "_on_enter_trigger_happy_event"))
 	else
-		self._message_system:unregister(Message.OnHeadShot, "trigger_happy")
+		self:unregister_message(Message.OnHeadShot, "trigger_happy")
 	end
 
 	self._bloodthirst_stacks = 0
 	if self:has_category_upgrade("player", "melee_damage_stacking") then
 		self._bloodthirst_data = self:upgrade_value("player", "melee_damage_stacking", nil)
-		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_stacking", callback(self, self, "_trigger_bloodthirst"))
-		self._message_system:register(Message.OnEnemyHit, "bloodthirst_consuming", callback(self, self, "_consume_bloodthirst"))
+		self:register_message(Message.OnEnemyKilled, "bloodthirst_stacking", callback(self, self, "_trigger_bloodthirst"))
+		self:register_message(Message.OnEnemyHit, "bloodthirst_consuming", callback(self, self, "_consume_bloodthirst"))
 	else
 		self._bloodthirst_data = nil
-		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_stacking")
-		self._message_system:unregister(Message.OnEnemyHit, "bloodthirst_consuming")
+		self:unregister_message(Message.OnEnemyKilled, "bloodthirst_stacking")
+		self:unregister_message(Message.OnEnemyHit, "bloodthirst_consuming")
 	end
 
 
 	if self:has_category_upgrade("player", "messiah_revive_from_bleed_out") then
 		self._messiah_cooldown = 0
-		self._message_system:register(Message.OnEnemyKilled, "messiah_revive_from_bleed_out", callback(self, self, "_on_messiah_event"))
+		self:register_message(Message.OnEnemyKilled, "messiah_revive_from_bleed_out", callback(self, self, "_on_messiah_event"))
 	else
 		self._messiah_cooldown = nil
-		self._message_system:unregister(Message.OnEnemyKilled, "messiah_revive_from_bleed_out")
+		self:unregister_message(Message.OnEnemyKilled, "messiah_revive_from_bleed_out")
 	end
 
 	if self:has_category_upgrade("player", "recharge_messiah") then
-		self._message_system:register(Message.OnDoctorBagUsed, "recharge_messiah", callback(self, self, "_on_messiah_recharge_event"))
+		self:register_message(Message.OnDoctorBagUsed, "recharge_messiah", callback(self, self, "_on_messiah_recharge_event"))
 	else
-		self._message_system:unregister(Message.OnDoctorBagUsed, "recharge_messiah")
+		self:unregister_message(Message.OnDoctorBagUsed, "recharge_messiah")
 	end
 
 	if self:has_category_upgrade("temporary", "single_shot_fast_reload") then
-		self._message_system:register(Message.OnLethalHeadShot, "activate_aggressive_reload", callback(self, self, "_on_activate_aggressive_reload_event"))
+		self:register_message(Message.OnLethalHeadShot, "activate_aggressive_reload", callback(self, self, "_on_activate_aggressive_reload_event"))
 	else
-		self._message_system:unregister(Message.OnLethalHeadShot, "activate_aggressive_reload")
+		self:unregister_message(Message.OnLethalHeadShot, "activate_aggressive_reload")
 	end
 
 	if self:has_category_upgrade("assault_rifle", "headshot_bloom_reduction") then
-		self._message_system:register(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill", callback(self, self, "_trigger_rapid_reset_bloom_reduction"))
+		self:register_message(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill", callback(self, self, "_trigger_rapid_reset_bloom_reduction"))
 	else
-		self._message_system:unregister(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill")
+		self:unregister_message(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill")
 	end
 
 	if self:has_category_upgrade("player", "head_shot_ammo_return") then
 		self._ammo_efficiency = self:upgrade_value("player", "head_shot_ammo_return", nil)
-		self._message_system:register(Message.OnHeadShot, "ammo_efficiency", callback(self, self, "_on_enter_ammo_efficiency_event"))
+		self:register_message(Message.OnHeadShot, "ammo_efficiency", callback(self, self, "_on_enter_ammo_efficiency_event"))
 	else
 		self._ammo_efficiency = nil
-		self._message_system:unregister(Message.OnHeadShot, "ammo_efficiency")
+		self:unregister_message(Message.OnHeadShot, "ammo_efficiency")
 	end
 
 	if self:has_category_upgrade("player", "melee_kill_auto_load") then
-		self._message_system:register(Message.OnEnemyKilled, "snatch_auto_load", callback(self, self, "_trigger_snatch_auto_load"))
+		self:register_message(Message.OnEnemyKilled, "snatch_auto_load", callback(self, self, "_trigger_snatch_auto_load"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "snatch_auto_load")
+		self:unregister_message(Message.OnEnemyKilled, "snatch_auto_load")
 	end
 
 	if self:has_category_upgrade("player", "melee_kill_increase_reload_speed") then
-		self._message_system:register(Message.OnEnemyKilled, "snatch_reload_speed", callback(self, self, "_on_enemy_killed_bloodthirst"))
+		self:register_message(Message.OnEnemyKilled, "snatch_reload_speed", callback(self, self, "_on_enemy_killed_bloodthirst"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "snatch_reload_speed")
+		self:unregister_message(Message.OnEnemyKilled, "snatch_reload_speed")
 	end
 
 	if self:has_category_upgrade("player", "super_syndrome") then
@@ -589,9 +592,7 @@ function PlayerManager:check_skills()
 
 	if managers.blackmarket:equipped_grenade() == "smoke_screen_grenade" then
 		local function speed_up_on_kill()
-			if #managers.player:smoke_screens() == 0 then
-				managers.player:speed_up_grenade_cooldown(1)
-			end
+			managers.player:speed_up_grenade_cooldown(1)
 		end
 
 		self:register_message(Message.OnEnemyKilled, "speed_up_smoke_grenade", speed_up_on_kill)
@@ -608,75 +609,90 @@ function PlayerManager:check_skills()
 	end
 
 	if self:has_category_upgrade("temporary", "headshot_accuracy_addend") then
-		self._message_system:register(Message.OnHeadShot, "sharpshooter", callback(self, self, "_trigger_sharpshooter"))
+		self:register_message(Message.OnHeadShot, "sharpshooter", callback(self, self, "_trigger_sharpshooter"))
 	else
-		self._message_system:unregister(Message.OnHeadShot, "sharpshooter")
+		self:unregister_message(Message.OnHeadShot, "sharpshooter")
 	end
 
 	if self:has_category_upgrade("player", "store_temp_health") then
-		self._message_system:register(Message.OnEnemyKilled, "hitman_temp_health", callback(self, self, "_trigger_hitman")) --Triggers include killing his dog and stealing his car.
+		self:register_message(Message.OnEnemyKilled, "hitman_temp_health", callback(self, self, "_trigger_hitman")) --Triggers include killing his dog and stealing his car.
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "hitman_temp_health")
+		self:unregister_message(Message.OnEnemyKilled, "hitman_temp_health")
 	end
 
 	if self:has_category_upgrade("player", "armor_health_store_amount") then
-		self._message_system:register(Message.OnEnemyKilled, "expres_store_health", callback(self, self, "_trigger_expres"))
+		self:register_message(Message.OnEnemyKilled, "expres_store_health", callback(self, self, "_trigger_expres"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "expres_store_health")
+		self:unregister_message(Message.OnEnemyKilled, "expres_store_health")
 	end
 
 	if self:has_category_upgrade("player", "kill_change_regenerate_speed") then
-		self._message_system:register(Message.OnEnemyKilled, "ex_pres_regen_armor", callback(self, self, "_trigger_expres_armor"))
+		self:register_message(Message.OnEnemyKilled, "ex_pres_regen_armor", callback(self, self, "_trigger_expres_armor"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "ex_pres_regen_armor")
+		self:unregister_message(Message.OnEnemyKilled, "ex_pres_regen_armor")
 	end
 
 	if self:has_category_upgrade("player", "kill_dodge_regen") then
-		self._message_system:register(Message.OnEnemyKilled, "yakuza_on_kill_dodge", callback(self, self, "_trigger_yakuza"))
+		self:register_message(Message.OnEnemyKilled, "yakuza_on_kill_dodge", callback(self, self, "_trigger_yakuza"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "yakuza_on_kill_dodge")
+		self:unregister_message(Message.OnEnemyKilled, "yakuza_on_kill_dodge")
 	end
 
 	if self:has_category_upgrade("player", "biker_armor_regen") then
-		self._message_system:register(Message.OnEnemyKilled, "biker_melee_armor", callback(self, self, "_trigger_biker"))
+		self:register_message(Message.OnEnemyKilled, "biker_melee_armor", callback(self, self, "_trigger_biker"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "biker_melee_armor")
+		self:unregister_message(Message.OnEnemyKilled, "biker_melee_armor")
 	end
 
 	if self:has_category_upgrade("cooldown", "melee_kill_life_leech") then
-		self._message_system:register(Message.OnEnemyKilled, "sociopath_melee_health", callback(self, self, "_trigger_sociopath_heal"))
+		self:register_message(Message.OnEnemyKilled, "sociopath_melee_health", callback(self, self, "_trigger_sociopath_heal"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_melee_health")
+		self:unregister_message(Message.OnEnemyKilled, "sociopath_melee_health")
 	end
 
 	if self:has_category_upgrade("cooldown", "killshot_regen_armor_bonus") then
-		self._message_system:register(Message.OnEnemyKilled, "sociopath_armor", callback(self, self, "_trigger_sociopath_armor"))
+		self:register_message(Message.OnEnemyKilled, "sociopath_armor", callback(self, self, "_trigger_sociopath_armor"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_armor")
+		self:unregister_message(Message.OnEnemyKilled, "sociopath_armor")
 	end
 
 	if self:has_category_upgrade("player", "overheat_stacking") then
-		self._message_system:register(Message.OnEnemyKilled, "overheat_stacking", callback(self, self, "_trigger_overheat_stack"))
+		self:register_message(Message.OnEnemyKilled, "overheat_stacking", callback(self, self, "_trigger_overheat_stack"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "overheat_stacking")
+		self:unregister_message(Message.OnEnemyKilled, "overheat_stacking")
 	end
 
 	if self:has_category_upgrade("temporary", "bullet_hell") and self:upgrade_value("temporary", "bullet_hell")[1].kill_refund > 0 then
-		self._message_system:register(Message.OnEnemyKilled, "bullet_hell_reload", callback(self, self, "_trigger_bullet_hell_reload"))
+		self:register_message(Message.OnEnemyKilled, "bullet_hell_reload", callback(self, self, "_trigger_bullet_hell_reload"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "bullet_hell_reload")
+		self:unregister_message(Message.OnEnemyKilled, "bullet_hell_reload")
 	end
 
 	if self:has_category_upgrade("player", "sprint_kill_stamina_regen") then
-		self._message_system:register(Message.OnEnemyKilled, "sprint_kill_stamina_regen", callback(self, self, "_trigger_sprint_kill_stamina_regen"))
+		self:register_message(Message.OnEnemyKilled, "sprint_kill_stamina_regen", callback(self, self, "_trigger_sprint_kill_stamina_regen"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "sprint_kill_stamina_regen")
+		self:unregister_message(Message.OnEnemyKilled, "sprint_kill_stamina_regen")
 	end
 
 	if self:has_category_upgrade("player", "survive_one_hit_kill_cdr") then
-		self._message_system:register(Message.OnEnemyKilled, "yakuza_on_kill_cdr", callback(self, self, "_trigger_survive_one_hit_cdr"))
+		self:register_message(Message.OnEnemyKilled, "yakuza_on_kill_cdr", callback(self, self, "_trigger_survive_one_hit_cdr"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "yakuza_on_kill_cdr")
+		self:unregister_message(Message.OnEnemyKilled, "yakuza_on_kill_cdr")
+	end
+
+	self._hyper_crit_stacks = 0
+	if self:has_category_upgrade("player", "hyper_crits") then
+		self:register_message(Message.OnWeaponFired, "consume_hyper_crit_stack", callback(self, self, "_consume_hyper_crit_stack"))
+		self:register_message(Message.OnEnemyKilled, "trigger_hyper_crits", callback(self, self, "_trigger_hyper_crits"))
+	else
+		self:unregister_message(Message.OnWeaponFired, "consume_hyper_crit_stack")
+		self:unregister_message(Message.OnEnemyKilled, "trigger_hyper_crits")
+	end
+
+	if self:has_category_upgrade("player", "melee_hit_stamina") then
+		self:register_message(Message.OnEnemyHit, "fast_feet", callback(self, self, "_trigger_melee_hit_stamina"))
+	else
+		self:unregister_message(Message.OnEnemyHit, "fast_feet")
 	end
 end
 
@@ -1026,13 +1042,26 @@ function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	end
 end
 
-function PlayerManager:can_hyper_crit()
-	local damage_ext = self:player_unit():character_damage()
-	if not (damage_ext:get_real_armor() > 0) and damage_ext:can_hyper_crit() then
-		return true
-	end
+function PlayerManager:_trigger_melee_hit_stamina()
+	self:player_unit():movement():add_stamina(self:upgrade_value("player", "melee_hit_stamina"))
+end
 
-	return false
+function PlayerManager:can_hyper_crit()
+	return self._hyper_crit_stacks > 0
+end
+
+function PlayerManager:_consume_hyper_crit_stack(unit, result)
+	if self._hyper_crit_stacks > 0 then
+		self._hyper_crit_stacks = self._hyper_crit_stacks - 1
+		managers.hud:set_stacks("hyper_crits", self._hyper_crit_stacks)
+	end
+end
+
+function PlayerManager:_trigger_hyper_crits(equipped_unit, variant, killed_unit)
+	if variant == "melee" then
+		self._hyper_crit_stacks = self:upgrade_value("player", "hyper_crits")
+		managers.hud:set_stacks("hyper_crits", self._hyper_crit_stacks)
+	end
 end
 
 function PlayerManager:_on_activate_aggressive_reload_event(attack_data)

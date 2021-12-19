@@ -501,9 +501,6 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 		
 		if stat.name == "swap_speed" then
 			local base_multiplier, skill_multiplier = get_swap_mul(weapon_tweak)
-			if silencer then
-				skill_multiplier = skill_multiplier + managers.player:upgrade_value("player", "silencer_swap_increase", 1) - 1
-			end
 
 			local multiplier = base_multiplier * skill_multiplier * tweak_data.weapon.stats.mobility[base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value]
 			skill_value = ((tweak_data.weapon[name].timers.equip + tweak_data.weapon[name].timers.unequip) / multiplier) - base_stats.swap_speed.value - mods_stats.swap_speed.value

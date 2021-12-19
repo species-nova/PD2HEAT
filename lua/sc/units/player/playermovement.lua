@@ -15,6 +15,8 @@ function PlayerMovement:init(...)
 	self._underdog_chk_t = 0
 	self._nr_close_guys = 0
 	self._sprint_cost_multiplier = managers.player:upgrade_value("player", "armor_full_cheap_sprint", 1)
+	self._has_stamina_dash_skill = managers.player:has_category_upgrade("temporary", "sprint_speed_boost")
+	self._can_stamina_dash = true
 
 	self._crosshair_states = {
 		standard = true,
@@ -224,6 +226,18 @@ end
 
 function PlayerMovement:deactivate_cheap_sprint()
 	self._sprint_cost_multiplier = 1
+end
+
+function PlayerMovement:attempt_sprint_dash()
+	if self._can_stamina_dash then
+		managers.player:activate_temporary_upgrade("temporary", "sprint_speed_boost")
+		self._can_stamina_dash = false
+	end
+end
+
+function PlayerMovement:add_stamina(value)
+	self._can_stamina_dash = self._has_stamina_dash_skill
+	self:_change_stamina(math.abs(value) * managers.player:upgrade_value("player", "stamina_regen_multiplier", 1))
 end
 
 function PlayerMovement:update_stamina(t, dt, ignore_running, cost_multiplier)

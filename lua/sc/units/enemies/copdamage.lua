@@ -3396,7 +3396,7 @@ function CopDamage:roll_critical_hit(attack_data)
 		critical_hit = critical_roll < critical_value
 	end
 
-	local hyper_crit = managers.player:can_hyper_crit()
+	local hyper_crit = attack_data.variant == "bullet" and managers.player:can_hyper_crit()
 	if critical_hit and hyper_crit then
 		damage = damage * critical_damage_mul * critical_damage_mul
 	elseif critical_hit then

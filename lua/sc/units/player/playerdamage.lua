@@ -81,7 +81,6 @@ function PlayerDamage:init(unit)
 	self._dodge_meter = 0.0 --Amount of dodge built up as meter. Caps at '150' dodge.
 	self._dodge_meter_prev = 0.0 --dodge in meter from previous frame.
 	self.in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
-	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
 	self._can_counter_dozers = managers.player:has_category_upgrade("player", "counter_strike_dozer")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
@@ -1420,16 +1419,6 @@ function PlayerDamage:can_dodge_heal()
 	return nil
 end
 
---Whether or not the player can proc Low Blow.
-function PlayerDamage:can_hyper_crit()
-	if self._can_hyper_crit then
-		self._can_hyper_crit = nil
-		return true
-	end
-
-	return nil
-end
-
 function PlayerDamage:tick_biker_armor_regen(amount)
 	if self:get_real_armor() == self:_max_armor() then --End biker regen when armor returns.
 		self._biker_armor_regen_t = 0.0
@@ -1643,7 +1632,6 @@ function PlayerDamage:set_armor(armor)
 
 		if current_armor ~= 0 and armor == 0 then
 			self._can_dodge_heal = true
-			self._can_hyper_crit = true
 		end
 
 		if armor == self:_max_armor() then

@@ -102,6 +102,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_desperadoDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_grinderTitleID"] = "Histamine (Grinder)",
 		["PD2HEATInfo_grinderDescID"] = "Enables or disables tracking of this specific perk deck ability.",
+		["PD2HEATInfo_hyper_critsTitleID"] = "Low Blow",
+		["PD2HEATInfo_hyper_critsDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_infiltratorTitleID"] = "Life Drain (Infiltrator)",
 		["PD2HEATInfo_infiltratorDescID"] = "Enables or disables tracking of this specific perk deck ability.",
 		["PD2HEATInfo_long_dis_reviveTitleID"] = "Inspire",
@@ -1894,9 +1896,27 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Dexterous Hands--
 			["menu_scavenger_beta_sc"] = "Dexterous Hands",
-			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the mobility of melee weapons by ##10.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
+			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the mobility of melee weapons by ##15.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
 
+			--Fast Feet--
+			["menu_optic_illusions_sc"] = "Fast Feet",
+			["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nHitting an enemy with a melee attack restores ##0.75## stamina.\n\nACE: ##$pro##\nSprinting grants a brief burst of extra speed.\n\nYou must regenerate any amount of stamina before this can occur again.",
 
+			--Silent Precision--
+			["menu_silence_expert_beta_sc"] = "Silent Precision",
+			["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
+
+			--Unseen Strike--
+			["menu_hitman_beta_sc"] = "Unseen Strike",
+			["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
+
+			--Backstab--
+			["menu_backstab_beta_sc"] = "Backstab",
+			["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by an additional ##40%## when attacking enemies from behind with guns or melee.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
+
+			--Low Blow--
+			["menu_unseen_strike_beta_sc"] = "Low Blow",
+			["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of detection risk under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every point of detection risk under ##35## up to a maximum of ##30%.##\n\nKilling an enemy in melee causes your next ##3## bullets to automatically be critical hits. The damage bonus stacks if they would have been critical hits anyway.",
 
 			--}
 		--}
@@ -2019,26 +2039,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		--Moving Target--
 		["menu_dire_need_beta_sc"] = "Moving Target",
 		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of detection risk under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every point of detection risk under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
-
-		--Optical Illusions--
-		["menu_optic_illusions_sc"] = "Optical Illusions",
-		["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster silenced weapons ##25%## faster.\n\nACE: ##$pro##\nSilenced weapons gain ##2## concealment.",
-
-		--Silent Precision--
-		["menu_silence_expert_beta_sc"] = "Silent Precision",
-		["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
-
-		--Unseen Strike--
-		["menu_hitman_beta_sc"] = "Unseen Strike",
-		["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
-
-		--Backstab--
-		["menu_backstab_beta_sc"] = "Backstab",
-		["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by an additional ##40%## when attacking enemies from behind with guns or melee.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
-
-		--Low Blow--
-		["menu_unseen_strike_beta_sc"] = "Low Blow",
-		["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of detection risk under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every point of detection risk under ##35## up to a maximum of ##30%.##\n\nWhile your armor is broken, your attacks gain a ##100%## critical hit chance; which can stack with your existing critical hit chance. This can only occur once every time your armor breaks.",
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Equilibrium",

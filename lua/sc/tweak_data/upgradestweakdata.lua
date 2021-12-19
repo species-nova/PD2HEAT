@@ -1059,15 +1059,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Silent Killer--
 			--Dexterous Hands--
 				--Basic
-					self.values.player.melee_concealment_modifier = {2}
+					self.values.player.melee_concealment_modifier = {3}
 				--Ace
 					self.values.player.dodge_melee = {true}
 
-			--Optical Illusions
-					--Basic
-						self.values.player.silencer_swap_increase = {1.3}
-					--Ace
-						self.values.player.silencer_concealment_increase = {2}
+			--Fast Feet
+				--Basic
+					self.values.player.melee_hit_stamina = {0.75}
+				--Ace
+					self.values.temporary.sprint_speed_boost = {{1.5, 0.5}}
 
 			--The Professional
 				--Basic
@@ -1147,7 +1147,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 				}
 				--Ace
-					self.values.player.hyper_crit = {true}
+					self.values.player.hyper_crits = {3}
 		
 	--FUGITIVE--
 		--Gunslinger
@@ -2122,18 +2122,27 @@ function UpgradesTweakData:_player_definitions()
 			value = 1
 		}
 	}
-	self.definitions.player_messiah_revive_from_bleed_out_2 = {
+	self.definitions.player_melee_hit_stamina = {
 		category = "feature",
-		name_id = "menu_player_pistol_revive_from_bleed_out",
+		name_id = "menu_player_melee_hit_stamina",
 		upgrade = {
 			category = "player",
-			upgrade = "messiah_revive_from_bleed_out",
-			value = 2
+			upgrade = "melee_hit_stamina",
+			value = 1
+		}
+	}
+	self.definitions.temporary_sprint_speed_boost = {
+		category = "temporary",
+		name_id = "menu_temporary_sprint_speed_boost",
+		upgrade = {
+			category = "temporary",
+			upgrade = "sprint_speed_boost",
+			value = 1
 		}
 	}
 	self.definitions.player_deflect_ranged = {
 		category = "feature",
-		name_id = "menu_player_panic_suppression",
+		name_id = "menu_player_deflect_ranged",
 		upgrade = {
 			category = "player",
 			upgrade = "deflect_ranged",
@@ -2325,15 +2334,6 @@ function UpgradesTweakData:_player_definitions()
 			category = "temporary",
 			upgrade = "damage_speed_multiplier",
 			value = 2
-		}
-	}
-	self.definitions.player_silencer_concealment_increase = {
-		name_id = "menu_player_silencer_concealment_increase",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "silencer_concealment_increase",
-			category = "player"
 		}
 	}
 	self.definitions.player_real_health_damage_reduction_1 = {
@@ -3257,12 +3257,12 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_hyper_crit = {
-		name_id = "menu_player_hyper_crit",
+	self.definitions.player_hyper_crits = {
+		name_id = "menu_player_hyper_crits",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "hyper_crit",
+			upgrade = "hyper_crits",
 			category = "player"
 		}
 	}
@@ -3300,15 +3300,6 @@ function UpgradesTweakData:_saw_definitions()
 			value = 2,
 			upgrade = "silent_precision",
 			category = "temporary"
-		}
-	}
-	self.definitions.player_silencer_swap_increase = {
-		name_id = "menu_player_silencer_swap_increase",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "silencer_swap_increase",
-			category = "player"
 		}
 	}
 	self.definitions.player_special_double_drop = {
