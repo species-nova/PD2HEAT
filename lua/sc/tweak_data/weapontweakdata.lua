@@ -7335,7 +7335,7 @@ end
 		self.r870_npc.categories = clone(self.r870.categories)
 		self.r870_npc.sounds.prefix = "remington_npc"
 		self.r870_npc.use_data.selection_index = 2
-		self.r870_npc.DAMAGE = 11
+		self.r870_npc.DAMAGE = 12.5
 		self.r870_npc.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.r870_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_slug_semi"
 		self.r870_npc.CLIP_AMMO_MAX = 8
@@ -7350,21 +7350,21 @@ end
 
 		self.benelli_npc = deep_clone(self.r870_npc)
 		self.benelli_npc.sounds.prefix = "benelli_m4_npc"
-		self.benelli_npc.DAMAGE = 11
+		self.benelli_npc.DAMAGE = 12.5
 		self.benelli_npc.CLIP_AMMO_MAX = 10
 		self.benelli_npc.alert_size = 2500
 		self.benelli_npc.suppression = 3
 
 		self.bayou_npc = deep_clone(self.r870_npc)
 		self.bayou_npc.sounds.prefix = "spas_npc"
-		self.bayou_npc.DAMAGE = 11
+		self.bayou_npc.DAMAGE = 12.5
 		self.bayou_npc.CLIP_AMMO_MAX = 10
 		self.bayou_npc.alert_size = 2500
 		self.bayou_npc.suppression = 3
 
 		self.r870_taser_npc = deep_clone(self.r870_npc)
 		self.r870_taser_npc.sounds.prefix = "keltec_npc"
-		self.r870_taser_npc.DAMAGE = 11
+		self.r870_taser_npc.DAMAGE = 12.5
 		self.r870_taser_npc.CLIP_AMMO_MAX = 8
 	end
 
@@ -7372,7 +7372,7 @@ end
 		self.mossberg_npc.categories = {"shotgun"}
 		self.mossberg_npc.sounds.prefix = "remington_npc"
 		self.mossberg_npc.use_data.selection_index = 2
-		self.mossberg_npc.DAMAGE = 11
+		self.mossberg_npc.DAMAGE = 12.5
 		self.mossberg_npc.muzzleflash = "effects/particles/shotgun/muzzleflash"
 		self.mossberg_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_slug_semi"
 		self.mossberg_npc.CLIP_AMMO_MAX = 2
