@@ -1467,7 +1467,7 @@ function PlayerDamage:exit_custody(down_timer)
 	if down_timer > 0 then
 		self._revives = Application:digest_value(tweak_data.player.damage.CUSTODY_LIVES, true)
 	else
-		self._revives = 0
+		self._revives = Application:digest_value(0, true)
 		managers.environment_controller:set_last_life(Application:digest_value(self._revives, false) <= 1)
 	end
 	self._down_time = down_timer
