@@ -1468,7 +1468,7 @@ function PlayerDamage:exit_custody(down_timer)
 		self._revives = Application:digest_value(tweak_data.player.damage.CUSTODY_LIVES, true)
 	else
 		self._revives = Application:digest_value(0, true)
-		managers.environment_controller:set_last_life(Application:digest_value(self._revives, false) <= 1)
+		managers.environment_controller:set_last_life(true)
 	end
 	self._down_time = down_timer
 	self._messiah_charges = managers.player:upgrade_value("player", "pistol_revive_from_bleed_out", 0)
