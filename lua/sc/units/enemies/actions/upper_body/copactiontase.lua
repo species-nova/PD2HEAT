@@ -102,13 +102,12 @@ function CopActionTase:init(action_desc, common_data)
 	self._tase_distance = weapon_usage_tweak.tase_distance or 1500
 	self._aim_delay_minmax = weapon_usage_tweak.aim_delay_tase or {1, 1}
 	self._sphere_radius = weapon_usage_tweak.tase_sphere_cast_radius or 10
+	self._charge_duration = weapon_usage_tweak.tase_charge_duration or 3 --Duration a taser charge is maintained for.
 	self._line_of_fire_slotmask = managers.slot:get_mask("world_geometry", "vehicles", "enemy_shield_check")
 	self._weapon_obj_fire = weapon_unit:get_object(Idstring("fire"))
 	self._shield = alive(self._ext_inventory._shield_unit) and self._ext_inventory._shield_unit or nil
 	self._firing_at_husk = action_desc.firing_at_husk or nil
-
-	local shoot_from_pos = self._ext_movement:m_head_pos()
-	self._shoot_from_pos = shoot_from_pos
+	self._shoot_from_pos = self._ext_movement:m_head_pos()
 
 	if self._is_server then
 		self._ext_movement:set_stance_by_code(3)
@@ -207,17 +206,20 @@ function CopActionTase:on_attention(attention)
 	self._attention = attention
 
 	local shoot_delay = 0
-	local aim_delay_minmax = self._aim_delay_minmax
+	if not self._ext_brain._tase_charged_t or self._ext_brain._tase_charged_t < t then
+		local aim_delay_minmax = self._aim_delay_minmax
+		if aim_delay_minmax[1] ~= 0 or aim_delay_minmax[2] ~= 0 then
+			if aim_delay_minmax[1] == aim_delay_minmax[2] then
+				shoot_delay = aim_delay_minmax[1]
+			else
+				local _, __, target_dis = self:_get_target_pos(self._shoot_from_pos, self._attention, t)
+				local lerp_dis = math_min(1, target_dis / self._falloff[#self._falloff].r)
 
-	if aim_delay_minmax[1] ~= 0 or aim_delay_minmax[2] ~= 0 then
-		if aim_delay_minmax[1] == aim_delay_minmax[2] then
-			shoot_delay = aim_delay_minmax[1]
-		else
-			local _, __, target_dis = self:_get_target_pos(self._shoot_from_pos, self._attention, t)
-			local lerp_dis = math_min(1, target_dis / self._falloff[#self._falloff].r)
-
-			shoot_delay = math_lerp(aim_delay_minmax[1], aim_delay_minmax[2], lerp_dis)
+				shoot_delay = math_lerp(aim_delay_minmax[1], aim_delay_minmax[2], lerp_dis)
+			end
 		end
+	else
+		self._skip_chargeup = true --Taser has already charged recently, no need to replay charge sound and effect.
 	end
 
 	self._tasing_local_unit = nil
@@ -230,11 +232,21 @@ function CopActionTase:on_attention(attention)
 
 		if not attention_unit:base().is_husk_player then
 			self._shoot_t = self._mod_enable_t + shoot_delay
+			if not self._ext_brain._tase_charged_t then
+				self._ext_brain._tase_charged_t = self._shoot_t + self._charge_duration
+			else
+				self._ext_brain._tase_charged_t = nil
+			end
 			self._tasing_local_unit = attention_unit
 			self._tasing_player = attention_unit:base().is_local_player and true or nil
 		end
 	elseif attention_unit:base().is_local_player then
 		self._shoot_t = self._mod_enable_t + shoot_delay
+		if not self._ext_brain._tase_charged_t then
+			self._ext_brain._tase_charged_t = self._shoot_t + self._charge_duration
+		else
+			self._ext_brain._tase_charged_t = nil
+		end
 		self._tasing_local_unit = attention_unit
 		self._tasing_player = true
 	end
@@ -415,12 +427,12 @@ function CopActionTase:update(t)
 				end
 			end
 		elseif target_vec and self._common_data.allow_fire then
-			if not self._played_sound_this_once then
+			if not self._played_sound_this_once and not self._skip_chargeup then
 				self._played_sound_this_once = true
 				self._unit:sound():play("taser_charge", nil)
 			end
 			
-			if self._shoot_t and self._shoot_t > t then
+			if not self._skip_chargeup and self._shoot_t and self._shoot_t > t then
 				if self._tase_effect then
 					World:effect_manager():fade_kill(self._tase_effect)
 				end
@@ -430,55 +442,54 @@ function CopActionTase:update(t)
 					effect = Idstring("effects/payday2/particles/character/taser_thread"),
 					parent = self._weapon_obj_fire
 				})
-			elseif self._shoot_t and self._mod_enable_t < t and self._shoot_t < t then
-				if self._tasing_local_unit and target_dis < self._tase_distance then
-					local record = managers.groupai:state():criminal_record(self._tasing_local_unit:key())
+			elseif self._shoot_t and self._mod_enable_t < t and self._shoot_t < t and self._tasing_local_unit and target_dis < self._tase_distance then
+				local record = managers.groupai:state():criminal_record(self._tasing_local_unit:key())
 
-					if not record or record.status or self._tasing_local_unit:movement():chk_action_forbidden("hurt") or self._tasing_local_unit:movement():zipline_unit() then
-						if self._is_server then
-							self._expired = true
-						end
+				if not record or record.status or self._tasing_local_unit:movement():chk_action_forbidden("hurt") or self._tasing_local_unit:movement():zipline_unit() then
+					if self._is_server then
+						self._expired = true
+					end
+				else
+					local is_obstructed = nil
+
+					if self._shield then
+						is_obstructed = self._unit:raycast("ray", self._shoot_from_pos, target_pos, "slot_mask", self._line_of_fire_slotmask, "sphere_cast_radius", self._sphere_radius, "ignore_unit", self._shield, "report")
 					else
-						local is_obstructed = nil
+						is_obstructed = self._unit:raycast("ray", self._shoot_from_pos, target_pos, "slot_mask", self._line_of_fire_slotmask, "sphere_cast_radius", self._sphere_radius, "report")
+					end
 
-						if self._shield then
-							is_obstructed = self._unit:raycast("ray", self._shoot_from_pos, target_pos, "slot_mask", self._line_of_fire_slotmask, "sphere_cast_radius", self._sphere_radius, "ignore_unit", self._shield, "report")
-						else
-							is_obstructed = self._unit:raycast("ray", self._shoot_from_pos, target_pos, "slot_mask", self._line_of_fire_slotmask, "sphere_cast_radius", self._sphere_radius, "report")
+					if not is_obstructed then
+						if self._tase_effect then
+							World:effect_manager():fade_kill(self._tase_effect)
 						end
 
-						if not is_obstructed then
-							if self._tase_effect then
-								World:effect_manager():fade_kill(self._tase_effect)
-							end
+						self._tase_effect = World:effect_manager():spawn({
+							force_synch = true,
+							effect = Idstring("effects/payday2/particles/character/taser_thread"),
+							parent = self._weapon_obj_fire
+						})
 
-							self._tase_effect = World:effect_manager():spawn({
-								force_synch = true,
-								effect = Idstring("effects/payday2/particles/character/taser_thread"),
-								parent = self._weapon_obj_fire
-							})
+						self._common_data.ext_network:send("action_tase_event", 3)
 
-							self._common_data.ext_network:send("action_tase_event", 3)
+						local attack_data = {
+							attacker_unit = self._unit
+						}
 
-							local attack_data = {
-								attacker_unit = self._unit
-							}
+						self._tasing_local_unit:character_damage():damage_tase(attack_data)
+						CopDamage._notify_listeners("on_criminal_tased", self._unit, self._tasing_local_unit)
 
-							self._tasing_local_unit:character_damage():damage_tase(attack_data)
-							CopDamage._notify_listeners("on_criminal_tased", self._unit, self._tasing_local_unit)
+						self._discharging = true
 
-							self._discharging = true
-
-							if not self._tasing_local_unit:base().is_local_player then
-								self._tasered_sound = self._unit:sound():play("tasered_3rd", nil)
-							end
-
-							if vis_state == 1 then
-								self._ext_movement:play_redirect("recoil_single")
-							end
-
-							self._shoot_t = nil
+						if not self._tasing_local_unit:base().is_local_player then
+							self._tasered_sound = self._unit:sound():play("tasered_3rd", nil)
 						end
+
+						if vis_state == 1 then
+							self._ext_movement:play_redirect("recoil_single")
+						end
+
+						self._shoot_t = nil
+						self._ext_brain._tase_charged_t = nil
 					end
 				end
 			end

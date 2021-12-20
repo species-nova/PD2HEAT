@@ -5080,6 +5080,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.weapon.taser.is_rifle.tase_distance = 1400
 	presets.weapon.taser.is_rifle.aim_delay_tase = {0.75, 0.75}
 	presets.weapon.taser.is_rifle.tase_sphere_cast_radius = 10
+	presets.weapon.taser.is_rifle.tase_charge_duration = 1
 
 	presets.weapon.taser_summers = {}
 	presets.weapon.taser_summers.is_rifle = deep_clone(presets.weapon.expert.is_rifle)
