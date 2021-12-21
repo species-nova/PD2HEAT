@@ -232,7 +232,7 @@ function CopActionTase:on_attention(attention)
 
 		if not attention_unit:base().is_husk_player then
 			self._shoot_t = self._mod_enable_t + shoot_delay
-			if not self._ext_brain._tase_charged_t then
+			if not self._ext_brain._tase_charged_t and attention_unit:base().is_local_player then
 				self._ext_brain._tase_charged_t = self._shoot_t + self._charge_duration
 			else
 				self._ext_brain._tase_charged_t = nil
