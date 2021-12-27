@@ -778,9 +778,9 @@ function PlayerDamage:damage_killzone(attack_data)
 	if attack_data.damage and attack_data.damage == 0.75 and not attack_data.instant_death then
 		local gas_grenade_tweak = tweak_data.projectiles.gas_grenade
 		self:damage_gas({
-			damage = gas_grenade_tweak.damage_per_tick * 2 or 1.2, --Map gas ticks at a slower rate than gas grenades.
+			damage = gas_grenade_tweak.damage_per_tick * 1.5 or 1.2, --Map gas ticks at a slower rate than gas grenades.
 			no_stamina_damage_mul = gas_grenade_tweak.no_stamina_damage_mul or 2,
-			stamina_damage = gas_grenade_tweak.stamina_per_tick * 2 or 4,
+			stamina_damage = gas_grenade_tweak.stamina_per_tick * 1.5 or 4,
 			ignore_deflection = true,
 			col_ray = attack_data.col_ray,
 			variant = "gas"
