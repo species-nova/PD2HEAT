@@ -37,7 +37,7 @@ function PlayerTweakData:_set_overkill_145()
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
 	self.damage.custody_ammo_drained  = 0.5
-	self.damage.DOWNED_TIME_DEC = 10
+	self.damage.DOWNED_TIME_DEC = 15
 end
 
 function PlayerTweakData:_set_easy_wish()
@@ -77,7 +77,7 @@ function PlayerTweakData:_set_overkill_290()
 		}
 	}
 	self.damage.custody_ammo_drained = 0.75
-	self.damage.DOWNED_TIME_DEC = 10
+	self.damage.DOWNED_TIME_DEC = 15
 end
 
 function PlayerTweakData:_set_sm_wish()
@@ -104,8 +104,8 @@ function PlayerTweakData:_set_sm_wish()
 			0
 		}
 	}
-	self.damage.custody_ammo_drained  = 0.9
-	self.damage.DOWNED_TIME_DEC = 15
+	self.damage.custody_ammo_drained  = 0.75
+	self.damage.DOWNED_TIME_DEC = 30
 end
 
 function PlayerTweakData:_set_singleplayer()
@@ -345,11 +345,11 @@ function PlayerTweakData:init()
 		self.movement_state.stamina.STAMINA_INIT = 1
 	end
 
-	self.movement_state.stamina.STAMINA_REGEN_RATE = 1.15
+	self.movement_state.stamina.STAMINA_REGEN_RATE = 1.25
 	self.movement_state.stamina.STAMINA_DRAIN_RATE = 1
 	self.movement_state.stamina.STAMINA_DRAIN_RATE_WARP = 2
-	self.movement_state.stamina.REGENERATE_TIME = 2
-	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 3
+	self.movement_state.stamina.REGENERATE_TIME = 3
+	self.movement_state.stamina.MIN_STAMINA_THRESHOLD = 2.5
 	self.movement_state.stamina.JUMP_STAMINA_DRAIN = 0
 	
 	self.camera = {}

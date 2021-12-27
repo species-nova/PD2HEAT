@@ -10,11 +10,7 @@ end
 function TankCopDamage:seq_clbk_vizor_shatter()
 	if not self._unit:character_damage():dead() then
 		
-		if Global.game_settings.difficulty == "sm_wish" then
-			self._unit:sound():say("visor_lost")
-			self._unit:sound():play("clk_turn", nil, nil)
-			self._unit:base():add_buff("base_damage", 10 * 0.01)
-		elseif self._unit:base()._tweak_table == "tank_biker" then
+		if self._unit:base()._tweak_table == "tank_biker" then
 			self._unit:sound():say("g90")
 		else
 			self._unit:sound():say("visor_lost")
@@ -22,4 +18,4 @@ function TankCopDamage:seq_clbk_vizor_shatter()
 		managers.modifiers:run_func("OnTankVisorShatter", self._unit)
 			
 	end
-end	
+end

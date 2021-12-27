@@ -43,6 +43,7 @@
 		<hook file="sc/managers/hud/hudskills.lua" source_file="lib/managers/hud/HUDTemp"/>
 		<hook file="sc/managers/hud/huddodge.lua" source_file="lib/managers/hud/HUDTemp"/>
         <hook file="sc/managers/hud/hudeffect.lua" source_file="lib/managers/hud/HUDTemp"/>
+		<hook file="sc/managers/hud/hudcrosshair.lua" source_file="lib/managers/hudmanager"/>
         <!--///OVERHAUL\\\-->
 		<hook file="sc/network/base/hostnetworksession.lua" source_file="lib/network/base/hostnetworksession"/>
 		<hook file="sc/tweak_data/networktweakdata.lua" source_file="lib/tweak_data/networktweakdata"/>
@@ -115,7 +116,7 @@
 		<hook file="sc/units/player/playerclean.lua" source_file="lib/units/beings/player/states/playerclean"/>
 		<hook file="sc/units/player/playercivilian.lua" source_file="lib/units/beings/player/states/playercivilian"/>
 		<hook file="sc/units/player/playersound.lua" source_file="lib/units/beings/player/playersound"/>
-		<hook file="sc/units/player/recoil.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>
+		<hook file="sc/units/player/fpcameraplayerbase.lua" source_file="lib/units/cameras/fpcameraplayerbase"/>
 		<hook file="sc/units/vehicles/animatedvehiclebase.lua" source_file="lib/units/vehicles/animatedvehiclebase"/>
 		<hook file="sc/units/vehicles/vehicledrivingext.lua" source_file="lib/units/vehicles/vehicledrivingext"/>
 		<hook file="sc/units/interactions/interactionext.lua" source_file="lib/units/interactions/interactionext"/>
@@ -190,6 +191,7 @@
 		<hook file="sc/units/pickups/ammoclip.lua" source_file="lib/units/pickups/ammoclip"/>
 		<hook file="sc/units/pickups/gageassignmentbase.lua" source_file="lib/units/pickups/gageassignmentbase"/>
 		<hook file="sc/units/pickups/pickup.lua" source_file="lib/units/pickups/pickup"/>
+		<hook file="sc/utils/messages.lua" source_file="lib/utils/messages"/>
 		<hook file="sc/player_actions/skills/playeractiondamagecontrol.lua" source_file="lib/player_actions/skills/playeractiondamagecontrol"/>
 		<hook file="sc/player_actions/skills/playeractiontriggerhappy.lua" source_file="lib/player_actions/skills/playeractiontriggerhappy"/>
 		<hook file="sc/player_actions/skills/playeractionexperthandling.lua" source_file="lib/player_actions/skills/playeractionexperthandling"/>
@@ -324,8 +326,6 @@
 		<hook file="sc/managers/menu/menupauserenderer.lua" source_file="lib/managers/menu/MenuPauseRenderer"/>
 		<!--///COMPATIBILITY\\\-->
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
-		<hook file="sc/compatibility/WeaponStatGenerator.lua" source_file="lib/tweak_data/weapontweakdata"/>
-		<hook file="sc/compatibility/ModStatGenerator.lua" source_file="lib/tweak_data/weaponfactorytweakdata"/>
 		<!--///MOD SAVE DATA\\\-->
 		<!--DO NOT MODIFY-->
 		<hook file="sc/managers/savefilemanager.lua" source_file="lib/managers/savefilemanager"/>
@@ -339,7 +339,6 @@
 	<!--///MOD SETTINGS\\\-->
     <Options name="Options" auto_build_menu="true" auto_load="true" save_file="heat.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
 	    <options>
-			<option type="bool" default_value="false" name="AimAssist"/>
 			<option type="bool" default_value="false" name="ScreenFX"/>
 			<option type="bool" default_value="false" name="RealAmmo"/>
 			<option type="bool" default_value="false" name="AltLastDownColor"/>
@@ -353,7 +352,7 @@
 				<option type="number" default_value="8" min="1" max="8" step="1" show_value="true" name="Info_Count"/>
 				<option type="bool" default_value="true" name="Info_ammo_efficiency"/>
 				<option type="bool" default_value="true" name="Info_single_shot_fast_reload"/> <!-- aggressive reload -->
-				<option type="bool" default_value="true" name="Info_bloodthirst_reload_speed"/>
+				<option type="bool" default_value="true" name="Info_bloodthirst_stacks"/>
 				<option type="bool" default_value="true" name="Info_bullet_hell"/>
 				<option type="bool" default_value="true" name="Info_bullet_storm"/>
 				<option type="bool" default_value="true" name="Info_revive_damage_reduction"/> <!-- Combat Medic -->
@@ -361,6 +360,7 @@
 				<option type="bool" default_value="true" name="Info_desperado"/>
 				<option type="bool" default_value="true" name="Info_doctor_bag_health_regen"/>
 				<option type="bool" default_value="true" name="Info_grinder"/>
+				<option type="bool" default_value="true" name="Info_hyper_crits"/> <!-- Low Blow Ace -->
 				<option type="bool" default_value="true" name="Info_infiltrator"/>
 				<option type="bool" default_value="true" name="Info_long_dis_revive"/> <!-- inspire -->
 				<option type="bool" default_value="true" name="Info_messiah"/>
@@ -374,6 +374,7 @@
 				<option type="bool" default_value="true" name="Info_headshot_accuracy_addend"/> <!-- Sharpshooter -->
 				<option type="bool" default_value="true" name="Info_shotgun_last_shot_stagger"/> <!-- Shell Shocked -->
 				<option type="bool" default_value="true" name="Info_silent_precision"/>
+				<option type="bool" default_value="true" name="Info_melee_kill_increase_reload_speed"/> <!-- Snatch -->
 				<option type="bool" default_value="true" name="Info_trigger_happy"/>
 				<option type="bool" default_value="true" name="Info_unseen_strike"/>
 			</option_group>

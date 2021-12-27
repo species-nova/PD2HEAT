@@ -169,8 +169,6 @@ function PlayerStandard:_update_movement(t, dt)
 
 		if enter_moving then
 			self._last_sent_pos_t = t
-
-			self:_update_crosshair_offset()
 		end
 
 		mvector3.set(mvec_move_dir_normalized, self._move_dir)
@@ -227,7 +225,7 @@ function PlayerStandard:_update_movement(t, dt)
 			self._target_headbob = self._target_headbob * weapon_tweak_data.headbob.multiplier
 		end
 	elseif not mvector3.is_zero(self._last_velocity_xy) then
-        local decceleration = self._state_data.in_air and 250 or math.lerp(2000, 1500, math.min(self._last_velocity_xy:length() / WALK_SPEED_MAX, 1))
+		local decceleration = self._state_data.in_air and 250 or math.lerp(2000, 1500, math.min(self._last_velocity_xy:length() / WALK_SPEED_MAX, 1))
 		local achieved_walk_vel = math.step(self._last_velocity_xy, Vector3(), decceleration * dt)
 
 		pos_new = mvec_pos_new
@@ -250,9 +248,6 @@ function PlayerStandard:_update_movement(t, dt)
 		
 		self._moving = false
 		self._target_headbob = 0
-		
-
-		self:_update_crosshair_offset()
 	end
 
 	if self._headbob ~= self._target_headbob then
@@ -511,6 +506,50 @@ function PlayerStandard:update(t, dt)
 	end
 
 	self._last_equipped = self._equipped_unit
+
+	self:_update_burst_fire(t)
+	
+	--Update the current weapon's spread value based on recent actions.
+	local weapon = self._unit:inventory():equipped_unit():base()
+	weapon:update_spread(self, t, dt)
+	self:_update_crosshair(t, dt, weapon)
+
+	if weapon:get_name_id() == "m134" then
+		weapon:update_spin()
+	end
+end
+
+function PlayerStandard:_update_crosshair(t, dt, weapon)
+	--Update the crosshair.
+	local crosshair_visible = alive(self._equipped_unit) and
+							  not self:_is_meleeing() and
+							  not self:_interacting() and
+							  (not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
+
+	if crosshair_visible then
+		--Ensure that crosshair is actually visible.
+		managers.hud:set_crosshair_visible(true)
+
+		--Update hud's fov value. Easier and far less error prone to grab it here than there.
+		managers.hud:set_camera_fov(self._camera_unit:base()._fov.fov)
+
+		--Update crosshair size.
+			--Get current weapon's spread values to determine base size.
+			local crosshair_spread = weapon:_get_spread(self._unit)
+
+			--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
+			if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
+				crosshair_spread = crosshair_spread + (weapon._recoil) * 4 --Magic number that feels good.
+				self._next_crosshair_jiggle = t + 0.1
+			end
+
+			--Set the final size of the crosshair.
+			managers.hud:set_crosshair_offset(crosshair_spread)
+	else
+		--Hide the crosshair and set its size to 0 when it shouldn't be seen.
+		managers.hud:set_crosshair_visible(false)
+		managers.hud:set_crosshair_offset(0)
+	end
 end
 
 function PlayerStandard:_update_check_actions(t, dt, paused)
@@ -798,6 +837,14 @@ function PlayerStandard:_get_max_walk_speed(t, force_run)
 	return final_speed
 end
 
+local orig_set_running = PlayerStandard.set_running
+function PlayerStandard:set_running(running, ...)
+	orig_set_running(self, running, ...)
+	if running then
+		self._unit:movement():attempt_sprint_dash()
+	end
+end
+
 --Baseline sprint in any direction.
 function PlayerStandard:_update_running_timers(t)
 	if self._end_running_expire_t then
@@ -867,11 +914,9 @@ function PlayerStandard:_end_action_running(t)
 end
 
 --Stores running input, is a workaround for other things that may interrupt running.
-Hooks:PreHook(PlayerStandard, "_start_action_melee", "ResPlayerStandardPreStartActionMelee", function(self, t, input, instant)
-	self._state_data.melee_running_wanted = true and self._running and not self._end_running_expire_t
-end)
-
 Hooks:PostHook(PlayerStandard, "_start_action_melee", "ResPlayerStandardPostStartActionMelee", function(self, t, input, instant)
+	self._state_data.melee_running_wanted = true and self._running and not self._end_running_expire_t
+
 	--Passes in running input, is a workaround for other things that may interrupt running.
 	if self._state_data.melee_running_wanted then
 		self._running_wanted = true
@@ -902,10 +947,9 @@ function PlayerStandard:_do_chainsaw_damage(t)
 
 	if col_ray and alive(col_ray.unit) then
 		local damage, damage_effect = managers.blackmarket:equipped_melee_weapon_damage_info(0)
-		local damage_effect_mul = math.max(managers.player:upgrade_value("player", "melee_knockdown_mul", 1), managers.player:upgrade_value(self._equipped_unit:base():weapon_tweak_data().categories and self._equipped_unit:base():weapon_tweak_data().categories[1], "melee_knockdown_mul", 1))
 		damage = tweak_data.blackmarket.melee_weapons[melee_entry].chainsaw.tick_damage
 		damage = damage * managers.player:get_melee_dmg_multiplier()
-		damage_effect = damage_effect * damage_effect_mul
+		damage_effect = damage_effect * managers.player:get_melee_knockdown_multiplier()
 		col_ray.sphere_cast_radius = sphere_cast_radius
 		local hit_unit = col_ray.unit
 
@@ -966,8 +1010,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
 			local dmg_multiplier = 1
-			
-			dmg_multiplier = dmg_multiplier * managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
 
 			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
@@ -982,11 +1024,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 				else
 					stack[2] = 0
 				end
-			end
-
-			local damage_health_ratio = managers.player:get_damage_health_ratio(self._ext_damage:health_ratio(), "melee")
-			if damage_health_ratio > 0 then
-				dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 0) * damage_health_ratio)
 			end
 
 			local target_dead = character_unit:character_damage().dead and not character_unit:character_damage():dead()
@@ -1289,15 +1326,10 @@ function PlayerStandard:_do_action_melee(t, input, skip_damage)
 	end
 end
 
---Updates burst fire and minigun spinup.
-Hooks:PreHook(PlayerStandard, "update", "ResWeaponUpdate", function(self, t, dt)
-	self:_update_burst_fire(t)
-		
-	local weapon = self._unit:inventory():equipped_unit():base()
-	if weapon:get_name_id() == "m134" then
-		weapon:update_spin()
-	end
-end)
+--Remove vanilla crosshair update function, and calls to it in functions that have been touched here.
+--The crosshair should only need to be updated once per frame, and it needs time data that many of the calls here do not provide.
+function PlayerStandard:_update_crosshair_offset(t)
+end
 
 --Deals with burst fire hud stuff when swapping from an underbarrel back to a weapon in burst fire.
 local _check_action_deploy_underbarrel_original = PlayerStandard._check_action_deploy_underbarrel	
@@ -1337,7 +1369,7 @@ end
 function PlayerStandard:force_recoil_kick(weap_base, shots_fired)
 	local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier() * (shots_fired or 1)
 	local up, down, left, right = unpack(weap_base:weapon_tweak_data().kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
-	self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier)
+	self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
 end
 
 function PlayerStandard:_start_action_steelsight(t, gadget_state)
@@ -1365,7 +1397,6 @@ function PlayerStandard:_start_action_steelsight(t, gadget_state)
 	self._steelsight_wanted = false
 	self._state_data.in_steelsight = true
 
-	self:_update_crosshair_offset()
 	self:_stance_entered()
 	self:_interupt_action_running(t)
 	self:_interupt_action_cash_inspect(t)
@@ -1442,9 +1473,8 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 	end
 	if col_ray and alive(col_ray.unit) then
 		local damage, damage_effect = managers.blackmarket:equipped_melee_weapon_damage_info(charge_lerp_value)
-		local damage_effect_mul = math.max(managers.player:upgrade_value("player", "melee_knockdown_mul", 1), managers.player:upgrade_value(self._equipped_unit:base():weapon_tweak_data().categories and self._equipped_unit:base():weapon_tweak_data().categories[1], "melee_knockdown_mul", 1))
 		damage = damage * managers.player:get_melee_dmg_multiplier()
-		damage_effect = damage_effect * damage_effect_mul
+		damage_effect = damage_effect * managers.player:get_melee_knockdown_multiplier()
 		col_ray.sphere_cast_radius = sphere_cast_radius
 		local hit_unit = col_ray.unit
 		if hit_unit:character_damage() then
@@ -1514,8 +1544,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
 			local dmg_multiplier = self._melee_repeat_damage_bonus or 1
 
-			dmg_multiplier = dmg_multiplier * managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
-
 			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
 				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {nil, 0}
@@ -1525,11 +1553,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 				else
 					stack[2] = 0
 				end
-			end
-
-			local damage_health_ratio = managers.player:get_damage_health_ratio(self._ext_damage:health_ratio(), "melee")
-			if damage_health_ratio > 0 then
-				dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 0) * damage_health_ratio)
 			end
 
 			if character_unit:character_damage().dead and not character_unit:character_damage():dead() and managers.enemy:is_enemy(character_unit) and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then
@@ -1621,73 +1644,87 @@ end
 Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_data)
 	self._ext_damage:set_dodge_points()
 	self._can_free_run = managers.player:has_category_upgrade("player", "can_free_run")
+
+	--Cooldown on crosshair expansion from shooting, allows for a satisfying jiggle for full auto guns.
+	self._next_crosshair_jiggle = 0.0
+
+	--Don't hide the crosshair during steelsight for weapons of these categories.
+	--Check for it whenever we enter PlayerStandard, or swap weapons.
+	self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+
+	--Set the crosshair to be visible.
+	managers.hud:show_crosshair_panel(true)
+end)
+
+--Update whenever the crosshair should ignore steelsights whenever the equipped gun changes.
+Hooks:PostHook(PlayerStandard, "inventory_clbk_listener", "ChangeActiveCategory", function(self, unit, event)
+	if event == "equip" then
+		self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+	end
 end)
 
 --Reload functions changed to allow for shotgun per-shell reloads to take ammo picked up over their duration into account.
 function PlayerStandard:_update_reload_timers(t, dt, input)
-	if self._state_data.reload_enter_expire_t and self._state_data.reload_enter_expire_t <= t then
-		self._state_data.reload_enter_expire_t = nil
+	local state = self._state_data
+	
+	if state.reload_enter_expire_t and state.reload_enter_expire_t <= t then
+		state.reload_enter_expire_t = nil
 
 		self:_start_action_reload(t)
 	end
-
-	--Moved earlier in function to avoid math on nil value.
-	local speed_multiplier = self._equipped_unit:base():reload_speed_multiplier()
 	
-	if self._state_data.reload_expire_t then
+	if state.reload_expire_t then
 		local interupt = nil
+		local speed_multiplier = self._equipped_unit:base():reload_speed_multiplier()
 
-		if self._equipped_unit:base():update_reloading(t, dt, self._state_data.reload_expire_t - t) then
+		if self._equipped_unit:base():update_reloading(t, dt, state.reload_expire_t - t) then --Update reloading if using a per-bullet reload.
 			managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
 			
 			if self._queue_reload_interupt then
 				self._queue_reload_interupt = nil
 				interupt = true
-			elseif self._state_data.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
-				self._state_data.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
+			elseif state.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
+				state.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
 			end
 		end
 
-		if self._state_data.reload_expire_t <= t or interupt then
-			managers.player:remove_property("shock_and_awe_reload_multiplier")
+		if state.refill_magazine_t and state.refill_magazine_t <= t then
+			self._equipped_unit:base():on_reload() --Load up the magazine.
+			
+			--Update trackers.
+			managers.statistics:reloaded()
+			managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
+			
+			state.refill_magazine_t = nil --Magazine loaded, so no time to reload it exists any more.
+		end
 
-			self._state_data.reload_expire_t = nil
+		if state.reload_expire_t <= t or interupt then --The reload is complete, or has been interrupted.
+			state.reload_expire_t = nil
 
 			if self._equipped_unit:base():reload_exit_expire_t() then
-
 				if self._equipped_unit:base():started_reload_empty() then
-					self._state_data.reload_exit_expire_t = t + self._equipped_unit:base():reload_exit_expire_t() / speed_multiplier
+					state.reload_exit_expire_t = t + self._equipped_unit:base():reload_exit_expire_t() / speed_multiplier
 
 					self._ext_camera:play_redirect(self:get_animation("reload_exit"), speed_multiplier)
 					self._equipped_unit:base():tweak_data_anim_play("reload_exit", speed_multiplier)
 				else
-					self._state_data.reload_exit_expire_t = t + self._equipped_unit:base():reload_not_empty_exit_expire_t() / speed_multiplier
+					state.reload_exit_expire_t = t + self._equipped_unit:base():reload_not_empty_exit_expire_t() / speed_multiplier
 
 					self._ext_camera:play_redirect(self:get_animation("reload_not_empty_exit"), speed_multiplier)
 					self._equipped_unit:base():tweak_data_anim_play("reload_not_empty_exit", speed_multiplier)
 				end
-			else
-				if not interupt then
-					self._equipped_unit:base():on_reload()
-				end
-
-				managers.statistics:reloaded()
-				managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
-
+			else --Reload animation is complete, return to business as usual.
 				if input.btn_steelsight_state then
 					self._steelsight_wanted = true
 				elseif self.RUN_AND_RELOAD and self._running and not self._end_running_expire_t and not self._equipped_unit:base():run_and_shoot_allowed() then
 					self._ext_camera:play_redirect(self:get_animation("start_running"))
 				end
 			end
-
-			--Reset Shell Shocked
-			self._equipped_unit:base():check_last_bullet_stagger() --Check Shell Shocked on manual reload.
 		end
 	end
 
-	if self._state_data.reload_exit_expire_t and self._state_data.reload_exit_expire_t <= t then
-		self._state_data.reload_exit_expire_t = nil
+	if state.reload_exit_expire_t and state.reload_exit_expire_t <= t then
+		state.reload_exit_expire_t = nil
 
 		if self._equipped_unit then
 			managers.statistics:reloaded()
@@ -1711,47 +1748,46 @@ function PlayerStandard:_start_action_reload(t)
 
 	if weapon and weapon:can_reload() then
 		weapon:tweak_data_anim_stop("fire")
-
-
-		local speed_multiplier = weapon:reload_speed_multiplier()
-		self._state_data.empty_reload = weapon:clip_empty() and 1 or 0 --Cache reload type for cost cancelling.
-		self._state_data.reload_start_t = t --Cache start time to allow for soft cancelling.
-
-		if weapon._use_shotgun_reload then
-			self._state_data.empty_reload  = weapon:get_ammo_max_per_clip() - weapon:get_ammo_remaining_in_clip()
-		end
-
-		local tweak_data = weapon:weapon_tweak_data()
-		local reload_anim = "reload"
-		local reload_prefix = weapon:reload_prefix() or ""
-		local reload_name_id = tweak_data.animations.reload_name_id or weapon.name_id
-		
 		weapon:start_reload() --Executed earlier to get accurate reload timers, otherwise may mess up normal and tactical for shotguns.
 
+		local shotgun_reload = weapon._use_shotgun_reload
+		local timers = weapon:weapon_tweak_data().timers
+		local reload_prefix = weapon:reload_prefix() or ""
+		local reload_name_id = weapon:weapon_tweak_data().reload_name_id or weapon.name_id
+		local speed_multiplier = weapon:reload_speed_multiplier()
 		if weapon:clip_empty() then
-			local reload_ids = Idstring(reload_prefix .. "reload_" .. reload_name_id)
-			local result = self._ext_camera:play_redirect(reload_ids, speed_multiplier)
+			--Tracks time until end of the animation for reloading.
+			self._state_data.reload_expire_t = t + (timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
 
-			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_ids)
+			--Set time to actually add ammo to the gun, pretty much always before the actual animation finishes.
+			self._state_data.refill_magazine_t = (not shotgun_reload and timers.empty_reload_operational and t + timers.empty_reload_operational / speed_multiplier) or self._state_data.reload_expire_t
 
-			self._state_data.reload_expire_t = t + (tweak_data.timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
-		else
-			reload_anim = "reload_not_empty"
-			local reload_ids = Idstring(reload_prefix .. "reload_not_empty_" .. reload_name_id)
-			local result = self._ext_camera:play_redirect(reload_ids, speed_multiplier)
+			--Set time where non-commital animations like sprinting or ADS can interrupt the reload.
+			--False == always interruptable. Make sure to set the timers!
+			self._state_data.reload_soft_interrupt_t = not shotgun_reload and timers.empty_reload_interrupt and t + timers.empty_reload_interrupt / speed_multiplier
 
-			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_ids)
-
-			self._state_data.reload_expire_t = t + (tweak_data.timers.reload_not_empty or weapon:reload_expire_t() or 2.2) / speed_multiplier
-		end
-
-
-		if not weapon:tweak_data_anim_play(reload_anim, speed_multiplier) then
+			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_" .. reload_name_id), speed_multiplier)
 			weapon:tweak_data_anim_play("reload", speed_multiplier)
-			Application:trace("PlayerStandard:_start_action_reload( t ): ", reload_anim)
+		else
+			self._state_data.reload_expire_t = t + (timers.reload_not_empty or weapon:reload_expire_t() or 2.2) / speed_multiplier
+			self._state_data.refill_magazine_t = (timers.reload_operational and t + timers.reload_operational / speed_multiplier) or self._state_data.reload_expire_t
+			self._state_data.reload_soft_interrupt_t = timers.reload_interrupt and t + timers.reload_interrupt / speed_multiplier
+
+			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_not_empty_" .. reload_name_id), speed_multiplier)
+			if not weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier) then
+				weapon:tweak_data_anim_play("reload", speed_multiplier)
+			end
+		end
+		
+
+		
+		--Gather network data for syncing.
+		local empty_reload = weapon:clip_empty() and 1 or 0
+		if shotgun_reload then
+			empty_reload = weapon:get_ammo_max_per_clip() - weapon:get_ammo_remaining_in_clip()
 		end
 
-		self._ext_network:send("reload_weapon", self._state_data.empty_reload , speed_multiplier)
+		self._ext_network:send("reload_weapon", empty_reload, speed_multiplier)
 	end
 end
 
@@ -1759,7 +1795,7 @@ function PlayerStandard:_get_swap_speed_multiplier()
 	local weapon_tweak_data = self._equipped_unit:base():weapon_tweak_data()
 	local player_manager = managers.player
 	local base_multiplier = (weapon_tweak_data.swap_speed_multiplier or 1) --Base Multiplier reflects weapon base stats, and uses multiplicative values.
-	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment() + 1] --Get concealment bonus/penalty.
+	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment()] --Get concealment bonus/penalty.
 	local skill_multiplier = 1 --Skill multiplier reflects bonuses from skills, and has additive scaling to match other skills.
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "passive_swap_speed_multiplier", 1) - 1
@@ -1769,10 +1805,6 @@ function PlayerStandard:_get_swap_speed_multiplier()
 		base_multiplier = base_multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
 		skill_multiplier = skill_multiplier + player_manager:upgrade_value(category, "swap_speed_multiplier", 1) - 1
 		skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value(category, "close_combat_swap_speed_multiplier", 1) - 1
-	end
-
-	if self._equipped_unit:base():got_silencer() then
-		skill_multiplier = skill_multiplier + player_manager:upgrade_value("player", "silencer_swap_increase", 1) - 1
 	end
 
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("team", "crew_faster_swap", 1) - 1
@@ -2054,17 +2086,7 @@ function PlayerStandard:_soft_interrupt_action_reload(t)
 			self._queue_reload_interupt = true
 			return RELOAD_INTERRUPT_QUEUED
 		else --Otherwise instant reload cancel.
-			local timers = weap_base:weapon_tweak_data().timers
-			local reload_progress = (t - self._state_data.reload_start_t) / (self._state_data.reload_expire_t - self._state_data.reload_start_t)
-			--log(reload_progress)
-			local can_interrupt = nil
-			if self._state_data.empty_reload == 1 then
-				can_interrupt = reload_progress < (timers.empty_reload_interrupt or 1)
-			else
-				can_interrupt = reload_progress < (timers.reload_interrupt or 1)
-			end
-
-			if can_interrupt then
+			if self._state_data.reload_soft_interrupt_t and t <= self._state_data.reload_soft_interrupt_t then
 				self:_interupt_action_reload()
 				self._ext_camera:play_redirect(self:get_animation("idle"))
 				return RELOAD_INTERRUPTED
@@ -2090,11 +2112,14 @@ function PlayerStandard:_interupt_action_reload(t)
 		weap_base:tweak_data_anim_stop("reload_exit")
 	end
 
-	self._state_data.empty_reload = nil
 	self._state_data.reload_enter_expire_t = nil
-	self._state_data.reload_start_t = nil
 	self._state_data.reload_expire_t = nil
 	self._state_data.reload_exit_expire_t = nil
+	
+	--Clear custom timers.
+	self._state_data.refill_magazine_t = nil
+	self._state_data.reload_soft_interrupt_t = nil
+
 	--Fixes weapons using shotgun-style reloads occasionally only loading one shell in
 	self._queue_reload_interupt = nil
 
@@ -2185,14 +2210,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 					local health_ratio = self._ext_damage:health_ratio()
 					local primary_category = weap_base:weapon_tweak_data().categories[1]
-					local damage_health_ratio = managers.player:get_damage_health_ratio(health_ratio, primary_category)
-
-					if damage_health_ratio > 0 then
-						local upgrade_name = weap_base:is_category("saw") and "melee_damage_health_ratio_multiplier" or "damage_health_ratio_multiplier"
-						local damage_ratio = damage_health_ratio
-						dmg_mul = dmg_mul * (1 + managers.player:upgrade_value("player", upgrade_name, 0) * damage_ratio)
-					end
-
+					local upgrade_name = weap_base:is_category("saw") and "melee_damage_health_ratio_multiplier" or "damage_health_ratio_multiplier"
+					dmg_mul = dmg_mul * managers.player:upgrade_value("player", upgrade_name, 1)
 					dmg_mul = dmg_mul * managers.player:temporary_upgrade_value("temporary", "berserker_damage_multiplier", 1)
 					dmg_mul = dmg_mul * managers.player:get_property("trigger_happy", 1)
 					--Add Underdog Basic to damage mult.
@@ -2257,7 +2276,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 						local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
 
-						self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier)
+						self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
 
 						if self._shooting_t then
 							local time_shooting = t - self._shooting_t
@@ -2315,4 +2334,61 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 	end
 
 	return new_action
+end
+
+function PlayerStandard:_stance_entered(unequipped)
+	local stance_standard = tweak_data.player.stances.default[managers.player:current_state()] or tweak_data.player.stances.default.standard
+	local head_stance = self._state_data.ducking and tweak_data.player.stances.default.crouched.head or stance_standard.head
+	local stance_id = nil
+	local stance_mod = {
+		translation = Vector3(0, 0, 0)
+	}
+
+	local weap_base = self._equipped_unit:base()
+	local vel_overshot = nil
+	local sway = nil
+	if not unequipped then
+		stance_id = weap_base:get_stance_id()
+
+		if self._state_data.in_steelsight and weap_base.stance_mod then
+			stance_mod = weap_base:stance_mod() or stance_mod
+		end
+
+		if not self:_is_meleeing() and not self:_is_throwing_projectile() then
+			local move_state = self:get_movement_state()
+			sway = weap_base:sway_mul(move_state)
+			vel_overshot = weap_base:vel_overshot_mul(move_state, self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standard")
+		end
+	end
+
+	local stances = nil
+	stances = (self:_is_meleeing() or self:_is_throwing_projectile()) and tweak_data.player.stances.default or tweak_data.player.stances[stance_id] or tweak_data.player.stances.default
+	local misc_attribs = stances.standard
+	misc_attribs = (not self:_is_using_bipod() or self:_is_throwing_projectile() or stances.bipod) and (self._state_data.in_steelsight and stances.steelsight or self._state_data.ducking and stances.crouched or stances.standard)
+	sway = sway or misc_attribs.shakers
+	vel_overshot = vel_overshot or misc_attribs.vel_overshot	
+	
+	local duration = tweak_data.player.TRANSITION_DURATION + (weap_base:transition_duration() or 0)
+	local duration_multiplier = self._state_data.in_steelsight and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
+	local new_fov = self:get_zoom_fov(misc_attribs) + 0
+
+	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration)
+	managers.menu:set_mouse_sensitivity(self:in_steelsight())
+end
+
+function PlayerStandard:_get_melee_charge_lerp_value(t, offset)
+	offset = offset or 0
+	local melee_entry = managers.blackmarket:equipped_melee_weapon()
+	local max_charge_time = tweak_data.blackmarket.melee_weapons[melee_entry].stats.charge_time
+
+	if not self._state_data.melee_start_t then
+		return 0
+	end
+
+	local charge = math.clamp(t - self._state_data.melee_start_t - offset, 0, max_charge_time) / max_charge_time
+	if charge > 0.99 then
+		charge = 1
+	end
+
+	return charge
 end

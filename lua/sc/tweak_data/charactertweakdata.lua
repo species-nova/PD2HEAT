@@ -1258,7 +1258,7 @@ function CharacterTweakData:_init_sniper(presets) --sniper
 	self.sniper.experience = {}
 	self.sniper.weapon = presets.weapon.sniper
 	self.sniper.detection = presets.detection.sniper
-	self.sniper.HEALTH_INIT = 6
+	self.sniper.HEALTH_INIT = 18
 	self.sniper.headshot_dmg_mul = normal_headshot
 	self.sniper.damage.hurt_severity = presets.hurt_severities.no_hurts
 	self.sniper.allowed_poses = {stand = true}
@@ -5002,7 +5002,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Murder at <14m. Useless beyond that. Similar to autoshotgun beyond that.
 	presets.weapon.expert.is_flamethrower = {
-		aim_delay = {0.6, 0.8},
+		aim_delay = {0.7, 0.9},
 		focus_delay = 1,
 		focus_dis = 200,
 		spread = 20,
@@ -5080,6 +5080,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.weapon.taser.is_rifle.tase_distance = 1400
 	presets.weapon.taser.is_rifle.aim_delay_tase = {0.75, 0.75}
 	presets.weapon.taser.is_rifle.tase_sphere_cast_radius = 10
+	presets.weapon.taser.is_rifle.tase_charge_duration = 1
 
 	presets.weapon.taser_summers = {}
 	presets.weapon.taser_summers.is_rifle = deep_clone(presets.weapon.expert.is_rifle)
@@ -9587,7 +9588,7 @@ end
 
 function CharacterTweakData:_set_overkill_145()
 	self:_calculate_heal_cooldowns(15)
-	self:_multiply_all_hp(0.825, 1)
+	self:_multiply_all_hp(0.825, 2)
 	self:_multiply_all_damage(0.9, 1.35, 0.825)
 	self:_multiply_teamai_health(0.9, 0.25)
 			
@@ -9613,7 +9614,7 @@ end
 
 function CharacterTweakData:_set_easy_wish()
 	self:_calculate_heal_cooldowns(15)
-	self:_multiply_all_hp(1, 1)
+	self:_multiply_all_hp(1, 2)
 	self:_multiply_all_damage(1, 1.5, 1)
 	self:_multiply_teamai_health(1, 0.25)
 
@@ -9856,9 +9857,6 @@ function CharacterTweakData:_multiply_all_hp(health_mul, headshot_index)
 		if enemy then
 			enemy.HEALTH_INIT = enemy.HEALTH_INIT * hp_mul
 			enemy.headshot_dmg_mul = enemy.headshot_dmg_mul * hs_mul
-			if enemy.DAMAGE_CLAMP_BULLET then
-				enemy.DAMAGE_CLAMP_BULLET = enemy.DAMAGE_CLAMP_BULLET * hp_mul
-			end
 
 			--REMOVE THESE EXTRA MULS ONCE PERK DECKS ALLOW FOR THESE TYPES OF DAMAGE TO SCALE!
 			enemy.damage.explosion_damage_mul = (enemy.damage.explosion_damage_mul or 1) * hp_mul --Explosives deal same relative damage on all difficulties until perk deck damage boost works on them.

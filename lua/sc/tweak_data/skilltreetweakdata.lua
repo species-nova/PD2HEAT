@@ -383,8 +383,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_hostage_health_regen_max_mult",
-						"team_damage_hostage_absorption"
+						"player_hostage_health_regen_max_mult"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -416,18 +415,19 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--None in the Chamber--
 			self.skills.rifleman = {
-				["name_id"] = "menu_scavenger_sc",
-				["desc_id"] = "menu_scavenger_desc_sc",
-				["icon_xy"] = {3, 3},
+				["name_id"] = "menu_sharpshooter_sc",
+				["desc_id"] = "menu_sharpshooter_desc_sc",
+				["icon_xy"] = {10, 0},
 				[1] = {
 					upgrades = {
-						"smg_hip_fire_spread_multiplier"
+						"smg_bloom_spread_multiplier"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					upgrades = {
-						"smg_empty_reload_speed_multiplier"
+						"smg_fire_rate_multiplier_1",
+						"smg_full_auto_free_ammo"
 					},
 					cost = self.costs.pro
 				}
@@ -435,9 +435,9 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Mag-Dumper--
 			self.skills.sharpshooter = {
-				["name_id"] = "menu_sharpshooter_sc",
-				["desc_id"] = "menu_sharpshooter_desc_sc",
-				["icon_xy"] = {10, 0},
+				["name_id"] = "menu_scavenger_sc",
+				["desc_id"] = "menu_scavenger_desc_sc",
+				["icon_xy"] = {3, 3},
 				[1] = {
 					upgrades = {
 						"smg_move_spread_multiplier"
@@ -446,8 +446,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"smg_fire_rate_multiplier_1",
-						"smg_full_auto_free_ammo"
+						"smg_empty_reload_speed_multiplier"
 					},
 					cost = self.costs.pro
 				}
@@ -724,7 +723,8 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {3, 5},
 				[1] = {
 					upgrades = {
-						"player_taser_malfunction"
+						"player_counter_melee_tase",
+						"player_slow_duration_multiplier"
 					},
 					cost = self.costs.hightier
 				},
@@ -867,14 +867,14 @@ function SkillTreeTweakData:init(tweak_data)
 					["icon_xy"] = {3, 0},
 					[1] = {
 						upgrades = {
-							"extra_ammo_multiplier1"
+							"player_regain_throwable_from_ammo_1"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
 						upgrades = {
 							"player_fully_loaded_pick_up_multiplier",
-							"player_regain_throwable_from_ammo_1"
+							"extra_ammo_multiplier1"
 						},
 						cost = self.costs.hightierpro
 					}
@@ -945,7 +945,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Jack of All Trades--
+			--Bulletproof--
 			self.skills.engineering = {
 				["name_id"] = "menu_iron_man_sc",
 				["desc_id"] = "menu_iron_man_desc_sc",
@@ -984,7 +984,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Bulletproof--
+			--Jack of All Trades--
 			self.skills.tower_defense = {
 				["name_id"] = "menu_jack_of_all_trades_beta_sc",
 				["desc_id"] = "menu_jack_of_all_trades_beta_desc_sc",
@@ -1153,7 +1153,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Kilmer--
+			--Tactical Precision--
 			self.skills.heavy_impact = {
 				["name_id"] = "menu_heavy_impact_beta_sc",
 				["desc_id"] = "menu_heavy_impact_beta_desc_sc",
@@ -1161,10 +1161,8 @@ function SkillTreeTweakData:init(tweak_data)
 				[1] = {
 					upgrades = {
 						"weapon_enter_steelsight_speed_multiplier",
-						"assault_rifle_steelsight_accuracy_inc_1",
-						"snp_steelsight_accuracy_inc_1",
-						"assault_rifle_steelsight_range_inc_1",
-						"snp_steelsight_range_inc_1"
+						"weapon_steelsight_accuracy_inc_1",
+						"weapon_steelsight_range_inc_1"
 					},
 					cost = self.costs.default
 				},
@@ -1198,20 +1196,20 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Aggressive Reload--
+			--Rapid Reset--
 			self.skills.shock_and_awe = {
 				["name_id"] = "menu_engineering_beta_sc",
 				["desc_id"] = "menu_engineering_beta_desc_sc",
 				["icon_xy"] = {8, 3},
 				[1] = {
 					upgrades = {
-						"temporary_single_shot_fast_reload_1"
+						"assault_rifle_headshot_bloom_reduction"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"temporary_single_shot_fast_reload_2"
+						"temporary_single_shot_fast_reload_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1412,8 +1410,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_crouch_dodge_chance_1",
-						"player_crouch_speed_multiplier_2"
+						"player_crouch_dodge_chance_1"
 					},
 					cost = self.costs.pro
 				}
@@ -1543,20 +1540,20 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Optical Illusions--
+			--Fast Feet--
 			self.skills.optic_illusions = {
 				["name_id"] = "menu_optic_illusions_sc",
 				["desc_id"] = "menu_optic_illusions_desc_sc",
 				["icon_xy"] = {10, 10},
 				[1] = {
 					upgrades = {
-						"player_silencer_swap_increase"
+						"player_melee_hit_stamina"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_silencer_concealment_increase_1"
+						"temporary_sprint_speed_boost"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1637,7 +1634,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					upgrades = {
 						"player_detection_risk_add_crit_chance_2",
-						"player_hyper_crit"
+						"player_hyper_crits"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1879,14 +1876,13 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {2, 9},
 				[1] = {
 					upgrades = {
-						"player_messiah_revive_from_bleed_out_1",
 						"player_additional_lives_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_infinite_messiah"
+						"player_messiah_revive_from_bleed_out_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1898,7 +1894,7 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   BRAWLER SUBTREE   ]]--
 			--{
 
-			--Martial Arts--
+			--Iron Knuckles--
 			self.skills.martial_arts = {
 				["name_id"] = "menu_martial_arts_beta_sc",
 				["desc_id"] = "menu_martial_arts_beta_desc_sc",
@@ -1911,7 +1907,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_melee_knockdown_mul"
+						"player_deflect_ranged"
 					},
 					cost = self.costs.pro
 				}
@@ -1919,20 +1915,18 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Counter Strike, formally bloodthirst--
 			self.skills.bloodthirst = {
-				["name_id"] = "menu_drop_soap_beta_sc",
-				["desc_id"] = "menu_drop_soap_beta_desc_sc",
-				["icon_xy"] = {4, 12},
+				["name_id"] = "menu_bloodthirst_sc",
+				["desc_id"] = "menu_bloodthirst_desc_sc",
+				["icon_xy"] = {11, 6},
 				[1] = {
 					upgrades = {
-						"player_counter_strike_spooc",
-						"player_spooc_damage_resist_1"						
-					},		
+						"player_melee_damage_stacking_1"
+					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_deflect_ranged",
-						"player_spooc_damage_resist_2"
+						"player_melee_damage_stacking_2"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1961,18 +1955,18 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Bloodthirst, formally counter-strike--
 			self.skills.drop_soap = {
-				["name_id"] = "menu_bloodthirst_sc",
-				["desc_id"] = "menu_bloodthirst_desc_sc",
-				["icon_xy"] = {11, 6},
+				["name_id"] = "menu_wolverine_beta_sc",
+				["desc_id"] = "menu_wolverine_beta_desc_sc",
+				["icon_xy"] = {11, 8},
 				[1] = {
 					upgrades = {
-						"player_temp_melee_kill_increase_reload_speed_1"
+						"player_melee_kill_auto_load"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_melee_damage_stacking_1"
+						"player_temp_melee_kill_increase_reload_speed_1"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1980,40 +1974,39 @@ function SkillTreeTweakData:init(tweak_data)
 
 			--Frenzy--
 			self.skills.wolverine = {
-				["name_id"] = "menu_wolverine_beta_sc",
-				["desc_id"] = "menu_wolverine_beta_desc_sc",
-				["icon_xy"] = {11, 8},
+				["name_id"] = "menu_drop_soap_beta_sc",
+				["desc_id"] = "menu_drop_soap_beta_desc_sc",
+				["icon_xy"] = {4, 12},
 				[1] = {
 					upgrades = {
-						"player_healing_reduction_1",
-						"player_frenzy_deflection_1",
-						"player_max_health_reduction_1"
-					},
+						"player_counter_strike_spooc"					
+					},		
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_healing_reduction_2",
-						"player_frenzy_deflection_2"
+						"player_counter_strike_dozer"	
 					},
 					cost = self.costs.hightierpro
 				}
 			}
 
-			--Berserker--
+			--Frenzy--
 			self.skills.frenzy = {
 				["name_id"] = "menu_frenzy_sc",
 				["desc_id"] = "menu_frenzy_desc_sc",
 				["icon_xy"] = {2, 2},
 				[1] = {
 					upgrades = {
+						"player_max_health_reduction_1",
 						"player_melee_damage_health_ratio_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_damage_health_ratio_multiplier"
+						"player_damage_health_ratio_multiplier",
+						"player_frenzy_deflection"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -2450,7 +2443,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_tier_armor_multiplier_1"
+					"team_damage_hostage_absorption"
 				},
 				cost = 2400,
 				icon_xy = {6, 0},
@@ -2638,10 +2631,10 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_passive_loot_drop_multiplier",
-					"player_dodge_stacking_heal",
-					"player_heal_over_time"
+						"player_melee_stacking_heal", --Workaround for janky vanilla upgrade unacquire code. Does not actually take effect. 
+					"player_dodge_stacking_heal"
 				},
-				cost = 4000,
+				cost = 4001,
 				icon_xy = {1, 0},
 				texture_bundle_folder = "max",
 				name_id = "menu_deck4_9",
@@ -2884,7 +2877,6 @@ function SkillTreeTweakData:init(tweak_data)
 			deck8,
 			{
 				upgrades = {
-					"player_heal_over_time",
 					"player_melee_stacking_heal",
 					"player_passive_loot_drop_multiplier"
 				},
@@ -3019,7 +3011,9 @@ function SkillTreeTweakData:init(tweak_data)
 			dlc = "character_pack_sokol",
 			{
 				upgrades = {
-					"player_damage_to_hot_1",
+						"player_melee_stacking_heal", --Workaround for janky vanilla upgrade unacquire code. Does not actually take effect. 
+						"player_dodge_stacking_heal",
+					"player_kill_stacking_heal_1",
 					"player_armor_reduction_multiplier"
 				},
 				cost = 200,
@@ -3030,7 +3024,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck2,
 			{
 				upgrades = {
-					"player_damage_to_hot_2"
+					"player_kill_stacking_heal_2"
 				},
 				cost = 400,
 				icon_xy = {0, 0},
@@ -3040,7 +3034,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck4,
 			{
 				upgrades = {
-					"player_damage_to_hot_extra_ticks"
+					"player_kill_stacking_heal_3"
 				},
 				cost = 1000,
 				icon_xy = {2, 6},
@@ -3050,7 +3044,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_damage_to_hot_3"
+					"player_kill_stacking_heal_4"
 				},
 				cost = 2400,
 				icon_xy = {4, 0},
@@ -3119,7 +3113,8 @@ function SkillTreeTweakData:init(tweak_data)
 			deck8,
 			{
 				upgrades = {
-					"player_survive_one_hit",
+					"cooldown_survive_one_hit",
+					"player_survive_one_hit_kill_cdr",
 					"player_passive_loot_drop_multiplier"
 				},
 				cost = 4000,

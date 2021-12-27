@@ -6349,15 +6349,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_tank",
-					freq = 1,
+					freq = 0.1,
 					amount_min = 1,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.GREEN_tank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36_w",
-					freq = 0.7,
+					freq = 0.6,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 1
 				},
@@ -6376,15 +6376,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_tank",
-					freq = 1,
+					freq = 0.1,
 					amount_min = 1,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.GREEN_tank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36_w",
-					freq = 0.6,
+					freq = 0.5,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 1
 				},
@@ -6403,15 +6403,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_tank",
-					freq = 1,
+					freq = 0.1,
 					amount_min = 1,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.GREEN_tank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36",
-					freq = 0.6,
+					freq = 0.5,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 1
 				},
@@ -7266,9 +7266,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	}
 	self.besiege.assault.fade_duration = 35
 	self.besiege.assault.delay = {
-		45,
-		35,
-		30
+		30,
+		25,
+		20
 	}
 
 	if difficulty_index <= 7 then
@@ -7615,8 +7615,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	elseif difficulty_index == 4 then
 		self.besiege.assault.groups = {
 			swats_vh = {
-				0.32,
-				0.31,
+				0.30,
+				0.30,
 				0.3
 			},
 			heavys_vh = {
@@ -7660,22 +7660,22 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.04
 			},
 			GREEN_tanks_vh = {
-				0.01,
 				0.02,
+				0.025,
 				0.03
 			},
 			BLACK_tanks_vh = {
-				0.01,
 				0.02,
+				0.025,
 				0.03
 			}
 		}
 	elseif difficulty_index == 5 then
 		self.besiege.assault.groups = {
 			swats_ovk = {
-				0.27,
 				0.24,
-				0.19
+				0.22,
+				0.18
 			},
 			heavys_ovk = {
 				0.13,
@@ -7718,27 +7718,27 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.04
 			},
 			GREEN_tanks_ovk = {
-				0.02,
+				0.03,
 				0.04,
-				0.06
+				0.05
 			},
 			BLACK_tanks_ovk = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.04,
+				0.05
 			}
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.assault.groups = {
 			swats_mh = {
-				0.26,
-				0.24,
+				0.23,
+				0.205,
 				0.19
 			},
 			heavys_mh = {
-				0.13,
-				0.11,
-				0.11
+				0.12,
+				0.12,
+				0.10
 			},
 			hostage_rescue_mh = {
 				0.05,
@@ -7746,14 +7746,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.02
 			},
 			bomb_squad_mh = {
-				0.1,
-				0.1,
-				0.1
+				0.09,
+				0.09,
+				0.09
 			},
 			shotguns_mh = {
-				0.1,
-				0.1,
-				0.1
+				0.09,
+				0.09,
+				0.09
 			},
 			shield_mh = {
 				0.105,
@@ -7781,32 +7781,32 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.07
 			},
 			GREEN_tanks_mh = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.035,
+				0.04
 			},
 			BLACK_tanks_mh = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.035,
+				0.04
 			},
 			SKULL_tanks_mh = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.035,
+				0.04
 			}
 		}
 	elseif difficulty_index == 7 then
 		self.besiege.assault.groups = {
 			swats_dw = {
-				0.23,
-				0.21,
+				0.20,
+				0.195,
 				0.18
 			},
 			heavys_dw = {
-				0.12,
 				0.11,
-				0.11
+				0.10,
+				0.10
 			},
 			hostage_rescue_dw = {
 				0.05,
@@ -7814,14 +7814,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.02
 			},
 			bomb_squad_dw = {
-				0.1,
-				0.1,
-				0.1
+				0.09,
+				0.09,
+				0.09
 			},
 			shotguns_dw = {
-				0.1,
-				0.1,
-				0.1
+				0.09,
+				0.09,
+				0.09
 			},
 			shield_dw = {
 				0.1,
@@ -7854,19 +7854,19 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.1
 			},
 			GREEN_tanks_dw = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.035,
+				0.04
 			},
 			BLACK_tanks_dw = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.035,
+				0.04
 			},
 			SKULL_tanks_dw = {
-				0.01,
-				0.02,
-				0.03
+				0.03,
+				0.035,
+				0.04
 			},
 			Titan_tanks_dw = {
 				0.0,
@@ -7878,13 +7878,13 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		--death sentence assaults below, intentionally fairly mean. Later difficulties will scale down from this.
 		self.besiege.assault.groups = {
 			swats_ds = {
-				0.23,
 				0.2,
+				0.185,
 				0.17
 			},
 			heavys_ds = {
-				0.11,
 				0.1,
+				0.09,
 				0.08
 			},
 			hostage_rescue_ds = {
@@ -7893,13 +7893,13 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 				0.0
 			},
 			bomb_squad_ds = {
-				0.1,
-				0.1,
-				0.1
+				0.09,
+				0.09,
+				0.09
 			},
 			shotguns_ds = {
-				0.1,
-				0.1,
+				0.09,
+				0.09,
 				0.09
 			},
 			shield_ds = {
@@ -7934,28 +7934,28 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			},
 			common_wave_rush_ds = {
 				0.0,
-				0.03,
+				0.02,
 				0.04
 			},
 			GREEN_tanks_ds = {
-				0.01,
-				0.02,
+				0.03,
+				0.035,
 				0.04
 			},
 			BLACK_tanks_ds = {
-				0.01,
-				0.02,
+				0.03,
+				0.035,
 				0.04
 			},
 			SKULL_tanks_ds = {
-				0.01,
-				0.02,
+				0.03,
+				0.035,
 				0.04
 			},
 			Titan_tanks_ds = {
 				0.0,
-				0.01,
-				0.02
+				0.02,
+				0.03
 			}
 		}
 	end
@@ -8368,9 +8368,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	}
 
-	self.besiege.scripted_dozer_min_diff = 0.4
 	local captain_cooldown = 1800 --30 minutes
-	local captain_min_diff = 0.3
+	local captain_min_diff = 0.3 
 	if Global.game_settings and Global.game_settings.one_down then
 		captain_cooldown = 1200 --20 minutes
 	end

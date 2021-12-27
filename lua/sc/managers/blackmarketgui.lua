@@ -366,9 +366,6 @@ function BlackMarketGui:_get_armor_stats(name)
 			local mod = managers.player:health_skill_addend()
 			base_stats[stat.name] = {value = (base + mod) * tweak_data.gui.stats_present_multiplier}
 			skill_stats[stat.name] = {value = base_stats[stat.name].value * managers.player:health_skill_multiplier() - base_stats[stat.name].value}
-		elseif stat.name == "concealment" then
-			base_stats[stat.name] = {value = managers.player:body_armor_value("concealment", upgrade_level)}
-			skill_stats[stat.name] = {value = managers.blackmarket:concealment_modifier("armors", upgrade_level)}
 		elseif stat.name == "movement" then
 			local base = tweak_data.player.movement_state.standard.movement.speed.STANDARD_MAX / 100
 			local movement_penalty = managers.player:body_armor_value("movement", upgrade_level)
@@ -438,107 +435,18 @@ function BlackMarketGui:_get_armor_stats(name)
 	return base_stats, mods_stats, skill_stats
 end
 
---If this breaks then copy the vanilla version and change the value of self._armor_stats_shown to be
---[[
-			self._armor_stats_shown = {
-				{
-					name = "armor"
-				},
-				{
-					name = "health"
-				},
-				{
-					name = "deflection"
-				},
-				{
-					revert = true,
-					name = "dodge"
-				},
-				{
-					index = true,
-					name = "concealment"
-				},
-				{
-					name = "movement"
-				},
-				{
-					name = "stamina"
-				},
-				{
-					name = "regen_time",
-					inverted = true
-				}
-			}
+local orig_get_melee_weapon_stats = BlackMarketGui._get_melee_weapon_stats
+function BlackMarketGui:_get_melee_weapon_stats(name)
+	local base, mods, skill = orig_get_melee_weapon_stats(self, name)
+	base.concealment.value = (base.concealment.value - 1) * 5
+	mods.concealment.value = (mods.concealment.value) * 5
+	skill.concealment.value = skill.concealment.value * 5
+	if base.concealment.value + skill.concealment.value > 100 then
+		skill.concealment.value = math.max(100 - base.concealment.value, 0)
+	end
+	return base, mods, skill
+end
 
-			--Insert swap speed into weapon stats table.
-			--Also make reload not use table.insert because that's stupid.
-			self._stats_shown = {
-				{
-					round_value = true,
-					name = "magazine",
-					stat_name = "extra_ammo"
-				},
-				{
-					round_value = true,
-					name = "totalammo",
-					stat_name = "total_ammo_mod"
-				},
-				{
-					round_value = true,
-					name = "fire_rate"
-				},
-				{
-					name = "damage"
-				},
-				{
-					percent = true,
-					name = "spread",
-					offset = true,
-					revert = true
-				},
-				{
-					percent = true,
-					name = "recoil",
-					offset = true,
-					revert = true
-				},
-				{
-					index = true,
-					name = "concealment"
-				},
-				{
-					percent = false,
-					inverted = true,
-					name = "suppression",
-					offset = true
-				},
-				{
-					inverted = true,
-					name = "reload"
-				},
-				{
-					inverted = true,
-					name = "swap_speed"
-				}
-			}
-
-			Also add the following to the end off local BTNS
-			,
-			bm_modshop = {
-				prio = 5,
-				btn = "BTN_BACK",
-				pc_btn = "toggle_chat",
-				name = "gm_gms_purchase",
-				callback = callback(self, self, "modshop_purchase_mask_callback")
-			},
-			mp_modshop = {
-				prio = 5,
-				btn = "BTN_BACK",
-				pc_btn = "toggle_chat",
-				name = "gm_gms_purchase",
-				callback = callback(self, self, "modshop_purchase_mask_part_callback")
-			}
-]]
 -- Or just add the name = "deflection" to the table somewhere if you don't care much for a logical layout.
 function BlackMarketGui:_setup(is_start_page, component_data)
 	self._in_setup = true
@@ -2200,32 +2108,29 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 					revert = true
 				},
 				{
+					round = true,
+					append = "m",
+					name = "range"
+				},
+				{
 					percent = true,
 					name = "recoil",
 					offset = true,
 					revert = true
 				},
 				{
-					index = true,
+					percent = true,
+					offset = true,
+					revert = true,
 					name = "concealment"
-				},
-				{
-					inverted = true,
-					name = "reload"
 				},
 				{
 					inverted = true,
 					name = "swap_speed"
 				},
 				{
-					round = true,
-					append = "m",
-					name = "standing_range"
-				},
-				{
-					round = true,
-					append = "m",
-					name = "moving_range"
+					inverted = true,
+					name = "reload"
 				}
 			}
 
@@ -2408,11 +2313,8 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 					name = "dodge"
 				},
 				{
-					index = true,
-					name = "concealment"
-				},
-				{
-					name = "movement"
+					name = "movement",
+					append = "m/s"
 				},
 				{
 					name = "stamina"
@@ -3061,10 +2963,6 @@ function BlackMarketGui:show_stats()
 				if math.round(value) >= 100 then
 					self._stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.stat_maxed)
 				end
-			elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-				if base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value >= tweak_data.concealment_cap then
-					self._stats_texts.concealment.equip:set_color(tweak_data.screen_colors.stat_maxed)
-				end
 			elseif stat.index then
 				--nothing
 			elseif tweak_stats[stat.name] then
@@ -3186,10 +3084,6 @@ function BlackMarketGui:show_stats()
 				if stat.percent then
 					if math.round(value) >= 100 then
 						self._stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.stat_maxed)
-					end
-				elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-					if base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value >= tweak_data.concealment_cap then
-						self._stats_texts.concealment.equip:set_color(tweak_data.screen_colors.stat_maxed)
 					end
 				elseif stat.index then
 					--nothing
@@ -3318,9 +3212,9 @@ function BlackMarketGui:show_stats()
 				local base = base_stats[stat.name].value
 
 				self._armor_stats_texts[stat.name].equip:set_alpha(1)
-				self._armor_stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value))
-				self._armor_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value))
-				self._armor_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) or "")
+				self._armor_stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
+				self._armor_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.append or ""))
+				self._armor_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.append or "") or "")
 				self._armor_stats_texts[stat.name].total:set_text("")
 				self._armor_stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.text)
 
@@ -3338,10 +3232,10 @@ function BlackMarketGui:show_stats()
 				local equip = math.max(equip_base_stats[stat.name].value + equip_mods_stats[stat.name].value + equip_skill_stats[stat.name].value, 0)
 
 				self._armor_stats_texts[stat.name].equip:set_alpha(0.75)
-				self._armor_stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value))
+				self._armor_stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value) .. (stat.append or ""))
 				self._armor_stats_texts[stat.name].base:set_text("")
 				self._armor_stats_texts[stat.name].skill:set_text("")
-				self._armor_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value))
+				self._armor_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
 
 				--Allow armor stats with "inverted" flag to have inverted green/red colors.
 				if equip < value then
@@ -3770,10 +3664,6 @@ function BlackMarketGui:show_stats()
 			if stat.percent then
 				if math.round(total_value) >= 100 then
 					self._stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.stat_maxed)
-				end
-			elseif stat.name == "concealment" then --Sets concealment text to purple when maxed.
-				if total_base_stats.concealment.value + total_mods_stats.concealment.value + total_skill_stats.concealment.value >= tweak_data.concealment_cap then
-					self._stats_texts.concealment.equip:set_color(tweak_data.screen_colors.stat_maxed)
 				end
 			elseif stat.index then
 				--nothing

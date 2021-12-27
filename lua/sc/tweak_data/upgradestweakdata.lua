@@ -307,11 +307,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Armor Stats--
 	--Add 20 to the values in this table to get in game amounts.
 	self.values.player.body_armor.armor = {
-		0, --Suit
+		0.5, --Suit
 		4, --LBV
 		6, --BV
 		8, --HBV
-		11, --Flak
+		10, --Flak
 		13, --CTV
 		18 --ICTV
 	}
@@ -329,19 +329,19 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.25,
 		0.15,
 		0.05,
+		0.0,
 		-0.05,
 		-0.1,
-		-0.15,
-		-0.25
+		-0.15
 	}
 	self.values.player.body_armor.concealment = {
+		36,
+		34,
 		31,
-		30,
-		28,
-		26,
-		16,
-		6,
-		0
+		27,
+		23,
+		19,
+		11
 	}
 	self.values.player.body_armor.damage_shake = { 
 		1, 
@@ -595,11 +595,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 
 					--Ace
-						self.values.player.hostage_health_regen_max_mult = { 1 }
-						self.values.team.damage = {
-							hostage_absorption = {0.1},
-							hostage_absorption_limit = 4
-						}
+						self.values.player.hostage_health_regen_max_mult = { 1.5 }
 
 			
 		--Assault--
@@ -611,7 +607,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--None in the Chamber
 				--Basic
-					self.values.smg.hip_fire_spread_multiplier = {0.85}
+					self.values.smg.move_spread_multiplier = {0.7}
 				--Ace
 
 					self.values.smg.empty_reload_speed_multiplier = {1.3}
@@ -624,7 +620,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Spray 'n Pray
 				--Basic
-					self.values.smg.move_spread_multiplier = {0.6}
+					self.values.smg.bloom_spread_multiplier = {0.7}
 				--Ace
 					self.values.smg.fire_rate_multiplier = {1.15, 1.15}
 					self.values.smg.full_auto_free_ammo = {5}
@@ -655,10 +651,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 							fire_rate_multiplier = 1.4,
 							recoil_multiplier = 1.4,
 							free_ammo_chance = 0.4,
-							kill_refund = 3,
+							kill_refund = 4,
 							shots_required = 5
 						},
-						3
+						2
 					}}
 						
 	--ENFORCER--
@@ -737,10 +733,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 				--Shockproof
 					--Basic
-						self.values.player.taser_malfunction = {{
-								interval = 1,
-								chance_to_trigger = 0.15
-						}}
+						self.values.player.counter_melee_tase = {true}
+						self.values.player.slow_duration_multiplier = {0.5}
 					--Ace
 						self.values.player.taser_self_shock = {
 							true
@@ -791,12 +785,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Fully Loaded
 				--Basic
-					self.values.player.extra_ammo_multiplier = {1.25}
+					self.values.player.regain_throwable_from_ammo = {20}
 				--Ace
+					self.values.player.extra_ammo_multiplier = {1.5}
 					self.values.player.fully_loaded_pick_up_multiplier = {1.5}
-					self.values.player.regain_throwable_from_ammo = {
-						{chance = 0.05, chance_inc = 0.01}
-					}
 		
 	--TECHNICIAN--
 		--Fortress--
@@ -884,17 +876,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Combat Engineer--
 			--Sharpshooter
 				--Basic
-					self.values.temporary.headshot_accuracy_addend = {{1, 10}}
+					self.values.temporary.headshot_accuracy_addend = {{2, 10}}
 				--Ace
 					self.values.temporary.headshot_fire_rate_mult = {{1.2, 10}}
 
 			--Tactical Precision
 				--Basic
 					self.values.weapon.enter_steelsight_speed_multiplier = {1.75}
-					self.values.assault_rifle.steelsight_accuracy_inc = {0.85}
-					self.values.snp.steelsight_accuracy_inc = {0.85}
-					self.values.assault_rifle.steelsight_range_inc = {1.15}
-					self.values.snp.steelsight_range_inc = {1.15}
+					self.values.weapon.steelsight_accuracy_inc = {0.8}
+					self.values.weapon.steelsight_range_inc = {1.2}
 				--Ace
 					self.values.assault_rifle.hidden_reload_speed_multiplier = {1.25}
 					self.values.snp.hidden_reload_speed_multiplier = {1.25}
@@ -907,19 +897,17 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					{ ammo = 0.04, time = 10, headshots = 2, to_magazine = true } --Ace
 				}
 
-			--Aggressive Reload
-				self.values.temporary.single_shot_fast_reload = {
-					{ --Basic
-						1.3,
-						10,
-						false --Whether or not to allow full-auto
-					},
-					{ --Ace
-						1.5,
-						10,
-						true
-					},
-				}
+			--Rapid Reset
+				--Basic
+					self.values.assault_rifle.headshot_bloom_reduction = {0.5}
+
+				--Ace
+					self.values.temporary.single_shot_fast_reload = {
+						{ --Ace
+							1.5,
+							10
+						},
+					}
 
 			--Helmet Popping
 				--Basic
@@ -1009,7 +997,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.player.stamina_regen_timer_multiplier = {0.75}
 					self.values.player.stamina_regen_multiplier = {1.25}
 				--Ace
-					self.values.player.crouch_dodge_chance = {0.06, 0.06}
+					self.values.player.crouch_dodge_chance = {0.08, 0.08}
 
 			--Evasion
 				--Basic
@@ -1063,15 +1051,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Silent Killer--
 			--Dexterous Hands--
 				--Basic
-					self.values.player.melee_concealment_modifier = {2}
+					self.values.player.melee_concealment_modifier = {3}
 				--Ace
 					self.values.player.dodge_melee = {true}
 
-			--Optical Illusions
-					--Basic
-						self.values.player.silencer_swap_increase = {1.3}
-					--Ace
-						self.values.player.silencer_concealment_increase = {2}
+			--Fast Feet
+				--Basic
+					self.values.player.melee_hit_stamina = {0.75}
+				--Ace
+					self.values.temporary.sprint_speed_boost = {{1.5, 0.5}}
 
 			--The Professional
 				--Basic
@@ -1103,11 +1091,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Unseen Strike
 				self.values.temporary.unseen_strike = {
 					{ --Basic
-						1.2,
+						1.3,
 						0.01 --Workaround for Buff Tracker sanity checks.
 					},
 					{ --Ace
-						1.2,
+						1.3,
 						4
 					}
 				}
@@ -1122,7 +1110,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Backstab
 				--Basic
-					self.values.player.backstab_crits = {0.5}
+					self.values.player.backstab_crits = {0.4}
 				--Ace
 					self.values.player.backstab_dodge = {1}
 
@@ -1151,7 +1139,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 				}
 				--Ace
-					self.values.player.hyper_crit = {true}
+					self.values.player.hyper_crits = {3}
 		
 	--FUGITIVE--
 		--Gunslinger
@@ -1215,7 +1203,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.temporary.increased_movement_speed = {{1.25, 10}}
 				--Ace
-					self.values.temporary.revived_damage_resist = {{0.8, 10}}
+					self.values.temporary.revived_damage_resist = {{0.7, 10}}
 					self.values.player.revive_reload = {true}
 				
 			--Undying (Formerly Nine Lives, Formerly Running From Death)
@@ -1237,6 +1225,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					{1, 3}, --Basic
 					{1, 9} --Ace
 				}
+				self.berserker_movement_speed_multiplier = 0.5
 				--Ace
 					self.values.player.swan_song_instant_reload = {true}
 
@@ -1249,46 +1238,54 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Messiah
 				self.values.player.messiah_revive_from_bleed_out = {1, 3}
 				self.values.player.pistol_revive_from_bleed_out = {1, 3}
-				self.values.player.infinite_messiah = {true}
 				self.values.player.additional_lives = {1, 3}
 			
 		--Brawler--
-			--Martial Arts
+			--Iron Knuckles
 				--Basic
 					self.values.player.melee_damage_dampener = {0.50}
 				--Ace
-					self.values.player.melee_knockdown_mul = {1.5}
+					self.values.player.deflect_ranged = {0.85}
+					
 				
 			--Bloodthirst
-				--Basic
-					self.values.temporary.melee_kill_increase_reload_speed = {{1.3, 10}}
-				--Ace
-					self.values.player.melee_damage_stacking = {{melee_multiplier = 0.25, max_multiplier = 2}}
+				self.values.player.melee_damage_stacking = {
+					{ --Basic
+						knockdown_multiplier = 0.3,
+						damage_multiplier = 0.0,
+						max_stacks = 3
+					},
+					{ --Ace
+						knockdown_multiplier = 0.3,
+						damage_multiplier = 0.2,
+						max_stacks = 3
+					}
+				}
 
 			--Pumping Iron
 				self.values.player.melee_swing_multiplier = {1.2, 1.5}
 				self.values.player.melee_swing_multiplier_delay = {0.8, 0.5}
 				
 			--Counter Strike
-				self.values.player.spooc_damage_resist = {
-					0.2, --Basic
-					0.5 --Ace
-				}
 				--Basic
 					self.values.player.counter_strike_spooc = {true}
 				--Ace
-					self.values.player.deflect_ranged = {0.9}
+					self.values.player.counter_strike_dozer = {true}
 
-			--Frenzy (Berserker)
-				self.values.player.max_health_reduction = {0.25}
-				self.values.player.healing_reduction = {0.00, 0.25}
-				self.values.player.frenzy_deflection = {0.20, 0.45}
-				
-			--Berserker (Frenzy)
+			--Snatch
 				--Basic
-					self.values.player.melee_damage_health_ratio_multiplier = {1.50}
+					self.values.player.melee_kill_auto_load = {3}
+				--Ace
+					self.values.temporary.melee_kill_increase_reload_speed = {{1.5, 10}}
+				
+			--Frenzy
+				--Basic
+					self.values.player.melee_damage_health_ratio_multiplier = {2.50} --No longer scale off of max health
+					self.values.player.max_health_reduction = {0.25}
+					
 				--Aced
-					self.values.player.damage_health_ratio_multiplier = {0.75}
+					self.values.player.damage_health_ratio_multiplier = {1.75}
+					self.values.player.frenzy_deflection = {0.3}
 
 	--Singleplayer stealth stuff, to give them access to resources closer to what they would have in coop.
 	if Global.game_settings and Global.game_settings.single_player then
@@ -1364,37 +1361,66 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		1.25,
 		1.25
 	}
-	--infiltrator stuff
-	self.values.player.melee_stacking_heal = {true}	
-	self.melee_to_hot_data = {
-		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
-		works_with_armor_kit = true,
-		tick_time = 1.25,
-		total_ticks = 8,
-		max_stacks = 5,
-		stacking_cooldown = 0.1,
-		add_stack_sources = {
-			bullet = false,
-			explosion = false,
-			melee = true,
-			taser_tased = false,
-			poison = false,
-			fire = false,
-			projectile = false,
-			swat_van = false,
-			sentry_gun = false,
-			civilian = false
+
+	--Perk deck related heal over time effects.
+	self.values.player.heal_over_time = {
+		{ --Infiltrator melee stacking heal.
+			source = "infiltrator",
+			amount = 0.1,
+			tick_time = 1.5,
+			tick_count = 5,
+			max_stacks = 5
+		},
+		{ --Rogue dodge stacking heal.
+			source = "rogue",
+			amount = 0.1,
+			tick_time = 2,
+			tick_count = 5
+		},
+		{ --Grinder kill stacking heal (1)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 1.5,
+			tick_count = 4,
+			max_stacks = 5,
+			refesh_stacks_on_damage = true --Grinder stacks refresh whenever you deal damage.
+		},
+		{ --Grinder (3)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 1.5,
+			tick_count = 6,
+			max_stacks = 5,
+			refesh_stacks_on_damage = true
+		},
+		{ --Grinder (5)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 0.75,
+			tick_count = 12,
+			max_stacks = 5,
+			refesh_stacks_on_damage = true
+		},
+		{ --Grinder (7)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 0.75,
+			tick_count = 12,
+			max_stacks = 10,
+			refesh_stacks_on_damage = true
 		}
 	}
+
+	--Grinder
+	self.values.player.armor_reduction_multiplier = {0.5}
+	self.values.player.hot_speed_bonus = {0.03}
+
+	--infiltrator stuff
 	self.values.player.damage_dampener_close_contact = {
 		{value = 0.04, max = 5},
 		{value = 0.05, max = 5},
 		{value = 0.06, max = 5}
 	}
-
-	self.values.player.heal_over_time = {
-		0.1
-	}	
 
 	self.values.team.armor.multiplier = {1.05}
 	self.values.team.health.passive_multiplier = {1.05}
@@ -1406,7 +1432,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		damage_dampener = 1
 	}
 	self.values.team.health.hostage_multiplier = {1.05}
-	self.values.team.stamina.hostage_multiplier = {1.10}
+	self.values.team.stamina.hostage_multiplier = {1.05}
+	self.values.team.damage = {
+		hostage_absorption = {0.1},
+		hostage_absorption_limit = 4
+	}
 	self.values.player.passive_dodge_chance = {
 		0.05,
 		0.1,
@@ -1438,38 +1468,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.05
 	}
 	
-	--Hey you're getting your grinder on my grinder
-	self.values.player.armor_reduction_multiplier = {0.4}
-	self.damage_to_hot_data = {
-		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
-		works_with_armor_kit = true,
-		tick_time = 1,
-		total_ticks = 3,
-		max_stacks = 5,
-		stacking_cooldown = 0.5,
-		add_stack_sources = {
-			bullet = true,
-			explosion = true,
-			melee = true,
-			taser_tased = true,
-			poison = false,
-			bleed = false,
-			fire = true,
-			projectile = true,
-			swat_van = true,
-			sentry_gun = false,
-			civilian = false
-		}
-	}
-	self.values.player.damage_to_hot = {
-		0.1,
-		0.2,
-		0.3,
-		0.4
-	}	
-	self.values.player.damage_to_hot_extra_ticks = {2}
-	self.values.player.hot_speed_bonus = {0.05}
-	
 	self.values.player.perk_armor_loss_multiplier = {
 		0.5,
 		0.9,
@@ -1478,27 +1476,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 
 	--Rogue
-	self.dodge_to_hot_data = {
-		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
-		works_with_armor_kit = true,
-		tick_time = 2.0,
-		total_ticks = 10.0,
-		max_stacks = 67,
-		stacking_cooldown = 0.0,
-		add_stack_sources = {
-			bullet = false,
-			explosion = false,
-			melee = false,
-			taser_tased = false,
-			poison = false,
-			fire = false,
-			projectile = false,
-			swat_van = false,
-			sentry_gun = false,
-			civilian = false
-		}
-	}
-	self.values.player.dodge_stacking_heal = {true}
 	self.values.player.dodge_on_revive = {true}
 	self.values.weapon.passive_swap_speed_multiplier = {
 		1.5,
@@ -1542,7 +1519,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{{2, 2}, 3}
 	}
 	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
-	self.values.cooldown.melee_kill_life_leech = {{0.05, 3}}
+	self.values.cooldown.melee_kill_life_leech = {{0.03, 1}}
 	self.values.player.damage_dampener_outnumbered = {
 		{value = 0.85, min = 3}
 	}
@@ -1683,8 +1660,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 	
 	--Yakuza--
-	self.values.player.survive_one_hit = {true}
-	self.values.survive_one_hit_armor = {5.0}
+	self.values.cooldown.survive_one_hit = {{true, 300}}
+	self.values.player.survive_one_hit_kill_cdr = {5}
+	self.values.survive_one_hit_armor = 5.0
 
 	self.values.player.resistance_damage_health_ratio_multiplier = {
 		0.25
@@ -1928,24 +1906,15 @@ function UpgradesTweakData:_player_definitions()
 		}
 	}	
     self.definitions.player_detection_risk_add_movement_speed_1 = {
-            category = "feature",
-            name_id = "menu_player_detection_risk_add_movement_speed",
-            upgrade = {
-                category = "player",
-                upgrade = "detection_risk_add_movement_speed",
-                value = 1
-            }
-        } 
-	self.definitions.player_melee_knockdown_mul = {
-		category = "feature",
-		name_id = "menu_player_melee_knockdown_mul",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_knockdown_mul",
-			value = 1
-		}
-	}    
-        self.definitions.player_detection_risk_add_movement_speed_2 = {
+        category = "feature",
+        name_id = "menu_player_detection_risk_add_movement_speed",
+        upgrade = {
+            category = "player",
+            upgrade = "detection_risk_add_movement_speed",
+            value = 1
+        }
+    }
+    self.definitions.player_detection_risk_add_movement_speed_2 = {
             category = "feature",
             name_id = "menu_player_detection_risk_add_movement_speed",
             upgrade = {
@@ -2088,19 +2057,64 @@ function UpgradesTweakData:_player_definitions()
 			upgrade = "melee_swing_multiplier_delay",
 			value = 2
 		}
-	}		
-	self.definitions.player_messiah_revive_from_bleed_out_2 = {
+	}
+	self.definitions.player_melee_damage_stacking_1 = {
 		category = "feature",
-		name_id = "menu_player_pistol_revive_from_bleed_out",
+		name_id = "menu_player_melee_damage_stacking",
 		upgrade = {
 			category = "player",
-			upgrade = "messiah_revive_from_bleed_out",
+			upgrade = "melee_damage_stacking",
+			value = 1
+		}
+	}
+	self.definitions.player_melee_damage_stacking_2 = {
+		category = "feature",
+		name_id = "menu_player_melee_damage_stacking",
+		upgrade = {
+			category = "player",
+			upgrade = "melee_damage_stacking",
 			value = 2
+		}
+	}
+	self.definitions.player_melee_kill_auto_load = {
+		category = "feature",
+		name_id = "menu_player_melee_kill_auto_load",
+		upgrade = {
+			category = "player",
+			upgrade = "melee_kill_auto_load",
+			value = 1
+		}
+	}
+	self.definitions.player_counter_strike_dozer = {
+		category = "feature",
+		name_id = "menu_player_counter_strike_dozer",
+		upgrade = {
+			category = "player",
+			upgrade = "counter_strike_dozer",
+			value = 1
+		}
+	}
+	self.definitions.player_melee_hit_stamina = {
+		category = "feature",
+		name_id = "menu_player_melee_hit_stamina",
+		upgrade = {
+			category = "player",
+			upgrade = "melee_hit_stamina",
+			value = 1
+		}
+	}
+	self.definitions.temporary_sprint_speed_boost = {
+		category = "temporary",
+		name_id = "menu_temporary_sprint_speed_boost",
+		upgrade = {
+			category = "temporary",
+			upgrade = "sprint_speed_boost",
+			value = 1
 		}
 	}
 	self.definitions.player_deflect_ranged = {
 		category = "feature",
-		name_id = "menu_player_panic_suppression",
+		name_id = "menu_player_deflect_ranged",
 		upgrade = {
 			category = "player",
 			upgrade = "deflect_ranged",
@@ -2131,24 +2145,6 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			category = "player",
 			upgrade = "extra_revive_health",
-			value = 1
-		}
-	}
-	self.definitions.player_dodge_stacking_heal = {
-		category = "feature",
-		name_id = "menu_player_dodge_stacking_heal",
-		upgrade = {
-			category = "player",
-			upgrade = "dodge_stacking_heal",
-			value = 1
-		}
-	}
-	self.definitions.player_melee_stacking_heal = {
-		category = "feature",
-		name_id = "menu_player_melee_stacking_heal",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_stacking_heal",
 			value = 1
 		}
 	}
@@ -2292,15 +2288,6 @@ function UpgradesTweakData:_player_definitions()
 			category = "temporary",
 			upgrade = "damage_speed_multiplier",
 			value = 2
-		}
-	}
-	self.definitions.player_silencer_concealment_increase = {
-		name_id = "menu_player_silencer_concealment_increase",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "silencer_concealment_increase",
-			category = "player"
 		}
 	}
 	self.definitions.player_real_health_damage_reduction_1 = {
@@ -2447,15 +2434,6 @@ function UpgradesTweakData:_player_definitions()
 			value = 2,
 			upgrade = "pick_lock_easy_speed_multiplier",
 			category = "player"
-		}
-	}		
-	self.definitions.temporary_single_shot_fast_reload_2 = {
-		name_id = "menu_temporary_single_shot_fast_reload",
-		category = "temporary",
-		upgrade = {
-			value = 2,
-			upgrade = "single_shot_fast_reload",
-			category = "temporary"
 		}
 	}
 	self.definitions.grenade_launcher_reload_speed_multiplier = {
@@ -2758,15 +2736,87 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
-end
-
-function UpgradesTweakData:_smg_definitions()
-	self.definitions.smg_hip_fire_recoil_multiplier = {
-		name_id = "menu_smg_hip_fire_recoil_multiplier",
+	self.definitions.player_dodge_stacking_heal = {
+		name_id = "menu_player_dodge_stacking_heal",
+		category = "feature",
+		upgrade = {
+			value = 2,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_1 = {
+		name_id = "menu_player_kill_stacking_heal_1",
+		category = "feature",
+		upgrade = {
+			value = 3,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_2 = {
+		name_id = "menu_player_kill_stacking_heal_2",
+		category = "feature",
+		upgrade = {
+			value = 4,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_3 = {
+		name_id = "menu_player_kill_stacking_heal_3",
+		category = "feature",
+		upgrade = {
+			value = 5,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_4 = {
+		name_id = "menu_player_kill_stacking_heal_4",
+		category = "feature",
+		upgrade = {
+			value = 6,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_armor_reduction_multiplier = {
+		name_id = "menu_player_armor_reduction_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "hip_fire_recoil_multiplier",
+			upgrade = "armor_reduction_multiplier",
+			category = "player"
+		}
+	}
+	self.definitions.player_hot_speed_bonus = {
+		name_id = "menu_player_hot_speed_bonus",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hot_speed_bonus",
+			category = "player"
+		}
+	}
+end
+
+function UpgradesTweakData:_smg_definitions()
+	self.definitions.smg_move_spread_multiplier = {
+		name_id = "menu_snp_move_spread_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "move_spread_multiplier",
+			category = "smg"
+		}
+	}
+	self.definitions.smg_bloom_spread_multiplier = {
+		name_id = "menu_snp_bloom_spread_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "bloom_spread_multiplier",
 			category = "smg"
 		}
 	}
@@ -2999,39 +3049,12 @@ function UpgradesTweakData:_saw_definitions()
 			value = 1
 		}
 	}
-	self.definitions.player_heal_over_time = {
-		name_id = "menu_player_heal_over_time",
+	self.definitions.player_melee_stacking_heal = {
+		name_id = "menu_player_melee_stacking_heal",
 		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "heal_over_time",
-			category = "player"
-		}
-	}
-	self.definitions.player_armor_reduction_multiplier = {
-		name_id = "menu_player_armor_reduction_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "armor_reduction_multiplier",
-			category = "player"
-		}
-	}
-	self.definitions.player_hot_speed_bonus = {
-		name_id = "menu_player_hot_speed_bonus",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "hot_speed_bonus",
-			category = "player"
-		}
-	}
-	self.definitions.player_survive_one_hit = {
-		name_id = "menu_player_survive_one_hit",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "survive_one_hit",
 			category = "player"
 		}
 	}
@@ -3089,38 +3112,11 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_spooc_damage_resist_1 = {
-		name_id = "menu_player_spooc_damage_resist",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "spooc_damage_resist",
-			category = "player"
-		}
-	}
-	self.definitions.player_spooc_damage_resist_2 = {
-		name_id = "menu_player_spooc_damage_resist",
-		category = "feature",
-		upgrade = {
-			value = 2,
-			upgrade = "spooc_damage_resist",
-			category = "player"
-		}
-	}
-	self.definitions.player_frenzy_deflection_1 = {
+	self.definitions.player_frenzy_deflection = {
 		name_id = "menu_player_frenzy_deflection",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "frenzy_deflection",
-			category = "player"
-		}
-	}
-	self.definitions.player_frenzy_deflection_2 = {
-		name_id = "menu_player_frenzy_deflection",
-		category = "feature",
-		upgrade = {
-			value = 2,
 			upgrade = "frenzy_deflection",
 			category = "player"
 		}
@@ -3185,15 +3181,6 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "damage_absorption_low_revives",
-			category = "player"
-		}
-	}
-	self.definitions.player_infinite_messiah = {
-		name_id = "menu_player_infinite_messiah",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "infinite_messiah",
 			category = "player"
 		}
 	}
@@ -3269,12 +3256,12 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_hyper_crit = {
-		name_id = "menu_player_hyper_crit",
+	self.definitions.player_hyper_crits = {
+		name_id = "menu_player_hyper_crits",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "hyper_crit",
+			upgrade = "hyper_crits",
 			category = "player"
 		}
 	}
@@ -3314,15 +3301,6 @@ function UpgradesTweakData:_saw_definitions()
 			category = "temporary"
 		}
 	}
-	self.definitions.player_silencer_swap_increase = {
-		name_id = "menu_player_silencer_swap_increase",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "silencer_swap_increase",
-			category = "player"
-		}
-	}
 	self.definitions.player_special_double_drop = {
 		name_id = "menu_player_special_double_drop",
 		category = "feature",
@@ -3338,6 +3316,24 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "unpierceable_armor",
+			category = "player"
+		}
+	}
+	self.definitions.player_counter_melee_tase = {
+		name_id = "menu_player_counter_melee_tase",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "counter_melee_tase",
+			category = "player"
+		}
+	}
+	self.definitions.player_slow_duration_multiplier = {
+		name_id = "menu_player_slow_duration_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "slow_duration_multiplier",
 			category = "player"
 		}
 	}
@@ -3494,6 +3490,15 @@ function UpgradesTweakData:_saw_definitions()
 			category = "snp"
 		}
 	}
+	self.definitions.assault_rifle_headshot_bloom_reduction = {
+		name_id = "menu_player_assault_rifle_headshot_bloom_reduction",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "headshot_bloom_reduction",
+			category = "assault_rifle"
+		}
+	}
 	self.definitions.assault_rifle_headshot_repeat_damage_mult = {
 		name_id = "menu_player_assault_rifle_headshot_repeat_damage_mult",
 		category = "feature",
@@ -3551,40 +3556,22 @@ function UpgradesTweakData:_saw_definitions()
 end
 
 Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", function(self)
-	self.definitions.snp_steelsight_accuracy_inc_1 = {
-		name_id = "menu_snp_steelsight_accuracy_inc",
+	self.definitions.weapon_steelsight_accuracy_inc_1 = {
+		name_id = "menu_weapon_steelsight_accuracy_inc",
 		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "steelsight_accuracy_inc",
-			category = "snp"
+			category = "weapon"
 		}
 	}
-	self.definitions.assault_rifle_steelsight_accuracy_inc_1 = {
-		name_id = "menu_assault_rifle_steelsight_accuracy_inc",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "steelsight_accuracy_inc",
-			category = "assault_rifle"
-		}
-	}
-	self.definitions.snp_steelsight_range_inc_1 = {
-		name_id = "menu_snp_steelsight_range_inc",
+	self.definitions.weapon_steelsight_range_inc_1 = {
+		name_id = "menu_weapon_steelsight_range_inc",
 		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "steelsight_range_inc",
-			category = "snp"
-		}
-	}
-	self.definitions.assault_rifle_steelsight_range_inc_1 = {
-		name_id = "menu_assault_rifle_steelsight_range_inc",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "steelsight_range_inc",
-			category = "assault_rifle"
+			category = "weapon"
 		}
 	}
 	self.definitions.pistol_ap_bullets_1 = {
@@ -3696,6 +3683,24 @@ function UpgradesTweakData:_cooldown_definitions()
 			value = 1,
 			upgrade = "killshot_close_panic_chance",
 			category = "cooldown"
+		}
+	}
+	self.definitions.cooldown_survive_one_hit = {
+		name_id = "menu_cooldown_survive_one_hit",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "survive_one_hit",
+			category = "cooldown"
+		}
+	}
+	self.definitions.player_survive_one_hit_kill_cdr = {
+		name_id = "menu_player_survive_one_hit_kill_cdr",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "survive_one_hit_kill_cdr",
+			category = "player"
 		}
 	}
 end

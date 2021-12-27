@@ -46,22 +46,14 @@ function PlayerDamage:init(unit)
 
 	managers.sequence:add_inflict_updator_body("fire", self._unit:key(), self._inflict_damage_body:key(), self._inflict_damage_body:extension().damage)
 
-	--Load alternate heal over time tweakdata if player is using Infiltrator or Rogue.
-	if player_manager:has_category_upgrade("player", "melee_stacking_heal") then
-		self._hot_type = "infiltrator"
-		self._doh_data = tweak_data.upgrades.melee_to_hot_data or {}
-		self._hot_amount = managers.player:upgrade_value("player", "heal_over_time", 0)
-	elseif player_manager:has_category_upgrade("player", "dodge_stacking_heal") then
-		self._hot_type = "rogue"
-		self._doh_data = tweak_data.upgrades.dodge_to_hot_data or {}
-		self._hot_amount = managers.player:upgrade_value("player", "heal_over_time", 0)
-	else 
-		self._hot_type = "grinder"
-		self._doh_data = tweak_data.upgrades.damage_to_hot_data or {}
-		self._hot_amount = managers.player:upgrade_value("player", "damage_to_hot", 0)
+	--Replace vanilla grinder heal over time system with a simpler one.
+	if player_manager:has_category_upgrade("player", "heal_over_time") then
+		self._hot_data = player_manager:upgrade_value("player", "heal_over_time")
 	end
+	self._hot_stacks = 0
+	self._remaining_hot_ticks = 0
+	self._next_hot_tick = 0
 
-	self._damage_to_hot_stack = {}
 	self._armor_stored_health = 0
 	self._can_take_dmg_timer = 0
 	self._regen_on_the_side_timer = 0
@@ -75,19 +67,16 @@ function PlayerDamage:init(unit)
 	managers.environment_controller:set_extra_exposure_value(0)
 	managers.environment_controller:start_player_hurt_screen()
 
-	--Unique resmod stuff.
+	--Unique heat stuff.
 	self._ally_attack = false --Whether or not an ally dealt the last attack. Prevents certain cheese with friendly fire.
 	self._dodge_points = 0.0 --The player's dodge stat, gets set by set_dodge_points once players enter their standard state.
 	self._dodge_meter = 0.0 --Amount of dodge built up as meter. Caps at '150' dodge.
 	self._dodge_meter_prev = 0.0 --dodge in meter from previous frame.
 	self.in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
-	self._can_survive_one_hit = player_manager:has_category_upgrade("player", "survive_one_hit") --Yakuza ability to survive at 1 hp before going down.
-	self._has_hyper_crits = player_manager:has_category_upgrade("player", "hyper_crit") --Whether or not players can hyper crit once per armor break.
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
+	self._can_counter_dozers = managers.player:has_category_upgrade("player", "counter_strike_dozer")
+	self._autocounter_melee_tase = managers.player:has_category_upgrade("player", "counter_melee_tase")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
-	if self._can_survive_one_hit then
-		managers.hud:add_skill("survive_one_hit")
-	end
 	self._biker_armor_regen_t = 0.0 --Used to track the time until the next biker armor regen tick.
 	self._melee_push_multiplier = 1 - math.min(math.max(player_manager:upgrade_value("player", "resist_melee_push", 0.0) * self:_max_armor(), 0.0), 0.95) --Stun Resistance melee push resist.
 	self._deflection = 1 - player_manager:body_armor_value("deflection", nil, 0) - player_manager:get_deflection_from_skills() --Damage reduction for health. Crashes here mean there is a syntax error in playermanager.
@@ -436,7 +425,7 @@ function PlayerDamage:damage_bullet(attack_data)
 	if attack_data.damage > 0 then
 		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
 		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
-			self._unit:sound():play_impact_sound({material_name = Idstring("cloth_stuffed")})
+			self._unit:sound():play_impact_sound({material_name = Idstring("ceramic")})
 			self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
 			self:_send_damage_drama(attack_data, 0)
 			self:_call_listeners(damage_info)
@@ -458,7 +447,6 @@ function PlayerDamage:damage_bullet(attack_data)
 	
 	local shake_armor_multiplier = pm:body_armor_value("damage_shake") * pm:upgrade_value("player", "damage_shake_multiplier", 1)
 	local gui_shake_number = tweak_data.gui.armor_damage_shake_base / shake_armor_multiplier
-	gui_shake_number = gui_shake_number + pm:upgrade_value("player", "damage_shake_addend", 0)
 	shake_armor_multiplier = tweak_data.gui.armor_damage_shake_base / gui_shake_number
 	local shake_multiplier = math.clamp(attack_data.damage, 0.2, 2) * shake_armor_multiplier
 	self._unit:camera():play_shaker("player_bullet_damage", 1 * shake_multiplier)
@@ -514,7 +502,7 @@ function PlayerDamage:damage_melee(attack_data)
 	if self._dodge_melee and attack_data.damage > 0 then
 		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
 		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
-			self._unit:sound():play_impact_sound({material_name = Idstring("cloth_stuffed")})
+			self._unit:sound():play_impact_sound({material_name = Idstring("ceramic")})
 			if attack_data.damage > 0 then
 				self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
 				self:_send_damage_drama(attack_data, 0)
@@ -536,7 +524,7 @@ function PlayerDamage:damage_melee(attack_data)
 	if parried or dodged then
 		--prevent the player from countering Dozers or other players through FF, for obvious reasons
 		if alive(attacker_unit) and attacker_unit:base() and not attacker_unit:base().is_husk_player then
-			local is_dozer = attacker_unit:base().has_tag and attacker_unit:base():has_tag("tank")
+			local is_dozer = not self._can_counter_dozers and attacker_unit:base().has_tag and attacker_unit:base():has_tag("tank")
 
 			if not is_dozer then
 				if parried then
@@ -545,7 +533,7 @@ function PlayerDamage:damage_melee(attack_data)
 
 				return "countered"
 			elseif dodged then --Dodged an uncounterable attack.
-				return
+				return self._can_counter_dozers and "countered" or nil
 			end
 		end
 	end
@@ -555,8 +543,31 @@ function PlayerDamage:damage_melee(attack_data)
 	local player_unit = managers.player:player_unit()
 	if alive(attacker_unit) then
 		if attacker_char_tweak and attacker_char_tweak.tase_on_melee then
-			attacker_unit:sound():say("post_tasing_taunt")
-			attack_data.variant = "taser_tased"
+			if self._autocounter_melee_tase then
+				local attacker_pos = attacker_unit:movement():m_com()
+				local attack_dir = self._unit:movement():m_com() - attacker_pos
+				mvector3.normalize(attack_dir)
+				local counter_data = {
+					damage = attacker_unit:character_damage()._HEALTH_INIT * tweak_data.upgrades.counter_taser_damage,
+					damage_effect = 1,
+					variant = "counter_tased",
+					attacker_unit = self._unit,
+					attack_dir = attack_dir,
+					col_ray = {
+						position = attacker_pos,
+						body = attacker_unit:body("body"),
+						attack_dir = attack_dir
+					},
+					name_id = "weapon"
+				}
+				self._unit:camera():play_shaker(vars[math.random(#vars)], math.max(1 * self._melee_push_multiplier, 0.2))
+				self._unit:sound():play("tase_counter_attack")
+				attacker_unit:character_damage():damage_melee(counter_data)
+				return
+			else
+				attacker_unit:sound():say("post_tasing_taunt")
+				attack_data.variant = "taser_tased"
+			end
 		elseif attacker_char_tweak and attacker_char_tweak.cuff_on_melee then
 			if attacker_unit:base()._tweak_table == "autumn" then
 				attacker_unit:sound():say("i03", true, nil, true)
@@ -586,12 +597,7 @@ function PlayerDamage:damage_melee(attack_data)
 	if attacker_unit:base()._tweak_table == "tank" then
 		managers.achievment:set_script_data("dodge_this_fail", true)
 	end
-	
-	local shake_armor_multiplier = pm:body_armor_value("damage_shake") * pm:upgrade_value("player", "damage_shake_multiplier", 1)
-	local gui_shake_number = tweak_data.gui.armor_damage_shake_base / shake_armor_multiplier
-	gui_shake_number = gui_shake_number + pm:upgrade_value("player", "damage_shake_addend", 0)
-	shake_armor_multiplier = tweak_data.gui.armor_damage_shake_base / gui_shake_number
-	local shake_multiplier = math.clamp(attack_data.damage, 0.2, 2) * shake_armor_multiplier
+
 	managers.rumble:play("damage_bullet")
 	
 	if not self:_apply_damage(attack_data, damage_info, "melee", pm:player_timer():time()) then
@@ -769,6 +775,19 @@ end
 
 --Does not use _apply_damage, instead uses its own stuff.
 function PlayerDamage:damage_killzone(attack_data)
+	if attack_data.damage and attack_data.damage == 0.75 and not attack_data.instant_death then
+		local gas_grenade_tweak = tweak_data.projectiles.gas_grenade
+		self:damage_gas({
+			damage = gas_grenade_tweak.damage_per_tick * 2 or 1.2, --Map gas ticks at a slower rate than gas grenades.
+			no_stamina_damage_mul = gas_grenade_tweak.no_stamina_damage_mul or 2,
+			stamina_damage = gas_grenade_tweak.stamina_per_tick * 2 or 4,
+			ignore_deflection = true,
+			col_ray = attack_data.col_ray,
+			variant = "gas"
+		})		
+		return
+	end
+
 	local damage_info = {
 		result = {
 			variant = "killzone",
@@ -1030,12 +1049,6 @@ function PlayerDamage:revive(silent)
 	self._revive_health_multiplier = nil
 	self._listener_holder:call("on_revive")
 
-	--Add Yakuza survive one hit icon.
-	--Done on revive for intuitiveness.
-	if self._can_survive_one_hit then
-		managers.hud:add_skill("survive_one_hit")
-	end
-
 	if managers.player:has_inactivate_temporary_upgrade("temporary", "revived_damage_resist") then
 		managers.player:activate_temporary_upgrade("temporary", "revived_damage_resist")
 	end
@@ -1096,6 +1109,7 @@ function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 		"bullet",
 		"explosion",
 		"melee",
+		"gas",
 		"delayed_tick"
 	}, attack_data.variant)
 
@@ -1340,53 +1354,55 @@ function PlayerDamage:_upd_health_regen(t, dt)
 		end
 	end
 
-	if #self._damage_to_hot_stack > 0 then
-		repeat
-			local next_doh = self._damage_to_hot_stack[1]
-			local done = not next_doh or TimerManager:game():time() < next_doh.next_tick
+	if self._hot_stacks > 0 then
+		if t >= self._next_hot_tick then
+			self._next_hot_tick = t + self._hot_data.tick_time
+			self._remaining_hot_ticks = self._remaining_hot_ticks - 1
+			self:restore_health(self._hot_data.amount * self._hot_stacks, true)
+		end
 
-			if not done then
-				local regen_rate = self._hot_amount
-
-				self:restore_health(regen_rate, true)
-
-				next_doh.ticks_left = next_doh.ticks_left - 1
-
-				if next_doh.ticks_left == 0 then
-					table.remove(self._damage_to_hot_stack, 1)
-				else
-					next_doh.next_tick = next_doh.next_tick + (self._doh_data.tick_time or 1)
-				end
-
-				table.sort(self._damage_to_hot_stack, function (x, y)
-					return x.next_tick < y.next_tick
-				end)
-			end
-		until done
+		if self._remaining_hot_ticks == 0 then
+			self._hot_stacks = 0
+		end
 	end
-
-	managers.hud:set_stacks(self._hot_type, #self._damage_to_hot_stack)
 end
 
+function PlayerDamage:got_max_hot_stacks()
+	return not self._hot_data.max_stacks or self._hot_stacks >= self._hot_data.max_stacks
+end
 
-Hooks:PreHook(PlayerDamage, "_check_bleed_out", "ResYakuzaCaptstoneCheck", function(self, can_activate_berserker, ignore_movement_state)
-	if self._check_berserker_done then --Deals with swan song shenanigans.
-		if self._can_survive_one_hit then
-			self._can_survive_one_hit = false
-			managers.hud:remove_skill("survive_one_hit")
-		end
+function PlayerDamage:refresh_hot_duration()
+	if self._hot_stacks > 0 then
+		self._remaining_hot_ticks = self._hot_data.tick_count
+		managers.hud:start_buff(self._hot_data.source, self._remaining_hot_ticks * self._hot_data.tick_time)
 	end
-	if self:get_real_health() == 0 and not self._check_berserker_done then --If you would be in bleedout but you dont want to, then don't.
-		if self._can_survive_one_hit then
-			self:change_health(0.1)
-			self._can_survive_one_hit = false
-			self:restore_armor(tweak_data.upgrades.values.survive_one_hit_armor[1])
-			managers.hud:remove_skill("survive_one_hit")
-		else
-			self._can_survive_one_hit = managers.player:has_category_upgrade("player", "survive_one_hit")
-		end
+end
+
+function PlayerDamage:add_hot_stack()
+	if self:need_revive() or self:dead() or self._check_berserker_done then
+		return
 	end
-end)
+
+	self._hot_stacks = math.min(self._hot_stacks + 1, self._hot_data.max_stacks)
+	managers.hud:set_stacks(self._hot_data.source, self._hot_stacks)
+
+	self:refresh_hot_duration()
+end
+
+function PlayerDamage:get_hot_stacks()
+	return self._hot_stacks
+end
+
+local orig_check_bleed_out = PlayerDamage._check_bleed_out
+function PlayerDamage:_check_bleed_out(can_activate_berserker, ...)
+	if can_activate_berserker and self:get_real_health() == 0 and not self._check_berserker_done --If you would be in bleedout but you dont want to, then don't.
+		and managers.player:use_cooldown_upgrade("cooldown", "survive_one_hit") == true then --Assuming the skill is off cooldown.
+		self:change_health(0.1)
+		self:restore_armor(tweak_data.upgrades.values.survive_one_hit_armor)
+	end
+
+	orig_check_bleed_out(self, can_activate_berserker, ...)
+end
 
 --Damage speed functionality has been changed, and is now only checked when armor damage is taken rather than on every single damage event.
 --As a result, all that's left to do here is to reset the armor regen timer.
@@ -1424,16 +1440,6 @@ function PlayerDamage:can_dodge_heal()
 	return nil
 end
 
---Whether or not the player can proc Low Blow.
-function PlayerDamage:can_hyper_crit()
-	if self._can_hyper_crit then
-		self._can_hyper_crit = nil
-		return true
-	end
-
-	return nil
-end
-
 function PlayerDamage:tick_biker_armor_regen(amount)
 	if self:get_real_armor() == self:_max_armor() then --End biker regen when armor returns.
 		self._biker_armor_regen_t = 0.0
@@ -1464,8 +1470,8 @@ function PlayerDamage:exit_custody(down_timer)
 	if down_timer > 0 then
 		self._revives = Application:digest_value(tweak_data.player.damage.CUSTODY_LIVES, true)
 	else
-		self._revives = 0
-		managers.environment_controller:set_last_life(Application:digest_value(self._revives, false) <= 1)
+		self._revives = Application:digest_value(0, true)
+		managers.environment_controller:set_last_life(true)
 	end
 	self._down_time = down_timer
 	self._messiah_charges = managers.player:upgrade_value("player", "pistol_revive_from_bleed_out", 0)
@@ -1606,7 +1612,7 @@ end
 
 --Use old max health function to ignore temporary HP for % healing.
 function PlayerDamage:restore_health(health_restored, is_static, chk_health_ratio)
-	if chk_health_ratio and managers.player:is_damage_health_ratio_active(self:health_ratio()) and not self:is_downed() then
+	if chk_health_ratio and managers.player:is_damage_health_ratio_active(self:health_ratio()) or self:is_downed() then
 		return false
 	end
 
@@ -1647,7 +1653,6 @@ function PlayerDamage:set_armor(armor)
 
 		if current_armor ~= 0 and armor == 0 then
 			self._can_dodge_heal = true
-			self._can_hyper_crit = true
 		end
 
 		if armor == self:_max_armor() then

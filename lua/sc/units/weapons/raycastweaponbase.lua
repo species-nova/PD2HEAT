@@ -11,39 +11,9 @@ local mvec3_len = mvector3.length
 local mvec3_cpy = mvector3.copy
 local mvec3_add_scaled = mvector3.add_scaled
 
-local mvec_from = Vector3()
-local mvec_to = Vector3()
-local mvec_spread_direction = Vector3()
-local tmp_vec1 = Vector3()
-local tmp_vec2 = Vector3()
-
-local tmp_rot1 = Rotation()
-local pairs_g = pairs
-
-local table_insert = table.insert
-local table_contains = table.contains
-
-local math_ceil = math.ceil
-local math_random = math.random
-local math_clamp = math.clamp
-local math_min = math.min
-local math_cos = math.cos
-local math_sin = math.sin
-local math_rad = math.rad
-local math_lerp = math.lerp
-local math_floor = math.floor
-
-local t_cont = table.contains
-
-local next_g = next
-local alive_g = alive
-local world_g = World
-
 local init_original = RaycastWeaponBase.init
-local setup_original = RaycastWeaponBase.setup
-
-function RaycastWeaponBase:init(...)
-	init_original(self, ...)
+function RaycastWeaponBase:init(unit)
+	init_original(self, unit)
 	
 	self._shoot_through_data = {
 		kills = 0,
@@ -59,51 +29,37 @@ function RaycastWeaponBase:init(...)
 		self._bullet_slotmask = managers.modifiers:modify_value("RaycastWeaponBase:setup:weapon_slot_mask", self._bullet_slotmask)
 	end
 
-	self._headshot_pierce_damage_mult = 1
+	self._headshot_pierce_damage_mult = 1 --See NewRaycastWeaponBase for where upgrades set this value.
 	self._shield_pierce_damage_mult = 0.5
 	self._can_shoot_through_head = self._can_shoot_through_enemy
+
+	--Partially determines bloom decay rate.
+	local weapon_tweak = tweak_data.weapon[self._name_id]
+	self._base_fire_rate = (weapon_tweak.fire_mode_data and weapon_tweak.fire_mode_data.fire_rate or 0) / (weapon_tweak.fire_rate_multiplier or 1)
+
+	self._curr_kick = 0
+	self._kick_pattern = weapon_tweak.kick_pattern
+
+	self._autohit_prog = 0
+	local stat_info = tweak_data.weapon.stat_info
 end
 
+local setup_original = RaycastWeaponBase.setup
 function RaycastWeaponBase:setup(...)
 	setup_original(self, ...)
-	
-	--self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
 
-	--Use stability stat to get the moving accuracy penalty.
-	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._current_stats_indices.recoil] or 0
+	--Use mobility stat to get the moving accuracy penalty.
+	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
 
-	--Trackers for MG Specialist Ace
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
-			self._bullets_until_free = managers.player:upgrade_value(category, "full_auto_free_ammo")
-			break
-		end
-	end
+	--Use stability stat for dynamic bloom accuracy.
+	self._spread_bloom = tweak_data.weapon.stat_info.bloom_spread[self._current_stats_indices.recoil] or 0
+	self._bloom_stacks = 0
+	self._current_spread = 0
+
+	--Tracker for shots without releasing trigger. Used by Mag Dumper and Bullet Hell.
 	self._shots_without_releasing_trigger = 0
 
 	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
-
-	--Flag for Shell Shocked
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		if managers.player:has_category_upgrade(category, "last_shot_stagger") then
-			self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-			managers.hud:add_skill(category .. "_last_shot_stagger")
-			break
-		end
-	end
-
-	--Shots required for Bullet Hell
-	if managers.player:has_category_upgrade("temporary", "bullet_hell") then
-		local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
-		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
-	end
-end
-
---Check for ShellShocked.
-local on_reload_original = RaycastWeaponBase.on_reload
-function RaycastWeaponBase:on_reload(...)
-	self:check_last_bullet_stagger()
-	on_reload_original(self, ...)
 end
 
 --Fire no longer memes on shields.
@@ -233,8 +189,7 @@ function RaycastWeaponBase:_collect_hits(from, to)
 		if not units_hit[hit.unit:key()] then
 			units_hit[hit.unit:key()] = true
 			unique_hits[#unique_hits + 1] = hit
-			local hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
-			local weak_body = hit.body:has_ray_type(ai_vision_ids)
+			hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
 
 			--Tactical Precision headshot piercing.
 			if self._can_shoot_through_head
@@ -247,7 +202,7 @@ function RaycastWeaponBase:_collect_hits(from, to)
 
 			if not self._can_shoot_through_enemy and not hit.head_pierced and hit_enemy then
 				break
-			elseif has_hit_wall or (not self._can_shoot_through_wall and hit.unit:in_slot(wall_mask) and weak_body) then
+			elseif has_hit_wall or (not self._can_shoot_through_wall and hit.unit:in_slot(wall_mask) and hit.body:has_ray_type(ai_vision_ids)) then
 				break
 			elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
 				break
@@ -380,7 +335,10 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 	return result
 end
 
---Refactored from vanilla code for consistency and simplicity.
+--New pickup mechanics.
+--Fully determinisitic, with no RNG.
+--When low on ammo, uses pickup 2, when high, uses pickup 1. Leading to a self-balancing ammo tension.
+--Decimal values roll over into the next pickup until it adds up to a bullet.
 function RaycastWeaponBase:add_ammo(ratio, add_amount_override)
 	local _add_ammo = function(ammo_base, ratio, add_amount_override)
 		local ammo_max = ammo_base:get_ammo_max()
@@ -423,126 +381,112 @@ function RaycastWeaponBase:add_ammo(ratio, add_amount_override)
 	return picked_up, add_amount
 end
 
-local mvec_to = Vector3()
-local mvec_spread_direction = Vector3()
-local mvec1 = Vector3()
+--Check if the current shot will proc autohit.
+--Low spread == more procs.
+--High spread == fewer procs.
+--Start from a baseline of every shot procs autohit when you have 0 spread, and increase the number linearly as spread area goes up.
+function RaycastWeaponBase:roll_autohit()
+	self._autohit_prog = self._autohit_prog + (1 / (self._current_spread_area + 1))
 
+	if self._autohit_prog >= 1 then
+		self._autohit_prog = math.max(self._autohit_prog - 1, 0)
+		return true
+	end
+
+	return false
+end
+
+local tar_vec = Vector3()
+local body_vec = Vector3()
+local head_vec = Vector3()
 function RaycastWeaponBase:check_autoaim(from_pos, direction, max_dist, use_aim_assist, autohit_override_data)
-	local autohit = use_aim_assist and self._aim_assist_data or self._autohit_data
-	autohit = autohit_override_data or autohit
-	local autohit_near_angle = autohit.near_angle
-	local autohit_far_angle = autohit.far_angle
-	local far_dis = autohit.far_dis
-	local closest_error, closest_ray = nil
-	local tar_vec = tmp_vec1
-	local ignore_units = self._setup.ignore_units
-	local slotmask = self._bullet_slotmask
+	--Check if autohit occurs.
+	--If use_aim_assist is set to true (IE: For controller players ADSing), then always autoaim.
+	--Otherwise, accumulate the autohit progression tracker and see if it procs.
+	local autohit = use_aim_assist or self:roll_autohit()
+	if not autohit then
+		return false
+	end
 
-	local cone_distance = max_dist or self:weapon_range() or 20000
-	local tmp_vec_to = Vector3()
-	mvector3.set(tmp_vec_to, mvector3.copy(direction))
-	mvector3.multiply(tmp_vec_to, cone_distance)
-	mvector3.add(tmp_vec_to, mvector3.copy(from_pos))
+	--Get relevant slot masks and Idstrings
+	local ai_vision_ids = Idstring("ai_vision")
+	local bulletproof_ids = Idstring("bulletproof")
+	local enemy_mask = managers.slot:get_mask("player_autoaim")
+	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
+	local shield_mask = managers.slot:get_mask("enemy_shield_check")
 
-	local cone_radius = mvector3.distance(mvector3.copy(from_pos), mvector3.copy(tmp_vec_to)) / 4
-	local enemies_in_cone = self._unit:find_units("cone", from_pos, tmp_vec_to, cone_radius, managers.slot:get_mask("player_autoaim"))
-	local ignore_rng = nil
-	
+	--Get autoaim area bounds.
+	local max_angle = use_aim_assist and tweak_data.weapon.stat_info.aim_assist_angle or tweak_data.weapon.stat_info.autohit_angle
+	local cone_distance = max_dist or self.far_falloff_distance or 30000
+	local cone_radius = mvec3_dis(from_pos, tar_vec) * math.tan(max_angle)
+
+	--Set target vector to match the firing direction up to the max distance autohit can occur at.
+	mvector3.set(tar_vec, mvector3.copy(direction))
+	mvector3.multiply(tar_vec, cone_distance)
+	mvector3.add(tar_vec, mvector3.copy(from_pos))
+
+	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit. 
+	local enemies_in_cone = self._unit:find_units("cone", from_pos, tar_vec, cone_radius, managers.slot:get_mask("player_autoaim"))
+
+	--TODO: Figure out why the cone radius is sometimes way smaller than desired. Doesn't appear to be related to the aim assist check at all.
+	--Might be an issue with how distance is being handled, potentially.
 	for _, enemy in pairs(enemies_in_cone) do
-		local com = enemy:character_damage():get_ranged_attack_autotarget_data_fast().object:position()
+		--Get head and body positions of the enemy, and determine which one is closer to where the player was aiming to determine final raycast direction.
+		--An additional difficulty factor is added to the head's error value to make it slightly trickier to get- just like with a non-autohit bullet.
+		local enemy_pos_data = enemy:character_damage():get_ranged_attack_autotarget_data_fast()
+		
+		local head_pos = enemy_pos_data.head:position()
+		local head_vec_len = mvec3_dir(head_vec, from_pos, head_pos)
+		local head_error_angle = math.acos(mvec3_dot(direction, head_vec))
 
-		mvec3_set(tar_vec, com)
-		mvec3_sub(tar_vec, from_pos)
+		local body_pos = enemy_pos_data.body:position()
+		local body_vec_len = mvec3_dir(body_vec, from_pos, body_pos)
+		local body_error_angle = math.acos(mvec3_dot(direction, body_vec))
 
-		local tar_aim_dot = mvec3_dot(direction, tar_vec)
+		local tar_vec_len = 0
+		if head_error_angle * tweak_data.weapon.stat_info.autohit_head_difficulty_factor < body_error_angle then
+			mvec3_set(tar_vec, head_vec)
+			tar_vec_len = head_vec_len
+		else
+			mvec3_set(tar_vec, body_vec)
+			tar_vec_len = body_vec_len
+		end
 
-		if tar_aim_dot > 0 and (not max_dist or tar_aim_dot < max_dist) then
-			local tar_vec_len = math_clamp(mvec3_norm(tar_vec), 1, 6000)
-			local error_dot = mvec3_dot(direction, tar_vec)
-			local error_angle = math.acos(error_dot)
+		--Convert the target vector to originate from the player and go the distance to the enemy head.
+		mvec3_mul(tar_vec, tar_vec_len)
+		mvec3_add(tar_vec, from_pos)
 
-			if error_angle <= 1 then
-				local percent_error = error_angle / 1
+		--Check if this raycast is a valid path to the desired target or not.
+		local vis_ray = World:raycast_all("ray", from_pos, tar_vec, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units)
 
-				if not closest_error or percent_error < closest_error then
-					ignore_rng = true
-					tar_vec_len = tar_vec_len + 100
+		--Iterate through raycast until any enemy is hit. This will usually, but not always, be the desired target.
+		local units_hit = {}
+		for i, hit in ipairs(vis_ray) do
+			if not units_hit[hit.unit:key()] then
+				units_hit[hit.unit:key()] = true
 
-					mvec3_mul(tar_vec, tar_vec_len)
-					mvec3_add(tar_vec, from_pos)
-
-					local hit_enemy = false
-					local enemy_mask = managers.slot:get_mask("player_autoaim")
-					local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
-					local shield_mask = managers.slot:get_mask("enemy_shield_check")
-					local ai_vision_ids = Idstring("ai_vision")
-					local bulletproof_ids = Idstring("bulletproof")
-
-					local vis_ray = World:raycast_all("ray", from_pos, tar_vec, "slot_mask", slotmask, "ignore_unit", ignore_units)
-					local units_hit = {}
-					local unique_hits = {}
-
-					for i, hit in ipairs(vis_ray) do
-						if not units_hit[hit.unit:key()] then
-							units_hit[hit.unit:key()] = true
-							unique_hits[#unique_hits + 1] = hit
-							hit.hit_position = hit.position
-							hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
-							local weak_body = hit.body:has_ray_type(ai_vision_ids)
-							weak_body = weak_body or hit.body:has_ray_type(bulletproof_ids)
-
-							if hit_enemy then
-								break
-							elseif hit.unit:in_slot(wall_mask) then
-								if weak_body then
-									break
-								end
-							elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
-								break
-							end
-						end
-					end
-
-					for _, vis_ray in ipairs(unique_hits) do
-						if vis_ray and vis_ray.unit:key() == enemy:key() and (not closest_error or error_angle < closest_error) then
-							closest_error = error_angle
-							closest_ray = vis_ray
-
-							mvec3_set(tmp_vec1, com)
-							mvec3_sub(tmp_vec1, from_pos)
-
-							local d = mvec3_dot(direction, tmp_vec1)
-
-							mvec3_set(tmp_vec1, direction)
-							mvec3_mul(tmp_vec1, d)
-							mvec3_add(tmp_vec1, from_pos)
-							mvec3_sub(tmp_vec1, com)
-
-							closest_ray.distance_to_aim_line = mvec3_len(tmp_vec1)
-
-							break
-						end
-					end
+				if hit.unit:in_slot(enemy_mask) then
+					return hit
+				elseif hit.unit:in_slot(wall_mask) and (hit.body:has_ray_type(ai_vision_ids) or hit.body:has_ray_type(bulletproof_ids)) then
+					break
+				elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
+					break
 				end
 			end
 		end
 	end
-	
-	--log(tostring(ignore_rng))
-
-	return closest_ray
 end
+
 
 local mvec_to = Vector3()
 local mvec_spread_direction = Vector3()
-
 function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul)
 	if self:gadget_overrides_weapon_functions() then
 		return self:gadget_function_override("_fire_raycast", self, user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul)
 	end
 	local result = {}
 	local spread_x, spread_y = self:_get_spread(user_unit)
-	local ray_distance = self:weapon_range()
+	local ray_distance = self.far_falloff_distance or self:weapon_range()
 	local right = direction:cross(Vector3(0, 0, 1)):normalized()
 	local up = direction:cross(right):normalized()
 	local r = math.random()
@@ -564,24 +508,14 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	if suppression_enemies and self._suppression then
 		result.enemies_in_cone = suppression_enemies
 	end
-	
-	local aimassist = heat.Options:GetValue("AimAssist")
 
-	if aimassist then
-		local auto_hit_candidate = not hit_enemy and self:check_autoaim(from_pos, direction)
+	local auto_hit_candidate = not hit_enemy and self:check_autoaim(from_pos, direction)
+	if auto_hit_candidate then		
+		mvector3.set(mvec_to, from_pos)
+		mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
 
-		if auto_hit_candidate then
-			--local line2 = Draw:brush(Color.green:with_alpha(0.5), 5)
-			--line2:cylinder(from_pos, mvec_to, 1)
-		
-			mvector3.set(mvec_to, from_pos)
-			mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
-
-			ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
-			mvector3.set(mvec_spread_direction, mvec_to)
-			--local line = Draw:brush(Color.blue:with_alpha(0.5), 5)
-			--line:cylinder(from_pos, mvec_to, 1)
-		end
+		ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
+		mvector3.set(mvec_spread_direction, mvec_to)
 	end
 	
 	local hit_count = 0
@@ -756,19 +690,10 @@ function RaycastWeaponBase:_fire_sound(...)
 	end
 end
 
---Shell Shocked Skill Reset
-function RaycastWeaponBase:check_last_bullet_stagger()
-	if self:get_ammo_remaining_in_clip() >= self:get_ammo_max_per_clip() then
-		for _, category in ipairs(self:weapon_tweak_data().categories) do
-			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
-				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-				managers.hud:add_skill(category .. "_last_shot_stagger")
-				break
-			end
-		end
-	end
+function RaycastWeaponBase:update_next_shooting_time()
+	local next_fire = self._base_fire_rate / self:fire_rate_multiplier()
+	self._next_fire_allowed = self._next_fire_allowed + next_fire
 end
-
 
 --Adds auto fire sound fix, Shell Shocked skill, and MG Specialist skill.
 function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, target_unit)
@@ -783,7 +708,13 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local is_player = self._setup.user_unit == managers.player:player_unit()
 	local consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) or not is_player
 
+	if self._current_spread_area then
+		--log(math.round(self._current_spread_area*100)/100)
+	end
+
 	if is_player then
+		self._bloom_stacks = math.min(self._bloom_stacks + self._base_fire_rate, 1)
+
 		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 		if self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0 then
@@ -899,6 +830,69 @@ function RaycastWeaponBase:stop_shooting()
 	end
 end
 
+--Updates the position in the weapon kick pattern table, and returns the desired value.
+function RaycastWeaponBase:do_kick_pattern()
+	if not self._kick_pattern then
+		log(self._name_id .. " is missing a kick pattern!")
+		return {math.random(), math.random()}
+	end
+
+	self._curr_kick = self._curr_kick + math.round(math.random(self._kick_pattern.random_range[1], self._kick_pattern.random_range[2]))
+	if self._curr_kick > #self._kick_pattern.pattern then
+		self._curr_kick = self._curr_kick - #self._kick_pattern.pattern
+	end
+
+	return self._kick_pattern.pattern[self._curr_kick]
+end
+
+function RaycastWeaponBase:get_accuracy_addend()
+	return managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, nil, self:fire_mode(), self._blueprint)
+end
+
+--Calculate spread value. Done once per frame.
+function RaycastWeaponBase:update_spread(current_state, t, dt)	
+	if not current_state then
+		self._current_spread = 0
+		return
+	end
+
+	--Get spread area from accuracy stat.
+	local spread_area = self._spread + self:get_accuracy_addend() * tweak_data.weapon.stat_info.spread_per_accuracy
+
+	--Moving penalty to spread, based on stability stat- added to total area.
+	if current_state._moving or current_state._state_data.in_air then
+
+		--Get spread area from stability stat.
+		local moving_spread = math.max(self._spread_moving, 0)
+
+		--Add moving spread penalty reduction.
+		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
+
+		if current_state._state_data.in_air then
+			moving_spread = moving_spread * 2
+		end
+
+		spread_area = spread_area + moving_spread
+	end
+
+	--Apply bloom penalty to spread. Decay existing stacks if player is not firing.
+	if self._bloom_stacks > 0 and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay then
+		self._bloom_stacks = math.max(self._bloom_stacks - tweak_data.weapon.stat_info.bloom_data.decay * dt, 0)
+	end
+	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom * self:bloom_spread_penality_reduction())
+
+	--Apply skill multipliers to overall spread area.
+	spread_area = spread_area * tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
+
+	self._current_spread_area = spread_area
+
+	--Convert spread area to degrees.
+	self._current_spread = math.sqrt((spread_area)/math.pi)
+end
+
+function RaycastWeaponBase:multiply_bloom(amount)
+	self._bloom_stacks = self._bloom_stacks * amount
+end
 
 --Multipliers for overall spread.
 function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
@@ -909,23 +903,22 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 		mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase
 	end
 
+	local pm = managers.player
+
+	mul = mul * pm:get_property("desperado", 1)
+
 	if not current_state then
 		return mul
 	end
 
-	local pm = managers.player
-
 	if current_state:in_steelsight() then
+		mul = mul * pm:upgrade_value("weapon", "steelsight_accuracy_inc", 1)
 		for _, category in ipairs(self:categories()) do
 			mul = mul * pm:upgrade_value(category, "steelsight_accuracy_inc", 1)
 		end
-	else
-		for _, category in ipairs(self:categories()) do
-			mul = mul * pm:upgrade_value(category, "hip_fire_spread_multiplier", 1)
-		end
 	end
 
-	mul = mul * pm:get_property("desperado", 1)
+	mul = mul * pm:temporary_upgrade_value("temporary", "silent_precision", 1)
 
 	return mul
 end
@@ -939,57 +932,18 @@ function RaycastWeaponBase:moving_spread_penalty_reduction()
 	return spread_multiplier
 end
 
---Simpler spread function. Determines area bullets can hit then converts that to the max degrees by which the rays can fire.
+function RaycastWeaponBase:bloom_spread_penality_reduction()
+	local spread_multiplier = 1
+	for _, category in ipairs(self:weapon_tweak_data().categories) do
+		spread_multiplier = spread_multiplier * managers.player:upgrade_value(category, "bloom_spread_multiplier", 1)
+	end
+	return spread_multiplier
+end
+
+--Return cached spread value.
 function RaycastWeaponBase:_get_spread(user_unit)
-	local current_state = user_unit:movement()._current_state
-	if not current_state then
-		return 0, 0
-	end
-
-	--Get spread area from accuracy stat.
-	local spread_area = math.max(self._spread + 
-		managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) * tweak_data.weapon.stat_info.spread_per_accuracy, 0.05)
-	
-	--Moving penalty to spread, based on stability stat- added to total area.
-	if current_state._moving then
-		--Get spread area from stability stat.
-		local moving_spread = math.max(self._spread_moving + managers.blackmarket:stability_index_addend(self:categories(), self._silencer) * tweak_data.weapon.stat_info.spread_per_stability, 0)
-		--Add moving spread penalty reduction.
-		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
-		spread_area = spread_area + moving_spread
-	end
-
-	--Apply skill and stance multipliers to overall spread area.
-	local multiplier = tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
-	spread_area = spread_area * multiplier
-
-
-	--Convert spread area to degrees.
-	local spread_x = math.sqrt((spread_area)/math.pi)
-	local spread_y = spread_x
-
-	return spread_x, spread_y
-end
-
-function RaycastWeaponBase:on_equip(user_unit)
-	self:_check_magazine_empty()
-
-	if self._stagger_on_last_shot then
-		local categories = self:categories()
-		managers.hud:add_skill(categories[1] .. "_last_shot_stagger")
-	end
-end
-
-function RaycastWeaponBase:on_unequip(user_unit)
-	if self._tango_4_data then
-		self._tango_4_data = nil
-	end
-
-	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
-	managers.hud:remove_skill("bullet_hell")
-
-	local categories = self:categories()
-	managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
+	local spread = self._current_spread or self._spread
+	return spread, spread
 end
 
 function RaycastWeaponBase:remove_ammo(percent)

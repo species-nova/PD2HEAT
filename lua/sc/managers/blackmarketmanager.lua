@@ -98,7 +98,7 @@ function BlackMarketManager:_calculate_weapon_concealment(weapon)
 
 	local parts_stats = managers.weapon_factory:get_stats(factory_id, blueprint)
 
-	return math.min((base_stats.concealment + bonus + (parts_stats.concealment or 0) + (bonus_stats.concealment or 0)) * (modifiers_stats and modifiers_stats.concealment or 1), tweak_data.concealment_cap)
+	return math.min((base_stats.concealment + bonus + (parts_stats.concealment or 0) + (bonus_stats.concealment or 0)) * (modifiers_stats and modifiers_stats.concealment or 1), #tweak_data.weapon.stats.concealment)
 end
 
 function BlackMarketManager:get_silencer_concealment_modifiers(weapon)

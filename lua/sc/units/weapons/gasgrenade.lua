@@ -106,7 +106,8 @@ function GasGrenade:_do_damage()
 			ignore_deflection = true, 
 			col_ray = {
 				ray = math.UP
-			}
+			},
+			variant = "gas"
 		}
 
 		player_unit:character_damage():damage_gas(attack_data)

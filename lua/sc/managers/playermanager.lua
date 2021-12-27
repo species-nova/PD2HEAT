@@ -40,6 +40,7 @@ Hooks:PostHook(PlayerManager, "init", "ResInit", function(self)
 		power = 0, --% slow when first started.
 		start_time = 0 --Time when slow was started.
 	}
+	self._melee_knockdown_mul = 1
 end)
 
 --Make armor bot boost increase armor by % instead of adding.
@@ -98,8 +99,8 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Grinder and hitman speed bonuses.
 	local player_unit = self:player_unit()
 	if alive(player_unit) then
-		local hot_stacks = player_unit:character_damage()._damage_to_hot_stack
-		multiplier = multiplier + self:upgrade_value("player", "hot_speed_bonus", 0) * #hot_stacks or 0
+		local hot_stacks = player_unit:character_damage():get_hot_stacks()
+		multiplier = multiplier + self:upgrade_value("player", "hot_speed_bonus", 0) * hot_stacks
 
 		--Hitman movespeed bonus
 		if player_unit:character_damage():has_temp_health() then
@@ -110,6 +111,9 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Second Wind
 	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
 
+	--Fast Feet
+	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "sprint_speed_boost", 1) - 1
+
 	--Swan Song movespeed penalty.
 	if managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") then	
 		multiplier = multiplier * (tweak_data.upgrades.berserker_movement_speed_multiplier or 1)	
@@ -117,7 +121,7 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 
 	--Apply slowing debuff if active.
 	multiplier = multiplier * self:_slow_debuff_mult()
-
+	
 	return multiplier
 end
 
@@ -284,100 +288,50 @@ function PlayerManager:update(t, dt)
 	self:update_smoke_screens(t, dt)
 end
 
+--Now used to refresh active grinder stacks when damage is dealt.
+--Has no effect outside of grinder.
 function PlayerManager:_check_damage_to_hot(t, unit, damage_info)
+	if not self._hot_data.refesh_stacks_on_damage then
+		return
+	end
+
 	local player_unit = self:player_unit()
-
-	--Allow healing over time to be applied to select non-grinder perks using dummy heal_over_time upgrade.
-	if not self:has_category_upgrade("player", "damage_to_hot") and not self:has_category_upgrade("player", "heal_over_time") then
-		return
-	end
-	
-	if damage_info.attacker_unit:base() and damage_info.attacker_unit:base().sentry_gun then
-		return
-	end
-
 	if not alive(player_unit) or player_unit:character_damage():need_revive() or player_unit:character_damage():dead() then
 		return
 	end
 
-	if not alive(unit) or not unit:base() or not damage_info then
+	--Shouldn't happen, but just in case.
+	if not alive(unit) or not unit:base() then
 		return
 	end
 
-	if damage_info.is_fire_dot_damage then
+	--Non-hostile units do not refresh stacks.
+	if CopDamage.is_civilian(unit:base()._tweak_table) or not unit:brain():is_hostile() then
 		return
 	end
 
-	--Load alternate heal over time tweakdata if player is using Infiltrator or Rogue.
-	local data = tweak_data.upgrades.damage_to_hot_data
-	if self:has_category_upgrade("player", "melee_stacking_heal") then
-		data = tweak_data.upgrades.melee_to_hot_data
-	elseif self:has_category_upgrade("player", "dodge_stacking_heal") then
-		data = tweak_data.upgrades.dodge_to_hot_data
-	end
-
-	if not data then
-		return
-	end
-
-	if self._next_allowed_doh_t and t < self._next_allowed_doh_t then
-		return
-	end
-
-	local add_stack_sources = data.add_stack_sources or {}
-
-	if not add_stack_sources.swat_van and unit:base().sentry_gun then
-		return
-	elseif not add_stack_sources.civilian and CopDamage.is_civilian(unit:base()._tweak_table) then
-		return
-	end
-
-	if not add_stack_sources[damage_info.variant] then
-		return
-	end
-
-	if not unit:brain():is_hostile() then
-		return
-	end
-
-	local player_armor = managers.blackmarket:equipped_armor(data.works_with_armor_kit, true)
-
-	if not table.contains(data.armors_allowed or {}, player_armor) then
-		return
-	end
-
-	player_unit:character_damage():add_damage_to_hot()
-
-	self._next_allowed_doh_t = t + data.stacking_cooldown
+	player_unit:character_damage():refresh_hot_duration()
 end	
 
 --Messiah functions updated to work indefinitely but with a cooldown.
 function PlayerManager:refill_messiah_charges()
-	if self._max_messiah_charges then --Refill charges.
-		self._messiah_charges = self._max_messiah_charges
-	end
-
 	self._messiah_cooldown = 0
 end
 
 --Called when people jump to get up.
 function PlayerManager:use_messiah_charge()
-	if self:has_category_upgrade("player", "infinite_messiah") then --If player has infinite messiah, set the cooldown timer.
-		self._messiah_cooldown = Application:time() + 120 --Replace with tweakdata once we settle on something.
-		managers.hud:start_cooldown("messiah", 120)
-	elseif self._messiah_charges then --Eat a messiah charge if not infinite.
-		self._messiah_charges = math.max(self._messiah_charges - 1, 0)
-		managers.hud:remove_skill("messiah")
-	end
+	self._messiah_cooldown = Application:time() + 120 --Replace with tweakdata once we settle on something.
+	managers.hud:start_cooldown("messiah", 120)
 end
 
 --Called when players get kills while downed.
 function PlayerManager:_on_messiah_event()
 	if self._current_state == "bleed_out" and not self._coroutine_mgr:is_running("get_up_messiah") then
-		self._messiah_cooldown = self._messiah_cooldown - 10 --Downed kill CDR.
-		managers.hud:change_cooldown("messiah", -10)
-		if self._messiah_charges > 0 and self._messiah_cooldown < Application:time() then
+		if self._messiah_cooldown < Application:time() then
 			self._coroutine_mgr:add_coroutine("get_up_messiah", PlayerAction.MessiahGetUp, self)
+		else
+			self._messiah_cooldown = self._messiah_cooldown - 10 --Downed kill CDR.
+			managers.hud:change_cooldown("messiah", -10)
 		end
 	end
 end
@@ -448,18 +402,12 @@ function PlayerManager:damage_reduction_skill_multiplier(damage_type)
 			multiplier = multiplier * self:upgrade_value("player", "interacting_damage_multiplier", 1) --Nerves of Steel Ace
 		elseif current_state:in_melee() then
 			local melee_name_id = managers.blackmarket:equipped_melee_weapon()
-			if damage_type == "bullet" then --Counter Strike
-				multiplier = multiplier * self:upgrade_value("player", "deflect_ranged", 1)
-			end
+			multiplier = multiplier * self:upgrade_value("player", "deflect_ranged", 1) --Iron Knuckles Ace
 
 			if tweak_data.blackmarket.melee_weapons[melee_name_id].block then --Buck shield.
 				multiplier = multiplier * tweak_data.blackmarket.melee_weapons[melee_name_id].block
 			end
 		end
-	end
-	
-	if self._current_state == "bipod" then
-		multiplier = multiplier * self:upgrade_value("player", "bipod_damage_reduction", 1) --Heavy Impact
 	end
 
 	return multiplier
@@ -479,9 +427,10 @@ function PlayerManager:skill_dodge_chance(running, crouching, on_zipline, overri
 	return chance
 end
 
---Now can also trigger from Yakuza DR.
+--Now can also trigger from Yakuza DR. No longer triggers from damage skills
 function PlayerManager:is_damage_health_ratio_active(health_ratio)
-	return self:has_category_upgrade("player", "melee_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "melee") > 0 or self:has_category_upgrade("player", "resistance_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "armor_regen") > 0 or self:has_category_upgrade("player", "damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "damage") > 0 or self:has_category_upgrade("player", "movement_speed_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "movement_speed") > 0
+	return self:has_category_upgrade("player", "resistance_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "armor_regen") > 0
+		or self:has_category_upgrade("player", "movement_speed_damage_health_ratio_multiplier") and self:get_damage_health_ratio(health_ratio, "movement_speed") > 0
 end
 
 function PlayerManager:health_skill_multiplier()
@@ -502,75 +451,77 @@ function PlayerManager:check_skills()
 	self._saw_panic_when_kill = self:has_category_upgrade("saw", "panic_when_kill")
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
 	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
+	self._slow_duration_multiplier = self:upgrade_value("player", "slow_duration_multiplier", 1)
 
 	--Make Trigger Happy and Desperado stack off of headshots.
 	if self:has_category_upgrade("pistol", "stacked_accuracy_bonus") then
-		self._message_system:register(Message.OnHeadShot, self, callback(self, self, "_on_expert_handling_event"))
+		self:register_message(Message.OnHeadShot, self, callback(self, self, "_on_expert_handling_event"))
 	else
-		self._message_system:unregister(Message.OnHeadShot, self)
+		self:unregister_message(Message.OnHeadShot, self)
 	end
 
 	if self:has_category_upgrade("pistol", "stacking_hit_damage_multiplier") then
-		self._message_system:register(Message.OnHeadShot, "trigger_happy", callback(self, self, "_on_enter_trigger_happy_event"))
+		self:register_message(Message.OnHeadShot, "trigger_happy", callback(self, self, "_on_enter_trigger_happy_event"))
 	else
-		self._message_system:unregister(Message.OnHeadShot, "trigger_happy")
+		self:unregister_message(Message.OnHeadShot, "trigger_happy")
 	end
 
+	self._bloodthirst_stacks = 0
 	if self:has_category_upgrade("player", "melee_damage_stacking") then
-		local function start_bloodthirst_base(weapon_unit, variant)
-			if variant ~= "melee" and not self._coroutine_mgr:is_running(PlayerAction.BloodthirstBase) then
-				local data = self:upgrade_value("player", "melee_damage_stacking", nil)
-
-				if data and type(data) ~= "number" then
-					self._coroutine_mgr:add_coroutine(PlayerAction.BloodthirstBase, PlayerAction.BloodthirstBase, self, data.melee_multiplier, data.max_multiplier)
-				end
-			end
-		end
-
-		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_base", start_bloodthirst_base)
+		self._bloodthirst_data = self:upgrade_value("player", "melee_damage_stacking", nil)
+		self:register_message(Message.OnEnemyKilled, "bloodthirst_stacking", callback(self, self, "_trigger_bloodthirst"))
+		self:register_message(Message.OnEnemyHit, "bloodthirst_consuming", callback(self, self, "_consume_bloodthirst"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_base")
+		self._bloodthirst_data = nil
+		self:unregister_message(Message.OnEnemyKilled, "bloodthirst_stacking")
+		self:unregister_message(Message.OnEnemyHit, "bloodthirst_consuming")
 	end
 
 
 	if self:has_category_upgrade("player", "messiah_revive_from_bleed_out") then
-		self._messiah_charges = self:upgrade_value("player", "messiah_revive_from_bleed_out", 0)
-		self._max_messiah_charges = self._messiah_charges
 		self._messiah_cooldown = 0
-		self._message_system:register(Message.OnEnemyKilled, "messiah_revive_from_bleed_out", callback(self, self, "_on_messiah_event"))
+		self:register_message(Message.OnEnemyKilled, "messiah_revive_from_bleed_out", callback(self, self, "_on_messiah_event"))
 	else
-		self._messiah_charges = 0	--Messiah init stuff to handle how the skill was changed.
-		self._max_messiah_charges = self._messiah_charges
-		self._messiah_cooldown = 0
-		self._message_system:unregister(Message.OnEnemyKilled, "messiah_revive_from_bleed_out")
+		self._messiah_cooldown = nil
+		self:unregister_message(Message.OnEnemyKilled, "messiah_revive_from_bleed_out")
 	end
 
 	if self:has_category_upgrade("player", "recharge_messiah") then
-		self._message_system:register(Message.OnDoctorBagUsed, "recharge_messiah", callback(self, self, "_on_messiah_recharge_event"))
+		self:register_message(Message.OnDoctorBagUsed, "recharge_messiah", callback(self, self, "_on_messiah_recharge_event"))
 	else
-		self._message_system:unregister(Message.OnDoctorBagUsed, "recharge_messiah")
+		self:unregister_message(Message.OnDoctorBagUsed, "recharge_messiah")
 	end
 
 	if self:has_category_upgrade("temporary", "single_shot_fast_reload") then
-		self._message_system:register(Message.OnLethalHeadShot, "activate_aggressive_reload", callback(self, self, "_on_activate_aggressive_reload_event"))
+		self:register_message(Message.OnLethalHeadShot, "activate_aggressive_reload", callback(self, self, "_on_activate_aggressive_reload_event"))
 	else
-		self._message_system:unregister(Message.OnLethalHeadShot, "activate_aggressive_reload")
+		self:unregister_message(Message.OnLethalHeadShot, "activate_aggressive_reload")
+	end
+
+	if self:has_category_upgrade("assault_rifle", "headshot_bloom_reduction") then
+		self:register_message(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill", callback(self, self, "_trigger_rapid_reset_bloom_reduction"))
+	else
+		self:unregister_message(Message.OnLethalHeadShot, "reduce_bloom_from_headshot_kill")
 	end
 
 	if self:has_category_upgrade("player", "head_shot_ammo_return") then
 		self._ammo_efficiency = self:upgrade_value("player", "head_shot_ammo_return", nil)
-
-		self._message_system:register(Message.OnHeadShot, "ammo_efficiency", callback(self, self, "_on_enter_ammo_efficiency_event"))
+		self:register_message(Message.OnHeadShot, "ammo_efficiency", callback(self, self, "_on_enter_ammo_efficiency_event"))
 	else
 		self._ammo_efficiency = nil
+		self:unregister_message(Message.OnHeadShot, "ammo_efficiency")
+	end
 
-		self._message_system:unregister(Message.OnHeadShot, "ammo_efficiency")
+	if self:has_category_upgrade("player", "melee_kill_auto_load") then
+		self:register_message(Message.OnEnemyKilled, "snatch_auto_load", callback(self, self, "_trigger_snatch_auto_load"))
+	else
+		self:unregister_message(Message.OnEnemyKilled, "snatch_auto_load")
 	end
 
 	if self:has_category_upgrade("player", "melee_kill_increase_reload_speed") then
-		self._message_system:register(Message.OnEnemyKilled, "bloodthirst_reload_speed", callback(self, self, "_on_enemy_killed_bloodthirst"))
+		self:register_message(Message.OnEnemyKilled, "snatch_reload_speed", callback(self, self, "_on_enemy_killed_bloodthirst"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "bloodthirst_reload_speed")
+		self:unregister_message(Message.OnEnemyKilled, "snatch_reload_speed")
 	end
 
 	if self:has_category_upgrade("player", "super_syndrome") then
@@ -579,11 +530,25 @@ function PlayerManager:check_skills()
 		self._super_syndrome_count = 0
 	end
 
-	--New resmod skills for dodge.
-	if self:has_category_upgrade("player", "dodge_stacking_heal") then
-		self:register_message(Message.OnPlayerDodge, "dodge_stack_health_regen", callback(self, self, "_dodge_stack_health_regen"))
+	self._hot_data = self:upgrade_value("player", "heal_over_time", {})
+	if self._hot_data.source then
+		if self._hot_data.source == "rogue" then
+			self:register_message(Message.OnPlayerDodge, "dodge_stack_health_regen", callback(self, self, "_trigger_heal_over_time"))
+			self:unregister_message(Message.OnEnemyHit, "melee_stack_health_regen")
+			self:unregister_message(Message.OnEnemyKilled, "kill_stack_health_regen")
+		elseif self._hot_data.source == "infiltrator" then
+			self:register_message(Message.OnEnemyHit, "melee_stack_health_regen", callback(self, self, "_trigger_heal_over_time"))
+			self:unregister_message(Message.OnPlayerDodge, "dodge_stack_health_regen")
+			self:unregister_message(Message.OnEnemyKilled, "kill_stack_health_regen")
+		elseif self._hot_data.source == "grinder" then
+			self:register_message(Message.OnEnemyKilled, "kill_stack_health_regen", callback(self, self, "_trigger_heal_over_time"))
+			self:unregister_message(Message.OnPlayerDodge, "dodge_stack_health_regen")
+			self:unregister_message(Message.OnEnemyHit, "melee_stack_health_regen")
+		end
 	else
 		self:unregister_message(Message.OnPlayerDodge, "dodge_stack_health_regen")
+		self:unregister_message(Message.OnEnemyHit, "melee_stack_health_regen")
+		self:unregister_message(Message.OnEnemyKilled, "kill_stack_health_regen")
 	end
 
 	if self:has_category_upgrade("player", "bomb_cooldown_reduction") then
@@ -600,9 +565,7 @@ function PlayerManager:check_skills()
 
 	if managers.blackmarket:equipped_grenade() == "smoke_screen_grenade" then
 		local function speed_up_on_kill()
-			if #managers.player:smoke_screens() == 0 then
-				managers.player:speed_up_grenade_cooldown(1)
-			end
+			managers.player:speed_up_grenade_cooldown(1)
 		end
 
 		self:register_message(Message.OnEnemyKilled, "speed_up_smoke_grenade", speed_up_on_kill)
@@ -619,78 +582,102 @@ function PlayerManager:check_skills()
 	end
 
 	if self:has_category_upgrade("temporary", "headshot_accuracy_addend") then
-		self._message_system:register(Message.OnHeadShot, "sharpshooter", callback(self, self, "_trigger_sharpshooter"))
+		self:register_message(Message.OnHeadShot, "sharpshooter", callback(self, self, "_trigger_sharpshooter"))
 	else
-		self._message_system:unregister(Message.OnHeadShot, "sharpshooter")
+		self:unregister_message(Message.OnHeadShot, "sharpshooter")
 	end
 
 	if self:has_category_upgrade("player", "store_temp_health") then
-		self._message_system:register(Message.OnEnemyKilled, "hitman_temp_health", callback(self, self, "_trigger_hitman")) --Triggers include killing his dog and stealing his car.
+		self:register_message(Message.OnEnemyKilled, "hitman_temp_health", callback(self, self, "_trigger_hitman")) --Triggers include killing his dog and stealing his car.
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "hitman_temp_health")
+		self:unregister_message(Message.OnEnemyKilled, "hitman_temp_health")
 	end
 
 	if self:has_category_upgrade("player", "armor_health_store_amount") then
-		self._message_system:register(Message.OnEnemyKilled, "expres_store_health", callback(self, self, "_trigger_expres"))
+		self:register_message(Message.OnEnemyKilled, "expres_store_health", callback(self, self, "_trigger_expres"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "expres_store_health")
+		self:unregister_message(Message.OnEnemyKilled, "expres_store_health")
 	end
 
 	if self:has_category_upgrade("player", "kill_change_regenerate_speed") then
-		self._message_system:register(Message.OnEnemyKilled, "ex_pres_regen_armor", callback(self, self, "_trigger_expres_armor"))
+		self:register_message(Message.OnEnemyKilled, "ex_pres_regen_armor", callback(self, self, "_trigger_expres_armor"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "ex_pres_regen_armor")
+		self:unregister_message(Message.OnEnemyKilled, "ex_pres_regen_armor")
 	end
 
 	if self:has_category_upgrade("player", "kill_dodge_regen") then
-		self._message_system:register(Message.OnEnemyKilled, "yakuza_on_kill_dodge", callback(self, self, "_trigger_yakuza"))
+		self:register_message(Message.OnEnemyKilled, "yakuza_on_kill_dodge", callback(self, self, "_trigger_yakuza"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "yakuza_on_kill_dodge")
+		self:unregister_message(Message.OnEnemyKilled, "yakuza_on_kill_dodge")
 	end
 
 	if self:has_category_upgrade("player", "biker_armor_regen") then
-		self._message_system:register(Message.OnEnemyKilled, "biker_melee_armor", callback(self, self, "_trigger_biker"))
+		self:register_message(Message.OnEnemyKilled, "biker_melee_armor", callback(self, self, "_trigger_biker"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "biker_melee_armor")
+		self:unregister_message(Message.OnEnemyKilled, "biker_melee_armor")
 	end
 
 	if self:has_category_upgrade("cooldown", "melee_kill_life_leech") then
-		self._message_system:register(Message.OnEnemyKilled, "sociopath_melee_health", callback(self, self, "_trigger_sociopath_heal"))
+		self:register_message(Message.OnEnemyKilled, "sociopath_melee_health", callback(self, self, "_trigger_sociopath_heal"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_melee_health")
+		self:unregister_message(Message.OnEnemyKilled, "sociopath_melee_health")
 	end
 
 	if self:has_category_upgrade("cooldown", "killshot_regen_armor_bonus") then
-		self._message_system:register(Message.OnEnemyKilled, "sociopath_armor", callback(self, self, "_trigger_sociopath_armor"))
+		self:register_message(Message.OnEnemyKilled, "sociopath_armor", callback(self, self, "_trigger_sociopath_armor"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "sociopath_armor")
+		self:unregister_message(Message.OnEnemyKilled, "sociopath_armor")
 	end
 
 	if self:has_category_upgrade("player", "overheat_stacking") then
-		self._message_system:register(Message.OnEnemyKilled, "overheat_stacking", callback(self, self, "_trigger_overheat_stack"))
+		self:register_message(Message.OnEnemyKilled, "overheat_stacking", callback(self, self, "_trigger_overheat_stack"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "overheat_stacking")
+		self:unregister_message(Message.OnEnemyKilled, "overheat_stacking")
 	end
 
 	if self:has_category_upgrade("temporary", "bullet_hell") and self:upgrade_value("temporary", "bullet_hell")[1].kill_refund > 0 then
-		self._message_system:register(Message.OnEnemyKilled, "bullet_hell_reload", callback(self, self, "_trigger_bullet_hell_reload"))
+		self:register_message(Message.OnEnemyKilled, "bullet_hell_reload", callback(self, self, "_trigger_bullet_hell_reload"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "bullet_hell_reload")
+		self:unregister_message(Message.OnEnemyKilled, "bullet_hell_reload")
 	end
 
 	if self:has_category_upgrade("player", "sprint_kill_stamina_regen") then
-		self._message_system:register(Message.OnEnemyKilled, "sprint_kill_stamina_regen", callback(self, self, "_trigger_sprint_kill_stamina_regen"))
+		self:register_message(Message.OnEnemyKilled, "sprint_kill_stamina_regen", callback(self, self, "_trigger_sprint_kill_stamina_regen"))
 	else
-		self._message_system:unregister(Message.OnEnemyKilled, "sprint_kill_stamina_regen")
+		self:unregister_message(Message.OnEnemyKilled, "sprint_kill_stamina_regen")
 	end
+
+	if self:has_category_upgrade("player", "survive_one_hit_kill_cdr") then
+		self:register_message(Message.OnEnemyKilled, "yakuza_on_kill_cdr", callback(self, self, "_trigger_survive_one_hit_cdr"))
+	else
+		self:unregister_message(Message.OnEnemyKilled, "yakuza_on_kill_cdr")
+	end
+
+	self._hyper_crit_stacks = 0
+	if self:has_category_upgrade("player", "hyper_crits") then
+		self:register_message(Message.OnWeaponFired, "consume_hyper_crit_stack", callback(self, self, "_consume_hyper_crit_stack"))
+		self:register_message(Message.OnEnemyKilled, "trigger_hyper_crits", callback(self, self, "_trigger_hyper_crits"))
+	else
+		self:unregister_message(Message.OnWeaponFired, "consume_hyper_crit_stack")
+		self:unregister_message(Message.OnEnemyKilled, "trigger_hyper_crits")
+	end
+
+	if self:has_category_upgrade("player", "melee_hit_stamina") then
+		self:register_message(Message.OnEnemyHit, "fast_feet", callback(self, self, "_trigger_melee_hit_stamina"))
+	else
+		self:unregister_message(Message.OnEnemyHit, "fast_feet")
+	end
+end
+
+--Passes on a notification when an enemy is hit with a melee attack.
+function PlayerManager:enemy_hit(unit, attack_data)
+	self._message_system:notify(Message.OnEnemyHit, nil, self._unit, attack_data)
 end
 
 local mvec3_norm = mvector3.normalize
 local mvec3_dis_sq = mvector3.distance_sq
 local mvec3_cpy = mvector3.copy
-
 local ovh_idstr = Idstring("effects/pd2_mod_heatgen/explosions/overheat")
-
 function PlayerManager:enemy_shot(unit, attack_data)
 	self._message_system:notify(Message.OnEnemyShot, nil, self._unit, attack_data)
 
@@ -923,6 +910,10 @@ function PlayerManager:_internal_load()
 		managers.hud:add_skill("long_dis_revive")
 	end
 
+	if self:has_category_upgrade("cooldown", "survive_one_hit") then
+		managers.hud:add_skill("survive_one_hit")
+	end
+
 	if self:has_category_upgrade("cooldown", "shotgun_reload_interrupt_stagger") then
 		managers.hud:add_skill("shotgun_reload_interrupt_stagger")
 	end
@@ -948,8 +939,7 @@ function PlayerManager:_internal_load()
 	--Removed armor kit weirdness.
 
 	--Fully loaded aced checks
-	self._throwable_chance_data = self:upgrade_value("player", "regain_throwable_from_ammo", {chance = 0, chance_inc = 0})
-	self._throwable_chance = self._throwable_chance_data.chance
+	self._ammo_boxes_until_throwable = self:upgrade_value("player", "regain_throwable_from_ammo")
 
 	--Reset when players are spawned, just in case.
 	self._slow_data = {
@@ -962,16 +952,24 @@ function PlayerManager:_internal_load()
 	self._detection_risk = math.round(managers.blackmarket:get_suspicion_offset_of_local(tweak_data.player.SUSPICION_OFFSET_LERP or 0.75) * 100)
 end
 
---Why these aren't all handled here will eternally baffle me.
---Will move everything in here soon.
---Adds Underdog basic.
-function PlayerManager:get_melee_dmg_multiplier()
-	return self._melee_dmg_mul * (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
+function PlayerManager:set_melee_knockdown_multiplier(value)
+	self._melee_knockdown_mul = value
 end
 
---Adds rogue health regen stack on dodge.
-function PlayerManager:_dodge_stack_health_regen()
-	self:player_unit():character_damage():add_damage_to_hot()
+function PlayerManager:reset_melee_knockdown_multiplier()
+	self._melee_knockdown_mul = 1
+end
+
+function PlayerManager:get_melee_knockdown_multiplier() 
+	return self._melee_knockdown_mul
+end
+
+--Moves skills to here for a central point of contact for melee damage multipliers.
+function PlayerManager:get_melee_dmg_multiplier()
+	return self._melee_dmg_mul
+		* managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
+		* (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
+		* self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
 end
 
 --Cuts Sicario smock bomb cooldown on kills while inside smoke bomb.
@@ -999,6 +997,14 @@ function PlayerManager:_dodge_healing_no_armor()
 	end
 end
 
+--Adds a stack of health regen, may be called by multiple different listeners.
+--Rogue calls it on dodge.
+--Infiltrator calls it on melee hit.
+--Grinder calls it on kill.
+function PlayerManager:_trigger_heal_over_time()
+	self:player_unit():character_damage():add_hot_stack()
+end
+
 --Boosts ROF on headshot gills with single fire guns.
 function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	local weapon_unit = self:equipped_weapon_unit()
@@ -1011,24 +1017,51 @@ function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	end
 end
 
-function PlayerManager:can_hyper_crit()
-	local damage_ext = self:player_unit():character_damage()
-	if not (damage_ext:get_real_armor() > 0) and damage_ext:can_hyper_crit() then
-		return true
-	end
+function PlayerManager:_trigger_melee_hit_stamina()
+	self:player_unit():movement():add_stamina(self:upgrade_value("player", "melee_hit_stamina"))
+end
 
-	return false
+function PlayerManager:can_hyper_crit()
+	return self._hyper_crit_stacks > 0
+end
+
+function PlayerManager:_consume_hyper_crit_stack(unit, result)
+	if self._hyper_crit_stacks > 0 then
+		self._hyper_crit_stacks = self._hyper_crit_stacks - 1
+		managers.hud:set_stacks("hyper_crits", self._hyper_crit_stacks)
+	end
+end
+
+function PlayerManager:_trigger_hyper_crits(equipped_unit, variant, killed_unit)
+	if variant == "melee" then
+		self._hyper_crit_stacks = self:upgrade_value("player", "hyper_crits")
+		managers.hud:set_stacks("hyper_crits", self._hyper_crit_stacks)
+	end
 end
 
 function PlayerManager:_on_activate_aggressive_reload_event(attack_data)
-	if attack_data and attack_data.variant ~= "projectile" then
+	if attack_data and attack_data.variant == "bullet" then
 		local weapon_unit = self:equipped_weapon_unit()
 
 		if weapon_unit then
 			local weapon = weapon_unit:base()
 
-			if weapon and (weapon:fire_mode() == "single" or self:upgrade_value("temporary", "single_shot_fast_reload")[3] == true) and weapon:is_category("assault_rifle", "snp") then
+			if weapon and weapon:is_category("assault_rifle", "snp") then
 				self:activate_temporary_upgrade("temporary", "single_shot_fast_reload")
+			end
+		end
+	end
+end
+
+function PlayerManager:_trigger_rapid_reset_bloom_reduction(attack_data)
+	if attack_data and attack_data.variant == "bullet" then
+		local weapon_unit = self:equipped_weapon_unit()
+
+		if weapon_unit then
+			local weapon = weapon_unit:base()
+
+			if weapon and weapon:is_category("assault_rifle", "snp") then
+				weapon:multiply_bloom(self:upgrade_value("assault_rifle", "headshot_bloom_reduction", 1))
 			end
 		end
 	end
@@ -1067,7 +1100,7 @@ end
 function PlayerManager:apply_slow_debuff(duration, power)
 	if power > 1 - self:_slow_debuff_mult() then
 		self._slow_data = {
-			duration = duration,
+			duration = duration * self._slow_duration_multiplier,
 			power = power,
 			start_time = Application:time()
 		}
@@ -1118,6 +1151,35 @@ function PlayerManager:_on_spawn_extra_ammo_event(killed_unit)
 		managers.network:session():send_to_host("sync_spawn_extra_ammo", killed_unit)
 	else
 		self:spawn_extra_ammo(killed_unit)
+	end
+end
+
+--Because listeners execute after the frame they are called on, vanilla Bloodthirst can fail to catch some kills since the coroutine to handle stacks doesn't exist yet.
+--The solution is to directly handle it inside PlayerManager, since the couroutine pretty much just existed to change PlayerManager state anyway.
+function PlayerManager:_trigger_bloodthirst(weapon_unit, variant)
+	if variant ~= "melee" and not self._coroutine_mgr:is_running(PlayerAction.BloodthirstBase) then
+		self._bloodthirst_stacks = math.min(self._bloodthirst_stacks + 1, self._bloodthirst_data.max_stacks)
+		managers.hud:set_stacks("bloodthirst_stacks", self._bloodthirst_stacks)
+		self:set_melee_knockdown_multiplier(1 + (self._bloodthirst_stacks * self._bloodthirst_data.knockdown_multiplier))
+		self:set_melee_dmg_multiplier(1 + (self._bloodthirst_stacks * self._bloodthirst_data.damage_multiplier))
+	end
+end
+
+--Likewise, we make bloodthirst go away after a melee hit instead of a melee kill.
+function PlayerManager:_consume_bloodthirst(unit, attack_data)
+	self._bloodthirst_stacks = 0
+	managers.hud:remove_skill("bloodthirst_stacks")
+	managers.player:reset_melee_knockdown_multiplier()
+	managers.player:reset_melee_dmg_multiplier()
+end
+
+function PlayerManager:_trigger_snatch_auto_load(equipped_unit, variant, killed_unit)
+	if variant == "melee" then
+		local weapon_unit = equipped_unit:base()
+		local bullets_loaded = weapon_unit:get_ammo_remaining_in_clip() + self:upgrade_value("player", "melee_kill_auto_load", 0)
+		bullets_loaded = math.min(bullets_loaded, math.min(weapon_unit:get_ammo_total(), weapon_unit:get_ammo_max_per_clip()))
+		weapon_unit:set_ammo_remaining_in_clip(bullets_loaded)
+		managers.hud:set_ammo_amount(weapon_unit:selection_index(), weapon_unit:ammo_info())
 	end
 end
 
@@ -1223,6 +1285,10 @@ function PlayerManager:_trigger_overheat_stack(equipped_unit, variant, killed_un
 	managers.hud:set_stacks("overheat_stacks", math.min(math.round(self:get_temporary_property("overheat_stacks", 0) / stacking_data.chance_inc), 6))
 end
 
+function PlayerManager:_trigger_survive_one_hit_cdr(equipped_unit, variant, killed_unit)
+	self:extend_cooldown_upgrade("cooldown", "survive_one_hit", -self:upgrade_value("player", "survive_one_hit_kill_cdr"))
+end
+
 function PlayerManager:_attempt_chico_injector()
 	if self:has_activate_temporary_upgrade("temporary", "chico_injector") then
 		return false
@@ -1245,18 +1311,6 @@ function PlayerManager:_attempt_chico_injector()
 	damage_ext:fill_dodge_meter(damage_ext:get_dodge_points() * self:upgrade_value("player", "chico_injector_dodge", 0))
 
 	return true
-end
-
---The vanilla version of this function is actually nonfunctional. No wonder it's never used.
---This fixes it to fulfill its intended purpose of letting active temporary upgrade durations be changed.
-function PlayerManager:extend_temporary_upgrade(category, upgrade, time)
-	local upgrade_value = self:upgrade_value(category, upgrade)
-
-	if upgrade_value == 0 then
-		return
-	end
-
-	self._temporary_upgrades[category][upgrade].expire_time = self._temporary_upgrades[category][upgrade].expire_time + time
 end
 
 --Restores 1 down when enough assaults have passed and bots have the skill. Counter is paused when player is in custody or has max revives; or if the crew loses access to the skill.
@@ -1350,14 +1404,17 @@ end
 
 --Replacement for vanilla fully loaded throwable coroutine. The vanilla code has 0 benefits from being a coroutine, and it seems to have issues resetting the chance or firing at all.
 function PlayerManager:regain_throwable_from_ammo()
-	local roll = math.random()
-	
-	if self._throwable_chance then --Fixes bizzare startup crash
-		if roll < self._throwable_chance then
-			self._throwable_chance = self._throwable_chance_data.chance
-			self:add_grenade_amount(1, true)
-		else
-			self._throwable_chance = self._throwable_chance + self._throwable_chance_data.chance_inc
+	if self._ammo_boxes_until_throwable then --Cheap workaround for vanilla main menu somehow calling this code and causing crashes.
+		local peer_id = managers.network:session():local_peer():id()
+		local curr_amount = self._global.synced_grenades[peer_id].amount
+		local max_amount = self:get_max_grenades()
+
+		if Application:digest_value(curr_amount, false) < max_amount then
+			self._ammo_boxes_until_throwable = self._ammo_boxes_until_throwable - 1	
+			if self._ammo_boxes_until_throwable == 0 then
+				self:add_grenade_amount(1, true)
+				self._ammo_boxes_until_throwable = self:upgrade_value("player", "regain_throwable_from_ammo")
+			end
 		end
 	end
 end
@@ -1415,6 +1472,15 @@ function PlayerManager:use_cooldown_upgrade(category, upgrade, default)
 	end
 end
 
+function PlayerManager:extend_cooldown_upgrade(category, upgrade, time)
+	local cooldown_timestamp = self._global.cooldown_upgrades[category] and self._global.cooldown_upgrades[category][upgrade] and self._global.cooldown_upgrades[category][upgrade].cooldown_time
+
+	if cooldown_timestamp then	
+		self._global.cooldown_upgrades[category][upgrade].cooldown_time = cooldown_timestamp + time
+		managers.hud:change_cooldown(upgrade, time)
+	end
+end
+
 --Adds buff tracker call.
 function PlayerManager:activate_temporary_upgrade(category, upgrade)
 	local upgrade_value = self:upgrade_value(category, upgrade)
@@ -1466,6 +1532,18 @@ function PlayerManager:deactivate_temporary_upgrade(category, upgrade)
 
 	self._temporary_upgrades[category][upgrade] = nil
 	managers.hud:remove_skill(upgrade)
+end
+
+--The vanilla version of this function is actually nonfunctional. No wonder it's never used.
+--This fixes it to fulfill its intended purpose of letting active temporary upgrade durations be changed.
+function PlayerManager:extend_temporary_upgrade(category, upgrade, time)
+	local upgrade_value = self:upgrade_value(category, upgrade)
+
+	if upgrade_value == 0 then
+		return
+	end
+
+	self._temporary_upgrades[category][upgrade].expire_time = self._temporary_upgrades[category][upgrade].expire_time + time
 end
 
 --Returns the value for an upgrade that scales off of the number of nearby enemies.
@@ -1539,4 +1617,37 @@ function PlayerManager:_add_equipment(params)
 	for i = 1, #amount do
 		self:add_equipment_amount(equipment, amount[i], i)
 	end
+end
+
+--Use the old version of this function prior to Overkill's update because they don't invalidate the cached value properly in menus.
+function PlayerManager:get_value_from_risk_upgrade(risk_upgrade, detection_risk)
+	local risk_value = 0
+
+	if not detection_risk then
+		detection_risk = managers.blackmarket:get_suspicion_offset_of_local(tweak_data.player.SUSPICION_OFFSET_LERP or 0.75)
+		detection_risk = math.round(detection_risk * 100)
+	end
+
+	if risk_upgrade and type(risk_upgrade) == "table" then
+		local value = risk_upgrade[1]
+		local step = risk_upgrade[2]
+		local operator = risk_upgrade[3]
+		local threshold = risk_upgrade[4]
+		local cap = risk_upgrade[5]
+		local num_steps = 0
+
+		if operator == "above" then
+			num_steps = math.max(math.floor((detection_risk - threshold) / step), 0)
+		elseif operator == "below" then
+			num_steps = math.max(math.floor((threshold - detection_risk) / step), 0)
+		end
+
+		risk_value = num_steps * value
+
+		if cap then
+			risk_value = math.min(cap, risk_value) or risk_value
+		end
+	end
+
+	return risk_value
 end

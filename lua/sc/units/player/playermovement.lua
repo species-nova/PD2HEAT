@@ -15,7 +15,31 @@ function PlayerMovement:init(...)
 	self._underdog_chk_t = 0
 	self._nr_close_guys = 0
 	self._sprint_cost_multiplier = managers.player:upgrade_value("player", "armor_full_cheap_sprint", 1)
+	self._has_stamina_dash_skill = managers.player:has_category_upgrade("temporary", "sprint_speed_boost")
+	self._can_stamina_dash = true
+
+	self._crosshair_states = {
+		standard = true,
+		carry = true,
+		bipod = true
+	}
 end
+
+--Determines states to show/hide crosshair panel in.
+
+local change_state = PlayerMovement.change_state
+function PlayerMovement:change_state(name)
+	change_state(self, name)
+
+	if not self._current_state_name then return end
+
+	if self._crosshair_states[self._current_state_name] then
+		managers.hud:show_crosshair_panel(true)
+	else
+		managers.hud:show_crosshair_panel(false)
+	end
+end
+
 
 function PlayerMovement:on_SPOOCed(enemy_unit, flying_strike)
 	if managers.player:has_category_upgrade("player", "counter_strike_spooc") and self._current_state.in_melee and self._current_state:in_melee() and not tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()].chainsaw then
@@ -202,6 +226,18 @@ end
 
 function PlayerMovement:deactivate_cheap_sprint()
 	self._sprint_cost_multiplier = 1
+end
+
+function PlayerMovement:attempt_sprint_dash()
+	if self._can_stamina_dash then
+		managers.player:activate_temporary_upgrade("temporary", "sprint_speed_boost")
+		self._can_stamina_dash = false
+	end
+end
+
+function PlayerMovement:add_stamina(value)
+	self._can_stamina_dash = self._has_stamina_dash_skill
+	self:_change_stamina(math.abs(value) * managers.player:upgrade_value("player", "stamina_regen_multiplier", 1))
 end
 
 function PlayerMovement:update_stamina(t, dt, ignore_running, cost_multiplier)

@@ -27,8 +27,8 @@ local next_g = next
 local table_insert = table.insert
 local table_remove = table.remove
 
---Set to true to Log every spawn group + units spawned. (WARNING: MODERATE PERF IMPACT)
-local debug_spawn_groups  = false
+--Set to true to Log every spawn group + units spawned.
+local debug_spawn_groups = false
 
 function GroupAIStateBesiege:init(group_ai_state)
 	GroupAIStateBesiege.super.init(self)

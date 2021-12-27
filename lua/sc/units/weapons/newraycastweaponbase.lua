@@ -1,11 +1,31 @@
 --Adds ability to define per weapon category AP skills.
-Hooks:PostHook(NewRaycastWeaponBase, "init", "ResExtraSkills", function(self)
+local old_init = NewRaycastWeaponBase.init
+function NewRaycastWeaponBase:init(...)
+	old_init(self, ...)
+
 	--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
 	if self:is_category("bow", "crossbow", "saw", "snp") then
 		self._use_armor_piercing = true
 	end
 
-	self.headshot_repeat_damage_mult = 1
+	--Shots required for Bullet Hell
+	if managers.player:has_category_upgrade("temporary", "bullet_hell") then
+		local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
+		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
+	end
+
+	--Pre-allocate some tables so we don't waste time making new ones on every state change, or touching global state in potentially weird ways.
+	--Actual data is set in the sway and vel_overshot functions.
+	self.shakers = {breathing = {amplitude = 0}}
+	self.vel_overshot = {
+		pivot = nil, --Use the pivot from PlayerTweakData in getter.
+		yaw_neg = 0,
+		yaw_pos = 0,
+		pitch_neg = 0,
+		pitch_pos = 0
+	}
+
+
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
@@ -17,176 +37,128 @@ Hooks:PostHook(NewRaycastWeaponBase, "init", "ResExtraSkills", function(self)
 			self._can_shoot_through_head = true
 		end
 
-		self.headshot_repeat_damage_mult = math.max(self.headshot_repeat_damage_mult, managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 0))
-	end
-end)
+		--Tracker for Mag Dumper Ace
+		if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
+			self._bullets_until_free = managers.player:upgrade_value(category, "full_auto_free_ammo")
+			break
+		end
 
-if _G.IS_VR then
-	--I might have to do something unique for VR, but we'll see.
-else	
-	function NewRaycastWeaponBase:clip_full()
-		if self:ammo_base():weapon_tweak_data().tactical_reload then
-			return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + self:ammo_base():weapon_tweak_data().tactical_reload
+		--Tracker for shell shocked.
+		if managers.player:has_category_upgrade(category, "last_shot_stagger") then
+			self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
+			managers.hud:add_skill(category .. "_last_shot_stagger")
+			break
+		end
+
+		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
+	end
+
+end
+
+function NewRaycastWeaponBase:clip_full()
+	if self:ammo_base():weapon_tweak_data().tactical_reload then
+		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + self:ammo_base():weapon_tweak_data().tactical_reload
+	else
+		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip()
+	end
+end
+
+function NewRaycastWeaponBase:on_reload_stop()
+	--Now bloodthirst stuff is handled by on_reload, no need to do it here anymore.
+
+	local user_unit = managers.player:player_unit()
+
+	if user_unit then
+		user_unit:movement():current_state():send_reload_interupt()
+	end
+
+	self:set_reload_objects_visible(false)
+
+	self._reload_objects = {}
+end
+
+function NewRaycastWeaponBase:on_reload(...)
+	--This function is now called earlier when the mag is inserted into the gun.
+	--As a result, we delay object cleanup until on_reload_stop() is called.
+	--Likewise, since the gun is "reloaded," we reset bloodthirst stuff now.
+	self._bloodthist_value_during_reload = 0
+	self._current_reload_speed_multiplier = nil
+
+	--Check if the last shot staggering buff should be reapplied. 
+	self:check_reset_last_bullet_stagger()
+
+	if not self._setup.expend_ammo then
+		NewRaycastWeaponBase.super.on_reload(self, ...)
+		return
+	end
+
+	local ammo_base = self._reload_ammo_base or self:ammo_base()
+	local ammo_in_clip = ammo_base:get_ammo_remaining_in_clip()
+	local tactical_reload = ammo_base:weapon_tweak_data().tactical_reload
+
+	if ammo_base:weapon_tweak_data().uses_clip == true then
+		if ammo_in_clip <= ammo_base:get_ammo_max_per_clip()  then
+			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip(), ammo_base:get_ammo_remaining_in_clip() +  ammo_base:weapon_tweak_data().clip_capacity))
+		end
+	else
+		if ammo_in_clip > 0 and tactical_reload == 1 then
+			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
+		elseif ammo_in_clip > 1 and tactical_reload == 2 then
+			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 2))
+		elseif ammo_in_clip == 1 and tactical_reload == 2 then
+			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
+		elseif self._setup.expend_ammo or ammo_in_clip > 0 and not tactical_reload then
+			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip()))
 		else
-			return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip()
+			ammo_base:set_ammo_remaining_in_clip(ammo_base:get_ammo_max_per_clip())
+			ammo_base:set_ammo_total(ammo_base:get_ammo_max_per_clip())
 		end
 	end
-	
-	--Handle guns that can hold bullets in the chamber.
-	local original_on_reload = NewRaycastWeaponBase.on_reload
-	function NewRaycastWeaponBase:on_reload(...)
-		if not self._setup.expend_ammo then
-			original_on_reload(self, ...)
 
-			return
-		end
+	managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
 
-		self:check_last_bullet_stagger()
+	self._reload_ammo_base = nil
+end
 
-		local ammo_base = self._reload_ammo_base or self:ammo_base()
-		local ammo_in_clip = ammo_base:get_ammo_remaining_in_clip()
-		local tactical_reload = ammo_base:weapon_tweak_data().tactical_reload
-
-		if ammo_base:weapon_tweak_data().uses_clip == true then
-			if ammo_in_clip <= ammo_base:get_ammo_max_per_clip()  then
-				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip(), ammo_base:get_ammo_remaining_in_clip() +  ammo_base:weapon_tweak_data().clip_capacity))
-			end
+function NewRaycastWeaponBase:reload_expire_t()
+	if self._use_shotgun_reload then
+		local ammo_remaining_in_clip = self:get_ammo_remaining_in_clip()
+		if self._started_reload_empty or self:weapon_tweak_data().tactical_reload ~= 1 then
+			return math.min(self:get_ammo_total() - ammo_remaining_in_clip, self:get_ammo_max_per_clip() - ammo_remaining_in_clip) * self:reload_shell_expire_t()
 		else
-			if ammo_in_clip > 0 and tactical_reload == 1 then
-				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
-			elseif ammo_in_clip > 1 and tactical_reload == 2 then
-				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 2))
-			elseif ammo_in_clip == 1 and tactical_reload == 2 then
-				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
-			elseif self._setup.expend_ammo or ammo_in_clip > 0 and not tactical_reload then
-				ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip()))
-			else
-				ammo_base:set_ammo_remaining_in_clip(ammo_base:get_ammo_max_per_clip())
-				ammo_base:set_ammo_total(ammo_base:get_ammo_max_per_clip())
-			end
+			return math.min(self:get_ammo_total() - ammo_remaining_in_clip, self:get_ammo_max_per_clip() + 1 - ammo_remaining_in_clip) * self:reload_shell_expire_t()
 		end
-
-		managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
-
-		self._reload_ammo_base = nil
-
-		local user_unit = managers.player:player_unit()
-
-		if user_unit then
-			user_unit:movement():current_state():send_reload_interupt()
-		end
-
-		self:set_reload_objects_visible(false)
-
-		self._reload_objects = {}
 	end
-	
-	function NewRaycastWeaponBase:reload_expire_t()
-		if self._use_shotgun_reload then
-			local ammo_remaining_in_clip = self:get_ammo_remaining_in_clip()
-			if self._started_reload_empty or self:weapon_tweak_data().tactical_reload ~= 1 then
-				return math.min(self:get_ammo_total() - ammo_remaining_in_clip, self:get_ammo_max_per_clip() - ammo_remaining_in_clip) * self:reload_shell_expire_t()
-			else
-				return math.min(self:get_ammo_total() - ammo_remaining_in_clip, self:get_ammo_max_per_clip() + 1 - ammo_remaining_in_clip) * self:reload_shell_expire_t()
-			end
-		end
-		return nil
-	end
-	
-	function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
-		if self._use_shotgun_reload and t > self._next_shell_reloded_t then
-			local speed_multiplier = self:reload_speed_multiplier()
-			self._next_shell_reloded_t = self._next_shell_reloded_t + self:reload_shell_expire_t() / speed_multiplier
-			if self._started_reload_empty or self:weapon_tweak_data().tactical_reload ~= 1 then
-				self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + 1))
-				return true
-			else
-				self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip() + 1, self:get_ammo_remaining_in_clip() + 1))
-				return true
-			end
-			managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
+	return nil
+end
+
+function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
+	if self._use_shotgun_reload and t > self._next_shell_reloded_t then
+		--Check if the last shot staggering buff should be reapplied. 
+		self:check_reset_last_bullet_stagger()
+		local speed_multiplier = self:reload_speed_multiplier()
+		self._next_shell_reloded_t = self._next_shell_reloded_t + self:reload_shell_expire_t() / speed_multiplier
+		if self._started_reload_empty or self:weapon_tweak_data().tactical_reload ~= 1 then
+			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + 1))
+			return true
+		else
+			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip() + 1, self:get_ammo_remaining_in_clip() + 1))
 			return true
 		end
-	end	
+		managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
+		return true
+	end
 end
 
 NewRaycastWeaponBase.DEFAULT_BURST_SIZE = 3
 NewRaycastWeaponBase.IDSTRING_SINGLE = Idstring("single")
 NewRaycastWeaponBase.IDSTRING_AUTO = Idstring("auto")
 
---Multipliers for overall spread.
-function NewRaycastWeaponBase:conditional_accuracy_multiplier(current_state)
-	local mul = 1
-
-	--Multi-pellet spread increase.
-	if self._rays and self._rays > 1 then
-		mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase
-	end
-
-	local pm = managers.player
-
-	mul = mul * pm:get_property("desperado", 1)
-
-	if not current_state then
-		return mul
-	end
-
-	if current_state:in_steelsight() then
-		for _, category in ipairs(self:categories()) do
-			mul = mul * pm:upgrade_value(category, "steelsight_accuracy_inc", 1)
-		end
-	else
-		for _, category in ipairs(self:categories()) do
-			mul = mul * pm:upgrade_value(category, "hip_fire_spread_multiplier", 1)
-		end
-	end
-
-	mul = mul * pm:temporary_upgrade_value("temporary", "silent_precision", 1)
-
-	return mul
-end
-
---Multiplier for movement penalty to spread.
-function NewRaycastWeaponBase:moving_spread_penalty_reduction()
-	local spread_multiplier = 1
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		spread_multiplier = spread_multiplier * managers.player:upgrade_value(category, "move_spread_multiplier", 1)
-	end
-	return spread_multiplier
-end
-
---Simpler spread function. Determines area bullets can hit then converts that to the max degrees by which the rays can fire.
-function NewRaycastWeaponBase:_get_spread(user_unit)
-	local current_state = user_unit:movement()._current_state
-	
-	if not current_state then
-		return 0, 0
-	end
-	
-	--Get spread area from accuracy stat.
-	local spread_area = math.max(self._spread + 
-		managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) * tweak_data.weapon.stat_info.spread_per_accuracy, 0.05)
-	
-	--Moving penalty to spread, based on stability stat- added to total area.
-	if current_state._moving then
-		--Get spread area from stability stat.
-		local moving_spread = math.max(self._spread_moving + managers.blackmarket:stability_index_addend(self:categories(), self._silencer) * tweak_data.weapon.stat_info.spread_per_stability, 0)
-
-		--Add moving spread penalty reduction.
-		moving_spread = moving_spread * self:moving_spread_penalty_reduction()
-		spread_area = spread_area + moving_spread
-	end
-
-	--Apply skill and stance multipliers to overall spread area.
-	local multiplier = tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
-	spread_area = spread_area * multiplier
-
-	--Convert spread area to degrees.
-	local spread_x = math.sqrt((spread_area)/math.pi)
-	local spread_y = spread_x
-	
-	return spread_x, spread_y
-end
+--Ensure that RaycastWeaponBase functions are used to avoid duplicate code.
+NewRaycastWeaponBase.conditional_accuracy_multiplier = RaycastWeaponBase.conditional_accuracy_multiplier  
+NewRaycastWeaponBase.moving_spread_penalty_reduction = RaycastWeaponBase.moving_spread_penalty_reduction
+NewRaycastWeaponBase.update_spread = RaycastWeaponBase.update_spread
+NewRaycastWeaponBase._get_spread = RaycastWeaponBase._get_spread
 
 local start_shooting_original = RaycastWeaponBase.start_shooting
 local stop_shooting_original = RaycastWeaponBase.stop_shooting
@@ -353,9 +325,8 @@ end
 function RaycastWeaponBase:get_concealment()
 	local result = self._current_concealment or self._concealment
 	if result then
-		return math.max(result, 0)
+		return math.max(result, 1)
 	else
-		log("Error: Missing concealment information")
 		return 20
 	end
 	
@@ -452,12 +423,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 
 		if stats.can_shoot_through_titan_shield then
 			self._can_shoot_through_titan_shield = true
-		end
-
-		if stats.is_pistol then
-			if self:weapon_tweak_data().categories then
-				self:weapon_tweak_data().categories = {"pistol"}
-			end
 		end
 
 		if stats.damage_near_mul then
@@ -662,15 +627,9 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 	if current_state then
 		--Get bonus from accuracy.
 		local acc_bonus = falloff_info.acc_bonus * (self._current_stats_indices.spread + managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) - 1)
-		
-		--Get bonus from stability.
-		local stab_bonus = falloff_info.stab_bonus * 25
-		if current_state._moving then
-			stab_bonus = falloff_info.stab_bonus * (self._current_stats_indices.recoil + managers.blackmarket:stability_index_addend(self:categories(), self._silencer) - 1)
-		end
-
+	
 		--Apply acc/stab bonuses.
-		base_falloff = base_falloff + stab_bonus + acc_bonus
+		base_falloff = base_falloff + acc_bonus
 
 		--Get ADS multiplier.
 		if current_state:in_steelsight() then
@@ -705,4 +664,56 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 
 	--Compute final damage.
 	return math.max((1 - math.min(1, math.max(0, distance - falloff_near) / (falloff_far))) * damage, 0.05 * damage)
+end
+
+--Shell Shocked Skill Reset
+function NewRaycastWeaponBase:check_reset_last_bullet_stagger()
+	if self:get_ammo_remaining_in_clip() >= self:get_ammo_max_per_clip() then
+		for _, category in ipairs(self:categories()) do
+			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
+				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
+				managers.hud:add_skill(category .. "_last_shot_stagger")
+				break
+			end
+		end
+	end
+end
+
+local old_on_equip = NewRaycastWeaponBase.on_equip
+function NewRaycastWeaponBase:on_equip(user_unit)
+	old_on_equip(self)
+
+	if self._stagger_on_last_shot then
+		for _, category in ipairs(self:categories()) do
+			managers.hud:add_skill(category .. "_last_shot_stagger")
+		end
+	end
+end
+
+local old_on_unequip = NewRaycastWeaponBase.on_unequip
+function NewRaycastWeaponBase:on_unequip(user_unit)
+	old_on_unequip(self)
+
+	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
+	managers.hud:remove_skill("bullet_hell")
+
+	for _, category in ipairs(self:categories()) do
+		managers.hud:remove_skill(category .. "_last_shot_stagger")
+	end
+end
+
+function NewRaycastWeaponBase:sway_mul(move_state)
+	self.shakers.breathing.amplitude = tweak_data.weapon.stat_info.breathing_amplitude[math.min(self:weapon_tweak_data().stats.spread + self:get_accuracy_addend(), 21)]
+		* tweak_data.weapon.stat_info.breathing_amplitude_stance_muls[move_state]
+	return self.shakers
+end
+
+function NewRaycastWeaponBase:vel_overshot_mul(move_state, alt_state)
+	local vel_overshot = tweak_data.weapon.stat_info.vel_overshot[self:get_concealment()] * tweak_data.weapon.stat_info.vel_overshot_stance_muls[move_state]
+	self.vel_overshot.yaw_neg = -vel_overshot
+	self.vel_overshot.yaw_pos = vel_overshot
+	self.vel_overshot.pitch_neg = vel_overshot
+	self.vel_overshot.pitch_pos = -vel_overshot
+	self.vel_overshot.pivot = (tweak_data.player.stances.default[self:get_stance_id()] or tweak_data.player.stances.default.standard).vel_overshot.pivot
+	return self.vel_overshot
 end

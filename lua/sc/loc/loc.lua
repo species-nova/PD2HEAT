@@ -23,8 +23,7 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 
 		["PD2HEATOptionsButtonTitleID"] = "Heat Options",
 		["PD2HEATOptionsButtonDescID"] = "Heat's Options.",
-		["PD2HEATAimAssistTitleID"] = "Aim Assist",
-		["PD2HEATAimAssistDescID"] = "Provides soft bullet-magnetism for players who have trouble hitting enemies.",
+
 		["PD2HEATScreenFXTitleID"] = "HEATed Screen Effects",
 		["PD2HEATScreenFXDescID"] = "Adds a variety of tweaks to screen effects meant to give a more intense feeling to gun fights. NOTE: Not recommended for those with epilepsy.",
 		["PD2HEATHUDOptionsButtonTitleID"] = "Heat HUD & UI Options",
@@ -85,12 +84,12 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_SizeDescID"] = "Controls the size of icons on the buff tracker.",
 		["PD2HEATInfo_CountTitleID"] = "Row Count",
 		["PD2HEATInfo_CountDescID"] = "Controls the number of rows the buff tracker displays before adding a new column.",
-		["PD2HEATInfo_single_shot_fast_reloadTitleID"] = "Aggressive Reload",
+		["PD2HEATInfo_single_shot_fast_reloadTitleID"] = "Rapid Reset",
 		["PD2HEATInfo_single_shot_fast_reloadDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_ammo_efficiencyTitleID"] = "Ammo Efficiency",
 		["PD2HEATInfo_ammo_efficiencyDescID"] = "Enables or disables tracking of this specific skill.",
-		["PD2HEATInfo_bloodthirst_reload_speedTitleID"] = "Bloodthirst",
-		["PD2HEATInfo_bloodthirst_reload_speedDescID"] = "Enables or disables tracking of this specific skill.",
+		["PD2HEATInfo_bloodthirst_stacksTitleID"] = "Bloodthirst",
+		["PD2HEATInfo_bloodthirst_stacksDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_bullet_hellTitleID"] = "Bullet Hell",
 		["PD2HEATInfo_bullet_hellDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_bullet_stormTitleID"] = "Bullet Storm",
@@ -103,6 +102,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_desperadoDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_grinderTitleID"] = "Histamine (Grinder)",
 		["PD2HEATInfo_grinderDescID"] = "Enables or disables tracking of this specific perk deck ability.",
+		["PD2HEATInfo_hyper_critsTitleID"] = "Low Blow",
+		["PD2HEATInfo_hyper_critsDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_infiltratorTitleID"] = "Life Drain (Infiltrator)",
 		["PD2HEATInfo_infiltratorDescID"] = "Enables or disables tracking of this specific perk deck ability.",
 		["PD2HEATInfo_long_dis_reviveTitleID"] = "Inspire",
@@ -127,6 +128,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_shotgun_last_shot_staggerDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_silent_precisionTitleID"] = "Silent Precision",
 		["PD2HEATInfo_silent_precisionDescID"] = "Enables or disables tracking of this specific skill.",
+		["PD2HEATInfo_melee_kill_increase_reload_speedTitleID"] = "Snatch",
+		["PD2HEATInfo_melee_kill_increase_reload_speedDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_trigger_happyTitleID"] = "Trigger Happy",
 		["PD2HEATInfo_trigger_happyDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_unseen_strikeTitleID"] = "Unseen Strike",
@@ -911,6 +914,12 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_w_osipr_desc_pc"] = "X-Generation weapon technology.\nEquipped with a 20mm grenade launcher.\nPress $BTN_BIPOD to switch to the Grenade Launcher.",
 		["bm_w_osipr_desc"] = "X-Generation weapon technology.\nEquipped with a 20mm grenade launcher.\nHold $BTN_BIPOD to switch to the Grenade Launcher.",
 
+		--Contractor .308--
+		["bm_w_tti"] = "Contractor .308 Rifle",
+
+		--Kang Arms X1--
+		["bm_w_qbu88"] = "Káng Arms X1 Rifle",
+
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
 
@@ -948,11 +957,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_rocket_launcher_sc_desc"] = "WHILE EQUIPPED, THIS WEAPON WILL REDUCE YOUR MOVEMENT SPEED BY 15%. ROCKETS FIRED BY THIS WEAPON INSTANTLY DESTROY TURRETS.",
 		["bm_quake_shotgun_sc_desc"] = "FIRES BOTH BARRELS AT ONCE, DOUBLING THE NUMBER OF PELLETS.",
 		["bm_hx25_buck_sc_desc"] = "FIRES 12 PELLETS IN A WIDE SPREAD.\n\nSTILL TREATED AS A GRENADE LAUNCHER BY SKILLS.",
-		["bm_auto_generated_sc_desc"] = "This weapon is using automatically generated stats, and may not fit the creators intent or be perfectly balanced.",
-		["bm_auto_generated_ap_sc_desc"] = "This weapon is using automatically generated stats, and may not fit the creators intent or be perfectly balanced.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
-		["bm_auto_generated_sap_sc_desc"] = "This weapon is using automatically generated stats, and may not fit the creators intent or be perfectly balanced.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, TITAN SHIELDS, AND THIN WALLS.",
-		["bm_auto_generated_lmg_sc_desc"] = "This weapon is using automatically generated stats, and may not fit the creators intent or be perfectly balanced.\n\nWHILE EQUIPPED, THIS WEAPON WILL REDUCE YOUR MOVEMENT SPEED## BY 25%.",
-		["bm_auto_generated_mod_sc_desc"] = "The stats on this attachment have been removed until automatic custom attachment stat generation is finished.",
+		["bm_auto_generated_mod_sc_desc"] = "TODO: This weapon mod is missing stats.",
 
 		--Overhaul Content Indicators--
 		["loot_sc"] = "Heat",
@@ -965,23 +970,16 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_jowi"] = "Wick",
 		["menu_moving_target_sc"] = "Subtle",
 
-		--["bm_wp_upg_i_singlefire_sc"] = "Slower Cyclic",
-		--["bm_wp_upg_i_singlefire_sc_desc"] = "SLOWS YOUR RATE OF FIRE BY 15%", --RIP RoF mods
-		--["bm_wp_upg_i_autofire_sc"] = "Faster Cyclic",
-		--["bm_wp_upg_i_autofire_sc_desc"] = "INCREASES YOUR RATE OF FIRE BY 15%",
-
 		["bm_hint_titan_60"] = "The Titandozer leaves in 60 seconds!",
 		["bm_hint_titan_10"] = "The Titandozer leaves in 10 seconds!",
 		["bm_hint_titan_end"] = "The Titandozer left to haunt another world!",
 
 		["bm_hint_titan_end"] = "The Titandozer left to haunt another world!",
 		["bm_menu_gadget_plural"] = "Gadgets",
-		["menu_pistol_carbine"] = "Pistol Carbine",
-		["menu_battle_rifle"] = "Battle Rifle",
 
 		-- Melee weapon descriptions (don't forget to call them in blackmarkettweakdata, not weapontweakdata) --
 		["bm_melee_katana_info"] = "While playing as Jiro, killing a Cloaker with a charged attack triggers a special kill animation.",
-		["bm_melee_buck_info"] = "Surprisingly effective against modern weapons, too.\n\nReduces incoming ranged damage by 10% while charging.", --Buckler Shield
+		["bm_melee_buck_info"] = "Surprisingly effective against modern weapons, too.\n\nReduces incoming damage by 15% while charging.", --Buckler Shield
 		["bm_melee_cs_info"] = "Did you know Chainsaws were invented to help with surgery for childbirth?\n\nDeals 30 damage every 0.25 seconds to targets in front of you while charging. This can be increased with skills. Cannot parry enemy attacks.", -- ROAMING FR-
 		["bm_melee_ostry_info"] = "Spiiiiiiiiiin.\n\nDeals 18 damage every 0.25 seconds to targets in front of you while charging. This can be increased with skills. Cannot parry enemy attacks.", --Kazaguruma
 		["bm_melee_wing_info"] = "Goes great with a disguise kit!\n\nDeals quadruple damage when attacking enemies from behind.",-- Wing Butterfly Knife
@@ -1089,8 +1087,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_w_x_judge"] = "Judge & Jury",
 		["bm_w_x_shrew"] = "Barry & Paul",
 		["bm_w_x_1911"] = "Mustang & Sally",
-		["bm_w_tec9"] = "T3K Urban Submachine Gun",
-		["bm_w_x_tec9"] = "Akimbo T3K Urban Submachine Guns", 
 
 		-- default attachment name stuff		
 		["bm_wp_mp5_fg_mp5sd"] = "SPOOC Foregrip",
@@ -1104,12 +1100,12 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_wp_p90_b_ninja"] = "Ninja Barrel",
 
 		--Modifiers-- --Let me know if I'm safe to move these up, like the other stuff--
-		["bm_menu_bonus_concealment_p1"] = "Small Concealment bonus and Accuracy/Stability penalty",
-		["bm_menu_bonus_concealment_p1_mod"] = "Small Concealment Modifier",
-		["bm_menu_bonus_concealment_p2"] = "Large Concealment bonus and Accuracy/Stability penalty",
-		["bm_menu_bonus_concealment_p2_mod"] = "Large Concealment Modifier",
-		["bm_menu_bonus_concealment_p3"] = "Massive Concealment bonus and Accuracy/Stability penalty",
-		["bm_menu_bonus_concealment_p3_mod"] = "Massive Concealment Modifier",
+		["bm_menu_bonus_concealment_p1"] = "Small Mobility bonus and Accuracy/Stability penalty",
+		["bm_menu_bonus_concealment_p1_mod"] = "Small Mobility Modifier",
+		["bm_menu_bonus_concealment_p2"] = "Large Mobility bonus and Accuracy/Stability penalty",
+		["bm_menu_bonus_concealment_p2_mod"] = "Large Mobility Modifier",
+		["bm_menu_bonus_concealment_p3"] = "Massive Mobility bonus and Accuracy/Stability penalty",
+		["bm_menu_bonus_concealment_p3_mod"] = "Massive Mobility Modifier",
 		["bm_menu_bonus_spread_p1"] = "Small Accuracy bonus and Stability penalty",
 		["bm_menu_bonus_spread_p1_mod"] = "Small Accuracy Modifier",
 		["bm_menu_bonus_spread_n1"] = "Massive Stability bonus and Accuracy penalty",
@@ -1120,7 +1116,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_wp_upg_bonus_team_exp_money_p3_desc"] = "+5% Experience reward for you and your crew, -10% Money reward for you and your crew",
 		["bm_menu_spread"] = "Accuracy\n",
 		["bm_menu_recoil"] = "Stability\n",
-		["bm_menu_concealment"] = "Concealment\n",
+		["bm_menu_concealment"] = "Mobility\n",
 		["bm_menu_bonus_spread_p2_mod"] = "Large Accuracy Modifier",
 		["bm_menu_bonus_spread_p3_mod"] = "Massive Accuracy Modifier",
 		["bm_menu_bonus_recoil_p2_mod"] = "Large Stability Modifier",
@@ -1282,9 +1278,7 @@ end)
  end
 
 Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
-	LocalizationManager:add_localized_strings({
-		["bm_menu_movement"] = "M/S",
-	
+	LocalizationManager:add_localized_strings({	
 		["menu_toggle_one_down"] = "Pro-Job",
 		["menu_one_down"] = "Pro-Job",
 		["menu_es_pro_job_bonus"] = "Pro-Job",
@@ -1684,7 +1678,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Hostage Taker--
 			["menu_black_marketeer_beta_sc"] = "Hostage Taker",
-			["menu_black_marketeer_beta_desc_sc"] = "BASIC: ##$basic##\nYou regenerate ##1## health every ##4## seconds for each hostage, up to ##4## times.\n\nACE: ##$pro##\nHealth regen from Hostage Taker is increased by ##100%## when you have ##4## or more hostages.\n\nIncoming damage is reduced by ##1## point for you and your crew for each hostage up to ##4## times.\n\nNote: Hostage Taker does not stack.",
+			["menu_black_marketeer_beta_desc_sc"] = "BASIC: ##$basic##\nYou regenerate ##1## health every ##4## seconds for each hostage, up to ##4## times.\n\nACE: ##$pro##\nHealth regen from Hostage Taker is increased by ##150%## when you have ##4## or more hostages.\n\nNote: Hostage Taker does not stack.",
 
 
 			--}
@@ -1694,15 +1688,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Sturdy Arm--
 			["menu_stable_shot_beta_sc"] = "Sturdy Arm",
-			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nYou and your crews' stability rating for all weapons is increased by ##4.##\n\nACE: ##$pro##\nReduces the hipfire recoil of SMGs and LMGs by ##25%.##",
+			["menu_stable_shot_beta_desc_sc"] = "BASIC: ##$basic##\nYou and your crews' stability rating for all weapons is increased by ##5.##\n\nACE: ##$pro##\nReduces the hipfire recoil of SMGs and LMGs by ##25%.##",
 
 			--None in the Chamber--
 			["menu_scavenger_sc"] = "None in the Chamber",
-			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of SMGs and LMGs by ##15%.##\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##30%## faster when your magazine is completely empty.",
+			["menu_scavenger_desc_sc"] = "BASIC: ##$basic##\nMovement spread is reduced by ##30%## for SMGs and LMGs.\n\nACE: ##$pro##\nThe emptier your magazine, the faster you reload SMGs and LMGs. Up to ##30%## faster when your magazine is completely empty.",
 
-			--Mag-Dumper--
+			--Spray 'n Pray--
 			["menu_sharpshooter_sc"] = "Spray 'n Pray",
-			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nThe movement penalty to accuracy is reduced by ##40%## for SMGs and LMGs.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
+			["menu_sharpshooter_desc_sc"] = "BASIC: ##$basic##\nBloom spread is reduced by ##30%## for SMGs and LMGs.\n\nACE: ##$pro##\nSMGs and LMGs fire ##15%## faster.\n\nEvery ##5th## bullet fired by an SMG or LMG without releasing the trigger consumes no ammo.",
 
 			--Quintstacked Mags--
 			["menu_spotter_teamwork_beta_sc"] = "Quintstacked Mags",
@@ -1714,7 +1708,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",
-			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nFiring ##5## rounds from an SMG or LMG without releasing the trigger grants the gun a ##40%## chance to not consume ammo, increased rate of fire, and reduced recoil until you stop firing.\n\nACE: ##$pro##\nBullet Hell's effect persists for ##3## seconds after releasing the trigger as long as you don't swap guns, and can be triggered by any automatic gun.\n\nKilling an enemy while Bullet Hell's effect is active loads up to ##3## bullets into the magazine from your total ammo pool.",
+			["menu_body_expertise_beta_desc_sc"] = "BASIC: ##$basic##\nFiring ##5## rounds from an SMG or LMG without releasing the trigger grants the gun a ##40%## chance to not consume ammo, increased rate of fire, and reduced recoil until you stop firing.\n\nACE: ##$pro##\nBullet Hell's effect persists for ##3## seconds after releasing the trigger as long as you don't swap guns, and can be triggered by any automatic gun.\n\nKilling an enemy while Bullet Hell's effect is active loads up to ##4## bullets into the magazine from your total ammo pool.",
 
 			--}
 		--}
@@ -1759,7 +1753,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Die Hard--
 			["menu_show_of_force_sc"] = "Die Hard",
-			["menu_show_of_force_desc_sc"] = "BASIC: ##$basic##\nYou gain ##5## deflection.\n\nEach point of deflection makes you take ##1%## less health damage, and is applied after other forms of damage reduction.\n\nACE: ##$pro##\nYou gain an additional ##5## deflection.",
+			["menu_show_of_force_desc_sc"] = "BASIC: ##$basic##\nYou gain ##5## deflection.\n\nEach point of deflection makes you take ##1%## less health damage.\n\nACE: ##$pro##\nYou gain an additional ##5## deflection.",
 
 			--Transporter--
 			["menu_pack_mule_beta_sc"] = "Transporter",
@@ -1805,7 +1799,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Fully Loaded--
 			["menu_bandoliers_beta_sc"] = "Fully Loaded",
-			["menu_bandoliers_desc_sc"] = "BASIC: ##$basic##\nYour total ammo capacity is increased by ##25%##.\n\nACE: ##$pro##\nYou pick up ##50%## more ammo.\n\nYou gain a ##5%## chance to get a throwable from an ammo box. This increases by an additional ##1%## every time you do not get a throwable until you get one.",
+			["menu_bandoliers_desc_sc"] = "BASIC: ##$basic##\nYou replenish a throwable for every ##20## ammo boxes you pick up.\n\nACE: ##$pro##\nYou carry and pick up ##50%## more ammo.",
 
 			--}
 		--}
@@ -1834,7 +1828,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--Tower Defense--
 			["menu_tower_defense_beta_sc"] = "Tower Defense",
 			["menu_tower_defense_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now toggle AP rounds on your sentry guns, lowering the rate of fire by ##66%## and allowing it to pierce through enemies and shields.\n\nACE: ##$pro##\nYou can now carry a maximum of ##2## sentry guns.\n\nSentry guns now cost ##35%## of your maximum ammo to place.",
-
+			
 			--Bulletproof--
 			["menu_iron_man_sc"] = "Bulletproof",
 			["menu_iron_man_desc_sc"] = "BASIC: ##$basic##\nYour armor cannot be pierced.\n\nACE: ##$pro##\nYour armor recovers ##20%## faster.",
@@ -1892,7 +1886,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shockproof--
 			["menu_insulation_beta_sc"] = "Shockproof",
-			["menu_insulation_beta_desc_sc"] = "BASIC: ##$basic##\nA Taser's shock attack has a ##15%## chance to backfire when targeted at you, knocking back the Taser in the process.\n\nACE: ##$pro##\nInteracting with an enemy Taser within ##2## seconds of him electrocuting you will counter-electrocute him, dealing ##50%## damage to his health.",
+			["menu_insulation_beta_desc_sc"] = "BASIC: ##$basic##\nMelee attacks that would electrocute you instead counter-electrocute the attacker, dealing ##50%## damage to his health.\n\nSlows last ##50%## of their normal duration.\n\nACE: ##$pro##\nInteracting with an enemy Taser within ##2## seconds of him electrocuting you will counter-electrocute him, dealing ##50%## damage to his health.",
 
 
 			--}
@@ -1902,9 +1896,27 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Dexterous Hands--
 			["menu_scavenger_beta_sc"] = "Dexterous Hands",
-			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the concealment of melee weapons by ##2.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
+			["menu_scavenger_beta_desc_sc"] = "BASIC: ##$basic##\nIncreases the mobility of melee weapons by ##15.##\n\nACE: ##$pro##\nYou can dodge melee attacks. Dodging a melee attack parries the attacker.",
 
+			--Fast Feet--
+			["menu_optic_illusions_sc"] = "Fast Feet",
+			["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nHitting an enemy with a melee attack restores ##0.75## stamina.\n\nACE: ##$pro##\nSprinting grants a brief burst of extra speed.\n\nYou must regenerate any amount of stamina before this can occur again.",
 
+			--Silent Precision--
+			["menu_silence_expert_beta_sc"] = "Silent Precision",
+			["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
+
+			--Unseen Strike--
+			["menu_hitman_beta_sc"] = "Unseen Strike",
+			["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
+
+			--Backstab--
+			["menu_backstab_beta_sc"] = "Backstab",
+			["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by ##40%## when attacking enemies from behind.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
+
+			--Low Blow--
+			["menu_unseen_strike_beta_sc"] = "Low Blow",
+			["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of detection risk under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every point of detection risk under ##35## up to a maximum of ##30%.##\n\nKilling an enemy in melee causes your next ##3## bullets to automatically be critical hits. The damage bonus stacks if they would have been critical hits anyway.",
 
 			--}
 		--}
@@ -1922,7 +1934,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--{
 
 			--Swan Song--
-			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##60%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reaches ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
+			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##50%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reaches ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
 
 
 
@@ -1931,13 +1943,30 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--[[   BRAWLER SUBTREE   ]]--
 			--{
 
-			--Counter Strike--
-			["menu_drop_soap_beta_sc"] = "Counter Strike",
-			["menu_drop_soap_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now parry cloaker kicks while you have your melee weapon drawn, knocking them down.\n\nYou take ##20%## less damage from cloaker kicks and taser shocks.\n\nACE: ##$pro##\nRanged damage against you is reduced by ##10%## while charging your melee weapon.\n\nYou take an additional ##30%## less damage from cloaker kicks and taser shocks.",
+			--Martial Arts--
+			["menu_martial_arts_beta_sc"] = "Iron Knuckles",
+			["menu_martial_arts_beta_desc_sc"] = "BASIC: ##$basic##\nYou take ##50%## less damage from all melee attacks because of training.\n\nACE: ##$pro##\nYou gain a ##15%## damage reduction while your melee weapon is drawn.",
 
 			--Bloodthirst--
 			["menu_bloodthirst_sc"] = "Bloodthirst",
-			["menu_bloodthirst_desc_sc"] = "BASIC: ##$basic##\nWhenever you kill an enemy with a melee attack, you will gain a ##30%## increase in reload speed for ##10## seconds.\n\nACE: ##$pro##\nEvery kill you get will increase your next melee attack damage by ##25%##, up to a maximum of ##100%.##\n\nThis effect gets reset when striking an enemy with a melee attack.",
+			["menu_bloodthirst_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy outside of melee increases your next melee attack's knockdown by ##30%##, up to a maximum of ##90%.##\n\nACE: ##$pro##\nKilling an enemy outside of melee increases your next melee attack's damage by ##20%##, up to a maximum of ##60%.##.",
+			
+			--Pumping Iron--
+			["menu_steroids_beta_sc"] = "Pumping Iron",
+			["menu_steroids_beta_desc_sc"] = "BASIC: ##$basic##\nYou swing and charge melee weapons ##20%## faster.\n\nACE: ##$pro##\nYou swing and charge melee weapons an additional ##30%## faster.",
+
+			--Snatch--
+			["menu_wolverine_beta_sc"] = "Snatch",
+			["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nMelee kills instantly load ##3## bullets into your current gun from your total ammo pool.\n\nACE: ##$pro##\nMelee kills increase your reload speed by ##50%## for ##10## seconds.",
+
+			--Counter Strike--
+			["menu_drop_soap_beta_sc"] = "Counter Strike",
+			["menu_drop_soap_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now parry cloaker kicks while you have your melee weapon drawn, knocking them down.\n\nACE: ##$pro##\nYou can now parry dozer punches while you have your melee weapon drawn, briefly stunning them.",
+
+			--Frenzy--
+			["menu_frenzy_sc"] = "Frenzy",
+			["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nYour health cannot be increased above ##25%##, but you deal ##150%## more saw and melee damage.\n\nACE: ##$pro##\nYou gain ##30## deflection, and you deal ##75%## more gun damage.\n\nEach point of deflection makes you take ##1%## less health damage.",
+
 
 
 			--}
@@ -1950,22 +1979,22 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",
-		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##6%## of your dodge every second while crouching.\n\nYou gain a ##10%## boost in your movement speed when crouching.",
+		["menu_sprinter_beta_desc_sc"] = "BASIC: ##$basic##\nYour stamina starts regenerating ##25%## earlier and ##25%## faster.\n\nACE: ##$pro##\nYour dodge meter fills up by ##8%## of your dodge every second while crouching.",
 
 		--Sneaky Bastard--
-		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of concealment under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every ##1## point of concealment under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##15## health. This can only occur once every time your armor breaks.",
+		["menu_jail_diet_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##1## point of dodge for every ##3## points of detection risk under ##35## up to a maximum of ##10##\n\nACE: ##$pro##\nYou gain ##1## point of dodge for every point of detection risk under ##35## up to a maximum of ##10##.\n\nWhile your armor is broken, dodging an attack restores ##15## health. This can only occur once every time your armor breaks.",
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
-		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##5## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
+		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##10## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
-		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nRifles gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
+		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nYour guns gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
 
-		--Aggressive Reload--
-		["menu_engineering_beta_sc"] = "Aggressive Reload",
-		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto will increase your reload speed by ##30%## for ##10## seconds.\n\nACE: ##$pro##\nThe reload speed bonus increases to ##45%##, and can be triggered regardless of fire mode.",
+		--Rapid Reset--
+		["menu_engineering_beta_sc"] = "Rapid Reset",
+		["menu_engineering_beta_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles remove ##50%## of their bloom spread.\n\nACE: ##$pro##\nLethal headshots using Rifles will increase your reload speed by ##50%## for ##10## seconds.",
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",
@@ -1975,7 +2004,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_rifleman_sc"] = "Helmet Popping",
 		["menu_rifleman_desc_sc"] = "BASIC: ##$basic##\nRifle bullets pierce through heads. Rifle bullets that pierce through heads deal ##100%## more damage to any other enemies they hit.\n\nACE: ##$pro##\nRifle headshots deal ##25%## more damage to enemies you have already headshot.",
 
-		--Mind Blown, formerly Explosive Headshot--
+		--Mind Blown--
 		["menu_kilmer_sc"] = "Mind Blown",
 		["menu_kilmer_desc_sc"] = "BASIC: ##$basic##\nHeadshots with Rifles deal ##70%## of the damage dealt to the closest enemy in a ##5## meter radius.\n\nFor every ##8## meters away you are from the enemy, the effect chains to an additional enemy.\n\nACE: ##$pro##\nIf you are more than ##8## meters away from the enemy, the chaining effect deals a full ##100%## damage dealt.",
 
@@ -2009,27 +2038,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Moving Target--
 		["menu_dire_need_beta_sc"] = "Moving Target",
-		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of concealment under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every ##1## point of concealment under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
-
-		--Optical Illusions--
-		["menu_optic_illusions_sc"] = "Optical Illusions",
-		["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster silenced weapons ##25%## faster.\n\nACE: ##$pro##\nSilenced weapons gain ##2## concealment.",
-
-		--Silent Precision--
-		["menu_silence_expert_beta_sc"] = "Silent Precision",
-		["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##20%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
-
-		--Unseen Strike--
-		["menu_hitman_beta_sc"] = "Unseen Strike",
-		["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##20%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
-
-		--Backstab--
-		["menu_backstab_beta_sc"] = "Backstab",
-		["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by an additional ##50%## when attacking enemies from behind with guns or melee.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
-
-		--Low Blow--
-		["menu_unseen_strike_beta_sc"] = "Low Blow",
-		["menu_unseen_strike_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain a ##3%## critical hit chance for every ##3## points of concealment under ##35## up to a maximum of ##30%.##\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nYou gain a ##3%## critical hit chance for every ##1## point of concealment under ##35## up to a maximum of ##30%.##\n\nWhile your armor is broken, your attacks gain a ##100%## critical hit chance; which can stack with your existing critical hit chance. This can only occur once every time your armor breaks.",
+		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of detection risk under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every point of detection risk under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Equilibrium",
@@ -2057,7 +2066,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Running From Death--
 		["menu_nine_lives_beta_sc"] = "Running from Death",
-		["menu_nine_lives_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##25%## faster for ##10## seconds after being revived.\n\nACE: ##$pro##\nYou gain a ##20%## damage reduction for ##10## seconds after being revived.\n\nYour weapons are instantly reloaded after reviving.",
+		["menu_nine_lives_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##25%## faster for ##10## seconds after being revived.\n\nACE: ##$pro##\nYou gain a ##30%## damage reduction for ##10## seconds after being revived.\n\nYour weapons are instantly reloaded after reviving.",
 
 		--Undying--
 		["menu_running_from_death_beta_sc"] = "Undying",
@@ -2073,23 +2082,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Messiah--
 		["menu_pistol_beta_messiah_sc"] = "Messiah",
-		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nWhile in bleedout, killing an enemy will allow you to revive yourself. You have ##1## charge which is replenished when leaving custody.\n\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nMessiah now has infinite charges, but has a ##120## second cooldown. Kills while downed reduce the cooldown by ##10## seconds.",
-
-		--Martial Arts--
-		["menu_martial_arts_beta_sc"] = "Martial Arts",
-		["menu_martial_arts_beta_desc_sc"] = "BASIC: ##$basic##\nYou take ##50%## less damage from all melee attacks because of training.\n\nACE: ##$pro##\nYou are ##50%## more likely to knock down enemies with a melee strike because of training.",
-
-		--Pumping Iron--
-		["menu_steroids_beta_sc"] = "Pumping Iron",
-		["menu_steroids_beta_desc_sc"] = "BASIC: ##$basic##\nYou swing and charge melee weapons ##20%## faster.\n\nACE: ##$pro##\nYou swing and charge melee weapons an additional ##30%## faster.",
-
-		--Frenzy--
-		["menu_wolverine_beta_sc"] = "Frenzy",
-		["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nYou start with and cannot heal above ##25%## of your maximum health.\n\nYou gain ##20## deflection but ##you can no longer heal##.\n\nEach point of deflection makes you take ##1%## less health damage, and is applied after other forms of damage reduction.\n\nACE: ##$pro##\nYou gain an additional ##25## deflection, and healing is instead reduced by ##75%##.",
-
-		--Berserker--
-		["menu_frenzy_sc"] = "Berserker",
-		["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##150%## more melee and saw damage.\n\nACE: ##$pro##\nThe lower your health, the more damage you do.\n\nWhen your health is below ##50%##, you will do up to ##75%## more damage with firearms.",
+		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nWhile in bleedout, killing an enemy will allow you to revive yourself. This effect has a ##120## second cooldown. Kills while downed reduce the cooldown by ##10## seconds.",
 	})
 end)
 
@@ -2116,7 +2109,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck4_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
 		["menu_deck4_5_desc_sc"] = "Your dodge meter will be filled to ##200%## of its normal maximum when you are revived.",
 		["menu_deck4_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
-		["menu_deck4_9_desc_sc"] = "Dodging an attack causes you to regenerate ##1## health every ##2## seconds for the next ##20## seconds. This effect can stack, but all stacks are lost whenever you take health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
+		["menu_deck4_9_desc_sc"] = "Dodging an attack causes you to regenerate ##1## health every ##2## seconds for the next ##10## seconds. This effect can stack infinitely, but all stacks are lost whenever you take health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		--Hitman--
 		["menu_deck5_1_sc"] = "Gun-fu",
@@ -2128,7 +2121,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck5_3_desc_sc"] = "Your dodge meter fills up by ##100%## of your dodge when your armor is restored.\n\nYou gain ##5## dodge points.",
 		["menu_deck5_5_desc_sc"] = "You store ##60%## more health.",
 		["menu_deck5_7_desc_sc"] = "You gain ##120## temporary health when you are revived.\n\nYou gain an additional ##5## dodge points.",
-		["menu_deck5_9_desc_sc"] = "While you have temporary health, you gain ##20## deflection and ##20%## additional movement speed.\n\nEach point of deflection makes you take ##1%## less health damage, and is applied after other forms of damage reduction.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
+		["menu_deck5_9_desc_sc"] = "While you have temporary health, you gain ##20## deflection and ##20%## additional movement speed.\n\nEach point of deflection makes you take ##1%## less health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		["menu_deck2_1_desc_sc"] = "You gain ##10%## more health.",
 		["menu_deck2_3_desc_sc"] = "You gain an additional ##10%## more health.",
@@ -2137,9 +2130,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck2_9_desc_sc"] = "You gain an additional ##10%## more health.\n\nYou gain ##25%## of your maximum health after reviving.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		["menu_deck1_3_desc_sc"] = "You and your crew's stamina is increased by ##50%##.\n\nIncreases your shout distance by ##25%##.\n\nNote: Crew perks do not stack.",
-		["menu_deck1_5_desc_sc"] = "You and your crew gain ##5%## more health.\n\nNote: Crew perks do not stack.",
-		["menu_deck1_7_desc_sc"] = "You gain ##10%## more armor.",
-		["menu_deck1_9_desc_sc"] = "You and your crew gains ##5%## max health and ##10%## stamina for each hostage up to ##4## times.\n\nNote: Crew perks do not stack.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck1_5_desc_sc"] = "You and your crew gain ##5%## more health.",
+		["menu_deck1_7_desc_sc"] = "Incoming damage is reduced by ##1## point for you and your crew for each hostage up to ##4## times.",
+		["menu_deck1_9_desc_sc"] = "You and your crew gains ##5%## max health and ##5%## stamina for each hostage up to ##4## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 		
 		--Armorer--
 		["menu_deck3_1_desc_sc"] = "You gain ##10%## more armor.",
@@ -2167,22 +2160,22 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck8_3_desc_sc"] = "##5%## less damage from enemies for each enemy within ##8## meters, up to ##25%## less damage.",
 		["menu_deck8_5_desc_sc"] = "##6%## less damage from enemies for each enemy within ##8## meters, up to ##30%## less damage.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
 		["menu_deck8_7_desc_sc"] = "Each successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds, this effect can stack up to ##5## times.",
-		["menu_deck8_9_desc_sc"] = "Each successful melee hit heals ##1## health every ##1.25## seconds for ##10## seconds, this effect can stack up to ##5## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck8_9_desc_sc"] = "Each successful melee hit heals ##1## health every ##1.5## seconds for ##7.5## seconds, this effect can stack up to ##5## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Sociopath--
 		["menu_deck9_1_sc"] = "No Talk",
 		["menu_deck9_1_desc_sc"] = "When there are ##3## or more enemies within ##8## meters, you take ##15%## less damage.",
 		["menu_deck9_3_desc_sc"] = "Killing an enemy regenerates ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
-		["menu_deck9_5_desc_sc"] = "Killing an enemy with a melee weapon regenerates ##5%## health.\n\nThis cannot occur more than once every ##3## seconds.",
+		["menu_deck9_5_desc_sc"] = "Killing an enemy with a melee weapon regenerates ##3%## health.\n\nThis cannot occur more than once every second.",
 		["menu_deck9_7_desc_sc"] = "Killing an enemy within ##18## meters regenerates an additional ##20## armor.\n\nThis cannot occur more than once every ##3## seconds.",
 		["menu_deck9_9_desc_sc"] = "Killing an enemy within ##18## meters has a ##25%## chance to spread panic among your enemies.\n\nPanic will make enemies go into short bursts of uncontrollable fear.\n\nThis cannot occur more than once every ##2## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Grinder--
-		["menu_deck11_1_desc_sc"] = "Damaging an enemy heals ##1## health every second for ##3## seconds.\n\nThis effect stacks up to ##5## times but you can only gain a stack every ##0.5## seconds. Damaging enemies with sentries or damage over time effects does not grant stacks.\n\nYour armor is reduced by ##60%##.",
-		["menu_deck11_3_desc_sc"] = "Stacks heal an additional ##1## health every second.",
-		["menu_deck11_5_desc_sc"] = "Stacks last an additional ##2## seconds.",
-		["menu_deck11_7_desc_sc"] = "Stacks heal an additional ##1## health every second.",
-		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##5%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck11_1_desc_sc"] = "Killing an enemy heals ##1## health every ##1.5## seconds for ##6## seconds, this effect stacks up to ##5## times. The duration of your stacks is refreshed every time you deal damage.\n\nYour maximum armor is reduced by ##50%##.",
+		["menu_deck11_3_desc_sc"] = "Stacks last for ##9## seconds.",
+		["menu_deck11_5_desc_sc"] = "Stacks now heal ##1## health every ##0.75## seconds.",
+		["menu_deck11_7_desc_sc"] = "You can now have up to ##10## stacks.",
+		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##3%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Ex-President-- ... or is it like, EX-President?  like a boss term?
 		["menu_deck13_1_desc_sc"] = "While your armor is up, you will store ##4## health for every enemy you kill.\n\nWhen your armor starts to regenerate after being completely depleted, you will gain health equal to the stored health amount.\n\nMaximum amount of stored health depends on your equipped armor, with heavier armors being able to store less health than lighter armors.",
@@ -2245,7 +2238,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck12_3_desc_sc"] = "The lower your health the more your dodge meter is filled when you kill an enemy. When your health is below ##50%##, your meter fills by up to ##50%## of your dodge.",
 		["menu_deck12_5_desc_sc"] = "The lower your health, the less damage you take. When your health is below ##50%##, you will take up to ##25%## less damage.",
 		["menu_deck12_7_desc_sc"] = "The lower your health the more your dodge meter is filled when you kill an enemy in melee. When your health is below ##50%##, your meter fills by up to ##50%## of your dodge.\n\nThis effect stacks with Hebi Irezumi.",
-		["menu_deck12_9_desc_sc"] = "Once per down, if you would be downed you instead survive with ##1## health and you regain ##50## armor.\n\nNote: This effect does not apply to, nor is it refreshed by, downs caused by cloaker kicks and taser shocks.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck12_9_desc_sc"] = "Once every ##300## seconds, if you would be downed as a result of your health depleting you instead survive with ##1## health and ##50## armor. Killing an enemy reduces this cooldown by ##5## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Hacker--
 		["menu_deck21_1_desc_sc"] = "Unlocks and equips the ##Pocket ECM Device##.\n\nWhile in game you can use the throwable key to activate the Pocket ECM Device.\n\nActivating the Pocket ECM Device before the alarm is raised will trigger the jamming effect, disabling all electronics and pagers for a ##12## second duration.\n\nActivating the Pocket ECM Device after the alarm is raised will trigger the feedback effect, granting a chance to stun enemies on the map every second for a ##12## second duration.\n\nThe Pocket ECM Device has ##1## charge with a ##80## second cooldown timer, but each kill you perform will shorten the cooldown timer by ##3## seconds.",
