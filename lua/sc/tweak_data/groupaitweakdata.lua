@@ -7266,9 +7266,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	}
 	self.besiege.assault.fade_duration = 35
 	self.besiege.assault.delay = {
-		45,
-		35,
-		30
+		30,
+		25,
+		20
 	}
 
 	if difficulty_index <= 7 then
