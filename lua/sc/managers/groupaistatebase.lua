@@ -150,50 +150,53 @@ function GroupAIStateBase:set_importance_weight(u_key, wgt_report)
 		local c_key = wgt_report[i_dis_rep]
 		local c_dis = wgt_report[i_dis_rep + 1]
 		local c_record = criminals[c_key]
-		local imp_enemies = c_record.important_enemies
-		local imp_dis = c_record.important_dis
-		local was_imp = nil
+		
+		if c_record then
+			local imp_enemies = c_record.important_enemies
+			local imp_dis = c_record.important_dis
+			local was_imp = nil
 
-		for i_imp = #imp_enemies, 1, -1 do
-			if imp_enemies[i_imp] == u_key then
-				t_rem(imp_enemies, i_imp)
-				t_rem(imp_dis, i_imp)
+			for i_imp = #imp_enemies, 1, -1 do
+				if imp_enemies[i_imp] == u_key then
+					t_rem(imp_enemies, i_imp)
+					t_rem(imp_dis, i_imp)
 
-				was_imp = true
+					was_imp = true
 
-				break
-			end
-		end
-
-		local i_imp = #imp_dis 
-
-		while i_imp > 0 do --rank new importance for the cop
-			if imp_dis[i_imp] < c_dis then
-				break
+					break
+				end
 			end
 
-			i_imp = i_imp - 1
-		end
+			local i_imp = #imp_dis 
 
-		if i_imp < max_nr_imp then --the cop is currently more important than at least one of the enemies in the list, or fits into the list as it is
-			i_imp = i_imp + 1
+			while i_imp > 0 do --rank new importance for the cop
+				if imp_dis[i_imp] < c_dis then
+					break
+				end
 
-			while max_nr_imp <= #imp_enemies do --list is full, kick the guy thats been surpassed out
-				local dump_e_key = imp_enemies[#imp_enemies]
-
-				self:_adjust_cop_importance(dump_e_key, -1)
-				t_rem(imp_enemies)
-				t_rem(imp_dis)
+				i_imp = i_imp - 1
 			end
 
-			t_ins(imp_enemies, i_imp, u_key)
-			t_ins(imp_dis, i_imp, c_dis)
+			if i_imp < max_nr_imp then --the cop is currently more important than at least one of the enemies in the list, or fits into the list as it is
+				i_imp = i_imp + 1
 
-			if not was_imp then
-				imp_adj = imp_adj + 1
+				while max_nr_imp <= #imp_enemies do --list is full, kick the guy thats been surpassed out
+					local dump_e_key = imp_enemies[#imp_enemies]
+
+					self:_adjust_cop_importance(dump_e_key, -1)
+					t_rem(imp_enemies)
+					t_rem(imp_dis)
+				end
+
+				t_ins(imp_enemies, i_imp, u_key)
+				t_ins(imp_dis, i_imp, c_dis)
+
+				if not was_imp then
+					imp_adj = imp_adj + 1
+				end
+			elseif was_imp then --else, if they're still important, make them unimportant
+				imp_adj = imp_adj - 1
 			end
-		elseif was_imp then --else, if they're still important, make them unimportant
-			imp_adj = imp_adj - 1
 		end
 	end
 
