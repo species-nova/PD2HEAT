@@ -2631,10 +2631,10 @@ function SkillTreeTweakData:init(tweak_data)
 			{
 				upgrades = {
 					"player_passive_loot_drop_multiplier",
-					"player_dodge_stacking_heal",
-					"player_heal_over_time"
+						"player_melee_stacking_heal", --Workaround for janky vanilla upgrade unacquire code. Does not actually take effect. 
+					"player_dodge_stacking_heal"
 				},
-				cost = 4000,
+				cost = 4001,
 				icon_xy = {1, 0},
 				texture_bundle_folder = "max",
 				name_id = "menu_deck4_9",
@@ -2877,7 +2877,6 @@ function SkillTreeTweakData:init(tweak_data)
 			deck8,
 			{
 				upgrades = {
-					"player_heal_over_time",
 					"player_melee_stacking_heal",
 					"player_passive_loot_drop_multiplier"
 				},
@@ -3012,7 +3011,9 @@ function SkillTreeTweakData:init(tweak_data)
 			dlc = "character_pack_sokol",
 			{
 				upgrades = {
-					"player_damage_to_hot_1",
+						"player_melee_stacking_heal", --Workaround for janky vanilla upgrade unacquire code. Does not actually take effect. 
+						"player_dodge_stacking_heal",
+					"player_kill_stacking_heal_1",
 					"player_armor_reduction_multiplier"
 				},
 				cost = 200,
@@ -3023,7 +3024,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck2,
 			{
 				upgrades = {
-					"player_damage_to_hot_2"
+					"player_kill_stacking_heal_2"
 				},
 				cost = 400,
 				icon_xy = {0, 0},
@@ -3033,7 +3034,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck4,
 			{
 				upgrades = {
-					"player_damage_to_hot_extra_ticks"
+					"player_kill_stacking_heal_3"
 				},
 				cost = 1000,
 				icon_xy = {2, 6},
@@ -3043,7 +3044,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"player_damage_to_hot_3"
+					"player_kill_stacking_heal_4"
 				},
 				cost = 2400,
 				icon_xy = {4, 0},

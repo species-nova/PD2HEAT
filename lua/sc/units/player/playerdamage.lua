@@ -46,22 +46,14 @@ function PlayerDamage:init(unit)
 
 	managers.sequence:add_inflict_updator_body("fire", self._unit:key(), self._inflict_damage_body:key(), self._inflict_damage_body:extension().damage)
 
-	--Load alternate heal over time tweakdata if player is using Infiltrator or Rogue.
-	if player_manager:has_category_upgrade("player", "melee_stacking_heal") then
-		self._hot_type = "infiltrator"
-		self._doh_data = tweak_data.upgrades.melee_to_hot_data or {}
-		self._hot_amount = managers.player:upgrade_value("player", "heal_over_time", 0)
-	elseif player_manager:has_category_upgrade("player", "dodge_stacking_heal") then
-		self._hot_type = "rogue"
-		self._doh_data = tweak_data.upgrades.dodge_to_hot_data or {}
-		self._hot_amount = managers.player:upgrade_value("player", "heal_over_time", 0)
-	else 
-		self._hot_type = "grinder"
-		self._doh_data = tweak_data.upgrades.damage_to_hot_data or {}
-		self._hot_amount = managers.player:upgrade_value("player", "damage_to_hot", 0)
+	--Replace vanilla grinder heal over time system with a simpler one.
+	if player_manager:has_category_upgrade("player", "heal_over_time") then
+		self._hot_data = player_manager:upgrade_value("player", "heal_over_time")
 	end
+	self._hot_stacks = 0
+	self._remaining_hot_ticks = 0
+	self._next_hot_tick = 0
 
-	self._damage_to_hot_stack = {}
 	self._armor_stored_health = 0
 	self._can_take_dmg_timer = 0
 	self._regen_on_the_side_timer = 0
@@ -1362,32 +1354,43 @@ function PlayerDamage:_upd_health_regen(t, dt)
 		end
 	end
 
-	if #self._damage_to_hot_stack > 0 then
-		repeat
-			local next_doh = self._damage_to_hot_stack[1]
-			local done = not next_doh or TimerManager:game():time() < next_doh.next_tick
+	if self._hot_stacks > 0 then
+		if t >= self._next_hot_tick then
+			self._next_hot_tick = t + self._hot_data.tick_time
+			self._remaining_hot_ticks = self._remaining_hot_ticks - 1
+			self:restore_health(self._hot_data.amount * self._hot_stacks, true)
+		end
 
-			if not done then
-				local regen_rate = self._hot_amount
+		if self._remaining_hot_ticks == 0 then
+			self._hot_stacks = 0
+		end
+	end
+end
 
-				self:restore_health(regen_rate, true)
+function PlayerDamage:got_max_hot_stacks()
+	return not self._hot_data.max_stacks or self._hot_stacks >= self._hot_data.max_stacks
+end
 
-				next_doh.ticks_left = next_doh.ticks_left - 1
+function PlayerDamage:refresh_hot_duration()
+	if self._hot_stacks > 0 then
+		self._remaining_hot_ticks = self._hot_data.tick_count
+		managers.hud:start_buff(self._hot_data.source, self._remaining_hot_ticks * self._hot_data.tick_time)
+	end
+end
 
-				if next_doh.ticks_left == 0 then
-					table.remove(self._damage_to_hot_stack, 1)
-				else
-					next_doh.next_tick = next_doh.next_tick + (self._doh_data.tick_time or 1)
-				end
-
-				table.sort(self._damage_to_hot_stack, function (x, y)
-					return x.next_tick < y.next_tick
-				end)
-			end
-		until done
+function PlayerDamage:add_hot_stack()
+	if self:need_revive() or self:dead() or self._check_berserker_done then
+		return
 	end
 
-	managers.hud:set_stacks(self._hot_type, #self._damage_to_hot_stack)
+	self._hot_stacks = math.min(self._hot_stacks + 1, self._hot_data.max_stacks)
+	managers.hud:set_stacks(self._hot_data.source, self._hot_stacks)
+
+	self:refresh_hot_duration()
+end
+
+function PlayerDamage:get_hot_stacks()
+	return self._hot_stacks
 end
 
 local orig_check_bleed_out = PlayerDamage._check_bleed_out
@@ -1609,7 +1612,7 @@ end
 
 --Use old max health function to ignore temporary HP for % healing.
 function PlayerDamage:restore_health(health_restored, is_static, chk_health_ratio)
-	if chk_health_ratio and managers.player:is_damage_health_ratio_active(self:health_ratio()) and not self:is_downed() then
+	if chk_health_ratio and managers.player:is_damage_health_ratio_active(self:health_ratio()) or self:is_downed() then
 		return false
 	end
 

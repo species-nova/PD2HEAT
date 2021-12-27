@@ -1361,37 +1361,66 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		1.25,
 		1.25
 	}
-	--infiltrator stuff
-	self.values.player.melee_stacking_heal = {true}	
-	self.melee_to_hot_data = {
-		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
-		works_with_armor_kit = true,
-		tick_time = 1.25,
-		total_ticks = 8,
-		max_stacks = 5,
-		stacking_cooldown = 0.1,
-		add_stack_sources = {
-			bullet = false,
-			explosion = false,
-			melee = true,
-			taser_tased = false,
-			poison = false,
-			fire = false,
-			projectile = false,
-			swat_van = false,
-			sentry_gun = false,
-			civilian = false
+
+	--Perk deck related heal over time effects.
+	self.values.player.heal_over_time = {
+		{ --Infiltrator melee stacking heal.
+			source = "infiltrator",
+			amount = 0.1,
+			tick_time = 1.5,
+			tick_count = 5,
+			max_stacks = 5
+		},
+		{ --Rogue dodge stacking heal.
+			source = "rogue",
+			amount = 0.1,
+			tick_time = 2,
+			tick_count = 5
+		},
+		{ --Grinder kill stacking heal (1)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 2,
+			tick_count = 3,
+			max_stacks = 5,
+			refesh_stacks_on_damage = true --Grinder stacks refresh whenever you deal damage.
+		},
+		{ --Grinder (3)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 2,
+			tick_count = 5,
+			max_stacks = 5,
+			refesh_stacks_on_damage = true
+		},
+		{ --Grinder (5)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 1,
+			tick_count = 10,
+			max_stacks = 5,
+			refesh_stacks_on_damage = true
+		},
+		{ --Grinder (7)
+			source = "grinder",
+			amount = 0.1,
+			tick_time = 1,
+			tick_count = 10,
+			max_stacks = 10,
+			refesh_stacks_on_damage = true
 		}
 	}
+
+	--Grinder
+	self.values.player.armor_reduction_multiplier = {0.5}
+	self.values.player.hot_speed_bonus = {0.03}
+
+	--infiltrator stuff
 	self.values.player.damage_dampener_close_contact = {
 		{value = 0.04, max = 5},
 		{value = 0.05, max = 5},
 		{value = 0.06, max = 5}
 	}
-
-	self.values.player.heal_over_time = {
-		0.1
-	}	
 
 	self.values.team.armor.multiplier = {1.05}
 	self.values.team.health.passive_multiplier = {1.05}
@@ -1439,38 +1468,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.05
 	}
 	
-	--Hey you're getting your grinder on my grinder
-	self.values.player.armor_reduction_multiplier = {0.4}
-	self.damage_to_hot_data = {
-		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
-		works_with_armor_kit = true,
-		tick_time = 1,
-		total_ticks = 3,
-		max_stacks = 5,
-		stacking_cooldown = 0.5,
-		add_stack_sources = {
-			bullet = true,
-			explosion = true,
-			melee = true,
-			taser_tased = true,
-			poison = false,
-			bleed = false,
-			fire = true,
-			projectile = true,
-			swat_van = true,
-			sentry_gun = false,
-			civilian = false
-		}
-	}
-	self.values.player.damage_to_hot = {
-		0.1,
-		0.2,
-		0.3,
-		0.4
-	}	
-	self.values.player.damage_to_hot_extra_ticks = {2}
-	self.values.player.hot_speed_bonus = {0.05}
-	
 	self.values.player.perk_armor_loss_multiplier = {
 		0.5,
 		0.9,
@@ -1479,27 +1476,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	}
 
 	--Rogue
-	self.dodge_to_hot_data = {
-		armors_allowed = {"level_1", "level_2", "level_3", "level_4", "level_5", "level_6", "level_7"},
-		works_with_armor_kit = true,
-		tick_time = 2.0,
-		total_ticks = 10.0,
-		max_stacks = 67,
-		stacking_cooldown = 0.0,
-		add_stack_sources = {
-			bullet = false,
-			explosion = false,
-			melee = false,
-			taser_tased = false,
-			poison = false,
-			fire = false,
-			projectile = false,
-			swat_van = false,
-			sentry_gun = false,
-			civilian = false
-		}
-	}
-	self.values.player.dodge_stacking_heal = {true}
 	self.values.player.dodge_on_revive = {true}
 	self.values.weapon.passive_swap_speed_multiplier = {
 		1.5,
@@ -1543,7 +1519,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{{2, 2}, 3}
 	}
 	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
-	self.values.cooldown.melee_kill_life_leech = {{0.05, 3}}
+	self.values.cooldown.melee_kill_life_leech = {{0.03, 1}}
 	self.values.player.damage_dampener_outnumbered = {
 		{value = 0.85, min = 3}
 	}
@@ -2172,24 +2148,6 @@ function UpgradesTweakData:_player_definitions()
 			value = 1
 		}
 	}
-	self.definitions.player_dodge_stacking_heal = {
-		category = "feature",
-		name_id = "menu_player_dodge_stacking_heal",
-		upgrade = {
-			category = "player",
-			upgrade = "dodge_stacking_heal",
-			value = 1
-		}
-	}
-	self.definitions.player_melee_stacking_heal = {
-		category = "feature",
-		name_id = "menu_player_melee_stacking_heal",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_stacking_heal",
-			value = 1
-		}
-	}
 	self.definitions.player_dodge_on_revive = {
 		category = "feature",
 		name_id = "menu_player_dodge_on_revive",
@@ -2778,6 +2736,69 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_dodge_stacking_heal = {
+		name_id = "menu_player_dodge_stacking_heal",
+		category = "feature",
+		upgrade = {
+			value = 2,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_1 = {
+		name_id = "menu_player_kill_stacking_heal_1",
+		category = "feature",
+		upgrade = {
+			value = 3,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_2 = {
+		name_id = "menu_player_kill_stacking_heal_2",
+		category = "feature",
+		upgrade = {
+			value = 4,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_3 = {
+		name_id = "menu_player_kill_stacking_heal_3",
+		category = "feature",
+		upgrade = {
+			value = 5,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_kill_stacking_heal_4 = {
+		name_id = "menu_player_kill_stacking_heal_4",
+		category = "feature",
+		upgrade = {
+			value = 6,
+			upgrade = "heal_over_time",
+			category = "player"
+		}
+	}
+	self.definitions.player_armor_reduction_multiplier = {
+		name_id = "menu_player_armor_reduction_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "armor_reduction_multiplier",
+			category = "player"
+		}
+	}
+	self.definitions.player_hot_speed_bonus = {
+		name_id = "menu_player_hot_speed_bonus",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "hot_speed_bonus",
+			category = "player"
+		}
+	}
 end
 
 function UpgradesTweakData:_smg_definitions()
@@ -3028,30 +3049,12 @@ function UpgradesTweakData:_saw_definitions()
 			value = 1
 		}
 	}
-	self.definitions.player_heal_over_time = {
-		name_id = "menu_player_heal_over_time",
+	self.definitions.player_melee_stacking_heal = {
+		name_id = "menu_player_melee_stacking_heal",
 		category = "feature",
 		upgrade = {
 			value = 1,
 			upgrade = "heal_over_time",
-			category = "player"
-		}
-	}
-	self.definitions.player_armor_reduction_multiplier = {
-		name_id = "menu_player_armor_reduction_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "armor_reduction_multiplier",
-			category = "player"
-		}
-	}
-	self.definitions.player_hot_speed_bonus = {
-		name_id = "menu_player_hot_speed_bonus",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "hot_speed_bonus",
 			category = "player"
 		}
 	}

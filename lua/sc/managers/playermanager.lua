@@ -99,8 +99,8 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Grinder and hitman speed bonuses.
 	local player_unit = self:player_unit()
 	if alive(player_unit) then
-		local hot_stacks = player_unit:character_damage()._damage_to_hot_stack
-		multiplier = multiplier + self:upgrade_value("player", "hot_speed_bonus", 0) * #hot_stacks or 0
+		local hot_stacks = player_unit:character_damage():get_hot_stacks()
+		multiplier = multiplier + self:upgrade_value("player", "hot_speed_bonus", 0) * hot_stacks
 
 		--Hitman movespeed bonus
 		if player_unit:character_damage():has_temp_health() then
@@ -288,71 +288,29 @@ function PlayerManager:update(t, dt)
 	self:update_smoke_screens(t, dt)
 end
 
+--Now used to refresh active grinder stacks when damage is dealt.
+--Has no effect outside of grinder.
 function PlayerManager:_check_damage_to_hot(t, unit, damage_info)
+	if not self._hot_data.refesh_stacks_on_damage then
+		return
+	end
+
 	local player_unit = self:player_unit()
-
-	--Allow healing over time to be applied to select non-grinder perks using dummy heal_over_time upgrade.
-	if not self:has_category_upgrade("player", "damage_to_hot") and not self:has_category_upgrade("player", "heal_over_time") then
-		return
-	end
-	
-	if damage_info.attacker_unit:base() and damage_info.attacker_unit:base().sentry_gun then
-		return
-	end
-
 	if not alive(player_unit) or player_unit:character_damage():need_revive() or player_unit:character_damage():dead() then
 		return
 	end
 
-	if not alive(unit) or not unit:base() or not damage_info then
+	--Shouldn't happen, but just in case.
+	if not alive(unit) or not unit:base() then
 		return
 	end
 
-	if damage_info.is_fire_dot_damage then
+	--Non-hostile units do not refresh stacks.
+	if CopDamage.is_civilian(unit:base()._tweak_table) or not unit:brain():is_hostile() then
 		return
 	end
 
-	--Load alternate heal over time tweakdata if player is using Infiltrator or Rogue.
-	local data = tweak_data.upgrades.damage_to_hot_data
-	if self:has_category_upgrade("player", "melee_stacking_heal") then
-		data = tweak_data.upgrades.melee_to_hot_data
-	elseif self:has_category_upgrade("player", "dodge_stacking_heal") then
-		data = tweak_data.upgrades.dodge_to_hot_data
-	end
-
-	if not data then
-		return
-	end
-
-	if self._next_allowed_doh_t and t < self._next_allowed_doh_t then
-		return
-	end
-
-	local add_stack_sources = data.add_stack_sources or {}
-
-	if not add_stack_sources.swat_van and unit:base().sentry_gun then
-		return
-	elseif not add_stack_sources.civilian and CopDamage.is_civilian(unit:base()._tweak_table) then
-		return
-	end
-
-	if not add_stack_sources[damage_info.variant] then
-		return
-	end
-
-	if not unit:brain():is_hostile() then
-		return
-	end
-
-	local player_armor = managers.blackmarket:equipped_armor(data.works_with_armor_kit, true)
-
-	if not table.contains(data.armors_allowed or {}, player_armor) then
-		return
-	end
-
-	player_unit:character_damage():add_damage_to_hot()
-
-	self._next_allowed_doh_t = t + data.stacking_cooldown
+	player_unit:character_damage():refresh_hot_duration()
 end	
 
 --Messiah functions updated to work indefinitely but with a cooldown.
@@ -572,11 +530,25 @@ function PlayerManager:check_skills()
 		self._super_syndrome_count = 0
 	end
 
-	--New resmod skills for dodge.
-	if self:has_category_upgrade("player", "dodge_stacking_heal") then
-		self:register_message(Message.OnPlayerDodge, "dodge_stack_health_regen", callback(self, self, "_dodge_stack_health_regen"))
+	self._hot_data = self:upgrade_value("player", "heal_over_time", {})
+	if self._hot_data.source then
+		if self._hot_data.source == "rogue" then
+			self:register_message(Message.OnPlayerDodge, "dodge_stack_health_regen", callback(self, self, "_trigger_heal_over_time"))
+			self:unregister_message(Message.OnEnemyHit, "melee_stack_health_regen")
+			self:unregister_message(Message.OnEnemyKilled, "kill_stack_health_regen")
+		elseif self._hot_data.source == "infiltrator" then
+			self:register_message(Message.OnEnemyHit, "melee_stack_health_regen", callback(self, self, "_trigger_heal_over_time"))
+			self:unregister_message(Message.OnPlayerDodge, "dodge_stack_health_regen")
+			self:unregister_message(Message.OnEnemyKilled, "kill_stack_health_regen")
+		elseif self._hot_data.source == "grinder" then
+			self:register_message(Message.OnEnemyKilled, "kill_stack_health_regen", callback(self, self, "_trigger_heal_over_time"))
+			self:unregister_message(Message.OnPlayerDodge, "dodge_stack_health_regen")
+			self:unregister_message(Message.OnEnemyHit, "melee_stack_health_regen")
+		end
 	else
 		self:unregister_message(Message.OnPlayerDodge, "dodge_stack_health_regen")
+		self:unregister_message(Message.OnEnemyHit, "melee_stack_health_regen")
+		self:unregister_message(Message.OnEnemyKilled, "kill_stack_health_regen")
 	end
 
 	if self:has_category_upgrade("player", "bomb_cooldown_reduction") then
@@ -1000,11 +972,6 @@ function PlayerManager:get_melee_dmg_multiplier()
 		* self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
 end
 
---Adds rogue health regen stack on dodge.
-function PlayerManager:_dodge_stack_health_regen()
-	self:player_unit():character_damage():add_damage_to_hot()
-end
-
 --Cuts Sicario smock bomb cooldown on kills while inside smoke bomb.
 function PlayerManager:_dodge_smokebomb_cdr(equipped_unit, variant, killed_unit)
 	local damage_ext = self:player_unit():character_damage()
@@ -1028,6 +995,14 @@ function PlayerManager:_dodge_healing_no_armor()
 	if not (damage_ext:get_real_armor() > 0) and damage_ext:can_dodge_heal() then
 		damage_ext:restore_health(self:upgrade_value("player", "dodge_heal_no_armor"), true)
 	end
+end
+
+--Adds a stack of health regen, may be called by multiple different listeners.
+--Rogue calls it on dodge.
+--Infiltrator calls it on melee hit.
+--Grinder calls it on kill.
+function PlayerManager:_trigger_heal_over_time()
+	self:player_unit():character_damage():add_hot_stack()
 end
 
 --Boosts ROF on headshot gills with single fire guns.
