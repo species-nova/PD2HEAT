@@ -2171,9 +2171,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck9_9_desc_sc"] = "Killing an enemy within ##18## meters has a ##25%## chance to spread panic among your enemies.\n\nPanic will make enemies go into short bursts of uncontrollable fear.\n\nThis cannot occur more than once every ##2## seconds.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Grinder--
-		["menu_deck11_1_desc_sc"] = "Killing an enemy heals ##1## health every ##2## seconds for ##6## seconds, this effect stacks up to ##5## times. The duration of your stacks is refreshed every time you deal damage.\n\nYour maximum armor is reduced by ##50%##.",
-		["menu_deck11_3_desc_sc"] = "Stacks last for ##10## seconds.",
-		["menu_deck11_5_desc_sc"] = "Stacks now heal ##1## health every second.",
+		["menu_deck11_1_desc_sc"] = "Killing an enemy heals ##1## health every ##1.5## seconds for ##6## seconds, this effect stacks up to ##5## times. The duration of your stacks is refreshed every time you deal damage.\n\nYour maximum armor is reduced by ##50%##.",
+		["menu_deck11_3_desc_sc"] = "Stacks last for ##9## seconds.",
+		["menu_deck11_5_desc_sc"] = "Stacks now heal ##1## health every ##0.75## seconds.",
 		["menu_deck11_7_desc_sc"] = "You can now have up to ##10## stacks.",
 		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##3%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 

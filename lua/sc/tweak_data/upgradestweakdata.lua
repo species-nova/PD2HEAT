@@ -1380,32 +1380,32 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{ --Grinder kill stacking heal (1)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 2,
-			tick_count = 3,
+			tick_time = 1.5,
+			tick_count = 4,
 			max_stacks = 5,
 			refesh_stacks_on_damage = true --Grinder stacks refresh whenever you deal damage.
 		},
 		{ --Grinder (3)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 2,
-			tick_count = 5,
+			tick_time = 1.5,
+			tick_count = 6,
 			max_stacks = 5,
 			refesh_stacks_on_damage = true
 		},
 		{ --Grinder (5)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 1,
-			tick_count = 10,
+			tick_time = 0.75,
+			tick_count = 12,
 			max_stacks = 5,
 			refesh_stacks_on_damage = true
 		},
 		{ --Grinder (7)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 1,
-			tick_count = 10,
+			tick_time = 0.75,
+			tick_count = 12,
 			max_stacks = 10,
 			refesh_stacks_on_damage = true
 		}
