@@ -1578,9 +1578,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.tti.supported = true
 		self.tti.stats = {
 			damage = 60,
-			spread = 21,
+			spread = 20,
 			recoil = 13,
-			concealment = 11,
+			concealment = 12,
 			value = 9
 		}
 		self.tti.timers = {
@@ -1939,7 +1939,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.siltstone.supported = true
 		self.siltstone.stats = {
 			damage = 90,
-			spread = 19,
+			spread = 18,
 			recoil = 14,
 			concealment = 11,
 			value = 9
@@ -1974,7 +1974,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.sbl.supported = true
 		self.sbl.stats = {
 			damage = 120,
-			spread = 18,
+			spread = 17,
 			recoil = 9,
 			concealment = 15,
 			value = 9
@@ -2473,7 +2473,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.mp7.stats = {
 			damage = 24,
 			spread = 12,
-			recoil = 13,
+			recoil = 12,
 			concealment = 18,
 			value = 7
 		}
