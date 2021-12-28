@@ -1097,7 +1097,7 @@ end
 function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 	local health_subtracted = 0
 	health_subtracted = self:get_real_health()
-	if self._hot_data.source == "rogue" and attack_data.damage > 0.0 then --End Rogue health regen.
+	if self._hot_data and self._hot_data.source == "rogue" and attack_data.damage > 0.0 then --End Rogue health regen.
 		self._hot_stacks = 0
 	end
 	
