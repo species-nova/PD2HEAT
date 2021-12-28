@@ -952,6 +952,7 @@ function PlayerManager:_internal_load()
 	self._detection_risk = math.round(managers.blackmarket:get_suspicion_offset_of_local(tweak_data.player.SUSPICION_OFFSET_LERP or 0.75) * 100)
 end
 
+
 function PlayerManager:set_melee_knockdown_multiplier(value)
 	self._melee_knockdown_mul = value
 end
@@ -1070,6 +1071,14 @@ end
 --No longer applies anything to the hud element. Since it's now used to reflect the amount damage was recently reduced by.
 function PlayerManager:set_damage_absorption(key, value)
 	self._damage_absorption[key] = value and Application:digest_value(value, true) or nil
+end
+
+function PlayerManager:update_cocaine_hud()
+	--The DR component of the hud is now used to show the amount that damage was recently reduced by.
+	--As a result, we should no longer update it to match damage absorption, and instead let PlayerDamage handle it.
+	--[[if managers.hud then
+		managers.hud:set_absorb_active(HUDManager.PLAYER_PANEL, self:damage_absorption())
+	end]]
 end
 
 --Adds doctor bag health regen.
