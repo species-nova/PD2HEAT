@@ -1097,8 +1097,8 @@ end
 function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 	local health_subtracted = 0
 	health_subtracted = self:get_real_health()
-	if managers.player:has_category_upgrade("player", "dodge_stacking_heal") and attack_data.damage > 0.0 then --End Rogue health regen.
-		self._damage_to_hot_stack = {}
+	if self._hot_data.source == "rogue" and attack_data.damage > 0.0 then --End Rogue health regen.
+		self._hot_stacks = 0
 	end
 	
 	attack_data.damage = attack_data.damage * managers.player:upgrade_value("player", "real_health_damage_reduction", 1)
