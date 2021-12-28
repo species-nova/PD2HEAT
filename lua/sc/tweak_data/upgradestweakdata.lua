@@ -2290,27 +2290,9 @@ function UpgradesTweakData:_player_definitions()
 			value = 2
 		}
 	}
-	self.definitions.player_real_health_damage_reduction_1 = {
-		category = "feature",
-		name_id = "menu_player_real_health_damage_reduction",
-		upgrade = {
-			category = "player",
-			upgrade = "real_health_damage_reduction",
-			value = 1
-		}
-	}
-	self.definitions.player_real_health_damage_reduction_2 = {
-		category = "feature",
-		name_id = "menu_player_real_health_damage_reduction",
-		upgrade = {
-			category = "player",
-			upgrade = "real_health_damage_reduction",
-			value = 2
-		}
-	}
 	self.definitions.player_explosive_damage_reduction = {
 		category = "feature",
-		name_id = "menu_player_real_health_damage_reduction",
+		name_id = "menu_player_explosive_damage_reduction",
 		upgrade = {
 			category = "player",
 			upgrade = "explosive_damage_reduction",

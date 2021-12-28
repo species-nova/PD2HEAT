@@ -1101,7 +1101,6 @@ function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 		self._hot_stacks = 0
 	end
 	
-	attack_data.damage = attack_data.damage * managers.player:upgrade_value("player", "real_health_damage_reduction", 1)
 	self:change_health(-attack_data.damage)
 	health_subtracted = health_subtracted - self:get_real_health()
 	
