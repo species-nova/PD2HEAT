@@ -1380,40 +1380,40 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{ --Grinder kill stacking heal (1)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 1.5,
-			tick_count = 4,
-			max_stacks = 5,
+			tick_time = 1,
+			tick_count = 6,
+			max_stacks = 4,
 			refesh_stacks_on_damage = true --Grinder stacks refresh whenever you deal damage.
 		},
 		{ --Grinder (3)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 1.5,
-			tick_count = 6,
-			max_stacks = 5,
+			tick_time = 1,
+			tick_count = 10,
+			max_stacks = 4,
 			refesh_stacks_on_damage = true
 		},
 		{ --Grinder (5)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 0.75,
-			tick_count = 12,
-			max_stacks = 5,
+			tick_time = 0.5,
+			tick_count = 20,
+			max_stacks = 4,
 			refesh_stacks_on_damage = true
 		},
 		{ --Grinder (7)
 			source = "grinder",
 			amount = 0.1,
-			tick_time = 0.75,
-			tick_count = 12,
-			max_stacks = 10,
+			tick_time = 0.5,
+			tick_count = 20,
+			max_stacks = 8,
 			refesh_stacks_on_damage = true
 		}
 	}
 
 	--Grinder
 	self.values.player.armor_reduction_multiplier = {0.5}
-	self.values.player.hot_speed_bonus = {0.03}
+	self.values.player.hot_speed_bonus = {0.04}
 
 	--infiltrator stuff
 	self.values.player.damage_dampener_close_contact = {
