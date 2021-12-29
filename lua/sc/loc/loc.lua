@@ -2174,8 +2174,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck11_1_desc_sc"] = "Killing an enemy heals ##1## health every second for ##6## seconds, this effect stacks up to ##4## times. The duration of your stacks is refreshed every time you deal damage.\n\nYour maximum armor is reduced by ##50%##.",
 		["menu_deck11_3_desc_sc"] = "Stacks last for ##10## seconds.",
 		["menu_deck11_5_desc_sc"] = "Stacks now heal ##1## health every ##0.5## seconds.",
-		["menu_deck11_7_desc_sc"] = "You can now have up to ##8## stacks.",
-		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##2.5%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck11_7_desc_sc"] = "You can now have up to ##6## stacks.",
+		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##3%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Ex-President-- ... or is it like, EX-President?  like a boss term?
 		["menu_deck13_1_desc_sc"] = "While your armor is up, you will store ##4## health for every enemy you kill.\n\nWhen your armor starts to regenerate after being completely depleted, you will gain health equal to the stored health amount.\n\nMaximum amount of stored health depends on your equipped armor, with heavier armors being able to store less health than lighter armors.",

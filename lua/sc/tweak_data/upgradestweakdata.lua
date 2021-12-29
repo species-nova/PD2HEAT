@@ -1406,14 +1406,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			amount = 0.1,
 			tick_time = 0.5,
 			tick_count = 20,
-			max_stacks = 8,
+			max_stacks = 6,
 			refesh_stacks_on_damage = true
 		}
 	}
 
 	--Grinder
 	self.values.player.armor_reduction_multiplier = {0.5}
-	self.values.player.hot_speed_bonus = {0.025}
+	self.values.player.hot_speed_bonus = {0.03}
 
 	--infiltrator stuff
 	self.values.player.damage_dampener_close_contact = {
