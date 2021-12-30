@@ -1844,7 +1844,7 @@ function SkillTreeTweakData:init(tweak_data)
 				[2] = {
 					upgrades = {
 						"temporary_berserker_damage_multiplier_2",
-						"player_swan_song_instant_reload"
+						"player_berserker_no_ammo_cost"
 					},
 					cost = self.costs.hightierpro
 				}

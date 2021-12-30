@@ -2418,6 +2418,7 @@ function CharacterTweakData:_init_summers(presets) --captain summers
 	self.summers.flammable = false
 	self.summers.use_animation_on_fire_damage = false
 	self.summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
+	self.summers.damage.explosion_damage_mul = 0.5
 	self.summers.bag_dmg_mul = 6
 	self.summers.move_speed = presets.move_speed.fast
 	self.summers.crouch_move = false

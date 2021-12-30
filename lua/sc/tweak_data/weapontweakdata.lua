@@ -986,58 +986,59 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 		--SABR
 		--TODO: Stats, won't play animation!
-		self.osipr.tactical_reload = 1
-		self.osipr.AMMO_MAX = 120
-		self.osipr.CLIP_AMMO_MAX = 30
-		self.osipr.fire_mode_data.fire_rate = 0.075
-		self.osipr.auto.fire_rate = 0.075
-		self.osipr.kick = self.stat_info.kick_tables.moderate_kick
-		self.osipr.kick_pattern = self.stat_info.kick_patterns.zigzag_3
-		self.osipr.supported = false
-		self.osipr.stats = {
-			damage = 24,
-			spread = 15,
-			recoil = 15,
-			concealment = 15,
-			value = 1
-		}
-		self.osipr.timers = {
-			reload_not_empty = 2.16,
-			reload_empty = 3.5,
-			reload_operational = 2,
-			empty_reload_operational = 2,
-			reload_interrupt = 0.67,
-			empty_reload_interrupt = 0.67,
-			unequip = 0.6,
-			equip = 0.6
-		}
-		self.osipr.has_description = true
-		self.osipr.desc_id = "bm_w_osipr_desc"
-		self.osipr.custom = false	--TEMP fix for BeardLib sync
+		if self.osipr then
+			self.osipr.tactical_reload = 1
+			self.osipr.AMMO_MAX = 120
+			self.osipr.CLIP_AMMO_MAX = 30
+			self.osipr.fire_mode_data.fire_rate = 0.075
+			self.osipr.auto.fire_rate = 0.075
+			self.osipr.kick = self.stat_info.kick_tables.moderate_kick
+			self.osipr.kick_pattern = self.stat_info.kick_patterns.zigzag_3
+			self.osipr.supported = false
+			self.osipr.stats = {
+				damage = 24,
+				spread = 15,
+				recoil = 15,
+				concealment = 15,
+				value = 1
+			}
+			self.osipr.timers = {
+				reload_not_empty = 2.16,
+				reload_empty = 3.5,
+				reload_operational = 2,
+				empty_reload_operational = 2,
+				reload_interrupt = 0.67,
+				empty_reload_interrupt = 0.67,
+				unequip = 0.6,
+				equip = 0.6
+			}
+			self.osipr.has_description = true
+			self.osipr.desc_id = "bm_w_osipr_desc"
+			self.osipr.custom = false	--TEMP fix for BeardLib sync
 
-		self.osipr_gl.AMMO_MAX = 8
-		self.osipr_gl.CLIP_AMMO_MAX = 6
-		self.osipr_gl.fire_mode_data.fire_rate = 0.75
-		self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
-		self.osipr_gl.supported = false
-		self.osipr_gl.stats = {
-			damage = 60,
-			spread = 15,
-			recoil = 15,
-			concealment = 15,
-			value = 1
-		}
-		self.osipr_gl.timers = {
-			reload_not_empty = 3.34,
-			reload_empty = 4.5,
-			reload_operational = 3,
-			empty_reload_operational = 3,
-			reload_interrupt = 1,
-			empty_reload_interrupt = 1,
-			equip = 0.6,
-			unequip = 0.6
-		}
-		self.osipr_gl.custom = false	--Temp fix for BeardLib sync
+			self.osipr_gl.AMMO_MAX = 8
+			self.osipr_gl.CLIP_AMMO_MAX = 6
+			self.osipr_gl.fire_mode_data.fire_rate = 0.75
+			self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
+			self.osipr_gl.supported = false
+			self.osipr_gl.stats = {
+				damage = 60,
+				spread = 15,
+				recoil = 15,
+				concealment = 15,
+				value = 1
+			}
+			self.osipr_gl.timers = {
+				reload_not_empty = 3.34,
+				reload_empty = 4.5,
+				reload_operational = 3,
+				empty_reload_operational = 3,
+				reload_interrupt = 1,
+				empty_reload_interrupt = 1,
+				equip = 0.6,
+				unequip = 0.6
+			}
+			self.osipr_gl.custom = false	--Temp fix for BeardLib sync
 
 		--Heh????
 			self.osipr_gl_npc.sounds.prefix = "contrabandm203_npc"
@@ -1053,6 +1054,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr_gl_npc.alert_size = 2800
 			self.osipr_gl_npc.suppression = 1
 			self.osipr_gl_npc.FIRE_MODE = "auto"
+		else
+			log("[ERROR] Beardlib was unable to load the custom weapons.")
+		end
 
 	--Medium Rifles (SECONDARY)
 		--CR 805B
@@ -5189,99 +5193,101 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--Restoration Weapons--
 
 	--Raze's Fury
-	self.shatters_fury.fire_mode_data.fire_rate = 0.25
-	self.shatters_fury.single.fire_rate = 0.25
-	self.shatters_fury.AMMO_MAX = 40
-	self.shatters_fury.CLIP_AMMO_MAX = 5
-	self.shatters_fury.kick = self.stat_info.kick_tables.vertical_kick
-	self.shatters_fury.supported = false
-	self.shatters_fury.stats = {
-		damage = 90,
-		spread = 17,
-		recoil = 10,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 21,
-		suppression = 4,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.shatters_fury.stats_modifiers = nil
-	self.shatters_fury.has_description = true
-	self.shatters_fury.desc_id = "bm_wp_shatters_fury_desc"
-	self.shatters_fury.can_shoot_through_enemy = true
-	self.shatters_fury.can_shoot_through_shield = true
-	self.shatters_fury.can_shoot_through_wall = true
-	self.shatters_fury.armor_piercing_chance = 1
-	--self.shatters_fury.animations.reload_name_id = "chinchilla"
-	self.shatters_fury.timers.reload_not_empty = 2.4
-	self.shatters_fury.timers.reload_empty = 2.4
-	self.shatters_fury.timers.reload_interrupt = 0.15
-	self.shatters_fury.timers.empty_reload_interrupt = 0.15
-	self.shatters_fury.swap_speed_multiplier = 0.6
-	--this line doesn't do shit
-	--self.shatters_fury.custom = true
+	if self.shatters_fury then
+		self.shatters_fury.fire_mode_data.fire_rate = 0.25
+		self.shatters_fury.single.fire_rate = 0.25
+		self.shatters_fury.AMMO_MAX = 40
+		self.shatters_fury.CLIP_AMMO_MAX = 5
+		self.shatters_fury.kick = self.stat_info.kick_tables.vertical_kick
+		self.shatters_fury.supported = false
+		self.shatters_fury.stats = {
+			damage = 90,
+			spread = 17,
+			recoil = 10,
+			spread_moving = 9,
+			zoom = 1,
+			concealment = 21,
+			suppression = 4,
+			alert_size = 2,
+			extra_ammo = 101,
+			total_ammo_mod = 100,
+			value = 1,
+			reload = 20
+		}
+		self.shatters_fury.stats_modifiers = nil
+		self.shatters_fury.has_description = true
+		self.shatters_fury.desc_id = "bm_wp_shatters_fury_desc"
+		self.shatters_fury.can_shoot_through_enemy = true
+		self.shatters_fury.can_shoot_through_shield = true
+		self.shatters_fury.can_shoot_through_wall = true
+		self.shatters_fury.armor_piercing_chance = 1
+		--self.shatters_fury.animations.reload_name_id = "chinchilla"
+		self.shatters_fury.timers.reload_not_empty = 2.4
+		self.shatters_fury.timers.reload_empty = 2.4
+		self.shatters_fury.timers.reload_interrupt = 0.15
+		self.shatters_fury.timers.empty_reload_interrupt = 0.15
+		self.shatters_fury.swap_speed_multiplier = 0.6
+	end
 
 	--Anubis .45
-	self.socom.timers = {
-		reload_not_empty = 1.5435,
-		reload_empty = 2.226,
-		unequip = 0.5,
-		equip = 0.35
-	}
-	self.socom.tactical_reload = 1
-	self.socom.fire_mode_data.fire_rate = 0.08571428571
-	self.socom.single.fire_rate = 0.08571428571
-	self.socom.CLIP_AMMO_MAX = 12
-	self.socom.AMMO_MAX = 40
-	self.socom.kick = self.stat_info.kick_tables.even_recoil
-	self.socom.supported = false
-	self.socom.stats = {
-		damage = 45,
-		spread = 16,
-		recoil = 21,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 25,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.socom.stats_modifiers = nil
-	self.socom.swap_speed_multiplier = 0.95
-	self.socom.timers.reload_interrupt = 0.3
-	self.socom.timers.empty_reload_interrupt = 0.2
+	if self.socom then
+		self.socom.timers = {
+			reload_not_empty = 1.5435,
+			reload_empty = 2.226,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.socom.tactical_reload = 1
+		self.socom.fire_mode_data.fire_rate = 0.08571428571
+		self.socom.single.fire_rate = 0.08571428571
+		self.socom.CLIP_AMMO_MAX = 12
+		self.socom.AMMO_MAX = 40
+		self.socom.kick = self.stat_info.kick_tables.even_recoil
+		self.socom.supported = false
+		self.socom.stats = {
+			damage = 45,
+			spread = 16,
+			recoil = 21,
+			spread_moving = 5,
+			zoom = 1,
+			concealment = 25,
+			suppression = 6,
+			alert_size = 2,
+			extra_ammo = 101,
+			total_ammo_mod = 100,
+			value = 1,
+			reload = 20
+		}
+		self.socom.stats_modifiers = nil
+		self.socom.swap_speed_multiplier = 0.95
+		self.socom.timers.reload_interrupt = 0.3
+		self.socom.timers.empty_reload_interrupt = 0.2
 
-	--Akimbo Anubis .45
-	self.x_socom.tactical_reload = 2
-	self.x_socom.fire_mode_data.fire_rate = 0.08571428571
-	self.x_socom.single.fire_rate = 0.08571428571
-	self.x_socom.CLIP_AMMO_MAX = 24
-	self.x_socom.AMMO_MAX = 80
-	self.x_socom.kick = self.stat_info.kick_tables.even_recoil
-	self.x_socom.supported = false
-	self.x_socom.stats = {
-		damage = 45,
-		spread = 14,
-		recoil = 11,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 25,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_socom.stats_modifiers = nil
-	self.x_socom.swap_speed_multiplier = 0.95
+		--Akimbo Anubis .45
+		self.x_socom.tactical_reload = 2
+		self.x_socom.fire_mode_data.fire_rate = 0.08571428571
+		self.x_socom.single.fire_rate = 0.08571428571
+		self.x_socom.CLIP_AMMO_MAX = 24
+		self.x_socom.AMMO_MAX = 80
+		self.x_socom.kick = self.stat_info.kick_tables.even_recoil
+		self.x_socom.supported = false
+		self.x_socom.stats = {
+			damage = 45,
+			spread = 14,
+			recoil = 11,
+			spread_moving = 5,
+			zoom = 1,
+			concealment = 25,
+			suppression = 6,
+			alert_size = 2,
+			extra_ammo = 101,
+			total_ammo_mod = 100,
+			value = 1,
+			reload = 20
+		}
+		self.x_socom.stats_modifiers = nil
+		self.x_socom.swap_speed_multiplier = 0.95
+	end
 
 	--Disable unwanted akimbos.
 		--These generally:

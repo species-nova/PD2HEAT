@@ -320,8 +320,8 @@ end
 
 --Called when people jump to get up.
 function PlayerManager:use_messiah_charge()
-	self._messiah_cooldown = Application:time() + 120 --Replace with tweakdata once we settle on something.
-	managers.hud:start_cooldown("messiah", 120)
+	self._messiah_cooldown = Application:time() + tweak_data.upgrades.messiah_cooldown
+	managers.hud:start_cooldown("messiah", tweak_data.upgrades.messiah_cooldown)
 end
 
 --Called when players get kills while downed.
@@ -330,8 +330,8 @@ function PlayerManager:_on_messiah_event()
 		if self._messiah_cooldown < Application:time() then
 			self._coroutine_mgr:add_coroutine("get_up_messiah", PlayerAction.MessiahGetUp, self)
 		else
-			self._messiah_cooldown = self._messiah_cooldown - 10 --Downed kill CDR.
-			managers.hud:change_cooldown("messiah", -10)
+			self._messiah_cooldown = self._messiah_cooldown - tweak_data.upgrades.messiah_kill_cdr --Downed kill CDR.
+			managers.hud:change_cooldown("messiah", -tweak_data.upgrades.messiah_kill_cdr)
 		end
 	end
 end

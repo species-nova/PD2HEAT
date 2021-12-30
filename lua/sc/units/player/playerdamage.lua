@@ -1688,23 +1688,6 @@ function PlayerDamage:set_armor(armor)
 	self._armor = Application:digest_value(armor, true)
 end
 
-function PlayerDamage:_on_enter_swansong_event()
-	self:_remove_on_damage_event()
-
-	self._block_medkit_auto_revive = true
-	self.swansong = true
-
-	if managers.player:has_category_upgrade("player", "swan_song_instant_reload") then
-		managers.player:reload_weapons()
-	end
-
-	if Network:is_client() then
-		managers.network:session():send_to_host("sync_player_swansong", self._unit, true)
-	else
-		managers.network:session():send_to_peers("sync_swansong_hud", self._unit, managers.network:session():local_peer():id())
-	end
-end
-
 --functions that remove the high pitched tinnitus noise from flashbangs, replacing it ith a mute instead
 function PlayerDamage:_start_tinnitus(sound_eff_mul, skip_explosion_sfx)
 	if self._tinnitus_data then

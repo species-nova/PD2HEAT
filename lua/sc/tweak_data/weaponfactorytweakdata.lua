@@ -131,97 +131,98 @@ function WeaponFactoryTweakData:create_bonuses(tweak_data, weapon_skins)
 		--Resmod Custom Weapon stuff
 
 		--Raze's Fury
-
-		self.wpn_fps_pis_shatters_fury.adds = {
-			wpn_fps_upg_o_specter = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_aimpoint = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_aimpoint_2 = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_docter = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_eotech = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_t1micro = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_cmore = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_acog = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_cs = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_eotech_xps = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_reflex = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_rx01 = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_rx30 = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_spot = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_bmg = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_fc1 = {
-				"wpn_fps_pis_rage_o_adapter"
-			},
-			wpn_fps_upg_o_uh = {
-				"wpn_fps_pis_rage_o_adapter"
-			}			
-		}
-		self.wpn_fps_pis_shatters_fury.override = {
-			wpn_fps_pis_rage_lock = { 
-				forbids = {}
+		if self.wpn_fps_pis_shatters_fury then
+			self.wpn_fps_pis_shatters_fury.adds = {
+				wpn_fps_upg_o_specter = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_aimpoint = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_aimpoint_2 = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_docter = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_eotech = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_t1micro = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_cmore = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_acog = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_cs = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_eotech_xps = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_reflex = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_rx01 = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_rx30 = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_spot = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_bmg = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_fc1 = {
+					"wpn_fps_pis_rage_o_adapter"
+				},
+				wpn_fps_upg_o_uh = {
+					"wpn_fps_pis_rage_o_adapter"
+				}			
 			}
-		}	
-		self.wpn_fps_pis_shatters_fury.uses_parts = {
-			"wpn_fps_pis_shatters_fury_body_standard",
-			"wpn_fps_pis_shatters_fury_body_smooth",
-			"wpn_fps_pis_shatters_fury_b_standard",
-			"wpn_fps_pis_shatters_fury_b_short",
-			"wpn_fps_pis_shatters_fury_b_long",
-			"wpn_fps_pis_shatters_fury_b_comp1",
-			"wpn_fps_pis_shatters_fury_b_comp2",
-			"wpn_fps_pis_shatters_fury_g_standard",
-			"wpn_fps_pis_shatters_fury_g_ergo",
-			"wpn_fps_upg_o_specter",
-			"wpn_fps_upg_o_aimpoint",
-			"wpn_fps_upg_o_docter",
-			"wpn_fps_upg_o_eotech",
-			"wpn_fps_upg_o_t1micro",
-			"wpn_fps_upg_o_cmore",
-			"wpn_fps_upg_o_aimpoint_2",
-			"wpn_fps_upg_o_acog",
-			"wpn_fps_upg_o_eotech_xps",
-			"wpn_fps_upg_o_reflex",
-			"wpn_fps_upg_o_rx01",
-			"wpn_fps_upg_o_rx30",
-			"wpn_fps_upg_o_cs",
-			"wpn_fps_pis_rage_o_adapter",
-			"wpn_fps_pis_rage_lock",
-			"wpn_fps_upg_o_spot",
-			"wpn_fps_upg_o_xpsg33_magnifier",
-			"wpn_fps_upg_o_sig",
-			"wpn_fps_upg_o_bmg",
-			"wpn_fps_upg_o_uh",
-			"wpn_fps_upg_o_fc1"		
-		}
+			self.wpn_fps_pis_shatters_fury.override = {
+				wpn_fps_pis_rage_lock = { 
+					forbids = {}
+				}
+			}	
+			self.wpn_fps_pis_shatters_fury.uses_parts = {
+				"wpn_fps_pis_shatters_fury_body_standard",
+				"wpn_fps_pis_shatters_fury_body_smooth",
+				"wpn_fps_pis_shatters_fury_b_standard",
+				"wpn_fps_pis_shatters_fury_b_short",
+				"wpn_fps_pis_shatters_fury_b_long",
+				"wpn_fps_pis_shatters_fury_b_comp1",
+				"wpn_fps_pis_shatters_fury_b_comp2",
+				"wpn_fps_pis_shatters_fury_g_standard",
+				"wpn_fps_pis_shatters_fury_g_ergo",
+				"wpn_fps_upg_o_specter",
+				"wpn_fps_upg_o_aimpoint",
+				"wpn_fps_upg_o_docter",
+				"wpn_fps_upg_o_eotech",
+				"wpn_fps_upg_o_t1micro",
+				"wpn_fps_upg_o_cmore",
+				"wpn_fps_upg_o_aimpoint_2",
+				"wpn_fps_upg_o_acog",
+				"wpn_fps_upg_o_eotech_xps",
+				"wpn_fps_upg_o_reflex",
+				"wpn_fps_upg_o_rx01",
+				"wpn_fps_upg_o_rx30",
+				"wpn_fps_upg_o_cs",
+				"wpn_fps_pis_rage_o_adapter",
+				"wpn_fps_pis_rage_lock",
+				"wpn_fps_upg_o_spot",
+				"wpn_fps_upg_o_xpsg33_magnifier",
+				"wpn_fps_upg_o_sig",
+				"wpn_fps_upg_o_bmg",
+				"wpn_fps_upg_o_uh",
+				"wpn_fps_upg_o_fc1"		
+			}
+		end
 
 		for _, part in pairs(self.parts) do
 			if not part.supported and part.stats then

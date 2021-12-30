@@ -37,7 +37,7 @@ function PlayerTweakData:_set_overkill_145()
 	self.suspicion.range_mul = 1
 	self.suspicion.buildup_mul = 1
 	self.damage.custody_ammo_drained  = 0.5
-	self.damage.DOWNED_TIME_DEC = 15
+	self.damage.DOWNED_TIME_DEC = 10
 end
 
 function PlayerTweakData:_set_easy_wish()

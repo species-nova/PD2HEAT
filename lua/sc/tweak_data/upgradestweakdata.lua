@@ -1222,12 +1222,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Swan Song
 				self.values.temporary.berserker_damage_multiplier = {
-					{1, 3}, --Basic
-					{1, 9} --Ace
+					{1, 4}, --Basic
+					{1, 8} --Ace
 				}
 				self.berserker_movement_speed_multiplier = 0.5
 				--Ace
-					self.values.player.swan_song_instant_reload = {true}
+					self.values.player.berserker_no_ammo_cost = {true}
 
 			--Haunt
 				--Basic
@@ -1237,6 +1237,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Messiah
 				self.values.player.messiah_revive_from_bleed_out = {1, 3}
+				self.messiah_cooldown = 80
+				self.messiah_kill_cdr = 20
 				self.values.player.pistol_revive_from_bleed_out = {1, 3}
 				self.values.player.additional_lives = {1, 3}
 			
@@ -1406,14 +1408,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			amount = 0.1,
 			tick_time = 0.5,
 			tick_count = 20,
-			max_stacks = 6,
+			max_stacks = 8,
 			refesh_stacks_on_damage = true
 		}
 	}
 
 	--Grinder
 	self.values.player.armor_reduction_multiplier = {0.5}
-	self.values.player.hot_speed_bonus = {0.03}
+	self.values.player.hot_speed_bonus = {0.025}
 
 	--infiltrator stuff
 	self.values.player.damage_dampener_close_contact = {
@@ -2706,15 +2708,6 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "steelsight_speed_multiplier",
-			category = "player"
-		}
-	}
-	self.definitions.player_swan_song_instant_reload = {
-		name_id = "menu_player_swan_song_instant_reload",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "swan_song_instant_reload",
 			category = "player"
 		}
 	}

@@ -344,7 +344,7 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 	self._deploy_anim_override = self:weapon_tweak_data().deploy_anim_override or nil
 	self._deploy_ads_stance_mod = self:weapon_tweak_data().deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
 		
-	self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield or false --implementing Heavy AP
+	self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
 	
 	if not self:is_npc() then
 		local weapon = {
@@ -367,7 +367,7 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 		
 		self._burst_rounds_fired = 0
 	else
-		self._can_shoot_through_titan_shield = false --to prevent npc abuse
+		self._can_shoot_through_titan_shield = false
 	end		
 	
 	--Set range multipliers.
@@ -388,16 +388,12 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 		if stats.ads_speed_mult then
 			self._ads_speed_mult = self._ads_speed_mult * stats.ads_speed_mult
 		end
+
 		if self._flame_max_range and stats.flame_max_range_set then
 			self._flame_max_range = stats.flame_max_range_set
 			NewRaycastWeaponBase.flame_max_range = stats.flame_max_range_set
 		end
-		if stats.block_b_storm then
-			if not self:weapon_tweak_data().sub_category then
-				 self:weapon_tweak_data().sub_category = {}
-			end
-			self:weapon_tweak_data().sub_category = "grenade_launcher"
-		end
+
 		if stats.disable_steelsight_stance then
 			if self:weapon_tweak_data().animations then
 				self:weapon_tweak_data().animations.has_steelsight_stance = false
@@ -455,7 +451,6 @@ function NewRaycastWeaponBase:precalculate_ammo_pickup()
 	end
 end
 
---[[	fire rate multipler in-game stuff	]]--
 function NewRaycastWeaponBase:fire_rate_multiplier()
 	local mul = 1
 	local player_manager = managers.player

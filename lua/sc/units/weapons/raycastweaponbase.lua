@@ -83,7 +83,7 @@ function FlameBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, b
 		if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
 			if enemy_unit:base():char_tweak() then
 				if enemy_unit:base():char_tweak().damage.shield_knocked and not enemy_unit:character_damage():is_immune_to_shield_knockback() then
-					local knock_chance = math.sqrt(0.03 * damage) --Makes a nice curve.
+					local knock_chance = math.sqrt(0.02 * damage) --Makes a nice curve.
 
 					if knock_chance > math.random() then
 						local damage_info = {
@@ -428,8 +428,6 @@ function RaycastWeaponBase:check_autoaim(from_pos, direction, max_dist, use_aim_
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit. 
 	local enemies_in_cone = self._unit:find_units("cone", from_pos, tar_vec, cone_radius, managers.slot:get_mask("player_autoaim"))
 
-	--TODO: Figure out why the cone radius is sometimes way smaller than desired. Doesn't appear to be related to the aim assist check at all.
-	--Might be an issue with how distance is being handled, potentially.
 	for _, enemy in pairs(enemies_in_cone) do
 		--Get head and body positions of the enemy, and determine which one is closer to where the player was aiming to determine final raycast direction.
 		--An additional difficulty factor is added to the head's error value to make it slightly trickier to get- just like with a non-autohit bullet.
@@ -471,6 +469,10 @@ function RaycastWeaponBase:check_autoaim(from_pos, direction, max_dist, use_aim_
 					break
 				elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
 					break
+				elseif hit.unit:in_slot(shield_mask) and hit.unit:name():key() == 'af254947f0288a6c' and not self._can_shoot_through_titan_shield then --Titan shields
+					break
+				elseif hit.unit:in_slot(shield_mask) and hit.unit:name():key() == '4a4a5e0034dd5340' then --Winters shield
+					break						
 				end
 			end
 		end
@@ -501,7 +503,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	mvector3.multiply(mvec_to, ray_distance)
 	mvector3.add(mvec_to, from_pos)
 
-	local damage = self:_get_current_damage(dmg_mul)
+	local damage = self._damage * dmg_mul
 	local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 	local hit_anyone = false
 
@@ -662,7 +664,6 @@ end
 --Original mod by 90e, uploaded by DarKobalt.
 --Reverb fixed by Doctor Mister Cool, aka Didn'tMeltCables, aka DinoMegaCool
 --New version uploaded and maintained by Offyerrocker.
---Totally not stolen for resmod 
 
 local afsf_blacklist = {
 	["saw"] = true,
@@ -672,15 +673,13 @@ local afsf_blacklist = {
 }
 
 function RaycastWeaponBase:_soundfix_should_play_normal()
-	local name_id = self:get_name_id() or "xX69dank420blazermachineXx" 
 	if not self._setup.user_unit == managers.player:player_unit() then
 		return true
-	elseif afsf_blacklist[name_id] then
+	elseif afsf_blacklist[self._name_id] then
 		return true
-	elseif not tweak_data.weapon[name_id].sounds.fire_single then
+	elseif not tweak_data.weapon[self._name_id].sounds.fire_single then
 		return true
 	end
-	
 end
 
 local orig_fire_sound = RaycastWeaponBase._fire_sound
@@ -691,42 +690,39 @@ function RaycastWeaponBase:_fire_sound(...)
 end
 
 function RaycastWeaponBase:update_next_shooting_time()
+	if self:gadget_overrides_weapon_functions() then
+		local gadget_func = self:gadget_function_override("update_next_shooting_time")
+
+		if gadget_func then
+			return gadget_func
+		end
+	end
+
 	local next_fire = self._base_fire_rate / self:fire_rate_multiplier()
 	self._next_fire_allowed = self._next_fire_allowed + next_fire
 end
 
---Adds auto fire sound fix, Shell Shocked skill, and MG Specialist skill.
 function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, target_unit)
-	if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then
-		managers.player:deactivate_temporary_upgrade("temporary", "no_ammo_cost_buff")
-
-		if managers.player:has_category_upgrade("temporary", "no_ammo_cost") then
-			managers.player:activate_temporary_upgrade("temporary", "no_ammo_cost")
-		end
-	end
-
-	local is_player = self._setup.user_unit == managers.player:player_unit()
-	local consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) or not is_player
-
-	if self._current_spread_area then
-		--log(math.round(self._current_spread_area*100)/100)
-	end
+	local user_unit = self._setup.user_unit
+	local is_player = user_unit == managers.player:player_unit()
+	local consume_ammo = not is_player
 
 	if is_player then
 		self._bloom_stacks = math.min(self._bloom_stacks + self._base_fire_rate, 1)
-
-		--Spray 'n Pray
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
-		if self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0 then
-			consume_ammo = false
-		end
 
-		--Bullet Hell
-		if consume_ammo then
-			if math.random() < managers.player:temporary_upgrade_value("temporary", "bullet_hell", {free_ammo_chance = 0}).free_ammo_chance then
-				consume_ammo = false
+		if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then
+			managers.player:deactivate_temporary_upgrade("temporary", "no_ammo_cost_buff")
+
+			if managers.player:has_category_upgrade("temporary", "no_ammo_cost") then
+				managers.player:activate_temporary_upgrade("temporary", "no_ammo_cost")
 			end
 		end
+
+		consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") --Bullet Storm
+			and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) --Swan Song
+			and not (self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0) --Spray and Pray
+			and not (math.random() < managers.player:temporary_upgrade_value("temporary", "bullet_hell", {free_ammo_chance = 0}).free_ammo_chance) --Bullet Hell
 
 		if self._shots_before_bullet_hell and self._shots_before_bullet_hell <= self._shots_without_releasing_trigger then
 			self._bullet_hell_procced = true
@@ -773,8 +769,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		base:set_ammo_remaining_in_clip(base:get_ammo_remaining_in_clip() - ammo_usage)
 		self:use_ammo(base, ammo_usage)
 	end
-
-	local user_unit = self._setup.user_unit
 
 	self:_check_ammo_total(user_unit)
 
@@ -1012,12 +1006,42 @@ function BleedBulletBase:start_dot_damage(col_ray, weapon_unit, dot_data, weapon
  	end
 end
 
+--Adds a blood splat effect every time the bleed deals damage.
+function BleedBulletBase:give_damage_dot(col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
+	--Movement() can return nil, but can also itself be nil. Very fun!
+	if alive(col_ray.unit) and col_ray.unit.movement and col_ray.unit:movement() and col_ray.unit:movement()._obj_spine then
+		World:effect_manager():spawn({
+			effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
+			position = col_ray.unit:movement()._obj_spine:position(),
+			normal = Vector3(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
+		})
+	end
+	
+	local action_data = {
+		variant = self.VARIANT,
+		damage = damage,
+		weapon_unit = weapon_unit,
+		attacker_unit = attacker_unit,
+		col_ray = col_ray,
+		hurt_animation = hurt_animation,
+		weapon_id = weapon_id
+	}
+	local defense_data = {}
+
+	if col_ray and col_ray.unit and alive(col_ray.unit) and col_ray.unit:character_damage() then
+		defense_data = col_ray.unit:character_damage():damage_dot(action_data)
+	end
+
+	return defense_data
+end
+
 function InstantExplosiveBulletBase:on_collision_server(position, normal, damage, user_unit, weapon_unit, owner_peer_id, owner_selection_index)
 	local slot_mask = managers.slot:get_mask("explosion_targets")
 
 	managers.explosion:play_sound_and_effects(position, normal, self.RANGE, self.EFFECT_PARAMS)
 
-	managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit) --Funny vanilla code doesn't call this and works off of magic because reasons idk.
+	--We need to hti the local player and pass in the user unit to handle friendly fire.
+	managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
 	local hit_units, splinters, results = managers.explosion:detect_and_give_dmg({
 		hit_pos = position,
 		range = self.RANGE,
@@ -1077,36 +1101,8 @@ function InstantExplosiveBulletBase:on_collision_server(position, normal, damage
 	end
 end
 
+--Passes in the user unit to catch friendly fire 
 function InstantExplosiveBulletBase:on_collision_client(position, normal, damage, user_unit)
 	managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
 	managers.explosion:explode_on_client(position, normal, user_unit, damage, self.RANGE, self.CURVE_POW, self.EFFECT_PARAMS)
-end
-
---Adds a blood splat effect every time the bleed deals damage.
-function BleedBulletBase:give_damage_dot(col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
-	--Movement() can return nil, but can also itself be nil. Very fun!
-	if alive(col_ray.unit) and col_ray.unit.movement and col_ray.unit:movement() and col_ray.unit:movement()._obj_spine then
-		World:effect_manager():spawn({
-			effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
-			position = col_ray.unit:movement()._obj_spine:position(),
-			normal = Vector3(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
-		})
-	end
-	
-	local action_data = {
-		variant = self.VARIANT,
-		damage = damage,
-		weapon_unit = weapon_unit,
-		attacker_unit = attacker_unit,
-		col_ray = col_ray,
-		hurt_animation = hurt_animation,
-		weapon_id = weapon_id
-	}
-	local defense_data = {}
-
-	if col_ray and col_ray.unit and alive(col_ray.unit) and col_ray.unit:character_damage() then
-		defense_data = col_ray.unit:character_damage():damage_dot(action_data)
-	end
-
-	return defense_data
 end

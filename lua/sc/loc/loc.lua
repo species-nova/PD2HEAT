@@ -6,18 +6,11 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["menu_es_personal"] = "Personal",
 		["menu_es_bad"] = "Bad",
 		["menu_es_other"] = "Other",
-		["RestorationPDTHHudNeeded"] = "PD:TH HUD REBORN IS REQUIRED!",
 		["menu_paygrade"] = "Pay grade: ",
 		["menu_diffgrade"] = "Difficulty: ",
-		--["menu_utility_radial_menu_name"] = "Utility Radial Menu",
-		--["menu_utility_radial_menu_desc"] = "Open the Utility Menu",
 
 		["heat_credits"] = "Heat Credits",
 		["heat_credits_help"] = "View the credits for Heat.",
-
-		--["Warning_overhaul_title"] = "WARNING: Game closing to prevent save corruption.",
-		--["dialog_show_overhaul_dialog"] = "You are DISABLING the Complete Overhaul. It is typically NOT RECOMMENDED to do this, and you should instead REMOVE the mod from your mods folder if you intend not to use the Overhaul actively.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
-		--["dialog_enable_overhaul_dialog"] = "You are ENABLING the Complete Overhaul. The Overhaul should typically remain ON at all times, and only be disabled by removing the mod from your mods folder.\n\nYour game will close automatically in $TIME seconds, or when you press OK.",
 
 		["res_saveboost"] = "HOLD $BTN_INTERACT TO BOOST TO LEVEL 100",
 
@@ -147,31 +140,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATQuietRainTitleID"] = "Quiet Rain",
 		["PD2HEATQuietRainDescID"] = "Makes the rain quieter on rainy heists.",
 
-		["default"] = "Default",
-		["random"] = "Random",
-		["mellowday"] = "Mellow Day",
-		["xbox_bank"] = "E3 2013",
-		["bank_day"] = "Improved Default",
-		["env_trailer_bank"] = "Trailer Bank",
-		["rvd1_alt1"] = "Nightlife",
-		["rvd1_alt2"] = "Pink Smog",
-		["rvd2_alt"] = "Overcast",
-		["fsd1_eve"] = "Evening",
-		["bos_alt"] = "Pink Skies",
-		["dockyard_alt"] = "Night Shift",
-		["underpass_foggyday"] = "Foggy Day",
-		["mall_alt"] = "Afternoon Shopping",
-		["hlm_morn"] = "Morning Call",
-		["funny_and_epic_synthwave_very_eighties"] = "Retro",
-		["brightnight"] = "Bright Night",
-		["docks"] = "Docks",
-		["bank_green"] = "Beta Green",
-		["cloudy_day"] = "Cloudy Day",
-		["shadowraid_day"] = "Shadow Raid Daytime",
-		["shadowraiud_darker"] = "Shadow Raid Darker",
-		["friend_pink"] = "Pink Sunset",
-		["friend_night"] = "Miami Night",
-		["off"] = "Off",
 		["windowofoppurtunity"] = "Window Of Opportunity",
 		["wheresthevan"] = "Where's The Van",
 		["menu_jukebox_heist_ponr"] = "Point Of No Return",
@@ -211,8 +179,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATDistrictDescID"] = "Enable or disable district descriptions in CRIME.NET. Not gameplay accurate.",
 		["PD2HEATSCOptionsButtonTitleID"] = "Heat Options",
 		["PD2HEATSCOptionsButtonDescID"] = "Heat Options",
-		--["PD2HEATSCTitleID"] = "Complete Overhaul (DEBUG)",
-		--["PD2HEATSCDescID"] = "Enable or disable Heat's complete game overhaul. Toggling this option will automatically exit your game to prevent save corruption.",
 		["PD2HEATHolidayTitleID"] = "Holiday Effects",
 		["PD2HEATHolidayDescID"] = "Enable or disable Holiday effects for Heat.",
 		["PD2HEATRestoreHitFlashTitleID"] = "Restore Hit Flash",
@@ -228,30 +194,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["hud_assault_alpha"] = "POLICE ASSAULT",
 		["hud_loot_secured_title"] = "LOOT SECURED!",
 		["debug_none"] = "OBJECTIVE",
-
-		
-
-		--["heist_greattrain_name"] = "Time Window",
-		--["heist_easystore_name"] = "Twenty-Four Seven",
-		--["heist_sin_villa_name"] = "SCORE: Villa Vivaldi",
-		--["heist_dragon_name"] = "Stonefist",
-		--["heist_jkl_base_name"] = "Jackal's Safehouse",
-		--["heist_junger_name"] = "Distorted Angels",
-		--["heist_deep_name"] = "Deep Six",
-		--["heist_blood_name"] = "Body/Prison",
-		--["heist_crystal_name"] = "Slaves of Fear",
-		--["heist_gold_name"] = "Remains of Nothing",
-		--["heist_titanium_name"] = "Turf War",
-		--["heist_airport_name"] = "Dead Reckoning",
-		--["heist_platinum_name"] = "Surface Tension",
-		--["heist_cursed_name"] = "Green Harvest",
-		--["heist_holly_name"] = "Blockbuster Night",
-
-		--["heist_platinum_brief"] = "stir the boat",
-		--["heist_jackal_surface_tension_name"] = "OMNIA Research Vessel SN-XR-LETHE",
-		--["heist_jackal_surface_tension_brief"] = "PLACEHOLDER",
-
-		--["heist_vivinite_name"] = "Zero Day",
 
 		["heist_contact_shatter"] = "Jackal",
 		["heist_contact_akashic"] = "NO DATA",
@@ -478,66 +420,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["menu_ingame_manual"] = "Heat Guide",
 		["menu_ingame_manual_help"] = "View the guide for Heat.",
 
-		--["menu_asset_wet_add_saw"] = "Additional Saw",
-		--["menu_asset_wet_add_saw_desc"] = "Buy an additional saw",
-		["menu_rush_asset_sentrygun"] = "Sentry Package",
-		["menu_rush_asset_sentrygun_desc"] = "Buy a Sentry Package",
-
-		--[[ ["heist_junker_name"] = "Doghouse",
-		["heist_junker_brief"] = "This is a job for Vlad. Apparently, a botched trade deal has left his men & the goods they brought in a bad situation -- Feds are nearly on the case. We have a vehicle ready to get you to the location, and then you can provide backup. We'll secure support chopper, and get you & the essentials out of there.\n\nThis should be short, but don't underestimate the police. Bring your fighting gear.",
-		["heist_junk_name"] = "Watchful Eyes",
-		["heist_junk_brief"] = "The construction area is just ahead. Cops haven't arrived yet but they'll be here shortly. Vlad's guys will give you backup but they likely won't last too long.\n\nReports are that there's a meth lab on site apparently, so feel free to make a little extra money if you can keep Vlad's stuff safe at the same time.",
-		["junk_01"] = "DEFEND THE CASH & DRUGS",
-		["junk_01_desc"] = "Keep the cops away from the loot!  Both the coke and the money need to be defended.",
-		["junk_02"] = "PLACE & SHOOT EACH GAS CAN TO LIGHT THEM",
-		["junk_02_desc"] = "Light a fire, it'll alert the pilot of your position.",
-		["junk_03"] = "DEFEND THE CASH & DRUGS",
-		["junk_03_desc"] = "Don't let the cops secure any of Vlad's product! Lose too many bags, and the operation will be a failure!",
-		["junk_04"] = "SECURE VLAD'S PRODUCT",
-		["junk_04_desc"] = "Secure Vlad's cocaine. His own men will make sure the money is secured.",
-		["junk_05"] = "EXTRACTION AVAILABLE",
-		["junk_05_desc"] = "Leave as soon as you're satisfied with the take.",
-
-		
-		["heist_int_dock_name"] = "Wetworks",
-		["heist_int_dock_brief"] = "This warehouse is owned by Murkywater Logistics.  At least, for the moment. They've been using it as a loot lockup for a while, but recently, they were spotted moving some 'classified' servers. Intel suggests that they're holding some information regarding the alliance between them, and OMNIA.\n\nLoud or silent, the only objective here is to get to those servers, and retrieve the data. Expect resistance no matter the method.",
-		["heist_wetwork_name"] = "Wetworks",
-		["heist_wetwork_brief"] = "This warehouse is owned by Murkywater Logistics.  At least, for the moment. They've been using it as a loot lockup for a while, but recently, they were spotted moving some 'classified' servers. Intel suggests that they're holding some information regarding the alliance between them, and OMNIA.\n\nLoud or silent, the only objective here is to get to those servers, and retrieve the data. Expect resistance no matter the method.",
-		["obj1_enterwarehouse"] = "ENTER THE WAREHOUSE",
-		["obj1_enterwarehouse_desc"] = "Enter the warehouse.",
-		["obj2_findsecuritydoor"] = "LOCATE THE SERVER ROOM",
-		["obj2_findsecuritydoor_desc"] = "Locate the server room. It should be somewhere in the warehouse, likely behind a locked door.",
-		["obj3_getsecuritydooropen"] = "GET THE DOOR OPEN",
-		["obj3_getsecuritydooropen_desc"] = "Find a way to open the door.",
-		["obj4_openseconddoor"] = "BREAK INTO THE SERVER ROOM",
-		["obj4_openseconddoor_desc"] = "Break into the server room. A keycard or drill might help.",
-		["obj5_hack"] = "HACK THE LAPTOP",
-		["obj5_hack_desc"] = "Hack the laptop with Jackal's provided software.",
-		["obj5b_explode"] = "DEFUSE THE C4!",
-		["obj5b_explode_desc"] = "C4! Defuse them or run!",
-		["obj6_wait"] = "SEND THE DATA",
-		["obj6_wait_desc"] = "Hack is finished. Send the data to Jackal.",
-		["obj7_escapeorloot"] = "EXTRACTION AVAILABLE",
-		["obj7_escapeorloot_desc"] = "Leave the area as soon as you're satisfied with the take.",
-
-		["heist_int_dock_burn_name"] = "Burnout",
-		["heist_int_dock_burn_brief"] = "No time for detailed plans, they're going to move the additional master servers.\nThe driver is going to park a truck full of armed clowns in their doorstep.",
-		["heist_wetwork_burn_name"] = "Burnout",
-		["heist_wetwork_burn_brief"] = "Alright, we're almost at the site. You've been here before, but we're going in hot this time.\nMight be some loot still stashed around, but that's secondary.\n\nKeep an eye out for anything you can use to see whats inside the closed containers. Cameras, objects around the containers, whiteboards and so on.",
-		["wwburn_01"] = "READY UP",
-		["wwburn_01_desc"] = "Were in the front gate, Murkywater will be all over so get your guns out.",
-		["wwburn_02"] = "LOCATE SERVERS",
-		["wwburn_02_desc"] = "Locate the three shipping containers that hold master servers.",
-		["wwburn_03"] = "BURN THE BACKUPS",
-		["wwburn_03_desc"] = "Burn the backups of the master servers, they'll be in the same containers.",
-		["wwburn_04"] = "EXTRACTION AVAILABLE",
-		["wwburn_04_desc"] = "Escape, or secure more loot if you feel greedy.",
-
-		["wwburn_serverpku"] = "Secure",
-		["wwburn_gaspku"] = "Collect",
-		["wwburn_defend"] = "Defend",
-		["wwburn_container"] = "Shipping Container",]]--
-
 		["menu_jukebox_resmusic_wetwork"] = "Spectre Shark",
 		["menu_jukebox_screen_resmusic_wetwork"] = "Spectre Shark",
 		["menu_jukebox_resmusic_bluewave"] = "Spectre Shark 2020",
@@ -589,82 +471,21 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 
 		["bm_menu_amount_locked"] = "NONE IN STOCK",
 
-		["pdth_hud_challenges"] = "Challenges",
-		["pdth_hud_challenges_hint"] = "View completed and active challenges.",
-		["pdth_hud_active_challenges"] = "Active Challenges",
-		["pdth_hud_active_challenges_hint"] = "Current and active challenges.",
-		["pdth_hud_completed_challenges"] = "Completed Challenges",
-		["pdth_hud_completed_challenges_hint"] = "Completed and rewarded challenges.",
-
-		["ch_vs_desc"] = "Using the $weapon, defeat $count $eneType. Using melee does not contribute to this challenge.",
-		["ch_vs_head_shots_desc"] = "Using the $weapon, defeat $count $eneType with Headshots.",
-		["ch_vs"] = "$weapons VS. $eneType $no",
-		["ch_vs_head_shots"] = "$weapon VS. $eneType HEADSHOTS $no",
-
-		["ene_law"] = "THE WORLD",
-		["ene_law_desc"] = "hostile units",
-
-		["menu_me"] = "HEISTER",
-
-		["PD2HEATPDTHChallengesTitleID"] = "Show PDTH Challenges",
-		["PD2HEATPDTHChallengesDescID"] = "Toggles the visibility of the PDTH challenges in the menu and the hud",
-
-		--["PD2HEATRaidLockPickingTitleID"] = "Modify Lockpicks",
-		--["PD2HEATRaidLockPickingDescID"] = "Should the mod modify lockpicks? This changes the gameplay revolving lockpicks",
-		--["PD2HEATRaidLockPickingVOTitleID"] = "Play Voice Lines",
-		--["PD2HEATRaidLockPickingVODescID"] = "Should the mod play voice lines when picking a lock?",
-		--["hud_legend_lockpicking_interact"] = "$BTN_INTERACT Lockpick",
-		--["hud_legend_persuade_interact"] = "$BTN_INTERACT Persuade",
-		--["hud_legend_exit"] = "$BTN_CANCEL Exit",
 		["PD2HEATArmorFixTitleID"] = "Armor Flash Fix",
 		["PD2HEATArmorFixDescID"] = "Enable or disable armor flash fix.",
-
-		-- /// Challenges Below ///
-
-		["ch_deploy_ammobag_hl"] = "Last Bullet!",
-		["ch_deploy_ammobag"] = "Deploy $count Ammo Bags.",
-		["ch_plant_tripmine_hl"] = "Laser Show",
-		["ch_plant_tripmine"] = "Deploy $count Trip Mines.",
-		["ch_deploy_medicbag_hl"] = "Insurance Benefits",
-		["ch_deploy_medicbag"] = "Deploy $count Medic Bags.",
-		["ch_deploy_ecm_hl"] = "System Crasher",
-		["ch_deploy_ecm"] = "Deploy $count ECM's.",
-		["ch_deploy_fak_hl"] = "Lifeline",
-		["ch_deploy_fak"] = "Deploy $count First Aid Kits.",
-		["ch_deploy_sentry_hl"] = "White Mesa Enthusiast",
-		["ch_deploy_sentry"] = "Deploy $count Sentries.",
 
 
 		["ch_watchdogs_d1_heavy_wpn1_hl"] = "HEAVY ARMOR, AND HEAVIER WEAPONS",
 		["ch_watchdogs_d1_heavy_wpn1"] = "Complete day one of the WATCHDOGS job, wearing an ICTV and using miniguns, the Thanatos sniper, or RPG's only, on the OVERKILL difficulty or above.  You must have played from the start of the heist to complete this challenge.",
 		
-		-- ["test_net"] = "Fast.Net",
-		-- ["menu_test"] = "",
-		-- ["state_filter"] = "State",
-		-- ["menu_state_filter"] = "State Filter",
-		-- ["menu_state_filter_help"] = "Shows the lobby state",
-		-- ["menu_state_lobby"] = "Lobby",
-		-- ["menu_state_loading"] = "Loading",
-		-- ["menu_state_ingame"] = "Ingame",
-		
-		-- ///Stuff ripped from the various locale files we had ///
-		
-		--Halloween Dozer Sword--
-		["bm_melee_halloween_sword"] = "Headless Bulldozer's Sword",
-		["menu_l_global_value_halloween_sword"] = "This is a Halloween 2013 item!",
-		
 		--Phoenix .500--
 		["bm_w_shatters_fury"] = "Phoenix .500 Revolver",
-		
 		["bm_wp_wpn_fps_pis_shatters_fury_b_comp1"] = "Horus Barrel",
 		["bm_wp_wpn_fps_pis_shatters_fury_b_comp2"] = "Shatter Barrel",
 		["bm_wp_wpn_fps_pis_shatters_fury_b_long"] = "Hathor Barrel",
 		["bm_wp_wpn_fps_pis_shatters_fury_b_short"] = "Firebird Barrel",
-		
 		["bm_wp_wpn_fps_pis_shatters_fury_g_ergo"] = "Ergo Grip",
-		
 		["bm_wp_wpn_fps_pis_shatters_fury_body_smooth"] = "Smooth Cylinder",
-
 		["menu_l_global_value_shatters_fury"] = "This is a HEAT item!",
 		
 		--Anubis .45--
@@ -744,7 +565,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 	local job = Global.level_data and Global.level_data.level_id
 	for _,j4 in ipairs(heat.what_a_horrible_heist_to_have_a_curse) do
 		if job == j4 then
-			-- log("Spooky!")
 			LocalizationManager:add_localized_strings({	
 				["hud_assault_vip"] = "FACE YOUR NIGHTMARES AND WAKE UP",
 			})
@@ -763,27 +583,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_inspect_player"] = "Inspect Player",
 		["menu_inspect_player_desc"] = "Inspect player's stats",
 		["menu_toggle_one_down_lobbies"] = "Allow Pro-Job Lobbies",
-		
-		--Holdout--
-		--[[
-		["menu_cn_skirmish"] = "Skirmish",
-		["menu_skirmish"] = "Skirmish - Hostile Engagement",
-		["menu_skirmish_random"] = "Random Locale",
-		["menu_random_skirmish_subtitle"] = "Random combat location.\n\nNo weekly rewards, no starting modifiers.",
-		["menu_weekly_skirmish"] = "Target Locale",
-		["menu_weekly_skirmish_progress"] = "Waves Completed, Reward Upon Total Completion",
-		["menu_skirmish_random_briefing"] = "In this scenario, you're placed into a random SKIRMISH.\n\nA random SKIRMISH consists of 9 waves. Each consecutive wave increases in difficulty.\n\nYou gain a large cash & experience reward with each wave completed, but failure will negate all rewards accrued.\n\nYou will fail if anyone in your crew -- including yourself -- is taken into custody, or if the target hostage is rescued by hostiles.",
-		["menu_weekly_skirmish_desc"] = "In this scenario, you're placed into a pre-configured SKIRMISH.\n\nThe weekly SKIRMISH consists of 9 waves, with starting modifiers. Each consecutive wave increases in difficulty.\n\nFinishing all waves will grant you additional weekly rewards, in addition to your cash payout.\n\n##You will fail if anyone in your crew -- including yourself -- are taken into custody, or if the target hostage is rescued by hostiles.##",
-		["menu_weekly_skirmish_tab_description"] = "Operation Rundown",
-		["menu_weekly_skirmish_rewards"] = "Total Waves Completed & Associated Rewards",
-		["hud_skirmish"] = "Skirmish",
-		["hud_weekly_skirmish"] = "Weekly Skirmish",
-		["heist_contact_skirmish"] = "Skirmish",
-		["menu_skirmish_pick_heist"] = "Jackal Company Entrusts You With This Task",
-		["menu_skirmish_map_selection"] = "Target Locations",
-		["menu_skirmish_selected_briefing"] = "In this scenario, you & your crew can select any SKIRMISH.\n\nA SKIRMISH consists of 9 waves. Each consecutive wave increases in difficulty.\n\nYou gain a large cash, experience, and loot reward with each wave completed.\n\nYou will fail if the target hostage is rescued by hostiles.",
-		["menu_skirmish_selected"] = "Skirmish",
-		]]
 
 		--Skirmish Heists--
 		["heist_skm_mallcrasher"] = "Shield Mall",
@@ -799,7 +598,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["heist_skm_run"] = "Uptown - Inkwell Industrial",
 		["heist_skm_run_h1"] = "Uptown - Inkwell Industrial",
 
-
 		--Hint Override--
 		["hint_otherside"] = "Spring's presence prevents the airlock from closing!",
 
@@ -807,11 +605,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["heist_pines_briefing"] = "We need you there fast, because it's really out in the sticks, so you're going in like the paras. Find the pilot - he's probably near the wreck, and then we'll send in a chopper to extract him. Stay with him til he's safely out, Also, Vlad says that plane was loaded with product, Search the forest and get as much out as you can. We could always use a little extra cash during Christmas.\n\nNOTE FROM JACKAL:\nThe explosion from that crash alerted nearby Reaper teams. Don't expect a police response.",
 
 		----Weapons + Mods Descriptions/names----
-
-		--Reinfield--
-		["bm_wp_r870_s_folding_ext"] = "Extended Muldon Stock",
-
-		--Bernetti--
 		["bm_wp_upg_i_93r"] = "Bernetti 93t Kit",
 		["bm_wp_upg_i_93r_desc"] = "Enables a 3 round burst firemode, at the cost of extra kick.", --still need to do the one for the primary bernetti--
 
@@ -835,37 +628,18 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_upg_vg_afg"] = "AFG",
 		["bm_wp_upg_vg_stubby"] = "Stubby Vertical Grip",
 		["bm_wp_upg_vg_tac"] = "TAC Vertical Grip",
-
 		["bm_wp_upg_vintage_sc"] = "Vintage Mag",
 		["bm_wp_upg_mil_sc"] = "Milspec Mag",
 		["bm_wp_upg_tac_sc"] = "Tactical Mag",
-
-		["bm_wp_upg_mil_desc"] = "", --These didn't do anything when edited, maybe they aren't actually called?--
-		["bm_wp_upg_drum_desc"] = "",
-		["bm_wp_upg_drum2_desc"] = "",
-		["bm_wp_upg_quad_desc"] = "",
-		["bm_wp_upg_quad2_desc"] = "",
-		["bm_wp_upg_vintage_desc"] = "",
-
-		--Scorpion (get in-game-name later)--
 		["bm_wp_scorpion_m_extended"] = "Double Magazine",
-		["bm_sc_scorpion_double_mag"] = "", --Unsure what this one is?--
-
-		--RPK--
 		["bm_wp_rpk_m_ban_sc"] = "Potassium Magazine",
-
-		--Buzzsaw--
-		["bm_wp_mg42_b_mg34_desc_sc"] = "Slows your rate of fire to 800.",
-
-		--Saw--
+		["bm_wp_r870_s_folding_ext"] = "Extended Muldon Stock",
 		["bm_ap_saw_sc_desc"] = "CUTS THROUGH BODY ARMOR.",
-		["bm_ap_saw_blade_sc_desc"] = "Sharpens the blade enough to cut through body armor.",
-		["bm_fast_motor_sc_desc"] = "Increases Rotations Per Minute by 15%.",
-		["bm_slow_motor_sc_desc"] = "Decreases Rotations Per Minute by 15%.",
 
 		--Weapon Sights--
 		["bm_wp_upg_o_leupold_desc_sc"] = "Automatically marks special enemies, as well as guards in Stealth, while aiming.", --I believe all sights/objects with this effect call this same line, rather than having a unique one. Will need to be decoupled later when we add zoom to all of the sight descriptions.
 
+		--[[
 		--Generic Optic Zoom Descriptions--
 		["bm_wp_upg_o_tiny"] = "1.1x MAGNIFICATION.",
 		["bm_wp_upg_o_small"] = "1.2x MAGNIFICATION.",
@@ -876,6 +650,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_upg_o_huge"] = "5x MAGNIFICATION.",
 		--;)
 		["bm_wp_upg_o_overkill"] = "6x MAGNIFICATION.",
+		]]
 
 		--'Nade Launchers--
 		["bm_wp_upg_a_grenade_launcher_incendiary_desc_sc"] = "Fires a round that causes a fire at point of impact. The fire deals damage over time, and has a chance to interrupt enemies.",
@@ -942,13 +717,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_m203_weapon_sc_desc_pc"] = "Equipped with a M203 40mm grenade launcher.\nPress $BTN_BIPOD to switch to the mounted Grenade Launcher.",
 		["bm_m203_weapon_sc_desc"] = "Equipped with a M203 40mm grenade launcher.\nHold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
 
-		--Mosin--
-		["bm_mosin_sc_desc"] = "Classic, powerful bolt-action rifle. This weapon reloads in clips of 5 bullets at a time.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
-
-		--Broomstick--
-		["bm_c96_sc_desc"] = "Revolutionary German machine pistol. Capable of firing in full-auto at an insane rate, but will decimate your ammo reserves.\nThis weapon reloads in clips of 10 bullets at a time.",
-
-		--Generic weapon descriptions (Keep for custom weapon purposes)--
+		--Generic weapon descriptions--
 		["bm_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 		["bm_heavy_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, TITAN SHIELDS, AND THIN WALLS.",
 		["bm_ap_2_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE RESTORED BY PICKING THEM UP, AND RANGE INCREASES THE LONGER AN ARROW IS DRAWN.",
@@ -1035,6 +804,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_menu_standing_range"] = "Range",
 		["bm_menu_moving_range"] = "Range (Moving)",
 		["bm_menu_pickup"] = "Ammo Pickup",
+		["bm_menu_spread"] = "Accuracy",
+		["bm_menu_recoil"] = "Stability",
+		["bm_menu_concealment"] = "Mobility",
 
 		--Blackmarket GUI per-armor skill descriptions.
 		["bm_menu_armor_grinding_1"] = "Armor regenerated every tick: $passive_armor_regen",
@@ -1057,16 +829,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 	
 		["menu_es_rep_upgrade"] = "",	--bullshitted removal of you got x more skillpoints message--
 
-
-		--Is there a reason these have to be down here? If not, I'll move them up with the others (custom weapons in their own section dw)--
-		
-		----Custom Weapon Mod Descriptions----		
-		["bm_w_mossberg590"] = "Reinbeck 890 Shotgun",
-		["bm_w_mossberg590_desc"] = "The spiritual successor to the criminal syndicate's most popular shotgun has arrived. Although it retains the power of the original Reinbeck, it makes a few small deviations from the original design, making it easier to pump but less stable.",
-		["bm_w_beck_desc"] = "The criminal underworld's most popular shotgun has returned from its grave to reclaim its rightful place in the shotgun hierarchy. Originally used in the 2011 Crimewave, this shotgun has been proven extremely reliable in just about any close range situation.",
-	
-		["bm_wp_wpn_fps_lmg_shuno_body_red"] = "Red Body",
-	
 		--Bipod--
 		["bm_sc_bipod_desc_pc"] = "Deploy/Undeploy by pressing $BTN_BIPOD on a valid surface.\n\nDramatically reduces recoil while deployed.",
 		["bm_sc_bipod_desc"] = "Deploy/Undeploy by holding $BTN_BIPOD on a valid surface.\n\nDramatically reduces recoil while deployed.",
@@ -1114,9 +876,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_menu_bonus_recoil_p1_mod"] = "Small Stability Modifier",
 		["bm_menu_bonus_recoil_p2"] = "Large Stability bonus and Accuracy penalty",
 		["bm_wp_upg_bonus_team_exp_money_p3_desc"] = "+5% Experience reward for you and your crew, -10% Money reward for you and your crew",
-		["bm_menu_spread"] = "Accuracy\n",
-		["bm_menu_recoil"] = "Stability\n",
-		["bm_menu_concealment"] = "Mobility\n",
 		["bm_menu_bonus_spread_p2_mod"] = "Large Accuracy Modifier",
 		["bm_menu_bonus_spread_p3_mod"] = "Massive Accuracy Modifier",
 		["bm_menu_bonus_recoil_p2_mod"] = "Large Stability Modifier",
@@ -1235,7 +994,7 @@ Hooks:Add("LocalizationManagerPostInit", "ASSAULT_STRINGS_IN_PROGRESS", function
 		["hud_assault_cover_bs4"] = "COVER'NT",
 		["hud_assault_cover_bs4ds"] = "LIVE'NT",
 		["hud_assault_cover_bs5"] = "SLAY IN COVER",
-		["hud_assault_cover_bs5ds"] = "TRY TO SURFIVE",
+		["hud_assault_cover_bs5ds"] = "DON'T GET SLAIN",
 		["hud_assault_cover_bs6"] = "DO NOT THE COVER",
 		["hud_assault_cover_bs6ds"] = "DO NOT YOUR SURVIVAL CHANCES",
 		["hud_assault_cover_bs7"] = "THE MOVIE IS ON",
@@ -1640,7 +1399,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Uppers--
 			["menu_tea_cookies_beta_sc"] = "Uppers",
-			["menu_tea_cookies_beta_desc_sc"] = "BASIC: ##$basic##\nAdds ##3## more First Aid Kits to your inventory.\n\nACE: ##$pro##\nAdds ##3## more First Aid Kits to your inventory.\n\nYour deployed first aid kits will be automatically used if a player would go down within a ##5## meter radius of the first aid kit.\n\nThis cannot occur more than once every ##30## seconds individually for each player.\n\nNote: Does not apply to Swan Song.",
+			["menu_tea_cookies_beta_desc_sc"] = "BASIC: ##$basic##\nAdds ##3## more First Aid Kits to your inventory.\n\nACE: ##$pro##\nAdds ##3## more First Aid Kits to your inventory.\n\nYour deployed first aid kits will be automatically used if a player would go down within a ##5## meter radius of the first aid kit.\n\nThis cannot occur more than once every ##30## seconds individually for each player.",
 
 			--Combat Doctor--
 			["menu_medic_2x_beta_sc"] = "Combat Doctor",
@@ -1934,7 +1693,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			--{
 
 			--Swan Song--
-			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##3## seconds with a ##50%## movement speed penalty.\n\nACE: ##$pro##\nWhen your health reaches ##0##, your weapons are instantly reloaded.\n\nYou can fight for an additional ##6## seconds.",
+			["menu_perseverance_desc_sc"] = "BASIC: ##$basic##\nWhen your health reaches ##0##, instead of instantly going down, you can fight for ##4## seconds with a ##50%## movement speed penalty.\n\nACE: ##$pro##\nSwan Song grants infinite ammo, and lasts an additional ##4## seconds.",
 
 
 
@@ -2082,7 +1841,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Messiah--
 		["menu_pistol_beta_messiah_sc"] = "Messiah",
-		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nWhile in bleedout, killing an enemy will allow you to revive yourself. This effect has a ##120## second cooldown. Kills while downed reduce the cooldown by ##10## seconds.",
+		["menu_pistol_beta_messiah_desc_sc"] = "BASIC: ##$basic##\nYou can be downed ##1## additional time before going into custody for the first time.\n\nACE: ##$pro##\nWhile in bleedout, killing an enemy will allow you to revive yourself. This effect has a ##80## second cooldown. Kills while downed reduce the cooldown by ##20## seconds.",
 	})
 end)
 
@@ -2174,8 +1933,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck11_1_desc_sc"] = "Killing an enemy heals ##1## health every second for ##6## seconds, this effect stacks up to ##4## times. The duration of your stacks is refreshed every time you deal damage.\n\nYour maximum armor is reduced by ##50%##.",
 		["menu_deck11_3_desc_sc"] = "Stacks last for ##10## seconds.",
 		["menu_deck11_5_desc_sc"] = "Stacks now heal ##1## health every ##0.5## seconds.",
-		["menu_deck11_7_desc_sc"] = "You can now have up to ##6## stacks.",
-		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##3%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
+		["menu_deck11_7_desc_sc"] = "You can now have up to ##8## stacks.",
+		["menu_deck11_9_desc_sc"] = "Every stack increases your movement speed by ##2.5%##.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Ex-President-- ... or is it like, EX-President?  like a boss term?
 		["menu_deck13_1_desc_sc"] = "While your armor is up, you will store ##4## health for every enemy you kill.\n\nWhen your armor starts to regenerate after being completely depleted, you will gain health equal to the stored health amount.\n\nMaximum amount of stored health depends on your equipped armor, with heavier armors being able to store less health than lighter armors.",
@@ -2258,15 +2017,5 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck0_1_desc"] = "",
 	})
 end)
-
---this will be moved once framework for a standalone is set up
---[[Hooks:Add("LocalizationManagerPostInit", "HEAT_Localization_Shred", function(loc)
-	LocalizationManager:add_localized_strings({
-		
-		["menu_ecp_male"] = "Shred",
-		["ecp_male_desc"] = "Nationality: American\nAge: 32\n\nZane Graves was the former lead guitarist, songwriter, and band leader for Death Vox, a once popular underground rock group, turned heisting crew. As the crew hit bigger and bigger scores, the FBI set their crosshairs on them, and since then, Zane's been on the run. His friends were not so fortunate, were caught, and are now serving sentences in maximum security prison.\n\nBecoming a dedicated heister, he journeyed the midwest in 2013 during the Payday gang's growing crime spree in DC, helping out smaller crews and gangs, and later joined CrimeNet as a lone wolf for hire, hoping to one day get the opportunity to free his friends.\n\nInvited personally to the Payday gang by Jackal, he boasts an impressive skillset, and dangerously effective methods."
-		
-	})
-end)]]--
 
 

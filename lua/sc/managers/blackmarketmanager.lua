@@ -196,11 +196,7 @@ function BlackMarketManager:accuracy_index_addend(name, categories, silencer, cu
 	for _, category in ipairs(categories) do
 		index = index + pm:upgrade_value(category, "spread_index_addend", 0)
 	end
-
-	if silencer then
-		index = index + pm:upgrade_value("weapon", "silencer_spread_index_addend", 0)
-	end
-
+	
 	index = index + pm:temporary_upgrade_value("temporary", "headshot_accuracy_addend", 0)
 
 	return index
