@@ -291,7 +291,7 @@ end
 --Now used to refresh active grinder stacks when damage is dealt.
 --Has no effect outside of grinder.
 function PlayerManager:_check_damage_to_hot(t, unit, damage_info)
-	if not self._hot_data.refesh_stacks_on_damage or not damage_info.damage or damage_info.damage <= 0.1 and then
+	if not self._hot_data.refesh_stacks_on_damage or not damage_info.damage or damage_info.damage <= 0.1 then
 		return
 	end
 
