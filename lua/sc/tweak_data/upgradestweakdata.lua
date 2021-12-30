@@ -1059,7 +1059,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.player.melee_hit_stamina = {0.75}
 				--Ace
-					self.values.temporary.sprint_speed_boost = {{1.5, 0.5}}
+					self.values.temporary.sprint_speed_boost = {{1.6, 0.65}}
 
 			--The Professional
 				--Basic
