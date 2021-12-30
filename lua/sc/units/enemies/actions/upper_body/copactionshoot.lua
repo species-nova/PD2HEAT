@@ -807,7 +807,7 @@ function CopActionShoot:update(t)
 			if self._autofiring then
 				self:_stop_autofire() --Melee animation redirect is active, so don't play idle redirect.
 			end
-			self._shoot_t = t + 1
+			self._shoot_t = self._shoot_t + 1
 		elseif self:update_grenade(target_pos, target_vec, shoot_from_pos, target_dis, t) then --If a grenade is thrown, stop immediately.
 			if self._unit:movement():is_cloaked() then
 				self._unit:movement():set_cloaked(false)
