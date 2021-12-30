@@ -47,7 +47,7 @@ function PlayerTweakData:_set_easy_wish()
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.5
 	self.damage.MIN_DAMAGE_INTERVAL = 0.5 / 2
 	self.damage.custody_ammo_drained  = 0.75
-	self.damage.DOWNED_TIME_DEC = 10
+	self.damage.DOWNED_TIME_DEC = 15
 end
 
 function PlayerTweakData:_set_overkill_290()
