@@ -5395,22 +5395,29 @@ end)
 
 --Define % of total ammo to pickup baseline per damage tier.
 --More damaging guns should pick up less ammo, as a tradeoff for their higher output.
+--The pickup field corresponds to the amount of damage-as-ammo returned per pickup at 50% ammo.
+--At 0% ammo, this is increased to 133.33%. At 100% ammo, this is reduced to 66%.
+--On secondaries, overall pickup is reduced to damage_pool_secondary/damage_pool_primary.
+--On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
+--Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = {0.055, 0.028}, suppression = 4}, --18/36 damage guns
-	{damage = 20,  pickup = {0.054, 0.027}, suppression = 6},
-	{damage = 24,  pickup = {0.053, 0.027}, suppression = 8},
-	{damage = 30,  pickup = {0.052, 0.026}, suppression = 10},
-	{damage = 45,  pickup = {0.050, 0.026}, suppression = 11},
-	{damage = 60,  pickup = {0.048, 0.025}, suppression = 12},
-	{damage = 90,  pickup = {0.044, 0.023}, suppression = 13},
-	{damage = 120, pickup = {0.040, 0.022}, suppression = 14},
-	{damage = 180, pickup = {0.038, 0.021}, suppression = 15},
-	{damage = 240, pickup = {0.031, 0.018}, suppression = 16}, --All guns above here.
-	{damage = 360, pickup = {0.029, 0.017}, suppression = 17}, --Heavy bows.
-	{damage = 600, pickup = {0.026, 0.016}, suppression = 18}, --Light GLs
-	{damage = 800, pickup = {0.021, 0.013}, suppression = 19}, --Heavy GLs
-	{damage = 1200, pickup = {0.012, 0.009}, suppression = 20} --Rocket Launchers
+	{damage = 18,  pickup = 360, suppression = 4}, --18/36 damage guns
+	{damage = 20,  pickup = 342, suppression = 6},
+	{damage = 24,  pickup = 324, suppression = 8},
+	{damage = 30,  pickup = 306, suppression = 10},
+	{damage = 45,  pickup = 288, suppression = 11},
+	{damage = 60,  pickup = 270, suppression = 12},
+	{damage = 90,  pickup = 252, suppression = 13},
+	{damage = 120, pickup = 234, suppression = 14},
+	{damage = 180, pickup = 216, suppression = 15},
+	{damage = 240, pickup = 198, suppression = 16}, --All guns above here.
+	{damage = 360, pickup = 180, suppression = 17}, --Heavy bows.
+	{damage = 600, pickup = 162, suppression = 18}, --Light GLs
+	{damage = 800, pickup = 144, suppression = 19}, --Heavy GLs
+	{damage = 1200, pickup = 126, suppression = 20} --Rocket Launchers
 }
+local damage_pool_primary = 7200
+local damage_pool_secondary = 3600
 
 function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
@@ -5456,7 +5463,7 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	smg = 1.1,
 	akimbo = 1.1,
 	saw = 1.25, --Compensate for jankiness.
-	lmg = 0.61 --Keeps ammo pickup comparable to other guns.
+	lmg = 1
 }
 
 local category_ammo_max_muls = {
@@ -5470,13 +5477,31 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	weapon.AMMO_PICKUP = {0, 0}
 
 	local damage_tier = get_damage_tier(weapon)
-	weapon.AMMO_PICKUP[1] = damage_tier.pickup[1]
-	weapon.AMMO_PICKUP[2] = damage_tier.pickup[2]
+
+	local damage_pool = damage_pool_primary
+	if weapon.use_data.selection_index == 1 then
+		damage_pool = damage_pool_secondary
+	end
+
+	local damage_mul = 1
+	if damage_tier.damage <= 180 then
+		damage_mul = 2
+	end
+
+	weapon.AMMO_PICKUP[1] = 1.333333333334 * (damage_tier.pickup / (damage_mul * damage_tier.damage))
+	weapon.AMMO_PICKUP[2] = 0.666666666667 * (damage_tier.pickup / (damage_mul * damage_tier.damage))
+
+	local pickup_multiplier = 1
+	for i = 1, #weapon.categories do
+		local category = weapon.categories[i]
+		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
+	end
 
 	local ammo_max = weapon.AMMO_MAX
 	if not ammo_max then
-		ammo_max = 3600 / damage_tier.damage
+		ammo_max = damage_pool / (damage_mul * damage_tier.damage)
 
+		--Remove this once rocket launchers are properly tagged.
 		if damage_tier.damage >= 1200 then
 			ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
 		end
@@ -5486,20 +5511,12 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 			local category = weapon.categories[i]
 			ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
 		end
-	end
 
-	--Determine how much to multiply things by.
-	local pickup_multiplier = ammo_max
-
-	--Halve max ammo for guns in the secondary slot, without affecting pickup.
-	if not weapon.AMMO_MAX and weapon.use_data.selection_index == 1 then
-		ammo_max = ammo_max/ 2
-	end
-
-	--Get weapon category specific pickup multipliers.
-	for i = 1, #weapon.categories do
-		local category = weapon.categories[i]
-		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
+		if weapon.use_data.selection_index == 1 then
+			pickup_multiplier = damage_pool_secondary / damage_pool_primary
+		end
+	else
+		pickup_multiplier = (weapon.AMMO_MAX * damage_tier.damage * damage_mul) / damage_pool_primary
 	end
 
 	--Set actual pickup values to use.
