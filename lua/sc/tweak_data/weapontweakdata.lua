@@ -1544,25 +1544,30 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.shak12.CLIP_AMMO_MAX = 20
 		self.shak12.kick = self.stat_info.kick_tables.moderate_kick
 		self.shak12.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		--The vanilla muzzle flash is actually blinding.
+		--7.62 is smaller than the IRL round, but it looks far more reasonable.
+		self.shak12.muzzleflash = "effects/payday2/particles/weapons/big_762_auto_fps"
 		self.shak12.tactical_reload = 1
-		self.shak12.supported = false
+		self.shak12.supported = true
 		self.shak12.stats = {
 			damage = 60,
-			spread = 15,
-			recoil = 9,
-			concealment = 16,
+			spread = 17,
+			recoil = 8,
+			concealment = 13,
 			value = 1
 		}
 		self.shak12.timers = {
-			reload_not_empty = 2.1,
-			reload_empty = 2.9,
-			reload_operational = 1.9,
-			empty_reload_interrupt = 1.9,
-			reload_interrupt = 0.55,
-			empty_reload_interrupt = 0.55,
+			reload_not_empty = 2.7,
+			reload_empty = 3.5,
+			reload_operational = 2.1,
+			empty_reload_operational = 2.8,
+			reload_interrupt = 0.58,
+			empty_reload_interrupt = 0.58,
 			unequip = 0.6,
 			equip = 0.6
 		}
+		self.shak12.reload_speed_multiplier = 0.875 --3.1/4s
+		self.shak12.swap_speed_multiplier = 0.9
 
 		--Contractor .308
 		self.tti.upgrade_blocks = nil
