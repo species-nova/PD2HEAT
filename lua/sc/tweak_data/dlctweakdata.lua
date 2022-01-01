@@ -44,66 +44,6 @@ function DLCTweakData:init(...)
 		},	
 		{
 			type_items = "masks",
-			item_entry = "canada",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "jsr",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "jsrf",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "courier_stash",
-			amount = 1
-		},		
-		{
-			type_items = "masks",
-			item_entry = "female_mask",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "female_mask_blood",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "female_mask_clown",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "male_mask",
-			amount = 1
-		},		
-		{
-			type_items = "masks",
-			item_entry = "male_mask_blood",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "male_mask_clown",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "twister_mask",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "voodoo_mask",
-			amount = 1
-		},
-		{
-			type_items = "masks",
 			item_entry = "f1",
 			amount = 1
 		},
@@ -112,101 +52,6 @@ function DLCTweakData:init(...)
 			item_entry = "sweettooth",
 			amount = 1
 		},
-		{
-			type_items = "masks",
-			item_entry = "dallas_aged",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "chains_aged",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "hoxton_aged",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "wolf_aged",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "beef_dallas",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "beef_chains",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "beef_hoxton",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "beef_wolf",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "vyse_dallas",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "vyse_chains",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "vyse_hoxton",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "vyse_wolf",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "secret_old_hoxton",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "secret_dragan",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "secret_clover",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "secret_bonnie",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "secret_sydney",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "secret_richard",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "wolf_stone",
-			amount = 1
-		},		
 		{
 			type_items = "materials",
 			item_entry = "jkl_matt01",
@@ -225,26 +70,6 @@ function DLCTweakData:init(...)
 		{
 			type_items = "textures",
 			item_entry = "jkl_patt02",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "chains_halloween",
-			amount = 1
-		},
-		{
-			type_items = "masks",
-			item_entry = "dallas_halloween",
-			amount = 1
-		},	
-		{
-			type_items = "masks",
-			item_entry = "hoxton_halloween",
-			amount = 1
-		},	
-		{
-			type_items = "masks",
-			item_entry = "wolf_halloween",
 			amount = 1
 		}
 	}
