@@ -1525,7 +1525,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 60,
 			spread = 17,
 			recoil = 12,
-			concealment = 9,
+			concealment = 8,
 			value = 4
 		}
 		self.g3.timers = {
@@ -1552,7 +1552,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.shak12.stats = {
 			damage = 60,
 			spread = 17,
-			recoil = 8,
+			recoil = 7,
 			concealment = 13,
 			value = 1
 		}
