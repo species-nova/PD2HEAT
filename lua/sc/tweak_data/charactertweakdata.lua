@@ -2561,6 +2561,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser.experience = {}
 	self.taser.weapon = presets.weapon.taser
 	self.taser.detection = presets.detection.normal
+	self.taser.damage.hurt_severity = presets.hurt_severities.light_hurt_fire_poison
 	self.taser.HEALTH_INIT = 72
 	self.taser.headshot_dmg_mul = normal_headshot
 	self.taser.move_speed = presets.move_speed.fast
