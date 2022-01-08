@@ -7506,45 +7506,45 @@ function CharacterTweakData:_presets(tweak_data)
 			panic_chance_mul = 1,
 			duration = {
 				5,
-				7.5
+				10
 			},
 			react_point = {
-				0,
-				0
+				0.25,
+				0.5
 			},
 			brown_point = {
-				3,
-				3
+				1,
+				2
 			}
 		},
 		hard_def = {
 			panic_chance_mul = 1,
 			duration = {
-				5,
-				7.5
+				4,
+				8
 			},
 			react_point = {
-				1,
+				0.5,
 				1
 			},
 			brown_point = {
-				3,
-				3
+				2,
+				4
 			}
 		},
 		hard_agg = {
 			panic_chance_mul = 1,
 			duration = {
 				3,
-				5
+				6
 			},
 			react_point = {
-				3,
-				3
+				1,
+				2
 			},
 			brown_point = {
 				4,
-				4
+				8
 			}
 		},
 		no_supress = {

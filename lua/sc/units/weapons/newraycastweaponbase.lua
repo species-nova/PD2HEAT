@@ -3,6 +3,9 @@ local old_init = NewRaycastWeaponBase.init
 function NewRaycastWeaponBase:init(...)
 	old_init(self, ...)
 
+	--TODO: Create + Plug in skill.
+	self._can_ricochet = false
+
 	--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
 	if self:is_category("bow", "crossbow", "saw", "snp") then
 		self._use_armor_piercing = true
@@ -53,6 +56,10 @@ function NewRaycastWeaponBase:init(...)
 		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
 	end
 
+end
+
+function NewRaycastWeaponBase:can_ricochet()
+	return self._can_ricochet
 end
 
 function NewRaycastWeaponBase:clip_full()
@@ -611,10 +618,14 @@ function NewRaycastWeaponBase:calculate_ammo_max_per_clip()
 	return ammo
 end
 
-function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
+function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit, distance_offset)
 	--Initialize base info.
 	local falloff_info = tweak_data.weapon.stat_info.damage_falloff
 	local distance = col_ray.distance or mvector3.distance(col_ray.unit:position(), user_unit:position())
+	if distance_offset then
+		distance = distance + distance_offset
+	end
+
 	local current_state = user_unit:movement()._current_state
 	local base_falloff = falloff_info.base
 	local pm = managers.player
@@ -653,9 +664,10 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
 	local falloff_near = base_falloff * self._damage_near_mul
 	local falloff_far = base_falloff * self._damage_far_mul
 
-	--Cache falloff values for usage in hitmarkers.
+	--Cache falloff values for usage in hitmarkers and other range-related calculations.
 	self.near_falloff_distance = falloff_near
-	self.far_falloff_distance = falloff_far
+	self.far_falloff_distance = falloff_far --Previous range values. Will generally be the same bullet-to-bullet.
+	self.last_hit_falloff = distance > falloff_near --Whether or not the last bullet had falloff.
 
 	--Compute final damage.
 	return math.max((1 - math.min(1, math.max(0, distance - falloff_near) / (falloff_far))) * damage, 0.05 * damage)

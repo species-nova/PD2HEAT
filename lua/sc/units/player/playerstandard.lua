@@ -2201,7 +2201,6 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					local suppression_ratio = self._unit:character_damage():effective_suppression_ratio()
 					local spread_mul = math.lerp(1, tweak_data.player.suppression.spread_mul, suppression_ratio)
 					local autohit_mul = math.lerp(1, tweak_data.player.suppression.autohit_chance_mul, suppression_ratio)
-					local suppression_mul = managers.blackmarket:threat_multiplier()
 					local dmg_mul = managers.player:temporary_upgrade_value("temporary", "dmg_multiplier_outnumbered", 1)
 
 					if managers.player:has_category_upgrade("player", "overkill_all_weapons") or weap_base:is_category("shotgun", "saw") then
@@ -2220,16 +2219,16 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 					if fire_mode == "single" then
 						if input.btn_primary_attack_press and start_shooting then
-							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul, suppression_mul)
+							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
 						elseif fire_on_release then
 							if input.btn_primary_attack_release then
-								fired = weap_base:trigger_released(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul, suppression_mul)
+								fired = weap_base:trigger_released(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
 							elseif input.btn_primary_attack_state then
-								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul, suppression_mul)
+								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
 							end
 						end
 					elseif input.btn_primary_attack_state then
-						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul, suppression_mul)
+						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
 					end
 
 					if weap_base.manages_steelsight and weap_base:manages_steelsight() then
@@ -2288,24 +2287,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 								self._shooting_t = nil
 							end
 						end
-
-						if managers.player:has_category_upgrade(primary_category, "stacking_hit_damage_multiplier") then
-							self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-							self._state_data.stacking_dmg_mul[primary_category] = self._state_data.stacking_dmg_mul[primary_category] or {
-								nil,
-								0
-							}
-							local stack = self._state_data.stacking_dmg_mul[primary_category]
-
-							if fired.hit_enemy then
-								stack[1] = t + managers.player:upgrade_value(primary_category, "stacking_hit_expire_t", 1)
-								stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_weapon_dmg_mul_stacks or 5)
-							else
-								stack[1] = nil
-								stack[2] = 0
-							end
-						end
-
+						
 						if weap_base.set_recharge_clbk then
 							weap_base:set_recharge_clbk(callback(self, self, "weapon_recharge_clbk_listener"))
 						end

@@ -28,7 +28,7 @@ function WeaponTweakData:_init_stats()
 	}
 
 	self.stats.suppression = {}
-	for i = 4.2, 0.199, -0.2 do --Middle value slightly off to avoid floating point shenanigans.
+	for i = 0.2, 1, 0.04 do --Middle value slightly off to avoid floating point shenanigans.
 		table.insert(self.stats.suppression, i)
 	end
 	setmetatable(self.stats.suppression, stat_meta_table)
@@ -548,7 +548,8 @@ function WeaponTweakData:_init_stats()
 
 	self.stat_info.autohit_angle = 1.5
 	self.stat_info.autohit_head_difficulty_factor = 0.75
-	self.stat_info.aim_assist_angle = 4
+	self.stat_info.ricochet_autohit_angle = 6 --Ricochets need a fairly decently sized auto-hit angle to be usable.
+	self.stat_info.suppression_angle = 9
 end
 
 Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
@@ -1055,7 +1056,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr_gl_npc.suppression = 1
 			self.osipr_gl_npc.FIRE_MODE = "auto"
 		else
-			log("[ERROR] Beardlib was unable to load the custom weapons.")
+			log("[ERROR] Beardlib was unable to load the custom weapons. Check to make sure you installed Beardlib correctly!")
 		end
 
 	--Medium Rifles (SECONDARY)
@@ -5381,9 +5382,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 				weap.stats.extra_ammo = 101
 				weap.stats.total_ammo_mod = 100
 				weap.stats.reload = 20
-				--weap.stats.spread = 26
-				--weap.stats.recoil = 26
-				--weap.stats.concealment = 26
 				weap.panic_suppression_chance = 0.05
 				self:calculate_ammo_data(weap)
 				self:calculate_suppression_data(weap)
@@ -5457,7 +5455,7 @@ function WeaponTweakData:calculate_suppression_data(weapon)
 	end
 
 	--Silenced guns have their suppression reduced by an additional 4 points.
-	weapon.stats.suppression = math.clamp(math.round(damage_tier.suppression * multiplier) - weapon.stats.alert_size == 2 and 4 or 0, 1, #self.stats.suppression)
+	weapon.stats.suppression = math.clamp(math.round(damage_tier.suppression * multiplier) - (weapon.stats.alert_size == 2 and 4 or 0), 1, #self.stats.suppression)
 end
 
 local category_pickup_muls = { --Different gun categories have different pickup mults to compensate for various factors.

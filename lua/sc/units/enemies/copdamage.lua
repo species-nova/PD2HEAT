@@ -296,9 +296,9 @@ function CopDamage:damage_fire(attack_data)
 					damage = damage * managers.player:upgrade_value("weapon", "special_damage_taken_multiplier", 1)
 				end
 
-				local damage_scale = nil
-				if weap_base.near_falloff_distance and weap_base.far_falloff_distance then
-					damage_scale = distance >= weap_base.far_falloff_distance + weap_base.near_falloff_distance and 0 or distance >= weap_base.near_falloff_distance and 0.5 or 1
+				local damage_scale = 1
+				if weap_base.last_hit_falloff then
+					damage_scale = 0.5
 				end		
 
 				if not attack_data.is_fire_dot_damage and damage > 0 then
@@ -779,10 +779,10 @@ function CopDamage:damage_bullet(attack_data)
 	if attack_data.attacker_unit == managers.player:player_unit() then
 		attack_data.backstab = self:check_backstab(attack_data)
 		
-		local damage_scale = nil
+		local damage_scale = 1
 
-		if weap_base.near_falloff_distance and weap_base.far_falloff_distance then
-			damage_scale = distance >= weap_base.far_falloff_distance + weap_base.near_falloff_distance and 0 or distance >= weap_base.near_falloff_distance and 0.5 or 1
+		if weap_base.last_hit_falloff then
+			damage_scale = 0.5
 		end		
 		
 		local critical_hit, crit_damage = self:roll_critical_hit(attack_data)
