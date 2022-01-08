@@ -4,7 +4,7 @@ function NewRaycastWeaponBase:init(...)
 	old_init(self, ...)
 
 	--TODO: Create + Plug in skill.
-	self._can_ricochet = false
+	self._can_ricochet = true
 
 	--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
 	if self:is_category("bow", "crossbow", "saw", "snp") then

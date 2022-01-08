@@ -322,13 +322,14 @@ function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, 
 end
 
 --Minor fixes and making Winters unpiercable.
+local ai_vision_ids = Idstring("ai_vision")
+local bulletproof_ids = Idstring("bulletproof")
+
 function RaycastWeaponBase:_collect_hits(from, to)
 	local hit_enemy = false
 	local enemy_mask = managers.slot:get_mask("enemies")
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
-	local ai_vision_ids = Idstring("ai_vision")
-	local bulletproof_ids = Idstring("bulletproof")
 	--Just set this immediately.
 	local ray_hits = self._can_shoot_through_wall and World:raycast_wall("ray", from, to, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units, "thickness", 40, "thickness_mask", wall_mask)
 		or World:raycast_all("ray", from, to, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units)
@@ -409,8 +410,8 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 
 	if weapon_base and not ricochet and weapon_base:can_ricochet() and user_unit == managers.player:player_unit() and hit_unit and 
 		((not weapon_base._can_shoot_through_shield and is_shield)
-		or (not weapon_base._can_shoot_through_wall and hit_unit:in_slot(managers.slot:get_mask("world_geometry", "vehicles")) and col_ray.body:has_ray_type(Idstring("ai_vision")))
-		or col_ray.body:has_ray_type(Idstring("bulletproof"))) then
+		or (not weapon_base._can_shoot_through_wall and hit_unit:in_slot(managers.slot:get_mask("world_geometry", "vehicles")) and col_ray.body:has_ray_type(ai_vision_ids))
+		or col_ray.body:has_ray_type(bulletproof_ids)) then
 			weapon_base:_fire_ricochet(col_ray, user_unit, damage, col_ray.distance, blank, no_sound)
 	elseif ricochet then --Civilian hits turn Ricochets into blanks as a QOL feature.
 		local unit_type = alive(hit_unit) and hit_unit.base and hit_unit:base() and hit_unit:base()._tweak_table
@@ -562,9 +563,7 @@ end
 local body_vec = Vector3()
 local head_vec = Vector3()
 function RaycastWeaponBase:check_near_hits(from_pos, direction, max_dist, is_ricochet)
-	--Get relevant slot masks and Idstrings
-	local ai_vision_ids = Idstring("ai_vision")
-	local bulletproof_ids = Idstring("bulletproof")
+	--Get relevant slot masks
 	local enemy_mask = managers.slot:get_mask("player_autoaim")
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
@@ -947,7 +946,7 @@ ProjectilesBleedBulletBase.NO_BULLET_INPACT_SOUND = false
 
 --Allow easier hotloading of data.
 function ProjectilesBleedBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound, ricochet)
-	local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, self.NO_BULLET_INPACT_SOUND)
+	local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, self.NO_BULLET_INPACT_SOUND, ricochet)
 	local hit_unit = col_ray.unit
 
 	if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() and alive(weapon_unit) then
