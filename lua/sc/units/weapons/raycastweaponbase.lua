@@ -44,10 +44,6 @@ function RaycastWeaponBase:init(unit)
 	local stat_info = tweak_data.weapon.stat_info
 end
 
-function RaycastWeaponBase:can_ricochet()
-	return false
-end
-
 local setup_original = RaycastWeaponBase.setup
 function RaycastWeaponBase:setup(...)
 	setup_original(self, ...)
@@ -408,7 +404,7 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 		end
 	end
 
-	if weapon_base and not ricochet and weapon_base:can_ricochet() and user_unit == managers.player:player_unit() and hit_unit and 
+	if not ricochet and weapon_base and weapon_base.can_ricochet and weapon_base:can_ricochet() and user_unit == managers.player:player_unit() and hit_unit and 
 		((not weapon_base._can_shoot_through_shield and is_shield)
 		or (not weapon_base._can_shoot_through_wall and hit_unit:in_slot(managers.slot:get_mask("world_geometry", "vehicles")) and col_ray.body:has_ray_type(ai_vision_ids))
 		or col_ray.body:has_ray_type(bulletproof_ids)) then
