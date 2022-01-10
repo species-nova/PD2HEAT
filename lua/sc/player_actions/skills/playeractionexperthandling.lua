@@ -17,27 +17,26 @@ PlayerAction.ExpertHandling = {
 				current_stacks = current_stacks + 1
 
 				if current_stacks <= max_stacks then
-					player_manager:mul_to_property("desperado", accuracy_bonus)
+					player_manager:add_to_property("desperado", accuracy_bonus - 1)
 					hud_manager:add_stack("desperado")
 				end
 				max_time = current_time + add_time
+
 				hud_manager:start_buff("desperado", add_time)
 			end
 		end
+
+		player_manager:set_property("desperado", accuracy_bonus)
+		player_manager:register_message(Message.OnHeadShot, co, on_headshot)
 		
 		hud_manager:start_buff("desperado", add_time)
 		hud_manager:add_stack("desperado")
 
-		player_manager:mul_to_property("desperado", accuracy_bonus)
-		player_manager:register_message(Message.OnHeadShot, co, on_headshot)
-
 		while current_time < max_time do
 			current_time = Application:time()
-			--Keep effect active while pistol isn't equipped.
 			coroutine.yield(co)
 		end
 
-		--Cleanup
 		player_manager:remove_property("desperado")
 		player_manager:unregister_message(Message.OnHeadShot, co)
 		if player_manager:has_category_upgrade("player", "desperado_bodyshot_refresh") then

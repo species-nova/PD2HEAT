@@ -1648,40 +1648,39 @@ function SkillTreeTweakData:init(tweak_data)
 			--[[   GUNSLINGER SUBTREE   ]]--
 			--{
 
-			--Equilibrium--
+			--Fast on the Draw--
 			self.skills.equilibrium = {
 				["name_id"] = "menu_equilibrium_beta_sc",
 				["desc_id"] = "menu_equilibrium_beta_desc_sc",
 				["icon_xy"] = {3, 9},
 				[1] = {
 					upgrades = {
-						"team_pistol_recoil_index_addend"
+						"pistol_swap_speed_multiplier_1"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					upgrades = {
-						"pistol_swap_speed_multiplier_1"
+						"pistol_first_shot_damage_multiplier"
 					},
 					cost = self.costs.pro
 				}
 			}
 
-			--Gun Nut--
+			--Snap Shot--
 			self.skills.dance_instructor = {
 				["name_id"] = "menu_dance_instructor_sc",
 				["desc_id"] = "menu_dance_instructor_desc_sc",
 				["icon_xy"] = {11, 0},
 				[1] = {
 					upgrades = {
-						"pistol_hip_fire_spread_multiplier"
+						"weapon_ricochet_bullets_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"pistol_fire_rate_multiplier",
-						"pistol_ap_bullets_1"
+						"weapon_ricochet_bullets_2"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1740,7 +1739,8 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"pistol_stacked_accuracy_bonus_2"
+						"pistol_stacked_accuracy_bonus_2",
+						"pistol_desperado_all_guns"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1759,7 +1759,8 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"pistol_stacking_hit_damage_multiplier_2"
+						"pistol_stacking_hit_damage_multiplier_2",
+						"pistol_trigger_happy_all_guns"
 					},
 					cost = self.costs.hightierpro
 				}

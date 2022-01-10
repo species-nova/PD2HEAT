@@ -3,10 +3,8 @@ local old_init = NewRaycastWeaponBase.init
 function NewRaycastWeaponBase:init(...)
 	old_init(self, ...)
 
-	--TODO: Create + Plug in skill.
-	self._can_ricochet = true
-
 	--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
+	--TODO: Move to autogen stuff in WeaponTweakData.
 	if self:is_category("bow", "crossbow", "saw", "snp") then
 		self._use_armor_piercing = true
 	end
@@ -28,10 +26,18 @@ function NewRaycastWeaponBase:init(...)
 		pitch_pos = 0
 	}
 
+	if managers.player:has_category_upgrade("pistol", "desperado_all_guns") then
+		self._can_desperado = true
+	end
 
+	self._first_shot_damage_mul = 1
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
+		end
+
+		if managers.player:has_category_upgrade(category, "ricochet_bullets") then
+			self._can_ricochet = true
 		end
 	
 		self._headshot_pierce_damage_mult = math.max(self._headshot_pierce_damage_mult, managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0))
@@ -53,13 +59,31 @@ function NewRaycastWeaponBase:init(...)
 			break
 		end
 
+		if managers.player:has_category_upgrade(category, "first_shot_damage_multiplier") then
+			self._first_shot_skill_value = (self._first_shot_skill_value or 1) + managers.player:upgrade_value(category, "first_shot_damage_multiplier", 1) - 1
+			self._first_shot_damage_mul = self._first_shot_skill_value
+		end
+
+		if category == "pistol" then
+			self._can_desperado = true
+		end
+
 		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
 	end
 
+	if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
+		self._can_ricochet = true
+	end
 end
 
 function NewRaycastWeaponBase:can_ricochet()
 	return self._can_ricochet
+end
+
+function RaycastWeaponBase:first_shot_dmg_mul()
+	local mul = self._first_shot_damage_mul
+	self._first_shot_damage_mul = 1
+	return mul
 end
 
 function NewRaycastWeaponBase:clip_full()
@@ -695,6 +719,8 @@ function NewRaycastWeaponBase:on_equip(user_unit)
 			managers.hud:add_skill(category .. "_last_shot_stagger")
 		end
 	end
+
+	self._first_shot_damage_mul = self._first_shot_skill_value
 end
 
 local old_on_unequip = NewRaycastWeaponBase.on_unequip

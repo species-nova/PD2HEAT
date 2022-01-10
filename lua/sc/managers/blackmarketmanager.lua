@@ -101,39 +101,6 @@ function BlackMarketManager:_calculate_weapon_concealment(weapon)
 	return math.min((base_stats.concealment + bonus + (parts_stats.concealment or 0) + (bonus_stats.concealment or 0)) * (modifiers_stats and modifiers_stats.concealment or 1), #tweak_data.weapon.stats.concealment)
 end
 
-function BlackMarketManager:get_silencer_concealment_modifiers(weapon)
-	local factory_id = weapon.factory_id
-	local blueprint = weapon.blueprint
-	local weapon_id = weapon.weapon_id or managers.weapon_factory:get_weapon_id_by_factory_id(factory_id)
-	local base_stats = tweak_data.weapon[weapon_id].stats
-	local bonus = 0
-
-	if not base_stats or not base_stats.concealment then
-		return 0
-	end
-
-	local silencer = managers.weapon_factory:has_perk("silencer", weapon.factory_id, blueprint)
-	local current_concealment = self:calculate_weapon_concealment(weapon)
-
-	if silencer and managers.player:has_category_upgrade("player", "silencer_concealment_increase") then
-		bonus = managers.player:upgrade_value("player", "silencer_concealment_increase", 0)
-	end
-
-	if silencer and managers.player:has_category_upgrade("player", "silencer_concealment_penalty_decrease") then
-		local stats = managers.weapon_factory:get_perk_stats("silencer", factory_id, blueprint)
-
-		if stats and stats.concealment then
-			bonus = bonus + math.min(managers.player:upgrade_value("player", "silencer_concealment_penalty_decrease", 0), math.abs(stats.concealment))
-		end
-	end
-
-	if current_concealment + bonus > tweak_data.concealment_cap then
-		return tweak_data.concealment_cap - current_concealment
-	end
-
-	return bonus
-end
-
 Hooks:RegisterHook("BlackMarketManagerModifyGetInventoryCategory")
 function BlackMarketManager.get_inventory_category(self, category)
 

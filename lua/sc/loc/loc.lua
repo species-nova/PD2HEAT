@@ -1800,12 +1800,12 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_dire_need_beta_desc_sc"] = "BASIC: ##$basic##\nYou gain ##2%## extra movement speed for every ##3## points of detection risk under ##35##, up to ##20%.##\n\nACE: ##$pro##\nYou gain ##2%## extra movement speed for every point of detection risk under ##35##, up to ##20%.##\n\nYour dodge meter fills up by ##15%## of your dodge every second while sprinting.\n\nYour dodge meter fills up by ##60%## of your dodge every second while on a zipline.",
 
 		--Equilibrium--
-		["menu_equilibrium_beta_sc"] = "Equilibrium",
-		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou and your crew's weapon stability with pistols is increased by ##4.##\n\nACE: ##$pro##\nYou draw and holster pistols ##100%## faster.",
+		["menu_equilibrium_beta_sc"] = "Fast on the Draw",
+		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##50%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to deal ##60%## more damage.",
 
-		--Over Pressurized--
-		["menu_dance_instructor_sc"] = "Over Pressurized",
-		["menu_dance_instructor_desc_sc"] = "BASIC: ##$basic##\nTightens the hipfire accuracy of Pistols by ##20%##.\n\nACE: ##$pro##\nPistols fire ##15%## faster.\n\nPistols ##now pierce body armor.##",
+		--Snap Shot--
+		["menu_dance_instructor_sc"] = "Snap Shot",
+		["menu_dance_instructor_desc_sc"] = "BASIC: ##$basic##\nPistol bullets ricochet off of shields and walls.\n\nNote: Does not apply to bullets that penetrate through shields or walls.\n\nACE: ##$pro##\nBullets from any gun ricochet off of shields and walls.",
 
 		--Gunfighter--
 		["menu_gun_fighter_sc"] = "Gunfighter",
@@ -1817,11 +1817,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",
-		["menu_expert_handling_desc_sc"] = "BASIC: ##$basic##\nEach pistol headshot grants your weapons a ##8%## accuracy and range boost for ##4## seconds. This effect can stack ##5## times, and the duration of each stack is refreshed on pistol headshots.\n\nACE: ##$pro##\nIncreases the accuracy and range boost duration to ##10## seconds.",
+		["menu_expert_handling_desc_sc"] = "BASIC: ##$basic##\nEach pistol headshot grants pistols an ##8%## accuracy and range boost for ##6## seconds. This effect can stack ##5## times.\n\nACE: ##$pro##\nStacks now last for ##10## seconds, and grant all guns increased accuracy and range.",
 		
 		--Trigger Happy--
 		["menu_trigger_happy_beta_sc"] = "Trigger Happy",
-		["menu_trigger_happy_beta_desc_sc"] = "BASIC: ##$basic##\nEach pistol headshot grants them a ##10%## damage boost for ##4## seconds. This effect can stack ##5## times, and the duration of each stack is refreshed on pistol headshots.\n\nACE: ##$pro##\nIncreases the damage boost duration to ##10## seconds.",
+		["menu_trigger_happy_beta_desc_sc"] = "BASIC: ##$basic##\nEach pistol headshot grants pistols a ##10%## damage boost for ##6## seconds. This effect can stack ##5## times.\n\nACE: ##$pro##\nStacks now last for ##10## seconds, and grant all guns increased damage.",
 
 		--Running From Death--
 		["menu_nine_lives_beta_sc"] = "Running from Death",

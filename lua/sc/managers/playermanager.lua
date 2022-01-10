@@ -1166,7 +1166,7 @@ end
 --Because listeners execute after the frame they are called on, vanilla Bloodthirst can fail to catch some kills since the coroutine to handle stacks doesn't exist yet.
 --The solution is to directly handle it inside PlayerManager, since the couroutine pretty much just existed to change PlayerManager state anyway.
 function PlayerManager:_trigger_bloodthirst(weapon_unit, variant)
-	if variant ~= "melee" and not self._coroutine_mgr:is_running(PlayerAction.BloodthirstBase) then
+	if variant ~= "melee" then
 		self._bloodthirst_stacks = math.min(self._bloodthirst_stacks + 1, self._bloodthirst_data.max_stacks)
 		managers.hud:set_stacks("bloodthirst_stacks", self._bloodthirst_stacks)
 		self:set_melee_knockdown_multiplier(1 + (self._bloodthirst_stacks * self._bloodthirst_data.knockdown_multiplier))

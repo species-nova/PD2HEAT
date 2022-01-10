@@ -1145,19 +1145,18 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		
 	--FUGITIVE--
 		--Gunslinger
-			--Equilibrium
+			--Fast on the Draw
 				--Basic
-					self.values.team.pistol.recoil_index_addend = {1}
-					self.values.team.pistol.suppression_recoil_index_addend = self.values.team.pistol.recoil_index_addend
+					self.values.pistol.swap_speed_multiplier = {1.5}
 				--Ace
-					self.values.pistol.swap_speed_multiplier = {2}
+					self.values.pistol.first_shot_damage_multiplier = {1.6}
 				
-			--Gun Nut	
+			--Snap Shot
 				--Basic
-					self.values.pistol.hip_fire_spread_multiplier = {0.8}	
+					self.values.pistol.ricochet_bullets = {true}
 				--Ace
-					self.values.pistol.fire_rate_multiplier = {1.15}
-					self.values.pistol.ap_bullets = {true}
+					self.values.weapon.ricochet_bullets = {true}
+
 
 			--Gunfighter
 				self.values.pistol.reload_speed_multiplier = {
@@ -1190,15 +1189,19 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Desperado
 				self.values.pistol.stacked_accuracy_bonus = {
-					{accuracy_bonus = 0.92, max_stacks = 5, max_time = 4}, --Basic
+					{accuracy_bonus = 0.92, max_stacks = 5, max_time = 6}, --Basic
 					{accuracy_bonus = 0.92, max_stacks = 5, max_time = 10} --Ace
 				}
+				--Ace
+					self.values.pistol.desperado_all_guns = {true}
 				
 			--Trigger Happy
 				self.values.pistol.stacking_hit_damage_multiplier = {
-					{damage_bonus = 1.1, max_stacks = 5, max_time = 4}, --Basic
+					{damage_bonus = 1.1, max_stacks = 5, max_time = 6}, --Basic
 					{damage_bonus = 1.1, max_stacks = 5, max_time = 10} --Ace
 				}
+				--Ace
+					self.values.pistol.trigger_happy_all_guns = {true}
 			
 		--Revenant
 			--Running From Death
@@ -1934,6 +1937,51 @@ function UpgradesTweakData:_player_definitions()
 			category = "player",
 			upgrade = "health_multiplier",
 			value = 2
+		}
+	}
+	self.definitions.pistol_first_shot_damage_multiplier = {
+		category = "feature",
+		name_id = "menu_pistol_first_shot_damage_multiplier",
+		upgrade = {
+			category = "pistol",
+			upgrade = "first_shot_damage_multiplier",
+			value = 1
+		}
+	}
+	self.definitions.weapon_ricochet_bullets_1 = {
+		category = "feature",
+		name_id = "menu_weapon_ricochet_bullets",
+		upgrade = {
+			category = "pistol",
+			upgrade = "ricochet_bullets",
+			value = 1
+		}
+	}
+	self.definitions.weapon_ricochet_bullets_2 = {
+		category = "feature",
+		name_id = "menu_weapon_ricochet_bullets",
+		upgrade = {
+			category = "weapon",
+			upgrade = "ricochet_bullets",
+			value = 1
+		}
+	}
+	self.definitions.pistol_desperado_all_guns = {
+		category = "feature",
+		name_id = "menu_pistol_desperado_all_guns",
+		upgrade = {
+			category = "pistol",
+			upgrade = "desperado_all_guns",
+			value = 1
+		}
+	}
+	self.definitions.pistol_trigger_happy_all_guns = {
+		category = "feature",
+		name_id = "menu_pistol_trigger_happy_all_guns",
+		upgrade = {
+			category = "pistol",
+			upgrade = "trigger_happy_all_guns",
+			value = 1
 		}
 	}
 	self.definitions.pistol_stacked_accuracy_bonus_1 = {
@@ -3549,15 +3597,6 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			value = 1,
 			upgrade = "steelsight_range_inc",
 			category = "weapon"
-		}
-	}
-	self.definitions.pistol_ap_bullets_1 = {
-		name_id = "menu_pistol_ap_bullets_1",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "ap_bullets",
-			category = "pistol"
 		}
 	}
 	self.definitions.shotgun_close_combat_reload_speed_multiplier = {

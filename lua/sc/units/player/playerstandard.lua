@@ -520,7 +520,6 @@ function PlayerStandard:update(t, dt)
 end
 
 function PlayerStandard:_update_crosshair(t, dt, weapon)
-	--Update the crosshair.
 	local crosshair_visible = alive(self._equipped_unit) and
 							  not self:_is_meleeing() and
 							  not self:_interacting() and
@@ -1644,6 +1643,7 @@ end
 Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_data)
 	self._ext_damage:set_dodge_points()
 	self._can_free_run = managers.player:has_category_upgrade("player", "can_free_run")
+	self._can_trigger_happy_all_guns = managers.player:has_category_upgrade("pistol", "trigger_happy_all_guns")
 
 	--Cooldown on crosshair expansion from shooting, allows for a satisfying jiggle for full auto guns.
 	self._next_crosshair_jiggle = 0.0
@@ -2197,38 +2197,33 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							return false
 						end
 					end
-
-					local suppression_ratio = self._unit:character_damage():effective_suppression_ratio()
-					local spread_mul = math.lerp(1, tweak_data.player.suppression.spread_mul, suppression_ratio)
-					local autohit_mul = math.lerp(1, tweak_data.player.suppression.autohit_chance_mul, suppression_ratio)
-					local dmg_mul = managers.player:temporary_upgrade_value("temporary", "dmg_multiplier_outnumbered", 1)
-
-					if managers.player:has_category_upgrade("player", "overkill_all_weapons") or weap_base:is_category("shotgun", "saw") then
-						dmg_mul = dmg_mul * managers.player:temporary_upgrade_value("temporary", "overkill_damage_multiplier", 1)
+					
+					local upgrade_name = weap_base:is_category("saw") and "melee_damage_health_ratio_multiplier" or "damage_health_ratio_multiplier"
+					local dmg_mul = managers.player:upgrade_value("player", upgrade_name, 1)
+					
+					dmg_mul = dmg_mul * managers.player:temporary_upgrade_value("temporary", "berserker_damage_multiplier", 1)
+					
+					if self._can_trigger_happy_all_guns or weap_base:is_category("pistol") then
+						dmg_mul = dmg_mul * managers.player:get_property("trigger_happy", 1)
 					end
 
-					local health_ratio = self._ext_damage:health_ratio()
-					local primary_category = weap_base:weapon_tweak_data().categories[1]
-					local upgrade_name = weap_base:is_category("saw") and "melee_damage_health_ratio_multiplier" or "damage_health_ratio_multiplier"
-					dmg_mul = dmg_mul * managers.player:upgrade_value("player", upgrade_name, 1)
-					dmg_mul = dmg_mul * managers.player:temporary_upgrade_value("temporary", "berserker_damage_multiplier", 1)
-					dmg_mul = dmg_mul * managers.player:get_property("trigger_happy", 1)
-					--Add Underdog Basic to damage mult.
 					dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
-					local fired = nil
+					dmg_mul = dmg_mul * (weap_base.first_shot_dmg_mul and weap_base:first_shot_dmg_mul() or 1)
 
+					local fired = nil
 					if fire_mode == "single" then
 						if input.btn_primary_attack_press and start_shooting then
-							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
+							--TODO: Investigate removing spread/autohit muls, since they are no longer relevant.
+							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
 						elseif fire_on_release then
 							if input.btn_primary_attack_release then
-								fired = weap_base:trigger_released(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
+								fired = weap_base:trigger_released(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
 							elseif input.btn_primary_attack_state then
-								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
+								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
 							end
 						end
 					elseif input.btn_primary_attack_state then
-						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, spread_mul, autohit_mul)
+						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
 					end
 
 					if weap_base.manages_steelsight and weap_base:manages_steelsight() then
@@ -2251,11 +2246,10 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 					if fired then
 						managers.rumble:play("weapon_fire")
-
+						--Apply stability to screen shake from firing.
 						local weap_tweak_data = tweak_data.weapon[weap_base:get_name_id()]
 						local shake_multiplier = weap_tweak_data.shake[self._state_data.in_steelsight and "fire_steelsight_multiplier" or "fire_multiplier"]
 						local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
-
 						self._ext_camera:play_shaker("fire_weapon_rot", 1 * shake_multiplier * recoil_multiplier * 0.75)
 						self._ext_camera:play_shaker("fire_weapon_kick", 1 * shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
 						self._equipped_unit:base():tweak_data_anim_stop("unequip")

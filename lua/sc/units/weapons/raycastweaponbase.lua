@@ -62,6 +62,10 @@ function RaycastWeaponBase:setup(...)
 	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
 end
 
+function RaycastWeaponBase:first_shot_dmg_mul()
+	return 1
+end
+
 --Fire no longer memes on shields.
 function FlameBulletBase:bullet_slotmask()
 	return managers.slot:get_mask("bullet_impact_targets")
@@ -878,7 +882,9 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 
 	local pm = managers.player
 
-	mul = mul * pm:get_property("desperado", 1)
+	if self._can_desperado then
+ 		mul = mul * pm:get_property("desperado", 1)
+ 	end
 
 	if not current_state then
 		return mul

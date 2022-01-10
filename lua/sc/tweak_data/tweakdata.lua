@@ -32,39 +32,14 @@ tweak_data.screen_colors.button_stage_3 = Color(127, 1, 161, 255) / 255
         Color("ff8EDD25"),
         Color("ffDD75D6")
     }
-
--- interactable color changes, unused
---[[
-	tweak_data.contour.interactable_icon = {
-	standard_color = Vector3(0.905, 0.054, 0.235), --0,0,0
-	selected_color = Vector3(0.003, 0.63, 1), --0,1,0
-	standard_opacity = 0
-}]]--
-
-tweak_data.ammo = {}
-tweak_data.ammo.ricochet = {}
-tweak_data.ammo.ricochet.max_ricochets = 5
-tweak_data.ammo.ricochet.angles = {0, 175}
-tweak_data.ammo.ricochet.spread_angle = {10, 30}
-tweak_data.ammo.ricochet.autohit = {
-	MIN_RATIO = 0.6,
-	MAX_RATIO = 1,
-	INIT_RATIO = 0.6,
-	far_dis = 50000,
-	far_angle = 60,
-	near_angle = 60
-}
-
+    
 --Swap Speed Multipliers
 --TODO: Move to stat_info
-tweak_data.pistol = {swap_bonus = 1.35, range_mul = 0.8}
-tweak_data.akimbo = {swap_bonus = 0.65, range_mul = 0.8}
+tweak_data.pistol = {swap_bonus = 1.25, range_mul = 0.8}
+tweak_data.akimbo = {swap_bonus = 0.75, range_mul = 0.8}
 tweak_data.smg = {range_mul = 0.8}
 tweak_data.lmg = {range_mul = 1.25} --Stacks with smg to give a mul of 1
 tweak_data.snp = {range_mul = 1.25}
-
---Max concealment for guns.
-tweak_data.concealment_cap = 32
 
 --HE'S GOT AN RPG--
 tweak_data.projectiles.launcher_rocket.damage = 120
