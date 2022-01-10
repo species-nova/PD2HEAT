@@ -772,7 +772,6 @@ function CopDamage:damage_bullet(attack_data)
 	attack_data.headshot = head
 
 	local damage = attack_data.damage
-	log(damage)
 	local headshot_by_player = false
 	local headshot_multiplier = 1
 	local distance = attack_data.col_ray and attack_data.col_ray.distance or mvector3.distance(attack_data.origin, self._unit:position()) or 0
