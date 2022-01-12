@@ -695,6 +695,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Kang Arms X1--
 		["bm_w_qbu88"] = "Káng Arms X1 Rifle",
 
+
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
 
@@ -718,6 +719,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_m203_weapon_sc_desc"] = "Equipped with a M203 40mm grenade launcher.\nHold $BTN_BIPOD to switch to the mounted Grenade Launcher.",
 
 		--Generic weapon descriptions--
+		["bm_light_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR",
+		["bm_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 		["bm_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 		["bm_heavy_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, TITAN SHIELDS, AND THIN WALLS.",
 		["bm_ap_2_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE RESTORED BY PICKING THEM UP, AND RANGE INCREASES THE LONGER AN ARROW IS DRAWN.",
@@ -838,7 +841,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 				
 		-- Renamed default weapons and mods + descriptions-- --move all these to their respective weapons--
 		-- actually important name stuff that kinda matters--
-		["bm_w_lemming"] = "5/7 Pistol",
 		["bm_wp_g3_m_psg"] = "Präzision Magazine",
 		["bm_wp_upg_ass_ak_b_zastava"] = "Long Barrel",
 		["bm_wp_upg_ass_m4_b_beowulf"] = "Wolf Barrel",

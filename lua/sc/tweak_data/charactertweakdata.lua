@@ -858,7 +858,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --blue heavy swat
 	self.heavy_swat.experience = {}
 	self.heavy_swat.weapon = presets.weapon.expert
 	self.heavy_swat.detection = presets.detection.normal
-	self.heavy_swat.HEALTH_INIT = 32.4
+	self.heavy_swat.HEALTH_INIT = 31.2
 	self.heavy_swat.headshot_dmg_mul = normal_headshot
 	self.heavy_swat.move_speed = presets.move_speed.fast
 	self.heavy_swat.surrender_break_time = {6, 8}
@@ -1166,7 +1166,7 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	else
 		self.weekend.custom_voicework = "bravo"
 	end	
-	self.weekend.HEALTH_INIT = 48.6
+	self.weekend.HEALTH_INIT = 46.8
 	self.weekend.dodge = self.presets.dodge.athletic_very_hard
 	self.weekend.damage.explosion_damage_mul = 1.5
 	self.weekend.damage.fire_pool_damage_mul = 1.5

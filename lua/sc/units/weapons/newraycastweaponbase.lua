@@ -9,6 +9,11 @@ function NewRaycastWeaponBase:init(...)
 		self._use_armor_piercing = true
 	end
 
+	local weapon_tweak = self:weapon_tweak_data()
+	if weapon_tweak.armor_piercing_chance and weapon_tweak.armor_piercing_chance > 0 then
+		self._use_armor_piercing = true
+	end
+
 	--Shots required for Bullet Hell
 	if managers.player:has_category_upgrade("temporary", "bullet_hell") then
 		local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
