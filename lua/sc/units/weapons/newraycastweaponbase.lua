@@ -101,7 +101,7 @@ end
 
 function NewRaycastWeaponBase:clip_full()
 	if self:ammo_base():weapon_tweak_data().tactical_reload then
-		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + (self:ammo_base():weapon_tweak_data().tactical_reload or 0)
+		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + self:ammo_base():weapon_tweak_data().tactical_reload
 	else
 		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip()
 	end
