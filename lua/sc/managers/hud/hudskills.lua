@@ -99,9 +99,7 @@ function HUDSkill:trigger_buff(name, duration)
 	if not duration or duration == 0 then
 		return
 	end
-	if not self:_check_skill_active(name) then
-		self:add_skill(name)
-	end
+	self:add_skill(name)
 	self._durations[name] = duration
 	if self._start_times[name] then
 		self._start_times[name] = Application:time()
@@ -116,9 +114,7 @@ function HUDSkill:trigger_cooldown(name, duration)
 	if not duration or duration == 0 then
 		return
 	end
-	if not self:_check_skill_active(name) then
-		return
-	end
+	self:add_skill(name)
 	self._durations[name] = duration
 	if self._start_times[name] then
 		self._start_times[name] = Application:time()
@@ -139,9 +135,7 @@ end
 
 --Increases number next to skill icon. If it goes above 9, just displays an X to represent loads of fat staxx.
 function HUDSkill:add_stack(name)
-	if not self:_check_skill_active(name) then
-		self:add_skill(name)
-	end
+	self:add_skill(name)
 	self._stacks[name] = self._stacks[name] + 1
 	if self._stacks[name] < 10 then
 		self._skill_panel:child(name .. "_stacks"):set_text(tostring(self._stacks[name]))
@@ -169,9 +163,7 @@ function HUDSkill:set_stacks(name, stacks)
 		self:destroy(name)
 		return
 	end
-	if not self:_check_skill_active(name) then
-		self:add_skill(name)
-	end
+	self:add_skill(name)
 	self._stacks[name] = stacks
 	self._skill_panel:child(name .. "_stacks"):set_text(tostring(self._stacks[name]))
 end
@@ -208,6 +200,7 @@ function HUDSkill:_fill(input_panel, name)
 	self._start_times[name] = nil
 end
 
+--TODO: Replace this with a table lookup. Replace #self._active_skills with a counter.
 function HUDSkill:_check_skill_active(name)
 	for _, skill in pairs(self._active_skills) do
 		if name == skill then

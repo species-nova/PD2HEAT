@@ -73,12 +73,20 @@ function NewRaycastWeaponBase:init(...)
 			self._can_desperado = true
 		end
 
+		if managers.player:has_category_upgrade(category, "offhand_auto_reload") then
+			self._offhand_auto_reload_speed = (self._offhand_auto_reload_speed or 0) + managers.player:upgrade_value(category, "offhand_auto_reload")
+		end
+
 		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
 	end
 
 	if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
 		self._can_ricochet = true
 	end
+end
+
+function NewRaycastWeaponBase:get_offhand_auto_reload_speed()
+	return self._offhand_auto_reload_speed
 end
 
 function NewRaycastWeaponBase:can_ricochet()
@@ -93,7 +101,7 @@ end
 
 function NewRaycastWeaponBase:clip_full()
 	if self:ammo_base():weapon_tweak_data().tactical_reload then
-		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + self:ammo_base():weapon_tweak_data().tactical_reload
+		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + (self:ammo_base():weapon_tweak_data().tactical_reload or 0)
 	else
 		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip()
 	end
@@ -156,14 +164,18 @@ function NewRaycastWeaponBase:on_reload(...)
 	self._reload_ammo_base = nil
 end
 
-function NewRaycastWeaponBase:reload_expire_t()
+function NewRaycastWeaponBase:max_bullets_to_reload(from_empty)
+	local max_per_mag = self:get_ammo_max_per_clip()
+	if not from_empty and self:weapon_tweak_data().tactical_reload == 1 then
+		max_per_mag = max_per_mag + 1
+	end
+	return math.min(self:get_ammo_total(), max_per_mag) - self:get_ammo_remaining_in_clip()
+end
+
+
+function NewRaycastWeaponBase:reload_expire_t(force_empty)
 	if self._use_shotgun_reload then
-		local ammo_remaining_in_clip = self:get_ammo_remaining_in_clip()
-		if self._started_reload_empty or self:weapon_tweak_data().tactical_reload ~= 1 then
-			return math.min(self:get_ammo_total() - ammo_remaining_in_clip, self:get_ammo_max_per_clip() - ammo_remaining_in_clip) * self:reload_shell_expire_t()
-		else
-			return math.min(self:get_ammo_total() - ammo_remaining_in_clip, self:get_ammo_max_per_clip() + 1 - ammo_remaining_in_clip) * self:reload_shell_expire_t()
-		end
+		return self:max_bullets_to_reload(force_empty or self._started_reload_empty) * self:reload_shell_expire_t()
 	end
 	return nil
 end
@@ -574,33 +586,45 @@ function NewRaycastWeaponBase:cancel_burst(soft_cancel)
 	end
 end	
 
---[[	Reload stuff	]]--
 function NewRaycastWeaponBase:reload_speed_multiplier()
 	if self._current_reload_speed_multiplier then
 		return self._current_reload_speed_multiplier
 	end
 
 	local player_manager = managers.player
+	local user_unit = self._setup and alive(self._setup.user_unit) and self._setup.user_unit
 	local multiplier = 1
 	local clip_empty = self:ammo_base():get_ammo_remaining_in_clip() == 0
+	local offhand_weapon_empty = false
+	if user_unit and user_unit:inventory() and user_unit:inventory().get_next_selection then
+		local offhand_weapon = user_unit:inventory():get_next_selection()
+		offhand_weapon = offhand_weapon and offhand_weapon.unit and offhand_weapon.unit:base()
+		if offhand_weapon then		
+			offhand_weapon_empty = offhand_weapon:clip_empty()
+		end
+	end
+
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
 		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
 		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
 		multiplier = multiplier + (1 - math.min(self:get_ammo_remaining_in_clip() / self:get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
 		multiplier = multiplier + player_manager:upgrade_value(category, "hidden_reload_speed_multiplier", 1) - 1
+		if offhand_weapon_empty then
+			multiplier = multiplier + player_manager:upgrade_value(category, "backup_reload_speed_multiplier", 1) - 1
+		end
 	end
 	multiplier = multiplier + player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1) - 1
 	multiplier = multiplier + player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1) - 1
 	
-	if self._setup and alive(self._setup.user_unit) and self._setup.user_unit:movement() then
-		local morale_boost_bonus = self._setup.user_unit:movement():morale_boost()
+	if user_unit and user_unit:movement() then
+		local morale_boost_bonus = user_unit:movement():morale_boost()
 
 		if morale_boost_bonus then
 			multiplier = multiplier + morale_boost_bonus.reload_speed_bonus - 1
 		end
 
 		if self._setup.user_unit:movement():next_reload_speed_multiplier() then
-			multiplier = multiplier + self._setup.user_unit:movement():next_reload_speed_multiplier() - 1
+			multiplier = multiplier + user_unit:movement():next_reload_speed_multiplier() - 1
 		end
 	end
 	
@@ -708,7 +732,9 @@ function NewRaycastWeaponBase:check_reset_last_bullet_stagger()
 		for _, category in ipairs(self:categories()) do
 			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
 				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-				managers.hud:add_skill(category .. "_last_shot_stagger")
+				if self._equipped then
+					managers.hud:add_skill(category .. "_last_shot_stagger")
+				end
 				break
 			end
 		end
@@ -725,6 +751,7 @@ function NewRaycastWeaponBase:on_equip(user_unit)
 		end
 	end
 
+	self._equipped = true
 	self._first_shot_damage_mul = self._first_shot_skill_value
 end
 
@@ -732,6 +759,7 @@ local old_on_unequip = NewRaycastWeaponBase.on_unequip
 function NewRaycastWeaponBase:on_unequip(user_unit)
 	old_on_unequip(self)
 
+	self._equipped = false
 	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
 	managers.hud:remove_skill("bullet_hell")
 

@@ -217,6 +217,7 @@
 	<texture path="guis/textures/pd2/skilltree/info_shotgun_last_shot_stagger" force="false" load="false"/> <!-- Shell Shocked -->
 	<texture path="guis/textures/pd2/skilltree/info_silent_precision" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_melee_kill_increase_reload_speed" force="false" load="false"/> <!-- Snatch -->
+	<texture path="guis/textures/pd2/skilltree/info_offhand_auto_reload" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_trigger_happy" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_close_combat" force="false" load="false"/> <!-- Underdog -->
 	<texture path="guis/textures/pd2/skilltree/info_unseen_strike" force="false" load="false"/>

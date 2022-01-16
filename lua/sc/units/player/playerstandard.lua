@@ -1657,13 +1657,82 @@ Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_da
 end)
 
 --Update whenever the crosshair should ignore steelsights whenever the equipped gun changes.
-Hooks:PostHook(PlayerStandard, "inventory_clbk_listener", "ChangeActiveCategory", function(self, unit, event)
+--Also kick off offhand reloads as desired.
+local orig_inventory_clbk_listener = PlayerStandard.inventory_clbk_listener
+function PlayerStandard:inventory_clbk_listener(unit, event, ...)
+	orig_inventory_clbk_listener(self, unit, event, ...)
+
 	if event == "equip" then
 		self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+		self:_attempt_offhand_reload()
+	elseif event == "unequip" then
+		self:_stop_offhand_reload()
 	end
-end)
+end
 
---Reload functions changed to allow for shotgun per-shell reloads to take ammo picked up over their duration into account.
+--Checks if the current "offhand" gun (The gun not currently equipped) can be automatically reloaded in the background.
+--If so, then kick off the auto reload.
+--Timer is based on the original reload speed * the multiplier resulting from auto-reload skills.
+--Timer results are handled in update_reload_timers.
+--Called when swapping weapons, or when picking up ammo (since this may enable a previously impossible reload).
+function PlayerStandard:_attempt_offhand_reload()
+	if not self._state_data.offhand_reload_t then
+		local weap_base = self._equipped_unit:base()
+		
+		local speed_multiplier = weap_base:get_offhand_auto_reload_speed()
+		if speed_multiplier then
+			local offhand_weapon = self._ext_inventory:get_next_selection()
+			offhand_weapon = offhand_weapon and offhand_weapon.unit and offhand_weapon.unit:base()
+
+			if offhand_weapon and offhand_weapon:can_reload() and not offhand_weapon:clip_full() then
+				local t = Application:time()
+				local is_empty = offhand_weapon:clip_empty()
+
+				speed_multiplier = speed_multiplier * offhand_weapon:reload_speed_multiplier()
+				local auto_reload_time = offhand_weapon:reload_expire_t(is_empty)
+				
+				if not auto_reload_time then --Weapon doesn't use per-bullet reloads, use tweak timers instead.
+					local timers = offhand_weapon:weapon_tweak_data().timers
+					auto_reload_time = (is_empty and timers.reload_empty or timers.reload_not_empty) / speed_multiplier
+				else --Per-bullet reloads return a non-nil reload_expire_t().
+					auto_reload_time = auto_reload_time / speed_multiplier
+
+					--Figure out how long each bullet takes to reload. Not 100% matching manual reload, but nobody is going to notice.
+					local bullets_missing = offhand_weapon:max_bullets_to_reload(is_empty)
+					self._state_data.offhand_per_bullet_reload_t = auto_reload_time / bullets_missing
+					self._state_data.offhand_reload_next_bullet_t = t + self._state_data.offhand_per_bullet_reload_t - 0.01 --Offset avoids some floating point nonsense I was having.
+				end
+
+				self._state_data.offhand_reload_t = t + auto_reload_time
+				self._state_data.offhand_reload_empty = is_empty
+				managers.hud:start_cooldown("offhand_auto_reload", auto_reload_time)
+			end
+		end
+	elseif self._state_data.offhand_per_bullet_reload_t then
+		--Picking up ammo boxes can potentially increase the number of bullets that per-bullet reloads can reload.
+		--So extend the time remaining by the desired amount and update the buff tracker.
+		local t = Application:time()
+		local offhand_weapon = self._ext_inventory:get_next_selection()
+		offhand_weapon = offhand_weapon and offhand_weapon.unit and offhand_weapon.unit:base()
+
+		if offhand_weapon then
+			local bullets_missing = offhand_weapon:max_bullets_to_reload(self._state_data.offhand_reload_empty)
+			local old_offhand_reload_t = self._state_data.offhand_reload_t
+			self._state_data.offhand_reload_t = t + self._state_data.offhand_per_bullet_reload_t * bullets_missing
+			managers.hud:change_cooldown("offhand_auto_reload", self._state_data.offhand_reload_t - old_offhand_reload_t)
+		end
+	end
+end
+
+--Stops any currently active offhand reloads. 
+function PlayerStandard:_stop_offhand_reload()
+	managers.hud:remove_skill("offhand_auto_reload")
+	self._state_data.offhand_reload_t = nil
+	self._state_data.offhand_reload_next_bullet_t = nil
+	self._state_data.offhand_per_bullet_reload_t = nil
+	self._state_data.offhand_reload_empty = nil
+end
+
 function PlayerStandard:_update_reload_timers(t, dt, input)
 	local state = self._state_data
 	
@@ -1686,9 +1755,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			elseif state.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
 				state.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
 			end
-		end
-
-		if state.refill_magazine_t and state.refill_magazine_t <= t then
+		elseif state.refill_magazine_t and state.refill_magazine_t <= t then
 			self._equipped_unit:base():on_reload() --Load up the magazine.
 			
 			--Update trackers.
@@ -1741,6 +1808,38 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			end
 		end
 	end
+
+	if state.offhand_reload_t then
+		local offhand_weapon = self._ext_inventory:get_next_selection()
+		offhand_weapon = offhand_weapon and offhand_weapon.unit and offhand_weapon.unit:base()
+		if offhand_weapon then
+			--Handle "per-bullet" reloads.
+			if state.offhand_reload_next_bullet_t and state.offhand_reload_next_bullet_t < t then
+				offhand_weapon:play_tweak_data_sound("enter_steelsight") --Use steelsight noise as an audio que for the auto-reload.
+				state.offhand_reload_next_bullet_t = t + state.offhand_per_bullet_reload_t - 0.01
+				offhand_weapon:check_reset_last_bullet_stagger()
+				if state.offhand_reload_empty or offhand_weapon:weapon_tweak_data().tactical_reload ~= 1 then --Extra clamping for sanity, but probably not needed.
+					offhand_weapon:set_ammo_remaining_in_clip(math.min(offhand_weapon:get_ammo_max_per_clip(), offhand_weapon:get_ammo_remaining_in_clip() + 1))
+				else
+					offhand_weapon:set_ammo_remaining_in_clip(math.min(offhand_weapon:get_ammo_max_per_clip() + 1, offhand_weapon:get_ammo_remaining_in_clip() + 1))
+				end
+				managers.job:set_memory("kill_count_no_reload_" .. tostring(offhand_weapon._name_id), nil, true)
+				managers.hud:set_ammo_amount(offhand_weapon:selection_index(), offhand_weapon:ammo_info())
+			end
+
+			if state.offhand_reload_t < t then
+				--If not a per-bullet reload, then we should just reload "normally".
+				if not state.offhand_reload_next_bullet_t then
+					offhand_weapon:play_tweak_data_sound("enter_steelsight")
+					offhand_weapon:on_reload() --Load up the magazine.
+					managers.hud:set_ammo_amount(offhand_weapon:selection_index(), offhand_weapon:ammo_info())
+					managers.statistics:reloaded()
+				end
+
+				self:_stop_offhand_reload()
+			end
+		end
+	end
 end
 
 function PlayerStandard:_start_action_reload(t)
@@ -1759,27 +1858,30 @@ function PlayerStandard:_start_action_reload(t)
 			--Tracks time until end of the animation for reloading.
 			self._state_data.reload_expire_t = t + (timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
 
-			--Set time to actually add ammo to the gun, pretty much always before the actual animation finishes.
-			self._state_data.refill_magazine_t = (not shotgun_reload and timers.empty_reload_operational and t + timers.empty_reload_operational / speed_multiplier) or self._state_data.reload_expire_t
+			if not shotgun_reload then
+				--Set time to actually add ammo to the gun, pretty much always before the actual animation finishes.
+				self._state_data.refill_magazine_t = ((timers.empty_reload_operational and t + timers.empty_reload_operational / speed_multiplier) or self._state_data.reload_expire_t)
 
-			--Set time where non-commital animations like sprinting or ADS can interrupt the reload.
-			--False == always interruptable. Make sure to set the timers!
-			self._state_data.reload_soft_interrupt_t = not shotgun_reload and timers.empty_reload_interrupt and t + timers.empty_reload_interrupt / speed_multiplier
+				--Set time where non-commital animations like sprinting or ADS can interrupt the reload.
+				--False == always interruptable. Make sure to set the timers!
+				self._state_data.reload_soft_interrupt_t = timers.empty_reload_interrupt and t + timers.empty_reload_interrupt / speed_multiplier
+			end
 
 			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_" .. reload_name_id), speed_multiplier)
 			weapon:tweak_data_anim_play("reload", speed_multiplier)
 		else
 			self._state_data.reload_expire_t = t + (timers.reload_not_empty or weapon:reload_expire_t() or 2.2) / speed_multiplier
-			self._state_data.refill_magazine_t = (timers.reload_operational and t + timers.reload_operational / speed_multiplier) or self._state_data.reload_expire_t
-			self._state_data.reload_soft_interrupt_t = timers.reload_interrupt and t + timers.reload_interrupt / speed_multiplier
-
+			
+			if not shotgun_reload then
+				self._state_data.refill_magazine_t = (timers.reload_operational and t + timers.reload_operational / speed_multiplier) or self._state_data.reload_expire_t
+				self._state_data.reload_soft_interrupt_t = timers.reload_interrupt and t + timers.reload_interrupt / speed_multiplier
+			end
+			
 			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_not_empty_" .. reload_name_id), speed_multiplier)
 			if not weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier) then
 				weapon:tweak_data_anim_play("reload", speed_multiplier)
 			end
 		end
-		
-
 		
 		--Gather network data for syncing.
 		local empty_reload = weapon:clip_empty() and 1 or 0
@@ -1791,11 +1893,32 @@ function PlayerStandard:_start_action_reload(t)
 	end
 end
 
-function PlayerStandard:_get_swap_speed_multiplier()
-	local weapon_tweak_data = self._equipped_unit:base():weapon_tweak_data()
+function PlayerStandard:_start_action_unequip_weapon(t, data)
+	local speed_multiplier = self:_get_swap_speed_multiplier(true) --Signal that we are holstering the current weapon.
+
+	self._equipped_unit:base():tweak_data_anim_stop("equip")
+	self._equipped_unit:base():tweak_data_anim_play("unequip", speed_multiplier)
+
+	local tweak_data = self._equipped_unit:base():weapon_tweak_data()
+	self._change_weapon_data = data
+	self._unequip_weapon_expire_t = t + (tweak_data.timers.unequip or 0.5) / speed_multiplier
+
+	self:_interupt_action_running(t)
+	self:_interupt_action_charging_weapon(t)
+
+	local result = self._ext_camera:play_redirect(self:get_animation("unequip"), speed_multiplier)
+
+	self:_interupt_action_reload(t)
+	self:_interupt_action_steelsight(t)
+	self._ext_network:send("switch_weapon", speed_multiplier, 1)
+end
+
+function PlayerStandard:_get_swap_speed_multiplier(is_holstering)
+	local weap_base = self._equipped_unit:base()
+	local weapon_tweak_data = weap_base:weapon_tweak_data()
 	local player_manager = managers.player
 	local base_multiplier = (weapon_tweak_data.swap_speed_multiplier or 1) --Base Multiplier reflects weapon base stats, and uses multiplicative values.
-	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[self._equipped_unit:base():get_concealment()] --Get concealment bonus/penalty.
+	base_multiplier = base_multiplier * tweak_data.weapon.stats.mobility[weap_base:get_concealment()] --Get concealment bonus/penalty.
 	local skill_multiplier = 1 --Skill multiplier reflects bonuses from skills, and has additive scaling to match other skills.
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "passive_swap_speed_multiplier", 1) - 1
@@ -1811,6 +1934,12 @@ function PlayerStandard:_get_swap_speed_multiplier()
 
 	if managers.player:has_activate_temporary_upgrade("temporary", "swap_weapon_faster") then
 		skill_multiplier = skill_multiplier + player_manager:temporary_upgrade_value("temporary", "swap_weapon_faster", 1) - 1
+	end
+
+	if is_holstering then
+		if weap_base:clip_empty() then
+			skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "empty_unequip_speed_multiplier", 1) - 1
+		end
 	end
 
 	local multiplier = base_multiplier * skill_multiplier
@@ -1977,9 +2106,11 @@ function PlayerStandard:_find_pickups(t)
 	local pickups = world_g:find_units_quick("sphere", self._unit:movement():m_pos(), self._pickup_area, self._slotmask_pickups)
 	local grenade_tweak = tweak_data.blackmarket.projectiles[managers.blackmarket:equipped_grenade()]
 	local may_find_grenade = not grenade_tweak.base_cooldown and managers.player:has_category_upgrade("player", "regain_throwable_from_ammo")
+	local pickup_found = false
 
 	for _, pickup in ipairs(pickups) do
 		if pickup:pickup() and pickup:pickup():pickup(self._unit) then
+			pickup_found = true
 			if may_find_grenade then
 				managers.player:regain_throwable_from_ammo() --Replace vanilla coroutine
 			end
@@ -1988,6 +2119,10 @@ function PlayerStandard:_find_pickups(t)
 				managers.hud:set_ammo_amount(id, weapon.unit:base():ammo_info())
 			end
 		end
+	end
+
+	if pickup_found then
+		self:_attempt_offhand_reload()
 	end
 end
 

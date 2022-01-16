@@ -2085,7 +2085,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Nagant
 		self.mosin.upgrade_blocks = nil
 		self.mosin.has_description = true
-		self.mosin.desc_id = "bm_mosin_sc_desc"
+		self.mosin.desc_id = "bm_ap_weapon_sc_desc"
 		self.mosin.CLIP_AMMO_MAX = 5
 		self.mosin.fire_mode_data.fire_rate = 1
 		self.mosin.kick = self.stat_info.kick_tables.vertical_kick
@@ -2673,23 +2673,261 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 
-	--Chimano 88
-	self.glock_17.desc_id = "bm_menu_sc_glock17_desc"
-	self.glock_17.fire_mode_data.fire_rate = 0.11009174311
-	self.glock_17.single.fire_rate = 0.11009174311
-	self.glock_17.CLIP_AMMO_MAX = 18
-	self.glock_17.kick = self.stat_info.kick_tables.even_recoil
-	self.glock_17.supported = true
-	self.glock_17.stats = {
-		damage = 20,
-		spread = 21,
-		recoil = 21,
-		concealment = 21,
-		value = 1
-	}
-	self.glock_17.stats_modifiers = nil
-	self.glock_17.timers.reload_interrupt = 0.36
-	self.glock_17.timers.empty_reload_interrupt = 0.25
+	--Light Pistol (Secondary)
+		--Chimano 88
+		self.glock_17.fire_mode_data.fire_rate = 0.11009174311
+		self.glock_17.single.fire_rate = 0.11009174311
+		self.glock_17.kick = self.stat_info.kick_tables.even_recoil
+		self.glock_17.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.glock_17.supported = true
+		self.glock_17.stats = {
+			damage = 20,
+			spread = 18,
+			recoil = 18,
+			concealment = 20,
+			value = 1
+		}
+		self.glock_17.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Bernetti 9
+		self.b92fs.fire_mode_data.fire_rate = 0.11009174311
+		self.b92fs.single.fire_rate = 0.11009174311
+		self.b92fs.CLIP_AMMO_MAX = 15
+		self.b92fs.kick = self.stat_info.kick_tables.even_recoil
+		self.b92fs.kick_pattern = self.stat_info.jumpy_2
+		self.b92fs.supported = true
+		self.b92fs.stats = {
+			damage = 20,
+			spread = 19,
+			recoil = 19,
+			concealment = 19,
+			value = 1
+		}
+		self.b92fs.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--5/7 AP
+		self.lemming.desc_id = "bm_light_ap_weapon_sc_desc"
+		self.lemming.has_description = true
+		self.lemming.CLIP_AMMO_MAX = 20
+		self.lemming.fire_mode_data.fire_rate = 0.125
+		self.lemming.single.fire_rate = 0.125
+		self.lemming.kick = self.stat_info.kick_tables.even_recoil
+		self.lemming.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.lemming.can_shoot_through_enemy = false
+		self.lemming.can_shoot_through_shield = false
+		self.lemming.can_shoot_through_wall = false
+		self.lemming.armor_piercing_chance = 1
+		self.lemming.supported = true
+		self.lemming.stats = {
+			damage = 20,
+			spread = 18,
+			recoil = 19,
+			concealment = 19,
+			value = 1
+		}
+		self.lemming.timers = {
+			reload_not_empty = 1.9,
+			reload_empty = 2.5,
+			reload_operational = 1.5,
+			empty_reload_operational = 2.15,
+			reload_interrupt = 0.24,
+			empty_reload_interrupt = 0.24,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.lemming.swap_speed_multiplier = 0.7
+
+		--Chimano Compact
+		self.g26.kick = self.stat_info.kick_tables.even_recoil
+		self.g26.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.g26.fire_mode_data.fire_rate = 0.11009174311
+		self.g26.single.fire_rate = 0.11009174311
+		self.g26.supported = true
+		self.g26.stats = {
+			damage = 20,
+			spread = 19,
+			recoil = 20,
+			concealment = 21,
+			value = 1
+		}
+		self.g26.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.g26.reload_speed_multiplier = 1.15 --1.7/2.1s
+		self.g26.swap_speed_multiplier = 1.25
+
+		--Stryk 18c
+		self.glock_18c.desc_id = "bm_menu_sc_glock18c_desc"
+		self.glock_18c.fire_mode_data.fire_rate = 0.11009174311
+		self.glock_18c.auto.fire_rate = 0.11009174311
+		self.glock_18c.fire_rate_multiplier = 2.01835 --1100 rpm
+		self.glock_18c.CLIP_AMMO_MAX = 17
+		self.glock_18c.kick = self.stat_info.kick_tables.left_recoil
+		self.glock_18c.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.glock_18c.supported = true
+		self.glock_18c.stats = {
+			damage = 20,
+			spread = 16,
+			recoil = 11,
+			concealment = 19,
+			value = 1
+		}
+		self.glock_18c.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+	--Medium Pistol (Secondary)
+		--Gruber Kurz
+		self.ppk.CLIP_AMMO_MAX = 9
+		self.ppk.kick = self.stat_info.kick_tables.right_recoil
+		self.ppk.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.ppk.supported = true
+		self.ppk.stats = {
+			damage = 24,
+			spread = 20,
+			recoil = 17,
+			concealment = 21,
+			value = 1
+		}
+		self.ppk.timers = {
+			reload_not_empty = 1.9,
+			reload_empty = 2.5,
+			reload_operational = 1.5,
+			empty_reload_operational = 2.15,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.ppk.reload_speed_multiplier = 1.2 --1.6/2.1s
+		self.ppk.swap_speed_multiplier = 1.25
+
+		--Contractor Pistol
+		self.packrat.kick = self.stat_info.kick_tables.even_recoil
+		self.packrat.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.packrat.fire_rate_multiplier = 1.135417 --545 rpm
+		self.packrat.supported = true
+		self.packrat.stats = {
+			damage = 24,
+			spread = 17,
+			recoil = 18,
+			concealment = 19,
+			value = 1
+		}
+		self.packrat.timers = {
+			reload_not_empty = 2,
+			reload_empty = 2.7,
+			reload_operational = 1.5,
+			empty_reload_operational = 2.3,
+			reload_interrupt = 0.31,
+			empty_reload_interrupt = 0.31,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--White Streak
+		self.pl14.fire_mode_data.fire_rate = 0.11009174311
+		self.pl14.single.fire_rate = 0.11009174311
+		self.pl14.CLIP_AMMO_MAX = 14
+		self.pl14.kick = self.stat_info.kick_tables.left_recoil
+		self.pl14.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.pl14.supported = true
+		self.pl14.stats = {
+			damage = 24,
+			spread = 18,
+			recoil = 17,
+			concealment = 19,
+			value = 1
+		}
+		self.pl14.timers = {
+			reload_not_empty = 1.9,
+			reload_empty = 2.5,
+			reload_operational = 1.5,
+			empty_reload_operational = 2.15,
+			reload_interrupt = 0.24,
+			empty_reload_interrupt = 0.24,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--M13
+		self.legacy.CLIP_AMMO_MAX = 13
+		self.legacy.kick = self.stat_info.kick_tables.left_recoil
+		self.legacy.kick_pattern = self.stat_info.kick_patterns.random
+		self.legacy.supported = true
+		self.legacy.stats = {
+			damage = 24,
+			spread = 19,
+			recoil = 15,
+			concealment = 21,
+			value = 1
+		}
+		self.legacy.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Holt 9mm
+		self.holt.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.holt.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.holt.supported = true
+		self.holt.fire_rate_multiplier = 1.32963 --480 rpm
+		self.holt.stats = {
+			damage = 24,
+			spread = 16,
+			recoil = 20,
+			concealment = 19,
+			value = 1
+		}
+		self.holt.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
 
 	--Reinfeld 880
 	self.r870.desc_id = "bm_menu_sc_r870_desc"
@@ -2716,32 +2954,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.r870.stats_modifiers = nil
-
-	--Stryk 18c
-	self.glock_18c.desc_id = "bm_menu_sc_glock18c_desc"
-	self.glock_18c.fire_mode_data.fire_rate = 0.05454545454
-	self.glock_18c.auto.fire_rate = 0.05454545454
-	self.glock_18c.CLIP_AMMO_MAX = 18
-	self.glock_18c.AMMO_MAX = 100
-	self.glock_18c.kick = self.stat_info.kick_tables.left_recoil
-	self.glock_18c.supported = false
-	self.glock_18c.stats = {
-		damage = 18,
-		spread = 17,
-		recoil = 19,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 28,
-		suppression = 10,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.glock_18c.stats_modifiers = nil
-	self.glock_18c.timers.reload_interrupt = 0.3
-	self.glock_18c.timers.empty_reload_interrupt = 0.22
 
 	--Izhma 12G
 	self.saiga.rays = 9
@@ -2885,30 +3097,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.huntsman.timers.reload_not_empty = 2.3
 	self.huntsman.timers.reload_empty = 2.3
 	self.huntsman.reload_speed_multiplier = 1.2
-
-	--Bernetti 9
-	self.b92fs.AMMO_MAX = 90
-	self.b92fs.fire_mode_data.fire_rate = 0.08571428571
-	self.b92fs.single.fire_rate = 0.08571428571
-	self.b92fs.kick = self.stat_info.kick_tables.even_recoil
-	self.b92fs.supported = false
-	self.b92fs.stats = {
-		damage = 20,
-		spread = 19,
-		recoil = 24,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 31,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.b92fs.stats_modifiers = nil
-	self.b92fs.timers.reload_interrupt = 0.36
-	self.b92fs.timers.empty_reload_interrupt = 0.25
 
 	--Bronco
 	self.new_raging_bull.fire_mode_data = {}
@@ -3073,33 +3261,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.judge.reload_speed_multiplier = 0.85
 	self.judge.timers.reload_interrupt = 0.12
 	self.judge.timers.empty_reload_interrupt = 0.12
-
-	--Gruber Kurz
-	self.ppk.AMMO_MAX = 90
-	self.ppk.CLIP_AMMO_MAX = 12
-	--self.ppk.fire_mode_data.fire_rate = 0.08571428571
-	--self.ppk.single.fire_rate = 0.08571428571
-	self.ppk.kick = self.stat_info.kick_tables.right_recoil
-	self.ppk.supported = false
-	self.ppk.stats = {
-		damage = 20,
-		spread = 20,
-		recoil = 25,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 31,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.ppk.stats_modifiers = nil
-	self.ppk.timers.reload_not_empty = 1.45
-	self.ppk.timers.reload_empty = 2.2
-	self.ppk.timers.reload_interrupt = 0.36
-	self.ppk.timers.empty_reload_interrupt = 0.25
 
 	--Signature .40
 	self.p226.AMMO_MAX = 75
@@ -3331,30 +3492,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.x_deagle.stats_modifiers = nil
-
-	--Chimano Compact
-	self.g26.AMMO_MAX = 90
-	self.g26.kick = self.stat_info.kick_tables.even_recoil
-	self.g26.fire_mode_data.fire_rate = 0.08571428571
-	self.g26.single.fire_rate = 0.08571428571
-	self.g26.supported = false
-	self.g26.stats = {
-		damage = 20,
-		spread = 20,
-		recoil = 25,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 32,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.g26.stats_modifiers = nil
-	self.g26.timers.reload_interrupt = 0.36
-	self.g26.timers.empty_reload_interrupt = 0.25
 
 	--Predator 12g
 	self.spas12.rays = 9
@@ -4067,31 +4204,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.x_sr2.stats_modifiers = nil
 
-	--White Streak
-	self.pl14.fire_mode_data.fire_rate = 0.08571428571
-	self.pl14.single.fire_rate = 0.08571428571
-	self.pl14.CLIP_AMMO_MAX = 10
-	self.pl14.AMMO_MAX = 75
-	self.pl14.kick = self.stat_info.kick_tables.left_recoil
-	self.pl14.supported = false
-	self.pl14.stats = {
-		damage = 24,
-		spread = 19,
-		recoil = 23,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 30,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.pl14.stats_modifiers = nil
-	self.pl14.timers.reload_interrupt = 0.33
-	self.pl14.timers.empty_reload_interrupt = 0.22
-
 	--Akimbo MP5
 	self.x_mp5.fire_mode_data.fire_rate = 0.075
 	self.x_mp5.BURST_FIRE = 6
@@ -4176,30 +4288,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.boot.stats_modifiers = nil
 	self.boot.stats_modifiers = {damage = 1}
 	self.boot.reload_speed_multiplier = 0.75
-
-	--Contractor Pistol
-	self.packrat.AMMO_MAX = 90
-	self.packrat.fire_mode_data.fire_rate = 0.08571428571
-	self.packrat.single.fire_rate = 0.08571428571
-	self.packrat.kick = self.stat_info.kick_tables.even_recoil
-	self.packrat.supported = false
-	self.packrat.stats = {
-		damage = 20,
-		spread = 19,
-		recoil = 24,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 31,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.packrat.stats_modifiers = nil
-	self.packrat.timers.reload_interrupt = 0.21
-	self.packrat.timers.empty_reload_interrupt = 0.13
 
 	--Akimbo Contractor Pistols
 	self.x_packrat.AMMO_MAX = 180
@@ -4312,35 +4400,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ray.stats_modifiers = {damage = 3}
 	self.ray.swap_speed_multiplier = 1.2
 	self.ray.turret_instakill = true
-
-	--5/7 AP
-	self.lemming.CLIP_AMMO_MAX = 20
-	self.lemming.AMMO_MAX = 75
-	self.lemming.fire_mode_data.fire_rate = 0.08571428571
-	self.lemming.single.fire_rate = 0.08571428571
-	self.lemming.kick = self.stat_info.kick_tables.even_recoil
-	self.lemming.can_shoot_through_enemy = false
-	self.lemming.can_shoot_through_shield = false
-	self.lemming.can_shoot_through_wall = false
-	self.lemming.armor_piercing_chance = nil
-	self.lemming.supported = false
-	self.lemming.stats = {
-		damage = 24,
-		spread = 17,
-		recoil = 22,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 27,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.lemming.stats_modifiers = nil
-	self.lemming.timers.reload_interrupt = 0.16
-	self.lemming.timers.empty_reload_interrupt = 0.11
 
 	--Castigo
 	self.chinchilla.fire_mode_data.fire_rate = 0.19047619
@@ -4875,37 +4934,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.coach.timers.reload_interrupt = 0.05
 	self.coach.timers.empty_reload_interrupt = 0.05
 
-	--M13
-	self.legacy.fire_mode_data.fire_rate = 0.08571428571
-	self.legacy.single.fire_rate = 0.08571428571
-	self.legacy.CLIP_AMMO_MAX = 12
-	self.legacy.AMMO_MAX = 75
-	self.legacy.kick = self.stat_info.kick_tables.left_recoil
-	self.legacy.supported = false
-	self.legacy.stats = {
-		damage = 24,
-		spread = 19,
-		recoil = 23,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 29,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.legacy.stats_modifiers = nil
-	self.legacy.timers = {
-		reload_not_empty = 1.47,
-		reload_empty = 2.12,
-		unequip = 0.5,
-		equip = 0.35
-	}
-	self.legacy.timers.reload_interrupt = 0.21
-	self.legacy.timers.empty_reload_interrupt = 0.13
-
 	--Beretta Auto
 	self.beer.use_data.selection_index = 2
 	self.beer.AMMO_MAX = 180
@@ -5018,30 +5046,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.x_stech.stats_modifiers = nil
-	--Holt 9mm
-	self.holt.fire_mode_data.fire_rate = 0.08571428571
-	self.holt.single.fire_rate = 0.08571428571
-	self.holt.CLIP_AMMO_MAX = 10
-	self.holt.AMMO_MAX = 75
-	self.holt.kick = self.stat_info.kick_tables.even_recoil
-	self.holt.supported = false
-	self.holt.stats = {
-		damage = 24,
-		spread = 18,
-		recoil = 23,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 29,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.holt.stats_modifiers = nil
-	self.holt.timers.reload_interrupt = 0.21
-	self.holt.timers.empty_reload_interrupt = 0.13
 
 	--Akimbo Holt 9mm
 	self.x_holt.fire_mode_data.fire_rate = 0.08571428571

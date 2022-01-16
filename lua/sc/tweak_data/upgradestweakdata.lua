@@ -1157,12 +1157,13 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.weapon.ricochet_bullets = {true}
 
+			--Trusty Sidearm
+				--Basic
+					self.values.weapon.empty_unequip_speed_multiplier = {1.5}
+					self.values.pistol.backup_reload_speed_multiplier = {1.2}
+				--Ace
+					self.values.pistol.offhand_auto_reload = {0.4}
 
-			--Gunfighter
-				self.values.pistol.reload_speed_multiplier = {
-					1.05, --Basic
-					1.3 --Ace
-				}
 				--Basic
 					self.values.pistol.move_spread_multiplier = {0.6}
 				
@@ -1966,6 +1967,33 @@ function UpgradesTweakData:_player_definitions()
 			value = 1
 		}
 	}
+	self.definitions.weapon_empty_unequip_speed_multiplier = {
+		category = "feature",
+		name_id = "menu_weapon_empty_unequip_speed_multiplier",
+		upgrade = {
+			category = "weapon",
+			upgrade = "empty_unequip_speed_multiplier",
+			value = 1
+		}
+	}
+	self.definitions.pistol_backup_reload_speed_multiplier = {
+		category = "feature",
+		name_id = "menu_pistol_backup_reload_speed_multiplier",
+		upgrade = {
+			category = "pistol",
+			upgrade = "backup_reload_speed_multiplier",
+			value = 1
+		}
+	}
+	self.definitions.pistol_offhand_auto_reload = {
+		category = "feature",
+		name_id = "menu_pistol_offhand_auto_reload",
+		upgrade = {
+			category = "pistol",
+			upgrade = "offhand_auto_reload",
+			value = 1
+		}
+	}
 	self.definitions.pistol_desperado_all_guns = {
 		category = "feature",
 		name_id = "menu_pistol_desperado_all_guns",
@@ -2407,24 +2435,6 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}	
-	self.definitions.pistol_reload_speed_multiplier_1 = {
-		name_id = "menu_pistol_reload_speed",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "reload_speed_multiplier",
-			category = "pistol"
-		}
-	}
-	self.definitions.pistol_reload_speed_multiplier_2 = {
-		name_id = "menu_pistol_reload_speed",
-		category = "feature",
-		upgrade = {
-			value = 2,
-			upgrade = "reload_speed_multiplier",
-			category = "pistol"
-		}
-	}
 	self.definitions.cable_tie_pickup_chance = {
 		name_id = "menu_shotgun_damage_multiplier",
 		category = "feature",

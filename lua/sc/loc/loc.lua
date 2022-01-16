@@ -125,6 +125,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_melee_kill_increase_reload_speedDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_trigger_happyTitleID"] = "Trigger Happy",
 		["PD2HEATInfo_trigger_happyDescID"] = "Enables or disables tracking of this specific skill.",
+		["PD2HEATInfo_offhand_auto_reloadTitleID"] = "Trusty Sidearm",
+		["PD2HEATInfo_offhand_auto_reloadDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_unseen_strikeTitleID"] = "Unseen Strike",
 		["PD2HEATInfo_unseen_strikeDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_survive_one_hitTitleID"] = "Oni Irezumi (Yakuza)",
@@ -1809,9 +1811,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_dance_instructor_sc"] = "Snap Shot",
 		["menu_dance_instructor_desc_sc"] = "BASIC: ##$basic##\nPistol bullets ricochet off of shields and walls.\n\nNote: Does not apply to bullets that penetrate through shields or walls.\n\nACE: ##$pro##\nBullets from any gun ricochet off of shields and walls.",
 
-		--Gunfighter--
-		["menu_gun_fighter_sc"] = "Gunfighter",
-		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nPistols reload ##5%## faster.\n\nThe movement penalty to accuracy is reduced by ##40%## for Pistols.\n\nThe movement penalty to accuracy is determined by stability.\n\nACE: ##$pro##\nPistols reload an additional ##25%## faster.",
+		--Trusty Sidearm--
+		["menu_gun_fighter_sc"] = "Trusty Sidearm",
+		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##50%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##40%## speed while you have a pistol equipped.",
 
 		--Tequila Time--
 		["menu_akimbo_skill_sc"] = "Tequila Time",

@@ -209,7 +209,9 @@ function HUDManager:clear_skills()
 end
 
 function HUDManager:start_cooldown(name, duration)
-	self._skill_list:trigger_cooldown(name, duration)
+	if heat.Options:GetValue("INFOHUD/Info_Hud") and name and heat.Options:GetValue("INFOHUD/Info_" .. name) then
+		self._skill_list:trigger_cooldown(name, duration)
+	end
 end
 
 function HUDManager:change_cooldown(name, amount)

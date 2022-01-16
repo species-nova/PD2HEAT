@@ -1686,21 +1686,21 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Over Pressurized/Gunfighter--
+			--Trusty Sidearm
 			self.skills.akimbo = {
 				["name_id"] = "menu_gun_fighter_sc",
 				["desc_id"] = "menu_gun_fighter_desc_sc",
 				["icon_xy"] = {0, 9},
 				[1] = {
 					upgrades = {
-						"pistol_reload_speed_multiplier_1",
-						"pistol_move_spread_multiplier"
+						"weapon_empty_unequip_speed_multiplier",
+						"pistol_backup_reload_speed_multiplier"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"pistol_reload_speed_multiplier_2"
+						"pistol_offhand_auto_reload"
 					},
 					cost = self.costs.hightierpro
 				}
