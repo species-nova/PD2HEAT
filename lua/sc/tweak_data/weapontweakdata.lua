@@ -3012,7 +3012,163 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.35
 		}
 
+	--Heavy Pistol (Primary)
+		--Cavity 9mm
+		self.sub2000.categories = {"pistol"}
+		self.sub2000.CLIP_AMMO_MAX = 30
+		self.sub2000.fire_rate_multiplier = 0.77195467 --545 rpm
+		self.sub2000.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.sub2000.kick_pattern = self.stat_info.kick_patterns.random
+		self.sub2000.supported = true
+		self.sub2000.stats = {
+			damage = 30,
+			spread = 15,
+			recoil = 10,
+			concealment = 19,
+			value = 1
+		}
+		self.sub2000.timers = {
+			reload_not_empty = 2.8,
+			reload_empty = 3.8,
+			reload_operational = 2.3,
+			empty_reload_operational = 3.3,
+			reload_interrupt = 0.44,
+			empty_reload_interrupt = 0.92,
+			unequip = 0.9,
+			equip = 0.9
+		}
+		self.sub2000.reload_speed_multiplier = 1.26 --2.2/3s
+		self.sub2000.swap_speed_multiplier = 1.15
 
+		--Broomstick--
+		self.c96.use_data.selection_index = 2
+		self.c96.sounds.fire_single = "c96_fire"
+		self.c96.sounds.fire_auto = "g18c_fire"
+		self.c96.sounds.stop_fire = "g18c_stop"
+		self.c96.has_description = true
+		self.c96.desc_id = "bm_c96_sc_desc"
+		self.c96.FIRE_MODE = "auto"
+		self.c96.CAN_TOGGLE_FIREMODE = true
+		self.c96.fire_mode_data.fire_rate = 0.06 --1000 rpm
+		self.c96.single.fire_rate = 0.06 --1000 rpm
+		self.c96.kick = self.stat_info.kick_tables.even_recoil
+		self.c96.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.c96.uses_clip = true
+		self.c96.clip_capacity = 10
+		self.c96.supported = true
+		self.c96.stats = {
+			damage = 30,
+			spread = 17,
+			recoil = 17,
+			concealment = 19,
+			value = 1
+		}
+		self.c96.timers = {
+			reload_not_empty = 4.4,
+			reload_empty = 4.8,
+			reload_operational = 3.7,
+			empty_reload_operational = 4.1,
+			reload_interrupt = 0.125,
+			empty_reload_interrupt = 0.125,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.c96.reload_speed_multiplier = 1.15 --3.8s/4.2s
+
+	--Heavy Pistols (Secondary)
+		--Signature .40
+		self.p226.kick = self.stat_info.kick_tables.left_recoil
+		self.p226.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.p226.CLIP_AMMO_MAX = 13
+		self.p226.supported = true
+		self.p226.stats = {
+			damage = 30,
+			spread = 15,
+			recoil = 17,
+			concealment = 19,
+			value = 4
+		}
+		self.p226.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Baby Deagle
+		self.sparrow.kick = self.stat_info.kick_tables.even_recoil
+		self.sparrow.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.sparrow.fire_rate_multiplier = 1.2 --480 rpm
+		self.sparrow.supported = true
+		self.sparrow.stats = {
+			damage = 30,
+			spread = 17,
+			recoil = 15,
+			concealment = 19,
+			value = 1
+		}
+		self.sparrow.timers = {
+			reload_not_empty = 1.9,
+			reload_empty = 2.5,
+			reload_operational = 1.5,
+			empty_reload_operational = 2.15,
+			reload_interrupt = 0.44,
+			empty_reload_interrupt = 0.44,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.sparrow.reload_speed_multiplier = 1.05 --1.8/2.4s
+
+		--Chimano Custom
+		self.g22c.kick = self.stat_info.kick_tables.even_recoil
+		self.g22c.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.g22c.CLIP_AMMO_MAX = 15
+		self.g22c.supported = true
+		self.g22c.stats = {
+			damage = 30,
+			spread = 18,
+			recoil = 12,
+			concealment = 20,
+			value = 1
+		}
+		self.g22c.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Crosskill Guard
+		self.shrew.CLIP_AMMO_MAX = 8
+		self.shrew.kick = self.stat_info.kick_tables.moderate_kick
+		self.shrew.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.shrew.supported = true
+		self.shrew.stats = {
+			damage = 30,
+			spread = 19,
+			recoil = 14,
+			concealment = 21,
+			value = 1
+		}
+		self.shrew.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.shrew.reload_speed_multiplier = 1.05 --1.9/2.3s
 
 	--Reinfeld 880
 	self.r870.desc_id = "bm_menu_sc_r870_desc"
@@ -3284,37 +3440,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.usp.stats_modifiers = nil
 
-	--Chimano Custom
-	self.g22c.timers = {
-		reload_not_empty = 1.47,
-		reload_empty = 2.12,
-		unequip = 0.5,
-		equip = 0.35
-	}
-	self.g22c.fire_mode_data.fire_rate = 0.08571428571
-	self.g22c.single.fire_rate = 0.08571428571
-	self.g22c.AMMO_MAX = 75
-	self.g22c.kick = self.stat_info.kick_tables.left_recoil
-	self.g22c.CLIP_AMMO_MAX = 16
-	self.g22c.supported = false
-	self.g22c.stats = {
-		damage = 24,
-		spread = 18,
-		recoil = 23,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 28,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.g22c.stats_modifiers = nil
-	self.g22c.timers.reload_interrupt = 0.36
-	self.g22c.timers.empty_reload_interrupt = 0.25
-
 	--Judge
 	self.judge.fire_mode_data = {}
 	self.judge.fire_mode_data.fire_rate = 0.272727
@@ -3346,31 +3471,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.judge.reload_speed_multiplier = 0.85
 	self.judge.timers.reload_interrupt = 0.12
 	self.judge.timers.empty_reload_interrupt = 0.12
-
-	--Signature .40
-	self.p226.AMMO_MAX = 75
-	self.p226.CLIP_AMMO_MAX = 16
-	self.p226.fire_mode_data.fire_rate = 0.08571428571
-	self.p226.single.fire_rate = 0.08571428571
-	self.p226.kick = self.stat_info.kick_tables.even_recoil
-	self.p226.supported = false
-	self.p226.stats = {
-		damage = 24,
-		spread = 18,
-		recoil = 23,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 28,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 4,
-		reload = 20
-	}
-	self.p226.stats_modifiers = nil
-	self.p226.timers.reload_interrupt = 0.36
-	self.p226.timers.empty_reload_interrupt = 0.25
 
 	--M1014
 	self.benelli.AMMO_MAX = 80
@@ -3605,43 +3705,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.spas12.stats_modifiers = nil
 	self.spas12.stats_modifiers = {damage = 1}
-
-	--Broomstick--
-	self.c96.sounds.fire = "c96_fire"
-	self.c96.sounds.fire_single = "c96_fire"
-	self.c96.sounds.fire_auto = "g18c_fire"
-	self.c96.sounds.stop_fire = "g18c_stop"
-	self.c96.sounds.dryfire = "secondary_dryfire"
-	self.c96.sounds.enter_steelsight = "pistol_steel_sight_enter"
-	self.c96.sounds.leave_steelsight = "pistol_steel_sight_exit"
-	self.c96.sounds.magazine_empty = "wp_pistol_slide_lock"
-	self.c96.has_description = true
-	self.c96.desc_id = "bm_c96_sc_desc"
-	self.c96.AMMO_MAX = 60
-	self.c96.FIRE_MODE = "auto"
-	self.c96.CAN_TOGGLE_FIREMODE = true
-	self.c96.fire_mode_data.fire_rate = 0.06
-	self.c96.single.fire_rate = 0.06
-	self.c96.kick = self.stat_info.kick_tables.even_recoil
-	self.c96.supported = false
-	self.c96.stats = {
-		damage = 30,
-		spread = 16,
-		recoil = 20,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 25,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.c96.stats_modifiers = nil
-	self.c96.timers.reload_not_empty = 3.7
-	self.c96.timers.reload_interrupt = 0.3
-	self.c96.timers.empty_reload_interrupt = 0.3
 
 	--Leo
 	self.hs2000.CLIP_AMMO_MAX = 14
@@ -4028,44 +4091,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.mateba.timers.empty_reload_interrupt = 0.13
 	self.mateba.timers.reload_interrupt = 0.13
 
-	--Cavity 9mm
-	self.sub2000.categories = {"pistol"}
-	self.sub2000.recategorize = "pistol_carbine"
-	self.sub2000.CLIP_AMMO_MAX = 30
-	self.sub2000.AMMO_MAX = 120
-	self.sub2000.sounds.fire = "sub2k_fire"
-	self.sub2000.sounds.fire_single = "sub2k_fire"
-	self.sub2000.sounds.dryfire = "primary_dryfire"
-	self.sub2000.sounds.fire_auto = "mac10_fire"
-	self.sub2000.sounds.stop_fire = "mac10_stop"
-	self.sub2000.sounds.enter_steelsight = "primary_steel_sight_enter"
-	self.sub2000.sounds.leave_steelsight = "primary_steel_sight_exit"
-	self.sub2000.fire_mode_data.fire_rate = 0.07142857142
-	self.sub2000.CAN_TOGGLE_FIREMODE = false
-	self.sub2000.FIRE_MODE = "single"
-	self.sub2000.single = {}
-	self.sub2000.single.fire_rate = 0.07142857142
-	self.sub2000.kick = {}
-	self.sub2000.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.sub2000.supported = false
-	self.sub2000.stats = {
-		damage = 30,
-		spread = 17,
-		recoil = 22,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 27,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.sub2000.stats_modifiers = nil
-	self.sub2000.timers.empty_reload_interrupt = 0.19
-	self.sub2000.timers.reload_interrupt = 0.28
-
 	--Pistol Crossbow
 	self.hunter.upgrade_blocks = {
 		weapon = {
@@ -4185,31 +4210,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.long.stats_modifiers = {damage = 4}
-
-	--Baby Deagle
-	self.sparrow.AMMO_MAX = 75
-	self.sparrow.kick = {}
-	self.sparrow.kick = self.stat_info.kick_tables.even_recoil
-	self.sparrow.fire_mode_data.fire_rate = 0.08571428571
-	self.sparrow.single.fire_rate = 0.08571428571
-	self.sparrow.supported = false
-	self.sparrow.stats = {
-		damage = 24,
-		spread = 19,
-		recoil = 23,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 29,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.sparrow.stats_modifiers = nil
-	self.sparrow.timers.reload_interrupt = 0.33
-	self.sparrow.timers.empty_reload_interrupt = 0.22
 
 	--GSPS--
 	self.m37.rays = 9
@@ -4593,31 +4593,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.ecp.stats_modifiers = {damage = 4}
-
-	--Crosskill
-	self.shrew.fire_mode_data.fire_rate = 0.08571428571
-	self.shrew.single.fire_rate = 0.08571428571
-	self.shrew.CLIP_AMMO_MAX = 6
-	self.shrew.AMMO_MAX = 40
-	self.shrew.kick = self.stat_info.kick_tables.moderate_kick
-	self.shrew.supported = false
-	self.shrew.stats = {
-		damage = 45,
-		spread = 19,
-		recoil = 18,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 27,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.shrew.stats_modifiers = nil
-	self.shrew.timers.reload_interrupt = 0.36
-	self.shrew.timers.empty_reload_interrupt = 0.25
 
 	--Akimbo Crosskill
 	self.x_shrew.fire_mode_data.fire_rate = 0.08571428571

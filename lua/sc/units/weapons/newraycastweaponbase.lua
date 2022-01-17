@@ -391,8 +391,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 	self._deploy_anim_override = self:weapon_tweak_data().deploy_anim_override or nil
 	self._deploy_ads_stance_mod = self:weapon_tweak_data().deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
 		
-	self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
-	
 	if not self:is_npc() then
 		local weapon = {
 			factory_id = self._factory_id,
@@ -400,6 +398,8 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 		}
 		self._current_concealment = managers.blackmarket:calculate_weapon_concealment(weapon) + managers.blackmarket:get_silencer_concealment_modifiers(weapon)
 
+		self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
+	
 		self._burst_rounds_remaining = 0
 		self._has_auto = not self._locked_fire_mode and (self:can_toggle_firemode() or self:weapon_tweak_data().FIRE_MODE == "auto")
 		
