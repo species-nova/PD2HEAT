@@ -266,7 +266,7 @@ function CopLogicAttack._upd_combat_movement(data)
 	local want_to_take_cover = my_data.want_to_take_cover
 	
 	if not my_data.moving_to_cover and not my_data.at_cover_shoot_pos then
-		if not my_data.surprised and data.important and focus_enemy.verified and not my_data.turning and CopLogicAttack._can_move(data) and not unit:movement():chk_action_forbidden("walk") then
+		if not my_data.surprised and not my_data.tasing and data.important and focus_enemy.verified and not my_data.turning and CopLogicAttack._can_move(data) and not unit:movement():chk_action_forbidden("walk") then
 			if not my_data.in_cover then
 				if data.is_suppressed and t - unit:character_damage():last_suppression_t() < 0.7 then
 					action_taken = CopLogicBase.chk_start_action_dodge(data, "scared")
