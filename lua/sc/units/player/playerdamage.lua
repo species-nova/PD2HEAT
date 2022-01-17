@@ -1099,6 +1099,7 @@ function PlayerDamage:_calc_health_damage_no_deflection(attack_data)
 	health_subtracted = self:get_real_health()
 	if self._hot_data and self._hot_data.source == "rogue" and attack_data.damage > 0.0 then --End Rogue health regen.
 		self._hot_stacks = 0
+		managers.hud:set_stacks(self._hot_data.source, self._hot_stacks)
 	end
 	
 	self:change_health(-attack_data.damage)
