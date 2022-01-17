@@ -387,7 +387,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 	
 	self._reload_speed_mult = self:weapon_tweak_data().reload_speed_multiplier or 1
 	self._ads_speed_mult = self._ads_speed_mult or 1
-	self._flame_max_range = self:weapon_tweak_data().flame_max_range or nil
 	
 	self._deploy_anim_override = self:weapon_tweak_data().deploy_anim_override or nil
 	self._deploy_ads_stance_mod = self:weapon_tweak_data().deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
@@ -414,8 +413,10 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 		self._delayed_burst_recoil = self:weapon_tweak_data().DELAYED_BURST_RECOIL
 		
 		self._burst_rounds_fired = 0
-	else
-		self._can_shoot_through_titan_shield = false
+
+		if self:weapon_tweak_data().FIRE_MODE == "burst" then
+			self:_set_burst_mode(true, true)
+		end
 	end		
 	
 	--Set range multipliers.
@@ -433,15 +434,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 
 	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
 	for part_id, stats in pairs(custom_stats) do
-		if stats.ads_speed_mult then
-			self._ads_speed_mult = self._ads_speed_mult * stats.ads_speed_mult
-		end
-
-		if self._flame_max_range and stats.flame_max_range_set then
-			self._flame_max_range = stats.flame_max_range_set
-			NewRaycastWeaponBase.flame_max_range = stats.flame_max_range_set
-		end
-
 		if stats.disable_steelsight_stance then
 			if self:weapon_tweak_data().animations then
 				self:weapon_tweak_data().animations.has_steelsight_stance = false
@@ -459,11 +451,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 				self:weapon_tweak_data().animations.reload_name_id = "akm"
 			end
 		end
-		
-		if stats.beretta_burst then
-			self:weapon_tweak_data().BURST_FIRE = 3	
-			self:weapon_tweak_data().ADAPTIVE_BURST_SIZE = false	
-		end			
 
 		if stats.can_shoot_through_titan_shield then
 			self._can_shoot_through_titan_shield = true
@@ -477,6 +464,8 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 			self._damage_far_mul = self._damage_far_mul * stats.damage_far_mul
 		end
 	end
+
+	self._flame_max_range = self._damage_far_mul
 
 	self:precalculate_ammo_pickup()
 end
@@ -511,7 +500,7 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 
 	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
 	
-	if self:in_burst_mode() then
+	if self:in_burst_mode() and self:burst_rounds_remaining() then
 		mul = mul * (self._burst_fire_rate_multiplier or 1)
 	end
 

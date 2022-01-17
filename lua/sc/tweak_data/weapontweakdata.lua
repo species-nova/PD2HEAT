@@ -830,6 +830,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.famas.use_data.selection_index = 1
 		self.famas.CLIP_AMMO_MAX = 25
 		self.famas.BURST_FIRE = 3
+		self.famas.FIRE_MODE = "burst"
 		self.famas.ADAPTIVE_BURST_SIZE = false
 		self.famas.CAN_TOGGLE_FIREMODE = true
 		self.famas.kick = self.stat_info.kick_tables.vertical_kick
@@ -934,17 +935,18 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Ak17
 		self.flint.CLIP_AMMO_MAX = 30
 		self.flint.BURST_FIRE = 3
-		self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.53846153833 --1000 rpm in burst fire, 700 otherwise.
-		self.flint.fire_mode_data.fire_rate = 0.09230769230 --700 rpm
+		self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.53846153833 --1000 rpm in burst fire, 650 otherwise.
+		self.flint.fire_mode_data.fire_rate = 0.09230769230 --650 rpm
 		self.flint.auto.fire_rate = 0.09230769230
 		self.flint.ADAPTIVE_BURST_SIZE = false
+		self.flint.FIRE_MODE = "burst"
 		self.flint.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.flint.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.flint.supported = true
 		self.flint.stats = {
 			damage = 24,
 			spread = 17,
-			recoil = 15,
+			recoil = 14,
 			concealment = 12,
 			value = 1
 		}
@@ -2673,6 +2675,38 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.6
 		}
 
+	--Light Pistol (Primary)
+		--Bernetti Auto
+		self.beer.use_data.selection_index = 2
+		self.beer.fire_mode_data.fire_rate = 0.11009174311
+		self.beer.BURST_FIRE = 3
+		self.beer.ADAPTIVE_BURST_SIZE = false
+		self.beer.BURST_FIRE_RATE_MULTIPLIER = 2.01835 --1100 rpm
+		self.beer.single = {fire_rate = 0.11009174311}
+		self.beer.auto = nil
+		self.beer.FIRE_MODE = "burst"
+		self.beer.CAN_TOGGLE_FIREMODE = false
+		self.beer.kick = self.stat_info.kick_tables.even_recoil
+		self.beer.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.beer.supported = true
+		self.beer.stats = {
+			damage = 20,
+			spread = 15,
+			recoil = 15,
+			concealment = 18,
+			value = 1
+		}
+		self.beer.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.43,
+			empty_reload_interrupt = 0.43,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
 	--Light Pistol (Secondary)
 		--Chimano 88
 		self.glock_17.fire_mode_data.fire_rate = 0.11009174311
@@ -2792,9 +2826,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.glock_18c.supported = true
 		self.glock_18c.stats = {
 			damage = 20,
-			spread = 16,
-			recoil = 11,
-			concealment = 19,
+			spread = 17,
+			recoil = 12,
+			concealment = 20,
 			value = 1
 		}
 		self.glock_18c.timers = {
@@ -2807,6 +2841,33 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.35
 		}
+
+	--Medium Pistol (Primary)
+		--Czech 92
+		self.czech.use_data.selection_index = 2
+		self.czech.fire_mode_data.fire_rate = 0.06
+		self.czech.kick = self.stat_info.kick_tables.left_recoil
+		self.czech.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.czech.supported = true
+		self.czech.stats = {
+			damage = 20,
+			spread = 15,
+			recoil = 11,
+			concealment = 19,
+			value = 1
+		}
+		self.czech.timers = {
+			reload_not_empty = 1.95,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.37,
+			empty_reload_interrupt = 0.43,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--TODO: Kang Arms Model 54
 
 	--Medium Pistol (Secondary)
 		--Gruber Kurz
@@ -2927,6 +2988,30 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.35
 		}
+
+		--Igor
+		self.stech.kick = self.stat_info.kick_tables.moderate_kick
+		self.stech.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.stech.CLIP_AMMO_MAX = 20
+		self.stech.supported = true
+		self.stech.stats = {
+			damage = 24,
+			spread = 14,
+			recoil = 14,
+			concealment = 17,
+			value = 1
+		}
+		self.stech.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 3.3,
+			reload_operational = 1.9,
+			empty_reload_operational = 2.6,
+			reload_interrupt = 0.46,
+			empty_reload_interrupt = 0.43,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
 
 
 	--Reinfeld 880
@@ -4934,53 +5019,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.coach.timers.reload_interrupt = 0.05
 	self.coach.timers.empty_reload_interrupt = 0.05
 
-	--Beretta Auto
-	self.beer.use_data.selection_index = 2
-	self.beer.AMMO_MAX = 180
-	self.beer.fire_mode_data.fire_rate = 0.05454545454
-	self.beer.kick = self.stat_info.kick_tables.even_recoil
-	self.beer.supported = false
-	self.beer.stats = {
-		damage = 20,
-		spread = 16,
-		recoil = 19,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 27,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.beer.stats_modifiers = nil
-	self.beer.timers.reload_interrupt = 0.3
-	self.beer.timers.empty_reload_interrupt = 0.2
-
-	--CZ 75
-	self.czech.AMMO_MAX = 90
-	self.czech.fire_mode_data.fire_rate = 0.06
-	self.czech.kick = self.stat_info.kick_tables.even_recoil
-	self.czech.supported = false
-	self.czech.stats = {
-		damage = 20,
-		spread = 16,
-		recoil = 20,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 28,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.czech.stats_modifiers = nil
-	self.czech.timers.reload_interrupt = 0.25
-	self.czech.timers.empty_reload_interrupt = 0.2
-
 	--Akimbo CZ 75
 	self.x_czech.AMMO_MAX = 180
 	self.x_czech.fire_mode_data.fire_rate = 0.06
@@ -5001,29 +5039,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.x_czech.stats_modifiers = nil
-	--Igor
-	self.stech.fire_mode_data.fire_rate = 0.08
-	self.stech.AMMO_MAX = 75
-	self.stech.kick = self.stat_info.kick_tables.moderate_kick
-	self.stech.CLIP_AMMO_MAX = 20
-	self.stech.supported = false
-	self.stech.stats = {
-		damage = 24,
-		spread = 17,
-		recoil = 21,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 26,
-		suppression = 8,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.stech.stats_modifiers = nil
-	self.stech.timers.reload_interrupt = 0.23
-	self.stech.timers.empty_reload_interrupt = 0.16
 
 	--Akimbo Igor
 	self.x_stech.fire_mode_data.fire_rate = 0.08

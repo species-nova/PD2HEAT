@@ -1660,3 +1660,34 @@ function PlayerManager:get_value_from_risk_upgrade(risk_upgrade, detection_risk)
 
 	return risk_value
 end
+
+function PlayerManager:spawned_player(id, unit)
+	self._players[id] = unit
+
+	MenuCallbackHandler:_update_outfit_information()
+	self:setup_viewports()
+	self:_internal_load()
+	self:_change_player_state()
+
+	if id == 1 then
+		--Sets burst fire in hud for guns that start in it.
+		local primary = unit:inventory():unit_by_selection(1):base()
+		if primary:in_burst_mode() then
+			managers.hud:set_teammate_weapon_firemode_burst(1)
+		else
+			managers.hud:set_teammate_weapon_firemode(HUDManager.PLAYER_PANEL, 1, primary:fire_mode())
+		end
+
+		local secondary = unit:inventory():unit_by_selection(2):base()
+		if secondary:in_burst_mode() then
+			managers.hud:set_teammate_weapon_firemode_burst(2)
+		else
+			managers.hud:set_teammate_weapon_firemode(HUDManager.PLAYER_PANEL, 2, secondary:fire_mode())
+		end
+
+		local grenade_cooldown = tweak_data.blackmarket.projectiles[managers.blackmarket:equipped_grenade()].base_cooldown
+		if grenade_cooldown and not self:got_max_grenades() then
+			self:replenish_grenades(grenade_cooldown)
+		end
+	end
+end
