@@ -1162,7 +1162,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.weapon.empty_unequip_speed_multiplier = {1.5}
 					self.values.pistol.backup_reload_speed_multiplier = {1.2}
 				--Ace
-					self.values.pistol.offhand_auto_reload = {0.4}
+					self.values.pistol.offhand_auto_reload = {0.35}
 
 				--Basic
 					self.values.pistol.move_spread_multiplier = {0.6}

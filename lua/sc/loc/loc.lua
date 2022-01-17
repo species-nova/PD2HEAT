@@ -1813,7 +1813,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Trusty Sidearm--
 		["menu_gun_fighter_sc"] = "Trusty Sidearm",
-		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##50%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##40%## speed while you have a pistol equipped.",
+		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##50%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##35%## speed while you have a pistol equipped.",
 
 		--Tequila Time--
 		["menu_akimbo_skill_sc"] = "Tequila Time",
