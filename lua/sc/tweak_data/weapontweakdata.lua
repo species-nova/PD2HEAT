@@ -3023,7 +3023,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.sub2000.stats = {
 			damage = 30,
 			spread = 15,
-			recoil = 10,
+			recoil = 11,
 			concealment = 19,
 			value = 1
 		}
