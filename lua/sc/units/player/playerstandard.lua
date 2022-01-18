@@ -1872,7 +1872,7 @@ function PlayerStandard:_start_action_reload(t)
 			end
 
 			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_" .. reload_name_id), speed_multiplier)
-			if not anim_tweak.ignore_fullreload or not weapon:tweak_data_anim_play("reload", speed_multiplier) then
+			if anim_tweak.ignore_fullreload or not weapon:tweak_data_anim_play("reload", speed_multiplier) then
 				weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier)
 			end
 		else
