@@ -35,7 +35,7 @@ tweak_data.screen_colors.button_stage_3 = Color(127, 1, 161, 255) / 255
     
 --Swap Speed Multipliers
 --TODO: Move to stat_info
-tweak_data.pistol = {swap_bonus = 1.25, range_mul = 0.8}
+tweak_data.pistol = {range_mul = 0.8}
 tweak_data.akimbo = {swap_bonus = 0.75, range_mul = 0.8}
 tweak_data.smg = {range_mul = 0.8}
 tweak_data.lmg = {range_mul = 1.25} --Stacks with smg to give a mul of 1
