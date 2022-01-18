@@ -3453,7 +3453,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.5
 		}
-		self.shatters_fury.swap_speed_multiplier = 0.5
+		self.shatters_fury.swap_speed_multiplier = 0.7
 
 		--RUS-12 Angry Tiger
 		self.rsh12.use_data.selection_index = 2
@@ -3484,6 +3484,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		self.rsh12.swap_speed_multiplier = 0.75
 
 	--Heavy Handcannon (Secondary)
 		--Peacemaker
