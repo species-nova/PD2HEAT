@@ -1872,7 +1872,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck4_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
 		["menu_deck4_5_desc_sc"] = "Your dodge meter will be filled to ##200%## of its normal maximum when you are revived.",
 		["menu_deck4_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
-		["menu_deck4_9_desc_sc"] = "Dodging an attack causes you to regenerate ##1## health every ##2## seconds for the next ##10## seconds. This effect can stack infinitely, but all stacks are lost whenever you take health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
+		["menu_deck4_9_desc_sc"] = "Dodging an attack causes you to regenerate ##1## health every ##1.5## seconds for the next ##6## seconds. This effect can stack up to ##8## times, but all stacks are lost whenever you take health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		--Hitman--
 		["menu_deck5_1_sc"] = "Gun-fu",

@@ -1850,10 +1850,14 @@ function PlayerStandard:_start_action_reload(t)
 		weapon:start_reload() --Executed earlier to get accurate reload timers, otherwise may mess up normal and tactical for shotguns.
 
 		local shotgun_reload = weapon._use_shotgun_reload
-		local timers = weapon:weapon_tweak_data().timers
+		local weapon_tweak = weapon:weapon_tweak_data()
+		local anim_tweak = weapon_tweak.animations
+		local timers = weapon_tweak.timers
 		local reload_prefix = weapon:reload_prefix() or ""
-		local reload_name_id = weapon:weapon_tweak_data().reload_name_id or weapon.name_id
+		--Extra check for anim_tweak needed for beardlib custom animation support.
+		local reload_name_id = anim_tweak and anim_tweak.reload_name_id or weapon_tweak.reload_name_id or weapon.name_id
 		local speed_multiplier = weapon:reload_speed_multiplier()
+
 		if weapon:clip_empty() then
 			--Tracks time until end of the animation for reloading.
 			self._state_data.reload_expire_t = t + (timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
@@ -1868,7 +1872,9 @@ function PlayerStandard:_start_action_reload(t)
 			end
 
 			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_" .. reload_name_id), speed_multiplier)
-			weapon:tweak_data_anim_play("reload", speed_multiplier)
+			if not anim_tweak.ignore_fullreload or not weapon:tweak_data_anim_play("reload", speed_multiplier) then
+				weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier)
+			end
 		else
 			self._state_data.reload_expire_t = t + (timers.reload_not_empty or weapon:reload_expire_t() or 2.2) / speed_multiplier
 			
@@ -1878,7 +1884,7 @@ function PlayerStandard:_start_action_reload(t)
 			end
 			
 			self._ext_camera:play_redirect(Idstring(reload_prefix .. "reload_not_empty_" .. reload_name_id), speed_multiplier)
-			if not weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier) then
+			if anim_tweak.ignore_nonemptyreload or not weapon:tweak_data_anim_play("reload_not_empty", speed_multiplier) then
 				weapon:tweak_data_anim_play("reload", speed_multiplier)
 			end
 		end

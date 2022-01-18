@@ -358,7 +358,7 @@ function WeaponTweakData:_init_stats()
 			}
 		},
 
-		--Your average heavy pistol, light shotguns, or ARs will be around here.
+		--Your average handcannon, light shotguns, or ARs will be around here.
 		moderate_kick = {
 			standing = {
 				0.8 * self.stat_info.stance_recoil_mults.standing,
@@ -3170,6 +3170,351 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.shrew.reload_speed_multiplier = 1.05 --1.9/2.3s
 
+	--Light HandCannon (Secondary)
+		--Interceptor .45
+		self.usp.CLIP_AMMO_MAX = 12
+		self.usp.kick = self.stat_info.kick_tables.right_recoil
+		self.usp.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.usp.supported = true
+		self.usp.stats = {
+			damage = 45,
+			spread = 16,
+			recoil = 10,
+			concealment = 19,
+			value = 4
+		}
+		self.usp.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.usp.swap_speed_multiplier = 0.9
+		self.usp.reload_speed_multiplier = 0.9 --2.4/2.8s
+
+		--Crosskill
+		self.colt_1911.fire_mode_data.fire_rate = 0.125
+		self.colt_1911.single.fire_rate = 0.125
+		self.colt_1911.CLIP_AMMO_MAX = 8
+		self.colt_1911.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.colt_1911.kick_pattern = self.stat_info.kick_patterns.random
+		self.colt_1911.supported = true
+		self.colt_1911.stats = {
+			damage = 45,
+			spread = 18,
+			recoil = 10,
+			concealment = 19,
+			value = 1
+		}
+		self.colt_1911.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.72,
+			empty_reload_interrupt = 0.72,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Crosskill Chunky
+		self.m1911.tactical_reload = 1
+		self.m1911.fire_mode_data.fire_rate = 0.125
+		self.m1911.single.fire_rate = 0.125
+		self.m1911.CLIP_AMMO_MAX = 8
+		self.m1911.kick = self.stat_info.kick_tables.even_recoil
+		self.m1911.kick_pattern = self.stat_info.kick_patterns.random
+		self.m1911.supported = true
+		self.m1911.stats = {
+			damage = 45,
+			spread = 17,
+			recoil = 11,
+			concealment = 19,
+			value = 1
+		}
+		self.m1911.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.4,
+			empty_reload_interrupt = 0.4,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.m1911.swap_speed_multiplier = 0.8
+		self.m1911.reload_speed_multiplier = 1.05 --1.9/2.3s		
+
+		--Parabellum
+		self.breech.fire_mode_data.fire_rate = 0.15
+		self.breech.single.fire_rate = 0.15
+		self.breech.kick = self.stat_info.kick_tables.moderate_kick
+		self.breech.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.breech.supported = true
+		self.breech.stats = {
+			damage = 45,
+			spread = 16,
+			recoil = 11,
+			concealment = 21,
+			value = 1
+		}
+		self.breech.timers = {
+			reload_not_empty = 1.8,
+			reload_empty = 2.4,
+			reload_operational = 1.55,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.23,
+			empty_reload_interrupt = 0.23,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Leo
+		self.hs2000.CLIP_AMMO_MAX = 13
+		self.hs2000.FIRE_MODE = "single"
+		self.hs2000.kick = self.stat_info.kick_tables.left_recoil
+		self.hs2000.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.hs2000.supported = true
+		self.hs2000.stats = {
+			damage = 45,
+			spread = 12,
+			recoil = 13,
+			concealment = 20,
+			value = 4
+		}
+		self.hs2000.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.hs2000.swap_speed_multiplier = 0.8
+		self.hs2000.reload_speed_multiplier = 0.85 --2.4/2.8s
+
+	--Medium Handcannons (Primary)
+		--Deagle
+		self.deagle.use_data.selection_index = 2
+		self.deagle.fire_rate_multiplier = 1.2 --480 rpm
+		self.deagle.kick = self.stat_info.kick_tables.vertical_kick
+		self.deagle.kick_pattern = self.stat_info.kick_patterns.random
+		self.deagle.CLIP_AMMO_MAX = 7
+		self.deagle.supported = true
+		self.deagle.stats = {
+			damage = 60,
+			spread = 20,
+			recoil = 5,
+			concealment = 19,
+			value = 1
+		}
+		self.deagle.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 3.6,
+			reload_operational = 1.85,
+			empty_reload_operational = 3.1,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.deagle.reload_speed_multiplier = 1.15 --2.2/3.1s
+
+	--Medium Handcannons (Secondary)
+		--Bronco
+		self.new_raging_bull.fire_mode_data.fire_rate = 0.19047619047
+		self.new_raging_bull.single.fire_rate = 0.19047619047
+		self.new_raging_bull.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.new_raging_bull.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.new_raging_bull.supported = true
+		self.new_raging_bull.stats = {
+			damage = 60,
+			spread = 17,
+			recoil = 8,
+			concealment = 20,
+			value = 1
+		}
+		self.new_raging_bull.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 2.5,
+			reload_operational = 2.1,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.39,
+			empty_reload_interrupt = 0.39,
+			unequip = 0.5,
+			equip = 0.45
+		}
+
+		--Castigo
+		self.chinchilla.fire_mode_data.fire_rate = 0.19047619
+		self.chinchilla.single.fire_rate = 0.19047619
+		self.chinchilla.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.chinchilla.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.chinchilla.supported = true
+		self.chinchilla.stats = {
+			damage = 60,
+			spread = 19,
+			recoil = 10,
+			concealment = 19,
+			value = 1
+		}
+		self.chinchilla.timers = {
+			reload_not_empty = 3.4,
+			reload_empty = 3.4,
+			reload_operational = 2.97,
+			empty_reload_operational = 2.97,
+			reload_interrupt = 0.24,
+			empty_reload_interrupt = 0.24,
+			unequip = 0.5,
+			equip = 0.45
+		}
+
+		--Frenchman Model 87
+		self.model3.fire_rate_multiplier = 0.6 --240 rpm
+		self.model3.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.model3.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.model3.supported = true
+		self.model3.stats = {
+			damage = 60,
+			spread = 21,
+			recoil = 9,
+			concealment = 18,
+			value = 1
+		}
+		self.model3.timers = {
+			reload_not_empty = 2.65,
+			reload_empty = 2.65,
+			empty_reload_operational = 2.25,
+			reload_operational = 2.25,
+			reload_interrupt = 0.36,
+			empty_reload_interrupt = 0.36,
+			unequip = 0.5,
+			equip = 0.45
+		}
+
+		--Matever .357
+		self.mateba.fire_mode_data.fire_rate = 0.15789474
+		self.mateba.single.fire_rate = 0.15789474
+		self.mateba.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.mateba.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.mateba.supported = true
+		self.mateba.stats = {
+			damage = 60,
+			spread = 15,
+			recoil = 12,
+			concealment = 21,
+			value = 1
+		}
+		self.mateba.timers = {
+			reload_not_empty = 4.1,
+			reload_empty = 4.1,
+			reload_operational = 3.6,
+			empty_reload_operational = 3.6,
+			reload_interrupt = 0.47,
+			empty_reload_interrupt = 0.47,
+			unequip = 0.5,
+			equip = 0.45
+		}
+
+	--Heavy Handcannon (Primary)
+		--Phoenix .500 Revolver
+		self.shatters_fury.fire_mode_data.fire_rate = 0.25
+		self.shatters_fury.single.fire_rate = 0.25
+		self.shatters_fury.CLIP_AMMO_MAX = 5
+		self.shatters_fury.kick = self.stat_info.kick_tables.left_kick
+		self.shatters_fury.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.shatters_fury.supported = true
+		self.shatters_fury.has_description = true
+		self.shatters_fury.desc_id = "bm_ap_weapon_sc_desc"
+		self.shatters_fury.can_shoot_through_enemy = true
+		self.shatters_fury.can_shoot_through_shield = true
+		self.shatters_fury.can_shoot_through_wall = true
+		self.shatters_fury.armor_piercing_chance = 1
+		self.shatters_fury.stats = {
+			damage = 90,
+			spread = 17,
+			recoil = 5,
+			concealment = 18,
+			value = 1
+		}
+		self.shatters_fury.timers = {
+			reload_not_empty = 2.5,
+			reload_empty = 2.5,
+			reload_operational = 2.1,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.36,
+			empty_reload_interrupt = 0.36,
+			unequip = 0.5,
+			equip = 0.5
+		}
+		self.shatters_fury.swap_speed_multiplier = 0.5
+
+		--RUS-12 Angry Tiger
+		self.rsh12.use_data.selection_index = 2
+		self.rsh12.fire_rate_multiplier = 0.7
+		self.rsh12.CLIP_AMMO_MAX = 5
+		self.rsh12.kick = self.stat_info.kick_tables.right_kick
+		self.rsh12.kick_pattern = self.stat_info.kick_patterns.random
+		self.rsh12.supported = true
+		self.rsh12.can_shoot_through_enemy = true
+		self.rsh12.can_shoot_through_shield = true
+		self.rsh12.can_shoot_through_wall = true
+		self.rsh12.armor_piercing_chance = 1
+		self.rsh12.swap_speed_multiplier = 0.6
+		self.rsh12.stats = {
+			damage = 90,
+			spread = 15,
+			recoil = 7,
+			concealment = 17,
+			value = 1
+		}
+		self.rsh12.timers = {
+			reload_not_empty = 2.7,
+			reload_empty = 2.7,
+			reload_operational = 2.2,
+			empty_reload_operational = 2.2,
+			reload_interrupt = 0.31,
+			empty_reload_interrupt = 0.31,
+			unequip = 0.5,
+			equip = 0.45
+		}
+
+	--Heavy Handcannon (Secondary)
+		--Peacemaker
+		self.peacemaker.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.peacemaker.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.peacemaker.has_description = true
+		self.peacemaker.can_shoot_through_enemy = true
+		self.peacemaker.can_shoot_through_shield = true
+		self.peacemaker.can_shoot_through_wall = true
+		self.peacemaker.armor_piercing_chance = 1
+		self.peacemaker.desc_id = "bm_ap_weapon_sc_desc"
+		self.peacemaker.supported = true
+		self.peacemaker.fire_rate_multiplier = 0.6 --240 rpm
+		self.peacemaker.stats = {
+			damage = 90,
+			spread = 19,
+			recoil = 8,
+			concealment = 19,
+			value = 1
+		}
+		self.peacemaker.timers = {
+			shotgun_reload_enter = 1.4333333333333333,
+			shotgun_reload_exit_empty = 0.3333333333333333,
+			shotgun_reload_exit_not_empty = 0.3333333333333333,
+			shotgun_reload_shell = 1,
+			shotgun_reload_first_shell_offset = 0.5,
+			unequip = 0.65,
+			equip = 0.65
+		}
+		self.peacemaker.swap_speed_multiplier = 0.65
+
 	--Reinfeld 880
 	self.r870.desc_id = "bm_menu_sc_r870_desc"
 	self.r870.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -3223,58 +3568,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.saiga.stats_modifiers = nil
 	self.saiga.reload_speed_multiplier = 1.25
-
-	--Deagle
-	self.deagle.has_description = false
-	self.deagle.desc_id = "bm_ap_weapon_sc_desc"
-	self.deagle.fire_mode_data.fire_rate = 0.1
-	self.deagle.single.fire_rate = 0.1
-	self.deagle.kick = self.stat_info.kick_tables.moderate_kick
-	self.deagle.CLIP_AMMO_MAX = 8
-	self.deagle.AMMO_MAX = 30
-	self.deagle.supported = false
-	self.deagle.stats = {
-		damage = 60,
-		spread = 18,
-		recoil = 18,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 22,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.deagle.stats_modifiers = nil
-	self.deagle.timers.reload_interrupt = 0.32
-	self.deagle.timers.empty_reload_interrupt = 0.2
-
-	--Crosskill
-	self.colt_1911.fire_mode_data.fire_rate = 0.08571428571
-	self.colt_1911.single.fire_rate = 0.08571428571
-	self.colt_1911.CLIP_AMMO_MAX = 8
-	self.colt_1911.AMMO_MAX = 40
-	self.colt_1911.kick = self.stat_info.kick_tables.even_recoil
-	self.colt_1911.supported = false
-	self.colt_1911.stats = {
-		damage = 45,
-		spread = 18,
-		recoil = 19,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 26,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.colt_1911.stats_modifiers = nil
-	self.colt_1911.timers.reload_interrupt = 0.36
-	self.colt_1911.timers.empty_reload_interrupt = 0.25
 
 	--Loco 12g
 	self.serbu.rays = 9
@@ -3339,32 +3632,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.huntsman.timers.reload_empty = 2.3
 	self.huntsman.reload_speed_multiplier = 1.2
 
-	--Bronco
-	self.new_raging_bull.fire_mode_data = {}
-	self.new_raging_bull.fire_mode_data.fire_rate = 0.19047619047
-	self.new_raging_bull.single = {}
-	self.new_raging_bull.single.fire_rate = 0.19047619047
-	self.new_raging_bull.kick = self.stat_info.kick_tables.moderate_kick
-	self.new_raging_bull.supported = false
-	self.new_raging_bull.stats = {
-		damage = 60,
-		spread = 20,
-		recoil = 10,
-		zoom = 1,
-		concealment = 23,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.new_raging_bull.stats_modifiers = nil
-	self.new_raging_bull.timers.reload_not_empty = 2.4
-	self.new_raging_bull.timers.reload_empty = 2.4
-	self.new_raging_bull.timers.reload_interrupt = 0.16
-	self.new_raging_bull.timers.empty_reload_interrupt = 0.16
-
 	--OVE9000 Saw
 	self.saw.has_description = true
 	self.saw.desc_id = "bm_ap_saw_sc_desc"
@@ -3408,37 +3675,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.saw_secondary.stats_modifiers = nil
-
-	--Interceptor .45
-	self.usp.timers = {
-		reload_not_empty = 1.47,
-		reload_empty = 2.12,
-		unequip = 0.5,
-		equip = 0.35,
-		reload_interrupt = 0.36,
-		empty_reload_interrupt = 0.25
-	}
-	self.usp.fire_mode_data.fire_rate = 0.08571428571
-	self.usp.single.fire_rate = 0.08571428571
-	self.usp.AMMO_MAX = 60
-	self.usp.kick = self.stat_info.kick_tables.right_recoil
-	self.usp.CLIP_AMMO_MAX = 12
-	self.usp.supported = false
-	self.usp.stats = {
-		damage = 30,
-		spread = 17,
-		recoil = 22,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 27,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.usp.stats_modifiers = nil
 
 	--Judge
 	self.judge.fire_mode_data = {}
@@ -3705,34 +3941,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.spas12.stats_modifiers = nil
 	self.spas12.stats_modifiers = {damage = 1}
-
-	--Leo
-	self.hs2000.CLIP_AMMO_MAX = 14
-	self.hs2000.AMMO_MAX = 60
-	self.hs2000.FIRE_MODE = "single"
-	self.hs2000.fire_mode_data = {}
-	self.hs2000.fire_mode_data.fire_rate = 0.08571428571
-	self.hs2000.single = {}
-	self.hs2000.single.fire_rate = 0.08571428571
-	self.hs2000.kick = self.stat_info.kick_tables.left_recoil
-	self.hs2000.supported = false
-	self.hs2000.stats = {
-		damage = 30,
-		spread = 16,
-		recoil = 23,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 27,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 4,
-		reload = 20
-	}
-	self.hs2000.stats_modifiers = nil
-	self.hs2000.timers.reload_interrupt = 0.31
-	self.hs2000.timers.empty_reload_interrupt = 0.23
 
 	--Minigun
 	self.m134.categories = {
@@ -4008,33 +4216,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.aa12.stats_modifiers = nil
 	self.aa12.reload_speed_multiplier = 1.15
 
-	--Wow wow (Peacemaker)
-	self.peacemaker.AMMO_MAX = 20
-	self.peacemaker.kick = self.stat_info.kick_tables.right_kick
-	self.peacemaker.supported = false
-	self.peacemaker.stats = {
-		damage = 90,
-		spread = 20,
-		recoil = 12,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 22,
-		suppression = 4,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.peacemaker.stats_modifiers = nil
-	self.peacemaker.has_description = true
-	self.peacemaker.desc_id = "bm_ap_weapon_sc_desc"
-	self.peacemaker.can_shoot_through_enemy = true
-	self.peacemaker.can_shoot_through_shield = true
-	self.peacemaker.can_shoot_through_wall = true
-	self.peacemaker.armor_piercing_chance = 1
-	self.peacemaker.timers.shotgun_reload_first_shell_offset = 0.5
-
 	--Plainsrider bow.
 	self.plainsrider.upgrade_blocks = {
 		weapon = {
@@ -4063,33 +4244,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.plainsrider.stats_modifiers = {damage = 4}
-
-	--Matever .357
-	self.mateba.fire_mode_data.fire_rate = 0.15789474
-	self.mateba.single = {}
-	self.mateba.single.fire_rate = 0.15789474
-	self.mateba.AMMO_MAX = 30
-	self.mateba.timers.reload_not_empty = 3.6
-	self.mateba.timers.reload_empty = 3.6
-	self.mateba.kick = self.stat_info.kick_tables.moderate_kick
-	self.mateba.supported = false
-	self.mateba.stats = {
-		damage = 60,
-		spread = 20,
-		recoil = 19,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.mateba.stats_modifiers = nil
-	self.mateba.timers.empty_reload_interrupt = 0.13
-	self.mateba.timers.reload_interrupt = 0.13
 
 	--Pistol Crossbow
 	self.hunter.upgrade_blocks = {
@@ -4486,30 +4640,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ray.swap_speed_multiplier = 1.2
 	self.ray.turret_instakill = true
 
-	--Castigo
-	self.chinchilla.fire_mode_data.fire_rate = 0.19047619
-	self.chinchilla.single.fire_rate = 0.19047619
-	self.chinchilla.AMMO_MAX = 30
-	self.chinchilla.kick = self.stat_info.kick_tables.moderate_kick
-	self.chinchilla.supported = false
-	self.chinchilla.stats = {
-		damage = 60,
-		spread = 19,
-		recoil = 19,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.chinchilla.stats_modifiers = nil
-	self.chinchilla.timers.reload_interrupt = 0.08
-	self.chinchilla.timers.empty_reload_interrupt = 0.08
-
 	--Akimbo Castigo
 	self.x_chinchilla.tactical_akimbo = false
 	self.x_chinchilla.fire_mode_data.fire_rate = 0.19047619
@@ -4534,37 +4664,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_chinchilla.stats_modifiers = nil
 	self.x_chinchilla.timers.reload_empty = 3.7
 	self.x_chinchilla.timers.reload_not_empty = 3.7
-
-	--Parabellum
-	self.breech.timers = {
-		reload_not_empty = 1.55,
-		reload_empty = 2.1,
-		unequip = 0.5,
-		equip = 0.35
-	}
-	self.breech.AMMO_MAX = 90
-	self.breech.CLIP_AMMO_MAX = 12
-	self.breech.fire_mode_data.fire_rate = 0.08571428571
-	self.breech.single.fire_rate = 0.08571428571
-	self.breech.kick = self.stat_info.kick_tables.even_recoil
-	self.breech.supported = false
-	self.breech.stats = {
-		damage = 20,
-		spread = 19,
-		recoil = 25,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 31,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.breech.stats_modifiers = nil
-	self.breech.timers.reload_interrupt = 0.16
-	self.breech.timers.empty_reload_interrupt = 0.11
 
 	--Airbow
 	self.ecp.upgrade_blocks = {
@@ -5060,34 +5159,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.x_holt.stats_modifiers = nil
 
-	--Frenchman Model 87
-	self.model3.fire_mode_data = {}
-	self.model3.fire_mode_data.fire_rate = 0.15789473684
-	self.model3.single = {}
-	self.model3.single.fire_rate = 0.15789473684
-	self.model3.AMMO_MAX = 30
-	self.model3.kick = self.stat_info.kick_tables.moderate_kick
-	self.model3.supported = false
-	self.model3.stats = {
-		damage = 60,
-		spread = 17,
-		recoil = 17,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 23,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.model3.stats_modifiers = nil
-	self.model3.timers.reload_not_empty = 2.4
-	self.model3.timers.reload_empty = 2.4
-	self.model3.timers.empty_reload_interrupt = 0.15
-	self.model3.timers.reload_interrupt = 0.15
-
 	--Akimbo Model 87
 	self.x_model3.fire_mode_data = {}
 	self.x_model3.fire_mode_data.fire_rate = 0.15789473684
@@ -5139,32 +5210,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.m1897.stats_modifiers = nil
 
-	--Crosskill Chunky
-	self.m1911.tactical_reload = 1
-	self.m1911.fire_mode_data.fire_rate = 0.08571428571
-	self.m1911.single.fire_rate = 0.08571428571
-	self.m1911.CLIP_AMMO_MAX = 8
-	self.m1911.AMMO_MAX = 40
-	self.m1911.kick = self.stat_info.kick_tables.even_recoil
-	self.m1911.supported = false
-	self.m1911.stats = {
-		damage = 45,
-		spread = 19,
-		recoil = 17,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 26,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.m1911.stats_modifiers = nil
-	self.m1911.swap_speed_multiplier = 0.9
-	self.m1911.timers.reload_interrupt = 0.3
-	self.m1911.timers.empty_reload_interrupt = 0.2
 
 	--Mosconi 12G Tactical
 	self.m590.tactical_reload = 1
@@ -5189,45 +5234,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.m590.stats_modifiers = nil
-
-	--Restoration Weapons--
-
-	--Raze's Fury
-	if self.shatters_fury then
-		self.shatters_fury.fire_mode_data.fire_rate = 0.25
-		self.shatters_fury.single.fire_rate = 0.25
-		self.shatters_fury.AMMO_MAX = 40
-		self.shatters_fury.CLIP_AMMO_MAX = 5
-		self.shatters_fury.kick = self.stat_info.kick_tables.vertical_kick
-		self.shatters_fury.supported = false
-		self.shatters_fury.stats = {
-			damage = 90,
-			spread = 17,
-			recoil = 10,
-			spread_moving = 9,
-			zoom = 1,
-			concealment = 21,
-			suppression = 4,
-			alert_size = 2,
-			extra_ammo = 101,
-			total_ammo_mod = 100,
-			value = 1,
-			reload = 20
-		}
-		self.shatters_fury.stats_modifiers = nil
-		self.shatters_fury.has_description = true
-		self.shatters_fury.desc_id = "bm_wp_shatters_fury_desc"
-		self.shatters_fury.can_shoot_through_enemy = true
-		self.shatters_fury.can_shoot_through_shield = true
-		self.shatters_fury.can_shoot_through_wall = true
-		self.shatters_fury.armor_piercing_chance = 1
-		--self.shatters_fury.animations.reload_name_id = "chinchilla"
-		self.shatters_fury.timers.reload_not_empty = 2.4
-		self.shatters_fury.timers.reload_empty = 2.4
-		self.shatters_fury.timers.reload_interrupt = 0.15
-		self.shatters_fury.timers.empty_reload_interrupt = 0.15
-		self.shatters_fury.swap_speed_multiplier = 0.6
-	end
 
 	--Anubis .45
 	if self.socom then

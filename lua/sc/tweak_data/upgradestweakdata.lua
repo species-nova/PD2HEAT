@@ -1382,9 +1382,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{ --Rogue dodge stacking heal.
 			source = "rogue",
 			amount = 0.1,
-			tick_time = 2,
-			tick_count = 5,
-			max_stacks = math.huge
+			tick_time = 1.5,
+			tick_count = 4,
+			max_stacks = 8
 		},
 		{ --Grinder kill stacking heal (1)
 			source = "grinder",
