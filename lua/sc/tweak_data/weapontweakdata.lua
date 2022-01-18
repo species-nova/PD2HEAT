@@ -2787,7 +2787,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.35
 		}
-		self.lemming.swap_speed_multiplier = 0.7
+		self.lemming.swap_speed_multiplier = 0.9
 
 		--Chimano Compact
 		self.g26.kick = self.stat_info.kick_tables.even_recoil
