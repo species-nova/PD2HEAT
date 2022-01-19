@@ -8282,7 +8282,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			cops_n = {
 				0.66,
 				0.33,
-				1
+				0
 			}
 		}
 	elseif difficulty_index == 3 then

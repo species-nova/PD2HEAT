@@ -1014,7 +1014,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.temporary.damage_speed_multiplier = {{1.1, 2}}
 
 				--Ace
-					self.values.player.armor_break_stagger = {800} --Uses Basic for cooldown mechanics. 
+					self.values.player.armor_break_stagger = {500} --Uses Basic for cooldown mechanics. 
 
 			--Moving Target
 				self.values.player.detection_risk_add_movement_speed = {
