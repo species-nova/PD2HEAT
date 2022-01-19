@@ -988,7 +988,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.ak5.reload_speed_multiplier = 1.20 --2.4/3.2s
 
 		--SABR
-		--TODO: Stats, won't play animation!
 		if self.osipr then
 			self.osipr.tactical_reload = 1
 			self.osipr.AMMO_MAX = 120
@@ -997,19 +996,19 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr.auto.fire_rate = 0.075
 			self.osipr.kick = self.stat_info.kick_tables.moderate_kick
 			self.osipr.kick_pattern = self.stat_info.kick_patterns.zigzag_3
-			self.osipr.supported = false
+			self.osipr.supported = true
 			self.osipr.stats = {
 				damage = 24,
-				spread = 15,
-				recoil = 15,
-				concealment = 15,
+				spread = 18,
+				recoil = 17,
+				concealment = 7,
 				value = 1
 			}
 			self.osipr.timers = {
-				reload_not_empty = 2.16,
-				reload_empty = 3.5,
-				reload_operational = 2,
-				empty_reload_operational = 2,
+				reload_not_empty = 3,
+				reload_empty = 4,
+				reload_operational = 2.06,
+				empty_reload_operational = 3.06,
 				reload_interrupt = 0.67,
 				empty_reload_interrupt = 0.67,
 				unequip = 0.6,
@@ -1017,33 +1016,34 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			}
 			self.osipr.has_description = true
 			self.osipr.desc_id = "bm_w_osipr_desc"
-			self.osipr.custom = false	--TEMP fix for BeardLib sync
+			self.osipr.custom = false
 
 			self.osipr_gl.AMMO_MAX = 8
 			self.osipr_gl.CLIP_AMMO_MAX = 6
 			self.osipr_gl.fire_mode_data.fire_rate = 0.75
 			self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
-			self.osipr_gl.supported = false
+			self.osipr_gl.kick_pattern = self.stat_info.kick_patterns.random
+			self.osipr_gl.supported = true
 			self.osipr_gl.stats = {
 				damage = 60,
-				spread = 15,
-				recoil = 15,
-				concealment = 15,
+				spread = 17,
+				recoil = 5,
+				concealment = 7,
 				value = 1
 			}
 			self.osipr_gl.timers = {
-				reload_not_empty = 3.34,
-				reload_empty = 4.5,
-				reload_operational = 3,
-				empty_reload_operational = 3,
+				reload_not_empty = 4.1,
+				reload_empty = 4.9,
+				reload_operational = 3.3,
+				empty_reload_operational = 4.15,
 				reload_interrupt = 1,
 				empty_reload_interrupt = 1,
 				equip = 0.6,
-				unequip = 0.6
+				unequip = 0.6,
+				equip_underbarrel = 1.55,
+				unequip_underbarrel = 1.55
 			}
-			self.osipr_gl.custom = false	--Temp fix for BeardLib sync
-
-		--Heh????
+			self.osipr_gl.custom = false
 			self.osipr_gl_npc.sounds.prefix = "contrabandm203_npc"
 			self.osipr_gl_npc.use_data.selection_index = 2
 			self.osipr_gl_npc.DAMAGE = 2
@@ -1059,6 +1059,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr_gl_npc.FIRE_MODE = "auto"
 		else
 			log("[ERROR] Beardlib was unable to load the custom weapons. Check to make sure you installed Beardlib correctly!")
+			self.crash.crash = math.huge
 		end
 
 	--Medium Rifles (SECONDARY)
