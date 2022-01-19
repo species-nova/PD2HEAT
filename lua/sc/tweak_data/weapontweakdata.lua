@@ -2971,7 +2971,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.holt.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.holt.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.holt.supported = true
-		self.holt.fire_rate_multiplier = 1.32963 --480 rpm
 		self.holt.stats = {
 			damage = 24,
 			spread = 16,
@@ -5406,20 +5405,20 @@ end)
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 360, suppression = 4}, --18/36 damage guns
-	{damage = 20,  pickup = 342, suppression = 6},
-	{damage = 24,  pickup = 324, suppression = 8},
-	{damage = 30,  pickup = 306, suppression = 10},
-	{damage = 45,  pickup = 288, suppression = 11},
-	{damage = 60,  pickup = 270, suppression = 12},
-	{damage = 90,  pickup = 252, suppression = 13},
-	{damage = 120, pickup = 234, suppression = 14},
-	{damage = 180, pickup = 216, suppression = 15},
-	{damage = 240, pickup = 198, suppression = 16}, --All guns above here.
-	{damage = 360, pickup = 180, suppression = 17}, --Heavy bows.
-	{damage = 600, pickup = 162, suppression = 18}, --Light GLs
-	{damage = 800, pickup = 144, suppression = 19}, --Heavy GLs
-	{damage = 1200, pickup = 126, suppression = 20} --Rocket Launchers
+	{damage = 18,  pickup = 378, suppression = 4}, --18/36 damage guns
+	{damage = 20,  pickup = 360, suppression = 6},
+	{damage = 24,  pickup = 342, suppression = 8},
+	{damage = 30,  pickup = 324, suppression = 10},
+	{damage = 45,  pickup = 306, suppression = 11},
+	{damage = 60,  pickup = 288, suppression = 12},
+	{damage = 90,  pickup = 270, suppression = 13},
+	{damage = 120, pickup = 252, suppression = 14},
+	{damage = 180, pickup = 234, suppression = 15},
+	{damage = 240, pickup = 216, suppression = 16}, --All guns above here.
+	{damage = 360, pickup = 198, suppression = 17}, --Heavy bows.
+	{damage = 600, pickup = 180, suppression = 18}, --Light GLs
+	{damage = 800, pickup = 162, suppression = 19}, --Heavy GLs
+	{damage = 1200, pickup = 144, suppression = 20} --Rocket Launchers
 }
 local damage_pool_primary = 7200
 local damage_pool_secondary = 3600
