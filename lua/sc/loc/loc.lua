@@ -1663,7 +1663,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Fast Feet--
 			["menu_optic_illusions_sc"] = "Fast Feet",
-			["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nHitting an enemy with a melee attack restores ##0.75## stamina.\n\nACE: ##$pro##\nSprinting grants a brief burst of extra speed.\n\nYou must regenerate any amount of stamina before this can occur again.",
+			["menu_optic_illusions_desc_sc"] = "BASIC: ##$basic##\nHitting an enemy with a melee attack restores ##1## stamina.\n\nACE: ##$pro##\nSprinting grants a brief burst of extra speed.\n\nYou must regenerate any amount of stamina before this can occur again.",
 
 			--Silent Precision--
 			["menu_silence_expert_beta_sc"] = "Silent Precision",
@@ -1738,7 +1738,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Deep Pockets--
 		["menu_thick_skin_beta_sc"] = "Second Wind",
-		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until ##2## seconds after it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##5## meters of you are staggered. This effect can only occur again once Second Wind basic wears off.",
+		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until ##2## seconds after it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor is broken, enemies within ##6## meters of you are staggered. This effect can only occur again once Second Wind basic wears off.",
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",
