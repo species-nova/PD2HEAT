@@ -400,8 +400,6 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 		self._adaptive_burst_size = self:weapon_tweak_data().ADAPTIVE_BURST_SIZE ~= false
 		self._burst_fire_rate_multiplier = self:weapon_tweak_data().BURST_FIRE_RATE_MULTIPLIER or 1
 		self._delayed_burst_recoil = self:weapon_tweak_data().DELAYED_BURST_RECOIL
-		
-		self._burst_rounds_fired = 0
 
 		if self:weapon_tweak_data().FIRE_MODE == "burst" then
 			self:_set_burst_mode(true, true)
@@ -528,7 +526,7 @@ function NewRaycastWeaponBase:_check_toggle_burst()
 		self:_set_burst_mode(false, self.AKIMBO and not self._has_auto)
 		return true
 	elseif (self._fire_mode == NewRaycastWeaponBase.IDSTRING_SINGLE) or (self._fire_mode == NewRaycastWeaponBase.IDSTRING_AUTO and not self:can_toggle_firemode()) then
-		self:_set_burst_mode(true, self.AKIMBO and not self._has_auto)
+		self:_set_burst_mode(true, self.AKIMBO)
 		return true
 	end
 end

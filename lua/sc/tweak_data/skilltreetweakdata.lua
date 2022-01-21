@@ -45,10 +45,7 @@ function SkillTreeTweakData:init(tweak_data)
 		"trip_mine_sensor_highlight",
 		"trip_mine_can_switch_on_off",
 		"player_silent_kill",
-		"jowi",
 		"x_deagle",
-		"x_1911",
-		"x_usp",
 		"x_sr2",
 		"x_mp5",
 		"x_akmsu",
@@ -1703,7 +1700,7 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Akimbo--
+			--Ambidexterity--
   			self.skills.gun_fighter = {
 				["name_id"] = "menu_akimbo_skill_sc",
 				["desc_id"] = "menu_akimbo_skill_desc_sc",
@@ -1712,7 +1709,13 @@ function SkillTreeTweakData:init(tweak_data)
 					upgrades = {
 						"x_b92fs",
 						"x_g18c",
-						"x_g17"
+						"x_g17",
+						"jowi",
+						"x_packrat",
+						"x_holt",
+						"x_1911",
+						"x_usp",
+						"x_g22c"
 					},
 					cost = self.costs.hightier
 				},

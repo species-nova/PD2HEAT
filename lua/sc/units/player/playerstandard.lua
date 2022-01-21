@@ -537,9 +537,10 @@ function PlayerStandard:_update_crosshair(t, dt, weapon)
 			local crosshair_spread = weapon:_get_spread(self._unit)
 
 			--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
-			if self._shooting and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
+			if (self._shooting or self._shot) and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
 				crosshair_spread = crosshair_spread + (weapon._recoil) * 4 --Magic number that feels good.
 				self._next_crosshair_jiggle = t + 0.1
+				self._shot = false --Trigger crosshair jiggles when a single shot was fired in the previous frame.
 			end
 
 			--Set the final size of the crosshair.
@@ -1866,7 +1867,7 @@ function PlayerStandard:_start_action_reload(t)
 		local reload_name_id = anim_tweak and anim_tweak.reload_name_id or weapon_tweak.reload_name_id or weapon.name_id
 		local speed_multiplier = weapon:reload_speed_multiplier()
 
-		if weapon:clip_empty() then
+		if weapon:clip_empty() or (weapon.AKIMBO and weapon:get_ammo_remaining_in_clip() == 1) then --Play empty anim for Akimbos if one of the two guns is dry.
 			--Tracks time until end of the animation for reloading.
 			self._state_data.reload_expire_t = t + (timers.reload_empty or weapon:reload_expire_t() or 2.6) / speed_multiplier
 
@@ -2400,6 +2401,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					new_action = true
 
 					if fired then
+						self._shot = true
+
 						managers.rumble:play("weapon_fire")
 						--Apply stability to screen shake from firing.
 						local weap_tweak_data = tweak_data.weapon[weap_base:get_name_id()]
@@ -2420,7 +2423,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							elseif weap_tweak_data.animations.recoil_steelsight then
 								self._ext_camera:play_redirect(weap_base:is_second_sight_on() and self:get_animation("recoil") or self:get_animation("recoil_steelsight"), 1)
 							end
-						end						
+						end
 
 						local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
 

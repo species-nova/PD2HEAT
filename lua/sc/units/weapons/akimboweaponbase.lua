@@ -24,7 +24,31 @@ function AkimboWeaponBase:fire(...)
 
 	self._fire_second_gun_next = not self._fire_second_gun_next
 
+	if result and self:get_ammo_remaining_in_clip() <= 1 then
+		self:_play_magazine_empty_anims()
+	end
+
 	return result
+end
+
+--Make each gun use unique magazine empties.
+function AkimboWeaponBase:tweak_data_anim_play(anim, ...)
+	local second_gun_base = alive(self._second_gun) and self._second_gun:base()
+	if anim == "fire" or anim == "magazine_empty" then
+		if not self._fire_second_gun_next and second_gun_base then
+			local second_gun_anim = self:_second_gun_tweak_data_anim_version(anim)
+			return second_gun_base:tweak_data_anim_play(second_gun_anim, ...)
+		elseif self._fire_second_gun_next then
+			return AkimboWeaponBase.super.tweak_data_anim_play(self, anim, ...)
+		end
+	end
+
+	if second_gun_base then
+		local second_gun_anim = self:_second_gun_tweak_data_anim_version(anim)
+		second_gun_base:tweak_data_anim_play(second_gun_anim, ...)
+	end
+
+	return AkimboWeaponBase.super.tweak_data_anim_play(self, anim, ...)
 end
 
 --Alternate version of _fire_second that does not require an unpack, and transfers important state data over.
@@ -44,7 +68,6 @@ function AkimboWeaponBase:_fire_second_gun(...)
 
 			managers.hud:set_ammo_amount(self:selection_index(), self:ammo_info())
 			
-			second_gun_base:tweak_data_anim_play("fire")
 			self._bloom_stacks = math.max(second_gun_base._bloom_stacks, self._bloom_stacks)
 			self._shots_without_releasing_trigger = second_gun_base._shots_without_releasing_trigger
 			self:_update_burst_fire()
@@ -106,7 +129,7 @@ function AkimboWeaponBase:on_half_reload(...)
 	self._reload_ammo_base = nil
 end
 
---Override NewRaycastWeaponBase reload to handle individual bullet chambering for each gun.
+--Override NewRaycastWeaponBase reload to handle bullets in chambers for both guns.
 function AkimboWeaponBase:on_reload(...)
 	self._bloodthist_value_during_reload = 0
 	self._current_reload_speed_multiplier = nil
@@ -122,7 +145,7 @@ function AkimboWeaponBase:on_reload(...)
 	local ammo_base = self._reload_ammo_base or self:ammo_base()
 	local ammo_in_clip = ammo_base:get_ammo_remaining_in_clip()
 	
-	local bullets_to_chamber = self._queued_tactical_reload
+	local bullets_to_chamber = self._queued_tactical_reload or self:clip_empty() and 0 or 2
 
 	local max_clip_size = ammo_base:get_ammo_max_per_clip()
 	local bullets_to_load = math.min(max_clip_size + 2, max_clip_size + bullets_to_chamber)
@@ -145,10 +168,10 @@ function AkimboWeaponBase:clip_full()
 	end
 end
 
---Akimbo weapons fire twice as fast since they alternate guns. Accomplishes this without messing up animation speeds.
---Though akimbo animations are already mega crufty.
+--Akimbo weapons fire twice as fast since they alternate guns. Accomplishes this without speeding up animations.
+--Though akimbo animations are already mega crufty due to the requirements of single fire and not wanting to complicate burst fire code.
 function AkimboWeaponBase:update_next_shooting_time()
 	local next_fire = self._base_fire_rate / self:fire_rate_multiplier()
-	next_fire = next_fire / 2
+	next_fire = next_fire / 2	
 	self._next_fire_allowed = self._next_fire_allowed + next_fire
 end

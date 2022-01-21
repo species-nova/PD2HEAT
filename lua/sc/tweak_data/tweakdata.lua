@@ -569,44 +569,21 @@ end
 	tweak_data.gui.buy_weapon_categories = {
 		primaries = {
 			{"assault_rifle"},
-			{"shotgun"},
-			{"lmg"},
 			{"snp"},
+			{"shotgun"},
+			{"smg"},
+			{"lmg"},
 			{"pistol"},
-			{
-				"akimbo",
-				"pistol"
-			},
-			{
-				"akimbo",
-				"smg"
-			},
-			{
-				"akimbo",
-				"shotgun"
-			},
-			{
-				"akimbo",
-				"assault_rifle"
-			},			
-			{"wpn_special"},
-			{"smg"}
+			{"wpn_special"}
 		},
 		secondaries = {
-			{"pistol"},
-			{"smg"},
-			{"wpn_special"},
+			{"assault_rifle"},
 			{"shotgun"},
-			{"assault_rifle"}
+			{"smg"},
+			{"pistol"},
+			{"wpn_special"}
 		}
 	}
-	if SystemFS:exists("assets/mod_overrides/Marlin Model 1894 Custom/main.xml") or SystemFS:exists("assets/mod_overrides/Mosin Nagant M9130 Obrez/main.xml") then
-		table.insert(tweak_data.gui.buy_weapon_categories.secondaries, {"snp"})
-	end		
-
-	if SystemFS:exists("assets/mod_overrides/Volmer HK51-B/main.xml") then
-		table.insert(tweak_data.gui.buy_weapon_categories.secondaries, {"lmg"})
-	end						
 
 --Sounds of Animals Fighting--
 local animal_fight = {

@@ -55,8 +55,7 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"mac10",
 					"hajk",
 					"spoon",
-					"x_mac10",
-					"x_packrat"
+					"x_mac10"
 				}
 			},	
 		l10 = {
@@ -202,8 +201,7 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 				name_id = "lvl_30",
 				upgrades = {
 					"shuno",
-					"holt",
-					"x_holt"
+					"holt"
 				}
 			},
 		l32 = {
@@ -910,8 +908,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Ammo Efficiency
 				self.values.player.head_shot_ammo_return = {
-					{ ammo = 0.04, time = 6, headshots = 2, to_magazine = false }, --Basic
-					{ ammo = 0.04, time = 10, headshots = 2, to_magazine = true } --Ace
+					{ ammo = 0.03, time = 6, headshots = 2, to_magazine = false }, --Basic
+					{ ammo = 0.03, time = 10, headshots = 2, to_magazine = true } --Ace
 				}
 
 			--Rapid Reset

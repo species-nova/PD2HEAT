@@ -1761,7 +1761,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Ammo Efficiency--
 		["menu_single_shot_ammo_return_sc"] = "Ammo Efficiency",
-		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##2## lethal headshots with Rifles in less than ##6## seconds will grant ##4%## of your maximum ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##2## lethal headshots within ##10## seconds, and the ammo is refunded directly into your magazine whenever possible.",
+		["menu_single_shot_ammo_return_desc_sc"] = "BASIC: ##$basic##\nGetting ##2## lethal headshots with Rifles in less than ##6## seconds will grant ##3%## of your maximum ammo to the Rifle.\n\nACE: ##$pro##\nThe effect is now triggered upon landing ##2## lethal headshots within ##10## seconds, and the ammo is refunded directly into your magazine whenever possible.",
 
 		--Helmet Popping--
 		["menu_rifleman_sc"] = "Helmet Popping",
@@ -1815,12 +1815,18 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_gun_fighter_sc"] = "Trusty Sidearm",
 		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##50%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##35%## speed while you have a pistol equipped.",
 
-		--Tequila Time--
+		--Ambidexterity--
 		["menu_akimbo_skill_sc"] = "Ambidexterity",
 		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nYou can now equip akimbo weapons.\n\nACE: ##$pro##\nAkimbo weapons gain ##35%## more total ammo capacity and pickup.",
 		["bm_menu_skill_locked_x_g17"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_b92fs"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_g18c"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_jowi"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_packrat"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_holt"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_g22c"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_usp"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_1911"] = "Requires the Ambidexterity skill.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",

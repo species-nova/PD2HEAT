@@ -725,21 +725,8 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		local mag = base:get_ammo_remaining_in_clip()
 		local remaining_ammo = mag - ammo_usage
 
-		if mag > 0 and remaining_ammo <= (self.AKIMBO and 1 or 0) then
-			local w_td = self:weapon_tweak_data()
-
-			if w_td.animations and w_td.animations.magazine_empty then
-				self:tweak_data_anim_play("magazine_empty")
-			end
-
-			if w_td.sounds and w_td.sounds.magazine_empty then
-				self:play_tweak_data_sound("magazine_empty")
-			end
-
-			if w_td.effects and w_td.effects.magazine_empty then
-				self:_spawn_tweak_data_effect("magazine_empty")
-			end
-
+		if mag > 0 and remaining_ammo <= 0 then
+			self:_play_magazine_empty_anims()
 			self:set_magazine_empty(true)
 
 			if is_player and self._stagger_on_last_shot then
@@ -781,6 +768,22 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	end
 
 	return ray_res
+end
+
+function RaycastWeaponBase:_play_magazine_empty_anims()
+	local w_td = self:weapon_tweak_data()
+
+	if w_td.animations and w_td.animations.magazine_empty then
+		self:tweak_data_anim_play("magazine_empty")
+	end
+
+	if w_td.sounds and w_td.sounds.magazine_empty then
+		self:play_tweak_data_sound("magazine_empty")
+	end
+
+	if w_td.effects and w_td.effects.magazine_empty then
+		self:_spawn_tweak_data_effect("magazine_empty")
+	end
 end
 
 function RaycastWeaponBase:stop_shooting()
