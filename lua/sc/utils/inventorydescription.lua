@@ -438,19 +438,20 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 	local weapon_tweak = tweak_data.weapon[name]
 	local primary_category = weapon_tweak.categories[1]
 
+	--Used to round akimbo max size to a multiple of 2.
+	local mag_count = 1
+	for i=1, #weapon_tweak.categories, 1 do
+		if weapon_tweak.categories[i] == "akimbo" then
+			mag_count = 2
+		end
+	end
+
 	--Get main stats.
 	for _, stat in ipairs(WeaponDescription._stats_shown) do
 		if weapon_tweak.stats[stat.stat_name or stat.name] or stat.name == "totalammo" or stat.name == "fire_rate" then
 			if stat.name == "magazine" then
-				skill_stats.magazine.value = (managers.player:upgrade_value(name, "clip_ammo_increase", 1) - 1) * (weapon_tweak.CLIP_AMMO_MAX + (mods_stats.magazine.value or 0))
-				if not weapon_tweak.upgrade_blocks or not weapon_tweak.upgrade_blocks.weapon or not table.contains(weapon_tweak.upgrade_blocks.weapon, "clip_ammo_increase") then
-					skill_stats.magazine.value = skill_stats.magazine.value + (managers.player:upgrade_value("weapon", "clip_ammo_increase", 1) - 1) * (weapon_tweak.CLIP_AMMO_MAX + (mods_stats.magazine.value or 0))
-				end
-			   
-				if not weapon_tweak.upgrade_blocks or not weapon_tweak.upgrade_blocks[weapon_tweak.category] or not table.contains(weapon_tweak.upgrade_blocks[weapon_tweak.category], "clip_ammo_increase") then
-					skill_stats.magazine.value = skill_stats.magazine.value + (managers.player:upgrade_value(weapon_tweak.category, "clip_ammo_increase", 1) - 1) * (weapon_tweak.CLIP_AMMO_MAX + (mods_stats.magazine.value or 0))
-				end
-				skill_stats[stat.name].skill_in_effect = managers.player:has_category_upgrade(name, "clip_ammo_increase") or managers.player:has_category_upgrade("weapon", "clip_ammo_increase")
+				skill_stats.magazine.value = math.round((managers.player:upgrade_value("weapon", "clip_ammo_increase", 1) - 1) * ((weapon_tweak.CLIP_AMMO_MAX + (mods_stats.magazine.value or 0)) / mag_count)) * mag_count
+				skill_stats[stat.name].skill_in_effect = managers.player:has_category_upgrade("weapon", "clip_ammo_increase")
 			elseif stat.name == "totalammo" then
 			elseif stat.name == "reload" then
 				local skill_in_effect = false

@@ -101,7 +101,7 @@ end
 
 function NewRaycastWeaponBase:clip_full()
 	if self:ammo_base():weapon_tweak_data().tactical_reload then
-		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + self:ammo_base():weapon_tweak_data().tactical_reload
+		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip() + 1
 	else
 		return self:ammo_base():get_ammo_remaining_in_clip() == self:ammo_base():get_ammo_max_per_clip()
 	end
@@ -121,6 +121,10 @@ function NewRaycastWeaponBase:on_reload_stop()
 	self._reload_objects = {}
 end
 
+function NewRaycastWeaponBase:on_half_reload(...)
+
+end
+
 function NewRaycastWeaponBase:on_reload(...)
 	--This function is now called earlier when the mag is inserted into the gun.
 	--As a result, we delay object cleanup until on_reload_stop() is called.
@@ -138,25 +142,10 @@ function NewRaycastWeaponBase:on_reload(...)
 
 	local ammo_base = self._reload_ammo_base or self:ammo_base()
 	local ammo_in_clip = ammo_base:get_ammo_remaining_in_clip()
-	local tactical_reload = ammo_base:weapon_tweak_data().tactical_reload
-
-	if ammo_base:weapon_tweak_data().uses_clip == true then
-		if ammo_in_clip <= ammo_base:get_ammo_max_per_clip()  then
-			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip(), ammo_base:get_ammo_remaining_in_clip() +  ammo_base:weapon_tweak_data().clip_capacity))
-		end
+	if ammo_in_clip > 0 and ammo_base:weapon_tweak_data().tactical_reload then
+		ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
 	else
-		if ammo_in_clip > 0 and tactical_reload == 1 then
-			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
-		elseif ammo_in_clip > 1 and tactical_reload == 2 then
-			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 2))
-		elseif ammo_in_clip == 1 and tactical_reload == 2 then
-			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip() + 1))
-		elseif self._setup.expend_ammo or ammo_in_clip > 0 and not tactical_reload then
-			ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip()))
-		else
-			ammo_base:set_ammo_remaining_in_clip(ammo_base:get_ammo_max_per_clip())
-			ammo_base:set_ammo_total(ammo_base:get_ammo_max_per_clip())
-		end
+		ammo_base:set_ammo_remaining_in_clip(math.min(ammo_base:get_ammo_total(), ammo_base:get_ammo_max_per_clip()))
 	end
 
 	managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
@@ -166,7 +155,7 @@ end
 
 function NewRaycastWeaponBase:max_bullets_to_reload(from_empty)
 	local max_per_mag = self:get_ammo_max_per_clip()
-	if not from_empty and self:weapon_tweak_data().tactical_reload == 1 then
+	if not from_empty and self:weapon_tweak_data().tactical_reload then
 		max_per_mag = max_per_mag + 1
 	end
 	return math.min(self:get_ammo_total(), max_per_mag) - self:get_ammo_remaining_in_clip()
@@ -186,7 +175,7 @@ function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
 		self:check_reset_last_bullet_stagger()
 		local speed_multiplier = self:reload_speed_multiplier()
 		self._next_shell_reloded_t = self._next_shell_reloded_t + self:reload_shell_expire_t() / speed_multiplier
-		if self._started_reload_empty or self:weapon_tweak_data().tactical_reload ~= 1 then
+		if self._started_reload_empty or not self:weapon_tweak_data().tactical_reload then
 			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + 1))
 			return true
 		else
@@ -400,7 +389,7 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 
 		self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
 	
-		self._burst_rounds_remaining = 0
+		self._burst_rounds_fired = nil
 		self._has_auto = not self._locked_fire_mode and (self:can_toggle_firemode() or self:weapon_tweak_data().FIRE_MODE == "auto")
 		
 		self._has_burst_fire = (self:can_toggle_firemode() or self:weapon_tweak_data().BURST_FIRE) and self:weapon_tweak_data().BURST_FIRE ~= false
@@ -500,7 +489,7 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 
 	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
 	
-	if self:in_burst_mode() and self:burst_rounds_remaining() then
+	if self:burst_rounds_remaining() then
 		mul = mul * (self._burst_fire_rate_multiplier or 1)
 	end
 
@@ -511,20 +500,23 @@ local fire_original = NewRaycastWeaponBase.fire
 function NewRaycastWeaponBase:fire(...)
 	local result = fire_original(self, ...)
 	
-	if result and not self.AKIMBO and self:in_burst_mode() then
-		if self:clip_empty() then
-			self:cancel_burst()
-		else
-			self._burst_rounds_fired = self._burst_rounds_fired + 1
-			self._burst_rounds_remaining = (self._burst_rounds_remaining <= 0 and self._burst_size or self._burst_rounds_remaining) - 1
-			if self._burst_rounds_remaining <= 0 then
-				self:cancel_burst()
-			end
-		end
+	if result and self:in_burst_mode() then
+		self:_update_burst_fire()
 	end
 	
 	return result
 end	
+
+function NewRaycastWeaponBase:_update_burst_fire()
+	if self:clip_empty() then
+		self:cancel_burst()
+	elseif self:in_burst_mode() then
+		self._burst_rounds_fired = (self._burst_rounds_fired or 0) + 1
+		if self._burst_rounds_fired >= self._burst_size then
+			self:cancel_burst()
+		end
+	end
+end
 
 local toggle_firemode_original = NewRaycastWeaponBase.toggle_firemode
 function NewRaycastWeaponBase:toggle_firemode(...)
@@ -536,7 +528,7 @@ function NewRaycastWeaponBase:_check_toggle_burst()
 		self:_set_burst_mode(false, self.AKIMBO and not self._has_auto)
 		return true
 	elseif (self._fire_mode == NewRaycastWeaponBase.IDSTRING_SINGLE) or (self._fire_mode == NewRaycastWeaponBase.IDSTRING_AUTO and not self:can_toggle_firemode()) then
-		self:_set_burst_mode(true, self.AKIMBO)
+		self:_set_burst_mode(true, self.AKIMBO and not self._has_auto)
 		return true
 	end
 end
@@ -561,17 +553,15 @@ function NewRaycastWeaponBase:in_burst_mode()
 end
 
 function NewRaycastWeaponBase:burst_rounds_remaining()
-	return self._burst_rounds_remaining > 0 and self._burst_rounds_remaining or false
+	return self._burst_rounds_fired and self._burst_rounds_fired < self._burst_size
 end
 
 function NewRaycastWeaponBase:cancel_burst(soft_cancel)
-	if self._adaptive_burst_size or not soft_cancel then
-		self._burst_rounds_remaining = 0
-		
+	if self._adaptive_burst_size or not soft_cancel then		
 		if self._delayed_burst_recoil and self._burst_rounds_fired > 0 then
 			self._setup.user_unit:movement():current_state():force_recoil_kick(self, self._burst_rounds_fired)
 		end
-		self._burst_rounds_fired = 0
+		self._burst_rounds_fired = nil
 	end
 end	
 
@@ -649,12 +639,8 @@ end
 
 function NewRaycastWeaponBase:calculate_ammo_max_per_clip()
 	local ammo = tweak_data.weapon[self._name_id].CLIP_AMMO_MAX + (self._extra_ammo or 0)
-	ammo = ammo * managers.player:upgrade_value(self._name_id, "clip_ammo_increase", 1)
 	if not self:upgrade_blocked("weapon", "clip_ammo_increase") then
 		ammo = ammo * managers.player:upgrade_value("weapon", "clip_ammo_increase", 1)
-	end
-	if not self:upgrade_blocked(tweak_data.weapon[self._name_id].category, "clip_ammo_increase") then
-		ammo = ammo * managers.player:upgrade_value(tweak_data.weapon[self._name_id].category, "clip_ammo_increase", 1)
 	end
 	ammo = math.round(ammo)
 	return ammo
@@ -771,4 +757,8 @@ function NewRaycastWeaponBase:vel_overshot_mul(move_state, alt_state)
 	self.vel_overshot.pitch_pos = -vel_overshot
 	self.vel_overshot.pivot = (tweak_data.player.stances.default[self:get_stance_id()] or tweak_data.player.stances.default.standard).vel_overshot.pivot
 	return self.vel_overshot
+end
+
+function NewRaycastWeaponBase:shake_multiplier(multiplier_type)
+	return self:weapon_tweak_data().shake[multiplier_type] * (self.AKIMBO and 0.5 or 1) 
 end

@@ -1360,7 +1360,7 @@ end
 --Fires next round in burst if needed.
 function PlayerStandard:_update_burst_fire(t)
 	if alive(self._equipped_unit) and self._equipped_unit:base():burst_rounds_remaining() then
-		self:_check_action_primary_attack(t, { btn_primary_attack_state = true, btn_primary_attack_press = true })
+		self:_check_action_primary_attack(t, { btn_primary_attack_state = true, btn_primary_attack_press = true, skip_burst_check = true})
 	end
 end
 
@@ -1755,6 +1755,14 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			elseif state.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
 				state.reload_expire_t = t + (self._equipped_unit:base():reload_expire_t() or 2.2) / speed_multiplier
 			end
+		elseif state.refill_half_magazine_t and state.refill_half_magazine_t <= t then
+			self._equipped_unit:base():on_half_reload() --Load up one magazine on an akimbo weapon. If timer is set on a non-akimbo weapon, expect a crash (so don't set it!).
+
+			--Update trackers.
+			managers.statistics:reloaded()
+			managers.hud:set_ammo_amount(self._equipped_unit:base():selection_index(), self._equipped_unit:base():ammo_info())
+
+			state.refill_half_magazine_t = nil
 		elseif state.refill_magazine_t and state.refill_magazine_t <= t then
 			self._equipped_unit:base():on_reload() --Load up the magazine.
 			
@@ -1818,7 +1826,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 				offhand_weapon:play_tweak_data_sound("enter_steelsight") --Use steelsight noise as an audio que for the auto-reload.
 				state.offhand_reload_next_bullet_t = t + state.offhand_per_bullet_reload_t - 0.01
 				offhand_weapon:check_reset_last_bullet_stagger()
-				if state.offhand_reload_empty or offhand_weapon:weapon_tweak_data().tactical_reload ~= 1 then --Extra clamping for sanity, but probably not needed.
+				if state.offhand_reload_empty or not offhand_weapon:weapon_tweak_data().tactical_reload then --Extra clamping for sanity, but probably not needed.
 					offhand_weapon:set_ammo_remaining_in_clip(math.min(offhand_weapon:get_ammo_max_per_clip(), offhand_weapon:get_ammo_remaining_in_clip() + 1))
 				else
 					offhand_weapon:set_ammo_remaining_in_clip(math.min(offhand_weapon:get_ammo_max_per_clip() + 1, offhand_weapon:get_ammo_remaining_in_clip() + 1))
@@ -1866,6 +1874,10 @@ function PlayerStandard:_start_action_reload(t)
 				--Set time to actually add ammo to the gun, pretty much always before the actual animation finishes.
 				self._state_data.refill_magazine_t = ((timers.empty_reload_operational and t + timers.empty_reload_operational / speed_multiplier) or self._state_data.reload_expire_t)
 
+				--Many akimbo weapons have 2 seperate magazine reload events, set the timer for when the first one should occur and refill the ammo missing from one gun.
+				--Timer is ignored otherwise.
+				self._state_data.refill_half_magazine_t = timers.empty_half_reload_operational and t + timers.empty_half_reload_operational / speed_multiplier
+
 				--Set time where non-commital animations like sprinting or ADS can interrupt the reload.
 				--False == always interruptable. Make sure to set the timers!
 				self._state_data.reload_soft_interrupt_t = timers.empty_reload_interrupt and t + timers.empty_reload_interrupt / speed_multiplier
@@ -1880,6 +1892,7 @@ function PlayerStandard:_start_action_reload(t)
 			
 			if not shotgun_reload then
 				self._state_data.refill_magazine_t = (timers.reload_operational and t + timers.reload_operational / speed_multiplier) or self._state_data.reload_expire_t
+				self._state_data.refill_half_magazine_t = timers.half_reload_operational and t + timers.half_reload_operational / speed_multiplier
 				self._state_data.reload_soft_interrupt_t = timers.reload_interrupt and t + timers.reload_interrupt / speed_multiplier
 			end
 			
@@ -2259,6 +2272,7 @@ function PlayerStandard:_interupt_action_reload(t)
 	
 	--Clear custom timers.
 	self._state_data.refill_magazine_t = nil
+	self._state_data.refill_half_magazine_t = nil
 	self._state_data.reload_soft_interrupt_t = nil
 
 	--Fixes weapons using shotgun-style reloads occasionally only loading one shell in
@@ -2352,7 +2366,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					dmg_mul = dmg_mul * (weap_base.first_shot_dmg_mul and weap_base:first_shot_dmg_mul() or 1)
 
 					local fired = nil
-					if fire_mode == "single" then
+					if fire_mode == "single" and (not weap_base:burst_rounds_remaining() or input.skip_burst_check) then
 						if input.btn_primary_attack_press and start_shooting then
 							--TODO: Investigate removing spread/autohit muls, since they are no longer relevant.
 							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
@@ -2389,7 +2403,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						managers.rumble:play("weapon_fire")
 						--Apply stability to screen shake from firing.
 						local weap_tweak_data = tweak_data.weapon[weap_base:get_name_id()]
-						local shake_multiplier = weap_tweak_data.shake[self._state_data.in_steelsight and "fire_steelsight_multiplier" or "fire_multiplier"]
+						local shake_multiplier = weap_base:shake_multiplier(self._state_data.in_steelsight and "fire_steelsight_multiplier" or "fire_multiplier")
 						local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
 						self._ext_camera:play_shaker("fire_weapon_rot", 1 * shake_multiplier * recoil_multiplier * 0.75)
 						self._ext_camera:play_shaker("fire_weapon_kick", 1 * shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)

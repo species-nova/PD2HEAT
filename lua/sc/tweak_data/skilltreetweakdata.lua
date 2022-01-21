@@ -46,11 +46,8 @@ function SkillTreeTweakData:init(tweak_data)
 		"trip_mine_can_switch_on_off",
 		"player_silent_kill",
 		"jowi",
-		"x_1911",
-		"x_b92fs",
 		"x_deagle",
-		"x_g22c",
-		"x_g17",
+		"x_1911",
 		"x_usp",
 		"x_sr2",
 		"x_mp5",
@@ -1713,7 +1710,9 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {3, 11},
 				[1] = {
 					upgrades = {
-						"akimbo_recoil_index_addend_2"
+						"x_b92fs",
+						"x_g18c",
+						"x_g17"
 					},
 					cost = self.costs.hightier
 				},

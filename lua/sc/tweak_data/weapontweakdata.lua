@@ -2843,6 +2843,96 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.35
 		}
 
+	--Light Pistol (Akimbo)
+		--Akimbo Chimano .88
+		self.x_g17.kick = self.glock_17.kick
+		self.x_g17.kick_pattern = self.glock_17.kick_pattern
+		self.x_g17.CLIP_AMMO_MAX = self.glock_17.CLIP_AMMO_MAX * 2
+		self.x_g17.fire_mode_data.fire_rate = self.glock_17.fire_mode_data.fire_rate
+		self.x_g17.single.fire_rate = self.glock_17.single.fire_rate
+		self.x_g17.BURST_FIRE = 2
+		self.x_g17.FIRE_MODE = "burst"
+		self.x_g17.supported = true
+		self.x_g17.stats = {
+			damage = 20,
+			spread = 15,
+			recoil = 14,
+			concealment = 19,
+			value = 1
+		}
+		self.x_g17.timers = {
+			reload_not_empty = 3.7,
+			reload_empty = 4.15,
+			reload_operational = 3.1,
+			empty_reload_operational = 4.03,
+			half_reload_operational = 1.8,
+			empty_half_reload_operational = 3.97,
+			reload_interrupt = 0.35,
+			empty_reload_interrupt = 0.35,
+			unequip = 0.5,
+			equip = 0.5
+		}
+
+		--Akimbo Bernetti 9
+		self.x_b92fs.kick = self.b92fs.kick
+		self.x_b92fs.kick_pattern = self.b92fs.kick_pattern
+		self.x_b92fs.FIRE_MODE = "burst"
+		self.x_b92fs.BURST_FIRE = 2
+		self.x_b92fs.CLIP_AMMO_MAX = self.b92fs.CLIP_AMMO_MAX * 2
+		self.x_b92fs.fire_mode_data.fire_rate = self.b92fs.fire_mode_data.fire_rate
+		self.x_b92fs.single.fire_rate = self.b92fs.single.fire_rate
+		self.x_b92fs.supported = true
+		self.x_b92fs.stats = {
+			damage = 20,
+			spread = 17,
+			recoil = 17,
+			concealment = 17,
+			value = 1
+		}
+		self.x_b92fs.timers = {
+			reload_not_empty = 3.7,
+			reload_empty = 4.15,
+			reload_operational = 3.1,
+			empty_reload_operational = 4.03,
+			half_reload_operational = 1.8,
+			empty_half_reload_operational = 3.97,
+			reload_interrupt = 0.35,
+			empty_reload_interrupt = 0.35,
+			unequip = 0.5,
+			equip = 0.5
+		}
+		self.x_b92fs.reload_speed_multiplier = 0.85 --4.4/4.9s
+
+		--Akimbo Stryk18c
+		self.x_g18c.fire_mode_data.fire_rate = self.glock_18c.fire_mode_data.fire_rate
+		self.x_g18c.single.fire_rate = self.glock_18c.auto.fire_rate
+		self.x_g18c.fire_rate_multiplier = self.glock_18c.fire_rate_multiplier
+		self.x_g18c.CLIP_AMMO_MAX = self.glock_18c.CLIP_AMMO_MAX * 2
+		self.x_g18c.kick = self.glock_18c.kick
+		self.x_g18c.kick_pattern = self.glock_18c.kick_pattern
+		self.x_g18c.BURST_FIRE = 2
+		self.x_g18c.supported = true
+		self.x_g18c.stats = {
+			damage = 20,
+			spread = 13,
+			recoil = 6,
+			concealment = 19,
+			value = 1
+		}
+		self.x_g18c.timers = {
+			reload_not_empty = 3.7,
+			reload_empty = 4.15,
+			reload_operational = 3.1,
+			empty_reload_operational = 4.03,
+			half_reload_operational = 1.8,
+			empty_half_reload_operational = 3.97,
+			reload_interrupt = 0.35,
+			empty_reload_interrupt = 0.35,
+			unequip = 0.5,
+			equip = 0.5
+		}
+
+
 	--Medium Pistol (Primary)
 		--Czech 92
 		self.czech.use_data.selection_index = 2
@@ -3053,9 +3143,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.c96.single.fire_rate = 0.06 --1000 rpm
 		self.c96.kick = self.stat_info.kick_tables.even_recoil
 		self.c96.kick_pattern = self.stat_info.kick_patterns.jumpy_3
-		self.c96.uses_clip = true
-		self.c96.clip_capacity = 10
-		self.c96.supported = true
 		self.c96.stats = {
 			damage = 30,
 			spread = 17,
@@ -3863,29 +3950,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.x_1911.stats_modifiers = nil
 
-	--Akimbo Bernetti 9
-	self.x_b92fs.kick = self.stat_info.kick_tables.even_recoil
-	self.x_b92fs.AMMO_MAX = 180
-	self.x_b92fs.FIRE_MODE = "single"
-	self.x_b92fs.fire_mode_data.fire_rate = 0.08571428571
-	self.x_b92fs.single.fire_rate = 0.08571428571
-	self.x_b92fs.supported = false
-	self.x_b92fs.stats = {
-		damage = 20,
-		spread = 17,
-		recoil = 14,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 31,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_b92fs.stats_modifiers = nil
-
 	--Akimbo Deagle
 	self.x_deagle.has_description = false
 	self.x_deagle.desc_id = "bm_ap_weapon_sc_desc"
@@ -4068,29 +4132,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.x_g22c.stats_modifiers = nil
 
-	--Akimbo Chimano .88
-	self.x_g17.kick = self.stat_info.kick_tables.even_recoil
-	self.x_g17.CLIP_AMMO_MAX = 36
-	self.x_g17.AMMO_MAX = 180
-	self.x_g17.FIRE_MODE = "single"
-	self.x_g17.fire_mode_data.fire_rate = 0.08571428571
-	self.x_g17.single.fire_rate = 0.08571428571
-	self.x_g17.supported = false
-	self.x_g17.stats = {
-		damage = 20,
-		spread = 16,
-		recoil = 14,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 30,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_g17.stats_modifiers = nil
 
 	--Akimbo Interceptor .45
 	self.x_usp.kick = self.stat_info.kick_tables.right_recoil
@@ -4856,30 +4897,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_2006m.timers.reload_not_empty = 4.1
 	self.x_2006m.timers.reload_empty = 4.1
 
-	--Akimbo Stryk18c
-	--Keeping
-	self.x_g18c.fire_mode_data.fire_rate = 0.05454545454
-	self.x_g18c.single.fire_rate = 0.05454545454
-	self.x_g18c.CLIP_AMMO_MAX = 36
-	self.x_g18c.AMMO_MAX = 200
-	self.x_g18c.kick = self.stat_info.kick_tables.moderate_kick
-	self.x_g18c.supported = false
-	self.x_g18c.stats = {
-		damage = 18,
-		spread = 15,
-		recoil = 9,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 28,
-		suppression = 10,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_g18c.stats_modifiers = nil
-
 
 	--Akimbo Broncos
 	--Keeping
@@ -5334,37 +5351,11 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.x_coal.use_data.selection_index = 4 --Akimbo Tatonka
 
 	--Apply tactical reloading to relevant guns.
-		local tact_rel = {'deagle','colt_1911','usp','p226','g22c','glock_17','glock_18c','b92fs','ppk','mp9','new_mp5','mp7','p90','olympic','akmsu','akm','akm_gold','ak74','m16','amcar','new_m4','ak5','s552','g36','aug','saiga','new_m14','scar','fal','rpk','msr','r93','m95','famas','galil','g3','scorpion','benelli','serbu','r870','ksg','g26','spas12','l85a2','vhs','hs2000','tec9','asval','sub2000','polymer','wa2000','model70','sparrow','m37','sr2','pl14','tecci','hajk','boot','packrat','schakal','desertfox','tti','siltstone','flint','coal','lemming','breech','basset','shrew','corgi','shepheard','komodo','legacy','beer','czech','stech','r700','holt'}
-		for i, wep_id in ipairs(tact_rel) do
-			self[wep_id].tactical_reload = 1
-			self[wep_id].has_description = false
-		end
-		local tact_akimbo_pistol = {'x_deagle','x_1911','x_b92fs','jowi','x_usp','x_g17','x_g22c','x_packrat','x_shrew','x_breech','x_g18c','x_hs2000','x_p226','x_pl14','x_ppk','x_sparrow','x_legacy','x_czech','x_stech','x_holt'}
-		for i, wep_id in ipairs(tact_akimbo_pistol) do
-			self[wep_id].tactical_reload = 2
-			self[wep_id].recategorize = "akimbo"
-			self[wep_id].categories = {"akimbo", "pistol"}
-		end
-		local tact_akimbo_smg = {'x_sr2','x_mp5', 'x_coal', 'x_mp7', 'x_mp9', 'x_p90', 'x_polymer', 'x_schakal', 'x_scorpion', 'x_tec9','x_shepheard'}
-		for i, wep_id in ipairs(tact_akimbo_smg) do
-			self[wep_id].tactical_reload = 2
-			self[wep_id].recategorize = "akimbo"
-			self[wep_id].categories = {"akimbo", "smg"}
-		end
-		local tact_akimbo_rifle = {'x_akmsu', 'x_hajk', 'x_olympic'}
-		for i, wep_id in ipairs(tact_akimbo_rifle) do
-			self[wep_id].tactical_reload = 2
-			self[wep_id].recategorize = "akimbo"
-			self[wep_id].categories = {"akimbo", "assault_rifle"}
-		end
-
-	--Mark relevant weapons as using stripper clips of sizes that differ from the magazines.
-		self.c96.uses_clip = true
-		self.mosin.uses_clip = true
-		self.c96.clip_capacity = 10
-		self.mosin.clip_capacity = 5
-		self.x_c96.uses_clip = true
-		self.x_c96.clip_capacity = 20
+	--TODO: Move these to the weapon specific blocks.
+	local tact_rel = {'deagle','colt_1911','usp','p226','g22c','glock_17','glock_18c','b92fs','ppk','mp9','new_mp5','mp7','p90','olympic','akmsu','akm','akm_gold','ak74','m16','amcar','new_m4','ak5','s552','g36','aug','saiga','new_m14','scar','fal','rpk','msr','r93','m95','famas','galil','g3','scorpion','benelli','serbu','r870','ksg','g26','spas12','l85a2','vhs','hs2000','tec9','asval','sub2000','polymer','wa2000','model70','sparrow','m37','sr2','pl14','tecci','hajk','boot','packrat','schakal','desertfox','tti','siltstone','flint','coal','lemming','breech','basset','shrew','corgi','shepheard','komodo','legacy','beer','czech','stech','r700','holt', 'x_deagle','x_1911','x_b92fs','jowi','x_usp','x_g17','x_g22c','x_packrat','x_shrew','x_breech','x_g18c','x_hs2000','x_p226','x_pl14','x_ppk','x_sparrow','x_legacy','x_czech','x_stech','x_holt', 'x_sr2','x_mp5', 'x_coal', 'x_mp7', 'x_mp9', 'x_p90', 'x_polymer', 'x_schakal', 'x_scorpion', 'x_tec9','x_shepheard', 'x_akmsu', 'x_hajk', 'x_olympic'}
+	for i, wep_id in ipairs(tact_rel) do
+		self[wep_id].tactical_reload = true
+	end
 
 	--Calculate any remaining weapon stats that are shared (IE: reload is always 20) or determined systemically (IE: ammo pickup).
 	for name, weap in pairs(self) do

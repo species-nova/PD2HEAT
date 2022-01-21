@@ -1816,8 +1816,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##50%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##35%## speed while you have a pistol equipped.",
 
 		--Tequila Time--
-		["menu_akimbo_skill_sc"] = "Tequila Time",
-		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nAkimbo weapons gain ##16## stability.\n\nACE: ##$pro##\nAkimbo weapons gain ##25%## more total ammo capacity and pickup.",
+		["menu_akimbo_skill_sc"] = "Ambidexterity",
+		["menu_akimbo_skill_desc_sc"] = "BASIC: ##$basic##\nYou can now equip akimbo weapons.\n\nACE: ##$pro##\nAkimbo weapons gain ##35%## more total ammo capacity and pickup.",
+		["bm_menu_skill_locked_x_g17"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_b92fs"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_g18c"] = "Requires the Ambidexterity skill.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",

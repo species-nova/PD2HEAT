@@ -183,6 +183,21 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"qbu88"
 				}
 			},
+		l29 = {
+			name_id = "weapons",
+			upgrades = {
+				"akmsu",
+				"glock_18c",
+				"asval",
+				"long",
+				"x_beer",
+				"beer",
+				"x_czech",
+				"czech",
+				"x_stech",
+				"stech"
+			}
+		},
 		l30 = {
 				name_id = "lvl_30",
 				upgrades = {
@@ -484,9 +499,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 	--Allegedly used somewhere???
 	self.values.akimbo.recoil_multiplier = {
-		1.4,
-		1.3,
-		1.2
+		1.0,
+		1.0,
+		1.0
 	}
 
 	--Skills--
@@ -1168,17 +1183,18 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.pistol.move_spread_multiplier = {0.6}
 				
 			--Akimbo
+				--Basic unlocks akimbos.
 				self.values.akimbo.recoil_index_addend = {
 					0,
-					4, --Basic
-					4,
-					4,
-					4
+					0, --Basic
+					0,
+					0,
+					0
 				}
 
 				--Ace
-					self.values.akimbo.extra_ammo_multiplier = {1.25}
-					self.values.akimbo.pick_up_multiplier = {1.25}
+					self.values.akimbo.extra_ammo_multiplier = {1.35}
+					self.values.akimbo.pick_up_multiplier = {1.35}
 				--Reserved for future use.
 				self.values.akimbo.spread_index_addend = {
 					0,
