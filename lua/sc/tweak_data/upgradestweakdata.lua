@@ -1033,7 +1033,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Evasion
 				--Basic
 					--Strafe sprinting.
-					self.values.player.fall_damage_multiplier = {0.25}
+					self.values.player.fall_damage_multiplier = {0.65}
 				
 				--Ace
 					--Run and Reload

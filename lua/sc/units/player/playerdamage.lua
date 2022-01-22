@@ -863,7 +863,7 @@ function PlayerDamage:damage_fall(data)
 		}
 	}
 
-	local fall_height = data.height
+	local fall_height = data.height * managers.player:upgrade_value("player", "fall_damage_multiplier", 1)
 
 	--Checks that player can actually take fall damage.
 	if self._god_mode or self._invulnerable or self._mission_damage_blockers.invulnerable then
