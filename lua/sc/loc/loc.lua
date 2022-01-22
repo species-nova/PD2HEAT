@@ -1792,7 +1792,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Evasion--
 		["menu_awareness_beta_sc"] = "Evasion",
-		["menu_awareness_beta_desc_sc"] = "BASIC: ##$basic##\nYou can sprint at full speed in any direction.\n\nYou take dramatically less fall damage.\n\nACE: ##$pro##\nRun and reload - you can reload your weapons while sprinting.",
+		["menu_awareness_beta_desc_sc"] = "BASIC: ##$basic##\nYou can sprint at full speed in any direction.\n\nYou can fall ##25%## further.\n\nACE: ##$pro##\nRun and reload - you can reload your weapons while sprinting.",
 
 		--Moving Target--
 		["menu_dire_need_beta_sc"] = "Moving Target",

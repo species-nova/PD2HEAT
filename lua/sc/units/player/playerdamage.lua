@@ -913,7 +913,7 @@ function PlayerDamage:damage_fall(data)
 	else --Health damage taken.
 		self._unit:sound():play("player_hit_permadamage")
 		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.HEALTH, 0)
-		managers.player:apply_slow_debuff(5 * math.max(health_damage_ratio, 0.2), 0.8) --Very large falls break ur legs.
+		managers.player:apply_slow_debuff(10 * math.max(health_damage_ratio, 0.2), 0.8) --Very large falls break ur legs.
 
 		--Alert nearby enemies.
 		local new_alert = {
