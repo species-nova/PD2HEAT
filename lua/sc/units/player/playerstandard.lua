@@ -2417,7 +2417,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							weap_base:tweak_data_anim_play("fire", weap_base:fire_rate_multiplier())
 						end
 
-						if fire_mode == "single" and weap_base:get_name_id() ~= "saw" then
+						if fire_mode == "single" and weap_base:get_name_id() ~= "saw" and not weap_base.skip_fire_animation then
 							if not self._state_data.in_steelsight then
 								self._ext_camera:play_redirect(self:get_animation("recoil"), weap_base:fire_rate_multiplier())
 							elseif weap_tweak_data.animations.recoil_steelsight then

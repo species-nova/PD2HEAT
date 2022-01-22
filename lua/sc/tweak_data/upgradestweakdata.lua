@@ -160,6 +160,22 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"sap"
 				}
 			},
+		l26 = {
+			name_id = "weapons",
+			upgrades = {
+				"new_m14",
+				"saiga",
+				"sandsteel",
+				"packrat",
+				"lemming",
+				"rsh12",
+				"chinchilla",
+				"model3",
+				"sbl",
+				"m1897",
+				"x_model3"
+			}
+		},
 		l27 = {
 				name_id = "weapons",
 				upgrades = {

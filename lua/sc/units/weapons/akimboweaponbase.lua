@@ -28,13 +28,21 @@ function AkimboWeaponBase:fire(...)
 		self:_play_magazine_empty_anims()
 	end
 
+	if self:in_burst_mode() and self._burst_rounds_fired == nil then
+		self.skip_fire_animation = true
+	else
+		self.skip_fire_animation = false
+	end
+
 	return result
 end
 
 --Make each gun use unique magazine empties.
 function AkimboWeaponBase:tweak_data_anim_play(anim, ...)
 	local second_gun_base = alive(self._second_gun) and self._second_gun:base()
-	if anim == "fire" or anim == "magazine_empty" then
+	if anim == "fire" and self.skip_fire_animation then
+		return
+	elseif anim == "fire" or anim == "magazine_empty" then
 		if not self._fire_second_gun_next and second_gun_base then
 			local second_gun_anim = self:_second_gun_tweak_data_anim_version(anim)
 			return second_gun_base:tweak_data_anim_play(second_gun_anim, ...)

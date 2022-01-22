@@ -848,11 +848,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["bm_wp_upg_ass_m4_b_beowulf"] = "Wolf Barrel",
 		["bm_wp_g3_b_sniper"] = "Macro Barrel",
 		["bm_wp_g3_b_short"] = "Micro Barrel",
-		
-		-- dualie name stuff cus we originally wanted to make em more unique--
-		["bm_w_x_judge"] = "Judge & Jury",
-		["bm_w_x_shrew"] = "Barry & Paul",
-		["bm_w_x_1911"] = "Mustang & Sally",
 
 		-- default attachment name stuff		
 		["bm_wp_mp5_fg_mp5sd"] = "SPOOC Foregrip",

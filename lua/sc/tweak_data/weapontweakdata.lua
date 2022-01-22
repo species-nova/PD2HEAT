@@ -3626,8 +3626,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.chinchilla.supported = true
 		self.chinchilla.stats = {
 			damage = 60,
-			spread = 18,
-			recoil = 11,
+			spread = 19,
+			recoil = 10,
 			concealment = 19,
 			value = 1
 		}
@@ -3649,8 +3649,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.model3.supported = true
 		self.model3.stats = {
 			damage = 60,
-			spread = 20,
-			recoil = 10,
+			spread = 21,
+			recoil = 9,
 			concealment = 18,
 			value = 1
 		}
@@ -3687,6 +3687,35 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			empty_reload_interrupt = 0.47,
 			unequip = 0.5,
 			equip = 0.45
+		}
+
+	--Medium Handcannons (Akimbo)
+		--Akimbo Castigo
+		self.x_chinchilla.fire_mode_data.fire_rate = self.chinchilla.fire_mode_data.fire_rate
+		self.x_chinchilla.single.fire_rate = self.chinchilla.single.fire_rate
+		self.x_chinchilla.kick = self.chinchilla.kick
+		self.x_chinchilla.kick_pattern = self.chinchilla.kick_pattern
+		self.x_chinchilla.BURST_FIRE = 2
+		self.x_chinchilla.FIRE_MODE = "burst"
+		self.x_chinchilla.supported = true
+		self.x_chinchilla.stats = {
+			damage = 60,
+			spread = 17,
+			recoil = 6,
+			concealment = 17,
+			value = 1
+		}
+		self.x_chinchilla.timers = {
+			reload_not_empty = 3.74,
+			reload_empty = 3.74,
+			reload_operational = 3.54,
+			empty_reload_operational = 3.54,
+			half_reload_operational = 3.46,
+			empty_half_reload_operational = 3.46,
+			reload_interrupt = 0.28,
+			empty_reload_interrupt = 0.28,
+			unequip = 0.5,
+			equip = 0.5
 		}
 
 	--Heavy Handcannon (Primary)
@@ -4742,31 +4771,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ray.swap_speed_multiplier = 1.2
 	self.ray.turret_instakill = true
 
-	--Akimbo Castigo
-	self.x_chinchilla.tactical_akimbo = false
-	self.x_chinchilla.fire_mode_data.fire_rate = 0.19047619
-	self.x_chinchilla.single.fire_rate = 0.19047619
-	self.x_chinchilla.AMMO_MAX = 60
-	self.x_chinchilla.kick = self.stat_info.kick_tables.vertical_kick
-	self.x_chinchilla.supported = false
-	self.x_chinchilla.stats = {
-		damage = 60,
-		spread = 17,
-		recoil = 9,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_chinchilla.stats_modifiers = nil
-	self.x_chinchilla.timers.reload_empty = 3.7
-	self.x_chinchilla.timers.reload_not_empty = 3.7
-
 	--Airbow
 	self.ecp.upgrade_blocks = {
 		weapon = {
@@ -4794,29 +4798,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.ecp.stats_modifiers = {damage = 4}
-
-	--Akimbo Crosskill
-	self.x_shrew.fire_mode_data.fire_rate = 0.08571428571
-	self.x_shrew.single.fire_rate = 0.08571428571
-	self.x_shrew.CLIP_AMMO_MAX = 12
-	self.x_shrew.AMMO_MAX = 80
-	self.x_shrew.kick = self.stat_info.kick_tables.moderate_kick
-	self.x_shrew.supported = false
-	self.x_shrew.stats = {
-		damage = 45,
-		spread = 17,
-		recoil = 8,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 27,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_shrew.stats_modifiers = nil
 
 	--Grimm 12g
 	self.basset.rays = 9
@@ -4927,65 +4908,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.x_mac10.stats_modifiers = nil
-
-	--Akimbo Matever
-	--Keeping
-	self.x_2006m.fire_mode_data.fire_rate = 0.15789473684
-	self.x_2006m.single.fire_rate = 0.15789473684
-	self.x_2006m.AMMO_MAX = 60
-	self.x_2006m.kick = self.stat_info.kick_tables.vertical_kick
-	self.x_2006m.supported = false
-	self.x_2006m.stats = {
-		damage = 60,
-		spread = 18,
-		recoil = 9,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_2006m.stats_modifiers = nil
-	self.x_2006m.weapon_hold = "x_chinchilla"
-	self.x_2006m.animations.reload_name_id = "x_chinchilla"
-	self.x_2006m.animations.second_gun_versions = self.x_rage.animations.second_gun_versions or {}
-	self.x_2006m.animations.second_gun_versions.reload = "reload"
-	self.x_2006m.timers.reload_not_empty = 4.1
-	self.x_2006m.timers.reload_empty = 4.1
-
-
-	--Akimbo Broncos
-	--Keeping
-	self.x_rage.fire_mode_data.fire_rate = 0.19047619047
-	self.x_rage.single.fire_rate = 0.19047619047
-	self.x_rage.AMMO_MAX = 60
-	self.x_rage.kick = self.stat_info.kick_tables.vertical_kick
-	self.x_rage.supported = false
-	self.x_rage.stats = {
-		damage = 60,
-		spread = 15,
-		recoil = 8,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_rage.stats_modifiers = nil
-	self.x_rage.weapon_hold = "x_chinchilla"
-	self.x_rage.animations.reload_name_id = "x_chinchilla"
-	self.x_rage.animations.second_gun_versions = self.x_rage.animations.second_gun_versions or {}
-	self.x_rage.animations.second_gun_versions.reload = "reload"
-	self.x_rage.timers.reload_not_empty = 3.3
-	self.x_rage.timers.reload_empty = 3.3
 
 	--Akimbo Judge
 	--Keeping
@@ -5192,32 +5114,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.x_czech.stats_modifiers = nil
 
-	--Akimbo Model 87
-	self.x_model3.fire_mode_data = {}
-	self.x_model3.fire_mode_data.fire_rate = 0.15789473684
-	self.x_model3.single = {}
-	self.x_model3.single.fire_rate = 0.15789473684
-	self.x_model3.AMMO_MAX = 60
-	self.x_model3.kick = self.stat_info.kick_tables.moderate_kick
-	self.x_model3.supported = false
-	self.x_model3.stats = {
-		damage = 60,
-		spread = 15,
-		recoil = 7,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 23,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.x_model3.stats_modifiers = nil
-	self.x_model3.timers.reload_not_empty = 2.4
-	self.x_model3.timers.reload_empty = 2.4
-
 	--Reinfeld 88
 	self.m1897.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 	self.m1897.rays = 9
@@ -5328,43 +5224,46 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.x_socom.swap_speed_multiplier = 0.95
 	end
 
-	--Disable unwanted akimbos.
-		--These generally:
+	--The following Akimbo weapons are not supported. These generally:
 		--A: Fail to fit into an interesting and non-degenerate gameplay niche.
-		--B: Lack unique animations.
+		--B: Lack unique animations, or have animations that make glaringly obvious limitations with current akimbo code.
 		--C: Are cases where the guns have been made into primary weapons.
-		self.x_basset.use_data.selection_index = 4 --Akimbo Grimms
-		self.x_legacy.use_data.selection_index = 4 --Akimbo M13
-		self.x_vityaz.use_data.selection_index = 4 --Akimbo AK Gen 21 Tactical
-		self.x_pm9.use_data.selection_index = 4	--Akimbo Miyaka 10
-		self.x_m1911.use_data.selection_index = 4 --Akimbo Crosskill Chunky
-		self.x_beer.use_data.selection_index = 4 --Akimbo Beretta Auto
-		self.x_shepheard.use_data.selection_index = 4 --Akimbo Signature SMG
-		self.x_rota.use_data.selection_index = 4 --Akimbo Goliath 12g
-		self.x_sparrow.use_data.selection_index = 4 --Akimbo Baby Deagle
-		self.x_hs2000.use_data.selection_index = 4 --Akimbo Leo
-		self.x_p226.use_data.selection_index = 4 --Akimbo Signature .40
-		self.x_pl14.use_data.selection_index = 4 --Akimbo White Streak
-		self.x_ppk.use_data.selection_index = 4 --Akimbo Gruber Kurz
-		self.x_breech.use_data.selection_index = 4 --Akimbo Parabellum
-		self.x_c96.use_data.selection_index = 4	--akimbo Broomstick
-		self.x_mp7.use_data.selection_index = 4	--Akimbo Spec Ops
-		self.x_mp9.use_data.selection_index = 4	--Akimbo CMP
-		self.x_olympic.use_data.selection_index = 4	--Akimbo Para
-		self.x_p90.use_data.selection_index = 4 --Akimbo Kobus 90
-		self.x_polymer.use_data.selection_index = 4	--Akimbo Kross Vertex
-		self.x_schakal.use_data.selection_index = 4	--Akimbo Jackal
-		self.x_scorpion.use_data.selection_index = 4 --Akimbo Cobra
-		self.x_sterling.use_data.selection_index = 4 --Akimbo Patchett
-		self.x_tec9.use_data.selection_index = 4 --Akimbo Blaster 9mm
-		self.x_uzi.use_data.selection_index = 4	--Akimbo Uzi
-		self.x_cobray.use_data.selection_index = 4	--Akimbo Jacket's Piece
-		self.x_erma.use_data.selection_index = 4 --Akimbo MP40
-		self.x_hajk.use_data.selection_index = 4 --Akimbo CR805
-		self.x_m45.use_data.selection_index = 4	--Akimbo Swedish K
-		self.x_m1928.use_data.selection_index = 4 --Akimbo Chicago typewriter
-		self.x_coal.use_data.selection_index = 4 --Akimbo Tatonka
-		self.x_stech.use_data.selection_index = 4 --Akimbo Igors
+		--Akimbo Grimms
+		--Akimbo M13
+		--Akimbo AK Gen 21 Tactical
+		--Akimbo Miyaka 10
+		--Akimbo Crosskill Chunky
+		--Akimbo Beretta Auto
+		--Akimbo Signature SMG
+		--Akimbo Goliath 12g
+		--Akimbo Baby Deagle
+		--Akimbo Leo
+		--Akimbo Signature .40
+		--Akimbo White Streak
+		--Akimbo Gruber Kurz
+		--Akimbo Parabellum
+		--akimbo Broomstick
+		--Akimbo Spec Ops
+		--Akimbo CMP
+		--Akimbo Para
+		--Akimbo Kobus 90
+		--Akimbo Kross Vertex
+		--Akimbo Jackal
+		--Akimbo Cobra
+		--Akimbo Patchett
+		--Akimbo Blaster 9mm
+		--Akimbo Uzi
+		--Akimbo Jacket's Piece
+		--Akimbo MP40
+		--Akimbo CR805
+		--Akimbo Swedish K
+		--Akimbo Chicago typewriter
+		--Akimbo Tatonka
+		--Akimbo Igors
+		--Akimbo Crosskill Guards
+		--Akimbo Matevers
+		--Akimbo Bronco
+		--Akimbo Frenchman
 
 	--Apply tactical reloading to relevant guns.
 	--TODO: Move these to the weapon specific blocks.

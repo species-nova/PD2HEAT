@@ -1715,6 +1715,7 @@ function SkillTreeTweakData:init(tweak_data)
 						"x_holt",
 						"x_1911",
 						"x_usp",
+						"x_chinchilla",
 						"x_g22c"
 					},
 					cost = self.costs.hightier
