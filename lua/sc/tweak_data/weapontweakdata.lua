@@ -1473,7 +1473,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.ching.supported = true
 		self.ching.stats = {
 			damage = 60,
-			spread = 19,
+			spread = 18,
 			recoil = 10,
 			concealment = 13,
 			value = 9
