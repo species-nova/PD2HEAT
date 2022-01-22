@@ -3717,6 +3717,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.5
 		}
+		self.x_chinchilla.reload_speed_multiplier = 0.85 --4.4s
 
 	--Heavy Handcannon (Primary)
 		--Phoenix .500 Revolver
