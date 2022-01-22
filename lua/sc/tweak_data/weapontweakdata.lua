@@ -5317,20 +5317,20 @@ end)
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 378, suppression = 4}, --18/36 damage guns
-	{damage = 20,  pickup = 360, suppression = 6},
-	{damage = 24,  pickup = 342, suppression = 8},
-	{damage = 30,  pickup = 324, suppression = 10},
-	{damage = 45,  pickup = 306, suppression = 11},
-	{damage = 60,  pickup = 288, suppression = 12},
-	{damage = 90,  pickup = 270, suppression = 13},
-	{damage = 120, pickup = 252, suppression = 14},
-	{damage = 180, pickup = 234, suppression = 15},
-	{damage = 240, pickup = 216, suppression = 16}, --All guns above here.
-	{damage = 360, pickup = 198, suppression = 17}, --Heavy bows.
-	{damage = 600, pickup = 180, suppression = 18}, --Light GLs
-	{damage = 800, pickup = 162, suppression = 19}, --Heavy GLs
-	{damage = 1200, pickup = 144, suppression = 20} --Rocket Launchers
+	{damage = 18,  pickup = 372, suppression = 4}, --18/36 damage guns
+	{damage = 20,  pickup = 354, suppression = 6},
+	{damage = 24,  pickup = 336, suppression = 8},
+	{damage = 30,  pickup = 318, suppression = 10},
+	{damage = 45,  pickup = 300, suppression = 11},
+	{damage = 60,  pickup = 282, suppression = 12},
+	{damage = 90,  pickup = 264, suppression = 13},
+	{damage = 120, pickup = 246, suppression = 14},
+	{damage = 180, pickup = 228, suppression = 15},
+	{damage = 240, pickup = 210, suppression = 16}, --All guns above here.
+	{damage = 360, pickup = 192, suppression = 17}, --Heavy bows.
+	{damage = 600, pickup = 174, suppression = 18}, --Light GLs
+	{damage = 800, pickup = 156, suppression = 19}, --Heavy GLs
+	{damage = 1200, pickup = 138, suppression = 20} --Rocket Launchers
 }
 local damage_pool_primary = 7200
 local damage_pool_secondary = 3600
