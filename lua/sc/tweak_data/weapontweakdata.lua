@@ -5377,7 +5377,6 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	crossbow = 0.7,
 	pistol = 1.1, --Compensate for low range.
 	smg = 1.1,
-	akimbo = 1.1,
 	saw = 1.25, --Compensate for jankiness.
 	lmg = 1
 }
