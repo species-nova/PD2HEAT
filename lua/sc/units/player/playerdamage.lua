@@ -852,9 +852,9 @@ function PlayerDamage:damage_killzone(attack_data)
 end
 
 --Refactored from vanilla. Applies damage linearly on a % basis starting with damage then health. 
-local height_limit = 300 --Point at which players start taking armor damage.
-local damage_limit = 650 --Point at which players start taking health damage and slow.
-local death_limit = 950 --Point at which players instantly die.
+local height_limit = 275 --Point at which players start taking armor damage.
+local damage_limit = 550 --Point at which players start taking health damage and slow.
+local death_limit = 825 --Point at which players instantly die.
 function PlayerDamage:damage_fall(data)
 	local damage_info = {
 		result = {
