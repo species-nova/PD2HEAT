@@ -729,8 +729,8 @@ function NewRaycastWeaponBase:on_equip(...)
 end
 
 local old_on_unequip = NewRaycastWeaponBase.on_unequip
-function NewRaycastWeaponBase:on_unequip(user_unit)
-	old_on_unequip(self)
+function NewRaycastWeaponBase:on_unequip(...)
+	old_on_unequip(self, ...)
 
 	self._equipped = false
 	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
