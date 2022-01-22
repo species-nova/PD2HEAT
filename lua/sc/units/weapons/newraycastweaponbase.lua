@@ -715,8 +715,8 @@ function NewRaycastWeaponBase:check_reset_last_bullet_stagger()
 end
 
 local old_on_equip = NewRaycastWeaponBase.on_equip
-function NewRaycastWeaponBase:on_equip(user_unit)
-	old_on_equip(self)
+function NewRaycastWeaponBase:on_equip(...)
+	old_on_equip(self, ...)
 
 	if self._stagger_on_last_shot then
 		for _, category in ipairs(self:categories()) do
