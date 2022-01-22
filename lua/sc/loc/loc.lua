@@ -1822,6 +1822,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["bm_menu_skill_locked_x_g22c"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_usp"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_1911"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_chinchilla"] = "Requires the Ambidexterity skill.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",
