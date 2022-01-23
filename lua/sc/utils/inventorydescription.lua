@@ -173,7 +173,8 @@ function WeaponDescription._get_mods_stats(name, base_stats, equipped_mods, bonu
 		local tweak_factory = tweak_data.weapon.factory.parts
 		local factory_id = managers.weapon_factory:get_factory_id_by_weapon_id(name)
 		local default_blueprint = managers.weapon_factory:get_default_blueprint_by_factory_id(factory_id)
-		local ammo_data = managers.weapon_factory:get_ammo_data_from_weapon(factory_id, blueprint) or {}
+		--Blueprint can be nil on the steam inventory page, so only collect ammo data if a proper blueprint is given or else the game will crash.
+		local ammo_data = blueprint and managers.weapon_factory:get_ammo_data_from_weapon(factory_id, blueprint) or {}
 
 		if bonus_stats then
 			for _, stat in pairs(WeaponDescription._stats_shown) do
