@@ -96,6 +96,7 @@ function SentryGunDamage:die(attacker_unit, variant, options)
 		self._unit:brain():set_active(false)
 
 		self._shield_smoke_level = 0
+		self._repair_counter = self._repair_counter + 1
 
 		self._unit:contour():remove("deployable_active")
 		if owner == managers.network:session():local_peer():id() then
@@ -118,6 +119,15 @@ function SentryGunDamage:die(attacker_unit, variant, options)
 			}
 
 			managers.statistics:killed(data)
+		end
+
+		if self._is_car then
+			local ja22_01_data = tweak_data.achievement.ja22_01
+			local total_health = self._HEALTH_INIT + self._SHIELD_HEALTH_INIT * (1 + self._repair_counter)
+
+			if ja22_01_data.percentage_dmg < self._local_car_damage / total_health then
+				managers.achievment:award(ja22_01_data.award)
+			end
 		end
 
 		self._health = 0
@@ -211,6 +221,8 @@ function SentryGunDamage:init(unit)
 	self._HEALTH_INIT_PERCENT = self._HEALTH_INIT / self._HEALTH_GRANULARITY
 	self._SHIELD_HEALTH_INIT_PERCENT = self._SHIELD_HEALTH_INIT / self._HEALTH_GRANULARITY
 	self._char_tweak = tweak_data.weapon[self._unit:base():get_name_id()]
+	self._local_car_damage = 0
+	self._repair_counter = 0
 end
 
 function SentryGunDamage:set_health(amount, shield_health_amount)
@@ -335,6 +347,10 @@ function SentryGunDamage:damage_bullet(attack_data)
 
 	if damage_post_apply == 0 then
 		return result
+	end
+
+	if self._is_car and attack_data and attack_data.attacker_unit == managers.player:player_unit() and attack_data.weapon_unit and attack_data.weapon_unit:base() and attack_data.weapon_unit:base().name_id == tweak_data.achievement.ja22_01.weapon then
+		self._local_car_damage = self._local_car_damage + dmg_adjusted
 	end
 
 	if not self._ignore_client_damage and attack_data.attacker_unit == managers.player:player_unit() then

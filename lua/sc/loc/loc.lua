@@ -1817,12 +1817,16 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["bm_menu_skill_locked_x_b92fs"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_g18c"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_jowi"] = "Requires the Ambidexterity skill.",
-		["bm_menu_skill_locked_x_packrat"] = "Requires the Ambidexterity skill.",
-		["bm_menu_skill_locked_x_holt"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_pl14"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_legacy"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_g22c"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_usp"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_1911"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_chinchilla"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_mp5"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_sr2"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_mac10"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_akmsu"] = "Requires the Ambidexterity skill.",
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",

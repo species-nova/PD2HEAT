@@ -54,8 +54,7 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"colt_1911",
 					"mac10",
 					"hajk",
-					"spoon",
-					"x_mac10"
+					"spoon"
 				}
 			},	
 		l10 = {
@@ -116,7 +115,6 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"olympic",
 					"mp9",
 					"baka",
-					"x_baka",
 					"pugio",
 					"ballistic"
 				}

@@ -899,6 +899,7 @@ function PlayerDamage:damage_fall(data)
 		--Falling without a parachute.
 		if self._unit:movement():current_state_name() == "jerry1" then
 			self._revives = Application:digest_value(1, true)
+			self:_send_set_lives()
 		end
 	end
 

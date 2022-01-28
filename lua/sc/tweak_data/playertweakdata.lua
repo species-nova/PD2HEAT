@@ -143,7 +143,7 @@ function PlayerTweakData:init()
 		0.99
 	}
 	self.damage.HEALTH_INIT = 30
-	self.damage.LIVES_INIT = 6
+	self.damage.LIVES_INIT = 4
 	self.damage.REGENERATE_TIME = 3
 	self.damage.REVIVE_HEALTH_STEPS = {
 		0.75,

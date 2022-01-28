@@ -490,7 +490,6 @@ function PlayerStandard:update(t, dt)
 
 	self:_update_movement(t, dt)
 	self:_upd_nav_data()
-	managers.hud:_update_crosshair_offset(t, dt)
 	self:_update_omniscience(t, dt)
 	self:_upd_stance_switch_delay(t, dt)
 
@@ -513,6 +512,7 @@ function PlayerStandard:update(t, dt)
 	local weapon = self._unit:inventory():equipped_unit():base()
 	weapon:update_spread(self, t, dt)
 	self:_update_crosshair(t, dt, weapon)
+	managers.hud:_update_crosshair_offset(t, dt)
 
 	if weapon:get_name_id() == "m134" then
 		weapon:update_spin()
@@ -549,6 +549,15 @@ function PlayerStandard:_update_crosshair(t, dt, weapon)
 		--Hide the crosshair and set its size to 0 when it shouldn't be seen.
 		managers.hud:set_crosshair_visible(false)
 		managers.hud:set_crosshair_offset(0)
+	end
+
+	--Vanilla accessibility dot updates are handled here, once per frame, instead of potentially multiple times per frame.
+	local name_id = self._equipped_unit:base():get_name_id()
+
+	if self._state_data.in_steelsight and managers.user:get_setting("accessibility_dot_hide_ads") then
+		managers.hud:set_accessibility_dot_visible(not tweak_data.weapon[name_id].crosshair.steelsight.hidden)
+	else
+		managers.hud:set_accessibility_dot_visible(not tweak_data.weapon[name_id].crosshair[self._state_data.ducking and "crouching" or "standing"].hidden)
 	end
 end
 
@@ -1326,7 +1335,7 @@ function PlayerStandard:_do_action_melee(t, input, skip_damage)
 	end
 end
 
---Remove vanilla crosshair update function, and calls to it in functions that have been touched here.
+--Remove vanilla function, since it has a number of issues that conflict with the crosshair system in HEAT.
 --The crosshair should only need to be updated once per frame, and it needs time data that many of the calls here do not provide.
 function PlayerStandard:_update_crosshair_offset(t)
 end
