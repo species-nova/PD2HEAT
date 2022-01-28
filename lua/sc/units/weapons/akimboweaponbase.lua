@@ -69,10 +69,7 @@ function AkimboWeaponBase:_fire_second_gun(...)
 		local fired = second_gun_base.super.fire(second_gun_base, ...)
 
 		if fired then
-			if self._fire_second_sound then
-				self._fire_second_sound = false
-				self._second_gun:base():_fire_sound()
-			end
+			self._second_gun:base():_fire_sound()
 
 			managers.hud:set_ammo_amount(self:selection_index(), self:ammo_info())
 			
