@@ -1,0 +1,6 @@
+<materials version="3">
+    <material version="2" render_template="shadow_caster_only" name="shadow_caster"/>
+	<material version="2" render_template="generic:DIFFUSE_TEXTURE:RL_ENVIRONMENT" name="mat_ind_ext_dock_crane_metal_2">
+        <diffuse_texture file="units/payday2/architecture/ind/ind_ext_dock_crane/ind_ext_dock_crane_metal_2_df"/>
+    </material>
+</materials>

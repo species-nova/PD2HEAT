@@ -1,0 +1,15 @@
+<dynamic_object>
+    <diesel materials="units/payday2/architecture/str/str" orientation_object="rp_str_ext_road_16x16m_end_a" />
+    <bodies>
+        <body enabled="true" template="static" name="static_body" >
+			<object name="rp_str_ext_road_16x16m_end_a" />
+			<object name="c_box_01" collision_type="box" padding="-2.5"/>
+			<object name="c_convex_01" collision_type="convex" padding="-2.5"/>
+			<object name="c_convex_02" collision_type="convex" padding="-2.5"/>
+        </body>
+    </bodies>
+    <graphics>
+		<object name="g_str_ext_road_16x16m_end_a" enabled="true"/>
+		<object name="g_str_ext_road_16x16m_end_a_marking" enabled="true"/>
+    </graphics>
+</dynamic_object>

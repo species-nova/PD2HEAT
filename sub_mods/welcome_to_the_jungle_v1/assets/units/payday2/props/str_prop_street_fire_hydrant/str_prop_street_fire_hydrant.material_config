@@ -1,0 +1,7 @@
+<materials version="3">
+	<material name="mat_fire_hydrant" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP" version="2">
+        <bump_normal_texture file="units/payday2/props/str_prop_street_fire_hydrant/str_prop_street_fire_hydrant_nm"/>
+		<diffuse_texture file="units/payday2/props/str_prop_street_fire_hydrant/str_prop_street_fire_hydrant_df"/>		
+    </material>
+	<material name="shadow_caster" render_template="shadow_caster_only" version="2"/>
+</materials>

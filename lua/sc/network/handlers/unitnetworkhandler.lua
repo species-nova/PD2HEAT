@@ -1,11 +1,3 @@
--- Extends the UnitNetworkHandler class to add our own unit network calls
--- For function modifications use the original function name it will be prefixed later
--- RestorationMod__UnitNetworkHandler = RestorationMod__UnitNetworkHandler or class(UnitNetworkHandler)
-
--- Will add a prefix of `RestorationMod__` to all functions our definitions use
--- Required to maintain compatibility with normal lobbies.
--- restoration:rename_handler_funcs(RestorationMod__UnitNetworkHandler)
-
 local orig_sync_player = UnitNetworkHandler.sync_player_movement_state
 function UnitNetworkHandler:sync_player_movement_state(unit, state, down_time, unit_id_str,...) --i can't reverse engineer RPC stuff and make my own unitnetworkhandler functions so... guess i'll die
 --instead, hijack this function. use "unit", since i can't/don't know how to pass a unit through BLT Lua Networking, and argument "state" as string of my choice, and the other fields i don't care about. 

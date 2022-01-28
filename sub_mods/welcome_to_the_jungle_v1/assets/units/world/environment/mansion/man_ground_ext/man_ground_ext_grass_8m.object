@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<dynamic_object>
+  <diesel materials="units/world/environment/mansion/man_ground_ext/grasss" orientation_object="rp_man_ground_ext_grass_8m" />
+  <bodies>
+    <body name="static_body" enabled="true" template="static">
+      <object name="g_man_ground_ext_grass_8m" collision_type="mesh_mopp" />
+    </body>
+  </bodies>
+  <decal_surfaces>
+    <decal_mesh name="g_man_ground_ext_grass_8m" enabled="true" material="grass" />
+  </decal_surfaces>
+  <graphics>
+    <lod_object name="lod_grass_8m">
+      <object name="g_man_ground_ext_grass_8m" enabled="true">
+        <material materials="mtr_man_ground_ext_grass_a" max_distance="2800"/>
+        <material materials="mtr_man_ground_ext_grass_a_lod_1"/>
+      </object>
+    </lod_object>
+  </graphics>
+</dynamic_object>

@@ -1,0 +1,13 @@
+<materials version="3">
+    <material version="2" render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP:SELF_ILLUMINATION:SELF_ILLUMINATION_BLOOM" name="mat_ind_bdrop_small" src="GLOBAL">
+        <diffuse_texture file="units/payday2/architecture/ind/ind_bdrop_small_all_df"/>
+        <bump_normal_texture file="units/payday2/architecture/ind/ind_bdrop_small_all_nm"/>
+        <self_illumination_texture file="units/payday2/architecture/ind/ind_bdrop_small_all_il"/>
+        <variable type="scalar" name="il_multiplier" value="streetlight"/>
+        <variable type="scalar" name="il_bloom" value="1.5"/>
+    </material>
+    <material render_template="generic:DIFFUSE_TEXTURE:NORMALMAP:RL_BACKDROP" version="2" name="mat_ind_bdrop">
+        <diffuse_texture file="units/payday2/architecture/ind/ind_bdrop_all_df"/>
+        <bump_normal_texture file="units/payday2/architecture/ind/ind_bdrop_all_nm"/>
+    </material>
+</materials>

@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<unit slot="1" type="slh">
+    <object file="units/world/brushes/puddle_blood/puddle_blood_5"/>
+    <extensions>
+        <extension class="ScriptUnitData" name="unit_data"/>
+    </extensions>
+</unit>

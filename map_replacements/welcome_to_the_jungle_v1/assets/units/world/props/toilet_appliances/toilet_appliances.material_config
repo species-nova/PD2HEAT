@@ -1,5 +1,0 @@
-<materials version="3">
-    <material render_template="generic:DIFFUSE_TEXTURE:VERTEX_COLOR" decal_material="metal" version="2" name="toilet_appliances">
-        <diffuse_texture file="units/world/props/toilet_appliances/toilet_appliances_df"/>
-    </material>
-</materials>

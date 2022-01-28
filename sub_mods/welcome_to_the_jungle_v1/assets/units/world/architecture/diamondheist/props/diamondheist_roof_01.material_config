@@ -1,0 +1,6 @@
+<materials version="3">
+    <material name="diamondheist_roof_props_01" render_template="generic:CUBE_ENVIRONMENT_MAPPING:DIFFUSE_TEXTURE:INSTANCED:RL_BIGPROPS" version="2">
+        <diffuse_texture file="units/world/architecture/diamondheist/props/diamondheist_rooftop_props_01_df"/>
+        <reflection_texture type="cubemap" global_texture="current_global_texture"/>
+    </material>
+</materials>

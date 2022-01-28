@@ -1,0 +1,12 @@
+<dynamic_object>
+    <diesel orientation_object="rp_ind_ext_junkyard_ground" materials="units/payday2/props/ind_ext_junkyard_blend/ind_ext_junkyard_ground" />
+    <bodies>
+        <body enabled="true" template="static" name="body0" >
+            <object collision_type="mesh_mopp" name="g_g" />
+        </body>
+    </bodies>
+    <graphics>
+		<object name="g_g" enabled="true"/>
+		<object name="g_bdrop" enabled="true"/>
+    </graphics>
+</dynamic_object>

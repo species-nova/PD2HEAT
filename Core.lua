@@ -259,12 +259,6 @@ function heat:Init()
 	SC._path = self.ModPath
 	SC._data = {}
 
-	if SystemFS:exists("mods/DMCWO/mod.txt") then
-		SC._data.sc_player_weapon_toggle = false
-	else
-		SC._data.sc_player_weapon_toggle = true
-	end
-
 	local C = blt_class()
 	VoicelineFramework = C
 	VoicelineFramework.BufferedSounds = {}

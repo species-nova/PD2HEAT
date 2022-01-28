@@ -46,7 +46,6 @@
 		<hook file="sc/tweak_data/networktweakdata.lua" source_file="lib/tweak_data/networktweakdata"/>
 		<hook file="sc/states/missionendstate.lua" source_file="lib/states/missionendstate"/>
 		<hook file="sc/tweak_data/guitweakdata.lua" source_file="lib/tweak_data/guitweakdata"/>
-		<hook file="sc/managers/featuremanager.lua" source_file="lib/managers/featuremanager"/>
 		<hook file="sc/managers/mission/elementspawnenemygroup.lua" source_file="lib/managers/mission/elementspawnenemygroup"/>
 		<hook file="sc/managers/mission/elementpointofnoreturn.lua" source_file="lib/managers/mission/elementpointofnoreturn"/>
 		<hook file="sc/managers/navigationmanager.lua" source_file="lib/managers/navigationmanager"/>
@@ -204,7 +203,6 @@
 		<hook file="sc/managers/hud/hudpresenter.lua" source_file="lib/managers/hud/hudpresenter"/>
 		<hook file="sc/tweak_data/dramatweakdata.lua" source_file="lib/tweak_data/dramatweakdata"/>
 		<hook file="sc/managers/mission/elementspawnenemydummy.lua" source_file="lib/managers/mission/elementspawnenemydummy"/>
-		<hook file="sc/managers/mission/elementfilter.lua" source_file="lib/managers/mission/elementfilter"/>
 		<hook file="sc/managers/mission/elementwaypoint.lua" source_file="lib/managers/mission/elementwaypoint"/>
 		<hook file="sc/tweak_data/crimespreetweakdata.lua" source_file="lib/tweak_data/crimespreetweakdata"/>
 		<hook file="sc/managers/menu/menunodegui.lua" source_file="lib/managers/menu/menunodegui"/>
@@ -246,7 +244,6 @@
 		<hook file="sc/managers/experiencemanager.lua" source_file="lib/managers/experiencemanager"/>
 		<hook file="sc/units/equipment/sentrygunbrain.lua" source_file="lib/units/equipment/sentry_gun/sentrygunbrain"/>
 		<hook file="sc/units/weapons/molotovgrenade.lua" source_file="lib/units/weapons/grenades/molotovgrenade"/>
-		<hook file="sc/managers/trademanager.lua" source_file="lib/managers/trademanager"/>
 		<hook file="sc/network/base/networkpeer.lua" source_file="lib/network/base/networkpeer"/>
 		<hook file="sc/tweak_data/attentiontweakdata.lua" source_file="lib/tweak_data/attentiontweakdata"/>
 		<hook file="sc/managers/gameplaycentralmanager.lua" source_file="lib/managers/gameplaycentralmanager"/>
@@ -308,8 +305,6 @@
 		<hook file="sc/mutators/mutatorenemyreplacer.lua" source_file="lib/mutators/mutatorenemyreplacer"/>
 		<hook file="sc/mutators/mutatorexplodingenemies.lua" source_file="lib/mutators/mutatorexplodingenemies"/>
 		<!--///NETWORKING\\\-->
-		<hook file="sc/network/base/networkmanager.lua" source_file="lib/network/base/networkmanager"/>
-		<hook file="sc/network/base/clientnetworksession.lua" source_file="lib/network/base/clientnetworksession"/>
 		<hook file="sc/network/base/basenetworksession.lua" source_file="lib/network/base/basenetworksession"/>
 		<hook file="sc/core/CoreSoundEnvironmentManagerNew.lua" source_file="core/lib/managers/coresoundenvironmentmanager"/>
 		<hook file="sc/core/coreenvironmentcontrollermanager.lua" source_file="core/lib/managers/coreenvironmentcontrollermanager"/>
@@ -328,11 +323,8 @@
 		<hook file="sc/managers/savefilemanager.lua" source_file="lib/managers/savefilemanager"/>
 		<!--DO NOT MODIFY-->
 		
-		<hook file="sc/managers/customsafehousemanager.lua" source_file="lib/managers/customsafehousemanager"/>
-		
     </Hooks>
-    <!-- <Localization directory="loc" default="english.json">
-    </Localization> -->
+
 	<!--///MOD SETTINGS\\\-->
     <Options name="Options" auto_build_menu="true" auto_load="true" save_file="heat.txt" value_changed="RestorationCoreCallbacks:ValueChanged">
 	    <options>

@@ -1,1 +1,0 @@
-ClientNetworkSession.JOIN_REQUEST_TIMEOUT = 15 --this is probably for requesting to join a game from the main menu.  keep it at 15s for now

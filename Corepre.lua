@@ -1,11 +1,10 @@
---Map Replacements (WIP)
-RestorationMapFramework = RestorationMapFramework or class(MapFramework)
+HeatSubmoduleFramework = HeatSubmoduleFramework or class(MapFramework)
 
-RestorationMapFramework._directory = ModPath .. "map_replacements"
-RestorationMapFramework.type_name = "restoration"
+HeatSubmoduleFramework._directory = ModPath .. "sub_mods"
+HeatSubmoduleFramework.type_name = "heat"
 
-RestorationMapFramework:init()
-RestorationMapFramework:InitMods()
+HeatSubmoduleFramework:init()
+HeatSubmoduleFramework:InitMods()
 if not PackageManager:loaded("packages/scassets") then
 	PackageManager:load("packages/scassets")
 end

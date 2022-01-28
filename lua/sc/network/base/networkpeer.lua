@@ -45,13 +45,6 @@ function NetworkPeer:_update_equipped_armor()
 end
 
 function NetworkPeer:mark_cheater(reason, auto_kick)
-	--fuck
+	--Unused to keep things simple.
 	return
 end
-
--- Hooks:PostHook( NetworkPeer, "send", "SC_Network", function(self, func_name, ...)
--- 	-- In SC mode if the func is matched, call the prefixed version instead
--- 	if heat.network_handler_funcs[func_name] then
--- 		func_name = 'RestorationMod__' .. func_name
--- 	end
--- end)

@@ -1,0 +1,105 @@
+<dynamic_object>
+    <diesel orientation_object="rp_str_vehicle_truck_boxvan" materials="units/payday2/vehicles/str_vehicle_truck_boxvan/str_vehicle_truck_boxvan" />
+	<sequence_manager file="units/payday2/vehicles/str_vehicle_truck_boxvan/str_vehicle_truck_boxvan" />
+    <animations>
+        <animation_group name="door_animation" >
+            <object enabled="false" name="anim_open" />
+        </animation_group>
+    </animations>
+    <bodies>
+		<body name="graph_blocker" enabled="true" template="graph_blocker">
+			<object name="c_graph_blocker" collision_type="box" padding="25" />
+		</body>
+        <body enabled="true" template="static" name="body0" >
+            <object name="rp_str_vehicle_truck_boxvan" />
+            <object collision_type="mesh_mopp" name="c_truck" />
+			<object name="c_box_01" collision_type="box" padding="-2.5"/>
+			<object name="c_box_02" collision_type="box" padding="-2.5"/>
+			<object name="c_box_03" collision_type="box" padding="-2.5"/>
+			<object name="c_box_04" collision_type="box" padding="-2.5"/>
+			<object name="c_box_05" collision_type="box" padding="-2.5"/>
+			<object name="c_box_06" collision_type="box" padding="-2.5"/>
+			<object name="c_box_07" collision_type="box" padding="-2.5"/>
+			<object name="c_box_08" collision_type="box" padding="-2.5"/>
+			<object name="c_box_09" collision_type="box" padding="-2.5"/>
+			<object name="c_box_10" collision_type="box" padding="-2.5"/>
+			<object name="c_box_11" collision_type="box" padding="-2.5"/>
+			<object name="c_box_12" collision_type="box" padding="-2.5"/>
+			<object name="c_box_13" collision_type="box" padding="-2.5"/>
+			
+			<object name="c_capsule_01" collision_type="capsule" padding="-2.5"/>
+			<object name="c_capsule_02" collision_type="capsule" padding="-2.5"/>
+			<object name="c_capsule_03" collision_type="capsule" padding="-2.5"/>
+			<object name="c_capsule_04" collision_type="capsule" padding="-2.5"/>
+			<object name="c_capsule_05" collision_type="capsule" padding="-2.5"/>
+			
+			<object name="c_convex_01" collision_type="convex" padding="-2.5"/>
+			<object name="c_convex_02" collision_type="convex" padding="-2.5"/>
+        </body>
+		<body name="window_front" enabled="true" template="static">
+			<object name="c_window_front" collision_type="mesh_mopp" two_sided="true"/>
+		</body>
+		<body remove_ray_type="ai_vision" name="window_left_front" enabled="true" template="static">
+			<object name="c_window_left_small" collision_type="mesh_mopp" two_sided="true" />
+		</body>	
+		<body remove_ray_type="ai_vision" name="window_right_front" enabled="true" template="static">
+			<object name="c_window_right_small" collision_type="mesh_mopp" two_sided="true" />
+		</body>
+		<body remove_ray_type="ai_vision" name="window_left_middle" enabled="true" template="static">
+			<object name="c_window_left_big" collision_type="mesh_mopp" two_sided="true"/>
+		</body>
+		<body remove_ray_type="ai_vision" name="window_right_middle" enabled="true" template="static">
+			<object name="c_window_right_big" collision_type="mesh_mopp" two_sided="true"/>
+		</body>
+		<body name="back_door" enabled="true" template="animated">
+			<object name="c_box_door" collision_type="box" padding="-2.5"/>
+			<object name="c_mesh_door" collision_type="mesh_mopp" />
+		</body>
+		<body name="bag_blocker" enabled="true" template="fence" collision_class="bag_blocker">
+			<object name="c_box_bag_blocker" collision_type="box" />
+		</body>
+    </bodies>
+    <decal_surfaces default_material="metal_chassis">
+        <decal_mesh enabled="true" name="dm_window_right_big" material="glass_breakable" />
+        <decal_mesh enabled="true" name="dm_window_left_small" material="glass_breakable" />
+        <decal_mesh enabled="true" name="dm_window_left_big" material="glass_breakable" />
+        <decal_mesh enabled="true" name="dm_window_right_small" material="glass_breakable" />
+        <decal_mesh enabled="true" name="dm_window_front" material="glass_breakable" />
+        <decal_mesh enabled="true" name="dm_rubber" material="rubber" />
+        <decal_mesh enabled="true" name="dm_metal" material="metal" />
+        <decal_mesh enabled="true" name="dm_sheet_metal" material="metal_chassis" />
+        <decal_mesh enabled="true" name="dm_door_sheet_metal" material="metal_chassis" />
+    </decal_surfaces>
+    <graphics>
+    	<graphic_group name="grp_truck" enabled="true" culling_object="co_cull">
+			<lod_object name="lod_truck">
+				<object enabled="true" name="g_truck">
+					<material materials="mat_vehicle_boxvan" max_distance="3500"/>
+					<material materials="mat_vehicle_boxvan_lod1"  max_distance="4500"/>
+					<material materials="mat_vehicle_boxvan_lod2" />
+				</object>
+			</lod_object>
+			<lod_object name="lod_door">
+				<object enabled="true" name="g_door" >
+					<material materials="mat_vehicle_boxvan" max_distance="3500"/>
+					<material materials="mat_vehicle_boxvan_lod1"  max_distance="4500"/>
+					<material materials="mat_vehicle_boxvan_lod2" />
+				</object>
+			</lod_object>
+			
+			<object enabled="true" name="g_window_right_big" instance_struct="world_tm" />
+			<object enabled="true" name="g_window_left_small" instance_struct="world_tm" />
+			<object enabled="true" name="g_window_left_big" instance_struct="world_tm" />
+			<object enabled="true" name="g_window_right_small" instance_struct="world_tm" />
+			<object enabled="true" name="g_window_front" instance_struct="world_tm" />
+			<object enabled="false" name="g_window_front_dmg" instance_struct="world_tm" />
+			<object enabled="false" name="g_window_right_small_dmg" instance_struct="world_tm" />
+			<object enabled="false" name="g_window_left_big_dmg" instance_struct="world_tm" />
+			<object enabled="false" name="g_window_left_small_dmg" instance_struct="world_tm" />
+			<object enabled="false" name="g_window_right_big_dmg" instance_struct="world_tm" />
+			
+			<object name="s_shadow" enabled="true" shadow_caster="true" instance_struct="world_tm" />
+			<object name="s_door" enabled="true" shadow_caster="true" instance_struct="world_tm" />    		
+    	</graphic_group>
+    </graphics>
+</dynamic_object>
