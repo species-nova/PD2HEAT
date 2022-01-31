@@ -542,7 +542,7 @@ function CopActionShoot:_chk_start_melee(t, target_vec, target_dis, autotarget, 
 	local target_is_covered_by_shield = self._unit:raycast("ray", shoot_from_pos, melee_vec1, "sphere_cast_radius", 20, "slot_mask", self._shield_slotmask, "ray_type", "body melee", "report")
 	if target_is_covered_by_shield then
 		if alive(target:inventory() and target:inventory()._shield_unit) then
-			if not self._melee_weapon_data.shield_knock or not target:base():char_tweak().damage.shield_knocked or target_damage_ext:is_immune_to_shield_knockback() then
+			if not self._melee_weapon_data.shield_knock or not target_damage_ext:is_immune_to_shield_knockback() then
 				if target:movement():chk_action_forbidden("hurt") then --Target already shield knocked.
 					return
 				end
@@ -1135,15 +1135,11 @@ function CopActionShoot:anim_clbk_melee_strike()
 
 		local hit_unit = col_ray.unit
 		local character_unit, shield_knock = nil
-		local defense_data = nil
 
-		if self._is_server and hit_unit:in_slot(self._shield_slotmask) and alive(hit_unit:parent()) then
-			local can_be_knocked = self._melee_weapon_data.shield_knock and not hit_unit:parent():base().is_phalanx and hit_unit:parent():base():char_tweak().damage.shield_knocked and not hit_unit:parent():character_damage():is_immune_to_shield_knockback()
-
-			if can_be_knocked then
-				shield_knock = true
-				character_unit = hit_unit:parent()
-			end
+		if self._is_server and hit_unit:in_slot(self._shield_slotmask) and alive(hit_unit:parent())
+			and self._melee_weapon_data.shield_knock and not hit_unit:parent():character_damage():is_immune_to_shield_knockback() then
+			shield_knock = true
+			character_unit = hit_unit:parent()
 		end
 
 		character_unit = character_unit or hit_unit
@@ -1185,8 +1181,8 @@ function CopActionShoot:anim_clbk_melee_strike()
 								damage_effect = damage * 2,
 								weapon_unit = is_weapon and self._weapon_unit or nil,
 								attacker_unit = self._unit,
-								name_id = melee_weapon,
 								shield_knock = shield_knock,
+								name_id = melee_weapon,
 								col_ray = col_ray
 							}
 

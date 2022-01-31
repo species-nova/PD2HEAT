@@ -753,24 +753,25 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		-- Melee weapon descriptions (don't forget to call them in blackmarkettweakdata, not weapontweakdata) --
 		["bm_melee_katana_info"] = "While playing as Jiro, killing a Cloaker with a charged attack triggers a special kill animation.",
-		["bm_melee_buck_info"] = "Surprisingly effective against modern weapons, too.\n\nReduces incoming damage by 15% while charging.", --Buckler Shield
+		["bm_melee_buck_info"] = "Surprisingly effective against modern weapons, too.\n\nReduces incoming damage by 15% while charging.\n\nCan damage enemies through body armor.", --Buckler Shield
 		["bm_melee_cs_info"] = "Did you know Chainsaws were invented to help with surgery for childbirth?\n\nDeals 30 damage every 0.25 seconds to targets in front of you while charging. This can be increased with skills. Cannot parry enemy attacks.", -- ROAMING FR-
 		["bm_melee_ostry_info"] = "Spiiiiiiiiiin.\n\nDeals 18 damage every 0.25 seconds to targets in front of you while charging. This can be increased with skills. Cannot parry enemy attacks.", --Kazaguruma
 		["bm_melee_wing_info"] = "Goes great with a disguise kit!\n\nDeals quadruple damage when attacking enemies from behind.",-- Wing Butterfly Knife
 		["bm_melee_switchblade_info"] = "Designed for violence, deadly as a revolver - that's the switchblade!\n\nDeals double damage when attacking enemies from behind.",-- Switchblade Knife
 		["bm_melee_chef_info"] = "Not sure if this was used for chopping meat from the supermarket.\n\nFully charged hits spread panic.", -- Psycho Knife
-		["bm_melee_headless_sword_info"] = "A sword forged from nightmares.\n\nFully charged hits spread panic.", -- Headless Dozer Sword
-		["bm_melee_nin_info"] = "Fires nails, which have a short effective range, and instant travel. Still counts as a melee kill.", -- Pounder
-		["bm_melee_iceaxe_info"] = "Deals 50% more headshot damage.", -- Icepick
-		["bm_melee_mining_pick_info"] = "Deals 50% more headshot damage.", --Gold Fever (Pickaxe)
-		["bm_melee_boxing_gloves_info"] = "I didn't hear no bell.\n\nKills performed with the OVERKILL Boxing Gloves instantly refill your stamina.", -- OVERKILL Boxing Gloves
+		["bm_melee_nin_info"] = "Fires nails, which have a short effective range, and instant travel. Still counts as a melee kill.\n\nDeals 50% more headshot damage.", -- Pounder
+		["bm_melee_boxing_gloves_info"] = "I didn't hear no bell.\n\nKills performed with the OVERKILL Boxing Gloves instantly refill your stamina.\n\nCan damage enemies through body armor.", -- OVERKILL Boxing Gloves
 		["bm_melee_clean_info"] = "Give the cops that extra clean shave they need.\n\nDeals 120 bleed damage over three seconds.", --Alabama Razor
-		["bm_melee_barbedwire_info"] = "There's no afterlife waiting for my sorry ass... and I'm just here... talking to a fucking baseball bat!\n\nDeals 120 bleed damage over three seconds.", --Lucille Baseball Bat
-		["bm_melee_cqc_info"] = "Contains an exotic poison that deals 120 extra damage and carries a chance to interrupt over three seconds.", --Kunai, Syringe
-		["bm_melee_fight_info"] = "Be water, my friend.\n\nParrying an enemy attack deals 120 melee damage to them. This can be increased with skills.", --Empty Palm Kata
+		["bm_melee_barbedwire_info"] = "There's no afterlife waiting for my sorry ass... and I'm just here... talking to a fucking baseball bat!\n\nDeals 120 bleed damage over three seconds.\n\nCan damage enemies through body armor.", --Lucille Baseball Bat
+		["bm_melee_cqc_info"] = "Contains an exotic poison that deals 120 extra damage and carries a chance to interrupt over three seconds.\n\nDeals 50% more headshot damage.", --Kunai, Syringe
+		["bm_melee_fight_info"] = "Be water, my friend.\n\nParrying an enemy attack deals 120 melee damage to them. This can be increased with skills.\n\nCan damage enemies through body armor.", --Empty Palm Kata
 		["bm_melee_slot_lever_info"] = "GIMME A JACKPOT!\n\nHas a 5% chance to deal ten times the damage and knockdown.",
-		["bm_melee_specialist_info"] = "Twice the blades, twice the fun.\n\nMelee attacks deal double damage every hit after the first while drawn.", --Specialist Knives, Talons, Knuckle Daggers, Push Daggers
-		["bm_melee_cleaver_info"] = "He's whacking and hacking and slashing.\n\nDeals 50% less headshot damage in exchange for increased overall effectiveness against the body and limbs.",
+		["bm_melee_cleaver_info"] = "He's whacking and hacking and slashing.\n\nDeals 50% less headshot damage in exchange for increased overall effectiveness against the body and limbs.", --Cleavers
+		["bm_melee_spoon_gold_info"] = "But we asked ourselves, what is better than a Comically Large Spoon? Well, two Comically Large Spoons of course.\n\nHas a 30% chance to set an enemy on fire, dealing 120 extra damage over 3 seconds.\n\nCan damage enemies through body armor.",
+		["bm_melee_branding_iron_info"] = "This fire-heated iron sends a message.\n\nHas a 30% chance to set an enemy on fire, dealing 120 extra damage over 3 seconds.\n\nDeals 50% more headshot damage.",
+		["bm_melee_multi_slash_info"] = "Twice the blades, twice the fun.\n\nMelee attacks deal double damage every hit after the first while drawn.", --multi_slash damage type weapons
+		["bm_melee_bludgeoning_info"] = "Can damage enemies through body armor.", --Bludgeoning damage type weapons.
+		["bm_melee_piercing_info"] = "Deals 50% more headshot damage.", --Piercing damage type weapons.
 
 		--We assets now--
 		["menu_asset_dinner_safe"] = "Safe",
@@ -1462,7 +1463,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Heavy Impact--
 			["menu_speedy_reload_sc"] = "Heavy Impact",
-			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nWhen you melee Shield enemies, they get knocked back by the sheer force.\n\nEnables your ranged weapons to have a chance to knock back Shield enemies when attacking them. Knock back chance is increased the higher the total damage of the weapon is.",
+			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nYour ranged weapons to have a chance to knock back Shield enemies. Higher damage weapons have a higher chance to knock back shields.\n\nNote: Does not apply to Captain Winters",
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",
@@ -1800,7 +1801,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Fast on the Draw",
-		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##50%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to deal ##75%## more damage.",
+		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##50%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to deal ##100%## more damage.",
 
 		--Snap Shot--
 		["menu_dance_instructor_sc"] = "Snap Shot",

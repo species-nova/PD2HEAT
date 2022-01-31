@@ -535,9 +535,7 @@ function TeamAILogicIdle._get_priority_attention(data, attention_objects, reacti
 							local not_important = true
 
 							if distance <= 150 and att_base.has_tag and att_base:has_tag("shield") then
-								local can_be_knocked = att_base:char_tweak().damage.shield_knocked and not att_unit:character_damage():is_immune_to_shield_knockback()
-
-								if can_be_knocked then
+								if not att_unit:character_damage():is_immune_to_shield_knockback() then
 									target_priority_slot = 4
 									not_important = nil
 								end

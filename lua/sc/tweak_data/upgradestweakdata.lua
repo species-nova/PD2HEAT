@@ -1176,7 +1176,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.pistol.swap_speed_multiplier = {1.5}
 				--Ace
-					self.values.pistol.first_shot_damage_multiplier = {1.75}
+					self.values.pistol.first_shot_damage_multiplier = {2}
 				
 			--Snap Shot
 				--Basic

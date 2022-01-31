@@ -112,6 +112,11 @@ function CopDamage:init(...)
 	
 	self._player_damage_ratio = 0 --Damage dealt to this enemy by players that contributed to the kill.
 
+	--Enemies can have resist stacking defined in their preset.
+	--Stacks make it more difficult to apply the same hurt multiple times to the same enemy.
+	--Use this to allow for IE: Dozers to be knocked down with high knockdown melees, but not get stunlocked by them.
+	self._hurt_resists = {} 
+
 	if self._char_tweak.can_cloak then
 		self._RECLOAK_THRESHOLD = self._HEALTH_INIT * (self._char_tweak.recloak_damage_threshold or 0)
 		self._next_defensive_recloak = self._HEALTH_INIT - self._RECLOAK_THRESHOLD
@@ -1198,6 +1203,35 @@ function CopDamage:damage_melee(attack_data)
 	local head = self._head_body_name and not self._unit:in_slot(16) and not self._char_tweak.ignore_headshot and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name
 	local headshot_multiplier = attack_data.headshot_multiplier or 1
 	local damage = attack_data.damage
+
+	--Non-bludgeoning melee hits at body armor deal no damage.
+	if self._has_plate and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_plate_name then
+		local pierce_armor = nil
+		if attack_data.armor_piercing then
+			pierce_armor = true
+		end
+
+		if pierce_armor then
+			World:effect_manager():spawn({
+				effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
+				position = attack_data.col_ray.position,
+				normal = attack_data.col_ray.ray
+			})
+		else
+			World:effect_manager():spawn({
+				effect = Idstring("effects/payday2/particles/impacts/steel_no_decal_impact_pd2"),
+				position = attack_data.col_ray.position,
+				normal = attack_data.col_ray.ray
+			})			
+
+			--Armor Impact sound AAAAAAAAAAA
+			if attack_data.attacker_unit == managers.player:player_unit() then
+				self._unit:sound():play("knuckles_hit_gen", nil, nil)
+				damage = 0
+			end
+		end
+	end
+
 	local damage_effect = attack_data.damage_effect
 
 	if attack_data.attacker_unit == managers.player:player_unit() then
@@ -1343,7 +1377,7 @@ function CopDamage:damage_melee(attack_data)
 
 		local result_type = nil
 
-		if attack_data.shield_knock and self._char_tweak.damage.shield_knocked and not self:is_immune_to_shield_knockback() then
+		if attack_data.shield_knock then
 			result_type = "shield_knock"
 		elseif attack_data.variant == "counter_tased" then
 			result_type = "counter_tased"
@@ -3456,5 +3490,87 @@ function CopDamage:_apply_damage_to_health(damage)
 		elseif is_cloaked then
 			self._next_defensive_recloak = self._health - self._RECLOAK_THRESHOLD
 		end
+	end
+end
+
+--Adds an additional resist stack mechanic that can be applied to specific enemies to prevent stunlocking.
+function CopDamage:get_damage_type(damage_percent, category)
+	category = category or "bullet"
+	local hurt_table = self._char_tweak.damage.hurt_severity[category]
+	local dmg = damage_percent / self._HEALTH_GRANULARITY
+
+	if hurt_table.health_reference == "full" then
+		-- Nothing
+	elseif hurt_table.health_reference == "current" then
+		dmg = math.min(1, self._HEALTH_INIT * dmg / self._health)
+	else
+		dmg = math.min(1, self._HEALTH_INIT * dmg / hurt_table.health_reference)
+	end
+	
+	--Apply hurt resistance stacks.
+	if self._hurt_resists and self._hurt_resists[category] then
+		dmg = dmg * ((hurt_table.resist_stack_multiplier or 0.5) / self._hurt_resists[category])
+	end
+
+	local zone = nil
+
+	for i_zone, test_zone in ipairs(hurt_table.zones) do
+		if i_zone == #hurt_table.zones or dmg < test_zone.health_limit then
+			zone = test_zone
+
+			break
+		end
+	end
+
+	local rand_nr = math.random()
+	local total_w = 0
+
+	for sev_name, hurt_type in pairs(self._hurt_severities) do
+		local weight = zone[sev_name]
+
+		if weight and weight > 0 then
+			total_w = total_w + weight
+
+			if rand_nr <= total_w then
+				if hurt_table.resist_stacking then
+					--Check if a new resist stack needs to be added.
+					for type, stacks in pairs(hurt_table.resist_stacking) do
+						if not self._hurt_resists then  --Cops were somehow spawning without this initialized
+							self._hurt_resists = {}
+						end
+
+						if type == sev_name then
+							self._hurt_resists[category] = (self._hurt_resists[category] or 0) + stacks 
+						end
+					end
+				end
+
+				return hurt_type or "dmg_rcv"
+			end
+		end
+	end
+
+	return "dmg_rcv"
+end
+
+function CopDamage:can_melee_knock_shield(knockdown)
+	local knock_breakpoint = self._char_tweak.damage.shield_knock_breakpoint
+	if self._char_tweak.damage.shield_knock_resistance_stacking then
+		if not self._hurt_resists then --Cops were somehow spawning without this initialized
+			self._hurt_resists = {}
+		end 
+
+		if self._hurt_resists.shield_knock then
+			knock_breakpoint = knock_breakpoint / (self._char_tweak.damage.shield_knock_resistance_stacking / self._hurt_resists.shield_knock)
+		end
+
+		if knock_breakpoint and knockdown >= knock_breakpoint * self._health_ratio then
+			self._hurt_resists.shield_knock = (self._hurt_resists.shield_knock or 0) + 1
+			return true
+		else
+			return false
+		end
+	else
+		return knock_breakpoint and knockdown >= knock_breakpoint * self._health_ratio		
 	end
 end

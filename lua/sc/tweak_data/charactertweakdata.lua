@@ -374,6 +374,7 @@ function CharacterTweakData:_init_gensec(presets) --gensec guard, used on armore
 	self.gensec.detection = presets.detection.guard
 	self.gensec.HEALTH_INIT = 18
 	self.gensec.headshot_dmg_mul = bravo_headshot
+	self.gensec.damage.hurt_severity = presets.hurt_severities.bravo
 	self.gensec.move_speed = presets.move_speed.very_fast
 	self.gensec.crouch_move = nil
 	self.gensec.surrender_break_time = {20, 30}
@@ -558,7 +559,7 @@ function CharacterTweakData:_init_fbi(presets) --fbi hrt
 	self.fbi_vet.headshot_dmg_mul = bravo_headshot
 	self.fbi_vet.dodge = presets.dodge.ninja_complex
 	self.fbi_vet.access = "spooc"
-	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.elite
+	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.bravo
 	self.fbi_vet.move_speed = presets.move_speed.lightning
 	if is_reaper then
 	   self.fbi_vet.custom_voicework = nil	
@@ -672,7 +673,7 @@ function CharacterTweakData:_init_medic(presets) --Medic
 	self.medic_summers.surrender = nil
 	self.medic_summers.flammable = false
 	self.medic_summers.use_animation_on_fire_damage = false
-	self.medic_summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
+	self.medic_summers.damage.hurt_severity = presets.hurt_severities.medic_summers
 	self.medic_summers.ecm_vulnerability = 0
 	self.medic_summers.ecm_hurts = {}			
 	self.medic_summers.immune_to_concussion = true
@@ -720,6 +721,7 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 	self.omnia_lpf.detection = presets.detection.normal
 	self.omnia_lpf.HEALTH_INIT = 240
 	self.omnia_lpf.headshot_dmg_mul = strong_headshot
+	self.omnia_lpf.damage.hurt_severity = presets.hurt_severities.strong
 	self.omnia_lpf.damage.melee_damage_mul = 2
 	self.omnia_lpf.move_speed = presets.move_speed.fast
 	self.omnia_lpf.surrender_break_time = {7, 12}
@@ -864,7 +866,6 @@ function CharacterTweakData:_init_heavy_swat(presets) --blue heavy swat
 	self.heavy_swat.surrender_break_time = {6, 8}
 	self.heavy_swat.suppression = presets.suppression.hard_agg
 	self.heavy_swat.surrender = presets.surrender.hard
-	self.heavy_swat.damage.hurt_severity = presets.hurt_severities.heavy
 	self.heavy_swat.ecm_vulnerability = 1
 	self.heavy_swat.ecm_hurts = {
 		ears = {min_duration = 3, max_duration = 3}
@@ -922,7 +923,6 @@ function CharacterTweakData:_init_heavy_swat(presets) --blue heavy swat
 	self.heavy_swat_sniper.speech_prefix_p2 = nil
 	self.heavy_swat_sniper.speech_prefix_count = 1
 	self.heavy_swat_sniper.access = "swat"
-	self.heavy_swat_sniper.damage.hurt_severity = presets.hurt_severities.elite
 	self.heavy_swat_sniper.use_animation_on_fire_damage = false
 	self.heavy_swat_sniper.move_speed = presets.move_speed.normal
 	self.heavy_swat_sniper.dodge = presets.dodge.elite
@@ -961,6 +961,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --blue heavy swat
 	end	
 	self.weekend_dmr.HEALTH_INIT = 40.5
 	self.weekend_dmr.headshot_dmg_mul = bravo_headshot 
+	self.weekend_dmr.damage.hurt_severity = presets.hurt_severities.bravo
 	self.weekend_dmr.damage.explosion_damage_mul = 1.5
 	self.weekend_dmr.damage.fire_pool_damage_mul = 1.5
 	self.weekend_dmr.heal_cooldown = 5
@@ -1053,7 +1054,6 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec
 	self.fbi_heavy_swat.surrender_break_time = {6, 8}
 	self.fbi_heavy_swat.suppression = presets.suppression.hard_agg
 	self.fbi_heavy_swat.surrender = presets.surrender.hard
-	self.fbi_heavy_swat.damage.hurt_severity = presets.hurt_severities.heavy
 	self.fbi_heavy_swat.ecm_vulnerability = 1
 	self.fbi_heavy_swat.ecm_hurts = {
 		ears = {min_duration = 3, max_duration = 3}
@@ -1149,6 +1149,7 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.city_swat_guard.weapon = presets.weapon.good
 	self.city_swat_guard.HEALTH_INIT = 24
 	self.city_swat_guard.headshot_dmg_mul = strong_headshot
+	self.city_swat_guard.damage.hurt_severity = presets.hurt_severities.strong
 	self.city_swat_guard.access = "security"
 	self.city_swat_guard.chatter = presets.enemy_chatter.guard
 	self.city_swat_guard.melee_weapon = "baton"
@@ -1170,7 +1171,8 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.weekend.dodge = self.presets.dodge.athletic_very_hard
 	self.weekend.damage.explosion_damage_mul = 1.5
 	self.weekend.damage.fire_pool_damage_mul = 1.5
-	self.weekend.headshot_dmg_mul = bravo_headshot		
+	self.weekend.headshot_dmg_mul = bravo_headshot
+	self.weekend.damage.hurt_severity = presets.hurt_severities.bravo
 	self.weekend.speech_prefix_p1 = "cum"
 	self.weekend.speech_prefix_p2 = nil
 	self.weekend.speech_prefix_count = nil	
@@ -1192,7 +1194,7 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.riot_swat.HEALTH_INIT = 42
 	self.riot_swat.headshot_dmg_mul = normal_headshot
 	self.riot_swat.weapon = presets.weapon.good
-	self.riot_swat.damage.hurt_severity = presets.hurt_severities.elite_easy
+	self.riot_swat.damage.hurt_severity = presets.hurt_severities.boom
 	self.riot_swat.damage.explosion_damage_mul = 0.5
 	self.riot_swat.use_animation_on_fire_damage = true
 	self.riot_swat.move_speed = presets.move_speed.fast
@@ -1224,6 +1226,7 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.weekend_lmg.HEALTH_INIT = 63
 	self.weekend_lmg.weapon = presets.weapon.expert
 	self.weekend_lmg.headshot_dmg_mul = bravo_headshot
+	self.weekend_lmg.damage.hurt_severity = presets.hurt_severities.bravo_lmg
 	self.weekend_lmg.damage.explosion_damage_mul = 0.75
 	self.weekend_lmg.damage.fire_pool_damage_mul = 1.5	
 	self.weekend_lmg.heal_cooldown = true
@@ -1478,7 +1481,7 @@ function CharacterTweakData:_init_mobster_boss(presets) --the commissar
 	self.mobster_boss.weapon = presets.weapon.gangster
 	self.mobster_boss.HEALTH_INIT = 864
 	self.mobster_boss.headshot_dmg_mul = strong_headshot
-	self.mobster_boss.damage.hurt_severity = presets.hurt_severities.boss
+	self.mobster_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
 	self.mobster_boss.damage.explosion_damage_mul = 2
 	self.mobster_boss.move_speed = presets.move_speed.slow
 	self.mobster_boss.allowed_poses = {stand = true}
@@ -1530,7 +1533,7 @@ function CharacterTweakData:_init_biker_boss(presets) --biker heist day 2 Female
 	self.biker_boss.detection = presets.detection.normal
 	self.biker_boss.HEALTH_INIT = 864
 	self.biker_boss.headshot_dmg_mul = strong_headshot
-	self.biker_boss.damage.hurt_severity = presets.hurt_severities.boss
+	self.biker_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
 	self.biker_boss.damage.explosion_damage_mul = 2
 	self.biker_boss.move_speed = presets.move_speed.very_slow
 	self.biker_boss.allowed_poses = {stand = true}
@@ -1620,10 +1623,9 @@ function CharacterTweakData:_init_chavez_boss(presets) --chavez
 	self.chavez_boss.silent_priority_shout = nil
 	self.chavez_boss.custom_shout = true
 	self.chavez_boss.priority_shout_max_dis = 3000
-	self.chavez_boss.damage.hurt_severity = presets.hurt_severities.boss
 	self.chavez_boss.HEALTH_INIT = 864
 	self.chavez_boss.headshot_dmg_mul = strong_headshot
-	self.chavez_boss.damage.hurt_severity = presets.hurt_severities.boss
+	self.chavez_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
 	self.chavez_boss.damage.explosion_damage_mul = 2
 	self.chavez_boss.move_speed = presets.move_speed.very_slow
 	self.chavez_boss.allowed_poses = {stand = true}
@@ -1731,7 +1733,7 @@ function CharacterTweakData:_init_drug_lord_boss(presets) --sosa
 	self.drug_lord_boss.detection = presets.detection.normal
 	self.drug_lord_boss.HEALTH_INIT = 864
 	self.drug_lord_boss.headshot_dmg_mul = strong_headshot
-	self.drug_lord_boss.damage.hurt_severity = presets.hurt_severities.boss
+	self.drug_lord_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
 	self.drug_lord_boss.damage.explosion_damage_mul = 2
 	self.drug_lord_boss.move_speed = presets.move_speed.very_slow
 	self.drug_lord_boss.allowed_poses = {stand = true}
@@ -1876,7 +1878,7 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 	self.tank.rescue_hostages = false
 	self.tank.deathguard = true
 	self.tank.melee_weapon = "fists_dozer"
-	self.tank.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
+	self.tank.damage.hurt_severity = presets.hurt_severities.tank
 	self.tank.chatter = {
 		reload = true, --this is just here for tdozers
 		aggressive = true,
@@ -1911,7 +1913,7 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 	self.tank_titan.weapon = presets.weapon.sniper
 	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo", "no_run", "backliner"}	
 	self.tank_titan.move_speed = presets.move_speed.very_slow
-	self.tank_titan.damage.hurt_severity = presets.hurt_severities.titan	
+	self.tank_titan.damage.hurt_severity = presets.hurt_severities.tank_titan
 	self.tank_titan.HEALTH_INIT = 864
 	self.tank_titan.headshot_dmg_mul = strong_headshot
 	self.tank_titan.damage.explosion_damage_mul = 2
@@ -2061,7 +2063,7 @@ function CharacterTweakData:_init_spooc(presets) --cloaker
 		self.spooc_titan.speech_prefix_p1 = "t_spk"
 		self.spooc_titan.speech_prefix_count = nil
 	end
-	self.spooc_titan.damage.hurt_severity = presets.hurt_severities.spooc_titan
+	self.spooc_titan.damage.hurt_severity = presets.hurt_severities.spooc
 	self.spooc_titan.can_cloak = true
 	self.spooc_titan.recloak_damage_threshold = 0.5
 	self.spooc_titan.can_be_tased = false
@@ -2186,8 +2188,8 @@ function CharacterTweakData:_init_shield(presets) --shielddddd
 	self.shield.wall_fwd_offset = 100
 	self.shield.calls_in = nil
 	self.shield.ignore_medic_revive_animation = true
-	self.shield.damage.hurt_severity = presets.hurt_severities.only_explosion_hurts
-	self.shield.damage.shield_knocked = true
+	self.shield.damage.hurt_severity = presets.hurt_severities.shield
+	self.shield.damage.shield_knock_breakpoint = 22
 	self.shield.use_animation_on_fire_damage = false
 	self.shield.flammable = true
 	self.shield.weapon_voice = "3"
@@ -2237,9 +2239,10 @@ function CharacterTweakData:_init_phalanx_minion(presets) --titan shield
 	self.phalanx_minion.damage.explosion_damage_mul = 0.5
 	self.phalanx_minion.damage.fire_pool_damage_mul = 0.5
 	self.phalanx_minion.damage.melee_damage_mul = 2
-	self.phalanx_minion.damage.hurt_severity = presets.hurt_severities.no_hurts_no_tase
+	self.phalanx_minion.damage.hurt_severity = presets.hurt_severities.no_hurts
+	self.phalanx_minion.damage.shield_knock_breakpoint = 54
+	self.phalanx_minion.damage.shield_knock_resistance_stacking = 0.9
 	self.phalanx_minion.flammable = false
-	self.phalanx_minion.damage.shield_knocked = true
 	self.phalanx_minion.priority_shout = "f31"
 	self.phalanx_minion.bot_priority_shout = "f31x_any"		
 	self.phalanx_minion.move_speed = presets.move_speed.slow
@@ -2280,12 +2283,13 @@ end
 function CharacterTweakData:_init_phalanx_vip(presets) --captain winters
 	self.phalanx_vip = deep_clone(self.phalanx_minion)
 	self.phalanx_vip.tags = {"law", "shield", "special", "shield_titan", "captain"}
-	self.phalanx_vip.damage.shield_knocked = false
 	self.phalanx_vip.damage.immune_to_knockback = true
 	self.phalanx_vip.immune_to_knock_down = true
 	self.phalanx_vip.damage.shield_explosion_damage_mul = 0
 	self.phalanx_vip.damage.shield_explosion_ally_damage_mul = 0
 	self.phalanx_vip.HEALTH_INIT = 1500
+	self.phalanx_vip.damage.shield_knock_breakpoint = 72
+	self.phalanx_vip.damage.shield_knock_resistance_stacking = 0.75
 	self.phalanx_vip.headshot_dmg_mul = strong_headshot
 	self.phalanx_vip.damage.explosion_damage_mul = 2
 	self.phalanx_vip.damage.melee_damage_mul = 2
@@ -2359,7 +2363,7 @@ function CharacterTweakData:_init_spring(presets) --captain spring
 	self.spring.ecm_vulnerability = nil
 	self.spring.immune_to_concussion = true
 	self.spring.ecm_hurts = {}
-	self.spring.damage.hurt_severity = presets.hurt_severities.captain
+	self.spring.damage.hurt_severity = presets.hurt_severities.spring
 	self.spring.melee_weapon = "fists_dozer"
 	self.spring.speech_prefix_p1 = "cpw"
 	self.spring.speech_prefix_p2 = nil
@@ -2417,7 +2421,7 @@ function CharacterTweakData:_init_summers(presets) --captain summers
 	self.summers.headshot_dmg_mul = normal_headshot
 	self.summers.flammable = false
 	self.summers.use_animation_on_fire_damage = false
-	self.summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
+	self.summers.damage.hurt_severity = presets.hurt_severities.summers
 	self.summers.damage.explosion_damage_mul = 0.5
 	self.summers.bag_dmg_mul = 6
 	self.summers.move_speed = presets.move_speed.fast
@@ -2467,7 +2471,7 @@ function CharacterTweakData:_init_autumn(presets) --captain autumn
 	self.autumn = deep_clone(presets.base)
 	self.autumn.tags = {"law", "custom", "special", "customvo"}
 	self.autumn.experience = {}
-	self.autumn.damage.hurt_severity = presets.hurt_severities.no_hurts
+	self.autumn.damage.hurt_severity = presets.hurt_severities.autumn
 	self.autumn.weapon = presets.weapon.expert
 	self.autumn.detection = presets.detection.normal
 	self.autumn.damage.immune_to_knockback = true
@@ -2561,7 +2565,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser.experience = {}
 	self.taser.weapon = presets.weapon.taser
 	self.taser.detection = presets.detection.normal
-	self.taser.damage.hurt_severity = presets.hurt_severities.light_hurt_fire_poison
+	self.taser.damage.hurt_severity = presets.hurt_severities.taser
 	self.taser.HEALTH_INIT = 72
 	self.taser.headshot_dmg_mul = normal_headshot
 	self.taser.move_speed = presets.move_speed.fast
@@ -2618,7 +2622,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_summers.ignore_medic_revive_animation = false
 	self.taser_summers.flammable = false
 	self.taser_summers.use_animation_on_fire_damage = false
-	self.taser_summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
+	self.taser_summers.damage.hurt_severity = presets.hurt_severities.taser_summers
 	self.taser_summers.ecm_vulnerability = 0
 	self.taser_summers.ecm_hurts = {}
 	self.taser_summers.chatter = presets.enemy_chatter.summers
@@ -2762,7 +2766,7 @@ function CharacterTweakData:_init_boom(presets) --grenadier
 	self.boom_summers.use_animation_on_fire_damage = false
 	self.boom_summers.damage.explosion_damage_mul = 1
 	self.boom_summers.damage.fire_damage_mul = 1
-	self.boom_summers.damage.hurt_severity = presets.hurt_severities.only_light_hurt_no_explode
+	self.boom_summers.damage.hurt_severity = presets.hurt_severities.boom_summers
 	self.boom_summers.chatter = presets.enemy_chatter.summers
 	self.boom_summers.speech_prefix_p1 = "fl"
 	self.boom_summers.speech_prefix_p2 = "n"
@@ -3745,439 +3749,41 @@ function CharacterTweakData:_presets(tweak_data)
 			aggressive = true
 		},			
 	}
-	
+
 	presets.hurt_severities = {}
-	presets.hurt_severities.no_hurts = {
-		bullet = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		explosion = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		melee = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		fire = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		poison = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		bleed = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		tase = false
-	}
-	presets.hurt_severities.only_light_hurt_no_explode = {
-		bullet = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		explosion = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		melee = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		fire = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		poison = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		bleed = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		tase = false
-	}	
-	presets.hurt_severities.titan = deep_clone(presets.hurt_severities.no_hurts)
-	presets.hurt_severities.titan.bullet = {
-			health_reference = "current",
-			zones = {
-				{
-					light = 0.995,
-					explode = 0.005
-				}
-			}
-	}
-	presets.hurt_severities.titan.fire = {
-			health_reference = "current",
-			zones = {
-				{light = 1}
-			}
-	}
-	presets.hurt_severities.titan.explosion = {
-			health_reference = "current",
-			zones = {
-				{light = 1}
-			}
-	}
-	presets.hurt_severities.captain = deep_clone(presets.hurt_severities.titan)
-	presets.hurt_severities.captain.bullet = {
-			health_reference = "current",
-			zones = {
-				{
-					light = 0.995,
-					explode = 0.005
-				}
-			}
-	}	
-	presets.hurt_severities.boss = deep_clone(presets.hurt_severities.titan)
-	presets.hurt_severities.boss.bullet = {
-			health_reference = "current",
-			zones = {
-				{
-					light = 0.995,
-					moderate = 0.005
-				}
-			}
-	}		
-	presets.hurt_severities.no_hurts_no_tase = deep_clone(presets.hurt_severities.no_hurts)
-	presets.hurt_severities.no_hurts_no_tase.tase = false
-	presets.hurt_severities.only_light_hurt = {
-		bullet = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		explosion = {
-			health_reference = 1,
-			zones = {
-				{explode = 1}
-			}
-		},
-		melee = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		fire = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		poison = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		bleed = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		tase = true
-	}
-	presets.hurt_severities.only_light_hurt_and_fire = {
-		bullet = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		explosion = {
-			health_reference = 1,
-			zones = {
-				{explode = 1}
-			}
-		},
-		melee = {
-			health_reference = 1,
-			zones = {
-				{light = 1}
-			}
-		},
-		fire = {
-			health_reference = 1,
-			zones = {
-				{fire = 1}
-			}
-		},
-		poison = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		bleed = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		tase = true
-	}
-	presets.hurt_severities.light_hurt_fire_poison = deep_clone(presets.hurt_severities.only_light_hurt_and_fire)
-	presets.hurt_severities.light_hurt_fire_poison.poison = {
+	
+	local NO_HURTS = {
 		health_reference = 1,
-		zones = {
-			{poison = 1}
-		}
+		zones = {{none = 1}}
 	}
-	presets.hurt_severities.elite = deep_clone(presets.hurt_severities.light_hurt_fire_poison)
-	presets.hurt_severities.elite.fire = {
+
+	local RESIST_HURTS = {
 		health_reference = 1,
-		zones = {
-			{none = 1}
-		}
+		zones = {{light = 1}}
 	}
-	presets.hurt_severities.elite.melee = {
-		health_reference = "current",
-		zones = {
-			{
-				health_limit = 0.3,
-				none = 0.3,
-				light = 0.7,
-				moderate = 0,
-				heavy = 0
-			},
-			{
-				health_limit = 0.8,
-				light = 1,
-				moderate = 0,
-				heavy = 0
-			},
-			{
-				health_limit = 0.9,
-				light = 0.8,
-				moderate = 0.2,
-				heavy = 0
-			},
-			{
-				light = 0,
-				moderate = 9,
-				heavy = 0
-			}
-		}
-	}
-	presets.hurt_severities.elite_easy = deep_clone(presets.hurt_severities.light_hurt_fire_poison)
-	presets.hurt_severities.elite_easy.fire = {
-		health_reference = "current",
-		zones = {
-			{
-				health_limit = 0.3,
-				none = 0.2,
-				light = 0.7,
-				fire = 0.05
-			},
-			{
-				health_limit = 0.6,
-				light = 0.4,
-				fire = 0.4
-			},
-			{
-				health_limit = 0.9,
-				light = 0.2,
-				fire = 0.2
-			},
-			{
-				light = 0,
-				fire = 1
-			}
-		}
-	}
-	presets.hurt_severities.elite_easy.bullet = {
-		health_reference = "current",
-		zones = {
-			{
-				health_limit = 0.3,
-				none = 0.2,
-				light = 0.7,
-				moderate = 0.05,
-				heavy = 0
-			},
-			{
-				health_limit = 0.6,
-				light = 0.4,
-				moderate = 0.4,
-				heavy = 0
-			},
-			{
-				health_limit = 0.9,
-				light = 0.2,
-				moderate = 0.2,
-				heavy = 0
-			},
-			{
-				light = 0,
-				moderate = 1,
-				heavy = 0
-			}
-		}
-	}	
-	presets.hurt_severities.elite_easy.melee = {
-		health_reference = "current",
-		zones = {
-			{
-				health_limit = 0.3,
-				none = 0.3,
-				light = 0.7,
-				moderate = 0,
-				heavy = 0
-			},
-			{
-				health_limit = 0.8,
-				light = 1,
-				moderate = 0,
-				heavy = 0
-			},
-			{
-				health_limit = 0.9,
-				light = 0.8,
-				moderate = 0.2,
-				heavy = 0
-			},
-			{
-				light = 0,
-				moderate = 9,
-				heavy = 0
-			}
-		}
-	}		
-	presets.hurt_severities.only_explosion_hurts = {
-		bullet = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		explosion = {
-			health_reference = 1,
-			zones = {
-				{explode = 1}
-			}
-		},
-		melee = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		fire = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		poison = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		bleed = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		tase = true
-	}
-	presets.hurt_severities.only_fire_and_poison_hurts = {
-		bullet = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		explosion = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		melee = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		fire = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		poison = {
-			health_reference = 1,
-			zones = {
-				{poison = 1}
-			}
-		},
-		bleed = {
-			health_reference = 1,
-			zones = {
-				{none = 1}
-			}
-		},
-		tase = true
-	}
+
 	presets.hurt_severities.base = {
 		bullet = {
 			health_reference = "current",
 			zones = {
 				{
-					health_limit = 0.3,
-					none = 0.2,
-					light = 0.7,
-					moderate = 0.05,
-					heavy = 0.05
+					health_limit = 0.25,
+					none = 0.5,
+					light = 0.4,
+					moderate = 0.1
 				},
 				{
-					health_limit = 0.6,
+					health_limit = 0.5,
 					light = 0.4,
 					moderate = 0.4,
 					heavy = 0.2
 				},
 				{
-					health_limit = 0.9,
-					light = 0.2,
-					moderate = 0.2,
-					heavy = 0.6
+					health_limit = 0.75,
+					moderate = 0.5,
+					heavy = 0.5
 				},
 				{
-					light = 0,
-					moderate = 0,
 					heavy = 1
 				}
 			}
@@ -4202,128 +3808,285 @@ function CharacterTweakData:_presets(tweak_data)
 			health_reference = "current",
 			zones = {
 				{
-					health_limit = 0.3,
-					none = 0.3,
-					light = 0.7,
-					moderate = 0,
-					heavy = 0
+					health_limit = 0.5,
+					none = 1
 				},
 				{
-					health_limit = 0.8,
-					light = 1,
-					moderate = 0,
-					heavy = 0
+					health_limit = 1,
+					light = 1
 				},
 				{
-					health_limit = 0.9,
-					light = 0.6,
-					moderate = 0.2,
-					heavy = 0.2
+					health_limit = 2,
+					moderate = 1
 				},
 				{
-					light = 0,
-					moderate = 0,
-					heavy = 9
+					heavy = 1
 				}
 			}
 		},
 		fire = {
 			health_reference = "current",
 			zones = {
-				{fire = 1}
+				{
+					health_limit = 0.75,
+					fire = 0.75,
+					light = 0.25
+				},
+				{
+					fire = 1
+				}
 			}
 		},
 		poison = {
 			health_reference = "current",
 			zones = {
-				{none = 0, poison = 1}
+				{
+					health_limit = 0.75,
+					poison = 0.25,
+					none = 0.75
+				},
+				{
+					poison = 1
+				}
 			}
 		},
-		bleed = {
-			health_reference = "current",
-			zones = {
-				{none = 1}
-			}
-		},
+		bleed = NO_HURTS,
 		tase = true
 	}
-	presets.hurt_severities.heavy = deep_clone(presets.hurt_severities.base)
-	presets.hurt_severities.heavy.bullet = {
+	presets.hurt_severities.medic = deep_clone(presets.hurt_severities.base)
+	presets.hurt_severities.medic.poison = RESIST_HURTS
+	presets.hurt_severities.medic_summers = deep_clone(presets.hurt_severities.medic)
+	presets.hurt_severities.medic_summers.melee = {
 		health_reference = "current",
+		resist_stack_multiplier = 0.85,
+		resist_stacking = {
+			moderate = 1,
+			heavy = 1.5
+		},
 		zones = {
 			{
-				health_limit = 0.3,
-				none = 0.2,
-				light = 0.7,
-				moderate = 0.1
+				health_limit = 0.2,
+				none = 1
+			},
+			{
+				health_limit = 0.4,
+				light = 1
 			},
 			{
 				health_limit = 0.6,
-				light = 0.4,
-				moderate = 0.6
+				moderate = 1
 			},
 			{
-				health_limit = 0.9,
-				light = 0.2,
-				moderate = 0.8
-			},
-			{
-				light = 0,
-				moderate = 1,
-				heavy = 0
+				heavy = 1
 			}
 		}
-	}	
-	presets.hurt_severities.spooc = deep_clone(presets.hurt_severities.base)
-	presets.hurt_severities.spooc.bullet = {
+	}
+	presets.hurt_severities.medic_summers.tase = false
+
+	presets.hurt_severities.summers = deep_clone(presets.hurt_severities.base)
+	presets.hurt_severities.summers.fire = RESIST_HURTS
+	presets.hurt_severities.summers.melee = presets.hurt_severities.medic_summers.melee
+	presets.hurt_severities.summers.tase = false
+
+	presets.hurt_severities.bravo = deep_clone(presets.hurt_severities.base)
+	presets.hurt_severities.bravo.bullet = {
 			health_reference = "current",
 			zones = {
+			{
+				health_limit = 0.25,
+				none = 0.8,
+				light = 0.2
+			},
+			{
+				health_limit = 0.5,
+				none = 0.5,
+				light = 0.4,
+				moderate = 0.1
+			},
+			{
+				health_limit = 0.75,
+				light = 0.4,
+				moderate = 0.4,
+				heavy = 0.2
+			},
+			{
+				moderate = 0.5,
+				heavy = 0.5
+			}
+		}
+	}
+	presets.hurt_severities.bravo_lmg = deep_clone(presets.hurt_severities.bravo)
+	presets.hurt_severities.bravo_lmg.explosion = RESIST_HURTS
+	
+	presets.hurt_severities.strong = deep_clone(presets.hurt_severities.bravo)
+	presets.hurt_severities.strong.tase = false
+
+	presets.hurt_severities.tank = {
+		bullet = RESIST_HURTS,
+		explosion = RESIST_HURTS,
+		melee =  {
+			health_reference = "current",
+			resist_stack_multiplier = 0.75,
+			resist_stacking = {
+				moderate = 1,
+				heavy = 1.5
+			},
+			zones = {
 				{
-					health_limit = 0.3,
-					light = 0.3,
-					moderate = 0.4,
-					heavy = 0.3
+					health_limit = 180 / 900,
+					none = 1
 				},
 				{
-					health_limit = 0.6,
-					light = 0.2,
-					moderate = 0.2,
-					heavy = 0.6
+					health_limit = 360 / 900,
+					light = 1
 				},
 				{
-					light = 0,
-					moderate = 0,
+					health_limit = 540 / 900,
+					moderate = 1
+				},
+				{
 					heavy = 1
 				}
 			}
-		}
-	presets.hurt_severities.spooc_titan = deep_clone(presets.hurt_severities.spooc)
-	presets.hurt_severities.spooc_titan.fire = {
-		health_reference = 1,
+		},
+		fire = RESIST_HURTS,
+		poison = RESIST_HURTS,
+		bleed = NO_HURTS,
+		tase = false
+	}	
+	presets.hurt_severities.tank_titan = deep_clone(presets.hurt_severities.tank) --Also used for generic level bosses.
+	presets.hurt_severities.tank_titan.melee = {
+		health_reference = "current",
+		resist_stack_multiplier = 0.75,
+		resist_stacking = {
+			moderate = 1,
+			heavy = 1.5
+		},
 		zones = {
-			{none = 1}
+			{
+				health_limit = 240 / 1440,
+				none = 1
+			},
+			{
+				health_limit = 480 / 1440,
+				light = 1
+			},
+			{
+				health_limit = 720 / 1440,
+				moderate = 1
+			},
+			{
+				heavy = 1
+			}
 		}
 	}
-	presets.hurt_severities.spooc_titan.melee = {
+	presets.hurt_severities.spring = deep_clone(presets.hurt_severities.tank)
+	presets.hurt_severities.spring.melee = {
+		health_reference = "current",
+		resist_stack_multiplier = 0.75,
+		resist_stacking = {
+			moderate = 1,
+			heavy = 1.5
+		},
+		zones = {
+			{
+				health_limit = 206 / 5400,
+				none = 1
+			},
+			{
+				health_limit = 912 / 5400,
+				light = 1
+			},
+			{
+				health_limit = 1368 / 5400,
+				moderate = 1
+			},
+			{
+				heavy = 1
+			}
+		}
+	}
+
+	presets.hurt_severities.spooc = deep_clone(presets.hurt_severities.strong)
+	presets.hurt_severities.spooc.bullet = {
 		health_reference = "current",
 		zones = {
-			{none = 1}
+			{
+				health_limit = 0.33333,
+				light = 0.3,
+				moderate = 0.4,
+				heavy = 0.3
+			},
+			{
+				health_limit = 0.66667,
+				light = 0.2,
+				moderate = 0.2,
+				heavy = 0.6
+			},
+			{
+				light = 0,
+				moderate = 0,
+				heavy = 1
+			}
 		}
-	}	
+	}
+
+	presets.hurt_severities.taser = deep_clone(presets.hurt_severities.base)
+	presets.hurt_severities.taser.bullet = NO_HURTS
+	presets.hurt_severities.taser_summers = deep_clone(presets.hurt_severities.taser)
+	presets.hurt_severities.taser_summers.melee = presets.hurt_severities.medic_summers.melee
+	presets.hurt_severities.taser_summers.tase = false
+
 	presets.hurt_severities.boom = deep_clone(presets.hurt_severities.base)
-	presets.hurt_severities.boom.explosion = {
-		health_reference = 1,
+	presets.hurt_severities.boom.explosion = RESIST_HURTS
+	presets.hurt_severities.boom.fire = RESIST_HURTS
+	presets.hurt_severities.boom_summers = deep_clone(presets.hurt_severities.boom)
+	presets.hurt_severities.boom_summers.melee = presets.hurt_severities.medic_summers.melee
+	presets.hurt_severities.boom_summers.tase = false
+
+	presets.hurt_severities.autumn = deep_clone(presets.hurt_severities.base)
+	presets.hurt_severities.autumn.fire = RESIST_HURTS
+	presets.hurt_severities.autumn.bullet = RESIST_HURTS
+	presets.hurt_severities.autumn.melee = {
+		health_reference = "current",
+		resist_stack_multiplier = 0.85,
+		resist_stacking = {
+			moderate = 1,
+			heavy = 1.5
+		},
 		zones = {
-			{none = 1}
+			{
+				health_limit = 100 / 1440,
+				none = 1
+			},
+			{
+				health_limit = 200 / 1440,
+				light = 1
+			},
+			{
+				health_limit = 300 / 1440,
+				moderate = 1
+			},
+			{
+				heavy = 1
+			}
 		}
 	}
-	presets.hurt_severities.base_no_poison = deep_clone(presets.hurt_severities.base)
-	presets.hurt_severities.base_no_poison.poison = {
-		health_reference = 1,
-		zones = {
-			{none = 1}
-		}
+	presets.hurt_severities.autumn.tase = false
+
+	--Used for shields and gang members.
+	presets.hurt_severities.shield = {
+		bullet = NO_HURTS,
+		explosion = presets.hurt_severities.base.explosion,
+		melee = NO_HURTS,
+		fire = NO_HURTS,
+		poison = NO_HURTS,
+		bleed = NO_HURTS,
+		tase = false
 	}
+	presets.hurt_severities.no_hurts = deep_clone(presets.hurt_severities.shield)
+	presets.hurt_severities.no_hurts.explosion = NO_HURTS
+
 	presets.base = {}
 	presets.base.HEALTH_INIT = 2
 	presets.base.headshot_dmg_mul = normal_headshot
@@ -4379,7 +4142,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.gang_member_damage.BLEED_OUT_HEALTH_INIT = 40
 	presets.gang_member_damage.ARRESTED_TIME = 30
 	presets.gang_member_damage.INCAPACITATED_TIME = tweak_data.player.damage.INCAPACITATED_TIME
-	presets.gang_member_damage.hurt_severity = deep_clone(presets.hurt_severities.no_hurts)
+	presets.gang_member_damage.hurt_severity = presets.hurt_severities.no_hurts
 	presets.gang_member_damage.MIN_DAMAGE_INTERVAL = 0.6
 	presets.gang_member_damage.respawn_time_penalty = 0
 	presets.gang_member_damage.base_respawn_time_penalty = 5
@@ -9659,17 +9422,7 @@ function CharacterTweakData:_set_overkill_290()
 	self.hrt.can_slide_on_suppress = true	
 	self.fbi_swat.can_slide_on_suppress = true		
 	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true
-	
-	--Titan SWAT stun resistance
-	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.riot_swat.use_animation_on_fire_damage = false
-	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.riot_swat.use_animation_on_fire_damage = false
-	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.skeleton_swat_titan.use_animation_on_fire_damage = false	
-	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite	
-	self.weekend_lmg.use_animation_on_fire_damage = false				
+	self.city_swat_guard.can_slide_on_suppress = true	
 	
 	--Fast HRTs
 	self.fbi.move_speed = self.presets.move_speed.lightning
@@ -9707,8 +9460,6 @@ function CharacterTweakData:_set_sm_wish()
 	
 	self.weap_unit_names[13] = Idstring("units/payday2/weapons/wpn_npc_sniper_sc/wpn_npc_sniper_sc")		
 	self.weap_unit_names[21] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc")		
-	
-	self.shield.damage.hurt_severity = self.presets.hurt_severities.no_hurts
 	
 	self.city_swat.can_shoot_while_dodging = true
 	self.city_swat_guard.can_shoot_while_dodging = true	
@@ -9797,26 +9548,11 @@ function CharacterTweakData:_set_sm_wish()
 
 			return false, t + delay_till_next_use
 		end
-	}		
-	
-	--Titan SWAT stun resistance
-	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.riot_swat.use_animation_on_fire_damage = false
-	self.riot_swat.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.riot_swat.use_animation_on_fire_damage = false
-	self.skeleton_swat_titan.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.skeleton_swat_titan.use_animation_on_fire_damage = false
-	self.weekend_lmg.damage.hurt_severity = self.presets.hurt_severities.elite
-	self.weekend_lmg.use_animation_on_fire_damage = false
+	}
 
 	--Fast HRTs
 	self.fbi.move_speed = self.presets.move_speed.lightning
 	self.hrt.move_speed = self.presets.move_speed.lightning
-	
-	--Titandozers become immune to stunning
-	self.tank_titan.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
-	self.tank_titan_assault.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase	
-	self.tank_hw.damage.hurt_severity = self.presets.hurt_severities.no_hurts_no_tase
 	
 	--Winters can now overheal special enemies
 	self.phalanx_vip.do_omnia.overheal_specials = true
@@ -9863,7 +9599,7 @@ function CharacterTweakData:_multiply_all_hp(health_mul, headshot_index)
 			--REMOVE THESE EXTRA MULS ONCE PERK DECKS ALLOW FOR THESE TYPES OF DAMAGE TO SCALE!
 			enemy.damage.explosion_damage_mul = (enemy.damage.explosion_damage_mul or 1) * hp_mul --Explosives deal same relative damage on all difficulties until perk deck damage boost works on them.
 			enemy.damage.fire_pool_damage_mul = (enemy.damage.fire_pool_damage_mul or 1) * hp_mul --Ditto for fire pools.
-			enemy.damage.dot_damage_mul = (enemy.damage.dot_damage_mul or 1) * hp_mul --Ditto for DOT
+			enemy.damage.dot_damage_mul = (enemy.damage.dot_damage_mul or 1) * hp_mul --Ditto for DOTs
 		end
 	end
 end

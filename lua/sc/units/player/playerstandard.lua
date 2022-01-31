@@ -1007,14 +1007,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 
 		managers.game_play_central:physics_push(col_ray)
 
-		local character_unit, shield_knock = nil
-		local can_shield_knock = managers.player:has_category_upgrade("player", "shield_knock")
-
-		if can_shield_knock and hit_unit:in_slot(8) and alive(hit_unit:parent()) and not hit_unit:parent():character_damage():is_immune_to_shield_knockback() then
-			shield_knock = true
-			character_unit = hit_unit:parent()
-		end
-
 		character_unit = character_unit or hit_unit
 
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
@@ -1045,15 +1037,10 @@ function PlayerStandard:_do_chainsaw_damage(t)
 			end
 
 			local action_data = {}
-			action_data.damage = shield_knock and 0 or damage * dmg_multiplier
+			action_data.damage = damage * dmg_multiplier
 			action_data.damage_effect = damage_effect
 			action_data.attacker_unit = self._unit
 			action_data.col_ray = col_ray
-
-			if shield_knock then
-				action_data.shield_knock = can_shield_knock
-			end
-
 			action_data.name_id = melee_entry
 			action_data.charge_lerp_value = 0 --There is no charging this attack.
 
@@ -1484,6 +1471,34 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 		local damage, damage_effect = managers.blackmarket:equipped_melee_weapon_damage_info(charge_lerp_value)
 		damage = damage * managers.player:get_melee_dmg_multiplier()
 		damage_effect = damage_effect * managers.player:get_melee_knockdown_multiplier()
+
+		--Allows melee weapons to bash open locks. Scales with knockdown.
+		if col_ray.unit:damage() and col_ray.body:extension() and col_ray.body:extension().damage then
+			local hit , _ = col_ray.body:extension().damage:damage_lock(managers.player:player_unit(), col_ray.normal, col_ray.position, col_ray.ray, damage_effect * 0.2)
+			if hit then
+				managers.hud:on_crit_confirmed()
+
+				if col_ray.unit:id() ~= -1 then
+					managers.network:session():send_to_peers_synched("sync_body_damage_lock", col_ray.body, damage_effect * 0.2)
+				end
+						
+				managers.game_play_central:play_impact_sound_and_effects({
+					col_ray = col_ray,
+					decal = "saw"
+				})
+
+				local new_alert = {
+					"vo_cbt",
+					self._unit:movement():m_head_pos(),
+					450,
+					self._unit:movement():SO_access(),
+					self._unit
+				}
+				managers.groupai:state():propagate_alert(new_alert)
+				return
+			end
+		end
+
 		col_ray.sphere_cast_radius = sphere_cast_radius
 		local hit_unit = col_ray.unit
 		if hit_unit:character_damage() then
@@ -1521,14 +1536,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 			})
 		end
 
-		--Out of date syncing method, reenable in case it was load bearing.
-		--[[if hit_unit:damage() and col_ray.body:extension() and col_ray.body:extension().damage then
-			col_ray.body:extension().damage:damage_melee(self._unit, col_ray.normal, col_ray.position, col_ray.ray, damage)
-			if hit_unit:id() ~= -1 then
-				managers.network:session():send_to_peers_synched("sync_body_damage_melee", col_ray.body, self._unit, col_ray.normal, col_ray.position, col_ray.ray, damage)
-			end
-		end]]
-
 		local custom_data = nil
 			
 		if _G.IS_VR then
@@ -1544,8 +1551,7 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 		managers.game_play_central:physics_push(col_ray)
 		
 		local character_unit, shield_knock
-		local can_shield_knock = managers.player:has_category_upgrade("player", "shield_knock")
-		if can_shield_knock and hit_unit:in_slot(8) and alive(hit_unit:parent()) then
+		if hit_unit:in_slot(8) and alive(hit_unit:parent()) and hit_unit:parent():character_damage():can_melee_knock_shield(damage_effect) then
 			shield_knock = true
 			character_unit = hit_unit:parent()
 		end
@@ -1597,12 +1603,13 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 			action_data.damage_effect = damage_effect
 			action_data.attacker_unit = self._unit
 			action_data.col_ray = col_ray
-			action_data.shield_knock = can_shield_knock --Silly vanilla code using branching when it doesn't need to.
+			action_data.shield_knock = shield_knock
 			action_data.name_id = melee_entry
 			action_data.charge_lerp_value = charge_lerp_value
 			--Damage multipliers for certain melees (IE: Butterfly Knife).
 			action_data.backstab_multiplier = melee_weapon.backstab_damage_multiplier or 1
 			action_data.headshot_multiplier = melee_weapon.headshot_damage_multiplier or 1
+			action_data.armor_piercing = melee_weapon.damage_type == "bludgeoning"
 			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
 				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {nil, 0}
@@ -1619,11 +1626,22 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 			self:_check_melee_dot_damage(col_ray, defense_data, melee_entry)
 			self:_perform_sync_melee_damage(hit_unit, col_ray, action_data.damage)
 
+			if tweak_data.blackmarket.melee_weapons[melee_entry].fire_dot_data and character_unit:character_damage().damage_fire then
+				local action_data = {
+					variant = "fire",
+					damage = 0,
+					attacker_unit = self._unit,
+					col_ray = col_ray,
+					fire_dot_data = tweak_data.blackmarket.melee_weapons[melee_entry].fire_dot_data
+				}
+
+				character_unit:character_damage():damage_fire(action_data)
+			end
+
 			return defense_data
 		else
 			self:_perform_sync_melee_damage(hit_unit, col_ray, damage)
 		end
-	else
 	end
 	if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
 		self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}

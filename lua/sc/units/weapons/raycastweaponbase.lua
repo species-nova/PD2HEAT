@@ -396,7 +396,7 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 
 		if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
 			if enemy_unit:base():char_tweak() then
-				if enemy_unit:base():char_tweak().damage.shield_knocked and not enemy_unit:character_damage():is_immune_to_shield_knockback() then 
+				if not enemy_unit:character_damage():is_immune_to_shield_knockback() then 
 					local knock_chance = math.sqrt(0.02 * damage)
 
 					if knock_chance > math.random() then

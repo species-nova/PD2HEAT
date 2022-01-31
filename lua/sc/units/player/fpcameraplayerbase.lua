@@ -119,10 +119,11 @@ end
 function FPCameraPlayerBase:recoil_kick(up, down, left, right, shooting)
 	local player_state = managers.player:current_state()
 	if player_state == "bipod" then
-		up = up * 0.4
-		down = down * 0.4
-		left = left * 0.4
-		right = right * 0.4
+		local bipod_recoil_mul = tweak_data.weapon.stat_info.stance_recoil_mults.bipod
+		up = up * bipod_recoil_mul
+		down = down * bipod_recoil_mul
+		left = left * bipod_recoil_mul
+		right = right * bipod_recoil_mul
 	end
 
 	local lerp_x, lerp_y
