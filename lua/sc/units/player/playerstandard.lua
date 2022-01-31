@@ -1495,7 +1495,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 					self._unit
 				}
 				managers.groupai:state():propagate_alert(new_alert)
-				return
 			end
 		end
 
