@@ -186,19 +186,15 @@ function PlayerMovement:stagger_in_aoe(stagger_dis)
 
 	local nearby_enemies = World:find_units_quick("sphere", self._m_pos, stagger_dis, managers.slot:get_mask("enemies"))
 
-	--Stagger valid nearby enemies.
+	--Stagger valid (non-special) nearby enemies.
 	for i = 1, #nearby_enemies do
 		local enemy = nearby_enemies[i]
 		local dmg_ext = enemy:character_damage()
 
 		if dmg_ext and dmg_ext.damage_simple then
 			local base_ext = enemy:base()
-			local char_tweak = base_ext and base_ext.char_tweak
-			local immune_to_stagger = char_tweak and base_ext:char_tweak().immune_to_knock_down
-
-			if not immune_to_stagger and base_ext.has_tag then
-				immune_to_stagger = base_ext:has_tag("tank") or base_ext:has_tag("captain")
-			end
+			local char_tweak = base_ext and base_ext.char_tweak and base_ext:char_tweak()
+			local immune_to_stagger = char_tweak and (char_tweak.immune_to_knock_down or char_tweak.is_special)
 
 			if not immune_to_stagger then
 				local m_com = enemy:movement():m_com()

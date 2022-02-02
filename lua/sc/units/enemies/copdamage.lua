@@ -1232,14 +1232,14 @@ function CopDamage:damage_melee(attack_data)
 		end
 	end
 
-	local damage_effect = attack_data.damage_effect
+	--Damage effect always acts like it has a headshot.
+	local damage_effect = attack_data.damage_effect * (self._char_tweak.headshot_dmg_mul or 2)
 
 	if attack_data.attacker_unit == managers.player:player_unit() then
 		attack_data.backstab = self:check_backstab(attack_data)
 
 		if attack_data.backstab and attack_data.backstab_multiplier then
 			damage = damage * attack_data.backstab_multiplier
-			damage_effect = damage_effect * attack_data.backstab_multiplier
 		end
 
 		local critical_hit, crit_damage = self:roll_critical_hit(attack_data)
@@ -1292,10 +1292,8 @@ function CopDamage:damage_melee(attack_data)
 		if self._char_tweak.headshot_dmg_mul then
 			headshot_multiplier = math_max(self._char_tweak.headshot_dmg_mul * headshot_multiplier, 1)
 			damage = damage * headshot_multiplier
-			damage_effect = damage_effect * headshot_multiplier
 		else
 			damage = self._health * 2
-			damage_effect = self._health * 2
 		end
 	end
 
@@ -1309,7 +1307,6 @@ function CopDamage:damage_melee(attack_data)
 	end
 
 	damage = self:_apply_damage_reduction(damage)
-	damage_effect = self:_apply_damage_reduction(damage_effect)
 	attack_data.raw_damage = damage
 
 	local damage_percent = 0
