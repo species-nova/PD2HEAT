@@ -1202,9 +1202,6 @@ function CopActionShoot:anim_clbk_melee_strike()
 
 		if defense_data and defense_data ~= "friendly_fire" then
 			if defense_data == "countered" then
-				local melee_entry = character_unit == local_player and managers.blackmarket:equipped_melee_weapon() or character_unit:base():melee_weapon()
-				local melee_tweak = tweak_data.blackmarket.melee_weapons[melee_entry]
-
 				self._common_data.melee_countered_t = TimerManager:game():time()
 				local attack_dir = self._unit:movement():m_com() - character_unit:movement():m_head_pos()
 
@@ -1224,30 +1221,35 @@ function CopActionShoot:anim_clbk_melee_strike()
 					name_id = melee_entry
 				}
 
-				--Empty Palm Kata gimmick to deal counterstrike damage.
-				--This bit of code *should* only occur client side, so it's probably fine.
-				--TODO: Make this a flag that gets sent to discharge_melee() to have it just deal bonus damage, rather than reinventing the wheel.
-				if melee_tweak.counter_damage then
-					local dmg_multiplier = 1
-					local player_state = character_unit:movement()._current_state
-					local t = managers.player:player_timer():time()
+				local melee_entry = character_unit == local_player and managers.blackmarket:equipped_melee_weapon() or character_unit:base().melee_weapon and character_unit:base():melee_weapon()
+				if melee_entry then
+					local melee_tweak = tweak_data.blackmarket.melee_weapons[melee_entry]
 
-					if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-						player_state._state_data.stacking_dmg_mul = player_state._state_data.stacking_dmg_mul or {}
-						player_state._state_data.stacking_dmg_mul.melee = player_state._state_data.stacking_dmg_mul.melee or {nil, 0}
-						local stack = player_state._state_data.stacking_dmg_mul.melee
-						if stack[1] and t < stack[1] then
-							dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("melee", "stacking_hit_damage_multiplier", 0) * stack[2])
-						else
-							stack[2] = 0
+					--Empty Palm Kata gimmick to deal counterstrike damage.
+					--This bit of code *should* only occur client side, so it's probably fine.
+					--TODO: Make this a flag that gets sent to discharge_melee() to have it just deal bonus damage, rather than reinventing the wheel.
+					if melee_tweak.counter_damage then
+						local dmg_multiplier = 1
+						local player_state = character_unit:movement()._current_state
+						local t = managers.player:player_timer():time()
+
+						if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
+							player_state._state_data.stacking_dmg_mul = player_state._state_data.stacking_dmg_mul or {}
+							player_state._state_data.stacking_dmg_mul.melee = player_state._state_data.stacking_dmg_mul.melee or {nil, 0}
+							local stack = player_state._state_data.stacking_dmg_mul.melee
+							if stack[1] and t < stack[1] then
+								dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("melee", "stacking_hit_damage_multiplier", 0) * stack[2])
+							else
+								stack[2] = 0
+							end
+							stack[1] = t + managers.player:upgrade_value(primary_category, "stacking_hit_expire_t", 1)
+							stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_weapon_dmg_mul_stacks or 5)
 						end
-						stack[1] = t + managers.player:upgrade_value(primary_category, "stacking_hit_expire_t", 1)
-						stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_weapon_dmg_mul_stacks or 5)
-					end
 
-					if self._unit:character_damage().dead and not self._unit:character_damage():dead() and managers.enemy:is_enemy(self._unit) and not tweak_data.character[self._unit:base()._tweak_table].is_escort and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then
-						managers.player:activate_temporary_upgrade("temporary", "melee_life_leech")
-						self._unit:character_damage():restore_health(managers.player:temporary_upgrade_value("temporary", "melee_life_leech", 1))
+						if self._unit:character_damage().dead and not self._unit:character_damage():dead() and managers.enemy:is_enemy(self._unit) and not tweak_data.character[self._unit:base()._tweak_table].is_escort and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then
+							managers.player:activate_temporary_upgrade("temporary", "melee_life_leech")
+							self._unit:character_damage():restore_health(managers.player:temporary_upgrade_value("temporary", "melee_life_leech", 1))
+						end
 					end
 
 					counter_data.damage = melee_tweak.counter_damage * managers.player:get_melee_dmg_multiplier() * dmg_multiplier
