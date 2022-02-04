@@ -790,7 +790,7 @@ function SkillTreeTweakData:init(tweak_data)
 					}
 				}
 
-				--Portable Saw--
+				--Diamond Tipped--
 				self.skills.portable_saw = {
 					["name_id"] = "menu_portable_saw_beta_sc",
 					["desc_id"] = "menu_portable_saw_beta_desc_sc",
@@ -803,10 +803,7 @@ function SkillTreeTweakData:init(tweak_data)
 					},
 					[2] = {
 						upgrades = {
-							"saw_reload_speed_multiplier",
-							"crossbow_reload_speed_multiplier",
-							"bow_reload_speed_multiplier",
-							"grenade_launcher_reload_speed_multiplier"
+							"saw_ignore_shields_1"
 						},
 						cost = self.costs.hightierpro
 					}
@@ -831,20 +828,20 @@ function SkillTreeTweakData:init(tweak_data)
 					}
 				}
 
-				--Carbon Blade--
+				--Rip and Tear--
 				self.skills.carbon_blade = {
 					["name_id"] = "menu_carbon_blade_beta_sc",
 					["desc_id"] = "menu_carbon_blade_beta_desc_sc",
 					["icon_xy"] = {0, 2},
 					[1] = {
 						upgrades = {
-							"saw_ignore_shields_1"
+							"temporary_single_shot_reload_speed_multiplier"
 						},
 						cost = self.costs.hightier
 					},
 					[2] = {
 						upgrades = {
-							"saw_panic_when_kill_1"
+							"weapon_single_shot_panic_when_kill"
 						},
 						cost = self.costs.hightierpro
 					}

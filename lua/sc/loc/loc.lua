@@ -636,7 +636,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_scorpion_m_extended"] = "Double Magazine",
 		["bm_wp_rpk_m_ban_sc"] = "Potassium Magazine",
 		["bm_wp_r870_s_folding_ext"] = "Extended Muldon Stock",
-		["bm_ap_saw_sc_desc"] = "CUTS THROUGH BODY ARMOR.",
+		["bm_ap_saw_sc_desc"] = "Cuts through body armor and many locks.",
 
 		--Weapon Sights--
 		["bm_wp_upg_o_leupold_desc_sc"] = "Automatically marks special enemies, as well as guards in Stealth, while aiming.", --I believe all sights/objects with this effect call this same line, rather than having a unique one. Will need to be decoupled later when we add zoom to all of the sight descriptions.
@@ -1545,8 +1545,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_ammo_reservoir_beta_desc_sc"] = "BASIC: ##$basic##\nAmmo bags placed by you grant players the ability to shoot without depleting their ammunition for up to ##5## seconds after interacting with it. The more ammo players replenish, the longer the duration of the effect.\n\nACE: ##$pro##\nIncreases the base duration of the effect by up to ##15## seconds.",
 
 			--Specialist Equipment--
-			["menu_portable_saw_beta_sc"] = "Specialist Equipment",
-			["menu_portable_saw_beta_desc_sc"] = "BASIC: ##$basic##\nReduces the wear down of saw blades by ##50%.##\n\nACE: ##$pro##\nSaws, Crossbows, Bows, Grenade Launchers, and Rocket Launchers reload ##25%## faster.",
+			["menu_portable_saw_beta_sc"] = "Diamond Tipped",
+			["menu_portable_saw_beta_desc_sc"] = "BASIC: ##$basic##\nReduces the wear down of saw blades by ##50%.##\n\nACE: ##$pro##\nYou can now saw through shield enemies with your OVE9000 Portable Saw.",
 
 			--Extra Lead--
 			["menu_ammo_2x_beta_sc"] = "Extra Lead",
@@ -1554,7 +1554,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Rip and Tear--
 			["menu_carbon_blade_beta_sc"] = "Rip and Tear",
-			["menu_carbon_blade_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now saw through shield enemies with your OVE9000 portable saw.\n\nACE: ##$pro##\nKills with the Saw, Crossbows, Bows, Grenade Launchers, or Rocket Launchers have a ##50%## chance to cause nearby enemies in a ##10## meter radius to panic.\n\nPanic makes enemies go into short bursts of uncontrollable fear.",
+			["menu_carbon_blade_beta_desc_sc"] = "BASIC: ##$basic##\nKills with the OVE9000 Portable Saw or weapons that can hold a single shot increase their reload speed by ##75%## for ##1## second.\n\nACE: ##$pro##\nKills with the OVE9000 Portable Saw or weapons that can hold a single shot have a ##40%## chance to cause nearby enemies in a ##10## meter radius to panic.\n\nPanic makes enemies go into short bursts of uncontrollable fear.",
 
 			--Fully Loaded--
 			["menu_bandoliers_beta_sc"] = "Fully Loaded",

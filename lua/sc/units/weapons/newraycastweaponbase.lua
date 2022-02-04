@@ -604,13 +604,19 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 			multiplier = multiplier + user_unit:movement():next_reload_speed_multiplier() - 1
 		end
 	end
+
+	if self:is_single_shot() and player_manager:has_activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier") then
+		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_reload_speed_multiplier", 1) - 1
+	end
 	
-	if managers.player:has_activate_temporary_upgrade("temporary", "reload_weapon_faster") then
+	if player_manager:has_activate_temporary_upgrade("temporary", "reload_weapon_faster") then
 		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "reload_weapon_faster", 1) - 1
 	end
-	if managers.player:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
+	
+	if player_manager:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
 		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1) - 1
 	end
+	
 	multiplier = multiplier + player_manager:get_temporary_property("bloodthirst_reload_speed", 1) - 1
 	multiplier = multiplier + player_manager:upgrade_value("team", "crew_faster_reload", 1) - 1
 

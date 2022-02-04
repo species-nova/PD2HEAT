@@ -521,6 +521,7 @@ end
 
 function PlayerStandard:_update_crosshair(t, dt, weapon)
 	local crosshair_visible = alive(self._equipped_unit) and
+							  not weapon:is_category("saw") and
 							  not self:_is_meleeing() and
 							  not self:_interacting() and
 							  (not self._state_data.in_steelsight or self._crosshair_ignore_steelsight)
@@ -2433,9 +2434,6 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						--Apply stability to screen shake from firing.
 						local weap_tweak_data = tweak_data.weapon[weap_base:get_name_id()]
 						local shake_multiplier = weap_base:shake_multiplier(self._state_data.in_steelsight and "fire_steelsight_multiplier" or "fire_multiplier")
-						local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
-						self._ext_camera:play_shaker("fire_weapon_rot", 1 * shake_multiplier * recoil_multiplier * 0.75)
-						self._ext_camera:play_shaker("fire_weapon_kick", 1 * shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
 						self._equipped_unit:base():tweak_data_anim_stop("unequip")
 						self._equipped_unit:base():tweak_data_anim_stop("equip")
 
@@ -2451,9 +2449,13 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							end
 						end
 
-						local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
-
-						self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
+						if not fired.skip_recoil then
+							local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
+							local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
+							self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
+							self._ext_camera:play_shaker("fire_weapon_rot", 1 * shake_multiplier * recoil_multiplier * 0.75)
+							self._ext_camera:play_shaker("fire_weapon_kick", 1 * shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
+						end
 
 						if self._shooting_t then
 							local time_shooting = t - self._shooting_t

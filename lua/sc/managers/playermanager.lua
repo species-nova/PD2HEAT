@@ -180,11 +180,9 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	--Spread on-kill panic.
 	local panic_chance = 0
 
-	--Add Rip and Tear Ace to panic chance.
-	if self._saw_panic_when_kill and variant ~= "melee" then
-		if equipped_unit:is_category("saw", "grenade_launcher", "bow", "crossbow") then
-			panic_chance = panic_chance + self:upgrade_value("saw", "panic_when_kill")
-		end
+	--Add Specialized Equipment Ace to panic chance.
+	if self._single_shot_panic_when_kill and variant ~= "melee" and equipped_unit:base():is_single_shot() then
+		panic_chance = panic_chance + self:upgrade_value("weapon", "single_shot_panic_when_kill")
 	end
 
 	--Apply Sociopath panic chance.
@@ -448,7 +446,7 @@ function PlayerManager:check_skills()
 	self:send_message_now("check_skills")
 	self._coroutine_mgr:clear()
 
-	self._saw_panic_when_kill = self:has_category_upgrade("saw", "panic_when_kill")
+	self._single_shot_panic_when_kill = self:has_category_upgrade("weapon", "single_shot_panic_when_kill")
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
 	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
 	self._slow_duration_multiplier = self:upgrade_value("player", "slow_duration_multiplier", 1)
@@ -496,6 +494,12 @@ function PlayerManager:check_skills()
 		self:register_message(Message.OnLethalHeadShot, "activate_aggressive_reload", callback(self, self, "_on_activate_aggressive_reload_event"))
 	else
 		self:unregister_message(Message.OnLethalHeadShot, "activate_aggressive_reload")
+	end
+
+	if self:has_category_upgrade("temporary", "single_shot_reload_speed_multiplier") then
+		self:register_message(Message.OnEnemyKilled, "activate_specialized_equipment", callback(self, self, "_trigger_specialized_equipment"))
+	else
+		self:unregister_message(Message.OnEnemyKilled, "activate_specialized_equipment")
 	end
 
 	if self:has_category_upgrade("assault_rifle", "headshot_bloom_reduction") then
@@ -1006,7 +1010,7 @@ function PlayerManager:_trigger_heal_over_time()
 	self:player_unit():character_damage():add_hot_stack()
 end
 
---Boosts ROF on headshot gills with single fire guns.
+--Boosts ROF on headshot kills with single fire guns.
 function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	local weapon_unit = self:equipped_weapon_unit()
 	local attacker_unit = attack_data.attacker_unit
@@ -1015,6 +1019,13 @@ function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	if attacker_unit == self:player_unit() and variant == "bullet" and weapon_unit and weapon_unit:base():fire_mode() == "single" and weapon_unit:base():is_category("assault_rifle", "snp") and attack_data.result.type == "death" then
 		self:activate_temporary_upgrade("temporary", "headshot_accuracy_addend")
 		self:activate_temporary_upgrade("temporary", "headshot_fire_rate_mult")
+	end
+end
+
+--Briefly boosts reload speed on single-shot weapons.
+function PlayerManager:_trigger_specialized_equipment(equipped_unit, variant, killed_unit)
+	if variant ~= "melee" and alive(equipped_unit) and equipped_unit:base():is_single_shot() then
+		self:activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier")
 	end
 end
 

@@ -737,7 +737,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			end
 		end
 
-		base:set_ammo_remaining_in_clip(base:get_ammo_remaining_in_clip() - ammo_usage)
+		base:set_ammo_remaining_in_clip(mag - ammo_usage)
 		self:use_ammo(base, ammo_usage)
 	end
 
@@ -816,6 +816,10 @@ function RaycastWeaponBase:do_kick_pattern()
 	end
 
 	return self._kick_pattern.pattern[self._curr_kick]
+end
+
+function RaycastWeaponBase:is_single_shot()
+	return self:get_ammo_max_per_clip() == 1
 end
 
 function RaycastWeaponBase:get_accuracy_addend()

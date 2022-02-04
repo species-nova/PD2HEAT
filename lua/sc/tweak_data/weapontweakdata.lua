@@ -4073,46 +4073,41 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	--OVE9000 Saw
 	self.saw.has_description = true
 	self.saw.desc_id = "bm_ap_saw_sc_desc"
-	self.saw.CLIP_AMMO_MAX = 20
-	self.saw.AMMO_MAX = 40
-	self.saw.kick = self.stat_info.kick_tables.none
-	self.saw.supported = false
+	self.saw.CLIP_AMMO_MAX = 100
+	self.saw.AMMO_MAX = 200
+	self.saw.kick = self.stat_info.kick_tables.vertical_kick
+	self.saw.kick_pattern = self.stat_info.kick_patterns.random
+	self.saw.fire_mode_data.fire_rate = 0.1
+	self.saw.auto.fire_rate = 0.1
+	self.saw.supported = true
 	self.saw.stats = {
-		alert_size = 2,
-		suppression = 7,
-		zoom = 1,
-		spread = 1,
-		recoil = 26,
-		spread_moving = 7,
-		damage = 90,
-		concealment = 20,
-		value = 1,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
+		spread = 21,
+		recoil = 16,
+		damage = 60,
+		concealment = 11,
+		value = 1
 	}
-	self.saw.stats_modifiers = nil
-	self.saw_secondary.kick = self.stat_info.kick_tables.none
+	self.saw.timers = {
+		reload_not_empty = 4.8,
+		reload_empty = 4.8,
+		reload_operational = 3.7,
+		empty_reload_operational = 3.7,
+		reload_interrupt = 0.0,
+		empty_reload_interrupt = 0.0,
+		unequip = 0.8,
+		equip = 0.8
+	}
+	self.saw_secondary.kick = self.saw.kick
+	self.saw_secondary.kick_pattern = self.saw.kick_pattern
 	self.saw_secondary.has_description = true
 	self.saw_secondary.desc_id = "bm_ap_saw_sc_desc"
-	self.saw_secondary.CLIP_AMMO_MAX = 20
-	self.saw_secondary.AMMO_MAX = 20
-	self.saw_secondary.supported = false
-	self.saw_secondary.stats = {
-		alert_size = 2,
-		suppression = 7,
-		zoom = 1,
-		spread = 1,
-		recoil = 26,
-		spread_moving = 7,
-		damage = 90,
-		concealment = 20,
-		value = 1,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.saw_secondary.stats_modifiers = nil
+	self.saw_secondary.CLIP_AMMO_MAX = self.saw.CLIP_AMMO_MAX
+	self.saw_secondary.AMMO_MAX = math.floor(self.saw.AMMO_MAX / 2)
+	self.saw_secondary.fire_mode_data.fire_rate = self.saw.fire_mode_data.fire_rate
+	self.saw_secondary.auto.fire_rate = self.saw.auto.fire_rate
+	self.saw_secondary.supported = true
+	self.saw_secondary.stats = deep_clone(self.saw.stats)
+	self.saw_secondary.timers = deep_clone(self.saw.timers)
 
 	--Judge
 	self.judge.fire_mode_data = {}
@@ -5287,7 +5282,7 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	crossbow = 0.7,
 	pistol = 1.1, --Compensate for low range.
 	smg = 1.1,
-	saw = 1.25, --Compensate for jankiness.
+	saw = 0.6,
 	lmg = 1
 }
 
@@ -5341,7 +5336,7 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 			pickup_multiplier = damage_pool_secondary / damage_pool_primary
 		end
 	else
-		pickup_multiplier = (weapon.AMMO_MAX * damage_tier.damage * damage_mul) / damage_pool_primary
+		pickup_multiplier = pickup_multiplier * ((weapon.AMMO_MAX * damage_tier.damage * damage_mul) / damage_pool_primary)
 	end
 
 	--Set actual pickup values to use.

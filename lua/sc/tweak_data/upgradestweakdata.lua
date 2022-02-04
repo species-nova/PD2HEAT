@@ -793,12 +793,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Portable Saw
 				--Basic
-					self.values.saw.enemy_slicer = {true}
+					self.values.saw.enemy_slicer = {1}
 				--Ace
-					self.values.saw.reload_speed_multiplier = {1.25}
-					self.values.grenade_launcher.reload_speed_multiplier = {1.25}
-					self.values.crossbow.reload_speed_multiplier = {1.25}
-					self.values.bow.reload_speed_multiplier = {1.25}
+					self.values.saw.ignore_shields = {true}
 			
 			--Extra Lead
 				--Basic
@@ -808,9 +805,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Rip and Tear
 				--Basic
-					self.values.saw.ignore_shields = {true}
+					self.values.temporary.single_shot_reload_speed_multiplier = {{1.75, 1}}
 				--Ace
-					self.values.saw.panic_when_kill = {0.5}
+					self.values.weapon.single_shot_panic_when_kill = {0.4}
 				
 			--Fully Loaded
 				--Basic
@@ -1312,7 +1309,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.player.melee_kill_auto_load = {3}
 				--Ace
-					self.values.temporary.melee_kill_increase_reload_speed = {{1.5, 10}}
+					self.values.player.melee_kill_increase_reload_speed = {{1.5, 10}}
 				
 			--Frenzy
 				--Basic
@@ -1923,7 +1920,16 @@ function UpgradesTweakData:_player_definitions()
 			upgrade = "spread_index_addend",
 			category = "akimbo"
 		}
-	}		
+	}	
+	self.definitions.weapon_single_shot_panic_when_kill = {
+		name_id = "menu_weapon_single_shot_panic_when_kill",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "single_shot_panic_when_kill",
+			category = "weapon"
+		}
+	}
 	self.definitions.weapon_special_damage_taken_multiplier_1 = {
 		name_id = "menu_weapon_special_damage_taken_multiplier",
 		category = "feature",
@@ -2363,6 +2369,15 @@ function UpgradesTweakData:_player_definitions()
 			value = 10
 		}
 	}
+	self.definitions.temporary_single_shot_reload_speed_multiplier = {
+		category = "temporary",
+		name_id = "menu_temporary_single_shot_reload_speed_multiplier",
+		upgrade = {
+			category = "temporary",
+			upgrade = "single_shot_reload_speed_multiplier",
+			value = 1
+		}
+	}
 	self.definitions.temporary_headshot_accuracy_addend = {
 		category = "temporary",
 		name_id = "menu_temporary_headshot_accuracy_addend",
@@ -2509,33 +2524,6 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.grenade_launcher_reload_speed_multiplier = {
-		name_id = "menu_assault_rifle_reload_speed_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "reload_speed_multiplier",
-			category = "grenade_launcher"
-		}
-	}
-	self.definitions.crossbow_reload_speed_multiplier = {
-		name_id = "menu_assault_rifle_reload_speed_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "reload_speed_multiplier",
-			category = "crossbow"
-		}
-	}	
-	self.definitions.bow_reload_speed_multiplier = {
-		name_id = "menu_assault_rifle_reload_speed_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "reload_speed_multiplier",
-			category = "bow"
-		}
-	}		
 	self.definitions.deploy_interact_faster_2 = {
 		name_id = "menu_deploy_interact_faster",
 		category = "feature",
@@ -2951,129 +2939,12 @@ function UpgradesTweakData:_saw_definitions()
 		weapon_id = "saw_secondary",
 		factory_id = "wpn_fps_saw_secondary"
 	}
-	self.definitions.saw_extra_ammo_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_extra_ammo_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "extra_ammo_multiplier",
-			value = 1
-		}
-	}
 	self.definitions.saw_enemy_slicer = {
 		category = "feature",
 		name_id = "menu_saw_enemy_slicer",
 		upgrade = {
 			category = "saw",
 			upgrade = "enemy_slicer",
-			value = 1
-		}
-	}
-	self.definitions.saw_recoil_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_recoil_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "recoil_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_fire_rate_multiplier_1 = {
-		category = "feature",
-		name_id = "menu_saw_fire_rate_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "fire_rate_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_fire_rate_multiplier_2 = {
-		category = "feature",
-		name_id = "menu_saw_fire_rate_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "fire_rate_multiplier",
-			value = 2
-		}
-	}
-	self.definitions.saw_lock_damage_multiplier_1 = {
-		category = "feature",
-		name_id = "menu_lock_damage_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "lock_damage_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_lock_damage_multiplier_2 = {
-		category = "feature",
-		name_id = "menu_lock_damage_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "lock_damage_multiplier",
-			value = 2
-		}
-	}
-	self.definitions.saw_hip_fire_spread_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_hip_fire_spread_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "hip_fire_spread_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_hip_fire_damage_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_hip_fire_damage_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "hip_fire_damage_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_armor_piercing_chance = {
-		category = "feature",
-		name_id = "menu_saw_armor_piercing_chance",
-		upgrade = {
-			category = "saw",
-			upgrade = "armor_piercing_chance",
-			value = 1
-		}
-	}
-	self.definitions.saw_swap_speed_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_swap_speed_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "swap_speed_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_reload_speed_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_reload_speed_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "reload_speed_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.saw_melee_knockdown_mul = {
-		category = "feature",
-		name_id = "menu_saw_melee_knockdown_mul",
-		upgrade = {
-			category = "saw",
-			upgrade = "melee_knockdown_mul",
-			value = 1
-		}
-	}
-	self.definitions.saw_damage_multiplier = {
-		category = "feature",
-		name_id = "menu_saw_damage_multiplier",
-		upgrade = {
-			category = "saw",
-			upgrade = "damage_multiplier",
 			value = 1
 		}
 	}
@@ -3092,15 +2963,6 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			category = "saw",
 			upgrade = "ignore_shields",
-			value = 1
-		}
-	}
-	self.definitions.saw_panic_when_kill_1 = {
-		category = "feature",
-		name_id = "menu_saw_panic_when_kill",
-		upgrade = {
-			category = "saw",
-			upgrade = "panic_when_kill",
 			value = 1
 		}
 	}

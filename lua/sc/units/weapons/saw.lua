@@ -19,26 +19,39 @@ function SawWeaponBase:setup(...)
 	self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
 end
 
+--"Single shot" skills also apply to the saw.
+function SawWeaponBase:is_single_shot()
+	return true
+end
+
+function SawWeaponBase:ammo_info()
+	return SawWeaponBase.super.ammo_info(self)
+end
+
+
 function SawWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, target_unit)
 	if self:get_ammo_remaining_in_clip() == 0 then
 		return
 	end
+
 	local user_unit = self._setup.user_unit
 	local ray_res, hit_something = self:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, target_unit)
+	
 	if hit_something then
 		self:_start_sawing_effect()
-		local ammo_usage = 2
-		if managers.player:has_category_upgrade("saw", "enemy_slicer") then
-			ammo_usage = 1
-		else
-			ammo_usage = 2
-		end
+		local dont_consume_ammo = managers.player:has_active_temporary_property("bullet_storm") --Bullet Storm
+			or (managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") and managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) --Swan Song
+
+		local ammo_usage = dont_consume_ammo and 0 or managers.player:upgrade_value("saw", "enemy_slicer", 2)
+
 		self:set_ammo_remaining_in_clip(math.max(self:get_ammo_remaining_in_clip() - ammo_usage, 0))
 		self:set_ammo_total(math.max(self:get_ammo_total() - ammo_usage, 0))
 		self:_check_ammo_total(user_unit)
 	else
+		ray_res.skip_recoil = true
 		self:_stop_sawing_effect()
 	end
+	
 	if self._alert_events and ray_res.rays then
 		if hit_something then
 			self._alert_size = self._hit_alert_size
@@ -48,7 +61,13 @@ function SawWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spread_m
 		self._current_stats.alert_size = self._alert_size
 		self:_check_alert(ray_res.rays, from_pos, direction, user_unit)
 	end
+	
 	return ray_res
+end
+
+--Saws always hit the center of the screen. Instead, recharge the current blade.
+function SawWeaponBase:update_spread(current_state, t, dt)
+	self._current_spread = 0
 end
 
 local ray_table_contains = function(table, unit)
@@ -127,29 +146,17 @@ function SawWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, sh
 end
 
 SawHit = SawHit or class(InstantBulletBase)
-
 function SawHit:on_collision(col_ray, weapon_unit, user_unit, damage)
 	local hit_unit = col_ray.unit
-	if hit_unit and hit_unit:base() and hit_unit:base()._tweak_table and (hit_unit:base()._tweak_table == "tank") then
-		damage = damage * 2
-	elseif hit_unit and hit_unit:base() and hit_unit:base()._tweak_table and (hit_unit:base()._tweak_table == "tank_hw") then
-		damage = damage * 2
-	elseif hit_unit and hit_unit:base() and hit_unit:base()._tweak_table and (hit_unit:base()._tweak_table == "tank_medic") then
-		damage = damage * 2
-	elseif hit_unit and hit_unit:base() and hit_unit:base()._tweak_table and (hit_unit:base()._tweak_table == "tank_titan") then
-		damage = damage * 2
-	elseif hit_unit and hit_unit:base() and hit_unit:base()._tweak_table and (hit_unit:base()._tweak_table == "tank_titan_assault") then
-		damage = damage * 2			
-	elseif hit_unit and hit_unit:base() and hit_unit:base()._tweak_table and (hit_unit:base()._tweak_table == "tank_mini") then
-		damage = damage * 2
-	end
+
 	local result = InstantBulletBase.on_collision(self, col_ray, weapon_unit, user_unit, damage)
 	if hit_unit:damage() and col_ray.body:extension() and col_ray.body:extension().damage then
-		damage = math.clamp(damage * managers.player:upgrade_value("saw", "lock_damage_multiplier", 1) * 4, 0, 200)
+		damage = 25
 		col_ray.body:extension().damage:damage_lock(user_unit, col_ray.normal, col_ray.position, col_ray.direction, damage)
 		if hit_unit:id() ~= -1 then
 			managers.network:session():send_to_peers_synched("sync_body_damage_lock", col_ray.body, damage)
 		end
 	end
+
 	return result
 end
