@@ -897,7 +897,7 @@ function CopActionShoot:update(t)
 
 							self._sniper_focus_start_t = t
 							self._shoot_t = t + self._aim_delay_minmax[1]
-						elseif t - self._line_of_sight_t > 3 then --Enemy LOS broken.
+						elseif t - self._line_of_sight_t > 7 then --Enemy LOS broken.
 							self:_debug_draw_obstruction_checks(false, fire_line_is_obstructed, target_pos)
 
 							local lerp_dis = math_min(1, target_dis / self._falloff[#self._falloff].r)
