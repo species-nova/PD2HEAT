@@ -363,22 +363,24 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 			if part_data and part_data.stats then
 				if stat.name == "range" then
 					local category_mul = get_range_mul(weapon_tweak)
-					local falloff_info = tweak_data.weapon.stat_info.damage_falloff
-					local base_falloff = falloff_info.base
-					local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mod.spread)
-					local base_range = base_stats.range.value
+					if category_mul then
+						local falloff_info = tweak_data.weapon.stat_info.damage_falloff
+						local base_falloff = falloff_info.base
+						local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mod.spread)
+						local base_range = base_stats.range.value
 
-					local range = (base_falloff + acc_bonus) * category_mul
+						local range = (base_falloff + acc_bonus) * category_mul
 
-					if weapon_tweak.rays and weapon_tweak.rays > 1 and not (part_data.custom_stats and part_data.custom_stats.rays == 1) then
-						range = range * falloff_info.shotgun_penalty
+						if weapon_tweak.rays and weapon_tweak.rays > 1 and not (part_data.custom_stats and part_data.custom_stats.rays == 1) then
+							range = range * falloff_info.shotgun_penalty
+						end
+
+						if part_data.custom_stats and part_data.custom_stats.damage_near_mul then
+							range = range * part_data.custom_stats.damage_near_mul
+						end
+
+						mod.range = range - base_range
 					end
-
-					if part_data.custom_stats and part_data.custom_stats.damage_near_mul then
-						range = range * part_data.custom_stats.damage_near_mul
-					end
-
-					mod.range = range - base_range
 				elseif stat.name == "pickup" then
 					local min_pickup = weapon_tweak.AMMO_PICKUP[1] * (part_data.custom_stats and part_data.custom_stats.ammo_pickup_min_mul or 1)
 					local max_pickup = weapon_tweak.AMMO_PICKUP[2] * (part_data.custom_stats and part_data.custom_stats.ammo_pickup_max_mul or 1)
