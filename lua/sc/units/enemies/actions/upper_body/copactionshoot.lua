@@ -1250,9 +1250,10 @@ function CopActionShoot:anim_clbk_melee_strike()
 							managers.player:activate_temporary_upgrade("temporary", "melee_life_leech")
 							self._unit:character_damage():restore_health(managers.player:temporary_upgrade_value("temporary", "melee_life_leech", 1))
 						end
+
+						counter_data.damage = melee_tweak.counter_damage * managers.player:get_melee_dmg_multiplier() * dmg_multiplier
 					end
 
-					counter_data.damage = melee_tweak.counter_damage * managers.player:get_melee_dmg_multiplier() * dmg_multiplier
 				end
 
 				self._unit:character_damage():damage_melee(counter_data)
