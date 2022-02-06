@@ -1720,7 +1720,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.shuno.CLIP_AMMO_MAX = 400
 		self.shuno.FIRE_MODE = "auto"
 		self.shuno.fire_mode_data.fire_rate = 0.05
-		self.shuno.fire_rate_multiplier = 1.666666666667 --2000 rpm
+		self.shuno.fire_rate_multiplier = 1.5 --1800 rpm
 		self.shuno.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.shuno.kick_pattern = self.stat_info.kick_patterns.random
 		self.shuno.supported = true
