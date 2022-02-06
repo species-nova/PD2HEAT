@@ -514,7 +514,7 @@ function PlayerStandard:update(t, dt)
 	self:_update_crosshair(t, dt, weapon)
 	managers.hud:_update_crosshair_offset(t, dt)
 
-	if weapon:get_name_id() == "m134" then
+	if weapon:has_spin() then
 		weapon:update_spin()
 	end
 end
@@ -538,7 +538,7 @@ function PlayerStandard:_update_crosshair(t, dt, weapon)
 			local crosshair_spread = weapon:_get_spread(self._unit)
 
 			--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
-			if (self._shooting or self._shot) and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
+			if self._shot and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
 				crosshair_spread = crosshair_spread + (weapon._recoil) * 4 --Magic number that feels good.
 				self._next_crosshair_jiggle = t + 0.1
 				self._shot = false --Trigger crosshair jiggles when a single shot was fired in the previous frame.
@@ -1405,7 +1405,7 @@ function PlayerStandard:_start_action_steelsight(t, gadget_state)
 	end
 
 	if self._state_data.in_steelsight or self._steelsight_wanted then
-		if weap_base:get_name_id() == "m134" then
+		if weap_base:has_spin() then
 			weap_base:vulcan_enter_steelsight()
 		end
 	end
@@ -1435,7 +1435,7 @@ end
 Hooks:PostHook(PlayerStandard, "_end_action_steelsight", "ResMinigunExitSteelsight", function(self, t, gadget_state)
 	if not self._state_data.in_steelsight then
 		local weapon = self._unit:inventory():equipped_unit():base()
-		if weapon:get_name_id() == "m134" then
+		if weapon:has_spin() then
 			weapon:vulcan_exit_steelsight()
 		end
 	end
@@ -2428,7 +2428,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					new_action = true
 
 					if fired then
-						self._shot = true
+						self._shot = true --Used to signal that a crosshair jiggle should occur.
 
 						managers.rumble:play("weapon_fire")
 						--Apply stability to screen shake from firing.
@@ -2437,7 +2437,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						self._equipped_unit:base():tweak_data_anim_stop("unequip")
 						self._equipped_unit:base():tweak_data_anim_stop("equip")
 
-						if not self._state_data.in_steelsight or not weap_base:tweak_data_anim_play("fire_steelsight", weap_base:fire_rate_multiplier()) then
+						if not weap_base:has_spin() and not self._state_data.in_steelsight or not weap_base:tweak_data_anim_play("fire_steelsight", weap_base:fire_rate_multiplier()) then
 							weap_base:tweak_data_anim_play("fire", weap_base:fire_rate_multiplier())
 						end
 

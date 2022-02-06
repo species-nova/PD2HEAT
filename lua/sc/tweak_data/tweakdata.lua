@@ -40,6 +40,7 @@ tweak_data.akimbo = {swap_bonus = 0.75, range_mul = 0.8}
 tweak_data.smg = {range_mul = 0.8}
 tweak_data.lmg = {range_mul = 1.25} --Stacks with smg to give a mul of 1
 tweak_data.snp = {range_mul = 1.25}
+tweak_data.minigun = {range_mul = 1.5}
 
 --HE'S GOT AN RPG--
 tweak_data.projectiles.launcher_rocket.damage = 120

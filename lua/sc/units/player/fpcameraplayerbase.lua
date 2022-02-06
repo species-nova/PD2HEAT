@@ -140,7 +140,6 @@ function FPCameraPlayerBase:recoil_kick(up, down, left, right, shooting)
 		lerp_x = math.random()
 		lerp_y = math.random()
 	end
-
 	local v = math.lerp(up, down, lerp_y)
 	self._recoil_kick.accumulated = (self._recoil_kick.accumulated or 0) + v
 	

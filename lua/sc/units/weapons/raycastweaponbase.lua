@@ -10,8 +10,10 @@ local mvec3_set_l = mvector3.set_length
 local mvec3_len = mvector3.length
 local mvec3_cpy = mvector3.copy
 local mvec3_add_scaled = mvector3.add_scaled
-
 local init_original = RaycastWeaponBase.init
+
+local SPIN_UP = 1
+local SPIN_DOWN = -1
 function RaycastWeaponBase:init(unit)
 	init_original(self, unit)
 	
@@ -36,6 +38,14 @@ function RaycastWeaponBase:init(unit)
 	--Partially determines bloom decay rate.
 	local weapon_tweak = tweak_data.weapon[self._name_id]
 	self._base_fire_rate = (weapon_tweak.fire_mode_data and weapon_tweak.fire_mode_data.fire_rate or 0) / (weapon_tweak.fire_rate_multiplier or 1)
+
+	--Minigun spinning mechanics.
+	if weapon_tweak.spin_rounds then
+		self._spin_rounds = weapon_tweak.spin_rounds --Number of animation loops to go through to reach fire-able state.
+		self._spin_progress = 0 --Current spin progress.
+		self._spin_dir = SPIN_DOWN --Spin direction. SPIN_UP == increasing spin speed. SPIN_DOWN == decreasing spin speed. 
+		self._next_spin_animation_t = 0 --Time to play next animation loop.
+	end
 
 	self._curr_kick = 0
 	self._kick_pattern = weapon_tweak.kick_pattern
@@ -203,7 +213,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	local ray_distance = self.far_falloff_distance or self:weapon_range()
 	local right = direction:cross(Vector3(0, 0, 1)):normalized()
 	local up = direction:cross(right):normalized()
-	local r = math.random()
+	local r = math.sqrt(math.random())
 	local theta = math.random() * 360
 	local ax = math.tan(r * spread_x * (spread_mul or 1)) * math.cos(theta)
 	local ay = math.tan(r * spread_y * (spread_mul or 1)) * math.sin(theta) * -1
@@ -1094,4 +1104,85 @@ end
 
 function RaycastWeaponBase:shake_multiplier(multiplier_type)
 	return 1
+end
+
+--Minigun spin mechanics below.
+local start_shooting_original = RaycastWeaponBase.start_shooting
+function RaycastWeaponBase:start_shooting(...)
+	start_shooting_original(self, ...)
+	
+	if self._spin_rounds then
+		self:_start_spin()
+	end
+end
+
+local stop_shooting_original = RaycastWeaponBase.stop_shooting
+function RaycastWeaponBase:stop_shooting(...)
+	stop_shooting_original(self, ...)
+
+	if self._spin_rounds and not self._in_steelsight then
+		self:_stop_spin()
+	end
+end
+
+local trigger_held_original = RaycastWeaponBase.trigger_held
+function RaycastWeaponBase:trigger_held(...)
+	if self._spin_rounds then
+		local fired
+		if self._next_fire_allowed <= self._unit:timer():time() then
+			if self._spin_progress >= self._spin_rounds then
+				fired = self:fire(...)
+				if fired then
+					self._next_fire_allowed = self._next_fire_allowed + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / self:fire_rate_multiplier()
+					self:_fire_sound()
+				end
+			end
+		end
+		return fired
+	else
+		return trigger_held_original(self, ...)
+	end
+end
+
+function RaycastWeaponBase:_start_spin()
+	if self._spin_progress == 0 or self._spin_dir == SPIN_DOWN then
+		self._spin_dir = SPIN_UP
+	end
+end
+
+function RaycastWeaponBase:_stop_spin()
+	if self._spin_progress > 0 then
+		self._spin_dir = SPIN_DOWN
+	end
+end
+
+function RaycastWeaponBase:update_spin()
+	local t = self._unit:timer():time()
+	if (self._spin_dir == SPIN_UP and self._spin_rounds > self._spin_progress) or (self._spin_dir == SPIN_DOWN and self._spin_progress > 0) then
+		if t >= self._next_spin_animation_t then
+			self._spin_progress = self._spin_progress + self._spin_dir
+		end
+	end
+
+	if self._spin_progress > 0 and t >= self._next_spin_animation_t then
+		local spin_speed_mul = self:fire_rate_multiplier() * (self._spin_progress / self._spin_rounds)
+		self:tweak_data_anim_play("fire", spin_speed_mul)
+		self._next_spin_animation_t = t + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / spin_speed_mul
+	end
+end
+
+function RaycastWeaponBase:vulcan_enter_steelsight()
+	self._in_steelsight = true
+	self:_start_spin()
+end
+
+function RaycastWeaponBase:vulcan_exit_steelsight()
+	self._in_steelsight = nil
+	if not self._shooting then
+		self:_stop_spin()
+	end
+end
+
+function RaycastWeaponBase:has_spin()
+	return self._spin_rounds ~= nil
 end

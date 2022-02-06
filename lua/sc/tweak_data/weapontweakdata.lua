@@ -1679,6 +1679,72 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.qbu88.fire_mode_data.fire_rate = 0.3
 		self.qbu88.single.fire_rate = 0.3
 
+	--Minigun (PRIMARY)
+		--Minigun
+		self.m134.categories = {
+			"minigun",
+			"smg"
+		}
+		self.m134.has_description = false
+		self.m134.CLIP_AMMO_MAX = 360
+		self.m134.fire_mode_data.fire_rate = 0.05
+		self.m134.fire_rate_multiplier = 1.666666666667 --2000 rpm
+		self.m134.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.m134.kick_pattern = self.stat_info.kick_patterns.random
+		self.m134.supported = true
+		self.m134.stats = {
+			damage = 20,
+			spread = 3,
+			recoil = 16,
+			concealment = 3,
+			value = 9
+		}
+		self.m134.spin_rounds = 18
+		self.m134.timers = {
+			reload_empty = 9,
+			reload_not_empty = 9,
+			reload_operational = 7.8,
+			empty_reload_operational = 7.8,
+			reload_interrupt = 1.2,
+			empty_reload_interrupt = 1.2,
+			unequip = 0.9,
+			equip = 0.9
+		}
+
+		--Microgun
+		self.shuno.categories = {
+			"minigun",
+			"smg"
+		}
+		self.shuno.has_description = false
+		self.shuno.CLIP_AMMO_MAX = 400
+		self.shuno.FIRE_MODE = "auto"
+		self.shuno.fire_mode_data.fire_rate = 0.05
+		self.shuno.fire_rate_multiplier = 1.666666666667 --2000 rpm
+		self.shuno.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.shuno.kick_pattern = self.stat_info.kick_patterns.random
+		self.shuno.supported = true
+		self.shuno.stats = {
+			damage = 18,
+			spread = 3,
+			recoil = 18,
+			concealment = 4,
+			value = 9
+		}
+		self.shuno.spin_rounds = 15
+		self.shuno.timers = {
+			reload_empty = 11,
+			reload_not_empty = 11,
+			reload_operational = 8.2,
+			empty_reload_operational = 8.2,
+			reload_interrupt = 1.35,
+			empty_reload_interrupt = 1.35,
+			unequip = 1.5,
+			equip = 0.9
+		}
+		self.shuno.reload_speed_multiplier = 1.222222 --9s
+		self.shuno.swap_speed_multiplier = 1.3
+
 	--Light LMG (PRIMARY)
 		--KSP
 		self.m249.categories = {
@@ -4276,39 +4342,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.spas12.stats_modifiers = nil
 	self.spas12.stats_modifiers = {damage = 1}
 
-	--Minigun
-	self.m134.categories = {
-		"minigun",
-		"smg"
-	}
-	self.m134.has_description = false
-	self.m134.CLIP_AMMO_MAX = 300
-	self.m134.NR_CLIPS_MAX = 1
-	self.m134.AMMO_MAX = 300
-	self.m134.FIRE_MODE = "auto"
-	self.m134.fire_mode_data = {}
-	self.m134.fire_mode_data.fire_rate = 0.03
-	self.m134.CAN_TOGGLE_FIREMODE = false
-	self.m134.auto = {}
-	self.m134.auto.fire_rate = 0.03
-	self.m134.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.m134.supported = false
-	self.m134.stats = {
-		damage = 18,
-		spread = 15,
-		recoil = 21,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 10,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.m134.stats_modifiers = nil
-
 	--HRL-7
 	self.rpg7.upgrade_blocks = {
 		weapon = {
@@ -4921,40 +4954,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.x_judge.animations.second_gun_versions.reload = "reload"
 	self.x_judge.kick = self.stat_info.kick_tables.vertical_kick
 
-	--Microgun
-	self.shuno.categories = {
-		"minigun",
-		"smg"
-	}
-	self.shuno.has_description = false
-	self.shuno.CLIP_AMMO_MAX = 300
-	self.shuno.NR_CLIPS_MAX = 1
-	self.shuno.AMMO_MAX = 300
-	self.shuno.FIRE_MODE = "auto"
-	self.shuno.fire_mode_data = {}
-	self.shuno.fire_mode_data.fire_rate = 0.05
-	self.shuno.CAN_TOGGLE_FIREMODE = false
-	self.shuno.auto = {}
-	self.shuno.auto.fire_rate = 0.05
-	self.shuno.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.shuno.supported = false
-	self.shuno.stats = {
-		damage = 18,
-		spread = 16,
-		recoil = 23,
-		spread_moving = 9,
-		zoom = 1,
-		concealment = 10,
-		suppression = 9,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 9,
-		reload = 20
-	}
-	self.shuno.stats_modifiers = nil
-	self.shuno.swap_speed_multiplier = 1.25
-
 	--MA-17 Flamethrower
 	self.system.categories = {
 		"flamethrower",
@@ -5253,6 +5252,7 @@ function get_damage_tier(weapon)
 end
 
 local category_suppression_muls = {
+	minigun = 2,
 	lmg = 1.5,
 	bow = 0.5,
 	crossbow = 0.5,
@@ -5282,12 +5282,14 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	crossbow = 0.7,
 	pistol = 1.1, --Compensate for low range.
 	smg = 1.1,
-	saw = 0.6,
-	lmg = 1
+	saw = 0.5,
+	lmg = 1,
+	minigun = 1
 }
 
 local category_ammo_max_muls = {
 	lmg = 1.5,
+	minigun = 2,
 	rocket_launcher = 1.15
 }
 

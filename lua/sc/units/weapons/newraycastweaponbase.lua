@@ -197,59 +197,6 @@ NewRaycastWeaponBase.moving_spread_penalty_reduction = RaycastWeaponBase.moving_
 NewRaycastWeaponBase.update_spread = RaycastWeaponBase.update_spread
 NewRaycastWeaponBase._get_spread = RaycastWeaponBase._get_spread
 
-local start_shooting_original = RaycastWeaponBase.start_shooting
-local stop_shooting_original = RaycastWeaponBase.stop_shooting
-local _fire_sound_original = RaycastWeaponBase._fire_sound
-local trigger_held_original = RaycastWeaponBase.trigger_held
-
-RaycastWeaponBase._SPIN_UP_T = 0.5
-RaycastWeaponBase._SPIN_DOWN_T = 0.75
-
-function RaycastWeaponBase:start_shooting(...)
-	start_shooting_original(self, ...)
-	
-	if self._name_id == "m134" then
-		self:_start_spin()
-	end
-end
-
-function RaycastWeaponBase:stop_shooting(...)
-	stop_shooting_original(self, ...)
-
-	if self._name_id == "m134" then
-		self:_stop_spin()
-		self._vulcan_firing = nil
-	end
-end
-
-function RaycastWeaponBase:_fire_sound(...)
-	if self._name_id ~= "m134" or self._vulcan_firing then
-		return _fire_sound_original(self, ...)
-	end
-end
-
-function RaycastWeaponBase:trigger_held(...)
-	if self._name_id == "m134" then
-		self:update_spin()
-		local fired
-		if self._next_fire_allowed <= self._unit:timer():time() then
-			if self._spin_done then
-				fired = self:fire(...)
-				if fired then
-					self._next_fire_allowed = self._next_fire_allowed + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / self:fire_rate_multiplier()
-					if not self._vulcan_firing then
-						self._vulcan_firing = true
-						self:_fire_sound()
-					end
-				end
-			end
-		end
-		return fired
-	end
-	
-	return trigger_held_original(self, ...)
-end
-
 function NewRaycastWeaponBase:recoil_multiplier(...)
 	local rounds = 1
 	if self._delayed_burst_recoil and self:in_burst_mode() then
@@ -258,10 +205,6 @@ function NewRaycastWeaponBase:recoil_multiplier(...)
 		else
 			rounds = self._burst_size
 		end
-	end
-	
-	if self._name_id == "m134" and not self._vulcan_firing then
-		return 0
 	end
 
 	local user_unit = self._setup and self._setup.user_unit
@@ -296,66 +239,6 @@ local start_reload_original = NewRaycastWeaponBase.start_reload
 function NewRaycastWeaponBase:start_reload(...)
 	self:cancel_burst()
 	return start_reload_original(self, ...)
-end
-
-function RaycastWeaponBase:_start_spin()
-	if not self._spinning then
-		local t = self._unit:timer():time()
-		self._spin_up_start_t = t
-		if self._spin_down_start_t and RaycastWeaponBase._SPIN_DOWN_T > 0 then
-			self._spin_up_start_t = self._spin_up_start_t - (1 - math.clamp(t - self._spin_down_start_t, 0 , RaycastWeaponBase._SPIN_DOWN_T) / RaycastWeaponBase._SPIN_DOWN_T) * RaycastWeaponBase._SPIN_UP_T
-		end
-		
-		self._next_spin_animation_t = t
-		self._spinning = true
-		self._spin_down_start_t = nil
-	end
-end
-
-function RaycastWeaponBase:_stop_spin()
-	if self._spinning and not self._in_steelsight then
-		local t = self._unit:timer():time()
-		self._spin_down_start_t = t
-		if self._spin_up_start_t and RaycastWeaponBase._SPIN_UP_T > 0 then
-			self._spin_down_start_t = self._spin_down_start_t - (1 - math.clamp(t - self._spin_up_start_t, 0 , RaycastWeaponBase._SPIN_UP_T) / RaycastWeaponBase._SPIN_UP_T) * RaycastWeaponBase._SPIN_DOWN_T
-		end
-		
-		self._spinning = nil
-		self._spin_up_start_t = nil
-		self._spin_done = nil
-		self._vulcan_firing = nil
-	end
-end
-
-function RaycastWeaponBase:update_spin()
-	if not self._spin_done and self._spinning then
-		local t = self._unit:timer():time()
-		if (self._spin_up_start_t + RaycastWeaponBase._SPIN_UP_T) <= t then
-			self._spin_done = true
-			self._spin_up_start_t = nil
-			self._spin_down_start_t = nil
-		end
-	end
-	
-	if self._spinning and not self._vulcan_firing then
-		local t = self._unit:timer():time()
-		if t >= self._next_spin_animation_t then
-			self:tweak_data_anim_play("fire", self:fire_rate_multiplier())
-			self._next_spin_animation_t = t + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / self:fire_rate_multiplier()
-		end
-	end
-end
-
-function RaycastWeaponBase:vulcan_enter_steelsight()
-	self._in_steelsight = true
-	self:_start_spin()
-end
-
-function RaycastWeaponBase:vulcan_exit_steelsight()
-	self._in_steelsight = nil
-	if not self._shooting then
-		self:_stop_spin()
-	end
 end
 
 --Returns the weapon's current concealment stat.
