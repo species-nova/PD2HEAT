@@ -7288,7 +7288,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	local map_scale_factor = 1
 	for _,t in pairs(heat.large_levels) do
 		if job == t then
-			map_scale_factor = 1.15
+			map_scale_factor = 1.2
 		end
 	end
 	for _,t in pairs(heat.tiny_levels) do
