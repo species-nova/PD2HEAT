@@ -247,7 +247,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 		l40 = {
 				name_id = "lvl_40",
 				upgrades = {
-					"shak12"
+					"shak12",
+					"body_armor6"
 				}
 			},
 		l42 = {
@@ -773,12 +774,12 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 							2
 						}
 
-				--Iron Man
+				--Fully Armored
 					--Basic
-						--Unlock ICTV
-					--Ace
 						self.values.player.armor_full_cheap_sprint = {0.5}
-						self.values.player.armor_full_damage_absorb = {0.3}
+						self.values.player.armor_full_damage_absorb = {0.25}
+					--Ace
+						self.values.player.armor_full_stagger = {700}
 						
 			
 		--Support--
@@ -1034,11 +1035,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					--Run and Reload
 				
 			--Second Wind
-				--Basic
-					self.values.temporary.damage_speed_multiplier = {{1.1, 2}}
-
-				--Ace
-					self.values.player.armor_break_stagger = {600} --Uses Basic for cooldown mechanics. 
+				self.values.temporary.damage_speed_multiplier = {
+					{1.1, 0.01}, --Basic
+					{1.15, 2} --Ace
+				}
 
 			--Moving Target
 				self.values.player.detection_risk_add_movement_speed = {
@@ -3146,12 +3146,12 @@ function UpgradesTweakData:_saw_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_armor_break_stagger = {
+	self.definitions.player_armor_full_stagger = {
 		category = "feature",
-		name_id = "menu_player_armor_break_stagger",
+		name_id = "menu_player_armor_full_stagger",
 		upgrade = {
 			category = "player",
-			upgrade = "armor_break_stagger",
+			upgrade = "armor_full_stagger",
 			value = 1
 		}
 	}

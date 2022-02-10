@@ -727,21 +727,21 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}
 
-			--Iron Man--
+			--Fully Armored--
 			self.skills.juggernaut = {
 				["name_id"] = "menu_juggernaut_beta_sc",
 				["desc_id"] = "menu_juggernaut_beta_desc_sc",
 				["icon_xy"] = {3, 1},
 				[1] = {
 					upgrades = {
-						"body_armor6"
+						"player_armor_full_cheap_sprint",
+						"player_armor_full_damage_absorb"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_armor_full_cheap_sprint",
-						"player_armor_full_damage_absorb"
+						"player_armor_full_stagger"
 					},
 					cost = self.costs.hightierpro
 				}
@@ -1436,7 +1436,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"player_armor_break_stagger"
+						"temporary_damage_speed_multiplier_2"
 					},
 					cost = self.costs.pro
 				}	

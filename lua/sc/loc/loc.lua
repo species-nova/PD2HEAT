@@ -1526,9 +1526,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_prison_wife_beta_sc"] = "Bullseye",
 			["menu_prison_wife_beta_desc_sc"] = "BASIC: ##$basic##\nHeadshots regenerate ##5## armor once every ##3## seconds.\n\nACE: ##$pro##\nHeadshots regenerate an additional ##30## armor once every ##3## seconds.",
 
-			--Iron Man--
-			["menu_juggernaut_beta_sc"] = "Iron Man",
-			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nUnlocks the ability to wear the Improved Combined Tactical Vest.\n\nACE: ##$pro##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##30%## of your maximum armor and sprinting costs ##50%## less stamina.",
+			--Fully Armored--
+			["menu_juggernaut_beta_sc"] = "Fully Armored",
+			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##25%## of your maximum armor and sprinting costs ##50%## less stamina.\n\nACE: ##$pro##\nWhen you take damage while your armor is full, or when your armor breaks after being full, non-special enemies within ##7## meters of you are staggered.",
 
 
 			--}
@@ -1734,7 +1734,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Deep Pockets--
 		["menu_thick_skin_beta_sc"] = "Second Wind",
-		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until ##2## seconds after it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor is broken, non-special enemies within ##6## meters of you are staggered. This effect can only occur again once Second Wind basic wears off.",
+		["menu_thick_skin_beta_desc_sc"] = "BASIC: ##$basic##\nWhen your armor breaks you gain ##10%## speed until it has regenerated to full.\n\nACE: ##$pro##\nWhen your armor breaks you gain ##15%## speed until ##2## seconds after it has regenerated to full.",
 
 		--Duck & Cover--
 		["menu_sprinter_beta_sc"] = "Duck & Cover",

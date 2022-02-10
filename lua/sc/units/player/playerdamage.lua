@@ -81,6 +81,7 @@ function PlayerDamage:init(unit)
 	self._melee_push_multiplier = 1 - math.min(math.max(player_manager:upgrade_value("player", "resist_melee_push", 0.0) * self:_max_armor(), 0.0), 0.95) --Stun Resistance melee push resist.
 	self._deflection = 1 - player_manager:body_armor_value("deflection", nil, 0) - player_manager:get_deflection_from_skills() --Damage reduction for health. Crashes here mean there is a syntax error in playermanager.
 	self._unpierceable = player_manager:has_category_upgrade("player", "unpierceable_armor")
+	self._armor_full_stagger_range = player_manager:upgrade_value("player", "armor_full_stagger", -1)
 	managers.player:set_damage_absorption("absorption_addend", managers.player:upgrade_value("player", "damage_absorption_addend", 0))
 	managers.player:set_damage_absorption("full_armor_absorption", managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor())
 
@@ -1411,8 +1412,16 @@ function PlayerDamage:_on_damage_event()
 	self:set_regenerate_timer_to_max()
 end
 
---Starts biker regen when there is missing armor. Also notifies ex-pres when armor has broken to get around dumb interaction with bullseye (but only if it was broken by non-friendly fire).
-Hooks:PostHook(PlayerDamage, "_calc_armor_damage", "ResBikerCooldown", function(self, attack_data)
+--Starts biker regen when there is missing armor. Also notifies flags when armor is broken to enable certain skills to work as expected (but only if it was broken by non-friendly fire).
+local calc_armor_damage_orig = PlayerDamage._calc_armor_damage
+function PlayerDamage:_calc_armor_damage(attack_data)
+	--Iron Man stagger.
+	if self:get_real_armor() == self:_max_armor() and not self._ally_attack then
+		self._unit:movement():stagger_in_aoe(self._armor_full_stagger_range)
+	end
+
+	local health_subtracted = calc_armor_damage_orig(self, attack_data)
+
 	local pm = managers.player
 	if self._biker_armor_regen_t == 0.0 and pm:has_category_upgrade("player", "biker_armor_regen") then
 		self._biker_armor_regen_t = pm:upgrade_value("player", "biker_armor_regen")[2]
@@ -1420,16 +1429,19 @@ Hooks:PostHook(PlayerDamage, "_calc_armor_damage", "ResBikerCooldown", function(
 
 	if self:get_real_armor() == 0 and not self._ally_attack then
 		if not self._has_damage_speed and pm:has_category_upgrade("temporary", "damage_speed_multiplier") then
-			if pm:has_inactivate_temporary_upgrade("temporary", "damage_speed_multiplier") then
-				self._unit:movement():stagger_in_aoe(pm:upgrade_value("player", "armor_break_stagger", -1))
-			end
 			self._has_damage_speed = true
 			pm:activate_temporary_upgrade_indefinitely("temporary", "damage_speed_multiplier")
 		end
 
+		if not self._armor_broken then
+			self._unit:movement():stagger_in_aoe(self._armor_full_stagger_range)
+		end
+
 		self._armor_broken = true
 	end
-end)
+
+	return health_subtracted
+end
 
 --Whether the player can proc Sneaky Bastard.
 function PlayerDamage:can_dodge_heal()
