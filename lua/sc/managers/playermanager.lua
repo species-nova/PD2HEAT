@@ -103,13 +103,13 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	end
 
 	--Running From Death
-	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
+	multiplier = multiplier + self:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
 
 	--Second Wind
-	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "damage_speed_multiplier", 1) - 1
+	multiplier = multiplier + self:temporary_upgrade_value("temporary", "damage_speed_multiplier", 1) - 1
 
 	--Fast Feet
-	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "sprint_speed_boost", 1) - 1
+	multiplier = multiplier + self:temporary_upgrade_value("temporary", "sprint_speed_boost", 1) - 1
 
 	--Swan Song movespeed penalty.
 	if managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") then	
