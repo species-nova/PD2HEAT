@@ -73,12 +73,6 @@ end
 
 function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, upgrade_level, health_ratio)
 	local multiplier = 1
-	--Perk Deck card 4 + armor speed penalty.
-	local armor_penalty = self:mod_movement_penalty(self:body_armor_value("movement", upgrade_level, 1))
-	multiplier = multiplier + armor_penalty - 1
-	if bonus_multiplier then
-		multiplier = multiplier + bonus_multiplier - 1
-	end
 
 	if speed_state then
 		multiplier = multiplier + self:upgrade_value("player", speed_state .. "_speed_multiplier", 1) - 1 --Burglar
@@ -109,7 +103,7 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	end
 
 	--Second Wind
-	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
+	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "damage_speed_multiplier", 1) - 1
 
 	--Fast Feet
 	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "sprint_speed_boost", 1) - 1
@@ -119,9 +113,16 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 		multiplier = multiplier * (tweak_data.upgrades.berserker_movement_speed_multiplier or 1)	
 	end
 
+	--Armor slowdown.
+	local armor_penalty = self:mod_movement_penalty(self:body_armor_value("movement", upgrade_level, 1))
+	multiplier = multiplier * armor_penalty
+	if bonus_multiplier then
+		multiplier = multiplier * bonus_multiplier
+	end
+
 	--Apply slowing debuff if active.
 	multiplier = multiplier * self:_slow_debuff_mult()
-	
+
 	return multiplier
 end
 
