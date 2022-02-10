@@ -779,7 +779,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						self.values.player.armor_full_cheap_sprint = {0.5}
 						self.values.player.armor_full_damage_absorb = {0.25}
 					--Ace
-						self.values.player.armor_full_stagger = {700}
+						self.values.player.armor_full_stagger = {800}
 						
 			
 		--Support--
