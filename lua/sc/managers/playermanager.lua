@@ -102,6 +102,9 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 		end
 	end
 
+	--Running From Death
+	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "increased_movement_speed", 1) - 1
+
 	--Second Wind
 	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "damage_speed_multiplier", 1) - 1
 
