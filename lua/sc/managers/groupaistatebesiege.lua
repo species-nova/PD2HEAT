@@ -2742,7 +2742,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		else
 			objective_area = obstructed_area
 			
-			if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 5 then --if we're in the destination and we have stayed still for longer than 6 seconds, if anyone is camping in a specific spot, try to path to them
+			if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 5 then --if we're in the destination and we have stayed still for longer than X seconds, if anyone is camping in a specific spot, try to path to them
 				push = true
 				if tactics_map and tactics_map.charge then
 					charge = true
