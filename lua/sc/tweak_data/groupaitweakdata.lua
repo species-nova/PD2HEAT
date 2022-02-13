@@ -6239,7 +6239,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_min = 1,
 					amount_max = 1,
-					tactics = self._tactics.GREEN_tank,
+					tactics = self._tactics.CS_tank,
 					rank = 1
 				}
 			}
@@ -6253,7 +6253,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					freq = 1,
 					amount_min = 1,
 					amount_max = 1,
-					tactics = self._tactics.GREEN_tank,
+					tactics = self._tactics.CS_tank,
 					rank = 2
 				},
 				{
