@@ -2742,8 +2742,11 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		else
 			objective_area = obstructed_area
 			
-			if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 10 then --if we're in the destination and we have stayed still for longer than 2 seconds, if anyone is camping in a specific spot, try to path to them
+			if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 5 then --if we're in the destination and we have stayed still for longer than 6 seconds, if anyone is camping in a specific spot, try to path to them
 				push = true
+				if tactics_map and tactics_map.charge then
+					charge = true
+				end
 			elseif not current_objective.open_fire or not current_objective.area or current_objective.area.id ~= obstructed_area.id then --have to check for this here or open_fire might not get set
 				open_fire = true
 			end
@@ -2752,7 +2755,11 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		if phase_is_anticipation then --anticipation groups being aggressive need to pull back
 			pull_back = true
 		elseif not current_objective.area or not next(current_objective.area.criminal.units) then --if theres suddenly no criminals in the area, start approaching instead
-			approach = true
+			if self._street or not phase_is_sustain then --details, details, build is generally less aggro than sustain
+				approach = true
+			else
+				push = true
+			end
 		end
 	else
 		local forwardmost_i_nav_point = nil
@@ -2774,8 +2781,8 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		--check up to two nav areas away, but first check the current area in case obstructed_area didn't proc
 		if area_to_chk then
 			if next(area_to_chk.criminal.units) then
-				has_criminals_close = true
-				has_criminals_closer = true
+				has_criminals_close = area_to_chk
+				has_criminals_closer = area_to_chk
 			else
 				for area_id, neighbour_area in pairs_g(area_to_chk.neighbours) do
 					if next(neighbour_area.criminal.units) then					
@@ -2806,8 +2813,8 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 				pull_back = true
 				objective_area = area_to_chk
 			elseif self._street then --street behavior, stay in place a bit before pushes 
-				if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 15 then 
-					if not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire then
+				if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 8 then 
+					if not tactics_map and not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire then
 						objective_area = has_criminals_close
 						push = true
 					else
@@ -2819,7 +2826,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 					objective_area = area_to_chk
 				end
 			else
-				if not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire or #has_criminals_close.police.units < 8 or group.in_place_t and self._t - group.in_place_t > 15 then
+				if not tactics_map and not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire or #has_criminals_close.police.units < 8 or group.in_place_t and self._t - group.in_place_t > 10 then
 					--all these checks are here to ensure a well-maintained input of cops once units approach these areas, prevents occasional stand-stills from happening
 					objective_area = has_criminals_close
 					push = true
@@ -2839,13 +2846,11 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 		return
 	end
 	
-	local charge = nil
-	
-	if push then
+	if push and not charge then
 		if tactics_map and tactics_map.charge then
-			charge = group.in_place_t and self._t - group.in_place_t > 10
+			charge = group.in_place_t and self._t - group.in_place_t > 5
 		else
-			charge = group.in_place_t and self._t - group.in_place_t > 30
+			charge = group.in_place_t and self._t - group.in_place_t > 10
 		end
 	end
 	

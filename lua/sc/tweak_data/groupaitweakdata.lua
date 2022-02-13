@@ -3114,7 +3114,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"groupcsr"
 		},
 		--Shotgunner variant of Beat Cops, only real difference is they'll charge in
@@ -3122,7 +3121,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"groupcsr"
 		},
 		--Beat Cop, flank variant. Will take control of the squad if they spawn and lead them to flank
@@ -3131,7 +3129,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"groupcsr"
 		},
 		--Beat Cop, stealth variant. Prefers hit n run tactics and avoiding the front to prioritize hostages
@@ -3148,7 +3145,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"deathguard",
 			"groupcsr"
 		},
@@ -3178,7 +3174,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"deathguard",
 			"groupcsr"
 		},
@@ -3289,7 +3284,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"deathguard",
 			"groupcsr"
 		},
@@ -3323,7 +3317,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"provide_support",
 			"ranged_fire",
-			"charge",
 			"deathguard",
 			"groupcsr"
 		},
@@ -3387,7 +3380,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		--Ranged backup for Tazers
 		FBI_boom_ranged_support = {
 			"flank",
-			"charge",
 			"smoke_grenade",
 			"provide_coverfire",
 			"provide_support",
@@ -3435,8 +3427,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 
 		--Mayhem rifle SWAT
 		MH_swat_rifle = {
-			"ranged_fire",
-			"charge",
+			"elite_ranged_fire",
 			"smoke_grenade",
 			"flash_grenade",
 			"provide_coverfire",
@@ -3461,7 +3452,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"charge",
 			"smoke_grenade",
 			"flash_grenade",
-			"elite_ranged_fire",
+			"ranged_fire",
 			"provide_coverfire",
 			"provide_support",
 			"deathguard",
@@ -3469,8 +3460,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		},
 		--Mayhem Heavy
 		MH_heavy = {
-			"ranged_fire",
-			"charge",
+			"elite_ranged_fire",
 			"smoke_grenade",
 			"flash_grenade",
 			"provide_coverfire",
@@ -3484,7 +3474,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"charge",
 			"smoke_grenade",
 			"flash_grenade",
-			"elite_ranged_fire",
+			"ranged_fire",
 			"provide_coverfire",
 			"provide_support",
 			"deathguard",
@@ -3635,8 +3625,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"grouphrtr"
 		},
 		ELITE_swat_rifle = {
-			"ranged_fire",
-			"charge",
+			"elite_ranged_fire",
 			"smoke_grenade",
 			"flash_grenade",
 			"provide_coverfire",
@@ -3658,8 +3647,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"haste"
 		},
 		ELITE_heavy = {
-			"ranged_fire",
-			"charge",
+			"elite_ranged_fire",
 			"smoke_grenade",
 			"flash_grenade",
 			"harass",
@@ -3685,7 +3673,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"flank",
 			"smoke_grenade",
 			"flash_grenade",
-			"elite_ranged_fire",
+			"ranged_fire",
 			"charge",
 			"harass",
 			"provide_coverfire",
