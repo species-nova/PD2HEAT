@@ -3113,14 +3113,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		CS_cop = {
 			"provide_coverfire",
 			"provide_support",
-			"ranged_fire",
+			"elite_ranged_fire",
 			"groupcsr"
 		},
 		--Shotgunner variant of Beat Cops, only real difference is they'll charge in
 		CS_cop_shotgun = {
 			"provide_coverfire",
 			"provide_support",
-			"ranged_fire",
+			"charge",
 			"groupcsr"
 		},
 		--Beat Cop, flank variant. Will take control of the squad if they spawn and lead them to flank
