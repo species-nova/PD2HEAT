@@ -111,6 +111,9 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	--Fast Feet
 	multiplier = multiplier + self:temporary_upgrade_value("temporary", "sprint_speed_boost", 1) - 1
 
+	--Infiltrator
+	multiplier = multiplier + self:close_combat_upgrade_value("player", "far_combat_movement_speed", 1) - 1
+
 	--Swan Song movespeed penalty.
 	if managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") then	
 		multiplier = multiplier * (tweak_data.upgrades.berserker_movement_speed_multiplier or 1)	
@@ -478,7 +481,6 @@ function PlayerManager:check_skills()
 		self:unregister_message(Message.OnEnemyKilled, "bloodthirst_stacking")
 		self:unregister_message(Message.OnEnemyHit, "bloodthirst_consuming")
 	end
-
 
 	if self:has_category_upgrade("player", "messiah_revive_from_bleed_out") then
 		self._messiah_cooldown = 0
@@ -1580,11 +1582,13 @@ function PlayerManager:close_combat_upgrade_value(category, upgrade, default)
 
 	local level = self._global.upgrades[category][upgrade]
 	local data = tweak_data.upgrades.values[category][upgrade][level]
+	local nr_close_guys = player_unit:movement():nr_close_guys()
 	local value = default or 0
-	if data.max then
-		local nr_close_guys = math.min(player_unit:movement():nr_close_guys(), data.max)
-		value = data.value * nr_close_guys
-	elseif data.min and data.min <= player_unit:movement():nr_close_guys() then
+	if data.fewer_than and data.fewer_than >= nr_close_guys then
+		value = data.value
+	elseif data.max then
+		value = data.value * math.min(nr_close_guys, data.max)
+	elseif data.min and data.min <= nr_close_guys then
 		 value = data.value
 	end
 

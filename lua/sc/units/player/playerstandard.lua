@@ -983,9 +983,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 					col_ray = col_ray
 				})
 			end
-
-		elseif self._on_melee_restart_drill and hit_unit:base() and (hit_unit:base().is_drill or hit_unit:base().is_saw) then
-			hit_unit:base():on_melee_hit(managers.network:session():local_peer():id())
 		else
 			self:_play_melee_sound(melee_entry, "hit_gen", self._melee_attack_var)
 			self:_play_melee_sound(melee_entry, "charge", self._melee_attack_var) -- continue playing charge sound after hit instead of silence
@@ -1011,56 +1008,18 @@ function PlayerStandard:_do_chainsaw_damage(t)
 		character_unit = character_unit or hit_unit
 
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
-			local dmg_multiplier = 1
-
-			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {
-					nil,
-					0
-				}
-				local stack = self._state_data.stacking_dmg_mul.melee
-
-				if stack[1] and t < stack[1] then
-					dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("melee", "stacking_hit_damage_multiplier", 0) * stack[2])
-				else
-					stack[2] = 0
-				end
-			end
-
 			local target_dead = character_unit:character_damage().dead and not character_unit:character_damage():dead()
 			local target_hostile = managers.enemy:is_enemy(character_unit) and not tweak_data.character[character_unit:base()._tweak_table].is_escort
-			local life_leach_available = managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech")
 
-			if target_dead and target_hostile and life_leach_available then
-				managers.player:activate_temporary_upgrade("temporary", "melee_life_leech")
-				self._unit:character_damage():restore_health(managers.player:temporary_upgrade_value("temporary", "melee_life_leech", 1))
-			end
-
-			local action_data = {}
-			action_data.damage = damage * dmg_multiplier
-			action_data.damage_effect = damage_effect
-			action_data.attacker_unit = self._unit
-			action_data.col_ray = col_ray
-			action_data.name_id = melee_entry
-			action_data.charge_lerp_value = 0 --There is no charging this attack.
-
-			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {
-					nil,
-					0
-				}
-				local stack = self._state_data.stacking_dmg_mul.melee
-
-				if character_unit:character_damage().dead and not character_unit:character_damage():dead() then
-					stack[1] = t + managers.player:upgrade_value("melee", "stacking_hit_expire_t", 1)
-					stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_melee_weapon_dmg_mul_stacks or 5)
-				else
-					stack[1] = nil
-					stack[2] = 0
-				end
-			end
+			local action_data = {
+				variant = "melee",
+				damage = damage,
+				damage_effect = damage_effect,
+				attacker_unit = self._unit,
+				col_ray = col_ray,
+				name_id = melee_entry,
+				charge_lerp_value = 0 --There is no charging this attack.
+			}
 
 			local defense_data = character_unit:character_damage():damage_melee(action_data)
 
@@ -1070,17 +1029,6 @@ function PlayerStandard:_do_chainsaw_damage(t)
 		else
 			self:_perform_sync_melee_damage(hit_unit, col_ray, damage)
 		end
-	end
-
-	if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-		self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-		self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {
-			nil,
-			0
-		}
-		local stack = self._state_data.stacking_dmg_mul.melee
-		stack[1] = nil
-		stack[2] = 0
 	end
 
 	return col_ray
@@ -1116,20 +1064,20 @@ function PlayerStandard:_update_melee_timers(t, input)
 		end
 	end
 
-	local melee_weapon = tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()]
+	local melee_entry = managers.blackmarket:equipped_melee_weapon()
+	local melee_weapon = tweak_data.blackmarket.melee_weapons[melee_entry]
 	local instant = melee_weapon.instant
 	
-	--Trigger chainsaw damage and update timer.
-	if melee_weapon.chainsaw and self._state_data.chainsaw_t and self._state_data.chainsaw_t < t then
-		self:_do_chainsaw_damage(t)
-		self._state_data.chainsaw_t = t + melee_weapon.chainsaw.tick_delay
-	end
-
 	if self._state_data.melee_damage_delay_t and self._state_data.melee_damage_delay_t <= t then
-		self:_do_melee_damage(t, nil, self._state_data.melee_hit_ray)
+		self:_do_melee_damage(t, nil, self._state_data.melee_hit_ray, melee_entry, self._did_melee_counter_attack)
 
+		self._did_melee_counter_attack = nil
 		self._state_data.melee_damage_delay_t = nil
 		self._state_data.melee_hit_ray = nil
+	--Trigger chainsaw damage and update timer. if melee hasn't been discharged.
+	elseif melee_weapon.chainsaw and self._state_data.chainsaw_t and self._state_data.chainsaw_t < t then
+		self:_do_chainsaw_damage(t)
+		self._state_data.chainsaw_t = t + melee_weapon.chainsaw.tick_delay
 	end
 
 	if self._state_data.melee_attack_allowed_t and self._state_data.melee_attack_allowed_t <= t then
@@ -1200,7 +1148,7 @@ function PlayerStandard:_start_action_jump(t, action_start_data)
 	self:_perform_jump(jump_vec)
 end		
 
-function PlayerStandard:_do_action_melee(t, input, skip_damage)
+function PlayerStandard:_do_action_melee(t, input, skip_damage, countered)
 	self._state_data.meleeing = nil
 	local melee_entry = managers.blackmarket:equipped_melee_weapon()
 	local instant_hit = tweak_data.blackmarket.melee_weapons[melee_entry].instant
@@ -1300,10 +1248,16 @@ function PlayerStandard:_do_action_melee(t, input, skip_damage)
 				anim_attack_param = anim_attack_right_vars and anim_attack_right_vars[self._melee_attack_var]
 			end
 		end
+
+		if countered then
+			self._did_melee_counter_attack = true
+		end
+
 		local fix_anim_timer = anim_attack_param and timing_fix and table.contains(timing_fix, anim_attack_param)
 		if fix_anim_timer then
 			speed = speed * timing_fix_speed_mult
 		end
+
 		local state = self._ext_camera:play_redirect(self:get_animation("melee_attack"), speed) --Apply speed mult to animation.
 		if anim_attack_param then
 			self._camera_unit:anim_state_machine():set_parameter(state, anim_attack_param, 1)
@@ -1441,33 +1395,38 @@ Hooks:PostHook(PlayerStandard, "_end_action_steelsight", "ResMinigunExitSteelsig
 	end
 end)
 
+function PlayerStandard:discharge_melee()
+	self:_do_action_melee(managers.player:player_timer():time(), nil, nil, nil, true)
+end
+
 local melee_vars = {
 	"player_melee",
 	"player_melee_var2"
 }
-function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_entry)
-	melee_entry = melee_entry or managers.blackmarket:equipped_melee_weapon()
-	local instant_hit = tweak_data.blackmarket.melee_weapons[melee_entry].instant
+function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_entry, countered)
+	melee_entry = melee_entry or bayonet_melee and "weapon" or managers.blackmarket:equipped_melee_weapon()
 	local melee_damage_delay = tweak_data.blackmarket.melee_weapons[melee_entry].melee_damage_delay or 0
-	local charge_lerp_value = instant_hit and 0 or self:_get_melee_charge_lerp_value(t, melee_damage_delay)
-	self._ext_camera:play_shaker(melee_vars[math.random(#melee_vars)], math.max(0.3, charge_lerp_value))
 	local sphere_cast_radius = 20
-	local col_ray = nil
+
 	--Melee weapon tweakdata.
 	local melee_weapon = tweak_data.blackmarket.melee_weapons[melee_entry]
 	--Holds info for certain melee gimmicks (IE: Taser Shock, Psycho Knife Panic, ect)
 	local special_weapon = melee_weapon.special_weapon
-	
+
 	-- If true, disables the shaker when a melee weapon connects
+	local instant_hit = tweak_data.blackmarket.melee_weapons[melee_entry].instant
+	local charge_lerp_value = instant_hit and 0 or self:_get_melee_charge_lerp_value(t, melee_damage_delay)
 	if not melee_weapon.no_hit_shaker then
 		self._ext_camera:play_shaker(melee_vars[math.random(#melee_vars)], math.max(0.3, charge_lerp_value))
 	end
 
+	local col_ray = nil
 	if melee_hit_ray then
 		col_ray = melee_hit_ray ~= true and melee_hit_ray or nil
 	else
 		col_ray = self:_calc_melee_hit_ray(t, sphere_cast_radius)
 	end
+
 	if col_ray and alive(col_ray.unit) then
 		local damage, damage_effect = managers.blackmarket:equipped_melee_weapon_damage_info(charge_lerp_value)
 		damage = damage * managers.player:get_melee_dmg_multiplier()
@@ -1555,73 +1514,40 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 			shield_knock = true
 			character_unit = hit_unit:parent()
 		end
+
 		character_unit = character_unit or hit_unit
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
-			local dmg_multiplier = self._melee_repeat_damage_bonus or 1
-
-			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {nil, 0}
-				local stack = self._state_data.stacking_dmg_mul.melee
-				if stack[1] and t < stack[1] then
-					dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("melee", "stacking_hit_damage_multiplier", 0) * stack[2])
-				else
-					stack[2] = 0
-				end
-			end
-
-			if character_unit:character_damage().dead and not character_unit:character_damage():dead() and managers.enemy:is_enemy(character_unit) and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then
-				managers.player:activate_temporary_upgrade("temporary", "melee_life_leech")
-				self._unit:character_damage():restore_health(managers.player:temporary_upgrade_value("temporary", "melee_life_leech", 1))
-			end
-
 			--Do melee gimmick stuff. Might be worth it to use function references instead of branching later on if we get more of these.
-			local action_data = {}
-			action_data.variant = "melee"
-
+			damage = damage * (self._melee_repeat_damage_bonus or 1)
 			if special_weapon == "repeat_hitter" then
 				self._melee_repeat_damage_bonus = 2.0
 			elseif special_weapon == "hyper_crit" and math.random() <= 0.05 then
-				dmg_multiplier = dmg_multiplier * 10
+				damage = damage * 10
 				damage_effect = damage_effect * 10
 				self._unit:sound():play("bell_ring")
+			elseif charge_lerp_value >= 0.99 and special_weapon == "panic" then
+				managers.player:spread_panic(1)
 			end
+
+			if countered and melee_weapon.counter_damage then
+				damage = damage * melee_weapon.counter_damage
+				damage_effect = damage_effect * melee_weapon.counter_damage
+			end 
+
+			local action_data = {
+				variant = special_weapon == "taser" and "taser_tased" or "melee",
+				damage = shield_knock and 0 or damage,
+				damage_effect = damage_effect,
+				attacker_unit = self._unit,
+				col_ray = col_ray,
+				shield_knock = shield_knock,
+				name_id = melee_entry,
+				charge_lerp_value = charge_lerp_value,
+				backstab_multiplier = melee_weapon.backstab_damage_multiplier or 1,
+				headshot_multiplier = melee_weapon.headshot_damage_multiplier or 1,
+				armor_piercing = melee_weapon.damage_type == "bludgeoning"
+			}
 			
-			if charge_lerp_value >= 0.99 then
-				if special_weapon == "taser" then
-					action_data.variant = "taser_tased"
-				elseif special_weapon == "panic" then
-					managers.player:spread_panic(1)
-				end
-			end
-				
-			if _G.IS_VR and melee_entry == "weapon" and not bayonet_melee then
-				dmg_multiplier = 0.1
-			end				
-			
-			action_data.damage = shield_knock and 0 or damage * dmg_multiplier
-			action_data.damage_effect = damage_effect
-			action_data.attacker_unit = self._unit
-			action_data.col_ray = col_ray
-			action_data.shield_knock = shield_knock
-			action_data.name_id = melee_entry
-			action_data.charge_lerp_value = charge_lerp_value
-			--Damage multipliers for certain melees (IE: Butterfly Knife).
-			action_data.backstab_multiplier = melee_weapon.backstab_damage_multiplier or 1
-			action_data.headshot_multiplier = melee_weapon.headshot_damage_multiplier or 1
-			action_data.armor_piercing = melee_weapon.damage_type == "bludgeoning"
-			if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-				self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-				self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {nil, 0}
-				local stack = self._state_data.stacking_dmg_mul.melee
-				if character_unit:character_damage().dead and not character_unit:character_damage():dead() then
-					stack[1] = t + managers.player:upgrade_value("melee", "stacking_hit_expire_t", 1)
-					stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_melee_weapon_dmg_mul_stacks or 5)
-				else
-					stack[1] = nil
-					stack[2] = 0
-				end
-			end
 			local defense_data = character_unit:character_damage():damage_melee(action_data)
 			self:_check_melee_dot_damage(col_ray, defense_data, melee_entry)
 			self:_perform_sync_melee_damage(hit_unit, col_ray, action_data.damage)
@@ -1642,13 +1568,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 		else
 			self:_perform_sync_melee_damage(hit_unit, col_ray, damage)
 		end
-	end
-	if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-		self._state_data.stacking_dmg_mul = self._state_data.stacking_dmg_mul or {}
-		self._state_data.stacking_dmg_mul.melee = self._state_data.stacking_dmg_mul.melee or {nil, 0}
-		local stack = self._state_data.stacking_dmg_mul.melee
-		stack[1] = nil
-		stack[2] = 0
 	end
 	return col_ray
 end

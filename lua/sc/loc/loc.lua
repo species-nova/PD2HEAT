@@ -764,8 +764,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_melee_clean_info"] = "Give the cops that extra clean shave they need.\n\nDeals 120 bleed damage over three seconds.", --Alabama Razor
 		["bm_melee_barbedwire_info"] = "There's no afterlife waiting for my sorry ass... and I'm just here... talking to a fucking baseball bat!\n\nDeals 120 bleed damage over three seconds.\n\nCan damage enemies through body armor.", --Lucille Baseball Bat
 		["bm_melee_cqc_info"] = "Contains an exotic poison that deals 120 extra damage and carries a chance to interrupt over three seconds.\n\nDeals 50% more headshot damage.", --Kunai, Syringe
-		["bm_melee_fight_info"] = "Be water, my friend.\n\nParrying an enemy attack deals 120 melee damage to them. This can be increased with skills.\n\nCan damage enemies through body armor.", --Empty Palm Kata
-		["bm_melee_slot_lever_info"] = "GIMME A JACKPOT!\n\nHas a 5% chance to deal ten times the damage and knockdown.",
+		["bm_melee_fight_info"] = "Be water, my friend.\n\nParrying an enemy attack deals 200% more damage and knockdown.\n\nCan damage enemies through body armor.", --Empty Palm Kata
+		["bm_melee_slot_lever_info"] = "GIMME A JACKPOT!\n\nHas a 5% chance to deal 900% more damage and knockdown.",
 		["bm_melee_cleaver_info"] = "He's whacking and hacking and slashing.\n\nDeals 50% less headshot damage in exchange for increased overall effectiveness against the body and limbs.", --Cleavers
 		["bm_melee_spoon_gold_info"] = "But we asked ourselves, what is better than a Comically Large Spoon? Well, two Comically Large Spoons of course.\n\nHas a 30% chance to set an enemy on fire, dealing 120 extra damage over 3 seconds.\n\nCan damage enemies through body armor.",
 		["bm_melee_branding_iron_info"] = "This fire-heated iron sends a message.\n\nHas a 30% chance to set an enemy on fire, dealing 120 extra damage over 3 seconds.\n\nDeals 50% more headshot damage.",
@@ -1882,7 +1882,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck4_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
 		["menu_deck4_5_desc_sc"] = "Your dodge meter will be filled to ##200%## of its normal maximum when you are revived.",
 		["menu_deck4_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
-		["menu_deck4_9_desc_sc"] = "Dodging an attack causes you to regenerate ##1## health every ##1.5## seconds for the next ##6## seconds. This effect can stack up to ##8## times, but all stacks are lost whenever you take health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
+		["menu_deck4_9_desc_sc"] = "Dodging an attack causes you to regenerate ##1## health every ##2## seconds for the next ##10## seconds. This effect can stack up to ##10## times, but all stacks are lost whenever you take health damage.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		--Hitman--
 		["menu_deck5_1_sc"] = "Gun-fu",
@@ -1931,8 +1931,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		--Infiltrator--
 		["menu_deck8_1_desc_sc"] = "##4%## less damage from enemies for each enemy within ##8## meters, up to ##20%## less damage.",
 		["menu_deck8_3_desc_sc"] = "##5%## less damage from enemies for each enemy within ##8## meters, up to ##25%## less damage.",
-		["menu_deck8_5_desc_sc"] = "##6%## less damage from enemies for each enemy within ##8## meters, up to ##30%## less damage.\n\nEach successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds and can stack up to ##5## times.",
-		["menu_deck8_7_desc_sc"] = "Each successful melee hit grants an additional ##8%## melee damage boost for ##10## seconds, this effect can stack up to ##5## times.",
+		["menu_deck8_5_desc_sc"] = "##6%## less damage from enemies for each enemy within ##8## meters, up to ##30%## less damage.",
+		["menu_deck8_7_desc_sc"] = "You move ##10%## faster while there are fewer than ##3## enemies within ##8## meters.",
 		["menu_deck8_9_desc_sc"] = "Each successful melee hit heals ##1## health every ##1.5## seconds for ##7.5## seconds, this effect can stack up to ##5## times.\n\nDeck Completion Bonus: Your chance of getting a higher quality item during a PAYDAY is increased by ##10%.##",
 
 		--Sociopath--

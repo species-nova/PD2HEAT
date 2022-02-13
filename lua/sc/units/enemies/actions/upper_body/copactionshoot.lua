@@ -21,10 +21,6 @@ local math_round = math.round
 local math_random = math.random
 local math_clamp = math.clamp
 local math_up = math.UP
-local melee_vec1 = Vector3()
-local melee_vec2 = Vector3()
-local melee_vec3 = Vector3()
-local melee_vec4 = Vector3()
 local temp_vec2 = Vector3()
 local temp_rot1 = Rotation()
 local world_g = World
@@ -496,6 +492,7 @@ function CopActionShoot:update_grenade(target_pos, target_vec, shoot_from_pos, t
 	return nil
 end
 
+local melee_obstruction_vec = Vector3()
 function CopActionShoot:_chk_start_melee(t, target_vec, target_dis, autotarget, target_pos, attention)
 	--Unit cannot melee attack.
 	if not self._melee_weapon_data then
@@ -530,16 +527,16 @@ function CopActionShoot:_chk_start_melee(t, target_vec, target_dis, autotarget, 
 	--Check that no geometry is in the way.
 	local shoot_from_pos = self._shoot_from_pos
 	local my_fwd = mvec3_copy(self._ext_movement:m_head_rot():z())
-	mvec3_set(melee_vec1, my_fwd)
-	mvec3_mul(melee_vec1, target_dis)
-	mvec3_add(melee_vec1, shoot_from_pos)
-	local obstructed_by_geometry = self._unit:raycast("ray", shoot_from_pos, melee_vec1, "sphere_cast_radius", 20, "slot_mask", managers.slot:get_mask("world_geometry", "vehicles"), "ray_type", "body melee", "report")
+	mvec3_set(melee_obstruction_vec, my_fwd)
+	mvec3_mul(melee_obstruction_vec, target_dis)
+	mvec3_add(melee_obstruction_vec, shoot_from_pos)
+	local obstructed_by_geometry = self._unit:raycast("ray", shoot_from_pos, melee_obstruction_vec, "sphere_cast_radius", 20, "slot_mask", managers.slot:get_mask("world_geometry", "vehicles"), "ray_type", "body melee", "report")
 	if obstructed_by_geometry then
 		return false
 	end
 
 	--Check that no shield is in the way. Or, if there is one, that the target unit can be knocked down.
-	local target_is_covered_by_shield = self._unit:raycast("ray", shoot_from_pos, melee_vec1, "sphere_cast_radius", 20, "slot_mask", self._shield_slotmask, "ray_type", "body melee", "report")
+	local target_is_covered_by_shield = self._unit:raycast("ray", shoot_from_pos, melee_obstruction_vec, "sphere_cast_radius", 20, "slot_mask", self._shield_slotmask, "ray_type", "body melee", "report")
 	if target_is_covered_by_shield then
 		if alive(target:inventory() and target:inventory()._shield_unit) then
 			if not self._melee_weapon_data.shield_knock or not target_damage_ext:is_immune_to_shield_knockback() then
@@ -1064,7 +1061,10 @@ function CopActionShoot:_get_falloff_damage_mul(c_falloff, p_falloff, dis_lerp)
 	return math_round(math_lerp(c_falloff.dmg_mul, p_falloff.dmg_mul, dis_lerp) * 10) * 0.1
 end
 
---TODO: Go over this function later when melee parry mechanics are implemented/reworked.
+--Enables NPC vs NPC melee.
+local melee_hit_non_player_vec = Vector3()
+local melee_hit_player_vec = Vector3()
+local melee_player_direction_vec = Vector3()
 function CopActionShoot:anim_clbk_melee_strike()
 	if not self._melee_weapon_data then
 		return
@@ -1073,43 +1073,27 @@ function CopActionShoot:anim_clbk_melee_strike()
 	local shoot_from_pos = mvec3_copy(self._shoot_from_pos)
 	local my_fwd = mvec3_copy(self._ext_movement:m_head_rot():z())
 
-	mvec3_set(melee_vec2, my_fwd)
-	mvec3_mul(melee_vec2, self._melee_weapon_data.range)
-	mvec3_add(melee_vec2, shoot_from_pos)
-
-	--similar to player melee attacks, use a sphere ray instead of just a normal plain ray
-	local col_ray = self._unit:raycast("ray", shoot_from_pos, melee_vec2, "sphere_cast_radius", 20, "slot_mask", self._melee_weapon_data.slotmask, "ray_type", "body melee")
-
-	if self._draw_melee_sphere_rays then
-		local draw_duration = 3
-		local new_brush = col_ray and Draw:brush(Color.red:with_alpha(0.5), draw_duration) or Draw:brush(Color.white:with_alpha(0.5), draw_duration)
-		local sphere_draw_pos = col_ray and col_ray.position or melee_vec2
-		local sphere_draw_size = col_ray and 5 or 20
-		new_brush:sphere(sphere_draw_pos, sphere_draw_size)
-	end
-
+	--Attempt to hit the player.
+	local col_ray
 	local local_player = managers.player:player_unit()
-
-	--a more clean method of determining if the local player should get hit or not, without cancelling the attack if the player can't get hit, like it did before
-	--sadly, no raycasts I tried so far (even with target_unit/target_body) seem to be able to hit the local player
 	if self._melee_weapon_data.hit_player and alive(local_player) and not self._unit:character_damage():is_friendly_fire(local_player) then
 		local player_head_pos = local_player:movement():m_head_pos()
-		local player_distance = mvec3_dir(melee_vec3, shoot_from_pos, player_head_pos)
+		local player_distance = mvec3_dir(melee_hit_player_vec, shoot_from_pos, player_head_pos)
 
 		if player_distance <= self._melee_weapon_data.range then
-			if not col_ray or col_ray.distance > player_distance or not self._unit:raycast("ray", shoot_from_pos, player_head_pos, "sphere_cast_radius", 5, "slot_mask", self._melee_weapon_data.slotmask, "ray_type", "body melee", "report") then
-				mvec3_set(melee_vec4, melee_vec3)
-				mvec3_set_z(melee_vec4, 0)
-				mvec3_norm(melee_vec4)
+			if not self._unit:raycast("ray", shoot_from_pos, player_head_pos, "sphere_cast_radius", 20, "slot_mask", self._melee_weapon_data.slotmask, "ray_type", "body melee", "report") then
+				mvec3_set(melee_player_direction_vec, melee_hit_player_vec)
+				mvec3_set_z(melee_player_direction_vec, 0)
+				mvec3_norm(melee_player_direction_vec)
 
 				local min_dot = math_lerp(0, 0.4, player_distance / self._melee_weapon_data.range)
-				local fwd_dot = mvec3_dot(my_fwd, melee_vec4)
+				local fwd_dot = mvec3_dot(my_fwd, melee_player_direction_vec)
 
 				if fwd_dot >= min_dot then
 					col_ray = {
 						unit = local_player,
 						position = player_head_pos,
-						ray = mvec3_copy(melee_vec3:normalized())
+						ray = mvec3_copy(melee_hit_player_vec:normalized())
 					}
 
 					if self._draw_melee_sphere_rays then
@@ -1124,12 +1108,26 @@ function CopActionShoot:anim_clbk_melee_strike()
 		end
 	end
 
+	--If the player wasn't hit, then attempt to melee whereever the unit was pointing.
+	if not col_ray then
+		mvec3_set(melee_hit_non_player_vec, my_fwd)
+		mvec3_mul(melee_hit_non_player_vec, self._melee_weapon_data.range)
+		mvec3_add(melee_hit_non_player_vec, shoot_from_pos)
+		col_ray = self._unit:raycast("ray", shoot_from_pos, melee_hit_non_player_vec, "sphere_cast_radius", 20, "slot_mask", self._melee_weapon_data.slotmask, "ray_type", "body melee")
+
+		if self._draw_melee_sphere_rays then
+			local draw_duration = 3
+			local new_brush = col_ray and Draw:brush(Color.red:with_alpha(0.5), draw_duration) or Draw:brush(Color.white:with_alpha(0.5), draw_duration)
+			local sphere_draw_pos = col_ray and col_ray.position or melee_hit_non_player_vec
+			local sphere_draw_size = col_ray and 5 or 20
+			new_brush:sphere(sphere_draw_pos, sphere_draw_size)
+		end
+	end
+
 	if col_ray and alive(col_ray.unit) then
 		local melee_weapon = self._melee_weapon_data.melee_weapon
 		local is_weapon = melee_weapon == "weapon"
-		local damage = self._melee_weapon_data.damage
-		local damage_multiplier = self._melee_weapon_data.dmg_mul * (1 + self._ext_base:get_total_buff("base_damage"))
-		damage = damage * damage_multiplier
+		local damage = self._melee_weapon_data.damage * self._melee_weapon_data.dmg_mul * (1 + self._ext_base:get_total_buff("base_damage"))
 
 		managers.game_play_central:physics_push(col_ray) --the function already has sanity checks so it's fine to just use it like this
 
@@ -1143,7 +1141,6 @@ function CopActionShoot:anim_clbk_melee_strike()
 		end
 
 		character_unit = character_unit or hit_unit
-
 		if character_unit == local_player then
 			local action_data = {
 				variant = "melee",
@@ -1153,7 +1150,7 @@ function CopActionShoot:anim_clbk_melee_strike()
 				melee_weapon = melee_weapon,
 				push_vel = mvec3_copy(col_ray.ray:with_z(0.1)) * 600 * self._melee_weapon_data.push_mul,
 				armor_piercing = self._melee_weapon_data.armor_piercing,
-				tase_player = self._melee_weapon_data.electrical and true or nil,
+				tase_player = self._melee_weapon_data.electrical,
 				col_ray = col_ray
 			}
 
@@ -1220,41 +1217,6 @@ function CopActionShoot:anim_clbk_melee_strike()
 					},
 					name_id = melee_entry
 				}
-
-				local melee_entry = character_unit == local_player and managers.blackmarket:equipped_melee_weapon() or character_unit:base().melee_weapon and character_unit:base():melee_weapon()
-				if melee_entry then
-					local melee_tweak = tweak_data.blackmarket.melee_weapons[melee_entry]
-
-					--Empty Palm Kata gimmick to deal counterstrike damage.
-					--This bit of code *should* only occur client side, so it's probably fine.
-					--TODO: Make this a flag that gets sent to discharge_melee() to have it just deal bonus damage, rather than reinventing the wheel.
-					if melee_tweak.counter_damage then
-						local dmg_multiplier = 1
-						local player_state = character_unit:movement()._current_state
-						local t = managers.player:player_timer():time()
-
-						if managers.player:has_category_upgrade("melee", "stacking_hit_damage_multiplier") then
-							player_state._state_data.stacking_dmg_mul = player_state._state_data.stacking_dmg_mul or {}
-							player_state._state_data.stacking_dmg_mul.melee = player_state._state_data.stacking_dmg_mul.melee or {nil, 0}
-							local stack = player_state._state_data.stacking_dmg_mul.melee
-							if stack[1] and t < stack[1] then
-								dmg_multiplier = dmg_multiplier * (1 + managers.player:upgrade_value("melee", "stacking_hit_damage_multiplier", 0) * stack[2])
-							else
-								stack[2] = 0
-							end
-							stack[1] = t + managers.player:upgrade_value(primary_category, "stacking_hit_expire_t", 1)
-							stack[2] = math.min(stack[2] + 1, tweak_data.upgrades.max_weapon_dmg_mul_stacks or 5)
-						end
-
-						if self._unit:character_damage().dead and not self._unit:character_damage():dead() and managers.enemy:is_enemy(self._unit) and not tweak_data.character[self._unit:base()._tweak_table].is_escort and managers.player:has_category_upgrade("temporary", "melee_life_leech") and not managers.player:has_activate_temporary_upgrade("temporary", "melee_life_leech") then
-							managers.player:activate_temporary_upgrade("temporary", "melee_life_leech")
-							self._unit:character_damage():restore_health(managers.player:temporary_upgrade_value("temporary", "melee_life_leech", 1))
-						end
-
-						counter_data.damage = melee_tweak.counter_damage * managers.player:get_melee_dmg_multiplier() * dmg_multiplier
-					end
-
-				end
 
 				self._unit:character_damage():damage_melee(counter_data)
 			else

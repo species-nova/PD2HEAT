@@ -913,10 +913,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.weapon.steelsight_accuracy_inc = {0.8}
 					self.values.weapon.steelsight_range_inc = {1.2}
 				--Ace
-					self.values.assault_rifle.hidden_reload_speed_multiplier = {1.25}
-					self.values.snp.hidden_reload_speed_multiplier = {1.25}
-					self.values.snp.close_combat_reload_speed_multiplier = {{value = -0.35, min = 3}}
-					self.values.assault_rifle.close_combat_reload_speed_multiplier = {{value = -0.35, min = 3}}
+					self.values.snp.far_combat_reload_speed_multiplier = {{value = 1.3, fewer_than = 3}}
+					self.values.assault_rifle.far_combat_reload_speed_multiplier = {{value = 1.3, fewer_than = 3}}
 
 			--Ammo Efficiency
 				self.values.player.head_shot_ammo_return = {
@@ -1407,9 +1405,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{ --Rogue dodge stacking heal.
 			source = "rogue",
 			amount = 0.1,
-			tick_time = 1.5,
-			tick_count = 4,
-			max_stacks = 8
+			tick_time = 2,
+			tick_count = 5,
+			max_stacks = 10
 		},
 		{ --Grinder kill stacking heal (1)
 			source = "grinder",
@@ -1454,6 +1452,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{value = 0.04, max = 5},
 		{value = 0.05, max = 5},
 		{value = 0.06, max = 5}
+	}
+	self.values.player.far_combat_movement_speed = {
+		{value = 1.1, fewer_than = 3}
 	}
 
 	self.values.team.armor.multiplier = {1.05}
@@ -2761,6 +2762,15 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
+	self.definitions.player_far_combat_movement_speed = {
+		name_id = "menu_player_far_combat_movement_speed",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "far_combat_movement_speed",
+			category = "player"
+		}
+	}
 	self.definitions.player_close_combat_damage_reduction = {
 		name_id = "menu_player_close_combat_damage_reduction",
 		category = "feature",
@@ -3443,39 +3453,21 @@ function UpgradesTweakData:_saw_definitions()
 			category = "snp"
 		}
 	}
-	self.definitions.snp_hidden_reload_speed_multiplier = {
-		name_id = "menu_snp_hidden_reload_speed_multiplier",
+	self.definitions.snp_far_combat_reload_speed_multiplier = {
+		name_id = "menu_snp_far_combat_reload_speed_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "hidden_reload_speed_multiplier",
+			upgrade = "far_combat_reload_speed_multiplier",
 			category = "snp"
 		}
 	}
-		self.definitions.assault_rifle_hidden_reload_speed_multiplier = {
-		name_id = "menu_assault_rifle_hidden_reload_speed_multiplier",
+		self.definitions.assault_rifle_far_combat_reload_speed_multiplier = {
+		name_id = "menu_assault_rifle_far_combat_reload_speed_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "hidden_reload_speed_multiplier",
-			category = "assault_rifle"
-		}
-	}
-	self.definitions.snp_close_combat_reload_speed_multiplier = {
-		name_id = "menu_snp_close_combat_reload_speed_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "close_combat_reload_speed_multiplier",
-			category = "snp"
-		}
-	}
-		self.definitions.assault_rifle_close_combat_reload_speed_multiplier = {
-		name_id = "menu_assault_rifle_close_combat_reload_speed_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "close_combat_reload_speed_multiplier",
+			upgrade = "far_combat_reload_speed_multiplier",
 			category = "assault_rifle"
 		}
 	}

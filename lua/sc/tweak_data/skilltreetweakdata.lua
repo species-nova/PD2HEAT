@@ -1155,10 +1155,8 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"assault_rifle_close_combat_reload_speed_multiplier",
-						"snp_close_combat_reload_speed_multiplier",
-						"assault_rifle_hidden_reload_speed_multiplier",
-						"snp_hidden_reload_speed_multiplier"
+						"assault_rifle_far_combat_reload_speed_multiplier",
+						"snp_far_combat_reload_speed_multiplier"
 					},
 					cost = self.costs.pro
 				}
@@ -2856,9 +2854,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck4,
 			{
 				upgrades = {
-					"player_damage_dampener_close_contact_3",
-					"melee_stacking_hit_expire_t",
-					"melee_stacking_hit_damage_multiplier_1"
+					"player_damage_dampener_close_contact_3"
 				},
 				cost = 1000,
 				icon_xy = {5, 4},
@@ -2868,7 +2864,7 @@ function SkillTreeTweakData:init(tweak_data)
 			deck6,
 			{
 				upgrades = {
-					"melee_stacking_hit_damage_multiplier_2"
+					"player_far_combat_movement_speed"
 				},
 				cost = 2400,
 				icon_xy = {6, 4},

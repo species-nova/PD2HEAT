@@ -3052,7 +3052,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.fight.repeat_expire_t = 0.4
 	self.melee_weapons.fight.melee_damage_delay = 0.2
 	self.melee_weapons.fight.expire_t = 1.1
-	self.melee_weapons.fight.counter_damage = 12
+	self.melee_weapons.fight.counter_damage = 3
 	self.melee_weapons.fight.info_id = "bm_melee_fight_info"
 	
 	--Okinawan Style Sai--

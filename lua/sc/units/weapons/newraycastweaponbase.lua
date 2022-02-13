@@ -467,8 +467,8 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 	for _, category in ipairs(self:weapon_tweak_data().categories) do
 		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
 		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
+		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "far_combat_reload_speed_multiplier", 0)) - 1
 		multiplier = multiplier + (1 - math.min(self:get_ammo_remaining_in_clip() / self:get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
-		multiplier = multiplier + player_manager:upgrade_value(category, "hidden_reload_speed_multiplier", 1) - 1
 		if offhand_weapon_empty then
 			multiplier = multiplier + player_manager:upgrade_value(category, "backup_reload_speed_multiplier", 1) - 1
 		end
