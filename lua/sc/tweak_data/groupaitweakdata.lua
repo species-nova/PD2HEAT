@@ -3106,9 +3106,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"smoke_grenade",
 			"flash_grenade"
 		},
-
 		--Normal/Hard Tactics below
-
 		--Standard Beat Cop, prefers to stay at range unless they spawn with a shotgunner
 		CS_cop = {
 			"provide_coverfire",
@@ -3220,7 +3218,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"smoke_grenade",
 			"shield_cover",
 			"murder",
-			"tunnel"
+			"tunnel",
+			"hunter"
 		},
 		--Ranged backup for Tazers
 		CS_tazer_ranged_support = {
@@ -3249,23 +3248,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"elite_ranged_fire",
 			"provide_support"
 		},
-		--Sniper tactics. (Unused?)
-		CS_sniper = {
-			"ranged_fire",
-			"provide_coverfire",
-			"provide_support"
-		},
-
 		--FBI tier stuff below. Very Hard/Overkill mainly
-
 		--FBI HRT tactics, for when participating in assaults
-		FBI_suit = {
-			"flank",
-			"elite_ranged_fire",
-			"flash_grenade",
-			"grouphrtr"
-		},
-		--FBI HRT, stealth and avoiding combat
 		FBI_suit_stealth = {
 			"flank",
 			"hunter",
@@ -3375,7 +3359,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"provide_coverfire",
 			"flash_grenade",
 			"smoke_grenade",
-			"shield_cover"
+			"shield_cover",
+			"deathguard"
 		},
 		--Ranged backup for Tazers
 		FBI_boom_ranged_support = {
@@ -3422,9 +3407,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield",
 			"haste"
 		},
-
 		--Mayhem tactics below
-
 		--Mayhem rifle SWAT
 		MH_swat_rifle = {
 			"elite_ranged_fire",
@@ -3511,9 +3494,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield_cover",
 			"deathguard"
 		},
-
 		--Deathwish Tactics below
-
 		--hunter hrt tactics
 		HRT_attack = { --sneaks up and targets players in bad positions
 			"flank",
@@ -3538,7 +3519,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 		},
 		--DW+ Tactics below.
 		--Adds in harass to target reloading players, greater proliferation of deathguard, murder, legday, lonewolf, and elite_ranged_fire.
-		--extremely aggressive and mean version of the titandozer that will charge the player
 		ELITE_tazer = {
 			"legday",
 			"charge",
@@ -3547,7 +3527,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield_cover",
 			"murder",
 			"tunnel",
-			"haste"
+			"haste",
+			"hunter"
 		},
 		ELITE_flank_tazer = {
 			"legday",
@@ -3557,7 +3538,9 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield_cover",
 			"murder",
 			"tunnel",
-			"flank"
+			"flank",
+			"lonewolf",
+			"hunter"
 		},
 		ELITE_medic = {
 			"obstacle",
@@ -3569,13 +3552,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"shield_cover"
 		},
 		ELITE_boom = {
+			"spoocavoidance",
 			"flash_grenade",
 			"smoke_grenade",
 			"harass",
 			"elite_ranged_fire",
 			"provide_coverfire",
 			"hitnrun",
-			"shield_cover"
+			"shield_cover",
+			"deathguard"
 		},
 		--harass removed here so titandozers are more passive outside of ds
 		Titan_tank = {
@@ -3593,7 +3578,6 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			"elite_ranged_fire",
 			"harass"
 		},
-
 		ELITE_spooc = {
 			"flank",
 			"elite_ranged_fire",
@@ -6041,15 +6025,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				spawn = {
 					{
 						unit = "CS_tazer",
-						freq = 0.3,
+						freq = 1,
 						amount_min = 1,
-						amount_max = 2,
 						tactics = self._tactics.ELITE_tazer,
 						rank = 3
 					},
 					{
 						unit = "CS_tazer",
-						freq = 0.1,
+						freq = 0.4,
 						amount_max = 1,
 						tactics = self._tactics.ELITE_flank_tazer,
 						rank = 3
@@ -6084,15 +6067,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				spawn = {
 					{
 						unit = "CS_tazer",
-						freq = 0.3,
+						freq = 1,
 						amount_min = 1,
-						amount_max = 2,
 						tactics = self._tactics.ELITE_tazer,
 						rank = 3
 					},
 					{
 						unit = "CS_tazer",
-						freq = 0.1,
+						freq = 0.4,
 						amount_max = 1,
 						tactics = self._tactics.ELITE_flank_tazer,
 						rank = 3
@@ -7224,11 +7206,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			}
 		}
 	end
-	self.besiege.regroup.duration = {
-		15,
-		15,
-		15
-	}
+	self.besiege.regroup.duration = {15, 15, 15}
 	self.besiege.assault = {}
 	self.besiege.assault.anticipation_duration = {
 		{30, 1},
@@ -7236,41 +7214,16 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		{30, 1}
 	}
 	self.besiege.assault.build_duration = 45
-	self.besiege.assault.sustain_duration_min = {
-		60,
-		80,
-		100
-	}
-	self.besiege.assault.sustain_duration_max = {
-		60,
-		80,
-		100
-	}
-	self.besiege.assault.sustain_duration_balance_mul = {
-		1,
-		1,
-		1,
-		1
-	}
+	self.besiege.assault.sustain_duration_min = {60, 80, 100}
+	self.besiege.assault.sustain_duration_max = {60, 80, 100}
+	self.besiege.assault.sustain_duration_balance_mul = {1, 1, 1, 1}
 	self.besiege.assault.fade_duration = 35
-	self.besiege.assault.delay = {
-		30,
-		25,
-		20
-	}
+	self.besiege.assault.delay = {30, 25, 20}
 
 	if difficulty_index <= 7 then
-		self.besiege.assault.hostage_hesitation_delay = {
-			30,
-			30,
-			30
-		}
+		self.besiege.assault.hostage_hesitation_delay = {30, 30, 30}
 	else
-		self.besiege.assault.hostage_hesitation_delay = {
-			15,
-			15,
-			15
-		}
+		self.besiege.assault.hostage_hesitation_delay = {15, 15, 15}
 	end
 
 	local map_scale_factor = 1
@@ -7308,24 +7261,11 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		1.0 * map_scale_factor
 	}
 
-	local assault_pool_mul = 2.5
 	self.besiege.multiple_tank_token_cooldown_mul = 1.2
 	if difficulty_index <= 2 then
-		self.besiege.assault.force = {
-			12,
-			15,
-			18
-		}
-		self.besiege.tank_tokens = {
-			0,
-			0,
-			1
-		}
-		self.besiege.tank_token_cooldown = {
-			90,
-			90,
-			90
-		}
+		self.besiege.assault.force = {12, 15, 18}
+		self.besiege.tank_tokens = {0, 1, 1}
+		self.besiege.tank_token_cooldown = {120, 120, 120}
 		self.special_unit_spawn_limits = {
 			tank = 1,
 			taser = 1,
@@ -7344,16 +7284,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			16,
 			19
 		}
-		self.besiege.tank_tokens = {
-			0,
-			0.5,
-			1
-		}
-		self.besiege.tank_token_cooldown = {
-			90,
-			90,
-			90
-		}
+		self.besiege.tank_tokens = {1, 1, 1}
+		self.besiege.tank_token_cooldown = {135, 110, 90}
 		self.special_unit_spawn_limits = {
 			tank = 1,
 			taser = math.max(math.round(2 * map_scale_factor), 1),
@@ -7367,21 +7299,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			captain = 0
 		}
 	elseif difficulty_index == 4 then
-		self.besiege.assault.force = {
-			14,
-			18,
-			21
-		}
-		self.besiege.tank_tokens = {
-			0,
-			1,
-			2
-		}
-		self.besiege.tank_token_cooldown = {
-			90,
-			75,
-			60
-		}
+		self.besiege.assault.force = {14, 18, 21}
+		self.besiege.tank_tokens = {0, 1, 2}
+		self.besiege.tank_token_cooldown = {90, 75, 60}
 		self.special_unit_spawn_limits = {
 			tank = 1,
 			taser = math.max(math.round(2 * map_scale_factor), 1),
@@ -7395,21 +7315,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			captain = 1
 		}
 	elseif difficulty_index == 5 then
-		self.besiege.assault.force = {
-			15,
-			19,
-			22
-		}
-		self.besiege.tank_tokens = {
-			1,
-			1.5,
-			2
-		}
-		self.besiege.tank_token_cooldown = {
-			90,
-			75,
-			60
-		}
+		self.besiege.assault.force = {15, 19, 22}
+		self.besiege.tank_tokens = {1, 1.5, 2}
+		self.besiege.tank_token_cooldown = {90, 75, 60}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7423,21 +7331,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			captain = 1
 		}
 	elseif difficulty_index == 6 then
-		self.besiege.assault.force = {
-			16,
-			20,
-			24
-		}
-		self.besiege.tank_tokens = {
-			1,
-			2,
-			2
-		}
-		self.besiege.tank_token_cooldown = {
-			85,
-			65,
-			50
-		}
+		self.besiege.assault.force = {16, 20, 24}
+		self.besiege.tank_tokens = {1, 2, 2}
+		self.besiege.tank_token_cooldown = {85, 65, 50}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7451,21 +7347,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			captain = 1
 		}
 	elseif difficulty_index == 7 then
-		self.besiege.assault.force = {
-			17,
-			21,
-			26
-		}
-		self.besiege.tank_tokens = {
-			1,
-			2,
-			3
-		}
-		self.besiege.tank_token_cooldown = {
-			85,
-			65,
-			50
-		}
+		self.besiege.assault.force = {17, 21, 26}
+		self.besiege.tank_tokens = {1, 2, 3}
+		self.besiege.tank_token_cooldown = {85, 65, 50}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7479,21 +7363,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			captain = 1
 		}
 	else
-		self.besiege.assault.force = {
-			18,
-			23,
-			28
-		}
-		self.besiege.tank_tokens = {
-			1,
-			2.5,
-			4
-		}
-		self.besiege.tank_token_cooldown = {
-			95,
-			65,
-			45
-		}
+		self.besiege.assault.force = {18, 23, 28}
+		self.besiege.tank_tokens = {1, 2.5, 4}
+		self.besiege.tank_token_cooldown = {95, 65, 45}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(3 * map_scale_factor), 1),
 			taser = math.max(math.round(3 * map_scale_factor), 1),
@@ -7507,6 +7379,8 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 			captain = 1
 		}
 	end
+
+	local assault_pool_mul = 2.5
 	self.besiege.assault.force_pool = {
 		self.besiege.assault.force[1] * assault_pool_mul,
 		self.besiege.assault.force[2] * assault_pool_mul,
@@ -7516,435 +7390,107 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	--Assault groups
 	if difficulty_index <= 2 then
 		self.besiege.assault.groups = {
-			cops_n = {
-				0.50,
-				0.25,
-				0.00
-			},
-			swats_n = {
-				0.24,
-				0.38,
-				0.53
-			},
-			heavys_n = {
-				0.11,
-				0.18,
-				0.18
-			},
-			hostage_rescue_n = {
-				0.05,
-				0.03,
-				0.03
-			},
-			shield_n = {
-				0.10,
-				0.12,
-				0.15
-			},
-			taser_n = {
-				0.00,
-				0.04,
-				0.08
-			},
-			GREEN_tanks_n = {
-				0.00,
-				0.00,
-				0.03
-			}
+			cops_n =           {0.50, 0.25, 0.00},
+			swats_n =          {0.24, 0.38, 0.53},
+			heavys_n =         {0.11, 0.18, 0.18},
+			hostage_rescue_n = {0.05, 0.03, 0.03},
+			shield_n =         {0.10, 0.12, 0.15},
+			taser_n =          {0.00, 0.04, 0.08},
+			GREEN_tanks_n =    {0.00, 0.00, 0.03}
 		}
 	elseif difficulty_index == 3 then
 		self.besiege.assault.groups = {
-			cops_h = {
-				0.16,
-				0.10,
-				0.00
-			},
-			swats_h = {
-				0.32,
-				0.32,
-				0.37
-			},
-			heavys_h = {
-				0.2,
-				0.18,
-				0.18
-			},
-			hostage_rescue_h = {
-				0.05,
-				0.02,
-				0.02
-			},
-			shotguns_h = {
-				0.00,
-				0.06,
-				0.07
-			},
-			shield_h = {
-				0.12,
-				0.15,
-				0.15
-			},
-			FBI_spoocs = {
-				0.06,
-				0.06,
-				0.07
-			},
-			taser_h = {
-				0.06,
-				0.08,
-				0.1
-			},
-			GREEN_tanks_h = {
-				0.02,
-				0.03,
-				0.04
-			}
+			cops_h =           {0.16, 0.10, 0.00},
+			swats_h =          {0.32, 0.32, 0.37},
+			heavys_h =         {0.20, 0.18, 0.18},
+			hostage_rescue_h = {0.05, 0.02, 0.02},
+			shotguns_h =       {0.00, 0.06, 0.07},
+			shield_h =         {0.12, 0.15, 0.15},
+			FBI_spoocs =       {0.06, 0.06, 0.07},
+			taser_h =          {0.06, 0.08,	0.10},
+			GREEN_tanks_h =    {0.02, 0.03, 0.04}
 		}
 	elseif difficulty_index == 4 then
 		self.besiege.assault.groups = {
-			swats_vh = {
-				0.30,
-				0.30,
-				0.3
-			},
-			heavys_vh = {
-				0.21,
-				0.18,
-				0.15
-			},
-			hostage_rescue_vh = {
-				0.05,
-				0.02,
-				0.02
-			},
-			bomb_squad_vh = {
-				0.06,
-				0.06,
-				0.06
-			},
-			shotguns_vh = {
-				0.06,
-				0.06,
-				0.06
-			},
-			shield_vh = {
-				0.12,
-				0.15,
-				0.15
-			},
-			FBI_spoocs = {
-				0.08,
-				0.08,
-				0.08
-			},
-			taser_vh = {
-				0.08,
-				0.08,
-				0.08
-			},
-			boom_taser_vh = {
-				0.0,
-				0.02,
-				0.04
-			},
-			GREEN_tanks_vh = {
-				0.02,
-				0.025,
-				0.03
-			},
-			BLACK_tanks_vh = {
-				0.02,
-				0.025,
-				0.03
-			}
+			swats_vh = 			{0.30, 0.30, 0.30},
+			heavys_vh =         {0.21, 0.18, 0.15},
+			hostage_rescue_vh = {0.05, 0.02, 0.02},
+			bomb_squad_vh =     {0.06, 0.06, 0.06},
+			shotguns_vh =       {0.06, 0.06, 0.06},
+			shield_vh =         {0.12, 0.15, 0.15},
+			FBI_spoocs =        {0.08, 0.08, 0.08},
+			taser_vh =          {0.08, 0.08, 0.08},
+			boom_taser_vh =     {0.00, 0.02, 0.04},
+			GREEN_tanks_vh =    {0.02,0.025, 0.03},
+			BLACK_tanks_vh =    {0.02,0.025, 0.03}
 		}
 	elseif difficulty_index == 5 then
 		self.besiege.assault.groups = {
-			swats_ovk = {
-				0.24,
-				0.22,
-				0.18
-			},
-			heavys_ovk = {
-				0.13,
-				0.11,
-				0.11
-			},
-			hostage_rescue_ovk = {
-				0.05,
-				0.02,
-				0.02
-			},
-			bomb_squad_ovk = {
-				0.1,
-				0.1,
-				0.1
-			},
-			shotguns_ovk = {
-				0.1,
-				0.1,
-				0.1
-			},
-			shield_ovk = {
-				0.12,
-				0.15,
-				0.15
-			},
-			FBI_spoocs = {
-				0.1,
-				0.1,
-				0.1
-			},
-			taser_ovk = {
-				0.1,
-				0.1,
-				0.1
-			},
-			boom_taser_ovk = {
-				0.0,
-				0.02,
-				0.04
-			},
-			GREEN_tanks_ovk = {
-				0.03,
-				0.04,
-				0.05
-			},
-			BLACK_tanks_ovk = {
-				0.03,
-				0.04,
-				0.05
-			}
+			swats_ovk =          {0.24, 0.22, 0.18},
+			heavys_ovk =         {0.13, 0.11, 0.11},
+			hostage_rescue_ovk = {0.05, 0.02, 0.02},
+			bomb_squad_ovk =     {0.10, 0.10, 0.10},
+			shotguns_ovk =       {0.10, 0.10, 0.10},
+			shield_ovk =         {0.12, 0.15, 0.15},
+			FBI_spoocs =         {0.10, 0.10, 0.10},
+			taser_ovk =          {0.10, 0.10, 0.10},
+			boom_taser_ovk =     {0.00, 0.02, 0.04},
+			GREEN_tanks_ovk =    {0.03, 0.04, 0.05},
+			BLACK_tanks_ovk =    {0.03, 0.04, 0.05}
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.assault.groups = {
-			swats_mh = {
-				0.23,
-				0.205,
-				0.19
-			},
-			heavys_mh = {
-				0.12,
-				0.12,
-				0.10
-			},
-			hostage_rescue_mh = {
-				0.05,
-				0.02,
-				0.02
-			},
-			bomb_squad_mh = {
-				0.09,
-				0.09,
-				0.09
-			},
-			shotguns_mh = {
-				0.09,
-				0.09,
-				0.09
-			},
-			shield_mh = {
-				0.105,
-				0.1,
-				0.075
-			},
-			shield_sniper_mh = {
-				0.025,
-				0.05,
-				0.075
-			},
-			FBI_spoocs = {
-				0.1,
-				0.1,
-				0.1
-			},
-			taser_mh = {
-				0.1,
-				0.1,
-				0.07
-			},
-			boom_taser_mh = {
-				0.0,
-				0.02,
-				0.07
-			},
-			GREEN_tanks_mh = {
-				0.03,
-				0.035,
-				0.04
-			},
-			BLACK_tanks_mh = {
-				0.03,
-				0.035,
-				0.04
-			},
-			SKULL_tanks_mh = {
-				0.03,
-				0.035,
-				0.04
-			}
+			swats_mh =          {0.23,0.205, 0.19},
+			heavys_mh =         {0.12, 0.12, 0.10},
+			hostage_rescue_mh = {0.05, 0.02, 0.02},
+			bomb_squad_mh =     {0.09, 0.09, 0.09},
+			shotguns_mh =       {0.09, 0.09, 0.09},
+			shield_mh =         {0.105,0.10,0.075},
+			shield_sniper_mh =  {0.025,0.05,0.075},
+			FBI_spoocs =        {0.10, 0.10, 0.10},
+			taser_mh =          {0.10, 0.10, 0.07},
+			boom_taser_mh =     {0.00, 0.02, 0.07},
+			GREEN_tanks_mh =    {0.03,0.035, 0.04},
+			BLACK_tanks_mh =    {0.03,0.035, 0.04},
+			SKULL_tanks_mh =    {0.03,0.035, 0.04}
 		}
 	elseif difficulty_index == 7 then
 		self.besiege.assault.groups = {
-			swats_dw = {
-				0.20,
-				0.195,
-				0.18
-			},
-			heavys_dw = {
-				0.11,
-				0.10,
-				0.10
-			},
-			hostage_rescue_dw = {
-				0.05,
-				0.02,
-				0.02
-			},
-			bomb_squad_dw = {
-				0.09,
-				0.09,
-				0.09
-			},
-			shotguns_dw = {
-				0.09,
-				0.09,
-				0.09
-			},
-			shield_dw = {
-				0.1,
-				0.075,
-				0.05
-			},
-			shield_sniper_dw = {
-				0.05,
-				0.075,
-				0.1
-			},
-			FBI_spoocs = {
-				0.1,
-				0.1,
-				0.075
-			},
-			cloak_spooc_dw = {
-				0,
-				0,
-				0.025
-			},
-			taser_dw = {
-				0.1,
-				0.07,
-				0.03
-			},
-			boom_taser_dw = {
-				0.02,
-				0.07,
-				0.1
-			},
-			GREEN_tanks_dw = {
-				0.03,
-				0.035,
-				0.04
-			},
-			BLACK_tanks_dw = {
-				0.03,
-				0.035,
-				0.04
-			},
-			SKULL_tanks_dw = {
-				0.03,
-				0.035,
-				0.04
-			},
-			Titan_tanks_dw = {
-				0.0,
-				0.01,
-				0.02
-			}
+			swats_dw =          {0.20,0.195, 0.18},
+			heavys_dw =         {0.11, 0.10, 0.10},
+			hostage_rescue_dw = {0.05, 0.02, 0.02},
+			bomb_squad_dw =     {0.09, 0.09, 0.09},
+			shotguns_dw =       {0.09, 0.09, 0.09},
+			shield_dw =         {0.10,0.075, 0.05},
+			shield_sniper_dw =  {0.05,0.075, 0.10},
+			FBI_spoocs =        {0.10, 0.10,0.075},
+			cloak_spooc_dw =    {0.00, 0.00,0.025},
+			taser_dw =          {0.10, 0.07, 0.03},
+			boom_taser_dw =     {0.02, 0.07, 0.10},
+			GREEN_tanks_dw =    {0.03,0.035, 0.04},
+			BLACK_tanks_dw =    {0.03,0.035, 0.04},
+			SKULL_tanks_dw =    {0.03,0.035, 0.04},
+			Titan_tanks_dw =    {0.00, 0.01, 0.02}
 		}
 	else
 		--death sentence assaults below, intentionally fairly mean. Later difficulties will scale down from this.
 		self.besiege.assault.groups = {
-			swats_ds = {
-				0.2,
-				0.185,
-				0.17
-			},
-			heavys_ds = {
-				0.1,
-				0.09,
-				0.08
-			},
-			hostage_rescue_ds = {
-				0.07, --Higher chance == More likely to clear out map civs early.
-				0.02,
-				0.0
-			},
-			bomb_squad_ds = {
-				0.09,
-				0.09,
-				0.09
-			},
-			shotguns_ds = {
-				0.09,
-				0.09,
-				0.09
-			},
-			shield_ds = {
-				0.1,
-				0.075,
-				0.05
-			},
-			shield_sniper_ds = {
-				0.05,
-				0.075,
-				0.1
-			},
-			FBI_spoocs = {
-				0.1,
-				0.075,
-				0.05
-			},
-			cloak_spooc_ds = {
-				0,
-				0.025,
-				0.05
-			},
-			taser_ds = {
-				0.1,
-				0.07,
-				0.03
-			},
-			boom_taser_ds = {
-				0.02,
-				0.07,
-				0.1
-			},
-			common_wave_rush_ds = {
-				0.0,
-				0.02,
-				0.04
-			},
-			GREEN_tanks_ds = {
-				0.03,
-				0.035,
-				0.04
-			},
-			BLACK_tanks_ds = {
-				0.03,
-				0.035,
-				0.04
-			},
-			SKULL_tanks_ds = {
-				0.03,
-				0.035,
-				0.04
-			},
-			Titan_tanks_ds = {
-				0.0,
-				0.02,
-				0.03
-			}
+			swats_ds =            {0.20,0.185, 0.17},
+			heavys_ds =           {0.10, 0.09, 0.08},
+			hostage_rescue_ds =   {0.07, 0.02, 0.00},
+			bomb_squad_ds =       {0.09, 0.09, 0.09},
+			shotguns_ds =         {0.09, 0.09, 0.09},
+			shield_ds =           {0.10,0.075, 0.05},
+			shield_sniper_ds =    {0.05,0.075, 0.10},
+			FBI_spoocs =          {0.10,0.075, 0.05},
+			cloak_spooc_ds =      {0.00,0.025, 0.05},
+			taser_ds =            {0.10, 0.07, 0.03},
+			boom_taser_ds =       {0.02, 0.07, 0.10},
+			common_wave_rush_ds = {0.00, 0.02, 0.04},
+			GREEN_tanks_ds =      {0.03,0.035, 0.04},
+			BLACK_tanks_ds =      {0.03,0.035, 0.04},
+			SKULL_tanks_ds =      {0.03,0.035, 0.04},
+			Titan_tanks_ds =      {0.00, 0.02, 0.03}
 		}
 	end
 
@@ -7962,91 +7508,45 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	for _,v in pairs(heat.captain_stelf) do
 		if job == v then
 			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Autumn = {
-					0,
-					0,
-					0
-				}
+				self.besiege.assault.groups.Cap_Autumn = {0, 0, 0}
 			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Autumn = {
-					0,
-					0.05,
-					0.1
-				}
+				self.besiege.assault.groups.Cap_Autumn = {0, 0.05, 0.1}
 			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Autumn = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Autumn = {0, 0.1, 0.15}
 			else
-				self.besiege.assault.groups.Cap_Autumn = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Autumn = {0, 0.1, 0.2}
 			end
 			break
 		end
 	end
+
 	--Captain Summers stuff here--
 	for _,v in pairs(heat.captain_teamwork) do
 		if job == v then
 			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Summers = {
-					0,
-					0,
-					0
-				}
+				self.besiege.assault.groups.Cap_Summers = {0, 0, 0}
 			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Summers = {
-					0,
-					0.05,
-					0.1
-				}
+				self.besiege.assault.groups.Cap_Summers = {0, 0.05, 0.1}
 			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Summers = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Summers = {0, 0.1, 0.15}
 			else
-				self.besiege.assault.groups.Cap_Summers = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Summers = {0, 0.1, 0.2}
 			end
 			break
 		end
 	end
+
 	--Captain Spring stuff here--
 	for _,v in pairs(heat.captain_murderdozer) do
 		if job == v then
 			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Spring = {
-					0,
-					0,
-					0
-				}
+				self.besiege.assault.groups.Cap_Spring = {0, 0, 0}
 			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Spring = {
-					0,
-					0.05,
-					0.1
-				}
+				self.besiege.assault.groups.Cap_Spring = {0, 0.05, 0.1}
 			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Spring = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Spring = {0, 0.1, 0.15}
 			else
-				self.besiege.assault.groups.Cap_Spring = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Spring = {0, 0.1, 0.2}
 			end
 			break
 		end
@@ -8055,204 +7555,78 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	for _,v in pairs(heat.what_a_horrible_heist_to_have_a_curse) do
 		if job == v then
 			if difficulty_index <= 3 then
-				self.besiege.assault.groups.HVH_Boss = {
-					0,
-					0,
-					0
-				}
+				self.besiege.assault.groups.HVH_Boss = {0, 0, 0}
 			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.HVH_Boss = {
-					0,
-					0.05,
-					0.1
-				}
+				self.besiege.assault.groups.HVH_Boss = {0, 0.05, 0.1}
 			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.HVH_Boss = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.HVH_Boss = {0, 0.1, 0.15}
 			else
-				self.besiege.assault.groups.HVH_Boss = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.HVH_Boss = {0, 0.1, 0.2}
 			end
 			break
 		end
 	end
+
 	--Captain Winters stuff here--
 	for _,v in pairs(heat.captain_camper) do
 		if job == v then
 			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Winters = {
-					0,
-					0,
-					0
-				}
+				self.besiege.assault.groups.Cap_Winters = {0, 0, 0}
 			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Winters = {
-					0,
-					0.05,
-					0.1
-				}
+				self.besiege.assault.groups.Cap_Winters = {0, 0.05, 0.1}
 			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Winters = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Winters = {0, 0.1, 0.15}
 			else
-				self.besiege.assault.groups.Cap_Winters = {
-					0,
-					0.1,
-					0.2
-				}
+				self.besiege.assault.groups.Cap_Winters = {0, 0.1, 0.2}
 			end
 			break
 		end
 	end
-	self.besiege.reenforce.interval = {
-		10,
-		20,
-		30
-	}
+
+	self.besiege.reenforce.interval = {10, 20, 30}
 	if difficulty_index <= 2 then
 		self.besiege.reenforce.groups = {
-			CS_defend_a = {
-				1,
-				0.2,
-				0
-			},
-			CS_defend_b = {
-				0,
-				0.8,
-				1
-			}
+			CS_defend_a = {1.00, 0.20, 0.00},
+			CS_defend_b = {0.00, 0.80, 1.00}
 		}
 	elseif difficulty_index == 3 then
 		self.besiege.reenforce.groups = {
-			CS_defend_a = {
-				0.35,
-				0,
-				0
-			},
-			CS_defend_b = {
-				0.65,
-				1,
-				0
-			},
-			CS_defend_c = {
-				0,
-				0,
-				1
-			}
+			CS_defend_a = {0.35, 0.00, 0.00},
+			CS_defend_b = {0.65, 1.00, 0.00},
+			CS_defend_c = {0.00, 0.00, 1.00}
 		}
 	elseif difficulty_index == 4 then
 		self.besiege.reenforce.groups = {
-			CS_defend_a = {
-				0.35,
-				0,
-				0
-			},
-			CS_defend_b = {
-				0.65,
-				0.5,
-				0
-			},
-			CS_defend_c = {
-				0,
-				0,
-				0.5
-			},
-			FBI_defend_a = {
-				0,
-				0.5,
-				0
-			},
-			FBI_defend_b = {
-				0,
-				0,
-				0.5
-			}
+			CS_defend_a =  {0.35, 0.00, 0.00},
+			CS_defend_b =  {0.65, 0.50, 0.00},
+			CS_defend_c =  {0.00, 0.00, 0.50},
+			FBI_defend_a = {0.00, 0.50, 0.00},
+			FBI_defend_b = {0.00, 0.00, 0.50}
 		}
 	elseif difficulty_index == 5 then
 		self.besiege.reenforce.groups = {
-			CS_defend_a = {
-				0.1,
-				0,
-				0
-			},
-			FBI_defend_b = {
-				0.9,
-				0.5,
-				0
-			},
-			FBI_defend_c = {
-				0,
-				0.5,
-				0
-			},
-			FBI_defend_d = {
-				0,
-				0,
-				1
-			}
+			CS_defend_a =  {0.10, 0.00, 0.00},
+			FBI_defend_b = {0.90, 0.50, 0.00},
+			FBI_defend_c = {0.00, 0.50, 0.00},
+			FBI_defend_d = {0.00, 0.00, 1.00}
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.reenforce.groups = {
-			CS_defend_a = {
-				0.1,
-				0,
-				0
-			},
-			FBI_defend_b = {
-				0.9,
-				0.5,
-				0
-			},
-			FBI_defend_c = {
-				0,
-				0.5,
-				0
-			},
-			FBI_defend_d = {
-				0,
-				0,
-				1
-			}
+			CS_defend_a =  {0.10, 0.00, 0.00},
+			FBI_defend_b = {0.90, 0.50, 0.00},
+			FBI_defend_c = {0.00, 0.50, 0.00},
+			FBI_defend_d = {0.00, 0.00, 1.00}
 		}
 	else
 		self.besiege.reenforce.groups = {
-			CS_defend_a = {
-				0.1,
-				0,
-				0
-			},
-			GS_defend_b = {
-				0.9,
-				0.5,
-				0
-			},
-			GS_defend_c = {
-				0,
-				0.5,
-				0
-			},
-			FBI_defend_d = {
-				0,
-				0,
-				1
-			}
+			CS_defend_a =  {0.10, 0.00, 0.00},
+			GS_defend_b =  {0.90, 0.50, 0.00},
+			GS_defend_c =  {0.00, 0.50, 0.00},
+			FBI_defend_d = {0.00, 0.00, 1.00}
 		}
 	end
 
-	self.besiege.recon.interval = {
-		5,
-		5,
-		5
-	}
+	self.besiege.recon.interval = {5, 5, 5}
 	self.besiege.recon.interval_variation = 40
 	self.besiege.recon.force = {
 		4 * map_scale_factor,
@@ -8262,98 +7636,50 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	if difficulty_index <= 2 then
 		--normal
 		self.besiege.recon.groups = {
-			hostage_rescue_n = {
-				0.33,
-				0.66,
-				1
-			},
-			cops_n = {
-				0.66,
-				0.33,
-				0
-			}
+			hostage_rescue_n = {0.33, 0.66, 1.00},
+			cops_n =           {0.66, 0.33, 0.00}
 		}
 	elseif difficulty_index == 3 then
 		--hard
 		self.besiege.recon.groups = {
-			hostage_rescue_h = {
-				0.66,
-				1,
-				1
-			},
-			cops_h = {
-				0.33,
-				0.00,
-				0
-			}
+			hostage_rescue_h = {0.66, 1.00, 1.00},
+			cops_h =           {0.33, 0.00, 0.00}
 		}
 	elseif difficulty_index == 4 then
 		--very hard
 		self.besiege.recon.groups = {
-			hostage_rescue_vh = {1,1,1}
+			hostage_rescue_vh = {1.00, 1.00, 1.00}
 		}
 	elseif difficulty_index == 5 then
 		--overkill
 		self.besiege.recon.groups = {
-			hostage_rescue_ovk = {1,1,1}
+			hostage_rescue_ovk = {1.00, 1.00, 1.00}
 		}
 	elseif difficulty_index == 6 then
 		--mayhem
 		--gets lone recon cloakers
 		self.besiege.recon.groups = {
-			hostage_rescue_mh = {
-				1,
-				0.9,
-				0.8
-			},
-			single_spooc = {
-				0.0,
-				0.1,
-				0.2
-			}
+			hostage_rescue_mh = {1.00, 0.90, 0.80},
+			single_spooc =      {0.00, 0.10, 0.20}
 		}
 	elseif difficulty_index == 7 then
 		--death wish
 		self.besiege.recon.groups = {
-			hostage_rescue_dw = {
-				1,
-				0.9,
-				0.8
-			},
-			single_spooc = {
-				0.0,
-				0.1,
-				0.2
-			}
+			hostage_rescue_dw = {1.00, 0.90, 0.80},
+			single_spooc =      {0.00, 0.10, 0.20}
 		}
 	else
 		--death sentence
 		--gets rare titan cloakers
 		self.besiege.recon.groups = {
-			hostage_rescue_ds = {
-				1,
-				0.9,
-				0.8
-			},
-			single_spooc = {
-				0.0,
-				0.08,
-				0.15
-			},
-			cloak_spooc = {
-				0.0,
-				0.02,
-				0.05
-			}
+			hostage_rescue_ds = {1.00, 0.90, 0.80},
+			single_spooc =      {0.00, 0.08, 0.15},
+			cloak_spooc =       {0.00, 0.02, 0.05}
 		}
 	end
 
 	self.besiege.cloaker.groups = {
-		single_spooc = {
-			1,
-			1,
-			1
-		}
+		single_spooc = {1.00, 1.00, 1.00}
 	}
 
 	local captain_cooldown = 1800 --30 minutes

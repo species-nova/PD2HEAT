@@ -978,7 +978,7 @@ end
 --Moves skills to here for a central point of contact for melee damage multipliers.
 function PlayerManager:get_melee_dmg_multiplier()
 	return self._melee_dmg_mul
-		* managers.player:upgrade_value("player", "melee_damage_multiplier", 1)
+		* managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1)
 		* (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 		* self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
 end

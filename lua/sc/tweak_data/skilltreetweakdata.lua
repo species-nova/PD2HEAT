@@ -2360,9 +2360,7 @@ function SkillTreeTweakData:init(tweak_data)
 
 	local deck2 = {
 		upgrades = {
-			"weapon_passive_damage_multiplier_1",
-			"player_non_special_melee_multiplier_1", --This bonus doesn't actually do anything, but it is what's displayed in menus.
-			"player_melee_damage_multiplier_1"
+			"weapon_passive_damage_multiplier_1"
 		},
 		cost = 300,
 		icon_xy = {7, 0},
@@ -2371,9 +2369,7 @@ function SkillTreeTweakData:init(tweak_data)
 	}
 	local deck4 = {
 		upgrades = {
-			"weapon_passive_damage_multiplier_2",
-			"player_non_special_melee_multiplier_2",
-			"player_melee_damage_multiplier_2"			
+			"weapon_passive_damage_multiplier_2"			
 		},
 		cost = 600,
 		icon_xy = {7, 0},
@@ -2382,9 +2378,7 @@ function SkillTreeTweakData:init(tweak_data)
 	}
 	local deck6 = {
 		upgrades = {
-			"weapon_passive_damage_multiplier_3",
-			"player_non_special_melee_multiplier_3",
-			"player_melee_damage_multiplier_3"			
+			"weapon_passive_damage_multiplier_3"		
 		},
 		cost = 1600,
 		icon_xy = {7, 0},
@@ -2393,9 +2387,7 @@ function SkillTreeTweakData:init(tweak_data)
 	}
 	local deck8 = {
 		upgrades = {
-			"weapon_passive_damage_multiplier_4",
-			"player_non_special_melee_multiplier_4",
-			"player_melee_damage_multiplier_4"
+			"weapon_passive_damage_multiplier_4"
 		},
 		cost = 3200,
 		icon_xy = {7, 0},

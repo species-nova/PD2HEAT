@@ -435,16 +435,10 @@ function BlackMarketGui:_get_armor_stats(name)
 	return base_stats, mods_stats, skill_stats
 end
 
-local orig_get_melee_weapon_stats = BlackMarketGui._get_melee_weapon_stats
+--The vanilla code for this function is literally a copy paste with self._mweapon_stats_shown replaced with self._stats_shown.
+--So just use the Intentory function ffs.
 function BlackMarketGui:_get_melee_weapon_stats(name)
-	local base, mods, skill = orig_get_melee_weapon_stats(self, name)
-	base.concealment.value = (base.concealment.value - 1) * 5
-	mods.concealment.value = (mods.concealment.value) * 5
-	skill.concealment.value = skill.concealment.value * 5
-	if base.concealment.value + skill.concealment.value > 100 then
-		skill.concealment.value = math.max(100 - base.concealment.value, 0)
-	end
-	return base, mods, skill
+	return PlayerInventoryGui._get_melee_weapon_stats(self, name)
 end
 
 -- Or just add the name = "deflection" to the table somewhere if you don't care much for a logical layout.

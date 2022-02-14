@@ -1295,7 +1295,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Pumping Iron
 				self.values.player.melee_swing_multiplier = {1.2, 1.5}
-				self.values.player.melee_swing_multiplier_delay = {0.8, 0.5}
+				self.values.player.melee_swing_multiplier_delay = {1.2, 1.5}
 				
 			--Counter Strike
 				--Basic
@@ -2066,81 +2066,9 @@ function UpgradesTweakData:_player_definitions()
 			value = 2
 		}
 	}
-	self.definitions.player_non_special_melee_multiplier_1 = {
-		category = "feature",
-		name_id = "menu_player_non_special_melee_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "non_special_melee_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.player_non_special_melee_multiplier_2 = {
-		category = "feature",
-		name_id = "menu_player_non_special_melee_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "non_special_melee_multiplier",
-			value = 2
-		}
-	}
-	self.definitions.player_non_special_melee_multiplier_3 = {
-		category = "feature",
-		name_id = "menu_player_non_special_melee_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "non_special_melee_multiplier",
-			value = 3
-		}
-	}
-	self.definitions.player_non_special_melee_multiplier_4 = {
-		category = "feature",
-		name_id = "menu_player_non_special_melee_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "non_special_melee_multiplier",
-			value = 4
-		}
-	}	
-	self.definitions.player_melee_damage_multiplier_1 = {
-		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_damage_multiplier",
-			value = 1
-		}
-	}
-	self.definitions.player_melee_damage_multiplier_2 = {
-		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_damage_multiplier",
-			value = 2
-		}
-	}
-	self.definitions.player_melee_damage_multiplier_3 = {
-		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_damage_multiplier",
-			value = 3
-		}
-	}
-	self.definitions.player_melee_damage_multiplier_4 = {
-		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
-		upgrade = {
-			category = "player",
-			upgrade = "melee_damage_multiplier",
-			value = 4
-		}
-	}	
 	self.definitions.player_melee_swing_multiplier_1 = {
 		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
+		name_id = "menu_player_melee_swing_multiplier",
 		upgrade = {
 			category = "player",
 			upgrade = "melee_swing_multiplier",
@@ -2149,7 +2077,7 @@ function UpgradesTweakData:_player_definitions()
 	}
 	self.definitions.player_melee_swing_multiplier_2 = {
 		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
+		name_id = "menu_player_melee_swing_multiplier",
 		upgrade = {
 			category = "player",
 			upgrade = "melee_swing_multiplier",
@@ -2158,7 +2086,7 @@ function UpgradesTweakData:_player_definitions()
 	}	
 	self.definitions.player_melee_swing_multiplier_delay_1 = {
 		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
+		name_id = "menu_player_melee_swing_multiplier_delay",
 		upgrade = {
 			category = "player",
 			upgrade = "melee_swing_multiplier_delay",
@@ -2167,7 +2095,7 @@ function UpgradesTweakData:_player_definitions()
 	}
 	self.definitions.player_melee_swing_multiplier_delay_2 = {
 		category = "feature",
-		name_id = "menu_player_melee_damage_multiplier",
+		name_id = "menu_player_melee_swing_multiplier_delay",
 		upgrade = {
 			category = "player",
 			upgrade = "melee_swing_multiplier_delay",

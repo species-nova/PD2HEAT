@@ -8,12 +8,9 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 	local skill_stats = {}
 	local stats_data = managers.blackmarket:get_melee_weapon_stats(name)
 	local multiple_of = {}
-	local has_non_special = managers.player:has_category_upgrade("player", "non_special_melee_multiplier")
-	local has_special = managers.player:has_category_upgrade("player", "melee_damage_multiplier")
-	local non_special = managers.player:upgrade_value("player", "non_special_melee_multiplier", 1) - 1
-	local special = managers.player:upgrade_value("player", "melee_damage_multiplier", 1) - 1
+	local stats_shown = self._mweapon_stats_shown or self._stats_shown --Allow this function to just be used directly by BlackMarketGUI because this code was written with horrendous reuse.
 
-	for i, stat in ipairs(self._stats_shown) do
+	for i, stat in ipairs(stats_shown) do
 		local skip_rounding = stat.num_decimals
 		base_stats[stat.name] = {
 			value = 0,
@@ -34,20 +31,17 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 		if stat.name == "damage" then
 			local base_min = stats_data.min_damage * tweak_data.gui.stats_present_multiplier
 			local base_max = stats_data.max_damage * tweak_data.gui.stats_present_multiplier
-			local dmg_mul = managers.player:upgrade_value("player", "melee_" .. tostring(tweak_data.blackmarket.melee_weapons[name].stats.weapon_type) .. "_damage_multiplier", 1)
-			local skill_mul = dmg_mul * ((has_non_special and has_special and math.max(non_special, special) or 0) + 1) - 1
-			local skill_min = skill_mul
-			local skill_max = skill_mul
+			local dmg_mul = managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1) - 1
 			base_stats[stat.name] = {
 				min_value = base_min,
 				max_value = base_max,
 				value = (base_min + base_max) / 2
 			}
 			skill_stats[stat.name] = {
-				min_value = skill_min,
-				max_value = skill_max,
-				value = (skill_min + skill_max) / 2,
-				skill_in_effect = skill_min > 0 or skill_max > 0
+				min_value = dmg_mul,
+				max_value = dmg_mul,
+				value = dmg_mul,
+				skill_in_effect = dmg_mul > 0
 			}
 		elseif stat.name == "damage_effect" then
 			local base_min = stats_data.min_damage_effect
@@ -57,9 +51,7 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 				max_value = base_max,
 				value = (base_min + base_max) / 2
 			}
-			local dmg_mul = managers.player:upgrade_value("player", "melee_" .. tostring(tweak_data.blackmarket.melee_weapons[name].stats.weapon_type) .. "_damage_multiplier", 1) - 1
-			local gst_skill = managers.player:upgrade_value("player", "melee_knockdown_mul", 1) - 1
-			local skill_mul = (1 + dmg_mul) * (1 + gst_skill) - 1
+			local skill_mul = managers.player:upgrade_value("player", "melee_knockdown_mul", 1) - 1
 			local skill_min = skill_mul
 			local skill_max = skill_mul
 			skill_stats[stat.name] = {
@@ -77,6 +69,15 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 				min_value = base,
 				max_value = base
 			}
+			local charge_speed = managers.player:upgrade_value("player", "melee_swing_multiplier_delay", 1)
+			if base >= 0.1 and charge_speed > 1 then
+				skill_stats[stat.name] = {
+					min_value = 0, --These don't do anything.
+					max_value = 0,
+					value = -1 * (base - (base / charge_speed)),
+					skill_in_effect = true
+				}
+			end
 		elseif stat.name == "range" then
 			local base_min = stats_data.range
 			local base_max = stats_data.range
@@ -127,21 +128,19 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 		base_stats[multiplier].value = (base_stats[multiplier].min_value + base_stats[multiplier].max_value) / 2
 	end
 
-	for i, stat in ipairs(self._stats_shown) do
+	for i, stat in ipairs(stats_shown) do
 		if not stat.index then
 			if skill_stats[stat.name].value and base_stats[stat.name].value then
 				skill_stats[stat.name].value = base_stats[stat.name].value * skill_stats[stat.name].value
-				base_stats[stat.name].value = base_stats[stat.name].value
+				--Remove some useless assignments.
 			end
 
 			if skill_stats[stat.name].min_value and base_stats[stat.name].min_value then
 				skill_stats[stat.name].min_value = base_stats[stat.name].min_value * skill_stats[stat.name].min_value
-				base_stats[stat.name].min_value = base_stats[stat.name].min_value
 			end
 
 			if skill_stats[stat.name].max_value and base_stats[stat.name].max_value then
 				skill_stats[stat.name].max_value = base_stats[stat.name].max_value * skill_stats[stat.name].max_value
-				base_stats[stat.name].max_value = base_stats[stat.name].max_value
 			end
 		end
 	end

@@ -1162,7 +1162,7 @@ function PlayerStandard:_do_action_melee(t, input, skip_damage, countered)
 	local anim_speed = tweak_data.blackmarket.melee_weapons[melee_entry].anim_speed_mult or 1
 	speed = speed * anim_speed
 	speed = speed * managers.player:upgrade_value("player", "melee_swing_multiplier", 1)
-	melee_damage_delay = melee_damage_delay * managers.player:upgrade_value("player", "melee_swing_multiplier_delay", 1)
+	melee_damage_delay = melee_damage_delay * (1 / managers.player:upgrade_value("player", "melee_swing_multiplier", 1))
 	local melee_expire_t = tweak_data.blackmarket.melee_weapons[melee_entry].expire_t or 0 --Add fallbacks for certain stats.
 	local melee_repeat_expire_t = tweak_data.blackmarket.melee_weapons[melee_entry].repeat_expire_t or 0
 	melee_damage_delay = math.min(melee_damage_delay, tweak_data.blackmarket.melee_weapons[melee_entry].repeat_expire_t)
@@ -2461,6 +2461,7 @@ function PlayerStandard:_get_melee_charge_lerp_value(t, offset)
 	offset = offset or 0
 	local melee_entry = managers.blackmarket:equipped_melee_weapon()
 	local max_charge_time = tweak_data.blackmarket.melee_weapons[melee_entry].stats.charge_time
+	max_charge_time = max_charge_time / managers.player:upgrade_value("player", "melee_swing_multiplier_delay", 1)
 
 	if not self._state_data.melee_start_t then
 		return 0
