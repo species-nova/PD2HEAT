@@ -2236,8 +2236,8 @@ function CharacterTweakData:_init_phalanx_minion(presets) --titan shield
 	self.phalanx_minion.detection = presets.detection.normal
 	self.phalanx_minion.headshot_dmg_mul = normal_headshot
 	self.phalanx_minion.HEALTH_INIT = 48
-	self.phalanx_minion.damage.explosion_damage_mul = 0.5
-	self.phalanx_minion.damage.fire_pool_damage_mul = 0.5
+	self.phalanx_minion.damage.explosion_damage_mul = 0.4
+	self.phalanx_minion.damage.fire_pool_damage_mul = 0.4
 	self.phalanx_minion.damage.melee_damage_mul = 2
 	self.phalanx_minion.damage.hurt_severity = presets.hurt_severities.no_hurts
 	self.phalanx_minion.damage.shield_knock_breakpoint = 54
