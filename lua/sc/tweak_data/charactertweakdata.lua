@@ -1195,7 +1195,7 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.riot_swat.headshot_dmg_mul = normal_headshot
 	self.riot_swat.weapon = presets.weapon.good
 	self.riot_swat.damage.hurt_severity = presets.hurt_severities.boom
-	self.riot_swat.damage.explosion_damage_mul = 0.5
+	self.riot_swat.damage.explosion_damage_mul = 0.4
 	self.riot_swat.use_animation_on_fire_damage = true
 	self.riot_swat.move_speed = presets.move_speed.fast
 	self.riot_swat.dodge = presets.dodge.elite
