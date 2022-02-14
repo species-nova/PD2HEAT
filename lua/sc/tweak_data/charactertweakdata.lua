@@ -4485,7 +4485,7 @@ function CharacterTweakData:_presets(tweak_data)
 
 	--Similar to ARs, but with more threat up close and less from far away.
 	presets.weapon.expert.is_smg = {
-		aim_delay = {0.3, 1.5},
+		aim_delay = {0.2, 1.2},
 		focus_delay = 6,
 		focus_dis = 400,
 		spread = 14,
@@ -4918,7 +4918,7 @@ function CharacterTweakData:_presets(tweak_data)
 	presets.weapon.gang_member = deep_clone(presets.weapon.expert)
 
 	presets.weapon.gang_member.is_pistol = {
-		aim_delay = {0.2, 0.6},
+		aim_delay = {0.3, 0.9},
 		focus_delay = 2,
 		focus_dis = 600,
 		spread = 6,
@@ -4980,7 +4980,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_revolver = {
-		aim_delay = {0.2, 0.6},
+		aim_delay = {0.3, 0.9},
 		focus_delay = 2,
 		focus_dis = 600,
 		spread = 6,
@@ -5042,7 +5042,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_rifle = {
-		aim_delay = {0.4, 1.2},
+		aim_delay = {0.6, 1.8},
 		focus_delay = 4,
 		focus_dis = 450,
 		spread = 8,
@@ -5111,7 +5111,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_rifle_underbarrel = {
-		aim_delay = {0.4, 1.2},
+		aim_delay = {0.6, 1.8},
 		focus_delay = 4,
 		focus_dis = 450,
 		spread = 8,
@@ -5181,7 +5181,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_smg = {
-		aim_delay = {0.2, 0.6},
+		aim_delay = {0.3, 0.9},
 		focus_delay = 2,
 		focus_dis = 600,
 		spread = 10,
@@ -5250,7 +5250,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_lmg = {
-		aim_delay = {0.6, 1.8},
+		aim_delay = {0.9, 2.7},
 		focus_delay = 6,
 		focus_dis = 300,
 		spread = 12,
@@ -5319,7 +5319,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_dmr = {
-		aim_delay = {0.6, 1.8},
+		aim_delay = {0.9, 2.7},
 		focus_delay = 6,
 		focus_dis = 300,
 		spread = 4,
@@ -5381,7 +5381,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_sniper = {
-		aim_delay = {0.6, 1.8},
+		aim_delay = {0.9, 2.7},
 		focus_delay = 6,
 		focus_dis = 300,
 		spread = 2,
@@ -5443,7 +5443,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_shotgun_mag = {
-		aim_delay = {0.6, 1.8},
+		aim_delay = {0.9, 2.7},
 		focus_delay = 6,
 		focus_dis = 300,
 		spread = 20,
@@ -5491,7 +5491,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_shotgun_pump = {
-		aim_delay = {0.4, 1.2},
+		aim_delay = {0.6, 1.8},
 		focus_delay = 4,
 		focus_dis = 450,
 		spread = 20,
@@ -5539,7 +5539,7 @@ function CharacterTweakData:_presets(tweak_data)
 	}
 
 	presets.weapon.gang_member.is_shotgun_double = {
-		aim_delay = {0.2, 0.6},
+		aim_delay = {0.3, 0.9},
 		focus_delay = 2,
 		focus_dis = 600,
 		spread = 20,

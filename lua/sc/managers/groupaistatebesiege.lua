@@ -2814,7 +2814,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 				objective_area = area_to_chk
 			elseif self._street then --street behavior, stay in place a bit before pushes 
 				if not group.in_place_t or group.in_place_t and self._t - group.in_place_t > 8 then 
-					if not tactics_map and not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire then
+					if not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire then
 						objective_area = has_criminals_close
 						push = true
 					else
@@ -2826,7 +2826,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 					objective_area = area_to_chk
 				end
 			else
-				if not tactics_map and not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire or #has_criminals_close.police.units < 8 or group.in_place_t and self._t - group.in_place_t > 10 then
+				if not tactics_map or not tactics_map.ranged_fire and not tactics_map.elite_ranged_fire or #has_criminals_close.police.units < 8 or group.in_place_t and self._t - group.in_place_t > 10 then
 					--all these checks are here to ensure a well-maintained input of cops once units approach these areas, prevents occasional stand-stills from happening
 					objective_area = has_criminals_close
 					push = true

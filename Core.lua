@@ -153,7 +153,6 @@ function heat:Init()
 		"run", --Heat Street
 		"run_res", --Whurr's Heat Street Edit
 		"bph", --Hell's Island
-		"glace", --Green Bridge
 		"pbr", --Beneath the Mountain
 		"dinner", --Slaughterhouse
 		"born", --Biker 1
@@ -162,18 +161,18 @@ function heat:Init()
 		"sah", --Shacklethorne
 		"chill_combat",	--Safehouse Raid
 		"man", --Undercover
-		"jolly", --Aftershock
-		"moon", --Stealing Xmas
+		"des",	--Henry's Rock
+		"brb", --Brooklyn Bank
+		"rvd2", --Resivoir Dogs 2
 		"branchbank", --Bank heist
+		"spa", --Brooklyn 10-10
 		"firestarter_3", --firestarter day 3
 		"firestarter_3_res", --firestarter day 3, res edit
 		"mex_cooking", --Border Crystals
 		"roberts", --Go Bank
 		"family", --Diamond Store
 		"jewelry_store", --Ukrainian job left off since its bag moving is optional, to compensate for the extra easiness.
-		"fex", --Buluc's Mansion
 		"rat",--Cook Off
-		--"chca",--Black Cat
 		"chas",--Dragon Heist
 		--Custom Heists below--
 		"junk",
@@ -183,22 +182,18 @@ function heat:Init()
 	}
 	--For levels that have aggressive scripted spawns, or spawn placement such that enemies are constantly spawned next to players.
 	heat.very_tiny_levels = {
+		"hox_1", --Hoxout 1. Not nessecarily 'extra tiny,' but its assault setup makes it more important to 
+		"xmn_hox_1",
 		"help", --Prison Nightmare
+		"vit", --White House
 		"pbr2", --Birth of Sky
-		"rvd2", --Resivoir Dogs 2, has very aggressive scripted spawns.
-		"spa", --Brooklyn 10-10
 		"mia_2", --Hotline Miami 2
-		"des",	--Henry's Rock
-		"brb", --Brooklyn Bank
 		"nail",	--Lab Rats. Fuck this heist	
 		--Custom Heists below--
 		"thechase"
 	}	
 	--Mostly for stuff like Cursed Killed Room and other crap puny heists
 	heat.extremely_tiny_levels = {
-		"hox_1", --Hoxout 1. Not nessecarily 'extra tiny,' but its assault setup makes it more important to 
-		"xmn_hox_1",
-		"vit", --White House
 		"hvh", --CKR
 		"chew", --Biker day 2
 		"nmh", --No Mercy
@@ -206,21 +201,6 @@ function heat:Init()
 		"peta2", --Goats day 2. Fuck this heist too		
 		--Custom Heists below--
 		"Victor Romeo"
-	}
-
-	--For custom heists that seem to be broken with our normal spawn setup
-	heat.bad_spawn_heists = {
-		"help",
-		"fex", --Buluc's Mansion			
-		--Custom Heists--
-		"Victor Romeo",
-		"hardware_store",
-		"tj_htsb",
-		"hntn",
-		"bookmakers_office",
-		"thechase",
-		"office_strike",
-		"santa_pain"
 	}
 
 	heat.street_levels = {
