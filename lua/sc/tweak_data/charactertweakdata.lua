@@ -4424,7 +4424,7 @@ function CharacterTweakData:_presets(tweak_data)
 	--Abuses acc values > 1 to achieve this.
 	presets.weapon.expert.is_dmr = {
 		aim_delay = {0.4, 2.0},
-		focus_delay = 12,
+		focus_delay = 6,
 		focus_dis = 150,
 		spread = 10,
 		miss_dis = 20,
@@ -4447,28 +4447,28 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			{
 				r = 750,
-				acc = {0.0, 6.0}, --2 seconds to max acc.
+				acc = {0.0, 6.0}, --1 second to max acc.
 				dmg_mul = 1,
 				recoil = {1.2, 0.6},
 				burst_size = 1
 			},
 			{
 				r = 1500,
-				acc = {0.0, 4.0}, --3 seconds to max acc.
+				acc = {0.0, 4.0}, --1.5 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {1.6, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 3000,
-				acc = {0.0, 3.0}, --4 seconds to max acc.
+				acc = {0.0, 3.0}, --2 seconds to max acc.
 				dmg_mul = 1,
 				recoil = {1.6, 0.8},
 				burst_size = 1
 			},
 			{
 				r = 6000,
-				acc = {0.0, 2.0}, --6 seconds to max acc.
+				acc = {0.0, 2.0}, --3 seconds to max acc.
 				dmg_mul = 0.5,
 				recoil = {1.6, 0.8},
 				burst_size = 1
