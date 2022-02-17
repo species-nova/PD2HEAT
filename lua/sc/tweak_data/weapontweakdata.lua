@@ -2746,6 +2746,31 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.sterling.reload_speed_multiplier = 1.1 --2.6/3.5s
 
+		--Wasp-Ds Smg
+		self.fmg9.fire_rate_multiplier = 0.9 --1200 rpm
+		self.fmg9.CLIP_AMMO_MAX = 33
+		self.fmg9.kick = self.stat_info.kick_tables.left_kick
+		self.fmg9.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.fmg9.tactical_reload = 1
+		self.fmg9.supported = true
+		self.fmg9.stats = {
+			damage = 24,
+			spread = 10,
+			recoil = 10,
+			concealment = 21,
+			value = 1
+		}
+		self.fmg9.timers = {
+			reload_not_empty = 2.6,
+			reload_empty = 4.3,
+			reload_operational = 1.9,
+			empty_reload_operational = 3.65,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 1.8,
+			equip = 1.4
+		}
+
 	--Heavy SMG (Primary)
 		--Jackal
 		self.schakal.use_data.selection_index = 2
@@ -3027,6 +3052,28 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			value = 1
 		}
 		self.glock_18c.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+
+		--Maxim 9
+		self.maxim9.kick = self.stat_info.kick_tables.left_recoil
+		self.maxim9.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.maxim9.supported = true
+		self.maxim9.stats = {
+			damage = 20,
+			spread = 17,
+			recoil = 20,
+			concealment = 20,
+			value = 1
+		}
+		self.maxim9.timers = {
 			reload_not_empty = 2.0,
 			reload_empty = 2.4,
 			reload_operational = 1.45,
@@ -5654,6 +5701,18 @@ end
 			old_init_data_glock_18_crew(self)
 			apply_crew_weapon_preset(self.glock_18_crew, crew_smg_stats) --An SMG more closely matches what one would expect from an autopistol.
 			apply_crew_weapon_preset(self.glock_18c_primary_crew, crew_smg_stats)
+		end
+
+		local old_init_data_maxim9_crew = WeaponTweakData._init_data_maxim9_crew
+		function WeaponTweakData:_init_data_maxim9_crew()
+			old_init_data_maxim9_crew(self)
+			apply_crew_weapon_preset(self.maxim9_crew, crew_pistol_stats)
+		end
+
+		local old_init_data_fmg9_crew = WeaponTweakData._init_data_fmg9_crew
+		function WeaponTweakData:_init_data_fmg9_crew()
+			old_init_data_fmg9_crew(self)
+			apply_crew_weapon_preset(self.fmg9_crew, crew_smg_stats)
 		end
 
 		local old_init_data_raging_bull_crew = WeaponTweakData._init_data_raging_bull_crew

@@ -493,23 +493,10 @@ function PlayerStandard:update(t, dt)
 	self:_update_omniscience(t, dt)
 	self:_upd_stance_switch_delay(t, dt)
 
-	if self._last_equipped then
-		if self._last_equipped ~= self._equipped_unit then
-			self._equipped_visibility_timer = t + 0.1
-		end
-
-		if self._equipped_visibility_timer and self._equipped_visibility_timer < t and alive(self._equipped_unit) then
-			self._equipped_visibility_timer = nil
-			self._equipped_unit:base():set_visibility_state(true)
-		end
-	end
-
-	self._last_equipped = self._equipped_unit
-
 	self:_update_burst_fire(t)
 	
 	--Update the current weapon's spread value based on recent actions.
-	local weapon = self._unit:inventory():equipped_unit():base()
+	local weapon = self._unit:inventory():equipped_unit():base() 
 	weapon:update_spread(self, t, dt)
 	self:_update_crosshair(t, dt, weapon)
 	managers.hud:_update_crosshair_offset(t, dt)
@@ -1804,7 +1791,7 @@ function PlayerStandard:_start_action_reload(t)
 		weapon:tweak_data_anim_stop("fire")
 		weapon:start_reload() --Executed earlier to get accurate reload timers, otherwise may mess up normal and tactical for shotguns.
 
-		local shotgun_reload = weapon._use_shotgun_reload
+		local shotgun_reload = weapon:use_shotgun_reload()
 		local weapon_tweak = weapon:weapon_tweak_data()
 		local anim_tweak = weapon_tweak.animations
 		local timers = weapon_tweak.timers

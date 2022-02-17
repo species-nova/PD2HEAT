@@ -697,6 +697,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Kang Arms X1--
 		["bm_w_qbu88"] = "Káng Arms X1 Rifle",
 
+		--Gecko M2
+		["bm_w_maxim9_desc"] = "This weapon is suppressed.",
 
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",

@@ -93,7 +93,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"plainsrider",
 					"sub2000",
 					"road",
-					"legacy"
+					"legacy",
+					"fmg9"
 				}
 			},
 		l18 = {
@@ -116,7 +117,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"mp9",
 					"baka",
 					"pugio",
-					"ballistic"
+					"ballistic",
+					"maxim9"
 				}
 			},
 		l20 = {

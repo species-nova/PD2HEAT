@@ -152,7 +152,8 @@ function FPCameraPlayerBase:_vertical_recoil_kick(t, dt)
 	local r_value = 0
 
 	if self._recoil_kick.accumulated and self._episilon < math.abs(self._recoil_kick.accumulated) then
-		local degrees_to_move = 40 * dt
+		--Scale degrees to move up if there's a large amount of accumulated recoil to prevent camera from obviously recoiling when not firing.
+		local degrees_to_move = math.max(40 * dt, self._recoil_kick.accumulated * self._recoil_kick.accumulated * dt)
 		r_value = math.min(self._recoil_kick.accumulated, degrees_to_move)
 		self._recoil_kick.accumulated = self._recoil_kick.accumulated - r_value
 	elseif self._recoil_wait then
@@ -172,7 +173,7 @@ function FPCameraPlayerBase:_horizonatal_recoil_kick(t, dt)
 	local r_value = 0
 
 	if self._recoil_kick.h.accumulated and self._episilon < math.abs(self._recoil_kick.h.accumulated) then
-		local degrees_to_move = 40 * dt
+		local degrees_to_move = math.max(40 * dt, self._recoil_kick.accumulated * self._recoil_kick.accumulated * dt)
 		r_value = math.min(self._recoil_kick.h.accumulated, degrees_to_move)
 		self._recoil_kick.h.accumulated = self._recoil_kick.h.accumulated - r_value
 	elseif self._recoil_wait then
