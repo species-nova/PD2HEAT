@@ -2765,8 +2765,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			reload_empty = 4.3,
 			reload_operational = 1.9,
 			empty_reload_operational = 3.65,
-			reload_interrupt = 0.5,
-			empty_reload_interrupt = 0.5,
+			reload_interrupt = 0.42,
+			empty_reload_interrupt = 0.3,
 			unequip = 1.8,
 			equip = 1.4
 		}
