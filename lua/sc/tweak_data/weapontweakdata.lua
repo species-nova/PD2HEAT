@@ -3065,6 +3065,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Maxim 9
 		self.maxim9.kick = self.stat_info.kick_tables.left_recoil
 		self.maxim9.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.maxim9.tactical_reload = 1
 		self.maxim9.supported = true
 		self.maxim9.stats = {
 			damage = 20,
