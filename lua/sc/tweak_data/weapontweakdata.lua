@@ -3071,6 +3071,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			spread = 17,
 			recoil = 20,
 			concealment = 20,
+			alert_size = 1,
 			value = 1
 		}
 		self.maxim9.timers = {
