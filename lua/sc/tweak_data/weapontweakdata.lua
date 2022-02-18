@@ -2749,7 +2749,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Wasp-Ds Smg
 		self.fmg9.fire_rate_multiplier = 0.9 --1200 rpm
 		self.fmg9.CLIP_AMMO_MAX = 33
-		self.fmg9.kick = self.stat_info.kick_tables.left_kick
+		self.fmg9.kick = self.stat_info.kick_tables.moderate_left_kick
 		self.fmg9.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.fmg9.tactical_reload = 1
 		self.fmg9.supported = true
@@ -4066,6 +4066,19 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.65
 		}
 		self.peacemaker.swap_speed_multiplier = 0.65
+
+	--[[
+	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
+	self.ultima.kick_pattern = self.stat_info.kick_patterns.random
+	self.ultima.supported = true
+	self.ultima.stats = {
+		damage = 60,
+		spread = 7,
+		recoil = 4,
+		concealment = 11,
+		value = 1
+	}
+	]]
 
 	--Reinfeld 880
 	self.r870.desc_id = "bm_menu_sc_r870_desc"

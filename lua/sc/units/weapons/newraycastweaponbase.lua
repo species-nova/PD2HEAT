@@ -107,22 +107,8 @@ function NewRaycastWeaponBase:clip_full()
 	end
 end
 
-function NewRaycastWeaponBase:on_reload_stop()
-	--Now bloodthirst stuff is handled by on_reload, no need to do it here anymore.
-
-	local user_unit = managers.player:player_unit()
-
-	if user_unit then
-		user_unit:movement():current_state():send_reload_interupt()
-	end
-
-	self:set_reload_objects_visible(false)
-
-	self._reload_objects = {}
-end
-
 function NewRaycastWeaponBase:on_half_reload(...)
-
+	--Placeholder. Implemented for Akimbo guns.
 end
 
 function NewRaycastWeaponBase:on_reload(...)
@@ -131,9 +117,6 @@ function NewRaycastWeaponBase:on_reload(...)
 	--Likewise, since the gun is "reloaded," we reset bloodthirst stuff now.
 	self._bloodthist_value_during_reload = 0
 	self._current_reload_speed_multiplier = nil
-
-	--Check if the last shot staggering buff should be reapplied. 
-	self:check_reset_last_bullet_stagger()
 
 	if not self._setup.expend_ammo then
 		NewRaycastWeaponBase.super.on_reload(self, ...)
@@ -151,6 +134,9 @@ function NewRaycastWeaponBase:on_reload(...)
 	managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
 
 	self._reload_ammo_base = nil
+
+	--Check if the last shot staggering buff should be reapplied. 
+	self:check_reset_last_bullet_stagger()
 end
 
 function NewRaycastWeaponBase:max_bullets_to_reload(from_empty)
@@ -161,28 +147,84 @@ function NewRaycastWeaponBase:max_bullets_to_reload(from_empty)
 	return math.min(self:get_ammo_total(), max_per_mag) - self:get_ammo_remaining_in_clip()
 end
 
-
-function NewRaycastWeaponBase:reload_expire_t(force_empty)
-	if self._use_shotgun_reload then
-		return self:max_bullets_to_reload(force_empty or self._started_reload_empty) * self:reload_shell_expire_t()
+function NewRaycastWeaponBase:bullets_per_load(is_empty)
+	local shotgun_reload_tweak = self:_get_shotgun_reload_tweak_data(not is_empty)
+	if shotgun_reload_tweak.reload_queue then
+		return 2 --Just do 2 for right now. If more queued-reloads get introduced, consider proper handling for offhand reloads.
+	else
+		return shotgun_reload_tweak and shotgun_reload_tweak.reload_num or 1
 	end
-	return nil
+end
+
+function NewRaycastWeaponBase:reload_expire_t(is_not_empty)
+	if self._use_shotgun_reload then
+		local shotgun_reload_tweak = self:_get_shotgun_reload_tweak_data(is_not_empty)
+		if shotgun_reload_tweak and shotgun_reload_tweak.reload_queue then
+			local ammo_total = self:get_ammo_total()
+			local ammo_max_per_clip = self:get_ammo_max_per_clip() + (not self._started_reload_empty and self:weapon_tweak_data().tactical_reload and 1 or 0)
+			local ammo_remaining_in_clip = self:get_ammo_remaining_in_clip()
+			local ammo_to_reload = math.min(ammo_total - ammo_remaining_in_clip, ammo_max_per_clip - ammo_remaining_in_clip)
+			local reload_expire_t = 0
+			local queue_index = 0
+			local queue_data = nil
+			local queue_num = #shotgun_reload_tweak.reload_queue
+
+			while ammo_to_reload > 0 do
+				if queue_index == queue_num then
+					reload_expire_t = reload_expire_t + (shotgun_reload_tweak.reload_queue_wrap or 0)
+				end
+
+				queue_index = queue_index % queue_num + 1
+				queue_data = shotgun_reload_tweak.reload_queue[queue_index]
+				reload_expire_t = reload_expire_t + queue_data.expire_t or 0.5666666666666667
+				ammo_to_reload = ammo_to_reload - (queue_data.reload_num or 1)
+			end
+
+			return reload_expire_t
+		else
+			local reload_count = math.ceil(self:max_bullets_to_reload(not is_not_empty or self._started_reload_empty) / (shotgun_reload_tweak and shotgun_reload_tweak.reload_num or 1))
+			return reload_count * self:reload_shell_expire_t(is_not_empty)
+		end
+	end
 end
 
 function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
-	if self._use_shotgun_reload and t > self._next_shell_reloded_t then
+	if self._use_shotgun_reload and self._next_shell_reloded_t and t > self._next_shell_reloded_t then
+		local speed_multiplier = self:reload_speed_multiplier()
+		local shotgun_reload_tweak = self:_get_shotgun_reload_tweak_data(not self._started_reload_empty)
+		local ammo_to_reload = 1
+		local next_queue_data = nil
+
+		if shotgun_reload_tweak and shotgun_reload_tweak.reload_queue then
+			self._shotgun_queue_index = self._shotgun_queue_index % #shotgun_reload_tweak.reload_queue + 1
+
+			if self._shotgun_queue_index == #shotgun_reload_tweak.reload_queue then
+				self._next_shell_reloded_t = self._next_shell_reloded_t + (shotgun_reload_tweak.reload_queue_wrap or 0)
+			end
+
+			local queue_data = shotgun_reload_tweak.reload_queue[self._shotgun_queue_index]
+			ammo_to_reload = queue_data and queue_data.reload_num or 1
+			next_queue_data = shotgun_reload_tweak.reload_queue[self._shotgun_queue_index + 1]
+			self._next_shell_reloded_t = self._next_shell_reloded_t + (next_queue_data and next_queue_data.expire_t or 0.5666666666666667) / speed_multiplier
+		else
+			self._next_shell_reloded_t = self._next_shell_reloded_t + self:reload_shell_expire_t(not self._started_reload_empty) / speed_multiplier
+			ammo_to_reload = shotgun_reload_tweak and shotgun_reload_tweak.reload_num or 1
+		end
+
+		if not self._started_reload_empty and self:weapon_tweak_data().tactical_reload then
+			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip() + 1, self:get_ammo_remaining_in_clip() + ammo_to_reload))
+		else
+			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + ammo_to_reload))
+		end
+
+		managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
+
+		if not next_queue_data or not next_queue_data.skip_update_ammo then
+			self:update_ammo_objects()
+		end
+
 		--Check if the last shot staggering buff should be reapplied. 
 		self:check_reset_last_bullet_stagger()
-		local speed_multiplier = self:reload_speed_multiplier()
-		self._next_shell_reloded_t = self._next_shell_reloded_t + self:reload_shell_expire_t() / speed_multiplier
-		if self._started_reload_empty or not self:weapon_tweak_data().tactical_reload then
-			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + 1))
-			return true
-		else
-			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip() + 1, self:get_ammo_remaining_in_clip() + 1))
-			return true
-		end
-		managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
 		return true
 	end
 end

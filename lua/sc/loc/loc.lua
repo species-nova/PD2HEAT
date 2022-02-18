@@ -1751,7 +1751,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",
-		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nYour guns gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##30%## faster while fewer than ##3## enemies are within ##8## meters.",
+		["menu_heavy_impact_beta_desc_sc"] = "BASIC: ##$basic##\nYou aim down sights ##75%## faster.\n\nYour guns gain ##15%## more accuracy and range while aiming down sights.\n\nACE: ##$pro##\nYou reload rifles ##35%## faster while fewer than ##3## enemies are within ##8## meters.",
 
 		--Rapid Reset--
 		["menu_engineering_beta_sc"] = "Rapid Reset",
