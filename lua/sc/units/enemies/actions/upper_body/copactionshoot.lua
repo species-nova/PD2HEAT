@@ -1198,22 +1198,19 @@ function CopActionShoot:anim_clbk_melee_strike()
 		end
 
 		if defense_data and defense_data ~= "friendly_fire" then
-			if defense_data == "countered" then
+			if defense_data == "countered" and character_unit.movement and character_unit:movement() then
 				self._common_data.melee_countered_t = TimerManager:game():time()
-				local attack_dir = self._unit:movement():m_com() - character_unit:movement():m_head_pos()
-
-				mvec3_norm(attack_dir)
 
 				local counter_data = {
 					damage = 0,
 					damage_effect = 1,
 					variant = "counter_spooc",
 					attacker_unit = character_unit,
-					attack_dir = attack_dir,
+					attack_dir = -1 * my_fwd,
 					col_ray = {
 						position = mvector3.copy(self._unit:movement():m_com()),
 						body = self._unit:body("body"),
-						ray = attack_dir
+						ray = -1 * my_fwd
 					},
 					name_id = melee_entry
 				}
