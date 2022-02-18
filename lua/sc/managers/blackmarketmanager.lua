@@ -169,6 +169,46 @@ function BlackMarketManager:accuracy_index_addend(name, categories, silencer, cu
 	return index
 end
 
+--Clamp melee mobility stat to be between 0-100
+function BlackMarketManager:visibility_modifiers()
+	local skill_bonuses = 0
+	skill_bonuses = skill_bonuses - managers.player:upgrade_value("player", "passive_concealment_modifier", 0)
+	skill_bonuses = skill_bonuses - managers.player:upgrade_value("player", "concealment_modifier", 0)
+	
+	local equipped_melee_weapon = self:equipped_melee_weapon()
+	local melee_concealment = managers.blackmarket:_calculate_melee_weapon_concealment(equipped_melee_weapon)
+	local melee_skill_bonus = math.max(math.min(melee_concealment + managers.player:upgrade_value("player", "melee_concealment_modifier", 0), 21) - melee_concealment, 0)
+	skill_bonuses = skill_bonuses - melee_skill_bonus
+
+	local armor_data = tweak_data.blackmarket.armors[managers.blackmarket:equipped_armor(true, true)]
+	if armor_data.upgrade_level == 2 or armor_data.upgrade_level == 3 or armor_data.upgrade_level == 4 then
+		skill_bonuses = skill_bonuses - managers.player:upgrade_value("player", "ballistic_vest_concealment", 0)
+	end
+
+	return skill_bonuses
+end
+
+--Clamp melee mobility stat to be between 0-100
+function BlackMarketManager:concealment_modifier(type, upgrade_level, melee_override)
+	local modifier = 0
+
+	if type == "armors" then
+		modifier = modifier + managers.player:upgrade_value("player", "passive_concealment_modifier", 0)
+		modifier = modifier + managers.player:upgrade_value("player", "concealment_modifier", 0)
+
+		if upgrade_level == 2 or upgrade_level == 3 or upgrade_level == 4 then
+			modifier = modifier + managers.player:upgrade_value("player", "ballistic_vest_concealment", 0)
+		end
+	elseif type == "melee_weapons" then
+		local equipped_melee_weapon = melee_override or self:equipped_melee_weapon()
+		local melee_concealment = managers.blackmarket:_calculate_melee_weapon_concealment(equipped_melee_weapon)
+		local melee_skill_bonus = math.max(math.min(melee_concealment + managers.player:upgrade_value("player", "melee_concealment_modifier", 0), 21) - melee_concealment, 0)
+		modifier = modifier + melee_skill_bonus
+	end
+
+	return modifier
+end
+
 --Let bots use pistols.
 local ALLOWED_CREW_WEAPON_CATEGORIES = {
     assault_rifle = true,

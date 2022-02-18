@@ -88,7 +88,7 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 			}
 		elseif stat.name == "concealment" then
 			local base = (managers.blackmarket:_calculate_melee_weapon_concealment(name) - 1) * 5
-			local skill = managers.blackmarket:concealment_modifier("melee_weapons") * 5
+			local skill = managers.blackmarket:concealment_modifier("melee_weapons", nil, name) * 5
 			base_stats[stat.name] = {
 				min_value = base,
 				max_value = base,

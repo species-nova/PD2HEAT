@@ -1693,9 +1693,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.m134.supported = true
 		self.m134.stats = {
 			damage = 20,
-			spread = 3,
-			recoil = 16,
-			concealment = 3,
+			spread = 5,
+			recoil = 12,
+			concealment = 5,
 			value = 9
 		}
 		self.m134.spin_rounds = 18
@@ -1725,9 +1725,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.shuno.supported = true
 		self.shuno.stats = {
 			damage = 18,
-			spread = 3,
-			recoil = 18,
-			concealment = 4,
+			spread = 5,
+			recoil = 14,
+			concealment = 6,
 			value = 9
 		}
 		self.shuno.spin_rounds = 15
