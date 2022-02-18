@@ -474,7 +474,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Doctor Bags: Intended to offer consistent sustain over a long period of time.
 	self.doctor_bag_base = 2 --Starting Number
 	self.values.doctor_bag.heal_amount = 0.2 --Heals 20% of max health on use.
-	self.values.temporary.doctor_bag_health_regen = {{0.03, 240.1}} --Heals 3% of max health every 4 seconds for the next 4 minutes.
+	self.values.temporary.doctor_bag_health_regen = {{0.04, 180.1}} --Heals 3% of max health every 4 seconds for the next 4 minutes.
 	
 	--ECMs: They're ECMs
 	self.ecm_jammer_base_battery_life = 10
@@ -1556,7 +1556,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		{{2, 2}, 3}
 	}
 	self.values.cooldown.killshot_close_panic_chance = {{0.25, 2}}
-	self.values.cooldown.melee_kill_life_leech = {{0.03, 1}}
+	self.values.cooldown.melee_kill_life_leech = {{0.05, 1}}
 	self.values.player.damage_dampener_outnumbered = {
 		{value = 0.85, min = 3}
 	}
@@ -2329,7 +2329,7 @@ function UpgradesTweakData:_player_definitions()
 	}
 	self.definitions.temporary_damage_speed_multiplier_1 = {
 		category = "temporary",
-		name_id = "menu_temporary_damage_speed_1",
+		name_id = "menu_temporary_damage_speed",
 		upgrade = {
 			category = "temporary",
 			upgrade = "damage_speed_multiplier",
@@ -2338,7 +2338,7 @@ function UpgradesTweakData:_player_definitions()
 	}
 	self.definitions.temporary_damage_speed_multiplier_2 = {
 		category = "temporary",
-		name_id = "menu_temporary_damage_speed_1",
+		name_id = "menu_temporary_damage_speed",
 		upgrade = {
 			category = "temporary",
 			upgrade = "damage_speed_multiplier",
