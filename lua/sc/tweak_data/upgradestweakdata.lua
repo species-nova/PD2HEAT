@@ -1,4 +1,4 @@
---[[
+ --[[
 
 DON'T MODIFY ME IF YOU'RE NOT A DEVELOPER!!!  THANK YOU!!!!!!!!!
 
@@ -915,7 +915,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.weapon.steelsight_accuracy_inc = {0.8}
 					self.values.weapon.steelsight_range_inc = {1.2}
 				--Ace
-					self.values.snp.far_combat_reload_speed_multiplier = {{value = 0.3, fewer_than = 3}}
+					self.values.snp.far_combat_reload_speed_multiplier = {{value = 0.35, fewer_than = 3}}
 					self.values.assault_rifle.far_combat_reload_speed_multiplier = {{value = 0.35, fewer_than = 3}}
 
 			--Ammo Efficiency
