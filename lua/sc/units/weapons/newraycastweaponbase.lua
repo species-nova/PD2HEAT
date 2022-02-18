@@ -149,7 +149,7 @@ end
 
 function NewRaycastWeaponBase:bullets_per_load(is_empty)
 	local shotgun_reload_tweak = self:_get_shotgun_reload_tweak_data(not is_empty)
-	if shotgun_reload_tweak.reload_queue then
+	if shotgun_reload_tweak and shotgun_reload_tweak.reload_queue then
 		return 2 --Just do 2 for right now. If more queued-reloads get introduced, consider proper handling for offhand reloads.
 	else
 		return shotgun_reload_tweak and shotgun_reload_tweak.reload_num or 1
