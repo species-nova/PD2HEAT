@@ -43,14 +43,14 @@ tweak_data.snp = {range_mul = 1.25}
 tweak_data.minigun = {range_mul = 1.5}
 
 --HE'S GOT AN RPG--
-tweak_data.projectiles.launcher_rocket.damage = 120
+tweak_data.projectiles.launcher_rocket.damage = 60
 tweak_data.projectiles.launcher_rocket.player_damage = 32
 tweak_data.projectiles.launcher_rocket.range = 500
 tweak_data.projectiles.launcher_rocket.curve_pow = 0.1
 tweak_data.projectiles.launcher_rocket.turret_instakill = true
 
 --Grenade launcher stuff--
-tweak_data.projectiles.launcher_frag.damage = 80
+tweak_data.projectiles.launcher_frag.damage = 40
 tweak_data.projectiles.launcher_frag.player_damage = 21.5
 tweak_data.projectiles.launcher_frag.curve_pow = 1
 tweak_data.projectiles.launcher_frag.range = 500
@@ -66,7 +66,7 @@ tweak_data.projectiles.launcher_incendiary.fire_dot_data = {
 	dot_length = 3.1,
 	dot_tick_period = 0.5
 }
-tweak_data.projectiles.launcher_m203.damage = 80
+tweak_data.projectiles.launcher_m203.damage = 40
 tweak_data.projectiles.launcher_m203.player_damage = 21.5
 tweak_data.projectiles.launcher_m203.curve_pow = 1
 tweak_data.projectiles.launcher_m203.range = 500
@@ -81,14 +81,14 @@ tweak_data.projectiles.underbarrel_m203_groza.curve_pow = 1
 tweak_data.projectiles.underbarrel_m203_groza.range = 500
 
 --M202--
-tweak_data.projectiles.rocket_ray_frag.damage = 120
+tweak_data.projectiles.rocket_ray_frag.damage = 60
 tweak_data.projectiles.rocket_ray_frag.player_damage = 32
 tweak_data.projectiles.rocket_ray_frag.range = 500
 tweak_data.projectiles.rocket_ray_frag.curve_pow = 1
 tweak_data.projectiles.rocket_ray_frag.turret_instakill = true
 
 --Arbiter--
-tweak_data.projectiles.launcher_frag_arbiter.damage = 60
+tweak_data.projectiles.launcher_frag_arbiter.damage = 30
 tweak_data.projectiles.launcher_frag_arbiter.player_damage = 16
 tweak_data.projectiles.launcher_frag_arbiter.launch_speed = 2500
 tweak_data.projectiles.launcher_frag_arbiter.range = 250
@@ -109,38 +109,38 @@ tweak_data.projectiles.launcher_incendiary_arbiter.fire_dot_data = {
 }
 
 --Tactical ZAPper grenades (Grenade Launchers)
-tweak_data.projectiles.launcher_electric.damage = 40
+tweak_data.projectiles.launcher_electric.damage = 20
 tweak_data.projectiles.launcher_electric.player_damage = 0.5
 tweak_data.projectiles.launcher_electric.curve_pow = 1
 tweak_data.projectiles.launcher_electric.range = 500
 
-tweak_data.projectiles.launcher_electric_m32.damage = 40
+tweak_data.projectiles.launcher_electric_m32.damage = 20
 tweak_data.projectiles.launcher_electric_m32.player_damage = 0.5
 tweak_data.projectiles.launcher_electric_m32.curve_pow = 1
 tweak_data.projectiles.launcher_electric_m32.range = 500
 
-tweak_data.projectiles.launcher_electric_china.damage = 40
+tweak_data.projectiles.launcher_electric_china.damage = 20
 tweak_data.projectiles.launcher_electric_china.player_damage = 0.5
 tweak_data.projectiles.launcher_electric_china.curve_pow = 1
 tweak_data.projectiles.launcher_electric_china.range = 500
 
-tweak_data.projectiles.launcher_electric_slap.damage = 40
+tweak_data.projectiles.launcher_electric_slap.damage = 20
 tweak_data.projectiles.launcher_electric_slap.player_damage = 0.5
 tweak_data.projectiles.launcher_electric_slap.curve_pow = 1
 tweak_data.projectiles.launcher_electric_slap.range = 500
 
-tweak_data.projectiles.underbarrel_electric.damage = 40
+tweak_data.projectiles.underbarrel_electric.damage = 20
 tweak_data.projectiles.underbarrel_electric.player_damage = 0.5
 tweak_data.projectiles.underbarrel_electric.curve_pow = 1
 tweak_data.projectiles.underbarrel_electric.range = 500
 
-tweak_data.projectiles.underbarrel_electric_groza.damage = 40
+tweak_data.projectiles.underbarrel_electric_groza.damage = 20
 tweak_data.projectiles.underbarrel_electric_groza.player_damage = 0.5
 tweak_data.projectiles.underbarrel_electric_groza.curve_pow = 1
 tweak_data.projectiles.underbarrel_electric_groza.range = 500
 
 --Tactical ZAPper (Arbiter)
-tweak_data.projectiles.launcher_electric_arbiter.damage = 30
+tweak_data.projectiles.launcher_electric_arbiter.damage = 15
 tweak_data.projectiles.launcher_electric_arbiter.player_damage = 0.4
 tweak_data.projectiles.launcher_electric_arbiter.launch_speed = 2500
 tweak_data.projectiles.launcher_electric_arbiter.range = 250
@@ -204,25 +204,25 @@ tweak_data.projectiles.elastic_arrow.launch_speed = 3125
 tweak_data.projectiles.elastic_arrow_poison.launch_speed = 3125	
 
 --Frag Grenade--
-tweak_data.projectiles.frag.damage = 80
+tweak_data.projectiles.frag.damage = 40
 tweak_data.projectiles.frag.player_damage = 21.5
 tweak_data.projectiles.frag.curve_pow = 0.5
 tweak_data.projectiles.frag.range = 500
 
 --Dynamite--
-tweak_data.projectiles.dynamite.damage = 80
+tweak_data.projectiles.dynamite.damage = 40
 tweak_data.projectiles.dynamite.player_damage = 21.5
 tweak_data.projectiles.dynamite.curve_pow = 0.5
 tweak_data.projectiles.dynamite.range = 400
 
 --Community Frag--
-tweak_data.projectiles.frag_com.damage = 80
+tweak_data.projectiles.frag_com.damage = 40
 tweak_data.projectiles.frag_com.player_damage = 21.5
 tweak_data.projectiles.frag_com.curve_pow = 0.5
 tweak_data.projectiles.frag_com.range = 500
 
 --The other community frag--
-tweak_data.projectiles.dada_com.damage = 80
+tweak_data.projectiles.dada_com.damage = 40
 tweak_data.projectiles.dada_com.player_damage = 21.5
 tweak_data.projectiles.dada_com.curve_pow = 0.5
 tweak_data.projectiles.dada_com.range = 500
@@ -268,7 +268,7 @@ tweak_data.projectiles.wpn_prj_hur.launch_speed = 1000
 tweak_data.projectiles.wpn_prj_hur.adjust_z = 120
 
 --ZAPper grenade
-tweak_data.projectiles.wpn_gre_electric.damage = 40
+tweak_data.projectiles.wpn_gre_electric.damage = 20
 tweak_data.projectiles.wpn_gre_electric.player_damage = 0.5
 tweak_data.projectiles.wpn_gre_electric.curve_pow = 0.5
 tweak_data.projectiles.wpn_gre_electric.range = 500
@@ -398,7 +398,7 @@ tweak_data.projectiles.child_grenade = {
 
 --SABR Grenade Launcher.
 tweak_data.projectiles.launcher_frag_osipr = {
-	damage = 60,
+	damage = 30,
 	launch_speed = 2500,
 	curve_pow = 1,
 	player_damage = 16,
@@ -430,7 +430,7 @@ tweak_data.projectiles.launcher_incendiary_osipr = {
 	burn_tick_period = 0.5
 }
 tweak_data.projectiles.launcher_electric_osipr = {
-	damage = 30,
+	damage = 15,
 	launch_speed = 2500,
 	curve_pow = 1,
 	player_damage = 0.5,

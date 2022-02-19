@@ -9695,6 +9695,7 @@ function CharacterTweakData:_multiply_all_damage(mul, gang_mul, teamai_mul)
 		end
 	end
 
+	self.team_ai_grenade_damage_mul = teamai_mul
 	self.spooc.kick_damage = 0.1 * math.ceil(self.spooc.kick_damage * 10 * mul)
 	self.spooc.jump_kick_damage = 0.1 * math.ceil(self.spooc.jump_kick_damage * 10 * mul)
 	self.taser.shock_damage = 0.1 * math.ceil(self.taser.shock_damage * 10 * mul)

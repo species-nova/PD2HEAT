@@ -98,6 +98,18 @@ function ExplosionManager:_apply_damage(bodies, splinters, params, damage_func, 
 	local hit_pos = params.hit_pos
 	local user_unit = params.user
 	local base_damage = params.damage
+
+	--Apply perk deck damage bonus.
+	if alive(user_unit) then
+		if user_unit == managers.player:player_unit() then
+			base_damage = base_damage * managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1)
+		elseif user_unit:base().upgrade_value then
+			base_damage = base_damage * user_unit:base():upgrade_value("weapon", "passive_damage_multiplier", 1)
+		elseif managers.groupai:state():is_unit_team_AI(user_unit) then
+			base_damage = base_damage * (tweak_data.character.team_ai_grenade_damage_mul or 2)
+		end
+	end
+
 	local range = params.range
 	local curve_pow = params.curve_pow
 	local col_ray = params.col_ray

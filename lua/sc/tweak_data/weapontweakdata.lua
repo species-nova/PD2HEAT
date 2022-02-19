@@ -1024,7 +1024,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr_gl.kick_pattern = self.stat_info.kick_patterns.random
 			self.osipr_gl.supported = true
 			self.osipr_gl.stats = {
-				damage = 60,
+				damage = 30,
 				spread = 17,
 				recoil = 5,
 				concealment = 7,
@@ -1359,7 +1359,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.groza_underbarrel.AMMO_MAX = 6
 		self.groza_underbarrel.supported = true
 		self.groza_underbarrel.stats = {
-			damage = 40,
+			damage = 20,
 			spread = 5,
 			recoil = 5,
 			concealment = 14,
@@ -1478,7 +1478,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.contraband_m203.AMMO_MAX = 6
 		self.contraband_m203.supported = true
 		self.contraband_m203.stats = {
-			damage = 80,
+			damage = 40,
 			spread = 15,
 			recoil = 5,
 			concealment = 9,

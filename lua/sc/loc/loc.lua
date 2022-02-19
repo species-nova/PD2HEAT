@@ -1867,10 +1867,10 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 
 		--Shared Upgrades--
 		["menu_deckall_name_sc"] = "Damage Boost",
-		["menu_deckall_2_desc_sc"] = "You do ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
-		["menu_deckall_4_desc_sc"] = "You do an additional ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
-		["menu_deckall_6_desc_sc"] = "You do an additional ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
-		["menu_deckall_8_desc_sc"] = "You do an additional ##25%## more damage. Does not apply to throwables, grenade launchers, or rocket launchers.",
+		["menu_deckall_2_desc_sc"] = "You do ##25%## more damage. Does not apply to damage-over-time.",
+		["menu_deckall_4_desc_sc"] = "You do an additional ##25%## more damage. Does not apply to damage-over-time.",
+		["menu_deckall_6_desc_sc"] = "You do an additional ##25%## more damage. Does not apply to damage-over-time.",
+		["menu_deckall_8_desc_sc"] = "You do an additional ##25%## more damage. Does not apply to damage-over-time.",
 
 		--Crook--
 		["menu_deck6_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nYour armor is increased by ##15%## for ballistic vests.",

@@ -2590,6 +2590,7 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "passive_damage_multiplier",
+			synced = true,
 			category = "weapon"
 		}
 	}	
@@ -2599,6 +2600,7 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 2,
 			upgrade = "passive_damage_multiplier",
+			synced = true,
 			category = "weapon"
 		}
 	}
@@ -2608,6 +2610,7 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 3,
 			upgrade = "passive_damage_multiplier",
+			synced = true,
 			category = "weapon"
 		}
 	}	
@@ -2617,6 +2620,7 @@ function UpgradesTweakData:_player_definitions()
 		upgrade = {
 			value = 4,
 			upgrade = "passive_damage_multiplier",
+			synced = true,
 			category = "weapon"
 		}
 	}
