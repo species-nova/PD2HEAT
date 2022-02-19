@@ -23,6 +23,105 @@ function SkirmishTweakData:_init_group_ai_data(tweak_data)
 		0.85,
 		1
 	}
+
+	self.special_unit_spawn_limits = {
+		{
+			tank = 1,
+			taser = 1,
+			taser_titan = 0,
+			boom = 0,
+			spooc = 0,
+			shield = 2,
+			shield_titan = 0,
+			medic = 0,
+			medic_lpf = 0,
+			captain = 0
+		},
+		{
+			tank = 1,
+			taser = 2,
+			taser_titan = 0,
+			boom = 0,
+			spooc = 1,
+			shield = 2,
+			shield_titan = 0,
+			medic = 2,
+			medic_lpf = 0,
+			captain = 0
+		},
+		{
+			tank = 1,
+			taser = 2,
+			taser_titan = 0,
+			boom = 2,
+			spooc = 2,
+			shield = 2,
+			shield_titan = 0,
+			medic = 2,
+			medic_lpf = 0,
+			captain = 0
+		},
+		{
+			tank = 2,
+			taser = 2,
+			taser_titan = 2,
+			boom = 2,
+			spooc = 2,
+			shield = 2,
+			shield_titan = 1,
+			medic = 2,
+			medic_lpf = 0,
+			captain = 1
+		},
+		{
+			tank = 2,
+			taser = 2,
+			taser_titan = 2,
+			boom = 2,
+			spooc = 2,
+			shield = 2,
+			shield_titan = 1,
+			medic = 2,
+			medic_lpf = 0,
+			captain = 0
+		},
+		{
+			tank = 2,
+			taser = 2,
+			taser_titan = 2,
+			boom = 2,
+			spooc = 3,
+			shield = 3,
+			shield_titan = 2,
+			medic = 3,
+			medic_lpf = 1,
+			captain = 0
+		},
+		{
+			tank = 2,
+			taser = 2,
+			taser_titan = 2,
+			boom = 2,
+			spooc = 3,
+			shield = 3,
+			shield_titan = 2,
+			medic = 3,
+			medic_lpf = 1,
+			captain = 0
+		},
+		{
+			tank = 2,
+			taser = 3,
+			taser_titan = 2,
+			boom = 3,
+			spooc = 3,
+			shield = 3,
+			shield_titan = 2,
+			medic = 3,
+			medic_lpf = 1,
+			captain = 1
+		}
+	}
 end
 
 function SkirmishTweakData:_init_wave_phase_durations(tweak_data)
@@ -205,6 +304,38 @@ function SkirmishTweakData:_init_wave_phase_durations(tweak_data)
 		5,
 		5,
 		5
+	}
+
+	skirmish_data.tank_tokens = {
+		1,
+		1,
+		2,
+		2,
+		2,
+		3,
+		3,
+		4,
+		4,
+		4,
+		4,
+		4
+	}
+
+	--Tank tokens are reset between waves.
+	skirmish_data.multiple_tank_token_cooldown_mul = 1.2
+	skirmish_data.tank_token_cooldown = {
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999,
+		99999
 	}
 
 	skirmish_data.special_unit_spawn_limits = {

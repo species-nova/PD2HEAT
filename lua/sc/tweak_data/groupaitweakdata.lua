@@ -7332,7 +7332,7 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.assault.force = {16, 20, 24}
-		self.besiege.tank_tokens = {1, 2, 2}
+		self.besiege.tank_tokens = {1, 2, 3}
 		self.besiege.tank_token_cooldown = {85, 65, 50}
 		self.special_unit_spawn_limits = {
 			tank = math.max(math.round(2 * map_scale_factor), 1),

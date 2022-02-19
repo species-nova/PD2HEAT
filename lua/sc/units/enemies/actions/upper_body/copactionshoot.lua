@@ -1198,7 +1198,7 @@ function CopActionShoot:anim_clbk_melee_strike()
 		end
 
 		if defense_data and defense_data ~= "friendly_fire" then
-			if defense_data == "countered" and character_unit.movement and character_unit:movement() then
+			if defense_data == "countered" then
 				self._common_data.melee_countered_t = TimerManager:game():time()
 
 				local counter_data = {
@@ -1216,17 +1216,6 @@ function CopActionShoot:anim_clbk_melee_strike()
 				}
 
 				self._unit:character_damage():damage_melee(counter_data)
-			else
-				if not shield_knock and character_unit ~= local_player and character_unit:character_damage() and not character_unit:character_damage()._no_blood then
-					if character_unit:base().sentry_gun then
-						managers.game_play_central:play_impact_sound_and_effects({
-							no_decal = true,
-							col_ray = col_ray
-						})
-					else
-						managers.game_play_central:sync_play_impact_flesh(col_ray.position, col_ray.ray)
-					end
-				end
 			end
 		end
 	end

@@ -27,6 +27,7 @@ function SkirmishManager:do_kill()
 				self._captain_active = true
 			else
 				groupai:force_end_assault_phase(true)
+				groupai:free_tank_tokens() --Free all tank tokens.
 			end
 		end
 	end
