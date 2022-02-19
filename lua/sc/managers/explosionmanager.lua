@@ -104,7 +104,7 @@ function ExplosionManager:_apply_damage(bodies, splinters, params, damage_func, 
 		if user_unit == managers.player:player_unit() then
 			base_damage = base_damage * managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1)
 		elseif user_unit:base().upgrade_value then
-			base_damage = base_damage * user_unit:base():upgrade_value("weapon", "passive_damage_multiplier", 1)
+			base_damage = base_damage * (user_unit:base():upgrade_value("weapon", "passive_damage_multiplier") or 1)
 		elseif managers.groupai:state():is_unit_team_AI(user_unit) then
 			base_damage = base_damage * (tweak_data.character.team_ai_grenade_damage_mul or 2)
 		end
