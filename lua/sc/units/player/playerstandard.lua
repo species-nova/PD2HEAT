@@ -911,8 +911,11 @@ function PlayerStandard:_end_action_running(t)
 end
 
 --Stores running input, is a workaround for other things that may interrupt running.
-Hooks:PostHook(PlayerStandard, "_start_action_melee", "ResPlayerStandardPostStartActionMelee", function(self, t, input, instant)
-	self._state_data.melee_running_wanted = true and self._running and not self._end_running_expire_t
+local orig_start_action_melee = PlayerStandard._start_action_melee
+function PlayerStandard:_start_action_melee(t, ...)
+	self._state_data.melee_running_wanted = self._running and not self._end_running_expire_t
+
+	orig_start_action_melee(self, t, ...)
 
 	--Passes in running input, is a workaround for other things that may interrupt running.
 	if self._state_data.melee_running_wanted then
@@ -924,7 +927,7 @@ Hooks:PostHook(PlayerStandard, "_start_action_melee", "ResPlayerStandardPostStar
 	if melee_tweak.chainsaw then
 		self._state_data.chainsaw_t = t + melee_tweak.chainsaw.start_delay
 	end
-end)
+end
 
 Hooks:PostHook(PlayerStandard, "_check_action_melee", "ResEndChainsaw", function(self, t, input)
 	--Stop chainsaw when no longer meleeing.
