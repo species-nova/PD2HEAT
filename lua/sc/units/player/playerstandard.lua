@@ -1426,8 +1426,6 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 		if col_ray.unit:damage() and col_ray.body:extension() and col_ray.body:extension().damage then
 			local hit , _ = col_ray.body:extension().damage:damage_lock(managers.player:player_unit(), col_ray.normal, col_ray.position, col_ray.ray, damage_effect * 0.2)
 			if hit then
-				managers.hud:on_crit_confirmed()
-
 				if col_ray.unit:id() ~= -1 then
 					managers.network:session():send_to_peers_synched("sync_body_damage_lock", col_ray.body, damage_effect * 0.2)
 				end
