@@ -64,7 +64,8 @@ function heat:Init()
 		"chas", --Dragon Heist
 		--custom heists		
 		"firestarter_1_res", --firestarter day 1 res edit version
-		"lvl_friday" --Crashing Capitol
+		"lvl_friday", --Crashing Capitol
+		"bnktower" --GenSec HIVE
 	}
 	--Autumn
 	heat.captain_stelf = {
@@ -209,7 +210,8 @@ function heat:Init()
 		run = true,
 		mad = true, --boiling point
 		hox_1 = true, --Hoxout D1
-		xmn_hox_1 = true --Xmas edition
+		xmn_hox_1 = true,		--Xmas edition
+		bnktower = true
 	}
 
 	--Christmas Effects Heists
