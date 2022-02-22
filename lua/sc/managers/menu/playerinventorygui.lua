@@ -31,7 +31,8 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 		if stat.name == "damage" then
 			local base_min = stats_data.min_damage * tweak_data.gui.stats_present_multiplier
 			local base_max = stats_data.max_damage * tweak_data.gui.stats_present_multiplier
-			local dmg_mul = managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1) - 1
+			local dmg_mul = (managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1)
+				* managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)) - 1
 			base_stats[stat.name] = {
 				min_value = base_min,
 				max_value = base_max,

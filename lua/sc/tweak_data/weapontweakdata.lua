@@ -4067,6 +4067,37 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.peacemaker.swap_speed_multiplier = 0.65
 
+	--Grenade Launchers (Primary)
+		self.gre_m79.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.gre_m79.desc_id = "bm_40mm_weapon_sc_desc"
+		self.gre_m79.has_description = true
+		self.gre_m79.fire_mode_data.fire_rate = 1
+		self.gre_m79.kick = self.stat_info.kick_tables.vertical_kick
+		self.gre_m79.kick_pattern = self.stat_info.kick_patterns.random
+		self.gre_m79.supported = true
+		self.gre_m79.stats = {
+			damage = 40,
+			spread = 18,
+			recoil = 5,
+			concealment = 15,
+			value = 1
+		}
+		self.gre_m79.timers = {
+			reload_not_empty = 3.2,
+			reload_empty = 3.2,
+			reload_operational = 3.2,
+			empty_reload_operational = 3.2,
+			reload_interrupt = 0.55,
+			empty_reload_interrupt = 0.55,
+			equip = 0.6,
+			unequip = 0.6
+		}
+		self.gre_m79.stats_modifiers = {damage = 10}
+
 	--[[
 	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
 	self.ultima.kick_pattern = self.stat_info.kick_patterns.random
@@ -4346,34 +4377,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		reload = 20
 	}
 	self.ksg.stats_modifiers = nil
-
-	--GL40
-	self.gre_m79.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.gre_m79.desc_id = "bm_40mm_weapon_sc_desc"
-	self.gre_m79.has_description = true
-	self.gre_m79.fire_mode_data.fire_rate = 1
-	self.gre_m79.kick = self.stat_info.kick_tables.vertical_kick
-	self.gre_m79.AMMO_MAX = 9
-	self.gre_m79.supported = false
-	self.gre_m79.stats = {
-		damage = 80,
-		spread = 21,
-		recoil = 9,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 25,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.gre_m79.stats_modifiers = {damage = 10}
 
 	--Predator 12g
 	self.spas12.rays = 9
