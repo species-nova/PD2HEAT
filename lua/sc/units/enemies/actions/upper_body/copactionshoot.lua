@@ -1132,7 +1132,7 @@ function CopActionShoot:anim_clbk_melee_strike()
 		managers.game_play_central:physics_push(col_ray) --the function already has sanity checks so it's fine to just use it like this
 
 		local hit_unit = col_ray.unit
-		local character_unit, shield_knock = nil
+		local character_unit, shield_knock, defense_data = nil
 
 		if self._is_server and hit_unit:in_slot(self._shield_slotmask) and alive(hit_unit:parent())
 			and self._melee_weapon_data.shield_knock and not hit_unit:parent():character_damage():is_immune_to_shield_knockback() then
