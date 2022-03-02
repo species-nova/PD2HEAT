@@ -1510,7 +1510,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Stun Resistance--
 			["menu_oppressor_beta_sc"] = "Stun Resistance",
-			["menu_oppressor_beta_desc_sc"] = "BASIC: ##$basic##\nEnemy melee attacks push you back ##0.25%## less for every point of armor you have.\n\nACE: ##$pro##\nReduces the visual effect duration of Flashbangs by ##80%.##",
+			["menu_oppressor_beta_desc_sc"] = "BASIC: ##$basic##\nEnemy melee attacks push you back ##0.25%## less for every point of armor you have.\n\nACE: ##$pro##\nReduces the visual effect duration of Flashbangs and Concussion Grenades by ##80%.##",
 
 			--Die Hard--
 			["menu_show_of_force_sc"] = "Die Hard",
@@ -1665,11 +1665,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Silent Precision--
 			["menu_silence_expert_beta_sc"] = "Silent Precision",
-			["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##4## seconds after taking damage.",
+			["menu_silence_expert_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased accuracy and range until you take damage.\n\nACE: ##$pro##\nSilent Precision's accuracy and range bonus persists for ##3## seconds after taking damage.",
 
 			--Unseen Strike--
 			["menu_hitman_beta_sc"] = "Unseen Strike",
-			["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##4## seconds after taking damage.",
+			["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##3## seconds after taking damage.",
 
 			--Backstab--
 			["menu_backstab_beta_sc"] = "Backstab",

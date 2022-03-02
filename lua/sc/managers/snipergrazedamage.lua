@@ -30,12 +30,12 @@ function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
 		local result = hit.damage_result
 		local attack_data = result and result.attack_data
 		if attack_data and attack_data.headshot and not is_turret and not is_ally and not is_cuff then
-		local key = hit.unit:key()
-		hit_enemies[key] = {
-			position = hit.position,
-			damage = attack_data.damage
-		}
-		ignored_enemies[key] = true
+			local key = hit.unit:key()
+			hit_enemies[key] = {
+				position = hit.position,
+				damage = attack_data.damage
+			}
+			ignored_enemies[key] = true
 		end
 	end
 
@@ -43,15 +43,15 @@ function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
 	for _, hit in pairs(hit_enemies) do
 		local distance_sq = mvector3.distance_sq(hit.position, player_unit:movement():m_head_pos())
 		local times = 1
-		local damage_mult = upgrade_value.damage_factor + (distance_sq > upgrade_value.range_increment * upgrade_value.range_increment and upgrade_value.damage_factor_range or 0)
-		while distance_sq > times * upgrade_value.range_increment * upgrade_value.range_increment do
+		while distance_sq > times * times * upgrade_value.range_increment * upgrade_value.range_increment do
 			times = times + 1
 		end
-		self:find_closest_hit(hit, ignored_enemies, upgrade_value, enemy_mask, geometry_mask, player_unit, times, damage_mult)
+		local damage_mult = upgrade_value.damage_factor + (times > 1 and upgrade_value.damage_factor_range or 0)
+		self:find_closest_hit(hit, ignored_enemies, upgrade_value, enemy_mask, geometry_mask, player_unit, times, damage_mult, weapon_unit)
 	end
 end
 
-function SniperGrazeDamage:find_closest_hit(hit, ignored_enemies, upgrade_value, enemy_mask, geometry_mask, player_unit, times, damage_mult)
+function SniperGrazeDamage:find_closest_hit(hit, ignored_enemies, upgrade_value, enemy_mask, geometry_mask, player_unit, times, damage_mult, weapon_unit)
 	if times <= 0 then
 		return
 	end
@@ -61,15 +61,23 @@ function SniperGrazeDamage:find_closest_hit(hit, ignored_enemies, upgrade_value,
 	local closest_d_sq
 	for _, unit in ipairs(hit_units) do
 		if not ignored_enemies[unit:key()] then
-		local d_s = mvector3.distance_sq(hit.position, unit:movement():m_head_pos())
-		if not closest_d_sq or d_s < closest_d_sq then
-			if not World:raycast("ray", hit.position, unit:movement():m_head_pos(), "slot_mask", geometry_mask) then
-			closest = unit
-			closest_d_sq = d_s
+			local unit_brain = unit.brain and unit:brain()
+			local unit_anim = unit.anim_data and unit:anim_data()
+			local is_surrendered = (unit_brain and unit_brain.surrendered and unit_brain:surrendered())
+				or (unit_anim and (unit_anim.surrender or unit_anim.hands_back or unit_anim.hands_tied))
+
+			if not is_surrendered then
+				local d_s = mvector3.distance_sq(hit.position, unit:movement():m_head_pos())
+				if not closest_d_sq or d_s < closest_d_sq then
+					if not World:raycast("ray", hit.position, unit:movement():m_head_pos(), "slot_mask", geometry_mask) then
+					closest = unit
+					closest_d_sq = d_s
+					end
+				end
 			end
 		end
-		end
 	end
+
 	if closest then
 		ignored_enemies[closest:key()] = true
 
@@ -88,7 +96,7 @@ function SniperGrazeDamage:find_closest_hit(hit, ignored_enemies, upgrade_value,
 		World:effect_manager():set_simulator_var_vector2(trail, idstr_trail, idstr_simulator_length, idstr_size, trail_length)
 
 		DelayedCalls:Add("grazehit" .. tostring(closest), 0.05, function ()
-			if not alive(closest) or not alive(player_unit) then
+			if not alive(closest) or not alive(player_unit) or not alive(weapon_unit) then
 				return
 			end
 			
@@ -96,6 +104,7 @@ function SniperGrazeDamage:find_closest_hit(hit, ignored_enemies, upgrade_value,
 				variant = "graze",
 				damage = hit.damage * damage_mult,
 				attacker_unit = player_unit,
+				weapon_unit = weapon_unit,
 				pos = hit_pos,
 				attack_dir = hit_pos - hit.position
 			})

@@ -1794,18 +1794,6 @@ function CopDamage:heal_unit(unit, override_cooldown)
 
 	local t = Application:time()
 	local my_tweak_table = self._unit:base()._tweak_table
-
-	if not override_cooldown then
-		if my_tweak_table == "medic" or my_tweak_table == "tank_medic" then
-			local cooldown = tweak_data.medic.cooldown
-			cooldown = managers.modifiers:modify_value("MedicDamage:CooldownTime", cooldown)
-
-			if t < self._heal_cooldown_t + cooldown then
-				return false
-			end
-		end
-	end
-
 	local target_tweak_table = unit:base()._tweak_table
 
 	if my_tweak_table == "medic" or my_tweak_table == "tank_medic" then
@@ -1834,10 +1822,6 @@ function CopDamage:heal_unit(unit, override_cooldown)
 		elseif unit:brain()._logic_data and unit:brain()._logic_data.is_converted then
 			return false
 		end
-	end
-
-	if my_tweak_table == "medic" or my_tweak_table == "tank_medic" then
-		self._heal_cooldown_t = t
 	end
 
 	if not self._unit:character_damage():dead() then
@@ -2327,14 +2311,6 @@ function CopDamage:damage_simple(attack_data)
 
 	if self._unit:in_slot(16, 21, 22) then
 		return
-	end
-
-	if attack_data.variant == "graze" then
-		local has_surrendered = self._unit:brain().surrendered and self._unit:brain():surrendered() or self._unit:anim_data().surrender or self._unit:anim_data().hands_back or self._unit:anim_data().hands_tied
-
-		if has_surrendered then
-			return
-		end
 	end
 
 	local is_civilian = CopDamage.is_civilian(self._unit:base()._tweak_table)

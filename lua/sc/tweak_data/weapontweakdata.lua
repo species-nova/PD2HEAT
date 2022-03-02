@@ -3594,7 +3594,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.35
 		}
-		self.shrew.reload_speed_multiplier = 1.05 --1.9/2.3s
+		self.shrew.reload_speed_multiplier = 1.15 --1.9/2.3s
 
 	--Heavy Pistol (Akimbo)
 		--Akimbo Chimano Custom
@@ -3786,8 +3786,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.5,
 			equip = 0.5
 		}
-		self.x_usp.swap_speed_multiplier = 0.9
-		self.x_usp.reload_speed_multiplier = 0.9 --4.1/4.6s
+		self.x_usp.swap_speed_multiplier = 0.85
+		self.x_usp.reload_speed_multiplier = 0.85 --4.4/4.9s
 
 		--Akimbo Crosskill
 		self.x_1911.CLIP_AMMO_MAX = self.colt_1911.CLIP_AMMO_MAX * 2
@@ -5346,7 +5346,7 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	crossbow = 0.7,
 	pistol = 1.1, --Compensate for low range.
 	smg = 1.1,
-	saw = 0.5,
+	saw = 0.4,
 	lmg = 1,
 	minigun = 1
 }

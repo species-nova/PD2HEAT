@@ -14,21 +14,6 @@ function MedicDamage:heal_unit(unit, override_cooldown)
 	local my_tweak_data = self._unit:base()._tweak_table
 	local target_tweak_table = unit:base()._tweak_table
 
-	if not override_cooldown then
-		if my_tweak_data == "medic" or my_tweak_data == "tank_medic" then
-			if unit:character_damage()._healed_cooldown_t and unit:character_damage()._healed_cooldown_t > t then
-				return false
-			else
-				local cooldown = 20
-				cooldown = managers.modifiers:modify_value("MedicDamage:CooldownTime", cooldown)
-
-				if t < self._heal_cooldown_t + cooldown then
-					return false
-				end
-			end
-		end
-	end
-
 	if my_tweak_data == "medic" or my_tweak_data == "tank_medic" then
 		if table.contains(tweak_data.medic.disabled_units, target_tweak_table) then
 			return false
@@ -61,12 +46,7 @@ function MedicDamage:heal_unit(unit, override_cooldown)
 		end
 	end
 
-	self._heal_cooldown_t = t
-
 	local target_char_tweak = tweak_data.character[target_tweak_table]
-	local healed_cooldown = target_char_tweak.heal_cooldown or 90
-
-	unit:character_damage()._healed_cooldown_t = t + healed_cooldown
 
 	if not self._unit:character_damage():dead() then
 		if self._unit:contour() then

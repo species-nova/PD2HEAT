@@ -301,7 +301,7 @@ function PlayerManager:_check_damage_to_hot(t, unit, damage_info)
 	end
 
 	local player_unit = self:player_unit()
-	if not alive(player_unit) or player_unit:character_damage():need_revive() or player_unit:character_damage():dead() then
+	if not alive(player_unit) then
 		return
 	end
 

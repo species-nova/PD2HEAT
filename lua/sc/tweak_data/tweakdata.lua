@@ -450,8 +450,8 @@ tweak_data.projectiles.hatman_molotov.env_effect = "hatman_molotov_fire"
 --tweak_data.team_ai.stop_action.delay = 0.8
 --tweak_data.team_ai.stop_action.distance = 9999999999999999999999999999999999
 
-tweak_data.medic.cooldown = 90
-tweak_data.medic.radius = 400
+tweak_data.medic.cooldown = 0
+tweak_data.medic.radius = 500
 
 if difficulty_index <= 4 then
 	tweak_data.medic.doc_radius = 1500
@@ -474,8 +474,7 @@ tweak_data.medic.disabled_units = {
 	"autumn",
 	"medic",
 	"sniper",
-	"tank_medic",
-	"omnia_lpf"
+	"tank_medic"
 }
 tweak_data.medic.cooldown_summers = 0
 tweak_data.radius_summers = 100000

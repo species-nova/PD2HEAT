@@ -1381,10 +1381,6 @@ function PlayerDamage:refresh_hot_duration()
 end
 
 function PlayerDamage:add_hot_stack()
-	if self:need_revive() or self:dead() or self._check_berserker_done then
-		return
-	end
-
 	self._hot_stacks = math.min(self._hot_stacks + 1, self._hot_data.max_stacks)
 	managers.hud:set_stacks(self._hot_data.source, self._hot_stacks)
 

@@ -1102,7 +1102,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					},
 					{ --Ace
 						0.8,
-						4
+						3
 					}
 				}
 				self.values.player.silent_increased_accuracy = {
@@ -1122,7 +1122,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					},
 					{ --Ace
 						1.3,
-						4
+						3
 					}
 				}
 				self.values.player.unseen_increased_crit_chance = {

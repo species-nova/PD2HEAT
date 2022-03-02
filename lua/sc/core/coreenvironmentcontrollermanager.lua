@@ -3,6 +3,8 @@ local flashbang_test_offset = Vector3(0, 0, 150)
 local ids_dof_near_plane = Idstring("near_plane")
 local ids_dof_far_plane = Idstring("far_plane")
 local ids_dof_settings = Idstring("settings")
+local opacity_ids = Idstring("opacity")
+local blindness_ids = Idstring("blindness")
 local mvec1 = Vector3()
 local mvec2 = Vector3()
 local temp_vec_1 = Vector3()
@@ -152,28 +154,33 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 		self._hit_back = math.max(self._hit_back - hit_fade, 0)
 	end
 
-	local flashbang = 0
-	local flashbang_flash = 0
+	--Remove vanilla flashbang system. It and Concussion are now one and the same.
 
-	if self._current_flashbang > 0 then
-		local flsh = self._current_flashbang
-		self._current_flashbang = math.max(self._current_flashbang - dt * 0.08 * self._flashbang_multiplier * self._flashbang_duration, 0)
-		flashbang = math.min(self._current_flashbang, 1)
-		self._current_flashbang_flash = math.max(self._current_flashbang_flash - dt * 0.9, 0)
-		flashbang_flash = math.min(self._current_flashbang_flash, 1)
+	--Just make Current Concussion represent time remaining in the flash rather than magic.
+	--With sane-ish character tweak data, the visual results still look good enough.
+	local concussion = 0
+	if self._current_concussion > 0 then		
+		self._current_concussion = math.max(self._current_concussion - dt * self._flashbang_multiplier, 0)
+		concussion = self._current_concussion
+		log(self._current_concussion)
 	end
 
-	local concussion = 0
-
-	if self._current_concussion > 0 then		
-		local dt_mul = 0.16 / self._concussion_duration
-		
-		if self._current_concussion < 1 then
-			dt_mul = 0.32
+	--Start fadeout of Heat's custom flashbang screen overlay.
+	if self._concussion_effect and self._current_concussion <= 0.8 then
+		if self._pdth_conc then --Fadeout via lua over 0.8 seconds to make up for old shader jank.
+			local lerp = self._current_concussion / 0.8
+			local value = math.lerp(0, 255, lerp)
+			
+			self._effect_manager:set_simulator_var_float(self._concussion_effect, blindness_ids, opacity_ids, opacity_ids, value)
+			
+			if value <= 0 then
+				self._effect_manager:fade_kill(self._concussion_effect)
+				self._concussion_effect = nil
+			end
+		else
+			self._effect_manager:fade_kill(self._concussion_effect)
+			self._concussion_effect = nil
 		end
-		
-		self._current_concussion = math.max(self._current_concussion - dt * dt_mul, 0)
-		concussion = self._current_concussion
 	end
 
 	local hit_some_mod = 1 - self._hit_some
@@ -181,10 +188,9 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 	hit_some_mod = 1 - hit_some_mod
 	local downed_value = self._downed_value / 100
 	local death_mod = math.max(1 - self._health_effect_value - 0.5, 0) * 2
-	local blur_zone_flashbang = blur_zone_val + flashbang
-	local flash_1 = math.pow(flashbang, 0.4)
-	flash_1 = flash_1 + math.pow(concussion, 0.4)
-	local flash_2 = math.pow(flashbang, 16) + flashbang_flash
+	--Remove more vanilla flashbang stuff.
+	local blur_zone_flashbang = blur_zone_val
+	local flash_1 = math.pow(concussion, 0.4)
 
 	if self._custom_dof_settings then
 		self._material:set_variable(ids_dof_settings, self._custom_dof_settings)
@@ -276,8 +282,7 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 		exposure = exposure * -1
 	end
 
-	self._lut_modifier_material:set_variable(ids_LUT_settings_b, Vector3(last_life, flash_2 + math.clamp(hit_some_mod * 2, 0, 1) * 0.25 + blur_zone_val * 0.15, exposure))
-	self._lut_modifier_material:set_variable(ids_LUT_contrast, flashbang * 0.5)
+	self._lut_modifier_material:set_variable(ids_LUT_settings_b, Vector3(last_life, math.clamp(hit_some_mod * 2, 0, 1) * 0.25 + blur_zone_val * 0.15, exposure))
 end
 
 Hooks:PostHook(CoreEnvironmentControllerManager, "set_post_composite", "alt_down", function(self, t, dt)
@@ -377,30 +382,15 @@ function CoreEnvironmentControllerManager:test_line_of_sight(test_pos, min_dista
 	return flash
 end
 
+--Flashbangs hijack concussion functionality for custom visuals.
 function CoreEnvironmentControllerManager:set_flashbang(flashbang_pos, line_of_sight, travel_dis, linear_dis, duration)
 	local concussion = self:test_line_of_sight(flashbang_pos + flashbang_test_offset, 200, 1500, 3000, true)
-	
-	self._concussion_duration = duration
-	
+
 	if concussion > 0 then
-		concussion = concussion + concussion
-		if self._old_concussion_t then	
-			local t = TimerManager:game():time()
-			local conc_duration = 6.5 * self._concussion_duration
-			local duration_lerp = math.min(t - self._old_concussion_t, conc_duration) / conc_duration
-			concussion = concussion * duration_lerp
-			
-			self._current_concussion = math.min(self._current_concussion + concussion, 2)	
-		else
-			self._current_concussion = concussion
-		end
-		
-		self._old_concussion_t = TimerManager:game():time()
+		self._current_concussion = self._current_concussion + concussion * duration
 	end
 	
-	if self._current_concussion > 1 and not self._concussion_effect then
-		--log("fuck")
-		
+	if self._current_concussion > 0.8 and not self._concussion_effect then
 		if BLT.Mods:GetModByName("PDTH Contours") then
 			self._pdth_conc = true
 			self._concussion_effect = self._effect_manager:spawn({
@@ -422,30 +412,4 @@ function CoreEnvironmentControllerManager:set_flashbang(flashbang_pos, line_of_s
 		position = flashbang_pos,
 		normal = Vector3(0, 0, 1)
 	})
-end
-
-local opacity_ids = Idstring("opacity")
-local blindness_ids = Idstring("blindness")
-
-function CoreEnvironmentControllerManager:update(t, dt)
-	self:_update_values(t, dt)
-	self:set_post_composite(t, dt)
-	
-	if self._concussion_effect and self._current_concussion <= 0.8 then
-		if self._pdth_conc then
-			local lerp = self._current_concussion / 0.8
-			local value = math.lerp(0, 255, lerp)
-			
-			self._effect_manager:set_simulator_var_float(self._concussion_effect, blindness_ids, opacity_ids, opacity_ids, value)
-			
-			if value == 0 then
-				self._effect_manager:fade_kill(self._concussion_effect)
-				self._concussion_effect = nil
-			end
-		else
-			self._effect_manager:fade_kill(self._concussion_effect)
-			self._concussion_effect = nil
-			self._pdth_conc = nil
-		end
-	end
 end
