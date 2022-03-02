@@ -5,12 +5,11 @@ local no_heal_anim = {
 	tank_medic = true
 }
 
-function MedicDamage:heal_unit(unit, override_cooldown)
+function MedicDamage:heal_unit(unit)
 	if self._unit:anim_data() and self._unit:anim_data().act then
 		return false
 	end
 
-	local t = Application:time()
 	local my_tweak_data = self._unit:base()._tweak_table
 	local target_tweak_table = unit:base()._tweak_table
 

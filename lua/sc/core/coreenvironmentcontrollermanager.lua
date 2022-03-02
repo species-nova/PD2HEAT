@@ -162,7 +162,6 @@ function CoreEnvironmentControllerManager:set_post_composite(t, dt)
 	if self._current_concussion > 0 then		
 		self._current_concussion = math.max(self._current_concussion - dt * self._flashbang_multiplier, 0)
 		concussion = self._current_concussion
-		log(self._current_concussion)
 	end
 
 	--Start fadeout of Heat's custom flashbang screen overlay.
