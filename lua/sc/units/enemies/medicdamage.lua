@@ -5,7 +5,9 @@ local no_heal_anim = {
 	tank_medic = true
 }
 
-function MedicDamage:heal_unit(unit)
+--Refactored medic heal_unit stuff.
+--Note: Medics in heat have no cooldown. Existing cooldown code is repurposed to throttle voiceline spam.
+function MedicDamage:heal_unit(unit, override_cooldown)
 	if self._unit:anim_data() and self._unit:anim_data().act then
 		return false
 	end
@@ -52,28 +54,22 @@ function MedicDamage:heal_unit(unit)
 			self._unit:contour():add("medic_show", false)
 			self._unit:contour():flash("medic_show", 0.2)
 		end
-		
-		if no_heal_anim[my_tweak_data] then
-			local anim_data = self._unit:anim_data()
-			local acting = anim_data and anim_data.act
 
-			if not acting then
-				local redir_res = self._unit:movement():play_redirect("cmd_get_up")
+		--Use cooldown to throttle voiceline spam and animation jank.
+		local t = Application:time()
+		if t > self._heal_cooldown_t + tweak_data.medic.cooldown then
+			self._heal_cooldown_t = t
+			if no_heal_anim[my_tweak_data] then				
+				self._unit:sound():say("heal")
+			else
+				local action_data = {
+					body_part = 1,
+					type = "heal",
+					client_interrupt = Network:is_client()
+				}
 
-				if redir_res then
-					self._unit:anim_state_machine():set_speed(redir_res, 0.5)
-				end
+				self._unit:movement():action_request(action_data)
 			end
-			
-			self._unit:sound():say("heal")
-		else
-			local action_data = {
-				body_part = 1,
-				type = "heal",
-				client_interrupt = Network:is_client()
-			}
-
-			self._unit:movement():action_request(action_data)
 		end
 	end
 

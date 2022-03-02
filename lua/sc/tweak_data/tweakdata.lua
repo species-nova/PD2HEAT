@@ -450,7 +450,7 @@ tweak_data.projectiles.hatman_molotov.env_effect = "hatman_molotov_fire"
 --tweak_data.team_ai.stop_action.delay = 0.8
 --tweak_data.team_ai.stop_action.distance = 9999999999999999999999999999999999
 
-tweak_data.medic.cooldown = 0
+tweak_data.medic.cooldown = 1
 tweak_data.medic.radius = 500
 
 if difficulty_index <= 4 then
