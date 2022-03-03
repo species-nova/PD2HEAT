@@ -1776,6 +1776,11 @@ function CopDamage:die(attack_data)
 	end
 end
 
+function CopDamage:heal_unit(...)
+	log("THIS COP NEEDS TO USE MEDIC DAMAGE: " .. self._unit:base()._tweak_table)
+	MedicDamage.heal_unit(self, ...)
+end
+
 function CopDamage:stun_hit(attack_data)
 	if self._dead or self._invulnerable or self._unit:in_slot(16, 21, 22) then
 		return

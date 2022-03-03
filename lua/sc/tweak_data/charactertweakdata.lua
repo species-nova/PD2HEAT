@@ -753,11 +753,12 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 	end			
 	self.omnia_lpf.priority_shout = "f47"
 	self.omnia_lpf.bot_priority_shout = "f47x_any"
-	self.omnia_lpf.tags = {"law", "medic", "lpf", "special", "customvo"}
+	self.omnia_lpf.tags = {"law", "lpf", "special", "customvo"}
 	self.omnia_lpf.do_omnia = {
 		cooldown = 8,
 		radius = 600
 	}
+	self.omnia_lpf.overheal_specials = true
 	self.omnia_lpf.is_special = true
 	table.insert(self._enemy_list, "omnia_lpf")
 end
@@ -9379,6 +9380,9 @@ function CharacterTweakData:_set_overkill_290()
 	--Fast HRTs
 	self.fbi.move_speed = self.presets.move_speed.lightning
 	self.hrt.move_speed = self.presets.move_speed.lightning
+	
+	--Winters can now overheal special enemies
+	self.phalanx_vip.do_omnia.overheal_specials = true
 	
 	self.flashbang_multiplier = 5
 	self.concussion_multiplier = 5
