@@ -57,7 +57,7 @@ function MedicDamage:heal_unit(unit, override_cooldown)
 
 		--Use cooldown to throttle voiceline spam and animation jank.
 		local t = Application:time()
-		if t > self._heal_cooldown_t + tweak_data.medic.cooldown then
+		if t > (self._heal_cooldown_t or 0) + tweak_data.medic.cooldown then
 			self._heal_cooldown_t = t
 			if no_heal_anim[my_tweak_data] then				
 				self._unit:sound():say("heal")
