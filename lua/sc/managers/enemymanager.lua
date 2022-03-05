@@ -999,3 +999,23 @@ function EnemyManager:force_delayed_clbk(id)
 		i = i - 1
 	end
 end
+
+--Adds an additional line of sight check to prevent medics from healing units through walls.
+function EnemyManager:get_nearby_medic(unit)
+	if self:is_civilian(unit) then
+		return nil
+	end
+
+	local enemies = World:find_units_quick(unit, "sphere", unit:position(), tweak_data.medic.radius, managers.slot:get_mask("enemies"))
+	local head_pos = unit:movement():m_head_pos()
+	for _, enemy in ipairs(enemies) do
+		if enemy:base():has_tag("medic") then
+			local obstructed = unit:raycast("ray", head_pos, enemy:movement():m_head_pos(), "slot_mask", managers.slot:get_mask("world_geometry"), "report")
+			if not obstructed then
+				return enemy
+			end
+		end
+	end
+
+	return nil
+end
