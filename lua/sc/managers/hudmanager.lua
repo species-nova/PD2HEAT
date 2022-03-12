@@ -11,7 +11,6 @@ end
 
 
 local NUM_SUSPICION_EFFECT_GHOSTS = 3
-
 function HUDManager:_upd_animate_level_suspicion(t,amount,amount_max,amount_interpolated,is_whisper_mode)
 	--got me thinking, do we want a noise indicator? one that plays when you perform an action that makes noise, whether by main hud item or by waypoint
 	if not (amount and amount_max) then
@@ -175,9 +174,7 @@ function HUDManager:_create_level_suspicion_hud(hud)
 		})
 		suspicion_ghost:set_center(center_x,center_y)
 	end
-	
 end
-
 
 function HUDManager:set_dodge_value(value)
 	--Sends current dodge meter level and players dodge stat to the dodge panel in HUDtemp.lua

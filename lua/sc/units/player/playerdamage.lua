@@ -30,6 +30,7 @@ function PlayerDamage:init(unit)
 	self._dmg_interval = tweak_data.player.damage.MIN_DAMAGE_INTERVAL
 	--change grace period in cs
 	self._dmg_interval = managers.modifiers:modify_value("PlayerDamage:CheckingGrace", self._dmg_interval)
+	self._dodge_dmg_interval = self._dmg_interval * tweak_data.player.damage.DODGE_IFRAME_MUL
 
 	self._next_allowed_dmg_t = Application:digest_value(-100, true)
 	self._last_received_dmg = 0 --Last bit of damage received prior to DR effects.
@@ -409,6 +410,29 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	return true
 end
 
+--Attempts to 'dodge' the attack. If successful at dodging, returns true.
+function PlayerDamage:attempt_dodge(attack_data, damage_info) 
+	local attacker_unit = attack_data.attacker_unit
+	if attack_data.damage > 0 then
+		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
+		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
+			self._unit:sound():play_impact_sound({material_name = Idstring("ceramic")})
+			self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
+			self:_send_damage_drama(attack_data, 0)
+			self:_call_listeners(damage_info)
+			self:play_whizby(attack_data.col_ray.position)
+			self:_hit_direction(attacker_unit:position())
+			local t = managers.player:player_timer():time()
+			self._next_allowed_dmg_t = Application:digest_value(t + self._dodge_dmg_interval, true)
+			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
+			if not self:is_friendly_fire(attacker_unit, true) then
+				managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
+			end
+			return true
+		end
+	end
+end
+
 --All damage_x functions have been rewritten.
 function PlayerDamage:damage_bullet(attack_data)
 	local attacker_unit = attack_data.attacker_unit
@@ -423,23 +447,8 @@ function PlayerDamage:damage_bullet(attack_data)
 	end
 
 	local pm = managers.player
-	if attack_data.damage > 0 then
-		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
-		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
-			self._unit:sound():play_impact_sound({material_name = Idstring("ceramic")})
-			self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
-			self:_send_damage_drama(attack_data, 0)
-			self:_call_listeners(damage_info)
-			self:play_whizby(attack_data.col_ray.position)
-			self:_hit_direction(attacker_unit:position())
-			local t = managers.player:player_timer():time()
-			self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
-			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
-			if not self:is_friendly_fire(attacker_unit, true) then
-				managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
-			end
-			return	
-		end
+	if self:attempt_dodge(attack_data, damage_info) then
+		return
 	end
 
 	if attacker_unit:base()._tweak_table == "tank" then
@@ -499,28 +508,7 @@ function PlayerDamage:damage_melee(attack_data)
 	end
 
 	local pm = managers.player
-	local dodged = false
-	if self._dodge_melee and attack_data.damage > 0 then
-		self:fill_dodge_meter(self._dodge_points) --Getting attacked fills your dodge meter by your dodge stat.
-		if self._dodge_meter >= 1.0 then --Dodge attacks if your meter is at '100'.
-			self._unit:sound():play_impact_sound({material_name = Idstring("ceramic")})
-			if attack_data.damage > 0 then
-				self:fill_dodge_meter(-1.0) --If attack is dodged, subtract '100' from the meter.
-				self:_send_damage_drama(attack_data, 0)
-			end
-			self:_call_listeners(damage_info)
-			self:_hit_direction(attacker_unit:position())
-			self._unit:camera():play_shaker(vars[math.random(#vars)], math.max(1 * self._melee_push_multiplier, 0.2))
-			local t = managers.player:player_timer():time()
-			self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
-			self._last_received_dmg = math.huge --Makes the grace period from dodging effectively impossible to pierce.
-			if not self:is_friendly_fire(attacker_unit, true) then
-				managers.player:send_message(Message.OnPlayerDodge) --Call skills that listen for dodging.
-			end
-			dodged = true
-		end
-	end
-
+	local dodged = self._dodge_melee and self:attempt_dodge(attack_data, damage_info)
 	local parried = self._unit:movement():current_state().in_melee and self._unit:movement():current_state():in_melee() and not tweak_data.blackmarket.melee_weapons[managers.blackmarket:equipped_melee_weapon()].chainsaw
 	if parried or dodged then
 		--prevent the player from countering Dozers or other players through FF, for obvious reasons

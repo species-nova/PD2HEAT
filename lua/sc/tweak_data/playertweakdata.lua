@@ -164,6 +164,7 @@ function PlayerTweakData:init()
 	self.damage.INCAPACITATED_TIME = 30
 	self.damage.MIN_DAMAGE_INTERVAL = 0.4
 	self.damage.SINGLE_ENEMY_DAMAGE_INTERVAL = 0.2
+	self.damage.DODGE_IFRAME_MUL = 1.5 --Minimum grace period multiplier for dodged attacks.
 	self.damage.respawn_time_penalty = 15
 	self.damage.base_respawn_time_penalty = 5
 	self.damage.automatic_assault_ai_trade_time = 240
@@ -324,7 +325,7 @@ function PlayerTweakData:init()
 	self.movement_state.standard.movement.speed.STEELSIGHT_MAX = 200
 	self.movement_state.standard.movement.speed.INAIR_MAX = 200
 	self.movement_state.standard.movement.speed.CLIMBING_MAX = 200
-	self.movement_state.standard.movement.jump_velocity.z = 470
+	self.movement_state.standard.movement.jump_velocity.z = 500
 	self.movement_state.standard.movement.jump_velocity.xy.run = self.movement_state.standard.movement.speed.RUNNING_MAX * 1.2
 	self.movement_state.standard.movement.jump_velocity.xy.walk = self.movement_state.standard.movement.speed.STANDARD_MAX * 1.2
 	
