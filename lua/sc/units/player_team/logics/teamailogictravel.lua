@@ -136,7 +136,7 @@ function TeamAILogicTravel.enter(data, new_logic_name, enter_params)
 			objective.called = false
 		end
 
-		if objective.type == "revive" and objective.action == "revive" and managers.player:has_category_upgrade("team", "crew_inspire") then
+		if objective.type == "revive" and managers.player:has_category_upgrade("team", "crew_inspire") then
 			my_data.can_inspire = true
 		end
 
@@ -271,9 +271,9 @@ function TeamAILogicTravel.exit(data, new_logic_name, enter_params)
 end
 
 function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
+	--Ensure target is within range. Ignore LOS since bots aren't as clever about it.
 	local range_sq = 810000
 	local dist_sq = mvec3_dis_sq(data.m_pos, revive_unit:movement():m_pos())
-
 	if dist_sq > range_sq then
 		my_data.inspire_chk_t = data.t + 0.5
 
@@ -281,29 +281,42 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 	end
 
 	local allow_inspire = nil
-	local no_players_standing = true
 
-	for u_key, u_data in pairs_g(managers.groupai:state():all_player_criminals()) do
-		if not u_data.status and data.key ~= u_key then
-			no_players_standing = false
-
-			break
+	--Inspire if last one standing.
+	local num_heisters_standing = 4
+	for u_key, u_data in pairs_g(managers.groupai:state():all_criminals()) do
+		if not alive(u_data.unit) then
+			num_heisters_standing = num_heisters_standing - 1
+		else
+			local dmg_ext =  u_data.unit:character_damage()
+			if dmg_ext:bleed_out() or (dmg_ext.fatal and dmg_ext:fatal()) or dmg_ext:arrested() or dmg_ext:dead() then
+				num_heisters_standing = num_heisters_standing - 1
+			end
 		end
 	end
 
-	if no_players_standing then
-		allow_inspire = true
-	else
-		local rev_base_ext = revive_unit:base()
+	if num_heisters_standing == 1 then
+		can_inspire = true
+	end
 
-		--if not going to revive a player and there's still a player standing, just don't use inspire
-		if not rev_base_ext.is_local_player and not rev_base_ext.is_husk_player then
-			my_data.inspire_chk_t = data.t + 0.5
+	--Inspire if under fire from 4 or more enemies over the last second.
+	if not allow_inspire then
+		local und_mul_fire_amount = 0
+		local dmg_chk_t = data.t - 1
 
-			return
+		for key, att_data in pairs_g(data.detected_attention_objects) do
+			if att_data.dmg_t and dmg_chk_t < att_data.dmg_t then
+				und_mul_fire_amount = und_mul_fire_amount + 1
+
+				if und_mul_fire_amount > 3 then
+					allow_inspire = true
+					break
+				end
+			end
 		end
 	end
 
+	--Inspire if revive timer has less than 10 seconds left.
 	if not allow_inspire then
 		local revive_timer = nil
 
@@ -320,39 +333,19 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 		end
 	end
 
-	if not allow_inspire and data.unit:character_damage():health_ratio() < 0.3 then --bot has less than 30% health
+	--Inspire if in danger of going down (<30% health).
+	if not allow_inspire and data.unit:character_damage():health_ratio() < 0.3 then
 		allow_inspire = true
 	end
 
-	if not allow_inspire then
-		local under_multiple_fire = nil
-		local und_mul_fire_amount = 0
-		local dmg_chk_t = data.t - 1.2
-
-		for key, att_data in pairs_g(data.detected_attention_objects) do
-			if att_data.dmg_t and dmg_chk_t < att_data.dmg_t then
-				und_mul_fire_amount = und_mul_fire_amount + 1
-
-				if und_mul_fire_amount > 3 then
-					under_multiple_fire = true
-
-					break
-				end
-			end
-		end
-
-		--more than 3 enemies damaged the bot in the last 1.2 seconds
-		if under_multiple_fire then
-			allow_inspire = true
-		end
-	end
-
+	--If there is no danger pushing the bot to inspire, then check again half a second from now.
 	if not allow_inspire then
 		my_data.inspire_chk_t = data.t + 0.5
 
 		return
 	end
 
+	--Otherwise, clear the objective and inspire.
 	data.unit:brain():set_objective()
 	data.unit:sound():say("f36x_any", true, false)
 
@@ -377,7 +370,6 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 	TeamAILogicTravel.actually_revive(data, revive_unit, true)
 
 	local skip_alert = managers.groupai:state():whisper_mode()
-
 	if not skip_alert then
 		local alert_rad = 500
 		local new_alert = {
@@ -397,8 +389,7 @@ function TeamAILogicTravel.update(data)
 	local my_data = data.internal_data
 	my_data.close_to_criminal = false
 
-	local objective = data.objective
-
+	local objective = data.objective 
 	if objective.type == "revive" and my_data.can_inspire then
 		if not my_data.inspire_chk_t or data.t > my_data.inspire_chk_t then
 			if managers.player:is_custom_cooldown_not_active("team", "crew_inspire") then

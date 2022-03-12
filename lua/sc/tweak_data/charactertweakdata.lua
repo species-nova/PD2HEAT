@@ -1861,6 +1861,7 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 		entrance = true
 	}
 	self.tank.announce_incomming = "incomming_tank"
+	self.tank.kill_taunt = "post_kill_taunt"
 	self.tank.steal_loot = nil
 	self.tank.calls_in = nil
 	self.tank.use_animation_on_fire_damage = false
