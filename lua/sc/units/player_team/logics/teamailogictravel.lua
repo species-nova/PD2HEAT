@@ -295,7 +295,7 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 		end
 	end
 
-	if num_heisters_standing == 1 then
+	if num_heisters_standing <= 2 then
 		can_inspire = true
 	end
 

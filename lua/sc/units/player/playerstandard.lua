@@ -2338,8 +2338,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
 							local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
 							self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
-							self._ext_camera:play_shaker("fire_weapon_rot", 1 * shake_multiplier * recoil_multiplier * 0.75)
-							self._ext_camera:play_shaker("fire_weapon_kick", 1 * shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
+							self._ext_camera:play_shaker("fire_weapon_rot", shake_multiplier * recoil_multiplier * 0.5)
+							self._ext_camera:play_shaker("fire_weapon_kick", shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
 						end
 
 						if self._shooting_t then

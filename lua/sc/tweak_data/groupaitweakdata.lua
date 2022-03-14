@@ -7213,9 +7213,9 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		{30, 1},
 		{30, 1}
 	}
-	self.besiege.assault.build_duration = 45
-	self.besiege.assault.sustain_duration_min = {60, 80, 100}
-	self.besiege.assault.sustain_duration_max = {60, 80, 100}
+	self.besiege.assault.build_duration = 35
+	self.besiege.assault.sustain_duration_min = {40, 70, 100}
+	self.besiege.assault.sustain_duration_max = {40, 70, 100}
 	self.besiege.assault.sustain_duration_balance_mul = {1, 1, 1, 1}
 	self.besiege.assault.fade_duration = 35
 	self.besiege.assault.delay = {30, 25, 20}
