@@ -327,7 +327,6 @@
 			<option type="bool" default_value="false" name="NoBleedoutTilt"/>
 			<option type="bool" default_value="true" name="PONRTrack"/>
 			<option type="bool" default_value="true" name="Holiday"/>
-			<option type="bool" default_value="true" name="QuietRain"/>	
 			<option_group name="INFOHUD">
 				<option type="bool" default_value="true" name="Info_Hud"/>
 				<option type="number" default_value="36" min="24" max="48" step="2" show_value="true" name="Info_Size"/>
