@@ -139,8 +139,6 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATNoBleedoutTiltDescID"] = "Disables the camera tilt that happens while in bleedout.",
 		["PD2HEATClassicMoviesTitleID"] = "Classic Loadout Backgrounds",
 		["PD2HEATClassicMoviesDescID"] = "Enable or disable PD:TH loadout backgrounds when playing on Classic heists.",
-		["PD2HEATQuietRainTitleID"] = "Quiet Rain",
-		["PD2HEATQuietRainDescID"] = "Makes the rain quieter on rainy heists.",
 
 		["windowofoppurtunity"] = "Window Of Opportunity",
 		["wheresthevan"] = "Where's The Van",

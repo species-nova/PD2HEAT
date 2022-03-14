@@ -143,13 +143,8 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.arm_und.package = {"packages/nypdassets", "packages/narr_arm_und"}
 	self.arm_und.ai_group_type = nypd
 	
-	if heat and heat.Options:GetValue("QuietRain") then
-		self.glace.ai_group_type = nypd
-		self.glace.package = {"packages/narr_glace", "packages/addrain", "packages/nypdassets"}
-	else
-		self.glace.ai_group_type = nypd
-		self.glace.package = {"packages/narr_glace", "packages/nypdassets"}
-	end
+	self.glace.ai_group_type = nypd
+	self.glace.package = {"packages/narr_glace", "packages/nypdassets"}
 	
 	self.dah.ai_group_type = nypd
 	self.dah.package = {"packages/lvl_dah", "packages/nypdassets"}
