@@ -862,8 +862,9 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 		spread_area = spread_area + moving_spread
 	end
 
-	--Apply bloom penalty to spread. Decay existing stacks if player is not firing.
-	if self._bloom_stacks > 0 and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay then
+	--Apply bloom penalty to spread. Decay existing stacks if player is not firing or reloading.
+	if self._bloom_stacks > 0 and current_state._is_reloading and not current_state:_is_reloading()
+		and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay then
 		self._bloom_stacks = math.max(self._bloom_stacks - tweak_data.weapon.stat_info.bloom_data.decay * dt, 0)
 	end
 	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom * self:bloom_spread_penality_reduction())

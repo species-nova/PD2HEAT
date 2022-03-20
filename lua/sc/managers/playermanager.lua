@@ -1711,3 +1711,23 @@ function PlayerManager:spawned_player(id, unit)
 		end
 	end
 end
+
+--Gets the perk deck damage bonus for the desired unit.
+--For real players, it's based on the synced progress in their perk deck's passive damage mul.
+--For bots, it scales off of difficulty.
+--For all other units, it simply returns 1.
+function PlayerManager:get_perk_damage_bonus(unit)
+	local multiplier = 1
+	--Apply perk deck damage bonus.
+	if alive(unit) then
+		if unit == self:player_unit() then
+			multiplier = self:upgrade_value("weapon", "passive_damage_multiplier", 1)
+		elseif unit:base().upgrade_value then
+			multiplier = (unit:base():upgrade_value("weapon", "passive_damage_multiplier") or 1)
+		elseif managers.groupai:state():is_unit_team_AI(unit) then
+			multiplier = (tweak_data.character.team_ai_perk_damage_mul or 2)
+		end
+	end
+
+	return multiplier
+end

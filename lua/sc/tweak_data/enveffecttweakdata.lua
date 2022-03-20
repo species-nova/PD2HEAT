@@ -1,9 +1,9 @@
 function EnvEffectTweakData:molotov_fire()
 	local params = {
-		damage = 6,
+		damage = 3,
 		player_damage = 3,
 		fire_dot_data = {
-			dot_damage = 1,
+			dot_damage = 0.5,
 			dot_trigger_max_distance = 3000,
 			dot_trigger_chance = 50,
 			dot_length = 3.1,
@@ -28,7 +28,7 @@ function EnvEffectTweakData:hatman_molotov_fire()
 		damage = 3,
 		player_damage = 3,
 		fire_dot_data = {
-			dot_damage = 1,
+			dot_damage = 0.5,
 			dot_trigger_max_distance = 3000,
 			dot_trigger_chance = 50,
 			dot_length = 3.1,
@@ -50,10 +50,10 @@ end
 
 function EnvEffectTweakData:incendiary_burst_fire()
 	local params = {
-		damage = 6,
+		damage = 3,
 		player_damage = 3,
 		fire_dot_data = {
-			dot_damage = 1,
+			dot_damage = 0.5,
 			dot_trigger_max_distance = 3000,
 			dot_trigger_chance = 50,
 			dot_length = 3.1,
@@ -75,10 +75,10 @@ end
 
 function EnvEffectTweakData:trip_mine_fire()
 	local params = {
-		damage = 6,
+		damage = 3,
 		player_damage = 3,
 		fire_dot_data = {
-			dot_damage = 1,
+			dot_damage = 0.5,
 			dot_trigger_max_distance = 3000,
 			dot_trigger_chance = 50,
 			dot_length = 3.1,
@@ -100,10 +100,10 @@ end
 
 function EnvEffectTweakData:incendiary_fire()
 	local params = {
-		damage = 6,
+		damage = 3,
 		player_damage = 3,
 		fire_dot_data = {
-			dot_damage = 1,
+			dot_damage = 0.5,
 			dot_trigger_max_distance = 3000,
 			dot_trigger_chance = 50,
 			dot_length = 3.1,
@@ -128,7 +128,7 @@ function EnvEffectTweakData:incendiary_fire_arbiter()
 		damage = 4,
 		player_damage = 2,
 		fire_dot_data = {
-			dot_damage = 1,
+			dot_damage = 0.5,
 			dot_trigger_max_distance = 3000,
 			dot_trigger_chance = 50,
 			dot_length = 3.1,

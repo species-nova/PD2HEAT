@@ -12,6 +12,8 @@ local RELOADING = 0
 function PlayerStandard:init(unit)
 	original_init(self, unit)
 
+	self._queue_reload_start = false
+	
 	if Global.game_settings and Global.game_settings.one_down then
 		self._slotmask_bullet_impact_targets = self._slotmask_bullet_impact_targets + 3
 	else
@@ -1697,7 +1699,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			state.reload_expire_t = nil
 
 			local empty_reload = weapon:started_reload_empty()
-			local reload_exit_expire_t = weapon:reload_exit_expire_t(empty_reload)
+			local reload_exit_expire_t = weapon:reload_exit_expire_t(not empty_reload)
 			if reload_exit_expire_t then
 				state.reload_exit_expire_t = t + reload_exit_expire_t / speed_multiplier
 				local reload_type = empty_reload and  "reload_exit" or "reload_not_empty_exit"
@@ -1763,6 +1765,61 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 	end
 end
 
+--Add a check for queued inputs.
+function PlayerStandard:_check_action_reload(t, input)
+	local new_action = nil
+	local action_wanted = self._queue_reload_start or input.btn_reload_press
+
+	if action_wanted then
+		local action_forbidden = self:_is_reloading() or self:_changing_weapon() or self:_is_meleeing() or self._use_item_expire_t or self:_interacting() or self:_is_throwing_projectile()
+
+		if not action_forbidden and self._equipped_unit and not self._equipped_unit:base():clip_full() then
+			self:_start_action_reload_enter(t)
+			
+			new_action = not self._queue_reload_start
+		end
+	end
+
+	return new_action
+end
+
+--Adds a delay + input queuing based on the firing delay of the weapon for 2 reasons.
+--1. Reduce animation clipping.
+--2. To make using the short duration reload speed bonus on kill smoother on grenade launchers.
+function PlayerStandard:_start_action_reload_enter(t)
+	local weapon = self._equipped_unit:base()
+
+	--Wait until the current firing animation has completed or the weapon flags an immediate reload to start reloading.
+	if weapon and weapon:can_reload() and weapon:start_shooting_allowed() and (not weapon.should_reload_immediately or weapon:should_reload_immediately()) then
+		self._queue_reload_start = false
+		managers.player:send_message_now(Message.OnPlayerReload, nil, self._equipped_unit)
+		self:_interupt_action_steelsight(t)
+
+		if not self.RUN_AND_RELOAD then
+			self:_interupt_action_running(t)
+		end
+
+		local is_reload_not_empty = weapon:clip_not_empty()
+		local base_reload_enter_expire_t = weapon:reload_enter_expire_t(is_reload_not_empty)
+
+		if base_reload_enter_expire_t and base_reload_enter_expire_t > 0 then
+			local speed_multiplier = weapon:reload_speed_multiplier()
+
+			self._ext_camera:play_redirect(Idstring("reload_enter_" .. weapon.name_id), speed_multiplier)
+
+			self._state_data.reload_enter_expire_t = t + base_reload_enter_expire_t / speed_multiplier
+
+			weapon:tweak_data_anim_play("reload_enter", speed_multiplier)
+
+			return
+		end
+
+		self:_start_action_reload(t)
+	else
+		--Otherwise, flag that we want the reload to start at the soonest opportunity.
+		self._queue_reload_start = true
+	end
+end
 function PlayerStandard:_start_action_reload(t)
 	local weapon = self._equipped_unit:base()
 
@@ -2149,7 +2206,7 @@ function PlayerStandard:_soft_interrupt_action_reload(t)
 	local weap_base = self._equipped_unit:base()
 
 	if self:_is_reloading() then
-		if weap_base:reload_exit_expire_t() then --Per shell reloads need to finish reloading the current shell.
+		if weap_base:reload_exit_expire_t(not weap_base:started_reload_empty()) then --Per shell reloads need to finish reloading the current shell.
 			self._queue_reload_interupt = true
 			return RELOAD_INTERRUPT_QUEUED
 		else --Otherwise instant reload cancel.

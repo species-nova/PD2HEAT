@@ -1,5 +1,4 @@
 --Prevent grenades from being detonated by being shot.
---TODO: Implement the ability to set whether this function should fire via tweakdata, and allow clients to trigger it without desyncing.
 function MolotovGrenade:bullet_hit()
 end
 

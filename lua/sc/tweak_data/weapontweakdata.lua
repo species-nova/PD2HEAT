@@ -752,7 +752,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			concealment = 15,
 			value = 9
 		}
-		self.corgi.stats_modifiers = nil
 		self.corgi.timers = {
 			reload_not_empty = 2.6,
 			reload_empty = 3.4,
@@ -908,7 +907,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.new_m4.reload_speed_multiplier = 1.07 --3.1/3.8s
 
 		--UAR
-		self.aug.AMMO_MAX = 150
 		self.aug.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.aug.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.aug.supported = true
@@ -1359,7 +1357,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.groza_underbarrel.AMMO_MAX = 6
 		self.groza_underbarrel.supported = true
 		self.groza_underbarrel.stats = {
-			damage = 20,
+			damage = 40,
 			spread = 5,
 			recoil = 5,
 			concealment = 14,
@@ -1641,7 +1639,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.tti.stats_modifiers = nil
 
 	--Heavy DMR (Secondary)
 		--Kang Arms X1
@@ -4068,6 +4065,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.peacemaker.swap_speed_multiplier = 0.65
 
 	--Grenade Launchers (Primary)
+		--GL 40
 		self.gre_m79.upgrade_blocks = {
 			weapon = {
 				"clip_ammo_increase"
@@ -4075,14 +4073,15 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.gre_m79.desc_id = "bm_40mm_weapon_sc_desc"
 		self.gre_m79.has_description = true
-		self.gre_m79.fire_mode_data.fire_rate = 1
+		self.gre_m79.fire_mode_data.fire_rate = 0.3
+		self.gre_m79.fire_rate_multiplier = 0.6 --120 rpm.
 		self.gre_m79.kick = self.stat_info.kick_tables.vertical_kick
 		self.gre_m79.kick_pattern = self.stat_info.kick_patterns.random
 		self.gre_m79.supported = true
 		self.gre_m79.stats = {
 			damage = 40,
 			spread = 18,
-			recoil = 5,
+			recoil = 10,
 			concealment = 15,
 			value = 1
 		}
@@ -4097,6 +4096,39 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			unequip = 0.6
 		}
 		self.gre_m79.stats_modifiers = {damage = 10}
+
+	--Grenade Launchers (Secondary)
+		--China Puff--
+		self.china.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.china.desc_id = "bm_40mm_weapon_sc_desc"
+		self.china.has_description = true
+		self.china.fire_rate_multiplier = 0.8 --40 rpm
+		self.china.kick = self.stat_info.kick_tables.vertical_kick
+		self.china.kick_pattern = self.stat_info.kick_patterns.random
+		self.china.supported = true
+		self.china.stats = {
+			damage = 40,
+			spread = 5,
+			recoil = 5,
+			concealment = 11,
+			value = 1
+		}
+		self.china.stats_modifiers = {damage = 10}
+		self.china.timers = {
+			shotgun_reload_enter = 0.83,
+			shotgun_reload_exit_empty = 1.1,
+			shotgun_reload_exit_not_empty = 0.45,
+			shotgun_reload_shell = 0.83,
+			shotgun_reload_first_shell_offset = 0.5,
+			unequip = 0.6,
+			equip = 0.9
+		}
+		self.china.reload_speed_multiplier = 0.9 --5.5s
+		self.china.swap_speed_multiplier = 0.7
 
 	--[[
 	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
@@ -4135,7 +4167,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.r870.stats_modifiers = nil
 
 	--Izhma 12G
 	self.saiga.rays = 9
@@ -4162,7 +4193,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.saiga.stats_modifiers = nil
 	self.saiga.reload_speed_multiplier = 1.25
 
 	--Loco 12g
@@ -4188,7 +4218,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.serbu.stats_modifiers = nil
 
 	--Mosconi 12G
 	self.huntsman.rays = 9
@@ -4223,7 +4252,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.huntsman.stats_modifiers = nil
 	self.huntsman.timers.reload_not_empty = 2.3
 	self.huntsman.timers.reload_empty = 2.3
 	self.huntsman.reload_speed_multiplier = 1.2
@@ -4290,7 +4318,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.judge.stats_modifiers = nil
 	self.judge.timers.reload_not_empty = 2.4
 	self.judge.timers.reload_empty = 2.4
 	self.judge.stats_modifiers = {damage = 1}
@@ -4323,7 +4350,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.benelli.stats_modifiers = nil
 
 	--Street Sweeper
 	self.striker.rays = 9
@@ -4350,7 +4376,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.striker.stats_modifiers = nil
 	self.striker.timers.shotgun_reload_first_shell_offset = 0.4
 
 	--Raven
@@ -4376,7 +4401,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.ksg.stats_modifiers = nil
 
 	--Predator 12g
 	self.spas12.rays = 9
@@ -4403,7 +4427,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.spas12.stats_modifiers = nil
 	self.spas12.stats_modifiers = {damage = 1}
 
 	--HRL-7
@@ -4468,8 +4491,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.b682.stats_modifiers = nil
-	self.b682.stats_modifiers = {damage = 1}
 	self.b682.reload_speed_multiplier = 1.2
 
 	--Flamethrower Mk1
@@ -4516,7 +4537,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.flamethrower_mk2.stats_modifiers = nil
 
 	--Piglet
 	self.m32.upgrade_blocks = {
@@ -4570,7 +4590,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.aa12.stats_modifiers = nil
 	self.aa12.reload_speed_multiplier = 1.15
 
 	--Plainsrider bow.
@@ -4745,37 +4764,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-	self.m37.stats_modifiers = nil
-
-	--China Puff--
-	self.china.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.china.desc_id = "bm_40mm_weapon_sc_desc"
-	self.china.has_description = true
-	self.china.fire_mode_data.fire_rate = 1.5
-	self.china.single.fire_rate = 1.5
-	self.china.AMMO_MAX = 5
-	self.china.kick = self.stat_info.kick_tables.vertical_kick
-	self.china.supported = false
-	self.china.stats = {
-		damage = 80,
-		spread = 6,
-		recoil = 9,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 18,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.china.stats_modifiers = {damage = 10}
-	self.china.timers.shotgun_reload_first_shell_offset = 0.5
 
 	--Breaker 12g
 	self.boot.AMMO_MAX = 40
@@ -5294,14 +5282,14 @@ local damage_tier_data = {
 	{damage = 90,  pickup = 264, suppression = 13},
 	{damage = 120, pickup = 246, suppression = 14},
 	{damage = 180, pickup = 228, suppression = 15},
-	{damage = 240, pickup = 210, suppression = 16}, --All guns above here.
-	{damage = 360, pickup = 192, suppression = 17}, --Heavy bows.
-	{damage = 600, pickup = 174, suppression = 18}, --Light GLs
-	{damage = 800, pickup = 156, suppression = 19}, --Heavy GLs
-	{damage = 1200, pickup = 138, suppression = 20} --Rocket Launchers
+	{damage = 240, pickup = 210, suppression = 16},
+	{damage = 300, pickup = 192, suppression = 17},
+	{damage = 360, pickup = 174, suppression = 18},
+	{damage = 400, pickup = 156, suppression = 19},
+	{damage = 600, pickup = 138, suppression = 20}
 }
-local damage_pool_primary = 7200
-local damage_pool_secondary = 3600
+local damage_pool_primary = 3600
+local damage_pool_secondary = 1800
 
 function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
@@ -5313,6 +5301,78 @@ function get_damage_tier(weapon)
 	end
 
 	return damage_tier_data[#damage_tier_data]
+end
+
+local category_pickup_muls = { --Different gun categories have different pickup mults to compensate for various factors.
+	shotgun = 0.7, --Compensate for ease of aim+multikills and/or versatility.
+	bow = 0.7, --Compensate for picking arrows back up.
+	crossbow = 0.7,
+	pistol = 1.1, --Compensate for low range.
+	smg = 1.1,
+	saw = 0.4,
+	lmg = 1,
+	minigun = 1,
+	grenade_launcher = 0.5,
+	rocket_launcher = 0.5
+}
+
+local category_ammo_max_muls = {
+	lmg = 1.5,
+	minigun = 2,
+	rocket_launcher = 1.15
+}
+
+--Multipliers for ammo pickup to interpolate between based on current ammo. Make sure these average to 1 for sanity's sake.
+local pickup_mul_near_empty = 1.333333333334
+local pickup_mul_near_full = 0.666666666667
+
+--Determines a gun's total ammo and pickup.
+function WeaponTweakData:calculate_ammo_data(weapon)
+	--Determine the damage tier the gun falls under.
+	weapon.AMMO_PICKUP = {0, 0}
+
+	local damage_tier = get_damage_tier(weapon)
+
+	local damage_pool = damage_pool_primary
+	if weapon.use_data.selection_index == 1 then
+		damage_pool = damage_pool_secondary
+	end
+
+	weapon.AMMO_PICKUP[1] = pickup_mul_near_empty * (damage_tier.pickup / damage_tier.damage)
+	weapon.AMMO_PICKUP[2] = pickup_mul_near_full * (damage_tier.pickup / damage_tier.damage)
+
+	local pickup_multiplier = 1
+	for i = 1, #weapon.categories do
+		local category = weapon.categories[i]
+		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
+	end
+
+	local ammo_max = weapon.AMMO_MAX
+	if not ammo_max then
+		ammo_max = damage_pool / damage_tier.damage
+
+		--Remove this once rocket launchers are properly tagged.
+		if damage_tier.damage >= 1200 then
+			ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
+		end
+
+		--Get weapon category specific max ammo multipliers.
+		for i = 1, #weapon.categories do
+			local category = weapon.categories[i]
+			ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
+		end
+
+		if weapon.use_data.selection_index == 1 then
+			pickup_multiplier = damage_pool_secondary / damage_pool_primary
+		end
+	else
+		pickup_multiplier = pickup_multiplier * ((weapon.AMMO_MAX * damage_tier.damage) / damage_pool_primary)
+	end
+
+	--Set actual pickup values to use.
+	weapon.AMMO_PICKUP[1] = weapon.AMMO_PICKUP[1] * pickup_multiplier
+	weapon.AMMO_PICKUP[2] = weapon.AMMO_PICKUP[2] * pickup_multiplier
+	weapon.AMMO_MAX = math.floor(ammo_max)
 end
 
 local category_suppression_muls = {
@@ -5338,77 +5398,6 @@ function WeaponTweakData:calculate_suppression_data(weapon)
 
 	--Silenced guns have their suppression reduced by an additional 4 points.
 	weapon.stats.suppression = math.clamp(math.round(damage_tier.suppression * multiplier) - (weapon.stats.alert_size == 2 and 4 or 0), 1, #self.stats.suppression)
-end
-
-local category_pickup_muls = { --Different gun categories have different pickup mults to compensate for various factors.
-	shotgun = 0.7, --Compensate for ease of aim+multikills and/or versatility.
-	bow = 0.7, --Compensate for picking arrows back up.
-	crossbow = 0.7,
-	pistol = 1.1, --Compensate for low range.
-	smg = 1.1,
-	saw = 0.4,
-	lmg = 1,
-	minigun = 1
-}
-
-local category_ammo_max_muls = {
-	lmg = 1.5,
-	minigun = 2,
-	rocket_launcher = 1.15
-}
-
---Determines a gun's total ammo and pickup.
-function WeaponTweakData:calculate_ammo_data(weapon)
-	--Determine the damage tier the gun falls under.
-	weapon.AMMO_PICKUP = {0, 0}
-
-	local damage_tier = get_damage_tier(weapon)
-
-	local damage_pool = damage_pool_primary
-	if weapon.use_data.selection_index == 1 then
-		damage_pool = damage_pool_secondary
-	end
-
-	local damage_mul = 1
-	if damage_tier.damage <= 180 then
-		damage_mul = 2
-	end
-
-	weapon.AMMO_PICKUP[1] = 1.333333333334 * (damage_tier.pickup / (damage_mul * damage_tier.damage))
-	weapon.AMMO_PICKUP[2] = 0.666666666667 * (damage_tier.pickup / (damage_mul * damage_tier.damage))
-
-	local pickup_multiplier = 1
-	for i = 1, #weapon.categories do
-		local category = weapon.categories[i]
-		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
-	end
-
-	local ammo_max = weapon.AMMO_MAX
-	if not ammo_max then
-		ammo_max = damage_pool / (damage_mul * damage_tier.damage)
-
-		--Remove this once rocket launchers are properly tagged.
-		if damage_tier.damage >= 1200 then
-			ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
-		end
-
-		--Get weapon category specific max ammo multipliers.
-		for i = 1, #weapon.categories do
-			local category = weapon.categories[i]
-			ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
-		end
-
-		if weapon.use_data.selection_index == 1 then
-			pickup_multiplier = damage_pool_secondary / damage_pool_primary
-		end
-	else
-		pickup_multiplier = pickup_multiplier * ((weapon.AMMO_MAX * damage_tier.damage * damage_mul) / damage_pool_primary)
-	end
-
-	--Set actual pickup values to use.
-	weapon.AMMO_PICKUP[1] = weapon.AMMO_PICKUP[1] * pickup_multiplier
-	weapon.AMMO_PICKUP[2] = weapon.AMMO_PICKUP[2] * pickup_multiplier
-	weapon.AMMO_MAX = math.floor(ammo_max)
 end
 
 WeaponTweakData.clone__create_table_structure = WeaponTweakData._create_table_structure
