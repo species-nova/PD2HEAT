@@ -407,7 +407,7 @@ end
 --Throws a grenade and plays relevant lines+animations.
 function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos, distance, force_mul)
 	local throw_vec = target_vec * (distance * force_mul)
-	if ProjectileBase.throw_projectile(self._grenade.type, shoot_from_pos, throw_vec, self._unit) then
+	if ProjectileBase.throw_projectile_npc(self._grenade.type, shoot_from_pos, throw_vec, self._unit) then
 		if not self._grenade.no_anim then
 			self._ext_movement:play_redirect("throw_grenade")
 			managers.network:session():send_to_peers_synched("play_distance_interact_redirect", self._unit, "throw_grenade")
