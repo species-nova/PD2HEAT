@@ -44,7 +44,7 @@ WeaponDescription._stats_shown = {
 	},
 	{
 		derived = true,
-		round_decimal = true,		
+		round_decimal = true,
 		present_multiplier = 0.01,
 		name = "range"
 	},
@@ -554,12 +554,14 @@ end
 
 function WeaponDescription._apply_present_tweaks(stat_table, decrement_index)
 	for _, stat in pairs(WeaponDescription._stats_shown) do
-		stat_table[stat.name].value = (stat_table[stat.name].value - (decrement_index and stat.use_index and 1 or 0)) * (stat.present_multiplier or 1)
+		if stat_table[stat.name].value ~= -1 or not stat.derived then
+			stat_table[stat.name].value = (stat_table[stat.name].value - (decrement_index and stat.use_index and 1 or 0)) * (stat.present_multiplier or 1)
 
-		if stat.round_integer then
-			stat_table[stat.name].value = math.round(stat_table[stat.name].value)
-		elseif stat.round_decimal then
-			stat_table[stat.name].value = math.round(stat_table[stat.name].value * 10) * 0.1
+			if stat.round_integer then
+				stat_table[stat.name].value = math.round(stat_table[stat.name].value)
+			elseif stat.round_decimal then
+				stat_table[stat.name].value = math.round(stat_table[stat.name].value * 10) * 0.1
+			end
 		end
 	end
 end

@@ -288,7 +288,7 @@ function PlayerInventoryGui:setup_player_stats(panel)
 		},
 		{
 			name = "movement",
-			append = "m/s"
+			suffix = "m/s"
 		},
 		{
 			name = "stamina"
@@ -437,9 +437,9 @@ function PlayerInventoryGui:_update_player_stats()
 		local base = base_stats[stat.name].value
 
 		self._player_stats_texts[stat.name].total:set_alpha(1)
-		self._player_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
-		self._player_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.append or ""))
-		self._player_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.append or "") or "")
+		self._player_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.suffix or ""))
+		self._player_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.suffix or ""))
+		self._player_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.suffix or "") or "")
 
 		if value ~= 0 and ((stat.inverted and base > value) or base < value) then
 			self._player_stats_texts[stat.name].total:set_color(tweak_data.screen_colors.stats_positive)

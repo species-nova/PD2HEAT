@@ -702,7 +702,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local consume_ammo = not is_player
 
 	if is_player then
-		self._bloom_stacks = math.min(self._bloom_stacks + self._base_fire_rate, 1)
+		self._bloom_stacks = self:is_single_shot() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 
 		if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then

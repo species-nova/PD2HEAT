@@ -1,3 +1,8 @@
+--Remove time cheat to allow for free editing of projectile rof with minimal hassle.
+function ProjectileBase.check_time_cheat(projectile_type, owner_peer_id)
+	return true
+end
+
 function ProjectileBase:create_sweep_data()
 	local sweep_slot_mask = self._slot_mask
 	local game_settings = Global.game_settings

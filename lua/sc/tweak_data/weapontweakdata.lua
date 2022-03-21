@@ -698,7 +698,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			concealment = 17,
 			value = 9
 		}
-		self.vhs.stats_modifiers = nil
 		self.vhs.timers = {
 			reload_not_empty = 4.15,
 			reload_empty = 5.25,
@@ -1016,14 +1015,15 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr.custom = false
 
 			self.osipr_gl.AMMO_MAX = 8
-			self.osipr_gl.CLIP_AMMO_MAX = 6
+			self.osipr_gl.CLIP_AMMO_MAX = 5
+			self.osipr_gl.tactical_reload = 1
 			self.osipr_gl.fire_mode_data.fire_rate = 0.75
 			self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
 			self.osipr_gl.kick_pattern = self.stat_info.kick_patterns.random
 			self.osipr_gl.supported = true
 			self.osipr_gl.stats = {
 				damage = 30,
-				spread = 17,
+				spread = 14,
 				recoil = 5,
 				concealment = 7,
 				value = 1
@@ -4097,13 +4097,36 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 		self.gre_m79.stats_modifiers = {damage = 10}
 
-	--Grenade Launchers (Secondary)
-		--China Puff--
-		self.china.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
+		--Piglet	
+		self.m32.desc_id = "bm_40mm_weapon_sc_desc"
+		self.m32.has_description = true
+		self.m32.kick = self.stat_info.kick_tables.right_kick
+		self.m32.kick_pattern = self.stat_info.kick_patterns.random
+		self.m32.fire_mode_data.fire_rate = 0.4
+		self.m32.single.fire_rate = 0.4 --150 rpm.
+		self.m32.supported = true
+		self.m32.stats = {
+			damage = 40,
+			spread = 8,
+			recoil = 3,
+			concealment = 7,
+			value = 1
 		}
+		self.m32.stats_modifiers = {damage = 10}
+		self.m32.timers = {
+			shotgun_reload_enter = 1.96,
+			shotgun_reload_exit_empty = 0.75,
+			shotgun_reload_exit_not_empty = 0.75,
+			shotgun_reload_shell = 2,
+			shotgun_reload_first_shell_offset = 1,
+			unequip = 0.85,
+			equip = 0.85
+		}
+		self.m32.swap_speed_multiplier = 1.2
+		self.m32.reload_speed_multiplier = 1.15
+
+	--Grenade Launchers (Secondary)
+		--China Puff
 		self.china.desc_id = "bm_40mm_weapon_sc_desc"
 		self.china.has_description = true
 		self.china.fire_rate_multiplier = 0.8 --40 rpm
@@ -4128,7 +4151,137 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.9
 		}
 		self.china.reload_speed_multiplier = 0.9 --5.5s
-		self.china.swap_speed_multiplier = 0.7
+		self.china.swap_speed_multiplier = 0.75
+
+		--Compact 40mm
+		self.slap.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.slap.desc_id = "bm_40mm_weapon_sc_desc"
+		self.slap.has_description = true
+		self.slap.fire_mode_data.fire_rate = 0.5
+		self.slap.single.fire_rate = 0.5
+		self.slap.kick = self.stat_info.kick_tables.moderate_kick
+		self.slap.kick_pattern = self.stat_info.kick_patterns.random
+		self.slap.supported = true
+		self.slap.stats = {
+			damage = 40,
+			spread = 16,
+			recoil = 8,
+			concealment = 17,
+			value = 1
+		}
+		self.slap.timers = {
+			reload_not_empty = 4,
+			reload_empty = 4,
+			reload_operational = 3.2,
+			empty_reload_operational = 3.2,
+			reload_interrupt = 0.55,
+			empty_reload_interrupt = 0.55,
+			equip = 0.6,
+			unequip = 0.6
+		}
+		self.slap.reload_speed_multiplier = 1.1 --3.6s
+		self.slap.swap_speed_multiplier = 1.2
+		self.slap.stats_modifiers = {damage = 10}
+
+		--Arbiter
+		self.arbiter.unlock_func = nil
+		self.arbiter.fire_mode_data.fire_rate = 0.4
+		self.arbiter.single.fire_rate = 0.4
+		self.arbiter.CLIP_AMMO_MAX = 5
+		self.arbiter.tactical_reload = 1
+		self.arbiter.kick = self.stat_info.kick_tables.vertical_kick
+		self.arbiter.kick_pattern = self.stat_info.kick_patterns.random
+		self.arbiter.supported = true
+		self.arbiter.stats = {
+			damage = 30,
+			spread = 14,
+			recoil = 5,
+			concealment = 7,
+			value = 1
+		}
+		self.arbiter.timers = {
+			reload_not_empty = 4,
+			reload_empty = 4.9,
+			reload_operational = 3.34,
+			empty_reload_operational = 4.5,
+			reload_interrupt = 0.85,
+			empty_reload_interrupt = 0.85,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.arbiter.stats_modifiers = {damage = 10}
+		self.arbiter.reload_speed_multiplier = 0.85
+		self.arbiter.swap_speed_multiplier = 0.7
+
+	--Rocket Launchers (Primary)
+		--Commando 101
+		self.ray.use_data.selection_index = 2
+		self.ray.has_description = true
+		self.ray.desc_id = "bm_rocket_launcher_sc_desc"
+		self.ray.turret_instakill = true
+		self.ray.kick = self.stat_info.kick_tables.even_recoil
+		self.ray.kick_pattern = self.stat_info.kick_patterns.random
+		self.ray.fire_mode_data.fire_rate = 0.5
+		self.ray.fire_rate_multiplier = 0.75 --80 rpm
+		self.ray.supported = true
+		self.ray.stats = {
+			damage = 60,
+			spread = 6,
+			recoil = 21,
+			concealment = 5,
+			value = 1
+		}
+		self.ray.timers = {
+			reload_not_empty = 7.5,
+			reload_empty = 7.5,
+			empty_reload_operational = 6,
+			reload_operational = 6,
+			reload_interrupt = 1,
+			empty_reload_interrupt = 1,
+			unequip = 0.85,
+			equip = 0.85
+		}
+		self.ray.stats_modifiers = {damage = 10}
+		self.ray.swap_speed_multiplier = 1.2
+
+	--Rocket Launchers (Secondary)
+		--HRL-7
+		self.rpg7.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.rpg7.kick = self.stat_info.kick_tables.even_recoil
+		self.rpg7.kick_pattern = self.stat_info.kick_patterns.random
+		self.rpg7.has_description = true
+		self.rpg7.desc_id = "bm_rocket_launcher_sc_desc"
+		self.rpg7.turret_instakill = true
+		self.rpg7.fire_mode_data.fire_rate = 0.75
+		self.rpg7.supported = true
+		self.rpg7.stats = {
+			damage = 60,
+			spread = 10,
+			recoil = 17,
+			concealment = 6,
+			value = 1
+		}
+		self.rpg7.timers = {
+			reload_not_empty = 5.6,
+			reload_empty = 5.6,
+			reload_operational = 4.7,
+			empty_reload_operational = 4.7,
+			reload_interrupt = 1.4,
+			empty_reload_interrupt = 1.4,
+			equip = 0.85,
+			unequip = 0.85
+		}
+		self.rpg7.stats_modifiers = {damage = 10}
+		self.rpg7.swap_speed_multiplier = 1.25
+		self.rpg7.reload_speed_multiplier = 1.1
 
 	--[[
 	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
@@ -4429,39 +4582,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.spas12.stats_modifiers = {damage = 1}
 
-	--HRL-7
-	self.rpg7.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.rpg7.kick = self.stat_info.kick_tables.vertical_kick
-	self.rpg7.has_description = true
-	self.rpg7.desc_id = "bm_rocket_launcher_sc_desc"
-	self.rpg7.fire_mode_data.fire_rate = 2
-	self.rpg7.AMMO_MAX = 4
-	self.rpg7.timers.reload_not_empty = 4.7
-	self.rpg7.timers.reload_empty = 4.7
-	self.rpg7.supported = false
-	self.rpg7.stats = {
-		damage = 400,
-		spread = 16,
-		recoil = 8,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 12,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.rpg7.stats_modifiers = {damage = 3}
-	self.rpg7.swap_speed_multiplier = 1.25
-	self.rpg7.reload_speed_multiplier = 1.1
-	self.rpg7.turret_instakill = true
-
 	--Joceline O/U 12G
 	self.b682.rays = 9
 	self.b682.muzzleflash = "effects/particles/shotgun/muzzleflash"
@@ -4537,36 +4657,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		value = 1,
 		reload = 20
 	}
-
-	--Piglet
-	self.m32.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.m32.kick = self.stat_info.kick_tables.right_kick
-	self.m32.fire_mode_data.fire_rate = 0.75
-	self.m32.single.fire_rate = 0.75
-	self.m32.AMMO_MAX = 9
-	self.m32.supported = false
-	self.m32.stats = {
-		damage = 80,
-		spread = 6,
-		recoil = 8,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 15,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.m32.stats_modifiers = {damage = 10}
-	self.m32.timers.shotgun_reload_first_shell_offset = 1
-	self.m32.swap_speed_multiplier = 1.2
-	self.m32.reload_speed_multiplier = 1.15
 
 	--Steakout
 	self.aa12.rays = 9
@@ -4829,69 +4919,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.rota.timers.reload_interrupt = 0.46 --Technically the cylinder is disengaged by like 14% in, but it felt really bad at that value. Animations cover it up anyway.
 	self.rota.timers.empty_reload_interrupt = 0.46
 
-	--Arbiter, duh--
-	self.arbiter.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.arbiter.fire_mode_data.fire_rate = 0.75
-	self.arbiter.single.fire_rate = 0.75
-	self.arbiter.CLIP_AMMO_MAX = 6
-	self.arbiter.AMMO_MAX = 6
-	self.arbiter.supported = false
-	self.arbiter.stats = {
-		damage = 60,
-		spread = 6,
-		recoil = 8,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 15,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.arbiter.stats_modifiers = {damage = 10}
-	self.arbiter.kick = self.stat_info.kick_tables.vertical_kick
-	self.arbiter.reload_speed_multiplier = 0.85
-
-	--Commando 101
-	self.ray.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.ray.use_data.selection_index = 2
-	self.ray.has_description = true
-	self.ray.desc_id = "bm_rocket_launcher_sc_desc"
-	self.ray.kick = self.stat_info.kick_tables.vertical_kick
-	self.ray.timers.reload_not_empty = 6
-	self.ray.timers.reload_empty = 6
-	self.ray.fire_mode_data.fire_rate = 1
-	self.ray.CLIP_AMMO_MAX = 4
-	self.ray.AMMO_MAX = 8
-	self.ray.supported = false
-	self.ray.stats = {
-		damage = 400,
-		spread = 16,
-		recoil = 8,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 12,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.ray.stats_modifiers = {damage = 3}
-	self.ray.swap_speed_multiplier = 1.2
-	self.ray.turret_instakill = true
-
 	--Airbow
 	self.ecp.upgrade_blocks = {
 		weapon = {
@@ -4947,34 +4974,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.basset.reload_speed_multiplier = 1.25
 	self.basset.timers.reload_interrupt = 0.2
 	self.basset.timers.empty_reload_interrupt = 0.16
-
-	--Compact 40mm
-	self.slap.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.slap.desc_id = "bm_40mm_weapon_sc_desc"
-	self.slap.has_description = false
-	self.slap.fire_mode_data.fire_rate = 1.2
-	self.slap.kick = self.stat_info.kick_tables.vertical_kick
-	self.slap.AMMO_MAX = 5
-	self.slap.supported = false
-	self.slap.stats = {
-		damage = 80,
-		spread = 19,
-		recoil = 9,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 26,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.slap.stats_modifiers = {damage = 10}
 
 	--Akimbo Judge
 	--Keeping
@@ -5318,8 +5317,7 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 
 local category_ammo_max_muls = {
 	lmg = 1.5,
-	minigun = 2,
-	rocket_launcher = 1.15
+	minigun = 2
 }
 
 --Multipliers for ammo pickup to interpolate between based on current ammo. Make sure these average to 1 for sanity's sake.
@@ -5345,6 +5343,11 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	for i = 1, #weapon.categories do
 		local category = weapon.categories[i]
 		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
+	end
+
+	--Remove this once rocket launchers are properly tagged.
+	if damage_tier.damage >= 1200 then
+		pickup_multiplier = pickup_multiplier * (category_pickup_muls.rocket_launcher or 1)
 	end
 
 	local ammo_max = weapon.AMMO_MAX

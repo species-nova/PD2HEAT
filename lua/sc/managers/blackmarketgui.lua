@@ -2161,7 +2161,7 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 				},
 				{
 					round = true,
-					append = "m",
+					suffix = "m",
 					name = "range"
 				},
 				{
@@ -2366,7 +2366,7 @@ function BlackMarketGui:_setup(is_start_page, component_data)
 				},
 				{
 					name = "movement",
-					append = "m/s"
+					suffix = "m/s"
 				},
 				{
 					name = "stamina"
@@ -2980,22 +2980,22 @@ function BlackMarketGui:show_stats()
 
 			value = math.max(base_stats[stat.name].value + mods_stats[stat.name].value + skill_stats[stat.name].value, 0)
 			local base = base_stats[stat.name].value
-			local append = stat.append or ""
+			local suffix = stat.suffix or ""
 
 			self._stats_texts[stat.name].equip:set_alpha(1)
-			self._stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. append)
-			self._stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. append)
-			self._stats_texts[stat.name].mods:set_text(mods_stats[stat.name].value == 0 and "" or (mods_stats[stat.name].value > 0 and "+" or "") .. format_round(mods_stats[stat.name].value, stat.round_value) .. append)
-			self._stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. append or "")
+			self._stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. suffix)
+			self._stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. suffix)
+			self._stats_texts[stat.name].mods:set_text(mods_stats[stat.name].value == 0 and "" or (mods_stats[stat.name].value > 0 and "+" or "") .. format_round(mods_stats[stat.name].value, stat.round_value) .. suffix)
+			self._stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. suffix or "")
 			self._stats_texts[stat.name].total:set_text("")
 			self._stats_texts[stat.name].base:set_alpha(0.75)
 			self._stats_texts[stat.name].mods:set_alpha(0.75)
 			self._stats_texts[stat.name].skill:set_alpha(0.75)
 			
-			--Temporaryish until I can figure out how remove_stats is set up.
-			if base_stats[stat.name].value == -1 then
-				self._stats_texts[stat.name].equip:set_text("")
-				self._stats_texts[stat.name].base:set_text("")
+			--Remove text on stats set to -1.
+			if base == -1 then
+				self._stats_texts[stat.name].equip:set_text("N/A")
+				self._stats_texts[stat.name].base:set_text("N/A")
 				self._stats_texts[stat.name].mods:set_text("")
 				self._stats_texts[stat.name].skill:set_text("")
 			end
@@ -3101,23 +3101,23 @@ function BlackMarketGui:show_stats()
 
 			if slot == equipped_slot then
 				local base = base_stats[stat.name].value
-				local append = stat.append or ""
+				local suffix = stat.suffix or ""
 
 				self._stats_texts[stat.name].equip:set_alpha(1)
-				self._stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. append)
-				self._stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. append)
-				self._stats_texts[stat.name].mods:set_text(mods_stats[stat.name].value == 0 and "" or (mods_stats[stat.name].value > 0 and "+" or "") .. format_round(mods_stats[stat.name].value, stat.round_value) .. append)
-				self._stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value)  .. append or "")
+				self._stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. suffix)
+				self._stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. suffix)
+				self._stats_texts[stat.name].mods:set_text(mods_stats[stat.name].value == 0 and "" or (mods_stats[stat.name].value > 0 and "+" or "") .. format_round(mods_stats[stat.name].value, stat.round_value) .. suffix)
+				self._stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value)  .. suffix or "")
 				self._stats_texts[stat.name].total:set_text("")
 				self._stats_texts[stat.name].removed:set_text("")
 				self._stats_texts[stat.name].base:set_alpha(0.75)
 				self._stats_texts[stat.name].mods:set_alpha(0.75)
 				self._stats_texts[stat.name].skill:set_alpha(0.75)
 
-				--Temporaryish until I can figure out how remove_stats is set up.
-				if base_stats[stat.name].value == -1 then
-					self._stats_texts[stat.name].equip:set_text("")
-					self._stats_texts[stat.name].base:set_text("")
+				--Remove text on stats set to -1.
+				if base == -1 then
+					self._stats_texts[stat.name].equip:set_text("N/A")
+					self._stats_texts[stat.name].base:set_text("N/A")
 					self._stats_texts[stat.name].mods:set_text("")
 					self._stats_texts[stat.name].skill:set_text("")
 				end
@@ -3154,20 +3154,25 @@ function BlackMarketGui:show_stats()
 				end
 			else
 				local equip = math.max(equip_base_stats[stat.name].value + equip_mods_stats[stat.name].value + equip_skill_stats[stat.name].value, 0)
-				local append = stat.append or ""
+				local suffix = stat.suffix or ""
 
 				self._stats_texts[stat.name].equip:set_alpha(0.75)
-				self._stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value) .. append)
+				self._stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value) .. suffix)
 				self._stats_texts[stat.name].base:set_text("")
 				self._stats_texts[stat.name].mods:set_text("")
 				self._stats_texts[stat.name].skill:set_text("")
 				self._stats_texts[stat.name].removed:set_text("")
-				self._stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. append)
+				self._stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. suffix)
 
-				--Temporaryish until I can figure out how remove_stats is set up.
+				--Remove text on stats set to -1.
 				if base_stats[stat.name].value == -1 then
-					self._stats_texts[stat.name].equip:set_text("")
-					self._stats_texts[stat.name].total:set_text("")
+					self._stats_texts[stat.name].total:set_text("N/A")
+				end
+
+
+				--Remove text on stats set to -1.
+				if equip_base_stats[stat.name].value == -1 then
+					self._stats_texts[stat.name].equip:set_text("N/A")
 				end
 
 				if equip < value then
@@ -3264,9 +3269,9 @@ function BlackMarketGui:show_stats()
 				local base = base_stats[stat.name].value
 
 				self._armor_stats_texts[stat.name].equip:set_alpha(1)
-				self._armor_stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
-				self._armor_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.append or ""))
-				self._armor_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.append or "") or "")
+				self._armor_stats_texts[stat.name].equip:set_text(format_round(value, stat.round_value) .. (stat.suffix or ""))
+				self._armor_stats_texts[stat.name].base:set_text(format_round(base, stat.round_value) .. (stat.suffix or ""))
+				self._armor_stats_texts[stat.name].skill:set_text(skill_stats[stat.name].skill_in_effect and (skill_stats[stat.name].value > 0 and "+" or "") .. format_round(skill_stats[stat.name].value, stat.round_value) .. (stat.suffix or "") or "")
 				self._armor_stats_texts[stat.name].total:set_text("")
 				self._armor_stats_texts[stat.name].equip:set_color(tweak_data.screen_colors.text)
 
@@ -3284,10 +3289,10 @@ function BlackMarketGui:show_stats()
 				local equip = math.max(equip_base_stats[stat.name].value + equip_mods_stats[stat.name].value + equip_skill_stats[stat.name].value, 0)
 
 				self._armor_stats_texts[stat.name].equip:set_alpha(0.75)
-				self._armor_stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value) .. (stat.append or ""))
+				self._armor_stats_texts[stat.name].equip:set_text(format_round(equip, stat.round_value) .. (stat.suffix or ""))
 				self._armor_stats_texts[stat.name].base:set_text("")
 				self._armor_stats_texts[stat.name].skill:set_text("")
-				self._armor_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.append or ""))
+				self._armor_stats_texts[stat.name].total:set_text(format_round(value, stat.round_value) .. (stat.suffix or ""))
 
 				--Allow armor stats with "inverted" flag to have inverted green/red colors.
 				if equip < value then
@@ -3677,18 +3682,18 @@ function BlackMarketGui:show_stats()
 			end
 
 			local equip_text = equip == 0 and "" or (equip > 0 and "+" or "") .. format_round(equip, stat.round_value)
-			local append = stat.append or ""
+			local suffix = stat.suffix or ""
 
 			self._stats_texts[stat.name].base:set_text(equip_text)
 			self._stats_texts[stat.name].base:set_alpha(0.75)
 			self._stats_texts[stat.name].equip:set_alpha(1)
-			self._stats_texts[stat.name].equip:set_text(format_round(total_value, stat.round_value) .. append)
+			self._stats_texts[stat.name].equip:set_text(format_round(total_value, stat.round_value) .. suffix)
 			self._stats_texts[stat.name].skill:set_alpha(1)
-			self._stats_texts[stat.name].skill:set_text(value == 0 and "" or (value > 0 and "+" or "") .. format_round(value, stat.round_value) .. append)
+			self._stats_texts[stat.name].skill:set_text(value == 0 and "" or (value > 0 and "+" or "") .. format_round(value, stat.round_value) .. suffix)
 
-			--Temporaryish until I can figure out how remove_stats is set up.
+			--Remove text on stats set to -1.
 			if total_base_stats[stat.name].value == -1 then
-				self._stats_texts[stat.name].equip:set_text("")
+				self._stats_texts[stat.name].equip:set_text("N/A")
 				self._stats_texts[stat.name].skill:set_text("")
 			end
 
