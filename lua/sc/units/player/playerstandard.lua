@@ -2236,6 +2236,7 @@ function PlayerStandard:_interupt_action_reload(t)
 		weap_base:tweak_data_anim_stop("reload_exit")
 	end
 
+	self._queue_reload_start = false
 	self._state_data.reload_enter_expire_t = nil
 	self._state_data.reload_expire_t = nil
 	self._state_data.reload_exit_expire_t = nil
