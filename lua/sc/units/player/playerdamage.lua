@@ -395,13 +395,11 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 		local tweak_table = attack_data.attacker_unit:base()._tweak_table
 		self._kill_taunt_clbk_id = "kill_taunt" .. tostring(self._unit:key())
 		if tweak_table == "tank" then
-			managers.enemy:add_delayed_clbk(self._kill_taunt_clbk_id, callback(self, self, "clbk_kill_taunt", attack_data), t + 0.3)
+			self:chk_queue_taunt_line(attack_data)
 		elseif tweak_table == "spring" then
 			managers.enemy:add_delayed_clbk(self._kill_taunt_clbk_id, callback(self, self, "clbk_kill_taunt_spring", attack_data), t + 0.3)	
-		elseif tweak_table == "taser" then
-			managers.enemy:add_delayed_clbk(self._kill_taunt_clbk_id, callback(self, self, "clbk_kill_taunt_tase", attack_data), t + 0.3)	
-		elseif tweak_table == "taser_titan" then
-			managers.enemy:add_delayed_clbk(self._kill_taunt_clbk_id, callback(self, self, "clbk_kill_taunt_tase", attack_data), t + 0.3)	
+		elseif tweak_table == "taser" or tweak_table == "taser_titan" then
+			managers.enemy:add_delayed_clbk(self._kill_taunt_clbk_id, callback(self, self, "clbk_kill_taunt_tase", attack_data), t + 0.3)
 		else
 			managers.enemy:add_delayed_clbk(self._kill_taunt_clbk_id, callback(self, self, "clbk_kill_taunt_common", attack_data), t + 0.3)			
 		end

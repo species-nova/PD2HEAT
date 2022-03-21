@@ -3082,102 +3082,10 @@ function CopDamage:damage_mission(attack_data)
 	return result
 end
 
-function CopDamage:build_suppression(amount, panic_chance)
-	if self._dead or self._invulnerable or self._unit:in_slot(16) or not self._char_tweak.suppression then
-		return
-	end
-
-	local t = TimerManager:game():time()
-	local sup_tweak = self._char_tweak.suppression
-
-	if panic_chance then
-		if panic_chance == -1 or panic_chance > 0 and sup_tweak.panic_chance_mul > 0 and math_random() < panic_chance * sup_tweak.panic_chance_mul then
-			amount = "panic"
-		end
-	end
-
-	local amount_val = nil
-
-	if amount == "max" or amount == "panic" then
-		local value = sup_tweak.brown_point or sup_tweak.react_point
-
-		amount_val = value[2]
-	elseif Network:is_server() and self._suppression_hardness_t and t < self._suppression_hardness_t then
-		amount_val = amount * 0.5
-	else
-		amount_val = amount
-	end
-
-	if not Network:is_server() then
-		local sync_amount = nil
-
-		if amount == "panic" then
-			sync_amount = 16
-		elseif amount == "max" then
-			sync_amount = 15
-		else
-			local sync_amount_ratio = nil
-
-			if sup_tweak.brown_point then
-				if sup_tweak.brown_point[2] <= 0 then
-					sync_amount_ratio = 1
-				else
-					sync_amount_ratio = amount_val / sup_tweak.brown_point[2]
-				end
-			elseif sup_tweak.react_point[2] <= 0 then
-				sync_amount_ratio = 1
-			else
-				sync_amount_ratio = amount_val / sup_tweak.react_point[2]
-			end
-
-			sync_amount = math_clamp(math_ceil(sync_amount_ratio * 15), 1, 15)
-		end
-
-		managers.network:session():send_to_host("suppression", self._unit, sync_amount)
-
-		return
-	end
-
-	if self._suppression_data then
-		self._suppression_data.value = math_min(self._suppression_data.brown_point or self._suppression_data.react_point, self._suppression_data.value + amount_val)
-		self._suppression_data.last_build_t = t
-		self._suppression_data.decay_t = t + self._suppression_data.duration
-
-		managers.enemy:reschedule_delayed_clbk(self._suppression_data.decay_clbk_id, self._suppression_data.decay_t)
-	else
-		local duration = math_lerp(sup_tweak.duration[1], sup_tweak.duration[2], math_random())
-		local decay_t = t + duration
-		self._suppression_data = {
-			value = amount_val,
-			last_build_t = t,
-			decay_t = decay_t,
-			duration = duration,
-			react_point = sup_tweak.react_point and math_lerp(sup_tweak.react_point[1], sup_tweak.react_point[2], math_random()),
-			brown_point = sup_tweak.brown_point and math_lerp(sup_tweak.brown_point[1], sup_tweak.brown_point[2], math_random()),
-			decay_clbk_id = "CopDamage_suppression" .. tostring(self._unit:key())
-		}
-
-		managers.enemy:add_delayed_clbk(self._suppression_data.decay_clbk_id, callback(self, self, "clbk_suppression_decay"), decay_t)
-	end
-
-	if not self._suppression_data.brown_zone and self._suppression_data.brown_point and self._suppression_data.brown_point <= self._suppression_data.value then
-		self._suppression_data.brown_zone = true
-
-		local state = amount == "panic" and "panic" or true
-
-		self._unit:brain():on_suppressed(state)
-	elseif amount == "panic" then
-		self._unit:brain():on_suppressed("panic")
-	end
-
-	if not self._suppression_data.react_zone and self._suppression_data.react_point and self._suppression_data.react_point <= self._suppression_data.value then
-		self._suppression_data.react_zone = true
-
-		local state = amount == "panic" and "panic" or true
-
-		self._unit:movement():on_suppressed(state)
-	elseif amount == "panic" then
-		self._unit:movement():on_suppressed("panic")
+local orig_build_suppression = CopDamage.build_suppression
+function CopDamage:build_suppression(...)
+	if not self._invulnerable and not self._unit:in_slot(16) then
+		orig_build_suppression(self, ...)
 	end
 end
 

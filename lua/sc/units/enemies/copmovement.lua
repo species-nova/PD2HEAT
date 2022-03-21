@@ -585,7 +585,7 @@ end
 function CopMovement:on_suppressed(state)
 	local suppression = self._suppression
 	local end_value = state and 1 or 0
-	local vis_state = self._ext_base:lod_stage() 
+	local vis_state = self._ext_base:lod_stage()
 
 	--vis_state is used to do a smooth transition instead of snapping into the suppressed stance
 	--as long as the enemy is visible
@@ -608,171 +608,166 @@ function CopMovement:on_suppressed(state)
 
 	self._action_common_data.is_suppressed = state and true or nil
 
-	if Network:is_server() then
-		if state then
-			if not self._tweak_data.allowed_poses or self._tweak_data.allowed_poses.crouch then
-				if not self._tweak_data.allowed_poses or self._tweak_data.allowed_poses.stand then
-					if not self:chk_action_forbidden("walk") then
-						local try_something_else = true
+	if Network:is_server() and state
+		and (not self._tweak_data.allowed_poses or (self._tweak_data.allowed_poses.stand and self._tweak_data.allowed_poses.crouch))
+		and not self:chk_action_forbidden("walk") then
+		local try_something_else = true
 
-						if state == "panic" and not self:chk_action_forbidden("act") then
-							if self._ext_anim.run and self._ext_anim.move_fwd then
-								local action_desc = {
-									clamp_to_graph = true,
-									type = "act",
-									body_part = 1,
-									variant = "e_so_sup_fumble_run_fwd",
-									blocks = {
-										action = -1,
-										walk = -1
-									}
-								}
+		if state == "panic" and not self:chk_action_forbidden("act") then
+			if self._ext_anim.run and self._ext_anim.move_fwd then
+				local action_desc = {
+					clamp_to_graph = true,
+					type = "act",
+					body_part = 1,
+					variant = "e_so_sup_fumble_run_fwd",
+					blocks = {
+						action = -1,
+						walk = -1
+					}
+				}
+				
+				if self:action_request(action_desc) then --Add checks that action requests worked out. If not, then go down the line of options.
+					try_something_else = false
+				end
+			else
+				local allow = nil
+				local vec_from = temp_vec1
+				local vec_to = temp_vec2
+				local ray_params = {
+					allow_entry = false,
+					trace = true,
+					tracker_from = self:nav_tracker(),
+					pos_from = vec_from,
+					pos_to = vec_to
+				}
+				local allowed_fumbles = {
+					"e_so_sup_fumble_inplace_3"
+				}
 
-								if self:action_request(action_desc) then
-									try_something_else = false
-								end
-							else
-								local allow = nil
-								local vec_from = temp_vec1
-								local vec_to = temp_vec2
-								local ray_params = {
-									allow_entry = false,
-									trace = true,
-									tracker_from = self:nav_tracker(),
-									pos_from = vec_from,
-									pos_to = vec_to
-								}
-								local allowed_fumbles = {
-									"e_so_sup_fumble_inplace_3"
-								}
+				mvec3_set(ray_params.pos_from, self:m_pos())
+				mvec3_set(ray_params.pos_to, self:m_rot():y())
+				mvec3_mul(ray_params.pos_to, -100)
+				mvec3_add(ray_params.pos_to, self:m_pos())
 
-								mvec3_set(ray_params.pos_from, self:m_pos())
-								mvec3_set(ray_params.pos_to, self:m_rot():y())
-								mvec3_mul(ray_params.pos_to, -100)
-								mvec3_add(ray_params.pos_to, self:m_pos())
+				allow = not managers.navigation:raycast(ray_params)
 
-								allow = not managers.navigation:raycast(ray_params)
+				if allow then
+					table.insert(allowed_fumbles, "e_so_sup_fumble_inplace_1")
+				end
 
-								if allow then
-									table.insert(allowed_fumbles, "e_so_sup_fumble_inplace_1")
-								end
+				mvec3_set(ray_params.pos_from, self:m_pos())
+				mvec3_set(ray_params.pos_to, self:m_rot():x())
+				mvec3_mul(ray_params.pos_to, 200)
+				mvec3_add(ray_params.pos_to, self:m_pos())
 
-								mvec3_set(ray_params.pos_from, self:m_pos())
-								mvec3_set(ray_params.pos_to, self:m_rot():x())
-								mvec3_mul(ray_params.pos_to, 200)
-								mvec3_add(ray_params.pos_to, self:m_pos())
+				allow = not managers.navigation:raycast(ray_params)
 
-								allow = not managers.navigation:raycast(ray_params)
+				if allow then
+					table.insert(allowed_fumbles, "e_so_sup_fumble_inplace_2")
+				end
 
-								if allow then
-									table.insert(allowed_fumbles, "e_so_sup_fumble_inplace_2")
-								end
+				mvec3_set(ray_params.pos_from, self:m_pos())
+				mvec3_set(ray_params.pos_to, self:m_rot():x())
+				mvec3_mul(ray_params.pos_to, -200)
+				mvec3_add(ray_params.pos_to, self:m_pos())
 
-								mvec3_set(ray_params.pos_from, self:m_pos())
-								mvec3_set(ray_params.pos_to, self:m_rot():x())
-								mvec3_mul(ray_params.pos_to, -200)
-								mvec3_add(ray_params.pos_to, self:m_pos())
+				allow = not managers.navigation:raycast(ray_params)
 
-								allow = not managers.navigation:raycast(ray_params)
+				if allow then
+					table.insert(allowed_fumbles, "e_so_sup_fumble_inplace_4")
+				end
 
-								if allow then
-									table.insert(allowed_fumbles, "e_so_sup_fumble_inplace_4")
-								end
+				if #allowed_fumbles > 0 then
+					local action_desc = {
+						body_part = 1,
+						type = "act",
+						variant = allowed_fumbles[math.random(#allowed_fumbles)],
+						blocks = {
+							action = -1,
+							walk = -1
+						}
+					}
 
-								if #allowed_fumbles > 0 then
-									local action_desc = {
-										body_part = 1,
-										type = "act",
-										variant = allowed_fumbles[math.random(#allowed_fumbles)],
-										blocks = {
-											action = -1,
-											walk = -1
-										}
-									}
-
-									if self:action_request(action_desc) then
-										try_something_else = false
-									end
-								end
-							end
-						end
-
-						if try_something_else and not self._ext_anim.crouch then
-							if self._tweak_data.can_slide_on_suppress and not self._ext_anim.run and self._ext_anim.move_fwd and not self:chk_action_forbidden("act") then
-								local allow = nil
-								local vec_from = temp_vec1
-								local vec_to = temp_vec2
-								local ray_params = {
-									allow_entry = false,
-									trace = true,
-									tracker_from = self:nav_tracker(),
-									pos_from = vec_from,
-									pos_to = vec_to
-								}
-
-								mvec3_set(ray_params.pos_from, self:m_pos())
-								mvec3_set(ray_params.pos_to, self:m_rot():y())
-								mvec3_mul(ray_params.pos_to, 380)
-								mvec3_add(ray_params.pos_to, self:m_pos())
-
-								--verify there's the way is clear to execute the slide
-								if not managers.navigation:raycast(ray_params) then
-									local action_desc = {
-										clamp_to_graph = true,
-										type = "act",
-										body_part = 1,
-										variant = "e_nl_slide_fwd_4m",
-										blocks = {
-											action = -1,
-											walk = -1
-										}
-									}
-
-									if self:action_request(action_desc) then
-										try_something_else = false
-									end
-								end
-							end
-
-							if try_something_else and self._tweak_data.crouch_move then
-								if self._ext_anim.idle then
-									if not self._active_actions[2] or self._active_actions[2]:type() == "idle" then
-										if not self:chk_action_forbidden("act") then
-											--using body part 2 means shooting won't be interrupted, which in turn fixes the issue
-											--where sometimes suppressing an enemy causes them to instantly fire their weapon again
-											--this happens because using 1 causes the shoot action to expire and exit
-											local action_desc = {
-												clamp_to_graph = true,
-												type = "act",
-												body_part = 2,
-												variant = "suppressed_reaction",
-												blocks = {
-													walk = -1
-												}
-											}
-
-											if self:action_request(action_desc) then
-												try_something_else = false
-											end
-										end
-									end
-								end
-
-								if try_something_else and not self:chk_action_forbidden("crouch") then
-									local action_desc = {
-										body_part = 4,
-										type = "crouch"
-									}
-
-									self:action_request(action_desc)
-								end
-							end
-						end
+					if self:action_request(action_desc) then
+						try_something_else = false
 					end
 				end
 			end
 		end
 
+		if try_something_else and not self._ext_anim.crouch then
+			if self._tweak_data.can_slide_on_suppress and not self._ext_anim.run and self._ext_anim.move_fwd and not self:chk_action_forbidden("act") then
+				local allow = nil
+				local vec_from = temp_vec1
+				local vec_to = temp_vec2
+				local ray_params = {
+					allow_entry = false,
+					trace = true,
+					tracker_from = self:nav_tracker(),
+					pos_from = vec_from,
+					pos_to = vec_to
+				}
+
+				mvec3_set(ray_params.pos_from, self:m_pos())
+				mvec3_set(ray_params.pos_to, self:m_rot():y())
+				mvec3_mul(ray_params.pos_to, 380)
+				mvec3_add(ray_params.pos_to, self:m_pos())
+
+				--verify there's the way is clear to execute the slide
+				if not managers.navigation:raycast(ray_params) then
+					local action_desc = {
+						clamp_to_graph = true,
+						type = "act",
+						body_part = 1,
+						variant = "e_nl_slide_fwd_4m",
+						blocks = {
+							action = -1,
+							walk = -1
+						}
+					}
+
+					if self:action_request(action_desc) then
+						try_something_else = false
+					end
+				end
+			end
+
+			if try_something_else and self._tweak_data.crouch_move then
+				if self._ext_anim.idle then
+					if not self._active_actions[2] or self._active_actions[2]:type() == "idle" then
+						if not self:chk_action_forbidden("act") then
+							--using body part 2 means shooting won't be interrupted, which in turn fixes the issue
+							--where sometimes suppressing an enemy causes them to instantly fire their weapon again
+							--this happens because using 1 causes the shoot action to expire and exit
+							local action_desc = {
+								clamp_to_graph = true,
+								type = "act",
+								body_part = 2,
+								variant = "suppressed_reaction",
+								blocks = {
+									walk = -1
+								}
+							}
+							
+							if self:action_request(action_desc) then
+								try_something_else = false
+							end
+						end
+					end
+				end
+
+				if try_something_else and not self:chk_action_forbidden("crouch") then
+					local action_desc = {
+						body_part = 4,
+						type = "crouch"
+					}
+
+					self:action_request(action_desc)
+				end
+			end
+		end
+
+		--Only sync if the suppressed state could actually occur.
 		managers.network:session():send_to_peers_synched("suppressed_state", self._unit, state and true or false)
 	end
 
