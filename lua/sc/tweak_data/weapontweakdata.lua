@@ -985,7 +985,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 		--SABR
 		if self.osipr then
-			self.osipr.tacitcal_reload = true
+			self.osipr.tactical_reload = true
 			self.osipr.AMMO_MAX = 120
 			self.osipr.CLIP_AMMO_MAX = 30
 			self.osipr.fire_mode_data.fire_rate = 0.075
@@ -1016,7 +1016,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 			self.osipr_gl.AMMO_MAX = 8
 			self.osipr_gl.CLIP_AMMO_MAX = 5
-			self.osipr_gl.tacitcal_reload = true
+			self.osipr_gl.tactical_reload = true
 			self.osipr_gl.fire_mode_data.fire_rate = 0.75
 			self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
 			self.osipr_gl.kick_pattern = self.stat_info.kick_patterns.random
@@ -1322,7 +1322,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.groza.desc_id = "bm_m203_weapon_sc_desc"
 		self.groza.has_description = true
 		self.groza.AMMO_MAX = 60
-		self.groza.tacitcal_reload = true
+		self.groza.tactical_reload = true
 		self.groza.fire_rate_multiplier = 1.00333333333 --700 rpm.
 		self.groza.kick = self.stat_info.kick_tables.vertical_kick
 		self.groza.kick_pattern = self.stat_info.kick_patterns.jumpy_1
@@ -1439,7 +1439,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.contraband.desc_id = "bm_m203_weapon_sc_desc"
 		self.contraband.has_description = true
 		self.contraband.AMMO_MAX = 60
-		self.contraband.tacitcal_reload = true
+		self.contraband.tactical_reload = true
 		self.contraband.FIRE_MODE = "auto"
 		self.contraband.fire_mode_data.fire_rate = 0.1
 		self.contraband.CAN_TOGGLE_FIREMODE = true
@@ -1584,7 +1584,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--The vanilla muzzle flash is actually blinding.
 		--7.62 is smaller than the IRL round, but it looks far more reasonable.
 		self.shak12.muzzleflash = "effects/payday2/particles/weapons/big_762_auto_fps"
-		self.shak12.tacitcal_reload = true
+		self.shak12.tactical_reload = true
 		self.shak12.supported = true
 		self.shak12.stats = {
 			damage = 60,
@@ -2019,7 +2019,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.winchester1874.fire_rate_multiplier = 1.75
 		self.winchester1874.kick = self.stat_info.kick_tables.left_kick
 		self.winchester1874.kick_pattern = self.stat_info.kick_patterns.jumpy_3
-		self.winchester1874.tacitcal_reload = true
+		self.winchester1874.tactical_reload = true
 		self.winchester1874.supported = true
 		self.winchester1874.stats = {
 			damage = 90,
@@ -2081,7 +2081,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.sbl.single.fire_rate = 0.5
 		self.sbl.kick = self.stat_info.kick_tables.left_kick
 		self.sbl.kick_pattern = self.stat_info.kick_patterns.jumpy_3
-		self.sbl.tacitcal_reload = true
+		self.sbl.tactical_reload = true
 		self.sbl.supported = true
 		self.sbl.stats = {
 			damage = 120,
@@ -2590,7 +2590,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 	--Medium SMG (Primary)
 		--AK GEN 21 Tactical
-		self.vityaz.tacitcal_reload = true
+		self.vityaz.tactical_reload = true
 		self.vityaz.use_data.selection_index = 2
 		self.vityaz.kick = self.stat_info.kick_tables.right_recoil
 		self.vityaz.kick_pattern = self.stat_info.kick_patterns.zigzag_1
@@ -2748,7 +2748,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.fmg9.CLIP_AMMO_MAX = 33
 		self.fmg9.kick = self.stat_info.kick_tables.moderate_left_kick
 		self.fmg9.kick_pattern = self.stat_info.kick_patterns.zigzag_2
-		self.fmg9.tacitcal_reload = true
+		self.fmg9.tactical_reload = true
 		self.fmg9.supported = true
 		self.fmg9.stats = {
 			damage = 24,
@@ -3062,7 +3062,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Maxim 9
 		self.maxim9.kick = self.stat_info.kick_tables.left_recoil
 		self.maxim9.kick_pattern = self.stat_info.kick_patterns.jumpy_1
-		self.maxim9.tacitcal_reload = true
+		self.maxim9.tactical_reload = true
 		self.maxim9.supported = true
 		self.maxim9.stats = {
 			damage = 20,
@@ -3676,7 +3676,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		}
 
 		--Crosskill Chunky
-		self.m1911.tacitcal_reload = true
+		self.m1911.tactical_reload = true
 		self.m1911.fire_mode_data.fire_rate = 0.125
 		self.m1911.single.fire_rate = 0.125
 		self.m1911.CLIP_AMMO_MAX = 8
@@ -4192,7 +4192,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.arbiter.fire_mode_data.fire_rate = 0.4
 		self.arbiter.single.fire_rate = 0.4
 		self.arbiter.CLIP_AMMO_MAX = 5
-		self.arbiter.tacitcal_reload = true
+		self.arbiter.tactical_reload = true
 		self.arbiter.kick = self.stat_info.kick_tables.vertical_kick
 		self.arbiter.kick_pattern = self.stat_info.kick_patterns.random
 		self.arbiter.supported = true
@@ -5152,7 +5152,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 
 
 	--Mosconi 12G Tactical
-	self.m590.tacitcal_reload = true
+	self.m590.tactical_reload = true
 	self.m590.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 	self.m590.rays = 9
 	self.m590.CLIP_AMMO_MAX = 7
