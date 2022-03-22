@@ -99,8 +99,30 @@ end
 local orig_init_gre_m79 = WeaponFactoryTweakData._init_gre_m79
 function WeaponFactoryTweakData:_init_gre_m79(...)
 	orig_init_gre_m79(self, ...)
-	apply_stats(self.parts.wpn_fps_gre_m79_barrel_short, light_mob_barrel) --Pirate Barrel
+	apply_stats(self.parts.wpn_fps_gre_m79_barrel_short, heavy_mob_barrel) --Pirate Barrel
 	apply_stats(self.parts.wpn_fps_gre_m79_stock_short, light_mob_stock) --Sawed off stock.
+end
+
+--Piglet
+local orig_init_m32 = WeaponFactoryTweakData._init_m32
+function WeaponFactoryTweakData:_init_m32(...)
+	orig_init_m32(self, ...)
+	apply_stats(self.parts.wpn_fps_gre_m32_barrel_short, light_mob_barrel) --Short Barrel
+end
+
+--China Puff
+local orig_init_china = WeaponFactoryTweakData._init_china
+function WeaponFactoryTweakData:_init_china(...)
+	orig_init_china(self, ...)
+	apply_stats(self.parts.wpn_fps_gre_china_s_short, light_mob_stock) --Riot Stock
+end
+
+--Arbiter
+local orig_init_arbiter = WeaponFactoryTweakData._init_arbiter
+function WeaponFactoryTweakData:_init_arbiter(...)
+	orig_init_arbiter(self, ...)
+	apply_stats(self.parts.wpn_fps_gre_arbiter_b_long, heavy_acc_barrel) --Bombardier Barrel
+	apply_stats(self.parts.wpn_fps_gre_arbiter_b_comp, light_acc_barrel) --Long Barrel
 end
 
 --Phoenix .500
