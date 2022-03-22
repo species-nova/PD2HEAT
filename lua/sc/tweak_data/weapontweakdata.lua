@@ -545,6 +545,7 @@ function WeaponTweakData:_init_stats()
 		end
 	end
 
+	self.stat_info.autohit_rate = 0.5 --Multiplier for how often autohit should occur at 0 spread. (IE: 1==every shot, 0.5==every other shot, ect)
 	self.stat_info.autohit_angle = 1.5
 	self.stat_info.autohit_head_difficulty_factor = 0.75
 	self.stat_info.ricochet_autohit_angle = 6 --Ricochets need a fairly decently sized auto-hit angle to be usable.

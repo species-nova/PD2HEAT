@@ -553,7 +553,7 @@ end
 --High spread == fewer procs.
 --Start from a baseline of every shot procs autohit when you have 0 spread, and increase the number linearly as spread area goes up.
 function RaycastWeaponBase:roll_autohit()
-	self._autohit_prog = self._autohit_prog + (1 / (self._current_spread_area + 1))
+	self._autohit_prog = self._autohit_prog + (tweak_data.weapon.stat_info.autohit_rate / (self._current_spread_area + 1))
 
 	if self._autohit_prog >= 1 then
 		self._autohit_prog = math.max(self._autohit_prog - 1, 0)
