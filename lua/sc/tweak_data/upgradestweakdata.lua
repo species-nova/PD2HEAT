@@ -1307,7 +1307,10 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Snatch
 				--Basic
-					self.values.player.melee_kill_auto_load = {3}
+					self.values.player.melee_kill_auto_load = {{
+						1, --Grenade/rocket launchers.
+						3 --All other guns.
+					}}
 				--Ace
 					self.values.player.melee_kill_increase_reload_speed = {{1.5, 10}}
 				

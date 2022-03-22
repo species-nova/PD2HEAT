@@ -1203,7 +1203,14 @@ end
 function PlayerManager:_trigger_snatch_auto_load(equipped_unit, variant, killed_unit)
 	if variant == "melee" then
 		local weapon_unit = equipped_unit:base()
-		local bullets_loaded = weapon_unit:get_ammo_remaining_in_clip() + self:upgrade_value("player", "melee_kill_auto_load", 0)
+		local bullets_loaded = weapon_unit:get_ammo_remaining_in_clip()
+		
+		if weapon_unit:is_category("grenade_launcher") then
+			bullets_loaded = bullets_loaded + self:upgrade_value("player", "melee_kill_auto_load", 0)[1]
+		else
+			bullets_loaded = bullets_loaded + self:upgrade_value("player", "melee_kill_auto_load", 0)[2]
+		end
+		 
 		bullets_loaded = math.min(bullets_loaded, math.min(weapon_unit:get_ammo_total(), weapon_unit:get_ammo_max_per_clip()))
 		weapon_unit:set_ammo_remaining_in_clip(bullets_loaded)
 		managers.hud:set_ammo_amount(weapon_unit:selection_index(), weapon_unit:ammo_info())

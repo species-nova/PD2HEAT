@@ -728,7 +728,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_ap_2_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE RESTORED BY PICKING THEM UP, AND RANGE INCREASES THE LONGER AN ARROW IS DRAWN.",
 		["bm_ap_3_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE RESTORED BY PICKING THEM UP.",
 		["bm_40mm_weapon_sc_desc"] = "Press $BTN_GADGET to toggle Flip Up Sight.",
-		["bm_rocket_launcher_sc_desc"] = "WHILE EQUIPPED, THIS WEAPON WILL REDUCE YOUR MOVEMENT SPEED BY 15%. ROCKETS FIRED BY THIS WEAPON INSTANTLY DESTROY TURRETS.",
+		["bm_rocket_launcher_sc_desc"] = "ROCKETS FIRED BY THIS WEAPON INSTANTLY DESTROY TURRETS.",
 		["bm_quake_shotgun_sc_desc"] = "FIRES BOTH BARRELS AT ONCE, DOUBLING THE NUMBER OF PELLETS.",
 		["bm_hx25_buck_sc_desc"] = "FIRES 12 PELLETS IN A WIDE SPREAD.\n\nSTILL TREATED AS A GRENADE LAUNCHER BY SKILLS.",
 		["bm_auto_generated_mod_sc_desc"] = "TODO: This weapon mod is missing stats.",
@@ -1716,7 +1716,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Snatch--
 			["menu_wolverine_beta_sc"] = "Snatch",
-			["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nMelee kills instantly load ##3## bullets into your current gun from your total ammo pool.\n\nACE: ##$pro##\nMelee kills increase your reload speed by ##50%## for ##10## seconds.",
+			["menu_wolverine_beta_desc_sc"] = "BASIC: ##$basic##\nMelee kills instantly load ##3## rounds into your current gun from your total ammo pool. Grenade and Rocket Launchers only receive ##1## round instead.\n\nACE: ##$pro##\nMelee kills increase your reload speed by ##50%## for ##10## seconds.",
 
 			--Counter Strike--
 			["menu_drop_soap_beta_sc"] = "Counter Strike",
