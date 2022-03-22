@@ -5,8 +5,9 @@ function ProjectileWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_
 	local spread_x, spread_y = self:_get_spread(user_unit)
 	local right = direction:cross(Vector3(0, 0, 1)):normalized()
 	local up = direction:cross(right):normalized()
-	local r = math.random()
+	local r = math.sqrt(math.random()) --Ensures even spread distribution, rather than center biased.
 	local theta = math.random() * 360
+	--Calculate spread as a random point in a circle, rather than the vanilla cross biased system.
 	local ax = math.tan(r * spread_x * (spread_mul or 1)) * math.cos(theta)
 	local ay = math.tan(r * spread_y * (spread_mul or 1)) * math.sin(theta) * -1
 
