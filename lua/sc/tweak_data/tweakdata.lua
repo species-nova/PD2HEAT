@@ -449,7 +449,7 @@ tweak_data.projectiles.hatman_molotov.env_effect = "hatman_molotov_fire"
 --tweak_data.team_ai.stop_action.distance = 9999999999999999999999999999999999
 
 tweak_data.medic.cooldown = 1
-tweak_data.medic.radius = 600
+tweak_data.medic.radius = 550
 
 if difficulty_index <= 4 then
 	tweak_data.medic.doc_radius = 1500

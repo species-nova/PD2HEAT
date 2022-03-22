@@ -4248,13 +4248,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.13,
+					freq = 0.18,
 					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4288,13 +4288,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "Bravo_shotgun_swat",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.13,
+					freq = 0.18,
 					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4494,13 +4494,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.13,
+					freq = 0.18,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4534,13 +4534,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.13,
+					freq = 0.18,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -5402,7 +5402,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "Titan_shield",
-					freq = 0.25,
+					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
 					rank = 3
@@ -5424,7 +5424,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.1,
+					freq = 0.15,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -5443,7 +5443,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "Titan_shield",
-					freq = 0.3,
+					freq = 0.25,
 					amount_max = 1,
 					tactics = self._tactics.MH_shield,
 					rank = 3
@@ -5465,7 +5465,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.1,
+					freq = 0.15,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
