@@ -5312,8 +5312,8 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	saw = 0.4,
 	lmg = 1,
 	minigun = 1,
-	grenade_launcher = 0.5,
-	rocket_launcher = 0.5
+	grenade_launcher = 0.4,
+	rocket_launcher = 0.4
 }
 
 local category_ammo_max_muls = {
