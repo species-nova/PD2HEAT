@@ -66,6 +66,7 @@ function EnvironmentFire:_do_damage()
 						user = user,
 						owner = self._unit,
 						alert_radius = self._fire_alert_radius,
+						no_alert = self._no_fire_alert,
 						fire_dot_data = self._fire_dot_data,
 						is_molotov = self._is_molotov
 					})

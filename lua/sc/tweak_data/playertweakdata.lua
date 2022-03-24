@@ -150,7 +150,7 @@ function PlayerTweakData:init()
 		0.50,
 		0.25
 	}
-	self.damage.CUSTODY_LIVES = 1 --Number of lives left when leaving custody. (downs = lives - 1)
+	self.damage.CUSTODY_LIVES = 2 --Number of lives left when leaving custody. (downs = lives - 1)
 	self.damage.custody_ammo_drained = 0 --% of ammo confiscated when leaving custody.
 	self.damage.BLEED_OT_TIME = 40
 	self.damage.TASED_TIME = 5

@@ -608,13 +608,8 @@ function PlayerStandard:_start_action_intimidate(t, secondary)
 	if not self._intimidate_t or tweak_data.player.movement_state.interaction_delay < t - self._intimidate_t then
 		local skip_alert = managers.groupai:state():whisper_mode()
 		local voice_type, plural, prime_target = self:_get_unit_intimidation_action(not secondary, not secondary, true, false, true, nil, nil, nil, secondary)
-		
-		if prime_target and prime_target.unit and prime_target.unit.base and (
-				prime_target.unit:base().unintimidateable
-				or prime_target.unit:anim_data() and prime_target.unit:anim_data().unintimidateable 
-				--Stops undommable enemies from being shouted at.
-				or tweak_data.character[prime_target.unit:base()._tweak_table] and tweak_data.character[prime_target.unit:base()._tweak_table].unintimidateable and prime_target.unit:movement() and not prime_target.unit:movement():cool()
-			) then
+
+		if prime_target and prime_target.unit and prime_target.unit.base and (prime_target.unit:base().unintimidateable or prime_target.unit:anim_data() and prime_target.unit:anim_data().unintimidateable) then
 			return
 		end
 		
@@ -2002,14 +1997,7 @@ function PlayerStandard:_get_unit_intimidation_action(intimidate_enemies, intimi
 		end
 	end
 	
-	--Failsafe so you can still shout at bots on FFD2 to stop a softlock
-	local can_intimidate_teammates = nil	
-	local job = Global.level_data and Global.level_data.level_id
-	if not managers.groupai:state():whisper_mode() or job == "framing_frame_2" then
-		can_intimidate_teammates = true
-	end
-
-	if intimidate_teammates and can_intimidate_teammates then
+	if intimidate_teammates and not managers.groupai:state():whisper_mode() then
 		local criminals = managers.groupai:state():all_char_criminals()
 
 		for u_key, u_data in pairs(criminals) do
