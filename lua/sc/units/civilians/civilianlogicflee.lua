@@ -1,3 +1,53 @@
+local orig_upd_detection = CivilianLogicFlee._upd_detection
+function CivilianLogicFlee._upd_detection(data, ...)
+	orig_upd_detection(data, my_data, ...)
+
+	local sentry = CivilianLogicBase.check_sentry_suppression(data)
+	local my_data = data.internal_data
+	if sentry then
+		--Make the sentry force civvies down.
+		my_data.inside_intimidate_aura = true
+		my_data.submission_meter = my_data.submission_max
+		CivilianLogicFlee.on_intimidated(data, 1, sentry)
+	end
+end
+
+function CivilianLogicFlee.action_complete_clbk(data, action)
+	local my_data = data.internal_data
+
+	if action:type() == "walk" then
+		my_data.next_action_t = -1 --Request next action immediately once the walk action expires?
+
+		if action:expired() then
+			if my_data.moving_to_cover then
+				data.unit:sound():say("a03x_any", true)
+
+				my_data.in_cover = my_data.moving_to_cover
+
+				CopLogicAttack._set_nearest_cover(my_data, my_data.in_cover)
+				CivilianLogicFlee._chk_add_delayed_rescue_SO(data, my_data)
+			end
+
+			if my_data.coarse_path_index then
+				my_data.coarse_path_index = my_data.coarse_path_index + 1
+			end
+		end
+
+		my_data.moving_to_cover = nil
+		my_data.advancing = nil
+
+		if not my_data.coarse_path_index then
+			data.unit:brain():set_update_enabled_state(false)
+		end
+	elseif action:type() == "act" and my_data.calling_the_police then
+		my_data.calling_the_police = nil
+
+		if not my_data.called_the_police then
+			managers.groupai:state():on_criminal_suspicion_progress(nil, data.unit, "call_interrupted")
+		end
+	end
+end
+
 function CivilianLogicFlee.register_rescue_SO(ignore_this, data)
 	local my_data = data.internal_data
 
@@ -45,19 +95,15 @@ function CivilianLogicFlee.register_rescue_SO(ignore_this, data)
 			so_rot = nil
 		end
 	end
-	
-	local diff_index = tweak_data:difficulty_to_index(Global.game_settings.difficulty)	
-	
-	local interrupt_health = nil
-	local interrupt_dis = nil
-	
+
 	local objective = {
 		type = "act",
-		interrupt_health = interrupt_health,
+		interrupt_health = 0.75,
 		destroy_clbk_key = false,
 		stance = "hos",
 		scan = true,
-		interrupt_dis = interrupt_dis,
+		chatter_type = "sabotagehostages", --Add chatter.
+		interrupt_dis = 700,
 		follow_unit = data.unit,
 		pos = so_pos,
 		rot = so_rot,
@@ -76,7 +122,6 @@ function CivilianLogicFlee.register_rescue_SO(ignore_this, data)
 		action_duration = tweak_data.interaction.free.timer
 	}
 	local receiver_areas = managers.groupai:state():get_areas_from_nav_seg_id(objective.nav_seg)
-	
 	local so_descriptor = {
 		interval = 10,
 		search_dis_sq = 25000000,
@@ -99,50 +144,6 @@ function CivilianLogicFlee.register_rescue_SO(ignore_this, data)
 	managers.groupai:state():register_rescueable_hostage(data.unit, nil)
 end
 
-function CivilianLogicFlee.on_intimidated(data, amount, aggressor_unit)
-	if not data.char_tweak.intimidateable or data.unit:base().unintimidateable or data.unit:anim_data().unintimidateable then
-		return
-	end
-
-	CivilianLogicFlee._delayed_intimidate_clbk(nil, {data, amount, aggressor_unit})
-end
-
-function CivilianLogicFlee.action_complete_clbk(data, action)
-	local my_data = data.internal_data
-
-	if action:type() == "walk" then
-		my_data.next_action_t = -1
-
-		if action:expired() then
-			if my_data.moving_to_cover then
-				data.unit:sound():say("a03x_any", true)
-
-				my_data.in_cover = my_data.moving_to_cover
-
-				CopLogicAttack._set_nearest_cover(my_data, my_data.in_cover)
-				CivilianLogicFlee._chk_add_delayed_rescue_SO(data, my_data)
-			end
-
-			if my_data.coarse_path_index then
-				my_data.coarse_path_index = my_data.coarse_path_index + 1
-			end
-		end
-
-		my_data.moving_to_cover = nil
-		my_data.advancing = nil
-
-		if not my_data.coarse_path_index then
-			data.unit:brain():set_update_enabled_state(false)
-		end
-	elseif action:type() == "act" and my_data.calling_the_police then
-		my_data.calling_the_police = nil
-
-		if not my_data.called_the_police then
-			managers.groupai:state():on_criminal_suspicion_progress(nil, data.unit, "call_interrupted")
-		end
-	end
-end
-
 function CivilianLogicFlee.on_rescue_SO_administered(ignore_this, data, receiver_unit)
 	managers.groupai:state():on_civilian_try_freed()
 
@@ -153,17 +154,4 @@ function CivilianLogicFlee.on_rescue_SO_administered(ignore_this, data, receiver
 	receiver_unit:sound():say("cr1", true) --"We'll come to you!"
 
 	managers.groupai:state():unregister_rescueable_hostage(data.key)
-end
-
-function CivilianLogicFlee.reset_actions(data)
-	data.brain:action_request({
-		variant = "idle",
-		body_part = 1,
-		type = "act",
-		blocks = {
-			action = -1,
-			idle = -1,
-			walk = -1
-		}
-	})
 end

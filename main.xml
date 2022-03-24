@@ -172,8 +172,7 @@
 		<hook file="sc/units/civilians/civilianbrain.lua" source_file="lib/units/civilians/civilianbrain"/>
 		<hook file="sc/units/civilians/civiliandamage.lua" source_file="lib/units/civilians/civiliandamage"/>
 		<hook file="sc/units/civilians/huskciviliandamage.lua" source_file="lib/units/civilians/huskciviliandamage"/>
-		<hook file="sc/units/civilians/civilianlogicidle.lua" source_file="lib/units/civilians/logics/civilianlogicidle	"/>
-		<hook file="sc/units/civilians/civilianlogictravel.lua" source_file="lib/units/civilians/logics/civilianlogictravel"/>
+		<hook file="sc/units/civilians/civilianlogicbase.lua" source_file="lib/units/civilians/logics/civilianlogicbase"/>
 		<hook file="sc/units/civilians/civilianlogicflee.lua" source_file="lib/units/civilians/logics/civilianlogicflee"/>
 		<hook file="sc/units/civilians/civilianlogicsurrender.lua" source_file="lib/units/civilians/logics/civilianlogicsurrender"/>
 		<hook file="sc/units/enemies/huskcopdamage.lua" source_file="lib/units/enemies/cop/huskcopdamage"/>
@@ -311,6 +310,8 @@
 		<!--///COMPATIBILITY\\\-->
 		<hook file="sc/compatibility/IncompatibilityWarningGui.lua" source_file="lib/managers/menu/menunodegui"/>
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
+		<!--Debug library-->
+		<hook file="sc/utils/debug_tools.lua" source_file="lib/utils/messages"/>
 		<!--///MOD SAVE DATA\\\-->
 		<!--DO NOT MODIFY-->
 		<hook file="sc/managers/savefilemanager.lua" source_file="lib/managers/savefilemanager"/>

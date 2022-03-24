@@ -804,44 +804,6 @@ function GroupAIStateBesiege:_pregenerate_coarse_path(grp_objective, spawn_group
 	end
 end
 
---Should stick these in a global table somewhere since I constantly paste them in for debugging purposes.
-	function value_of(v, k, indent, seen)
-		indent = indent and indent .. "    " or ""
-		seen = seen or {}
-		k = k or "[Unknown]"
-
-		local type = type(v)
-		if type == "table" then
-			log(indent .. tostring(k) .. " = {")
-			value_of_table(v, k, indent, seen)
-			log(indent .. "}")
-		elseif type == "userdata" then
-			local v_table = getmetatable(v) or {}
-
-			log(indent .. tostring(k) .. " = " .. tostring(v) .. " | type = " .. type .. " {")
-			value_of_table(v_table, k, indent, seen)
-			log(indent .. "}")
-		else
-			log(indent .. tostring(k) .. " = " .. tostring(v) .. " | type = " .. type)
-		end
-	end
-
-	function value_of_table(t, name, indent, seen)
-		indent = indent and indent .. "    " or ""
-		seen = seen or {}
-		name = name or "[Unknown]"
-
-		if seen[t] then
-			log(indent .. "REFERENCE TO " .. seen[t])
-			return
-		end
-
-		seen[t] = tostring(name)
-		for k, v in pairs(t) do
-			value_of(v, k, indent, seen)
-		end
-	end
-
 --Refactored from vanilla code to be a bit easier to read and debug. Also adds timestamp support.
 function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_objective, ai_task)
 	local spawn_group_desc = tweak_data.group_ai.enemy_spawn_groups[spawn_group_type]
@@ -997,7 +959,7 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 					log("rand_i: " .. tostring(rand_i))
 					log("rand_wgt: " .. tostring(rand_wgt))
 					log("total_wgt: " .. tostring(total_wgt))
-					value_of_table(valid_unit_types, "valid_unit_types")
+					HEAT_debug.print_value(valid_unit_types, "valid_unit_types", 10)
 					managers.chat:send_message(ChatManager.GAME, "", "A REALLY RARE BUG HAS OCCURED.")
 					managers.chat:send_message(ChatManager.GAME, "", "SEND RAVICALE#7594 YOUR MOD LOG FILE ON DISCORD.")
 					break

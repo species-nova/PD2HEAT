@@ -1,3 +1,4 @@
+--Applies damage grace mechanics for civilians in stealth only.
 function CivilianDamage:damage_bullet(attack_data)
 	if not managers.groupai:state():whisper_mode() then
 		if managers.player:has_category_upgrade("player", "civ_harmless_bullets") and self.no_intimidation_by_dmg and not self:no_intimidation_by_dmg() and (not self._survive_shot_t or self._survive_shot_t < TimerManager:game():time()) then
@@ -14,7 +15,7 @@ function CivilianDamage:damage_bullet(attack_data)
 	return CopDamage.damage_bullet(self, attack_data)
 end
 
-
+--Adds damage grace mechanics for civilians in loud for fire.
 function CivilianDamage:damage_fire(attack_data)
 	if not managers.groupai:state():whisper_mode() then
 		if managers.player:has_category_upgrade("player", "civ_harmless_bullets") and self.no_intimidation_by_dmg and not self:no_intimidation_by_dmg() and (not self._survive_shot_t or self._survive_shot_t < TimerManager:game():time()) then
@@ -63,5 +64,6 @@ function CivilianDamage:die(variant)
 
 	self:set_mover_collision_state(false)
 	
+	--Add death VO.
 	self._unit:sound():say(self._unit:base():char_tweak().die_sound_event or "a01x_any", true)
 end

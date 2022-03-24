@@ -488,6 +488,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Sentry Guns
 	self.sentry_gun_base_armor = 15
 	self.sentry_gun_base_ammo = 140
+	self.sentry_gun_intimidate_range = 1960000 --Uses squared distance.
+	self.sentry_gun_intimidation_delay = {0.1, 1}
 
 	--"Baked In" upgrades
 	self.values.player.stamina_multiplier = {2}

@@ -1,3 +1,4 @@
+--Adds damage grace mechanics to civilians in loud for fire
 function HuskCivilianDamage:damage_fire(attack_data)
 	if not managers.groupai:state():whisper_mode() then
 		if managers.player:has_category_upgrade("player", "civ_harmless_bullets") and self.no_intimidation_by_dmg and not self:no_intimidation_by_dmg() and (not self._survive_shot_t or self._survive_shot_t < TimerManager:game():time()) then
@@ -8,7 +9,6 @@ function HuskCivilianDamage:damage_fire(attack_data)
 			return
 		end
 	end
-
 
 	if attack_data.variant == "fire" then
 		attack_data.damage = 10
