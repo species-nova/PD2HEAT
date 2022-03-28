@@ -1,5 +1,5 @@
 local mvec_spread_direction = Vector3()
-
+local fire_result_table = {} --Avoid needless GC churn by reusing the same table.
 function ProjectileWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, suppr_mul, shoot_through_data)
 	local unit = nil
 	local spread_x, spread_y = self:_get_spread(user_unit)
@@ -49,5 +49,5 @@ function ProjectileWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_
 		weapon_unit = self._unit
 	})
 
-	return {}
+	return fire_result_table
 end

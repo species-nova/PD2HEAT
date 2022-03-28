@@ -987,7 +987,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--SABR
 		if self.osipr then
 			self.osipr.tactical_reload = true
-			self.osipr.AMMO_MAX = 120
+			self.osipr.AMMO_MAX = 90
 			self.osipr.CLIP_AMMO_MAX = 30
 			self.osipr.fire_mode_data.fire_rate = 0.075
 			self.osipr.auto.fire_rate = 0.075
@@ -1015,16 +1015,16 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr.desc_id = "bm_w_osipr_desc"
 			self.osipr.custom = false
 
-			self.osipr_gl.AMMO_MAX = 8
+			self.osipr_gl.AMMO_MAX = 6
 			self.osipr_gl.CLIP_AMMO_MAX = 5
 			self.osipr_gl.tactical_reload = true
-			self.osipr_gl.fire_mode_data.fire_rate = 0.75
+			self.osipr_gl.fire_mode_data.fire_rate = 0.4
 			self.osipr_gl.kick = self.stat_info.kick_tables.vertical_kick
 			self.osipr_gl.kick_pattern = self.stat_info.kick_patterns.random
 			self.osipr_gl.supported = true
 			self.osipr_gl.stats = {
 				damage = 30,
-				spread = 14,
+				spread = 9,
 				recoil = 5,
 				concealment = 7,
 				value = 1
@@ -1054,6 +1054,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			self.osipr_gl_npc.hold = "rifle"
 			self.osipr_gl_npc.alert_size = 2800
 			self.osipr_gl_npc.suppression = 1
+			self.osipr_gl.reload_speed_multiplier = 0.85 --4.8/5.8
 			self.osipr_gl_npc.FIRE_MODE = "auto"
 		else
 			log("[ERROR] Beardlib was unable to load the custom weapons. Check to make sure you installed Beardlib correctly!")
@@ -1322,7 +1323,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Byk-1
 		self.groza.desc_id = "bm_m203_weapon_sc_desc"
 		self.groza.has_description = true
-		self.groza.AMMO_MAX = 60
+		self.groza.AMMO_MAX = 40
 		self.groza.tactical_reload = true
 		self.groza.fire_rate_multiplier = 1.00333333333 --700 rpm.
 		self.groza.kick = self.stat_info.kick_tables.vertical_kick
@@ -1352,10 +1353,12 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 				"clip_ammo_increase"
 			}
 		}
+		self.groza_underbarrel.single.fire_rate = 0.3
+		self.groza_underbarrel.fire_mode_data.fire_rate = 0.3
+		self.groza_underbarrel.fire_rate_multiplier = 0.4 --100 rpm.
 		self.groza_underbarrel.kick = self.stat_info.kick_tables.vertical_kick
 		self.groza_underbarrel.kick_pattern = self.stat_info.kick_patterns.random
-		self.groza_underbarrel.ignore_damage_upgrades = true
-		self.groza_underbarrel.AMMO_MAX = 6
+		self.groza_underbarrel.AMMO_MAX = 4
 		self.groza_underbarrel.supported = true
 		self.groza_underbarrel.stats = {
 			damage = 40,
@@ -1439,7 +1442,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		--Little Friend Rifle
 		self.contraband.desc_id = "bm_m203_weapon_sc_desc"
 		self.contraband.has_description = true
-		self.contraband.AMMO_MAX = 60
+		self.contraband.AMMO_MAX = 40
 		self.contraband.tactical_reload = true
 		self.contraband.FIRE_MODE = "auto"
 		self.contraband.fire_mode_data.fire_rate = 0.1
@@ -1471,15 +1474,17 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 				"clip_ammo_increase"
 			}
 		}
+		self.contraband_m203.single.fire_rate = 0.3
+		self.contraband_m203.fire_mode_data.fire_rate = 0.3
+		self.contraband_m203.fire_rate_multiplier = 0.4 --100 rpm.
 		self.contraband_m203.kick = self.stat_info.kick_tables.vertical_kick
 		self.contraband_m203.kick_pattern = self.stat_info.kick_patterns.random
-		self.contraband_m203.ignore_damage_upgrades = true
-		self.contraband_m203.AMMO_MAX = 6
+		self.contraband_m203.AMMO_MAX = 4
 		self.contraband_m203.supported = true
 		self.contraband_m203.stats = {
 			damage = 40,
-			spread = 15,
-			recoil = 5,
+			spread = 14,
+			recoil = 10,
 			concealment = 9,
 			value = 1
 		}
@@ -4108,8 +4113,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.m32.supported = true
 		self.m32.stats = {
 			damage = 40,
-			spread = 8,
-			recoil = 3,
+			spread = 12,
+			recoil = 10,
 			concealment = 7,
 			value = 1
 		}
@@ -4124,37 +4129,9 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			equip = 0.85
 		}
 		self.m32.swap_speed_multiplier = 1.2
-		self.m32.reload_speed_multiplier = 1.15
+		self.m32.reload_speed_multiplier = 1.2
 
 	--Grenade Launchers (Secondary)
-		--China Puff
-		self.china.desc_id = "bm_40mm_weapon_sc_desc"
-		self.china.has_description = true
-		self.china.fire_rate_multiplier = 0.8 --40 rpm
-		self.china.kick = self.stat_info.kick_tables.vertical_kick
-		self.china.kick_pattern = self.stat_info.kick_patterns.random
-		self.china.supported = true
-		self.china.tactical_reload = true
-		self.china.stats = {
-			damage = 40,
-			spread = 5,
-			recoil = 5,
-			concealment = 11,
-			value = 1
-		}
-		self.china.stats_modifiers = {damage = 10}
-		self.china.timers = {
-			shotgun_reload_enter = 0.83,
-			shotgun_reload_exit_empty = 1.1,
-			shotgun_reload_exit_not_empty = 0.45,
-			shotgun_reload_shell = 0.83,
-			shotgun_reload_first_shell_offset = 0.5,
-			unequip = 0.6,
-			equip = 0.9
-		}
-		self.china.reload_speed_multiplier = 0.85 --5.8s
-		self.china.swap_speed_multiplier = 0.95
-
 		--Compact 40mm
 		self.slap.upgrade_blocks = {
 			weapon = {
@@ -4189,6 +4166,34 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.slap.swap_speed_multiplier = 1.25
 		self.slap.stats_modifiers = {damage = 10}
 
+		--China Puff
+		self.china.desc_id = "bm_40mm_weapon_sc_desc"
+		self.china.has_description = true
+		self.china.fire_rate_multiplier = 0.8 --40 rpm
+		self.china.kick = self.stat_info.kick_tables.vertical_kick
+		self.china.kick_pattern = self.stat_info.kick_patterns.random
+		self.china.supported = true
+		self.china.tactical_reload = true
+		self.china.stats = {
+			damage = 40,
+			spread = 9,
+			recoil = 7,
+			concealment = 11,
+			value = 1
+		}
+		self.china.stats_modifiers = {damage = 10}
+		self.china.timers = {
+			shotgun_reload_enter = 0.83,
+			shotgun_reload_exit_empty = 1.1,
+			shotgun_reload_exit_not_empty = 0.45,
+			shotgun_reload_shell = 0.83,
+			shotgun_reload_first_shell_offset = 0.5,
+			unequip = 0.6,
+			equip = 0.9
+		}
+		self.china.reload_speed_multiplier = 0.85 --5.8s
+		self.china.swap_speed_multiplier = 0.95
+
 		--Arbiter
 		self.arbiter.fire_mode_data.fire_rate = 0.4
 		self.arbiter.single.fire_rate = 0.4
@@ -4199,13 +4204,13 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.arbiter.supported = true
 		self.arbiter.stats = {
 			damage = 30,
-			spread = 14,
+			spread = 9,
 			recoil = 5,
 			concealment = 7,
 			value = 1
 		}
 		self.arbiter.timers = {
-			reload_not_empty = 4,
+			reload_not_empty = 4.1,
 			reload_empty = 4.9,
 			reload_operational = 3.34,
 			empty_reload_operational = 4.5,
@@ -4721,7 +4726,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.hunter.has_description = true
 	self.hunter.desc_id = "bm_ap_3_weapon_sc_desc"
 	self.hunter.AMMO_MAX = 15
-	self.hunter.ignore_damage_upgrades = true
 	self.hunter.fire_mode_data.fire_rate = 1
 	self.hunter.kick = self.stat_info.kick_tables.horizontal_recoil
 	self.hunter.supported = false
@@ -4782,7 +4786,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.frankish.fire_mode_data.fire_rate = 1
 	self.frankish.kick = self.stat_info.kick_tables.horizontal_recoil
 	self.frankish.AMMO_MAX = 30
-	self.frankish.ignore_damage_upgrades = true
 	self.frankish.supported = false
 	self.frankish.stats = {
 		damage = 60,
@@ -4814,7 +4817,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.long.charge_data.max_t = 1
 	self.long.not_allowed_in_bleedout = false
 	self.long.AMMO_MAX = 20
-	self.long.ignore_damage_upgrades = true
 	self.long.supported = false
 	self.long.stats = {
 		damage = 90,
@@ -4930,7 +4932,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.ecp.desc_id = "bm_ap_3_weapon_sc_desc"
 	self.ecp.kick = self.stat_info.kick_tables.right_kick
 	self.ecp.AMMO_MAX = 40
-	self.ecp.ignore_damage_upgrades = true
 	self.ecp.supported = false
 	self.ecp.stats = {
 		damage = 45,
@@ -5070,7 +5071,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.elastic.charge_data.max_t = 1
 	self.elastic.not_allowed_in_bleedout = false
 	self.elastic.AMMO_MAX = 20
-	self.elastic.ignore_damage_upgrades = true
 	self.elastic.supported = false
 	self.elastic.stats = {
 		damage = 90,
@@ -5286,7 +5286,7 @@ local damage_tier_data = {
 	{damage = 300, pickup = 192, suppression = 17},
 	{damage = 360, pickup = 174, suppression = 18},
 	{damage = 400, pickup = 156, suppression = 19},
-	{damage = 600, pickup = 138, suppression = 20}
+	{damage = 600, pickup = 108, suppression = 20}
 }
 local damage_pool_primary = 3600
 local damage_pool_secondary = 1800
@@ -5312,8 +5312,7 @@ local category_pickup_muls = { --Different gun categories have different pickup 
 	saw = 0.4,
 	lmg = 1,
 	minigun = 1,
-	grenade_launcher = 0.4,
-	rocket_launcher = 0.4
+	grenade_launcher = 0.4
 }
 
 local category_ammo_max_muls = {
@@ -5331,7 +5330,6 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	weapon.AMMO_PICKUP = {0, 0}
 
 	local damage_tier = get_damage_tier(weapon)
-
 	local damage_pool = damage_pool_primary
 	if weapon.use_data.selection_index == 1 then
 		damage_pool = damage_pool_secondary
@@ -5346,19 +5344,9 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
 	end
 
-	--Remove this once rocket launchers are properly tagged.
-	if damage_tier.damage >= 1200 then
-		pickup_multiplier = pickup_multiplier * (category_pickup_muls.rocket_launcher or 1)
-	end
-
 	local ammo_max = weapon.AMMO_MAX
 	if not ammo_max then
 		ammo_max = damage_pool / damage_tier.damage
-
-		--Remove this once rocket launchers are properly tagged.
-		if damage_tier.damage >= 1200 then
-			ammo_max = ammo_max * category_ammo_max_muls.rocket_launcher
-		end
 
 		--Get weapon category specific max ammo multipliers.
 		for i = 1, #weapon.categories do
@@ -5367,7 +5355,7 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 		end
 
 		if weapon.use_data.selection_index == 1 then
-			pickup_multiplier = damage_pool_secondary / damage_pool_primary
+			pickup_multiplier = pickup_multiplier * (damage_pool_secondary / damage_pool_primary)
 		end
 	else
 		pickup_multiplier = pickup_multiplier * ((weapon.AMMO_MAX * damage_tier.damage) / damage_pool_primary)

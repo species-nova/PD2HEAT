@@ -795,7 +795,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Bulletstorm
 				--Identical to vanilla
 
-			--Portable Saw
+			--Diamond Tipped
 				--Basic
 					self.values.saw.enemy_slicer = {1}
 				--Ace
@@ -807,7 +807,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.ammo_bag.quantity = {1}
 
-			--Rip and Tear
+			--Specialized Equipment
 				--Basic
 					self.values.temporary.single_shot_reload_speed_multiplier = {{1.75, 1}}
 				--Ace

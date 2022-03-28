@@ -188,7 +188,7 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	local panic_chance = 0
 
 	--Add Specialized Equipment Ace to panic chance.
-	if self._single_shot_panic_when_kill and variant ~= "melee" and equipped_unit:base():is_single_shot() then
+	if self._single_shot_panic_when_kill and equipped_unit:base():is_single_shot() then
 		panic_chance = panic_chance + self:upgrade_value("weapon", "single_shot_panic_when_kill")
 	end
 
@@ -1031,7 +1031,7 @@ end
 
 --Briefly boosts reload speed on single-shot weapons.
 function PlayerManager:_trigger_specialized_equipment(equipped_unit, variant, killed_unit)
-	if variant ~= "melee" and alive(equipped_unit) and equipped_unit:base():is_single_shot() then
+	if alive(equipped_unit) and equipped_unit:base():is_single_shot() then
 		self:activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier")
 	end
 end
