@@ -1554,7 +1554,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Rip and Tear--
 			["menu_carbon_blade_beta_sc"] = "Specialized Equipment",
-			["menu_carbon_blade_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped increases their reload speed by ##75%## for ##1## second.\n\nACE: ##$pro##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped have a ##50%## chance to cause nearby enemies in a ##10## meter radius to panic.\n\nPanic makes enemies go into short bursts of uncontrollable fear.",
+			["menu_carbon_blade_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped increases their reload speed by ##75%## for ##1## second.\n\nACE: ##$pro##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped has a ##50%## chance to cause nearby enemies in a ##10## meter radius to panic.\n\nPanic makes enemies go into short bursts of uncontrollable fear.",
 
 			--Fully Loaded--
 			["menu_bandoliers_beta_sc"] = "Fully Loaded",
