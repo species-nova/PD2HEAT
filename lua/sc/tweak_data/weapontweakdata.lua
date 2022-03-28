@@ -5286,7 +5286,7 @@ local damage_tier_data = {
 	{damage = 300, pickup = 192, suppression = 17},
 	{damage = 360, pickup = 174, suppression = 18},
 	{damage = 400, pickup = 156, suppression = 19},
-	{damage = 600, pickup = 108, suppression = 20}
+	{damage = 600, pickup = 138, suppression = 20}
 }
 local damage_pool_primary = 3600
 local damage_pool_secondary = 1800
