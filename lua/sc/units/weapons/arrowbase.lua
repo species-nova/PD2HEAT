@@ -1,10 +1,14 @@
+--Allow body armor piercing
+local orig_setup_from_tweak_data = ArrowBase._setup_from_tweak_data
 function ArrowBase:_setup_from_tweak_data(arrow_entry)
-	local arrow_entry = self._tweak_projectile_entry or "west_arrow"
-	local tweak_entry = tweak_data.projectiles[arrow_entry]
-	self._damage_class_string = tweak_data.projectiles[self._tweak_projectile_entry].bullet_class or "InstantBulletBase"
-	self._damage_class = CoreSerialize.string_to_classtable(self._damage_class_string)
-	self._mass_look_up_modifier = tweak_entry.mass_look_up_modifier
-	self._damage = tweak_entry.damage or 1
-	self._slot_mask = managers.slot:get_mask("arrow_impact_targets")
-	self._slot_mask = self._slot_mask - World:make_slot_mask(16) 
+	orig_setup_from_tweak_data(self, arrow_entry)
+	self._slot_mask = self._slot_mask - World:make_slot_mask(16)
+end
+
+--Apply perk deck damage bonus to impact.
+local orig_set_weapon_unit = ArrowBase.set_weapon_unit
+function ArrowBase:set_weapon_unit(weapon_unit)
+	orig_set_weapon_unit(self, weapon_unit)
+
+	self._weapon_damage_mult = self._weapon_damage_mult * managers.player:get_perk_damage_bonus(self._thrower_unit)
 end

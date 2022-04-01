@@ -153,29 +153,37 @@ tweak_data.projectiles.west_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.bow_poison_arrow.damage = 20
 tweak_data.projectiles.bow_poison_arrow.launch_speed = 2500
 
---Hunter Crossbow--
-tweak_data.projectiles.crossbow_arrow.damage = 24
-tweak_data.projectiles.crossbow_poison_arrow.damage = 20
-tweak_data.projectiles.crossbow_arrow_exp.damage = 48
-tweak_data.projectiles.crossbow_arrow_exp.launch_speed = 3125
+--Pistol Crossbow--
+tweak_data.projectiles.crossbow_arrow.damage = 12
+tweak_data.projectiles.crossbow_arrow_exp.damage = 18
+tweak_data.projectiles.crossbow_poison_arrow.damage = 9
+tweak_data.projectiles.crossbow_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.crossbow_arrow.launch_speed = 3125
 tweak_data.projectiles.crossbow_poison_arrow.launch_speed = 3125
 
 --Arblast Heavy Crossbow--
-tweak_data.projectiles.arblast_arrow.damage = 36
-tweak_data.projectiles.arblast_arrow_exp.damage = 60
-tweak_data.projectiles.arblast_poison_arrow.damage = 30
-tweak_data.projectiles.arblast_arrow_exp.launch_speed = 4375
+tweak_data.projectiles.arblast_arrow.damage = 18
+tweak_data.projectiles.arblast_arrow_exp.damage = 24
+tweak_data.projectiles.arblast_poison_arrow.damage = 12
 tweak_data.projectiles.arblast_arrow.launch_speed = 4375
+tweak_data.projectiles.arblast_arrow_exp.launch_speed = 3500
 tweak_data.projectiles.arblast_poison_arrow.launch_speed = 4375
 
---Frankish Arrow--
-tweak_data.projectiles.frankish_arrow.damage = 24
-tweak_data.projectiles.frankish_arrow_exp.damage = 48
-tweak_data.projectiles.frankish_poison_arrow.damage = 20
+--Light Crossbow Arrow--
+tweak_data.projectiles.frankish_arrow.damage = 12
+tweak_data.projectiles.frankish_arrow_exp.damage = 18
+tweak_data.projectiles.frankish_poison_arrow.damage = 9
 tweak_data.projectiles.frankish_poison_arrow.launch_speed = 3750
-tweak_data.projectiles.frankish_arrow_exp.launch_speed = 3750
+tweak_data.projectiles.frankish_arrow_exp.launch_speed = 3000
 tweak_data.projectiles.frankish_arrow.launch_speed = 3750
+
+--Airbow--
+tweak_data.projectiles.ecp_arrow.damage = 12
+tweak_data.projectiles.ecp_arrow_exp.damage = 18
+tweak_data.projectiles.ecp_arrow_poison.damage = 9
+tweak_data.projectiles.ecp_arrow_poison.launch_speed = 3125
+tweak_data.projectiles.ecp_arrow_exp.launch_speed = 2500
+tweak_data.projectiles.ecp_arrow.launch_speed = 3125	
 
 --Long Arrow--
 tweak_data.projectiles.long_arrow.damage = 36
@@ -185,13 +193,6 @@ tweak_data.projectiles.long_arrow_exp.launch_speed = 3125
 tweak_data.projectiles.long_arrow.launch_speed = 3125
 tweak_data.projectiles.long_poison_arrow.launch_speed = 3125
 
---Airbow--
-tweak_data.projectiles.ecp_arrow.damage = 18
-tweak_data.projectiles.ecp_arrow_exp.damage = 36
-tweak_data.projectiles.ecp_arrow_poison.damage = 14
-tweak_data.projectiles.ecp_arrow_poison.launch_speed = 3125
-tweak_data.projectiles.ecp_arrow_exp.launch_speed = 3125
-tweak_data.projectiles.ecp_arrow.launch_speed = 3125	
 
 --The not longbow--
 tweak_data.projectiles.elastic_arrow.damage = 36
@@ -244,24 +245,29 @@ tweak_data.projectiles.fir_com.range = 75
 tweak_data.blackmarket.projectiles.fir_com.impact_detonation = false
 
 --Throwing Card--
-tweak_data.projectiles.wpn_prj_ace.damage = 24
+tweak_data.projectiles.wpn_prj_ace.damage = 12
 tweak_data.projectiles.wpn_prj_ace.adjust_z = 0
 
 --Shuriken
-tweak_data.projectiles.wpn_prj_four.damage = 20
+tweak_data.projectiles.wpn_prj_four.damage = 9
+tweak_data.projectiles.wpn_prj_four.dot_data = {
+	type = "poison",
+	dot_damage = 1.5,
+	dot_duration = 3.1
+}
 
 --Throwing Knife--
-tweak_data.projectiles.wpn_prj_target.damage = 24
+tweak_data.projectiles.wpn_prj_target.damage = 12
 tweak_data.projectiles.wpn_prj_target.adjust_z = 0
 tweak_data.projectiles.wpn_prj_target.launch_speed = 2000
 
 --Javelin--
-tweak_data.projectiles.wpn_prj_jav.damage = 36
+tweak_data.projectiles.wpn_prj_jav.damage = 18
 tweak_data.projectiles.wpn_prj_jav.launch_speed = 1500
 tweak_data.projectiles.wpn_prj_jav.adjust_z = 30
 
 --Throwing axe--
-tweak_data.projectiles.wpn_prj_hur.damage = 36
+tweak_data.projectiles.wpn_prj_hur.damage = 18
 tweak_data.projectiles.wpn_prj_hur.launch_speed = 1000
 tweak_data.projectiles.wpn_prj_hur.adjust_z = 120
 

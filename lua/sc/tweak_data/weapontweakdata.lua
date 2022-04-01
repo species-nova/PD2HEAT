@@ -4289,6 +4289,135 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.rpg7.swap_speed_multiplier = 1.25
 		self.rpg7.reload_speed_multiplier = 1.1
 
+	--Crossbows (Primary)
+		--Airbow
+		self.ecp.has_description = true
+		self.ecp.desc_id = "bm_ap_3_weapon_sc_desc"
+		self.ecp.kick = self.stat_info.kick_tables.right_kick
+		self.ecp.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.ecp.supported = true
+		self.ecp.stats = {
+			damage = 120,
+			spread = 14,
+			recoil = 16,
+			concealment = 11,
+			alert_size = 2,
+			value = 1
+		}
+		self.ecp.timers = {
+			reload_not_empty = 3.6,
+			reload_empty = 3.6,
+			reload_operational = 3,
+			empty_reload_operational = 3,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.7,
+			equip = 0.5
+		}
+
+		--Heavy Crossbow
+		self.arblast.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.arblast.has_description = true
+		self.arblast.desc_id = "bm_ap_3_weapon_sc_desc"
+		self.arblast.single.fire_rate = 0.5
+		self.arblast.fire_mode_data.fire_rate = 0.5
+		self.arblast.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.arblast.kick_pattern = self.stat_info.kick_patterns.random
+		self.arblast.supported = true
+		self.arblast.stats = {
+			damage = 180,
+			spread = 21,
+			recoil = 19,
+			concealment = 18,
+			alert_size = 2,
+			value = 1
+		}
+		self.arblast.timers = {
+			reload_empty = 3.8,
+			reload_not_empty = 3.8,
+			reload_operational = 2.5,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.7,
+			equip = 0.5
+		}
+		self.arblast.crossbow_string_time = 0.067
+		self.arblast.reload_speed_multiplier = 1.2666 --3s
+
+		--Light Crossbow
+		self.frankish.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.frankish.has_description = true
+		self.frankish.desc_id = "bm_ap_3_weapon_sc_desc"
+		self.frankish.single.fire_rate = 0.5
+		self.frankish.fire_mode_data.fire_rate = 0.5
+		self.frankish.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.frankish.kick_pattern = self.stat_info.kick_patterns.random
+		self.frankish.supported = true
+		self.frankish.stats = {
+			damage = 120,
+			spread = 21,
+			recoil = 18,
+			concealment = 19,
+			alert_size = 2,
+			value = 1
+		}
+		self.frankish.timers = {
+			reload_not_empty = 2,
+			reload_empty = 2,
+			reload_operational = 1.6,
+			empty_reload_operational = 1.6,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.7,
+			equip = 0.5
+		}
+		self.frankish.crossbow_string_time = 0.067
+		self.frankish.reload_speed_multiplier = 1.25 --1.6s
+
+	--Crossbows (Secondary)
+		--Pistol Crossbow
+		self.hunter.upgrade_blocks = {
+			weapon = {
+				"clip_ammo_increase"
+			}
+		}
+		self.hunter.has_description = true
+		self.hunter.desc_id = "bm_ap_3_weapon_sc_desc"
+		self.hunter.single.fire_rate = 0.5
+		self.hunter.fire_mode_data.fire_rate = 0.5
+		self.hunter.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.hunter.kick_pattern = self.stat_info.kick_patterns.random
+		self.hunter.supported = true
+		self.hunter.stats = {
+			damage = 120,
+			spread = 18,
+			recoil = 20,
+			concealment = 20,
+			alert_size = 2,
+			reload = 20,
+			value = 1
+		}
+		self.hunter.timers = {
+			reload_not_empty = 1.6,
+			reload_empty = 1.6,
+			reload_operational = 1.2,
+			empty_reload_operational = 1.2,
+			reload_interrupt = 0.27,
+			empty_reload_interrupt = 0.27,
+			unequip = 0.55,
+			equip = 0.5
+		}
+		self.hunter.crossbow_string_time = 0.067
+
 	--[[
 	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
 	self.ultima.kick_pattern = self.stat_info.kick_patterns.random
@@ -4717,99 +4846,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	}
 	self.plainsrider.stats_modifiers = {damage = 4}
 
-	--Pistol Crossbow
-	self.hunter.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.hunter.has_description = true
-	self.hunter.desc_id = "bm_ap_3_weapon_sc_desc"
-	self.hunter.AMMO_MAX = 15
-	self.hunter.fire_mode_data.fire_rate = 1
-	self.hunter.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.hunter.supported = false
-	self.hunter.stats = {
-		damage = 120,
-		spread = 20,
-		recoil = 20,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 26,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.hunter.stats_modifiers = {damage = 2}
-
-	--Heavy Crossbow
-	self.arblast.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.arblast.has_description = true
-	self.arblast.desc_id = "bm_ap_3_weapon_sc_desc"
-	self.arblast.AMMO_MAX = 20
-	self.arblast.fire_mode_data.fire_rate = 1.2
-	self.arblast.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.arblast.supported = false
-	self.arblast.stats = {
-		damage = 90,
-		spread = 21,
-		recoil = 16,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 25,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.arblast.timers.reload_not_empty = 3.05
-	self.arblast.timers.reload_empty = 3.05
-	self.arblast.stats_modifiers = {damage =  4}
-	self.frankish.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-
-	--Light Crossbow
-	self.frankish.has_description = true
-	self.frankish.desc_id = "bm_ap_3_weapon_sc_desc"
-	self.frankish.fire_mode_data.fire_rate = 1
-	self.frankish.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.frankish.AMMO_MAX = 30
-	self.frankish.supported = false
-	self.frankish.stats = {
-		damage = 60,
-		spread = 19,
-		recoil = 18,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 26,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.frankish.timers.reload_not_empty = 1.6
-	self.frankish.timers.reload_empty = 1.6
-	self.frankish.stats_modifiers = {damage = 4}
-	self.long.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-
 	--English Longbow
 	self.long.has_description = true
 	self.long.desc_id = "bm_ap_2_weapon_sc_desc"
@@ -4921,33 +4957,6 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 	self.rota.stats_modifiers = nil
 	self.rota.timers.reload_interrupt = 0.46 --Technically the cylinder is disengaged by like 14% in, but it felt really bad at that value. Animations cover it up anyway.
 	self.rota.timers.empty_reload_interrupt = 0.46
-
-	--Airbow
-	self.ecp.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.ecp.has_description = true
-	self.ecp.desc_id = "bm_ap_3_weapon_sc_desc"
-	self.ecp.kick = self.stat_info.kick_tables.right_kick
-	self.ecp.AMMO_MAX = 40
-	self.ecp.supported = false
-	self.ecp.stats = {
-		damage = 45,
-		spread = 17,
-		recoil = 21,
-		spread_moving = 8,
-		zoom = 1,
-		concealment = 25,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.ecp.stats_modifiers = {damage = 4}
 
 	--Grimm 12g
 	self.basset.rays = 9
@@ -5273,20 +5282,20 @@ end)
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 372, suppression = 4}, --18/36 damage guns
-	{damage = 20,  pickup = 354, suppression = 6},
-	{damage = 24,  pickup = 336, suppression = 8},
-	{damage = 30,  pickup = 318, suppression = 10},
-	{damage = 45,  pickup = 300, suppression = 11},
-	{damage = 60,  pickup = 282, suppression = 12},
-	{damage = 90,  pickup = 264, suppression = 13},
-	{damage = 120, pickup = 246, suppression = 14},
-	{damage = 180, pickup = 228, suppression = 15},
-	{damage = 240, pickup = 210, suppression = 16},
-	{damage = 300, pickup = 192, suppression = 17},
-	{damage = 360, pickup = 174, suppression = 18},
-	{damage = 400, pickup = 156, suppression = 19},
-	{damage = 600, pickup = 138, suppression = 20}
+	{damage = 18,  pickup = 364, suppression = 4}, --18/36 damage guns
+	{damage = 20,  pickup = 346, suppression = 6},
+	{damage = 24,  pickup = 328, suppression = 8},
+	{damage = 30,  pickup = 310, suppression = 10},
+	{damage = 45,  pickup = 292, suppression = 11},
+	{damage = 60,  pickup = 274, suppression = 12},
+	{damage = 90,  pickup = 256, suppression = 13},
+	{damage = 120, pickup = 238, suppression = 14},
+	{damage = 180, pickup = 220, suppression = 15},
+	{damage = 240, pickup = 202, suppression = 16},
+	{damage = 300, pickup = 184, suppression = 17},
+	{damage = 360, pickup = 166, suppression = 18},
+	{damage = 400, pickup = 148, suppression = 19},
+	{damage = 600, pickup = 130, suppression = 20}
 }
 local damage_pool_primary = 3600
 local damage_pool_secondary = 1800
@@ -5305,14 +5314,14 @@ end
 
 local category_pickup_muls = { --Different gun categories have different pickup mults to compensate for various factors.
 	shotgun = 0.7, --Compensate for ease of aim+multikills and/or versatility.
-	bow = 0.7, --Compensate for picking arrows back up.
-	crossbow = 0.7,
+	bow = 0.6, --Compensate for picking arrows back up.
+	crossbow = 0.6,
 	pistol = 1.1, --Compensate for low range.
 	smg = 1.1,
 	saw = 0.4,
 	lmg = 1,
 	minigun = 1,
-	grenade_launcher = 0.4
+	grenade_launcher = 0.5
 }
 
 local category_ammo_max_muls = {

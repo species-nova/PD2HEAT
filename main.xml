@@ -87,6 +87,7 @@
 		<hook file="sc/units/weapons/gasgrenade.lua" source_file="lib/units/weapons/grenades/quickcsgrenade"/>
 		<hook file="sc/units/weapons/smokescreengrenade.lua" source_file="lib/units/weapons/grenades/smokescreengrenade"/>
 		<hook file="sc/units/weapons/weaponammo.lua" source_file="lib/units/weapons/weaponammo"/>		
+		<hook file="sc/units/weapons/bowweaponbase.lua" source_file="lib/units/weapons/bowweaponbase"/>
 		<hook file="sc/units/weapons/newraycastweaponbase.lua" source_file="lib/units/weapons/newraycastweaponbase"/>
 		<hook file="sc/units/weapons/newnpcraycastweaponbase.lua" source_file="lib/units/weapons/newnpcraycastweaponbase"/>
 		<hook file="sc/units/weapons/newflamethrowerbase.lua" source_file="lib/units/weapons/newflamethrowerbase"/>

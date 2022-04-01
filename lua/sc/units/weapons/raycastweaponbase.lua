@@ -76,13 +76,6 @@ function RaycastWeaponBase:first_shot_dmg_mul()
 	return 1
 end
 
---Fire no longer memes on shields.
-function FlameBulletBase:bullet_slotmask()
-	return managers.slot:get_mask("bullet_impact_targets")
-end	
-
---TODO: FlameBulletBase on_collision.
-
 --General raycast iteration. Handles damage value of bullet as it gets modified, and applies collision.
 --ricochet_distance applies a distance_offset so that falloff on ricochets continues from where the initial hit left off.
 function RaycastWeaponBase:_iter_ray_hits(ray_hits, user_unit, damage, ricochet_distance)
@@ -703,7 +696,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local consume_ammo = not is_player
 
 	if is_player then
-		self._bloom_stacks = self:is_single_shot() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
+		self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 
 		if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then
@@ -829,7 +822,7 @@ function RaycastWeaponBase:do_kick_pattern()
 	return self._kick_pattern.pattern[self._curr_kick]
 end
 
-function RaycastWeaponBase:is_single_shot()
+function RaycastWeaponBase:holds_single_round()
 	return self:get_ammo_max_per_clip() == 1
 end
 
@@ -953,238 +946,243 @@ function RaycastWeaponBase:remove_ammo(percent)
 	return total_ammo - ammo
 end
 
-BleedBulletBase = BleedBulletBase or class(DOTBulletBase)
-BleedBulletBase.VARIANT = "bleed"
-ProjectilesBleedBulletBase = ProjectilesBleedBulletBase or class(BleedBulletBase)
-ProjectilesBleedBulletBase.NO_BULLET_INPACT_SOUND = false
-
---Allow easier hotloading of data.
-function ProjectilesBleedBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound, ricochet)
-	local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, self.NO_BULLET_INPACT_SOUND, ricochet)
-	local hit_unit = col_ray.unit
-
-	if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() and alive(weapon_unit) then
-		local dot_data = tweak_data.projectiles[weapon_unit:base()._projectile_entry].dot_data
-
-		if not dot_data then
-			return
-		end
-
-		local dot_type_data = tweak_data:get_dot_type_data(dot_data.type)
-
-		if not dot_type_data then
-			return
-		end
-
-		result = self:start_dot_damage(col_ray, nil, {
-			dot_damage = dot_type_data.dot_damage,
-			dot_length = dot_data.custom_length or dot_type_data.dot_length
-		})
-	end
-
-	return result
-end
-
-function BleedBulletBase:start_dot_damage(col_ray, weapon_unit, dot_data, weapon_id)
-	dot_data = dot_data or self.DOT_DATA
-	local hurt_animation = not dot_data.hurt_animation_chance or math.rand(1) < dot_data.hurt_animation_chance
-
-	--Add range limits for Flechette shotguns.
-	local can_apply_dot = true
-	if alive(weapon_unit) then
-		weap_base = weapon_unit:base()
-		if weap_base.near_dot_distance then
-			can_apply_dot = weap_base.far_dot_distance + weap_base.near_dot_distance > (col_ray.distance or 0)
-		end
-	end
-
-	if can_apply_dot == true then
-		managers.dot:add_doted_enemy(col_ray.unit, TimerManager:game():time(), weapon_unit, dot_data.dot_length, dot_data.dot_damage, hurt_animation, self.VARIANT, weapon_id)
- 	end
-end
-
---Adds a blood splat effect every time the bleed deals damage.
-function BleedBulletBase:give_damage_dot(col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
-	--Movement() can return nil, but can also itself be nil. Very fun!
-	if alive(col_ray.unit) and col_ray.unit.movement and col_ray.unit:movement() and col_ray.unit:movement()._obj_spine then
-		World:effect_manager():spawn({
-			effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
-			position = col_ray.unit:movement()._obj_spine:position(),
-			normal = Vector3(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
-		})
-	end
-	
-	local action_data = {
-		variant = self.VARIANT,
-		damage = damage,
-		weapon_unit = weapon_unit,
-		attacker_unit = attacker_unit,
-		col_ray = col_ray,
-		hurt_animation = hurt_animation,
-		weapon_id = weapon_id
-	}
-	local defense_data = {}
-
-	if col_ray and col_ray.unit and alive(col_ray.unit) and col_ray.unit:character_damage() then
-		defense_data = col_ray.unit:character_damage():damage_dot(action_data)
-	end
-
-	return defense_data
-end
-
-function InstantExplosiveBulletBase:on_collision_server(position, normal, damage, user_unit, weapon_unit, owner_peer_id, owner_selection_index)
-	local slot_mask = managers.slot:get_mask("explosion_targets")
-
-	managers.explosion:play_sound_and_effects(position, normal, self.RANGE, self.EFFECT_PARAMS)
-
-	--We need to hti the local player and pass in the user unit to handle friendly fire.
-	managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
-	local hit_units, splinters, results = managers.explosion:detect_and_give_dmg({
-		hit_pos = position,
-		range = self.RANGE,
-		collision_slotmask = slot_mask,
-		curve_pow = self.CURVE_POW,
-		damage = damage,
-		player_damage = damage * self.PLAYER_DMG_MUL,
-		ignore_unit = weapon_unit,
-		user = user_unit,
-		owner = weapon_unit
-	})
-	local network_damage = math.ceil(damage * 163.84)
-
-	managers.network:session():send_to_peers_synched("sync_explode_bullet", position, normal, math.min(16384, network_damage), owner_peer_id)
-
-	if managers.network:session():local_peer():id() == owner_peer_id then
-		local enemies_hit = (results.count_gangsters or 0) + (results.count_cops or 0)
-		local enemies_killed = (results.count_gangster_kills or 0) + (results.count_cop_kills or 0)
-
-		managers.statistics:shot_fired({
-			hit = false,
-			weapon_unit = weapon_unit
-		})
-
-		for i = 1, enemies_hit do
-			managers.statistics:shot_fired({
-				skip_bullet_count = true,
-				hit = true,
-				weapon_unit = weapon_unit
-			})
-		end
-
-		local weapon_pass, weapon_type_pass, count_pass, all_pass = nil
-
-		for achievement, achievement_data in pairs(tweak_data.achievement.explosion_achievements) do
-			weapon_pass = not achievement_data.weapon or true
-			weapon_type_pass = not achievement_data.weapon_type or weapon_unit:base() and weapon_unit:base().weapon_tweak_data and weapon_unit:base():is_category(achievement_data.weapon_type)
-			count_pass = not achievement_data.count or achievement_data.count <= (achievement_data.kill and enemies_killed or enemies_hit)
-			all_pass = weapon_pass and weapon_type_pass and count_pass
-
-			if all_pass and achievement_data.award then
-				managers.achievment:award(achievement_data.award)
-			end
-		end
-	else
-		local peer = managers.network:session():peer(owner_peer_id)
-		local SYNCH_MIN = 0
-		local SYNCH_MAX = 31
-		local count_cops = math.clamp(results.count_cops, SYNCH_MIN, SYNCH_MAX)
-		local count_gangsters = math.clamp(results.count_gangsters, SYNCH_MIN, SYNCH_MAX)
-		local count_civilians = math.clamp(results.count_civilians, SYNCH_MIN, SYNCH_MAX)
-		local count_cop_kills = math.clamp(results.count_cop_kills, SYNCH_MIN, SYNCH_MAX)
-		local count_gangster_kills = math.clamp(results.count_gangster_kills, SYNCH_MIN, SYNCH_MAX)
-		local count_civilian_kills = math.clamp(results.count_civilian_kills, SYNCH_MIN, SYNCH_MAX)
-
-		managers.network:session():send_to_peer_synched(peer, "sync_explosion_results", count_cops, count_gangsters, count_civilians, count_cop_kills, count_gangster_kills, count_civilian_kills, owner_selection_index)
-	end
-end
-
---Passes in the user unit to catch friendly fire 
-function InstantExplosiveBulletBase:on_collision_client(position, normal, damage, user_unit)
-	managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
-	managers.explosion:explode_on_client(position, normal, user_unit, damage, self.RANGE, self.CURVE_POW, self.EFFECT_PARAMS)
-end
-
 function RaycastWeaponBase:shake_multiplier(multiplier_type)
 	return 1
 end
 
---Minigun spin mechanics below.
-local start_shooting_original = RaycastWeaponBase.start_shooting
-function RaycastWeaponBase:start_shooting(...)
-	start_shooting_original(self, ...)
-	
-	if self._spin_rounds then
-		self:_start_spin()
+--Minigun spin mechanics.
+	local start_shooting_original = RaycastWeaponBase.start_shooting
+	function RaycastWeaponBase:start_shooting(...)
+		start_shooting_original(self, ...)
+		
+		if self._spin_rounds then
+			self:_start_spin()
+		end
 	end
-end
 
-local stop_shooting_original = RaycastWeaponBase.stop_shooting
-function RaycastWeaponBase:stop_shooting(...)
-	stop_shooting_original(self, ...)
+	local stop_shooting_original = RaycastWeaponBase.stop_shooting
+	function RaycastWeaponBase:stop_shooting(...)
+		stop_shooting_original(self, ...)
 
-	if self._spin_rounds and not self._in_steelsight then
-		self:_stop_spin()
+		if self._spin_rounds and not self._in_steelsight then
+			self:_stop_spin()
+		end
 	end
-end
 
-local trigger_held_original = RaycastWeaponBase.trigger_held
-function RaycastWeaponBase:trigger_held(...)
-	if self._spin_rounds then
-		local fired
-		if self._next_fire_allowed <= self._unit:timer():time() then
-			if self._spin_progress >= self._spin_rounds then
-				fired = self:fire(...)
-				if fired then
-					self._next_fire_allowed = self._next_fire_allowed + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / self:fire_rate_multiplier()
-					self:_fire_sound()
+	local trigger_held_original = RaycastWeaponBase.trigger_held
+	function RaycastWeaponBase:trigger_held(...)
+		if self._spin_rounds then
+			local fired
+			if self._next_fire_allowed <= self._unit:timer():time() then
+				if self._spin_progress >= self._spin_rounds then
+					fired = self:fire(...)
+					if fired then
+						self._next_fire_allowed = self._next_fire_allowed + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / self:fire_rate_multiplier()
+						self:_fire_sound()
+					end
 				end
 			end
-		end
-		return fired
-	else
-		return trigger_held_original(self, ...)
-	end
-end
-
-function RaycastWeaponBase:_start_spin()
-	if self._spin_progress == 0 or self._spin_dir == SPIN_DOWN then
-		self._spin_dir = SPIN_UP
-	end
-end
-
-function RaycastWeaponBase:_stop_spin()
-	if self._spin_progress > 0 then
-		self._spin_dir = SPIN_DOWN
-	end
-end
-
-function RaycastWeaponBase:update_spin()
-	local t = self._unit:timer():time()
-	if (self._spin_dir == SPIN_UP and self._spin_rounds > self._spin_progress) or (self._spin_dir == SPIN_DOWN and self._spin_progress > 0) then
-		if t >= self._next_spin_animation_t then
-			self._spin_progress = self._spin_progress + self._spin_dir
+			return fired
+		else
+			return trigger_held_original(self, ...)
 		end
 	end
 
-	if self._spin_progress > 0 and t >= self._next_spin_animation_t then
-		local spin_speed_mul = self:fire_rate_multiplier() * (self._spin_progress / self._spin_rounds)
-		self:tweak_data_anim_play("fire", spin_speed_mul)
-		self._next_spin_animation_t = t + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / spin_speed_mul
+	function RaycastWeaponBase:_start_spin()
+		if self._spin_progress == 0 or self._spin_dir == SPIN_DOWN then
+			self._spin_dir = SPIN_UP
+		end
 	end
-end
 
-function RaycastWeaponBase:vulcan_enter_steelsight()
-	self._in_steelsight = true
-	self:_start_spin()
-end
-
-function RaycastWeaponBase:vulcan_exit_steelsight()
-	self._in_steelsight = nil
-	if not self._shooting then
-		self:_stop_spin()
+	function RaycastWeaponBase:_stop_spin()
+		if self._spin_progress > 0 then
+			self._spin_dir = SPIN_DOWN
+		end
 	end
-end
 
-function RaycastWeaponBase:has_spin()
-	return self._spin_rounds ~= nil
-end
+	function RaycastWeaponBase:update_spin()
+		local t = self._unit:timer():time()
+		if (self._spin_dir == SPIN_UP and self._spin_rounds > self._spin_progress) or (self._spin_dir == SPIN_DOWN and self._spin_progress > 0) then
+			if t >= self._next_spin_animation_t then
+				self._spin_progress = self._spin_progress + self._spin_dir
+			end
+		end
+
+		if self._spin_progress > 0 and t >= self._next_spin_animation_t then
+			local spin_speed_mul = self:fire_rate_multiplier() * (self._spin_progress / self._spin_rounds)
+			self:tweak_data_anim_play("fire", spin_speed_mul)
+			self._next_spin_animation_t = t + (tweak_data.weapon[self._name_id].fire_mode_data and tweak_data.weapon[self._name_id].fire_mode_data.fire_rate or 0) / spin_speed_mul
+		end
+	end
+
+	function RaycastWeaponBase:vulcan_enter_steelsight()
+		self._in_steelsight = true
+		self:_start_spin()
+	end
+
+	function RaycastWeaponBase:vulcan_exit_steelsight()
+		self._in_steelsight = nil
+		if not self._shooting then
+			self:_stop_spin()
+		end
+	end
+
+	function RaycastWeaponBase:has_spin()
+		return self._spin_rounds ~= nil
+	end
+
+--BulletBase additions/changes.
+	function DOTBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, ricochet)
+		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, ricochet)
+		local hit_unit = col_ray.unit
+
+		if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() then
+			local dot_data = self:_dot_data_by_weapon(weapon_unit)
+			dot_data.dot_damage = dot_data.dot_damage * managers.player:get_perk_damage_bonus(user_unit)
+			log(dot_data.dot_damage)
+			result = self:start_dot_damage(col_ray, weapon_unit, dot_data)
+		end
+
+		return result
+	end
+
+	function ProjectilesPoisonBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, ricochet)
+		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, ricochet)
+		local hit_unit = col_ray.unit
+		if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() and alive(weapon_unit) then
+			local dot_data = tweak_data.projectiles[weapon_unit:base()._projectile_entry].dot_data
+			if not dot_data then
+				return
+			end
+
+			local dot_type_data = tweak_data:get_dot_type_data(dot_data.type)
+			if not dot_type_data then
+				return
+			end
+
+			--Apply perk deck damage boost.
+			local dot_damage = (dot_data.dot_damage or dot_type_data.dot_damage) * managers.player:get_perk_damage_bonus(user_unit)
+			result = self:start_dot_damage(col_ray, nil, {
+				dot_damage = dot_damage,
+				dot_length = dot_data.dot_length or dot_type_data.dot_length
+			})
+		end
+
+		return result
+	end
+
+	BleedBulletBase = BleedBulletBase or class(DOTBulletBase)
+	BleedBulletBase.VARIANT = "bleed"
+	ProjectilesBleedBulletBase = ProjectilesBleedBulletBase or class(BleedBulletBase)
+	ProjectilesBleedBulletBase.NO_BULLET_INPACT_SOUND = false
+	ProjectilesBleedBulletBase.on_collision = ProjectilesPoisonBulletBase.on_collision --The poison function fulfills the needs for bleed damage.
+	function BleedBulletBase:start_dot_damage(col_ray, weapon_unit, dot_data, weapon_id)
+		dot_data = dot_data or self.DOT_DATA
+		local hurt_animation = not dot_data.hurt_animation_chance or math.rand(1) < dot_data.hurt_animation_chance
+
+		--Add range limits for Flechette shotguns.
+		local can_apply_dot = true
+		if alive(weapon_unit) then
+			weap_base = weapon_unit:base()
+			if weap_base.near_dot_distance then
+				can_apply_dot = weap_base.far_dot_distance + weap_base.near_dot_distance > (col_ray.distance or 0)
+			end
+		end
+
+		if can_apply_dot == true then
+			managers.dot:add_doted_enemy(col_ray.unit, TimerManager:game():time(), weapon_unit, dot_data.dot_length, dot_data.dot_damage, hurt_animation, self.VARIANT, weapon_id)
+	 	end
+	end
+
+	--Adds a blood splat effect every time the bleed deals damage.
+	function BleedBulletBase:give_damage_dot(col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
+		--Movement() can return nil, but can also itself be nil. Very fun!
+		if alive(col_ray.unit) and col_ray.unit.movement and col_ray.unit:movement() and col_ray.unit:movement()._obj_spine then
+			World:effect_manager():spawn({
+				effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
+				position = col_ray.unit:movement()._obj_spine:position(),
+				normal = Vector3(math.random(-1, 1), math.random(-1, 1), math.random(-1, 1))
+			})
+		end
+		
+		return self.super.give_damage_dot(self, col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
+	end
+
+	function InstantExplosiveBulletBase:on_collision_server(position, normal, damage, user_unit, weapon_unit, owner_peer_id, owner_selection_index)
+		local slot_mask = managers.slot:get_mask("explosion_targets")
+
+		managers.explosion:play_sound_and_effects(position, normal, self.RANGE, self.EFFECT_PARAMS)
+
+		--We need to hit the local player and pass in the user unit to handle friendly fire.
+		managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
+		local hit_units, splinters, results = managers.explosion:detect_and_give_dmg({
+			hit_pos = position,
+			range = self.RANGE,
+			collision_slotmask = slot_mask,
+			curve_pow = self.CURVE_POW,
+			damage = damage,
+			player_damage = damage * self.PLAYER_DMG_MUL,
+			ignore_unit = weapon_unit,
+			user = user_unit,
+			owner = weapon_unit
+		})
+		local network_damage = math.ceil(damage * 163.84)
+
+		managers.network:session():send_to_peers_synched("sync_explode_bullet", position, normal, math.min(16384, network_damage), owner_peer_id)
+
+		if managers.network:session():local_peer():id() == owner_peer_id then
+			local enemies_hit = (results.count_gangsters or 0) + (results.count_cops or 0)
+			local enemies_killed = (results.count_gangster_kills or 0) + (results.count_cop_kills or 0)
+
+			managers.statistics:shot_fired({
+				hit = false,
+				weapon_unit = weapon_unit
+			})
+
+			for i = 1, enemies_hit do
+				managers.statistics:shot_fired({
+					skip_bullet_count = true,
+					hit = true,
+					weapon_unit = weapon_unit
+				})
+			end
+
+			local weapon_pass, weapon_type_pass, count_pass, all_pass = nil
+
+			for achievement, achievement_data in pairs(tweak_data.achievement.explosion_achievements) do
+				weapon_pass = not achievement_data.weapon or true
+				weapon_type_pass = not achievement_data.weapon_type or weapon_unit:base() and weapon_unit:base().weapon_tweak_data and weapon_unit:base():is_category(achievement_data.weapon_type)
+				count_pass = not achievement_data.count or achievement_data.count <= (achievement_data.kill and enemies_killed or enemies_hit)
+				all_pass = weapon_pass and weapon_type_pass and count_pass
+
+				if all_pass and achievement_data.award then
+					managers.achievment:award(achievement_data.award)
+				end
+			end
+		else
+			local peer = managers.network:session():peer(owner_peer_id)
+			local SYNCH_MIN = 0
+			local SYNCH_MAX = 31
+			local count_cops = math.clamp(results.count_cops, SYNCH_MIN, SYNCH_MAX)
+			local count_gangsters = math.clamp(results.count_gangsters, SYNCH_MIN, SYNCH_MAX)
+			local count_civilians = math.clamp(results.count_civilians, SYNCH_MIN, SYNCH_MAX)
+			local count_cop_kills = math.clamp(results.count_cop_kills, SYNCH_MIN, SYNCH_MAX)
+			local count_gangster_kills = math.clamp(results.count_gangster_kills, SYNCH_MIN, SYNCH_MAX)
+			local count_civilian_kills = math.clamp(results.count_civilian_kills, SYNCH_MIN, SYNCH_MAX)
+
+			managers.network:session():send_to_peer_synched(peer, "sync_explosion_results", count_cops, count_gangsters, count_civilians, count_cop_kills, count_gangster_kills, count_civilian_kills, owner_selection_index)
+		end
+	end
+
+	--Passes in the user unit to catch friendly fire 
+	function InstantExplosiveBulletBase:on_collision_client(position, normal, damage, user_unit)
+		managers.explosion:give_local_player_dmg(position, self.RANGE, damage * self.PLAYER_DMG_MUL, user_unit)
+		managers.explosion:explode_on_client(position, normal, user_unit, damage, self.RANGE, self.CURVE_POW, self.EFFECT_PARAMS)
+	end
+
+	--Fire no longer memes on shields.
+	function FlameBulletBase:bullet_slotmask()
+		return managers.slot:get_mask("bullet_impact_targets")
+	end	
+
+	--TODO: FlameBulletBase on_collision.

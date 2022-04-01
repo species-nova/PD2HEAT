@@ -1,66 +1,91 @@
 --Common stat tables
+	--Cosmetic
+		local cosmetic = {
+			stats = {value = 1},
+			heat_stat_table = "cosmetic",
+			heat_mod_filters = {}
+		}
 	--Barrels
 		local light_mob_barrel = {
-			stats = {value = 1, spread = -1, concealment = 1},
+			stats = {value = 2, spread = -1, concealment = 1},
 			heat_stat_table = "light_mob_barrel", --Identifier for the stat table.
 			heat_mod_filters = {heavy_mob_barrel = true} --Used to determine modifiers of X or Y stat types to filter out for gun.
 		}
 		local heavy_mob_barrel = {
-			stats = {value = 1, spread = -2, concealment = 2},
+			stats = {value = 3, spread = -2, concealment = 2},
 			heat_stat_table = "heavy_mob_barrel",
 			heat_mod_filters = {light_mob_barrel = true, heavy_mob_barrel = true}
 		}
 		local light_acc_barrel = {
-			stats = {value = 1, spread = 1, concealment = -1},
+			stats = {value = 2, spread = 1, concealment = -1},
 			heat_stat_table = "light_acc_barrel",
 			heat_mod_filters = {heavy_acc_barrel = true}
 		}
 		local heavy_acc_barrel = {
-			stats = {value = 1, spread = 2, concealment = -2},
+			stats = {value = 3, spread = 2, concealment = -2},
 			heat_stat_table = "heavy_acc_barrel",
 			heat_mod_filters = {light_acc_barrel = true, heavy_acc_barrel = true}
 		}
 	--Grips
 		local light_stab_grip = {
-			stats = {value = 1, spread = -1, recoil = 1},
+			stats = {value = 2, spread = -1, recoil = 1},
 			heat_stat_table = "light_stab_grip",
 			heat_mod_filters = {heavy_stab_grip = true}
 		}
 		local heavy_stab_grip = {
-			stats = {value = 1, spread = -2, recoil = 2},
+			stats = {value = 3, spread = -2, recoil = 2},
 			heat_stat_table = "heavy_stab_grip",
 			heat_mod_filters = {light_stab_grip = true, heavy_stab_grip = true}
 		}
 		local light_acc_grip = {
-			stats = {value = 1, spread = 1, recoil = -1},
+			stats = {value = 2, spread = 1, recoil = -1},
 			heat_stat_table = "light_acc_grip",
 			heat_mod_filters = {heavy_acc_grip = true}
 		}
 		local heavy_acc_grip = {
-			stats = {value = 1, spread = 2, recoil = -2},
+			stats = {value = 3, spread = 2, recoil = -2},
 			heat_stat_table = "heavy_acc_grip",
 			heat_mod_filters = {light_acc_grip = true, heavy_acc_grip = true}
 		}
 	--Stocks
 		local light_mob_stock = {
-			stats = {value = 1, recoil = -1, concealment = 1},
+			stats = {value = 2, recoil = -1, concealment = 1},
 			heat_stat_table = "light_mob_stock",
 			heat_mod_filters = {heavy_mob_stock = true}
 		}
 		local heavy_mob_stock = {
-			stats = {value = 1, recoil = -2, concealment = 2},
+			stats = {value = 3, recoil = -2, concealment = 2},
 			heat_stat_table = "heavy_mob_stock",
 			heat_mod_filters = {light_mob_stock = true, heavy_mob_stock = true}
 		}
 		local light_stab_stock = {
-			stats = {value = 1, recoil = 1, concealment = -1},
+			stats = {value = 2, recoil = 1, concealment = -1},
 			heat_stat_table = "light_stab_stock",
 			heat_mod_filters = {heavy_stab_stock = true}
 		}
 		local heavy_stab_stock = {
-			stats = {value = 1, recoil = 2, concealment = -2},
+			stats = {value = 3, recoil = 2, concealment = -2},
 			heat_stat_table = "heavy_stab_stock",
 			heat_mod_filters = {light_stab_stock = true, heavy_stab_stock = true}
+		}
+	--DOTs
+		local light_bow_poison = { 
+			type = "poison",
+			custom_data = {
+				dot_damage = 1.5,
+				dot_duration = 3.1,
+				dot_tick_period = 0.5,
+				hurt_animation_chance = 0.5
+			}
+		}
+		local heavy_bow_poison = {
+			type = "poison",
+			custom_data = {
+				dot_damage = 3,
+				dot_duration = 3.1,
+				dot_tick_period = 0.5,
+				hurt_animation_chance = 0.5
+			}
 		}
 
 	--Applies a HEAT attachment stat table to a given attachment.
@@ -72,8 +97,8 @@
 	end
 
 local orig_init = WeaponFactoryTweakData.init
-function WeaponFactoryTweakData:init(...)
-	orig_init(self, ...)
+function WeaponFactoryTweakData:init()
+	orig_init(self)
 
 	--Apply tweakdata for custom weapons.
 	self:init_heat_shatters_fury()
@@ -97,32 +122,113 @@ end
 
 --GL 40
 local orig_init_gre_m79 = WeaponFactoryTweakData._init_gre_m79
-function WeaponFactoryTweakData:_init_gre_m79(...)
-	orig_init_gre_m79(self, ...)
+function WeaponFactoryTweakData:_init_gre_m79()
+	orig_init_gre_m79(self)
 	apply_stats(self.parts.wpn_fps_gre_m79_barrel_short, heavy_mob_barrel) --Pirate Barrel
 	apply_stats(self.parts.wpn_fps_gre_m79_stock_short, light_mob_stock) --Sawed off stock.
 end
 
 --Piglet
 local orig_init_m32 = WeaponFactoryTweakData._init_m32
-function WeaponFactoryTweakData:_init_m32(...)
-	orig_init_m32(self, ...)
+function WeaponFactoryTweakData:_init_m32()
+	orig_init_m32(self)
 	apply_stats(self.parts.wpn_fps_gre_m32_barrel_short, light_mob_barrel) --Short Barrel
 end
 
 --China Puff
 local orig_init_china = WeaponFactoryTweakData._init_china
-function WeaponFactoryTweakData:_init_china(...)
-	orig_init_china(self, ...)
+function WeaponFactoryTweakData:_init_china()
+	orig_init_china(self)
 	apply_stats(self.parts.wpn_fps_gre_china_s_short, light_mob_stock) --Riot Stock
 end
 
 --Arbiter
 local orig_init_arbiter = WeaponFactoryTweakData._init_arbiter
-function WeaponFactoryTweakData:_init_arbiter(...)
-	orig_init_arbiter(self, ...)
+function WeaponFactoryTweakData:_init_arbiter()
+	orig_init_arbiter(self)
 	apply_stats(self.parts.wpn_fps_gre_arbiter_b_long, heavy_acc_barrel) --Bombardier Barrel
 	apply_stats(self.parts.wpn_fps_gre_arbiter_b_comp, light_acc_barrel) --Long Barrel
+end
+
+--Pistol Crossbow
+local orig_init_hunter = WeaponFactoryTweakData._init_hunter
+function WeaponFactoryTweakData:_init_hunter()
+	orig_init_hunter(self)
+	apply_stats(self.parts.wpn_fps_bow_hunter_b_carbon, light_acc_barrel) --Carbon Limb
+	apply_stats(self.parts.wpn_fps_bow_hunter_b_skeletal, light_mob_barrel) --Skeletal Limb
+	apply_stats(self.parts.wpn_fps_bow_hunter_g_camo, cosmetic) --Camo Grip
+	apply_stats(self.parts.wpn_fps_bow_hunter_g_walnut, light_acc_grip) --Walnut Grip
+
+	--Poison Bolt
+	self.parts.wpn_fps_upg_a_crossbow_poison.supported = true
+	self.parts.wpn_fps_upg_a_crossbow_poison.stats = {damage = -30}
+	self.parts.wpn_fps_upg_a_crossbow_poison.custom_stats = {
+		launcher_grenade = "crossbow_poison_arrow",
+		dot_data = light_bow_poison
+	}
+	
+	--Explosive Bolt
+	self.parts.wpn_fps_upg_a_crossbow_explosion.supported = true
+	self.parts.wpn_fps_upg_a_crossbow_explosion.stats = {damage = 60}
+	self.parts.wpn_fps_upg_a_crossbow_explosion.custom_stats = {launcher_grenade = "crossbow_arrow_exp"}
+end
+
+--Heavy Crossbow
+local orig_init_arblast = WeaponFactoryTweakData._init_arblast
+function WeaponFactoryTweakData:_init_arblast()
+	orig_init_arblast(self)
+
+	--Poison Bolt
+	self.parts.wpn_fps_bow_arblast_m_poison.supported = true
+	self.parts.wpn_fps_bow_arblast_m_poison.stats = {damage = -60}
+	self.parts.wpn_fps_bow_arblast_m_poison.custom_stats = {
+		launcher_grenade = "arblast_poison_arrow",
+		dot_data = heavy_bow_poison
+	}
+	
+	--Explosive Bolt
+	self.parts.wpn_fps_bow_arblast_m_explosive.supported = true
+	self.parts.wpn_fps_bow_arblast_m_explosive.stats = {damage = 60}
+	self.parts.wpn_fps_bow_arblast_m_explosive.custom_stats = {launcher_grenade = "arblast_arrow_exp"}
+end
+
+--Light Crossbow
+local orig_init_frankish = WeaponFactoryTweakData._init_frankish
+function WeaponFactoryTweakData:_init_frankish()
+	orig_init_frankish(self)
+
+	--Poison Bolt
+	self.parts.wpn_fps_bow_frankish_m_poison.supported = true
+	self.parts.wpn_fps_bow_frankish_m_poison.stats = {damage = -30}
+	self.parts.wpn_fps_bow_frankish_m_poison.custom_stats = {
+		launcher_grenade = "frankish_poison_arrow",
+		dot_data = light_bow_poison
+	}
+	
+	--Explosive Bolt
+	self.parts.wpn_fps_bow_frankish_m_explosive.supported = true
+	self.parts.wpn_fps_bow_frankish_m_explosive.stats = {damage = 60}
+	self.parts.wpn_fps_bow_frankish_m_explosive.custom_stats = {launcher_grenade = "frankish_arrow_exp"}
+end
+
+--Airbow
+local orig_init_ecp = WeaponFactoryTweakData._init_ecp
+function WeaponFactoryTweakData:_init_ecp()
+	orig_init_ecp(self)
+	apply_stats(self.parts.wpn_fps_bow_ecp_s_bare, heavy_mob_stock) --Light Stock
+
+	--Poison Bolt
+	self.parts.wpn_fps_bow_ecp_m_arrows_poison.supported = true
+	self.parts.wpn_fps_bow_ecp_m_arrows_poison.stats = {damage = -30}
+	self.parts.wpn_fps_bow_ecp_m_arrows_poison.custom_stats = {
+		launcher_grenade = "ecp_arrow_poison",
+		dot_data = light_bow_poison
+	}
+	
+	--Explosive Bolt
+	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.supported = true
+	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.stats = {damage = 60}
+	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.custom_stats = {launcher_grenade = "ecp_arrow_exp"}
 end
 
 --Phoenix .500
@@ -397,8 +503,8 @@ function WeaponFactoryTweakData:create_bonuses(tweak_data, weapon_skins)
 end
 
 local orig_create_ammunition = WeaponFactoryTweakData.create_ammunition
-function WeaponFactoryTweakData:create_ammunition(...)
-	orig_create_ammunition(self, ...)
+function WeaponFactoryTweakData:create_ammunition()
+	orig_create_ammunition(self)
 
 	--Generic incendiary ammo.
 	--See enveffecttweakdata.lua for remaining stats on GL incendiary ammo.

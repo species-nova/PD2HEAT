@@ -46,10 +46,12 @@ end
 
 function BlackMarketManager:damage_multiplier(name, categories, silencer, detection_risk, current_state, blueprint)
 	local multiplier = managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1)
-	if categories[1] and categories[1] == "saw" then
-		multiplier = multiplier * managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
-	elseif tweak_data.weapon[name] and not tweak_data.weapon[name].ignore_damage_upgrades then
-		multiplier = multiplier * managers.player:upgrade_value("player", "damage_health_ratio_multiplier", 1)
+	if categories[1] then
+		if categories[1] == "saw" then
+			multiplier = multiplier * managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
+		elseif categories[1] ~= "grenade_launcher" or categories[1] ~= "bow" or categories[1] ~= "crossbow" then
+			multiplier = multiplier * managers.player:upgrade_value("player", "damage_health_ratio_multiplier", 1)
+		end
 	end
 
 	return multiplier

@@ -1781,39 +1781,40 @@ end
 
 --Adds a delay + input queuing based on the firing delay of the weapon for 2 reasons.
 --1. Reduce animation clipping.
---2. To make using the short duration reload speed bonus on kill smoother on grenade launchers.
+--2. To make using the short duration reload speed bonus on kill smoother on projectile weapons.
 function PlayerStandard:_start_action_reload_enter(t)
 	local weapon = self._equipped_unit:base()
 
 	--Wait until the current firing animation has completed or the weapon flags an immediate reload to start reloading.
-	if weapon and weapon:can_reload() and weapon:start_shooting_allowed() and (not weapon.should_reload_immediately or weapon:should_reload_immediately()) then
-		self._queue_reload_start = false
-		managers.player:send_message_now(Message.OnPlayerReload, nil, self._equipped_unit)
-		self:_interupt_action_steelsight(t)
+	if weapon and weapon:can_reload() then
+		if weapon:start_shooting_allowed() then
+			self._queue_reload_start = false
+			managers.player:send_message_now(Message.OnPlayerReload, nil, self._equipped_unit)
+			self:_interupt_action_steelsight(t)
 
-		if not self.RUN_AND_RELOAD then
-			self:_interupt_action_running(t)
+			if not self.RUN_AND_RELOAD then
+				self:_interupt_action_running(t)
+			end
+
+			local is_reload_not_empty = weapon:clip_not_empty()
+			local base_reload_enter_expire_t = weapon:reload_enter_expire_t(is_reload_not_empty)
+
+			if base_reload_enter_expire_t and base_reload_enter_expire_t > 0 then
+				local speed_multiplier = weapon:reload_speed_multiplier()
+
+				self._ext_camera:play_redirect(Idstring("reload_enter_" .. weapon.name_id), speed_multiplier)
+
+				self._state_data.reload_enter_expire_t = t + base_reload_enter_expire_t / speed_multiplier
+
+				weapon:tweak_data_anim_play("reload_enter", speed_multiplier)
+				return
+			end
+
+			self:_start_action_reload(t)
+		else
+			--Otherwise, flag that we want the reload to start at the soonest opportunity.
+			self._queue_reload_start = true
 		end
-
-		local is_reload_not_empty = weapon:clip_not_empty()
-		local base_reload_enter_expire_t = weapon:reload_enter_expire_t(is_reload_not_empty)
-
-		if base_reload_enter_expire_t and base_reload_enter_expire_t > 0 then
-			local speed_multiplier = weapon:reload_speed_multiplier()
-
-			self._ext_camera:play_redirect(Idstring("reload_enter_" .. weapon.name_id), speed_multiplier)
-
-			self._state_data.reload_enter_expire_t = t + base_reload_enter_expire_t / speed_multiplier
-
-			weapon:tweak_data_anim_play("reload_enter", speed_multiplier)
-
-			return
-		end
-
-		self:_start_action_reload(t)
-	else
-		--Otherwise, flag that we want the reload to start at the soonest opportunity.
-		self._queue_reload_start = true
 	end
 end
 function PlayerStandard:_start_action_reload(t)
@@ -2272,7 +2273,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 						self._equipped_unit:base():tweak_data_anim_stop("fire")
 					elseif fire_mode == "single" then
-						if input.btn_primary_attack_press or self._equipped_unit:base().should_reload_immediately and self._equipped_unit:base():should_reload_immediately() then
+						if input.btn_primary_attack_press then
 							self:_start_action_reload_enter(t)
 						end
 					else
