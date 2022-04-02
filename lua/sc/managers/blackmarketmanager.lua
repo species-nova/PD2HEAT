@@ -49,7 +49,7 @@ function BlackMarketManager:damage_multiplier(name, categories, silencer, detect
 	if categories[1] then
 		if categories[1] == "saw" then
 			multiplier = multiplier * managers.player:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
-		elseif categories[1] ~= "grenade_launcher" or categories[1] ~= "bow" or categories[1] ~= "crossbow" then
+		elseif categories[1] ~= "grenade_launcher" and categories[1] ~= "bow" and categories[1] ~= "crossbow" then
 			multiplier = multiplier * managers.player:upgrade_value("player", "damage_health_ratio_multiplier", 1)
 		end
 	end
