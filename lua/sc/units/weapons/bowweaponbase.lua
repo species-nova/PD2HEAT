@@ -20,15 +20,15 @@ end
 
 function CrossbowWeaponBase:on_enabled(...)
 	self.super.on_enabled(self, ...)
-	self:update_crossbow_string(instant)
+	self:update_crossbow_string(10)
 end
 
 function CrossbowWeaponBase:set_ammo_remaining_in_clip(...)
 	self.super.set_ammo_remaining_in_clip(self, ...)
-	self:update_crossbow_string()
+	self:update_crossbow_string(self._fire_rate_multiplier)
 end
 
-function CrossbowWeaponBase:update_crossbow_string(instant)
+function CrossbowWeaponBase:update_crossbow_string(speed)
 	local string_time = self:weapon_tweak_data().crossbow_string_time
 	if not string_time or not self._animated_barrel_part then 
 		return
@@ -39,7 +39,6 @@ function CrossbowWeaponBase:update_crossbow_string(instant)
 	local part_unit = self._animated_barrel_part.unit
 	local ids_anim_name = Idstring(anim_name)
 	local length = part_unit:anim_length(ids_anim_name)
-	local speed = instant and 10 or self._fire_rate_multiplier
 
 	part_unit:anim_stop(ids_anim_name)
 	if self:clip_empty() then
