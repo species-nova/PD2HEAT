@@ -1,3 +1,8 @@
+--The movement of crossbow strings is tied to the reload animation. This results in certain animation
+--cancels, or non-immediate reloads (said mechanic is removed here) making the string erroneously
+--appear as if it's already been drawn. This code resolves the issue by finding the 'barrel'
+--component on affected crossbows and playing the reload up to the point where the string should end up.
+
 function CrossbowWeaponBase:on_enabled(...)
 	self.super.on_enabled(self, ...)
 	self:fake_crossbow_string_movement(instant)
