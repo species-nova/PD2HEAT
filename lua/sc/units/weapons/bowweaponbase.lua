@@ -23,12 +23,6 @@ function CrossbowWeaponBase:on_enabled(...)
 	self:update_crossbow_string(instant)
 end
 
-function CrossbowWeaponBase:fire(...)
-	local result = self.super.fire(self, ...)
-	self:update_crossbow_string()
-	return result
-end
-
 function CrossbowWeaponBase:set_ammo_remaining_in_clip(...)
 	self.super.set_ammo_remaining_in_clip(self, ...)
 	self:update_crossbow_string()
