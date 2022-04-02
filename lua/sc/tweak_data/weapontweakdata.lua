@@ -4331,7 +4331,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.arblast.stats = {
 			damage = 180,
 			spread = 21,
-			recoil = 19,
+			recoil = 21,
 			concealment = 18,
 			alert_size = 2,
 			value = 1
@@ -4365,7 +4365,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.frankish.stats = {
 			damage = 120,
 			spread = 21,
-			recoil = 18,
+			recoil = 21,
 			concealment = 19,
 			alert_size = 2,
 			value = 1
@@ -4399,8 +4399,8 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.hunter.supported = true
 		self.hunter.stats = {
 			damage = 120,
-			spread = 18,
-			recoil = 20,
+			spread = 20,
+			recoil = 21,
 			concealment = 20,
 			alert_size = 2,
 			reload = 20,
