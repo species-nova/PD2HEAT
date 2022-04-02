@@ -169,7 +169,7 @@ function WeaponFactoryTweakData:_init_hunter()
 	
 	--Explosive Bolt
 	self.parts.wpn_fps_upg_a_crossbow_explosion.supported = true
-	self.parts.wpn_fps_upg_a_crossbow_explosion.stats = {damage = 60}
+	self.parts.wpn_fps_upg_a_crossbow_explosion.stats = {damage = 60, spread = -4}
 	self.parts.wpn_fps_upg_a_crossbow_explosion.custom_stats = {launcher_grenade = "crossbow_arrow_exp"}
 end
 
@@ -188,7 +188,7 @@ function WeaponFactoryTweakData:_init_arblast()
 	
 	--Explosive Bolt
 	self.parts.wpn_fps_bow_arblast_m_explosive.supported = true
-	self.parts.wpn_fps_bow_arblast_m_explosive.stats = {damage = 60}
+	self.parts.wpn_fps_bow_arblast_m_explosive.stats = {damage = 60, spread = -4}
 	self.parts.wpn_fps_bow_arblast_m_explosive.custom_stats = {launcher_grenade = "arblast_arrow_exp"}
 end
 
@@ -207,7 +207,7 @@ function WeaponFactoryTweakData:_init_frankish()
 	
 	--Explosive Bolt
 	self.parts.wpn_fps_bow_frankish_m_explosive.supported = true
-	self.parts.wpn_fps_bow_frankish_m_explosive.stats = {damage = 60}
+	self.parts.wpn_fps_bow_frankish_m_explosive.stats = {damage = 60, spread = -4}
 	self.parts.wpn_fps_bow_frankish_m_explosive.custom_stats = {launcher_grenade = "frankish_arrow_exp"}
 end
 
@@ -227,7 +227,7 @@ function WeaponFactoryTweakData:_init_ecp()
 	
 	--Explosive Bolt
 	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.supported = true
-	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.stats = {damage = 60}
+	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.stats = {damage = 60, spread = -4}
 	self.parts.wpn_fps_bow_ecp_m_arrows_explosive.custom_stats = {launcher_grenade = "ecp_arrow_exp"}
 end
 
