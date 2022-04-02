@@ -4332,7 +4332,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 180,
 			spread = 21,
 			recoil = 21,
-			concealment = 18,
+			concealment = 14,
 			alert_size = 2,
 			value = 1
 		}
@@ -4366,7 +4366,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 			damage = 120,
 			spread = 21,
 			recoil = 21,
-			concealment = 19,
+			concealment = 15,
 			alert_size = 2,
 			value = 1
 		}
@@ -4399,7 +4399,7 @@ Hooks:PostHook( WeaponTweakData, "init", "SC_weapons", function(self)
 		self.hunter.supported = true
 		self.hunter.stats = {
 			damage = 120,
-			spread = 20,
+			spread = 16,
 			recoil = 21,
 			concealment = 20,
 			alert_size = 2,
