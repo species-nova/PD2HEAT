@@ -3814,7 +3814,7 @@ function CharacterTweakData:_presets(tweak_data)
 		tase = true
 	}
 	presets.hurt_severities.medic = deep_clone(presets.hurt_severities.base)
-	presets.hurt_severities.medic.poison = RESIST_HURTS
+	presets.hurt_severities.medic.poison = NO_HURTS
 	presets.hurt_severities.medic_summers = deep_clone(presets.hurt_severities.medic)
 	presets.hurt_severities.medic_summers.melee = {
 		health_reference = "current",
@@ -3910,7 +3910,7 @@ function CharacterTweakData:_presets(tweak_data)
 			}
 		},
 		fire = RESIST_HURTS,
-		poison = RESIST_HURTS,
+		poison = NO_HURTS,
 		bleed = NO_HURTS,
 		tase = false
 	}	
