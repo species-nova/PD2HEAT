@@ -8520,8 +8520,8 @@ function CharacterTweakData:_set_normal()
 	self:_set_characters_dodge_preset("athletic")
 	self:_set_characters_melee_preset("1", "1")
 
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 
 	self:_multiply_all_speeds(1, 1)
 
@@ -8547,8 +8547,8 @@ function CharacterTweakData:_set_hard()
 	
 	self:_set_characters_dodge_preset("athletic")
 	self:_set_characters_melee_preset("1", "1")
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[6] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
@@ -8575,8 +8575,8 @@ function CharacterTweakData:_set_overkill()
 		
 	self:_set_characters_dodge_preset("athletic_very_hard")
 	self:_set_characters_melee_preset("2", "1")
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
@@ -8602,8 +8602,8 @@ function CharacterTweakData:_set_overkill_145()
 	self.swat.can_slide_on_suppress = true
 	self.hrt.can_slide_on_suppress = true
 	
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
@@ -8631,8 +8631,8 @@ function CharacterTweakData:_set_easy_wish()
 	self.city_swat_guard.can_slide_on_suppress = true	
 	self:_set_characters_melee_preset("2.8", "2")
 
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
@@ -8665,8 +8665,8 @@ function CharacterTweakData:_set_overkill_290()
 	--Winters can now overheal special enemies
 	self.phalanx_vip.do_omnia.overheal_specials = true
 	
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 	self:_multiply_all_speeds(1, 1)
 	self.weap_unit_names[19] = Idstring("units/payday2/weapons/wpn_npc_m4/wpn_npc_m4")
 	self.weap_unit_names[23] = Idstring("units/payday2/weapons/wpn_npc_mp5_tactical/wpn_npc_mp5_tactical")
@@ -8701,8 +8701,8 @@ function CharacterTweakData:_set_sm_wish()
 	self.city_swat_guard.can_shoot_while_dodging = true	
 	
 	self:_multiply_all_speeds(1, 1)
-	self.flashbang_multiplier = 5
-	self.concussion_multiplier = 5
+	self.flashbang_multiplier = 10
+	self.concussion_multiplier = 10
 	
 	--Titan SWAT smoke dodging
 	self.heavy_swat.dodge_with_grenade = {

@@ -174,21 +174,20 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 		self._target_kills = nil
 	end
 
-	--Professional aced extra ammo when killing specials while using silenced weapons.
-	if variant == "bullet" and self:has_category_upgrade("player", "special_double_drop") and equipped_unit:base():got_silencer() then
-		local killed_base_ext = killed_unit:base()
-		local killed_char_tweak = killed_base_ext and killed_base_ext:char_tweak()
+	local killed_base_ext = killed_unit:base()
+	local killed_char_tweak = killed_base_ext and killed_base_ext:char_tweak()
+	local killed_special = killed_char_tweak and killed_char_tweak.priority_shout
 
-		if killed_char_tweak and killed_char_tweak.priority_shout then
-			self:_on_spawn_extra_ammo_event(killed_unit)
-		end
+	--Professional aced extra ammo when killing specials while using silenced weapons.
+	if variant == "bullet" and self:has_category_upgrade("player", "special_double_drop") and equipped_unit:base():got_silencer() and killed_special then
+		self:_on_spawn_extra_ammo_event(killed_unit)
 	end
 
 	--Spread on-kill panic.
 	local panic_chance = 0
 
 	--Add Specialized Equipment Ace to panic chance.
-	if self._single_shot_panic_when_kill and equipped_unit:base():holds_single_round() then
+	if self._single_shot_panic_when_kill and killed_special and equipped_unit:base():holds_single_round() then
 		panic_chance = panic_chance + self:upgrade_value("weapon", "single_shot_panic_when_kill")
 	end
 
