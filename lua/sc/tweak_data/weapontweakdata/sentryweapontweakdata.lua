@@ -75,7 +75,7 @@ function WeaponTweakData:_init_data_aa_turret_module_npc()
 	apply_sentry_stats(self.aa_turret_module)
 end
 
-local function multiply_all_sentry_health(health_multiplier, damage_multiplier)
+local function multiply_all_sentry_health_and_damage(health_multiplier, damage_multiplier)
 	--Levels with Helicopter sentries get nerfs on top of difficulty adjustments.
 	local allow_autorepair = true
 	local job = Global.level_data and Global.level_data.level_id
