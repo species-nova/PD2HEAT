@@ -75,19 +75,20 @@ function WeaponTweakData:_init_data_aa_turret_module_npc()
 	apply_sentry_stats(self.aa_turret_module)
 end
 
-local function multiply_all_sentry_health(multiplier)
+local function multiply_all_sentry_health(health_multiplier, damage_multiplier)
 	--Levels with Helicopter sentries get nerfs on top of difficulty adjustments.
 	local allow_autorepair = true
 	local job = Global.level_data and Global.level_data.level_id
 	if job == "chew" or job == "glace" then
-		multiplier = multiplier * 0.5
+		health_multiplier = health_multiplier * 0.5
 		allow_autorepair = false
 	end
 
 	for i = 1, #known_sentry_guns do
 		local sentry_gun = known_sentry_guns[i]
-		sentry_gun.HEALTH_INIT = sentry_gun.HEALTH_INIT * multiplier
-		sentry_gun.SHIELD_HEALTH_INIT = sentry_gun.SHIELD_HEALTH_INIT * multiplier
+		sentry_gun.HEALTH_INIT = sentry_gun.HEALTH_INIT * health_multiplier
+		sentry_gun.SHIELD_HEALTH_INIT = sentry_gun.SHIELD_HEALTH_INIT * health_multiplier
+		sentry_gun.DAMAGE = sentry_gun.DAMAGE * damage_multiplier
 		sentry_gun.AUTO_REPAIR = sentry_gun.AUTO_REPAIR and allow_autorepair
 	end
 	known_sentry_guns = nil
@@ -95,19 +96,19 @@ end
 
 --Damage scaling on NPC guns is handled via CharacterTweakData on weapon handling presets.
 function WeaponTweakData:_set_normal()
-	multiply_all_sentry_health(0.5)
+	multiply_all_sentry_health_and_damage(0.5, 0.3)
 end
 
 function WeaponTweakData:_set_hard()
-	multiply_all_sentry_health(0.625)
+	multiply_all_sentry_health_and_damage(0.625, 0.5)
 end
 
 function WeaponTweakData:_set_overkill()
-	multiply_all_sentry_health(0.75)
+	multiply_all_sentry_health_and_damage(0.75, 0.7)
 end
 
 function WeaponTweakData:_set_overkill_145()
-	multiply_all_sentry_health(0.875)
+	multiply_all_sentry_health_and_damage(0.875, 0.9)
 end
 
 function WeaponTweakData:_set_easy_wish()
