@@ -81,8 +81,8 @@
 		local heavy_bow_poison = {
 			type = "poison",
 			custom_data = {
-				dot_damage = 3,
-				dot_duration = 3.1,
+				dot_damage = 1.5,
+				dot_duration = 6.1,
 				dot_tick_period = 0.5,
 				hurt_animation_chance = 0.5
 			}

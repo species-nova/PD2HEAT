@@ -1,4 +1,4 @@
---Applies damage grace mechanics for civilians in stealth only.
+--Applies damage grace mechanics for civilians in loud only.
 function CivilianDamage:damage_bullet(attack_data)
 	if not managers.groupai:state():whisper_mode() then
 		if managers.player:has_category_upgrade("player", "civ_harmless_bullets") and self.no_intimidation_by_dmg and not self:no_intimidation_by_dmg() and (not self._survive_shot_t or self._survive_shot_t < TimerManager:game():time()) then

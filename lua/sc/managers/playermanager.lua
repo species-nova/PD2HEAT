@@ -187,7 +187,7 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	local panic_chance = 0
 
 	--Add Specialized Equipment Ace to panic chance.
-	if self._single_shot_panic_when_kill and killed_special and equipped_unit:base():holds_single_round() then
+	if self._single_shot_panic_when_kill and equipped_unit:base():holds_single_round() then
 		panic_chance = panic_chance + self:upgrade_value("weapon", "single_shot_panic_when_kill")
 	end
 
