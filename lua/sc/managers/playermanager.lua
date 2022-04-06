@@ -819,6 +819,15 @@ function PlayerManager:_internal_load()
 		return
 	end
 
+	--Remove sticky buff trackers.
+	if not self._unseen_strike then
+		managers.hud:remove_skill("unseen_strike")
+	end
+	
+	if not self._silent_precision then
+		managers.hud:remove_skill("silent_precision")
+	end
+
 	local default_weapon_selection = 1
 	local secondary = managers.blackmarket:equipped_secondary()
 	local secondary_slot = managers.blackmarket:equipped_weapon_slot("secondaries")
