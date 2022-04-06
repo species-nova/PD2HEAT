@@ -160,11 +160,11 @@ function WeaponTweakData:_init_stats()
 	self.stat_info.stance_spread_mults = {
 		standing = 1,
 		moving_standing = 1,
-		crouching = 0.8,
-		moving_crouching = 0.8,
-		steelsight = 0.6,
-		moving_steelsight = 0.6,
-		bipod = 0.5
+		crouching = 0.75,
+		moving_crouching = 0.75,
+		steelsight = 0.5,
+		moving_steelsight = 0.5,
+		bipod = 0.35
 	}
 
 	--Stance multipliers for weapon recoil.
