@@ -222,7 +222,7 @@ function GroupAIStateBesiege:_draw_enemy_activity_client(t)
 			else
 				logic_name_text = panel:text({
 					name = "text",
-					font_size = 20,
+					font_size = 40,
 					layer = 1,
 					text = text_str,
 					font = tweak_data.hud.medium_font,
@@ -427,7 +427,7 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 		else
 			logic_name_text = panel:text({
 				name = "text",
-				font_size = 12,
+				font_size = 24,
 				layer = 1,
 				text = text_str,
 				font = tweak_data.hud.medium_font,
@@ -568,7 +568,7 @@ function GroupAIStateBesiege:_draw_enemy_activity(t)
 				if not gui_text then
 					gui_text = panel:text({
 						name = "text",
-						font_size = 12,
+						font_size = 24,
 						layer = 2,
 						text = group.team.id .. ":" .. group_id .. ":" .. group.objective.type .. move_type .. phase,
 						font = tweak_data.hud.medium_font,
@@ -3427,6 +3427,14 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_reenforce()
 			if grp_objective.moving_out then
 				local done_moving = true
 
+				for u_key, u_data in pairs(group.units) do
+					local objective = u_data.unit:brain():objective()
+
+					if objective and not objective.in_place then
+						done_moving = false
+					end
+				end
+
 				if done_moving then
 					group.objective.moving_out = nil
 					group.in_place_t = self._t
@@ -3441,90 +3449,6 @@ function GroupAIStateBesiege:_assign_enemy_groups_to_reenforce()
 					self:_set_reenforce_objective_to_group(group)
 				end
 			end
-		end
-	end
-end
-
-function GroupAIStateBesiege:_set_reenforce_objective_to_group(group)
-	if not group.has_spawned then
-		return
-	end
-
-	local current_objective = group.objective
-
-	if current_objective.target_area then
-		if current_objective.moving_out and not current_objective.moving_in then
-			local forwardmost_i_nav_point = self:_get_group_forwardmost_coarse_path_index(group)
-
-			if forwardmost_i_nav_point then
-				for i = forwardmost_i_nav_point + 1, #current_objective.coarse_path do
-					local nav_point = current_objective.coarse_path[forwardmost_i_nav_point]
-
-					if not self:is_nav_seg_safe(nav_point[1]) then
-						for i = 0, #current_objective.coarse_path - forwardmost_i_nav_point do
-							table.remove(current_objective.coarse_path)
-						end
-
-						local grp_objective = {
-							attitude = "avoid",
-							scan = true,
-							pose = "stand",
-							type = "reenforce_area",
-							stance = "hos",
-							area = self:get_area_from_nav_seg_id(current_objective.coarse_path[#current_objective.coarse_path][1]),
-							target_area = current_objective.target_area
-						}
-
-						self:_set_objective_to_enemy_group(group, grp_objective)
-
-						return
-					end
-				end
-			end
-		end
-
-		if not current_objective.moving_out and not current_objective.area.neighbours[current_objective.target_area.id] then
-			local search_params = {
-				id = "GroupAI_reenforce",
-				from_seg = current_objective.area.pos_nav_seg,
-				to_seg = current_objective.target_area.pos_nav_seg,
-				access_pos = self._get_group_acces_mask(group),
-				verify_clbk = callback(self, self, "is_nav_seg_safe")
-			}
-			local coarse_path = managers.navigation:search_coarse(search_params)
-
-			if coarse_path then
-				self:_merge_coarse_path_by_area(coarse_path)
-				table.remove(coarse_path)
-
-				local grp_objective = {
-					scan = true,
-					pose = "stand",
-					type = "reenforce_area",
-					stance = "hos",
-					attitude = "avoid",
-					area = self:get_area_from_nav_seg_id(coarse_path[#coarse_path][1]),
-					target_area = current_objective.target_area,
-					coarse_path = coarse_path
-				}
-
-				self:_set_objective_to_enemy_group(group, grp_objective)
-			end
-		end
-
-		if not current_objective.moving_out and current_objective.area.neighbours[current_objective.target_area.id] and not next(current_objective.target_area.criminal.units) then
-			local grp_objective = {
-				stance = "hos",
-				scan = true,
-				pose = "crouch",
-				type = "reenforce_area",
-				attitude = "engage",
-				area = current_objective.target_area
-			}
-
-			self:_set_objective_to_enemy_group(group, grp_objective)
-
-			group.objective.moving_in = true
 		end
 	end
 end

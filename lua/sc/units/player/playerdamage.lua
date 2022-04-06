@@ -83,6 +83,7 @@ function PlayerDamage:init(unit)
 	self._deflection = 1 - player_manager:body_armor_value("deflection", nil, 0) - player_manager:get_deflection_from_skills() --Damage reduction for health. Crashes here mean there is a syntax error in playermanager.
 	self._unpierceable = player_manager:has_category_upgrade("player", "unpierceable_armor")
 	self._armor_full_stagger_range = player_manager:upgrade_value("player", "armor_full_stagger", -1)
+	self._has_full_armor_staggered = true
 	managers.player:set_damage_absorption("absorption_addend", managers.player:upgrade_value("player", "damage_absorption_addend", 0))
 	managers.player:set_damage_absorption("full_armor_absorption", managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor())
 
@@ -1398,7 +1399,8 @@ end
 local calc_armor_damage_orig = PlayerDamage._calc_armor_damage
 function PlayerDamage:_calc_armor_damage(attack_data)
 	--Iron Man stagger.
-	if self:get_real_armor() == self:_max_armor() and not self._ally_attack then
+	if self:get_real_armor() == self:_max_armor() and not self._ally_attack and not self._has_full_armor_staggered then
+		self._has_full_armor_staggered = true
 		self._unit:movement():stagger_in_aoe(self._armor_full_stagger_range)
 	end
 
@@ -1416,6 +1418,7 @@ function PlayerDamage:_calc_armor_damage(attack_data)
 		end
 
 		if not self._armor_broken then
+			self._has_full_armor_staggered = false
 			self._unit:movement():stagger_in_aoe(self._armor_full_stagger_range)
 		end
 

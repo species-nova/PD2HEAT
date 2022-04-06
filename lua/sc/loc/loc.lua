@@ -1528,7 +1528,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Fully Armored--
 			["menu_juggernaut_beta_sc"] = "Fully Armored",
-			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##25%## of your maximum armor and sprinting costs ##50%## less stamina.\n\nACE: ##$pro##\nWhen you take damage while your armor is full, or when your armor breaks after being full, non-special enemies within ##8## meters of you are staggered.",
+			["menu_juggernaut_beta_desc_sc"] = "BASIC: ##$basic##\nWhile your armor is full, damage taken is reduced by a number of points equal to ##25%## of your maximum armor and sprinting costs ##50%## less stamina.\n\nACE: ##$pro##\nWhen you take damage while your armor is full after it was broken, or when your armor breaks after being full, non-special enemies within ##8## meters of you are staggered.",
 
 
 			--}
