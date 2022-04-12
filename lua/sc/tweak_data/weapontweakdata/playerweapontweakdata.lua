@@ -3727,7 +3727,7 @@ function WeaponTweakData:init(...)
 		}
 		self.plainsrider.charge_speed = 0.8
 		self.plainsrider.fire_rate_multiplier = 0.5
-		self.plainsrider.reload_speed_multiplier = 1.33333 --1.2s reload + charge time
+		self.plainsrider.reload_speed_multiplier = 1.33333
 
 		--English Longbow
 		self.long.has_description = true
@@ -3735,9 +3735,9 @@ function WeaponTweakData:init(...)
 		self.long.kick = self.stat_info.kick_tables.none
 		self.long.kick_pattern = self.stat_info.kick_patterns.random
 		self.long.supported = true
-		self.long.charge_speed = 1.2
-		self.long.fire_mode_data.fire_rate = 0.175
-		self.long.single.fire_rate = 0.175
+		self.long.charge_speed = 1
+		self.long.fire_mode_data.fire_rate = 0.14
+		self.long.single.fire_rate = 0.14
 		self.long.stats = {
 			damage = 180,
 			spread = 21,
@@ -3755,7 +3755,8 @@ function WeaponTweakData:init(...)
 			equip = 0.5,
 			unequip = 0.5
 		}
-		self.long.reload_speed_multiplier = 1.3 --2.3s reload+charge time
+		self.long.fire_rate_multiplier = 0.5
+		self.long.reload_speed_multiplier = 1.4
 
 		--DECA Technologies Compound Bow
 		self.elastic.has_description = true
@@ -3763,19 +3764,19 @@ function WeaponTweakData:init(...)
 		self.elastic.kick = self.stat_info.kick_tables.none
 		self.elastic.kick_patterns = self.stat_info.kick_patterns.random
 		self.elastic.supported = true
-		self.elastic.charge_speed = 0.85
+		self.elastic.charge_speed = 0.9
 		self.elastic.fire_mode_data.fire_rate = 1
 		self.elastic.single.fire_rate = 1
 		self.elastic.stats = {
 			damage = 180,
 			spread = 21,
 			recoil = 21,
-			concealment = 14,
+			concealment = 13,
 			alert_size = 2
 		}
 		self.elastic.timers = {
-			reload_operational = 1.3,
-			empty_reload_operational = 1.3,
+			reload_operational = 1.15,
+			empty_reload_operational = 1.15,
 			reload_not_empty = 1.3,
 			reload_empty = 1.3,
 			reload_interrupt = 0,
@@ -3783,8 +3784,8 @@ function WeaponTweakData:init(...)
 			unequip = 0.7,
 			equip = 0.7
 		}
-		self.elastic.fire_rate_multiplier = 1.5
-		self.elastic.reload_speed_multiplier = 1.6
+		self.elastic.fire_rate_multiplier = 1.25
+		self.elastic.reload_speed_multiplier = 2
 
 	--[[
 	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
