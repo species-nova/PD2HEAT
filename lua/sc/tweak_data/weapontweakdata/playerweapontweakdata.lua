@@ -3735,7 +3735,7 @@ function WeaponTweakData:init(...)
 		self.long.kick = self.stat_info.kick_tables.none
 		self.long.kick_pattern = self.stat_info.kick_patterns.random
 		self.long.supported = true
-		self.long.charge_speed = 1.5
+		self.long.charge_speed = 1.2
 		self.long.fire_mode_data.fire_rate = 0.175
 		self.long.single.fire_rate = 0.175
 		self.long.stats = {
@@ -3763,7 +3763,7 @@ function WeaponTweakData:init(...)
 		self.elastic.kick = self.stat_info.kick_tables.none
 		self.elastic.kick_patterns = self.stat_info.kick_patterns.random
 		self.elastic.supported = true
-		self.elastic.charge_speed = 1.35
+		self.elastic.charge_speed = 0.85
 		self.elastic.fire_mode_data.fire_rate = 1
 		self.elastic.single.fire_rate = 1
 		self.elastic.stats = {
