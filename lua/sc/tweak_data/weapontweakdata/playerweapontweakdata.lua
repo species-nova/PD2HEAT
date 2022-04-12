@@ -3770,7 +3770,7 @@ function WeaponTweakData:init(...)
 			damage = 180,
 			spread = 21,
 			recoil = 21,
-			concealment = 13,
+			concealment = 14,
 			alert_size = 2
 		}
 		self.elastic.timers = {
