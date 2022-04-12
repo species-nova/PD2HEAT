@@ -7,12 +7,12 @@
 		}
 	--Barrel Extensions
 		local unsuppressor = {
-			stats = {suppression = 4, alert_size = -1}
+			stats = {suppression = 4, alert_size = -1},
 			heat_stat_table = "unsuppressor",
 			heat_mod_filters = {}
 		}
 		local loudener = {
-			stats = {suppression = 4}
+			stats = {suppression = 4},
 			heat_stat_table = "loudener",
 			heat_mod_filters = {}
 		}
