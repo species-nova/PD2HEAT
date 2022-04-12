@@ -23,6 +23,10 @@ function WeaponTweakData:init(...)
 			if weap.AMMO_MAX then
 				weap.AMMO_MAX = nil
 			end
+
+			if weap.not_allowed_in_bleedout then
+				weap.not_allowed_in_bleedout = nil
+			end
 		end
 	end
 
@@ -49,7 +53,7 @@ function WeaponTweakData:init(...)
 			--Controls the moving spread, swap speed, and ADS speed of the gun.
 			--Cosmetically, it influences weapon sway from camera movement.
 			concealment = 10, --Corresponds to "mobility" from the player's perspective.
-			value = 1
+			--value = 1
 			--zoom = 1
 			--alert_size = 2 --Set to 1 for internally suppressed guns.
 		}
@@ -106,8 +110,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 16,
 			recoil = 17,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.amcar.timers = {
 			reload_not_empty = 2.6,
@@ -132,8 +135,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 18,
 			recoil = 18,
-			concealment = 13,
-			value = 1
+			concealment = 13
 		}
 		self.g36.timers = {
 			reload_not_empty = 3.5,
@@ -160,8 +162,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 18,
 			recoil = 15,
-			concealment = 17,
-			value = 9
+			concealment = 17
 		}
 		self.vhs.timers = {
 			reload_not_empty = 4.15,
@@ -187,8 +188,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 17,
 			recoil = 15,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.s552.timers = {
 			reload_not_empty = 2.4,
@@ -213,8 +213,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 16,
 			recoil = 14,
-			concealment = 15,
-			value = 9
+			concealment = 15
 		}
 		self.corgi.timers = {
 			reload_not_empty = 2.6,
@@ -244,8 +243,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 15,
 			recoil = 15,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.olympic.timers = {
 			reload_not_empty = 3,
@@ -274,8 +272,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 16,
 			recoil = 14,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.komodo.timers = {
 			reload_not_empty = 2.75,
@@ -302,8 +299,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 17,
 			recoil = 15,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.famas.timers = {
 			reload_not_empty = 3.2,
@@ -329,8 +325,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 17,
 			recoil = 15,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.ak74.timers = {
 			reload_not_empty = 3.4,
@@ -355,8 +350,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 16,
 			recoil = 16,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.new_m4.timers = {
 			reload_not_empty = 3.3,
@@ -378,8 +372,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 16,
 			recoil = 13,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.aug.timers = {
 			reload_not_empty = 3.65,
@@ -408,8 +401,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 17,
 			recoil = 14,
-			concealment = 12,
-			value = 1
+			concealment = 12
 		}
 		self.flint.timers = {
 			reload_not_empty = 2.7,
@@ -433,8 +425,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 15,
 			recoil = 15,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.ak5.timers = {
 			reload_not_empty = 2.85,
@@ -462,8 +453,7 @@ function WeaponTweakData:init(...)
 				damage = 24,
 				spread = 18,
 				recoil = 17,
-				concealment = 7,
-				value = 1
+				concealment = 7
 			}
 			self.osipr.timers = {
 				reload_not_empty = 3,
@@ -490,8 +480,7 @@ function WeaponTweakData:init(...)
 				damage = 30,
 				spread = 9,
 				recoil = 5,
-				concealment = 7,
-				value = 1
+				concealment = 7
 			}
 			self.osipr_gl.timers = {
 				reload_not_empty = 4.1,
@@ -539,8 +528,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 15,
 			recoil = 15,
-			concealment = 15,
-			value = 1
+			concealment = 15
 		}
 		self.hajk.timers = {
 			reload_not_empty = 2.5,
@@ -565,8 +553,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 17,
 			recoil = 13,
-			concealment = 13,
-			value = 1
+			concealment = 13
 		}
 		self.akm.timers = {
 			reload_not_empty = 3.0,
@@ -591,8 +578,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 17,
 			recoil = 13,
-			concealment = 13,
-			value = 1
+			concealment = 13
 		}
 		self.akm_gold.timers = {
 			reload_not_empty = 3.0,
@@ -621,8 +607,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 18,
 			recoil = 12,
-			concealment = 16,
-			value = 9
+			concealment = 16
 		}
 		self.l85a2.timers = {
 			reload_not_empty = 3.8,
@@ -649,8 +634,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 16,
 			recoil = 15,
-			concealment = 12,
-			value = 1
+			concealment = 12
 		}
 		self.m16.timers = {
 			reload_not_empty = 3.35,
@@ -677,8 +661,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 16,
 			recoil = 13,
-			concealment = 12,
-			value = 4
+			concealment = 12
 		}
 		self.fal.timers = {
 			reload_not_empty = 2.8,
@@ -705,8 +688,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 15,
 			recoil = 14,
-			concealment = 13,
-			value = 1
+			concealment = 13
 		}
 		self.akmsu.timers = {
 			reload_not_empty = 2.6,
@@ -739,8 +721,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 11,
 			recoil = 10,
-			concealment = 9,
-			value = 1
+			concealment = 9
 		}
 		self.x_akmsu.timers = {
 			reload_not_empty = 3.6,
@@ -768,8 +749,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 16,
 			recoil = 14,
-			concealment = 11,
-			value = 9
+			concealment = 11
 		}
 		self.scar.timers = {
 			reload_not_empty = 2.8,
@@ -797,8 +777,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 14,
 			recoil = 11,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.groza.timers = {
 			reload_not_empty = 2.75,
@@ -812,11 +791,6 @@ function WeaponTweakData:init(...)
 		}
 		self.groza.reload_speed_multiplier = 0.89 --3.1/3.8s
 		self.groza.swap_speed_multiplier = 0.9
-		self.groza_underbarrel.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.groza_underbarrel.single.fire_rate = 0.3
 		self.groza_underbarrel.fire_mode_data.fire_rate = 0.3
 		self.groza_underbarrel.fire_rate_multiplier = 0.4 --100 rpm.
@@ -828,8 +802,7 @@ function WeaponTweakData:init(...)
 			damage = 40,
 			spread = 5,
 			recoil = 5,
-			concealment = 14,
-			value = 1
+			concealment = 14
 		}
 		self.groza_underbarrel.timers = {
 			reload_not_empty = 1.3,
@@ -862,7 +835,6 @@ function WeaponTweakData:init(...)
 			spread = 17,
 			recoil = 11,
 			concealment = 12,
-			value = 1,
 			alert_size = 1
 		}
 		self.asval.timers = {
@@ -887,8 +859,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 17,
 			recoil = 13,
-			concealment = 6,
-			value = 4
+			concealment = 6
 		}
 		self.galil.timers = {
 			reload_not_empty = 3.3,
@@ -919,8 +890,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 17,
 			recoil = 14,
-			concealment = 9,
-			value = 1
+			concealment = 9
 		}
 		self.contraband.swap_speed_multiplier = 0.9
 		self.contraband.timers = {
@@ -933,11 +903,6 @@ function WeaponTweakData:init(...)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.contraband_m203.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.contraband_m203.single.fire_rate = 0.3
 		self.contraband_m203.fire_mode_data.fire_rate = 0.3
 		self.contraband_m203.fire_rate_multiplier = 0.4 --100 rpm.
@@ -949,8 +914,7 @@ function WeaponTweakData:init(...)
 			damage = 40,
 			spread = 14,
 			recoil = 10,
-			concealment = 9,
-			value = 1
+			concealment = 9
 		}
 		self.contraband_m203.timers = {
 			reload_not_empty = 2.5,
@@ -978,8 +942,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 18,
 			recoil = 10,
-			concealment = 13,
-			value = 9
+			concealment = 13
 		}
 		self.ching.timers = {
 			reload_not_empty = 3.2,
@@ -1004,8 +967,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 19,
 			recoil = 9,
-			concealment = 7,
-			value = 1
+			concealment = 7
 		}
 		self.new_m14.timers = {
 			reload_not_empty = 3.1,
@@ -1032,8 +994,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 17,
 			recoil = 12,
-			concealment = 9,
-			value = 4
+			concealment = 9
 		}
 		self.g3.timers = {
 			reload_not_empty = 3.6,
@@ -1060,8 +1021,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 17,
 			recoil = 8,
-			concealment = 13,
-			value = 1
+			concealment = 13
 		}
 		self.shak12.timers = {
 			reload_not_empty = 2.7,
@@ -1077,7 +1037,6 @@ function WeaponTweakData:init(...)
 		self.shak12.swap_speed_multiplier = 0.9
 
 		--Contractor .308
-		self.tti.upgrade_blocks = nil
 		self.tti.categories = {
 			"assault_rifle"
 		}
@@ -1096,8 +1055,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 20,
 			recoil = 13,
-			concealment = 12,
-			value = 9
+			concealment = 12
 		}
 		self.tti.timers = {
 			reload_not_empty = 2.8,
@@ -1113,7 +1071,6 @@ function WeaponTweakData:init(...)
 	--Heavy DMR (Secondary)
 		--Kang Arms X1
 		self.qbu88.use_data.selection_index = 1
-		self.qbu88.upgrade_blocks = nil
 		self.qbu88.categories = {
 			"assault_rifle"
 		}
@@ -1129,8 +1086,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 20,
 			recoil = 10,
-			concealment = 15,
-			value = 9
+			concealment = 15
 		}
 		self.qbu88.timers = {
 			reload_not_empty = 2.7,
@@ -1162,8 +1118,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 5,
 			recoil = 12,
-			concealment = 5,
-			value = 9
+			concealment = 5
 		}
 		self.m134.spin_rounds = 18
 		self.m134.timers = {
@@ -1194,8 +1149,7 @@ function WeaponTweakData:init(...)
 			damage = 18,
 			spread = 5,
 			recoil = 14,
-			concealment = 6,
-			value = 9
+			concealment = 6
 		}
 		self.shuno.spin_rounds = 15
 		self.shuno.timers = {
@@ -1227,8 +1181,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 10,
 			recoil = 20,
-			concealment = 6,
-			value = 9
+			concealment = 6
 		}
 		self.m249.timers = {
 			reload_not_empty = 6.4,
@@ -1256,8 +1209,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 9,
 			recoil = 20,
-			concealment = 9,
-			value = 9
+			concealment = 9
 		}
 		self.hk21.timers = {
 			reload_not_empty = 6,
@@ -1286,8 +1238,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 10,
 			recoil = 16,
-			concealment = 10,
-			value = 9
+			concealment = 10
 		}
 		self.mg42.timers = {
 			reload_not_empty = 7.8,
@@ -1317,8 +1268,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 8,
 			recoil = 19,
-			concealment = 8,
-			value = 9
+			concealment = 8
 		}
 		self.m60.timers = {
 			reload_not_empty = 7.25,
@@ -1348,8 +1298,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 6,
 			recoil = 18,
-			concealment = 11,
-			value = 9
+			concealment = 11
 		}
 		self.rpk.timers = {
 			reload_not_empty = 4.2,
@@ -1381,7 +1330,6 @@ function WeaponTweakData:init(...)
 			spread = 9,
 			recoil = 18,
 			concealment = 6,
-			value = 9,
 			reload = 20
 		}
 		self.par.timers = {
@@ -1400,7 +1348,6 @@ function WeaponTweakData:init(...)
 	--Light Sniper (PRIMARY)
 		--Rattlesnake
 		self.msr.has_description = true
-		self.msr.upgrade_blocks = nil --Mag size increase should apply to it along with other sniper rifles.
 		self.msr.desc_id = "bm_ap_weapon_sc_desc"
 		self.msr.fire_mode_data.fire_rate = 0.75
 		self.msr.kick = self.stat_info.kick_tables.vertical_kick
@@ -1410,8 +1357,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 19,
 			recoil = 12,
-			concealment = 14,
-			value = 9
+			concealment = 14
 		}
 		self.msr.timers = {
 			reload_not_empty = 3.3,
@@ -1425,7 +1371,6 @@ function WeaponTweakData:init(...)
 		}
 
 		--R700
-		self.r700.upgrade_blocks = nil
 		self.r700.has_description = true
 		self.r700.desc_id = "bm_ap_weapon_sc_desc"
 		self.r700.kick = self.stat_info.kick_tables.vertical_kick
@@ -1435,8 +1380,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 21,
 			recoil = 14,
-			concealment = 14,
-			value = 9
+			concealment = 14
 		}
 		self.r700.timers = {
 			reload_not_empty = 4.2,
@@ -1450,7 +1394,6 @@ function WeaponTweakData:init(...)
 		}
 
 		--Lebensauger .308
-		self.wa2000.upgrade_blocks = nil
 		self.wa2000.has_description = true
 		self.wa2000.desc_id = "bm_ap_weapon_sc_desc"
 		self.wa2000.CLIP_AMMO_MAX = 6
@@ -1461,8 +1404,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 20,
 			recoil = 14,
-			concealment = 15,
-			value = 9
+			concealment = 15
 		}
 		self.wa2000.timers = {
 			reload_not_empty = 5.2,
@@ -1480,7 +1422,6 @@ function WeaponTweakData:init(...)
 
 
 		--Repeater 1874
-		self.winchester1874.upgrade_blocks = nil
 		self.winchester1874.has_description = true
 		self.winchester1874.desc_id = "bm_ap_weapon_sc_desc"
 		self.winchester1874.CLIP_AMMO_MAX = 14
@@ -1495,8 +1436,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 19,
 			recoil = 11,
-			concealment = 17,
-			value = 9
+			concealment = 17
 		}
 		self.winchester1874.timers = {
 			shotgun_reload_enter = 0.43333333333333335,
@@ -1510,7 +1450,6 @@ function WeaponTweakData:init(...)
 		self.winchester1874.reload_speed_multiplier = 1.1
 
 		--Grom
-		self.siltstone.upgrade_blocks = nil
 		self.siltstone.has_description = true
 		self.siltstone.desc_id = "bm_ap_weapon_sc_desc"
 		self.siltstone.CLIP_AMMO_MAX = 10
@@ -1522,8 +1461,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 18,
 			recoil = 14,
-			concealment = 11,
-			value = 9
+			concealment = 11
 		}
 		self.siltstone.timers = {
 			reload_not_empty = 2.9,
@@ -1539,7 +1477,6 @@ function WeaponTweakData:init(...)
 
 	--Heavy Sniper (Primary)
 		--Bernetti Rangehitter
-		self.sbl.upgrade_blocks = nil
 		self.sbl.has_description = true
 		self.sbl.desc_id = "bm_ap_weapon_sc_desc"
 		self.sbl.FIRE_MODE = "single"
@@ -1557,8 +1494,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 17,
 			recoil = 9,
-			concealment = 15,
-			value = 9
+			concealment = 15
 		}
 		self.sbl.timers = {
 			shotgun_reload_enter = 0.43333333333333335,
@@ -1572,7 +1508,6 @@ function WeaponTweakData:init(...)
 		self.sbl.swap_speed_multiplier = 0.8
 
 		--Platypus 70
-		self.model70.upgrade_blocks = nil
 		self.model70.has_description = true
 		self.model70.desc_id = "bm_ap_weapon_sc_desc"
 		self.model70.CLIP_AMMO_MAX = 6
@@ -1583,8 +1518,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 21,
 			recoil = 13,
-			concealment = 11,
-			value = 9
+			concealment = 11
 		}
 		self.model70.timers = {
 			reload_not_empty = 4,
@@ -1599,7 +1533,6 @@ function WeaponTweakData:init(...)
 		self.model70.reload_speed_multiplier = 1.12 --3.6/4.3s
 
 		--Desert Fox
-		self.desertfox.upgrade_blocks = nil
 		self.desertfox.has_description = true
 		self.desertfox.desc_id = "bm_ap_weapon_sc_desc"
 		self.desertfox.CLIP_AMMO_MAX = 5
@@ -1611,8 +1544,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 19,
 			recoil = 11,
-			concealment = 15,
-			value = 9
+			concealment = 15
 		}
 		self.desertfox.timers = {
 			reload_not_empty = 3.5,
@@ -1626,7 +1558,6 @@ function WeaponTweakData:init(...)
 		}
 
 		--R93
-		self.r93.upgrade_blocks = nil
 		self.r93.has_description = true
 		self.r93.desc_id = "bm_ap_weapon_sc_desc"
 		self.r93.CLIP_AMMO_MAX = 6 --Has 5 rounds irl, but 6 makes for more interesting tradeoffs.
@@ -1638,8 +1569,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 21,
 			recoil = 16,
-			concealment = 8,
-			value = 9
+			concealment = 8
 		}
 		self.r93.timers = {
 			reload_not_empty = 3.5,
@@ -1654,7 +1584,6 @@ function WeaponTweakData:init(...)
 		self.r93.reload_speed_multiplier = 1.05 --3.3/4.3s
 
 		--Nagant
-		self.mosin.upgrade_blocks = nil
 		self.mosin.has_description = true
 		self.mosin.desc_id = "bm_ap_weapon_sc_desc"
 		self.mosin.CLIP_AMMO_MAX = 5
@@ -1666,8 +1595,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 20,
 			recoil = 14,
-			concealment = 13,
-			value = 9
+			concealment = 13
 		}
 		self.mosin.timers = {
 			reload_not_empty = 4.2,
@@ -1683,7 +1611,6 @@ function WeaponTweakData:init(...)
 
 	--O LAWD HE COMING Sniper (Primary)
 		--Thanatos .50 cal
-		self.m95.upgrade_blocks = nil
 		self.m95.has_description = true
 		self.m95.desc_id = "bm_heavy_ap_weapon_sc_desc"
 		self.m95.can_shoot_through_titan_shield = true
@@ -1695,8 +1622,7 @@ function WeaponTweakData:init(...)
 			damage = 180,
 			spread = 21,
 			recoil = 6,
-			concealment = 8,
-			value = 9
+			concealment = 8
 		}
 		self.m95.timers = {
 			reload_not_empty = 4.9,
@@ -1724,8 +1650,7 @@ function WeaponTweakData:init(...)
 			damage = 18,
 			spread = 14,
 			recoil = 17,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.coal.timers = {
 			reload_not_empty = 3.75,
@@ -1750,8 +1675,7 @@ function WeaponTweakData:init(...)
 			damage = 18,
 			spread = 14,
 			recoil = 16,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.mp9.timers = {
 			reload_not_empty = 2.1,
@@ -1774,8 +1698,7 @@ function WeaponTweakData:init(...)
 			damage = 18,
 			spread = 15,
 			recoil = 14,
-			concealment = 18,
-			value = 1
+			concealment = 18
 		}
 		self.sr2.timers = {
 			reload_not_empty = 2.7,
@@ -1799,8 +1722,7 @@ function WeaponTweakData:init(...)
 			damage = 18,
 			spread = 11,
 			recoil = 15,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.p90.timers = {
 			reload_not_empty = 3,
@@ -1828,8 +1750,7 @@ function WeaponTweakData:init(...)
 			damage = 18,
 			spread = 11,
 			recoil = 14,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.x_sr2.timers = {
 			reload_not_empty = 2.2,
@@ -1858,8 +1779,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 12,
 			recoil = 14,
-			concealment = 18,
-			value = 1
+			concealment = 18
 		}
 		self.pm9.timers = {
 			reload_not_empty = 2.3,
@@ -1882,8 +1802,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 15,
 			recoil = 18,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.shepheard.timers = {
 			reload_not_empty = 2.65,
@@ -1907,8 +1826,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 14,
 			recoil = 14,
-			concealment = 18,
-			value = 1
+			concealment = 18
 		}
 		self.mac10.timers = {
 			reload_not_empty = 2.2,
@@ -1935,8 +1853,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 14,
 			recoil = 13,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.cobray.timers = {
 			reload_not_empty = 2.5,
@@ -1960,8 +1877,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 16,
 			recoil = 15,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.new_mp5.timers = {
 			reload_not_empty = 3,
@@ -1984,8 +1900,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 12,
 			recoil = 18,
-			concealment = 20,
-			value = 7
+			concealment = 20
 		}
 		self.scorpion.timers  = {
 			reload_not_empty = 2.4,
@@ -2012,8 +1927,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 9,
 			recoil = 9,
-			concealment = 15,
-			value = 1
+			concealment = 15
 		}
 		self.x_mac10.timers = {
 			reload_not_empty = 3.6,
@@ -2040,8 +1954,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 12,
 			recoil = 11,
-			concealment = 11,
-			value = 1
+			concealment = 11
 		}
 		self.x_mp5.timers = {
 			reload_not_empty = 2.65,
@@ -2069,8 +1982,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 15,
 			recoil = 14,
-			concealment = 17,
-			value = 5
+			concealment = 17
 		}
 		self.vityaz.timers = {
 			reload_not_empty = 2.75,
@@ -2096,8 +2008,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 10,
 			recoil = 18,
-			concealment = 15,
-			value = 9
+			concealment = 15
 		}
 		self.m1928.timers = {
 			reload_not_empty = 4.4,
@@ -2123,8 +2034,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 15,
 			recoil = 17,
-			concealment = 18,
-			value = 5
+			concealment = 18
 		}
 		self.erma.timers = {
 			reload_not_empty = 2.5,
@@ -2148,8 +2058,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 12,
 			recoil = 12,
-			concealment = 18,
-			value = 7
+			concealment = 18
 		}
 		self.mp7.timers = {
 			reload_not_empty = 2.4,
@@ -2173,8 +2082,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 11,
 			recoil = 15,
-			concealment = 17,
-			value = 7
+			concealment = 17
 		}
 		self.tec9.timers = {
 			reload_not_empty = 2.8,
@@ -2198,8 +2106,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 18,
 			recoil = 16,
-			concealment = 17,
-			value = 7
+			concealment = 17
 		}
 		self.sterling.timers = {
 			reload_not_empty = 2.9,
@@ -2224,8 +2131,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 10,
 			recoil = 10,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.fmg9.timers = {
 			reload_not_empty = 2.6,
@@ -2252,8 +2158,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 14,
 			recoil = 15,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.schakal.timers = {
 			reload_not_empty = 2.9,
@@ -2277,8 +2182,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 8,
 			recoil = 15,
-			concealment = 16,
-			value = 1
+			concealment = 16
 		}
 		self.polymer.timers = {
 			reload_not_empty = 2.6,
@@ -2301,8 +2205,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 14,
 			recoil = 15,
-			concealment = 15,
-			value = 5
+			concealment = 15
 		}
 		self.m45.timers = {
 			reload_not_empty = 3.4,
@@ -2324,8 +2227,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 6,
 			recoil = 13,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.baka.timers = {
 			reload_not_empty = 2.4,
@@ -2348,8 +2250,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 14,
 			recoil = 17,
-			concealment = 17,
-			value = 7
+			concealment = 17
 		}
 		self.uzi.timers = {
 			reload_not_empty = 3.1,
@@ -2380,8 +2281,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 15,
 			recoil = 15,
-			concealment = 18,
-			value = 1
+			concealment = 18
 		}
 		self.beer.timers = {
 			reload_not_empty = 2.0,
@@ -2405,8 +2305,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 18,
 			recoil = 18,
-			concealment = 20,
-			value = 1
+			concealment = 20
 		}
 		self.glock_17.timers = {
 			reload_not_empty = 2.0,
@@ -2430,8 +2329,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 19,
 			recoil = 19,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.b92fs.timers = {
 			reload_not_empty = 2.0,
@@ -2461,8 +2359,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 18,
 			recoil = 19,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.lemming.timers = {
 			reload_not_empty = 1.9,
@@ -2486,8 +2383,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 19,
 			recoil = 20,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.g26.timers = {
 			reload_not_empty = 2.0,
@@ -2515,8 +2411,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 16,
 			recoil = 13,
-			concealment = 20,
-			value = 1
+			concealment = 20
 		}
 		self.glock_18c.timers = {
 			reload_not_empty = 2.0,
@@ -2539,8 +2434,7 @@ function WeaponTweakData:init(...)
 			spread = 17,
 			recoil = 20,
 			concealment = 20,
-			alert_size = 1,
-			value = 1
+			alert_size = 1
 		}
 		self.maxim9.timers = {
 			reload_not_empty = 2.0,
@@ -2568,8 +2462,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 15,
 			recoil = 14,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.x_g17.timers = {
 			reload_not_empty = 3.7,
@@ -2598,8 +2491,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 17,
 			recoil = 17,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.x_b92fs.timers = {
 			reload_not_empty = 3.7,
@@ -2629,8 +2521,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 19,
 			recoil = 20,
-			concealment = 20,
-			value = 1
+			concealment = 20
 		}
 		self.jowi.timers = {
 			reload_not_empty = 3.7,
@@ -2660,8 +2551,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 11,
 			recoil = 8,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.x_g18c.timers = {
 			reload_not_empty = 3.7,
@@ -2687,8 +2577,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 14,
 			recoil = 12,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.czech.timers = {
 			reload_not_empty = 1.95,
@@ -2713,8 +2602,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 19,
 			recoil = 18,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.ppk.timers = {
 			reload_not_empty = 1.9,
@@ -2738,8 +2626,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 16,
 			recoil = 19,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.packrat.timers = {
 			reload_not_empty = 2,
@@ -2763,8 +2650,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 17,
 			recoil = 18,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.pl14.timers = {
 			reload_not_empty = 1.9,
@@ -2786,8 +2672,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 18,
 			recoil = 16,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.legacy.timers = {
 			reload_not_empty = 2.0,
@@ -2808,8 +2693,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 15,
 			recoil = 21,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.holt.timers = {
 			reload_not_empty = 2.0,
@@ -2831,8 +2715,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 13,
 			recoil = 15,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.stech.timers = {
 			reload_not_empty = 2.5,
@@ -2861,8 +2744,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 15,
 			recoil = 11,
-			concealment = 20,
-			value = 1
+			concealment = 20
 		}
 		self.x_legacy.timers = {
 			reload_not_empty = 3.7,
@@ -2892,8 +2774,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 13,
 			recoil = 15,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.x_pl14.timers = {
 			reload_not_empty = 3.7,
@@ -2921,8 +2802,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 15,
 			recoil = 11,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.sub2000.timers = {
 			reload_not_empty = 2.8,
@@ -2953,8 +2833,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 17,
 			recoil = 17,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.c96.timers = {
 			reload_not_empty = 4.4,
@@ -2978,8 +2857,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 14,
 			recoil = 18,
-			concealment = 19,
-			value = 4
+			concealment = 19
 		}
 		self.p226.timers = {
 			reload_not_empty = 2.0,
@@ -3001,8 +2879,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 16,
 			recoil = 16,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.sparrow.timers = {
 			reload_not_empty = 1.9,
@@ -3025,8 +2902,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 17,
 			recoil = 13,
-			concealment = 20,
-			value = 1
+			concealment = 20
 		}
 		self.g22c.timers = {
 			reload_not_empty = 2.0,
@@ -3048,8 +2924,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 18,
 			recoil = 15,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.shrew.timers = {
 			reload_not_empty = 2.0,
@@ -3078,8 +2953,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 13,
 			recoil = 9,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.x_g22c.timers = {
 			reload_not_empty = 3.7,
@@ -3104,8 +2978,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 15,
 			recoil = 11,
-			concealment = 19,
-			value = 4
+			concealment = 19
 		}
 		self.usp.timers = {
 			reload_not_empty = 2.0,
@@ -3131,8 +3004,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 17,
 			recoil = 11,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.colt_1911.timers = {
 			reload_not_empty = 2.0,
@@ -3157,8 +3029,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 16,
 			recoil = 10,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.m1911.timers = {
 			reload_not_empty = 2.0,
@@ -3183,8 +3054,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 15,
 			recoil = 10,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.breech.timers = {
 			reload_not_empty = 1.8,
@@ -3207,8 +3077,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 11,
 			recoil = 14,
-			concealment = 20,
-			value = 4
+			concealment = 20
 		}
 		self.hs2000.timers = {
 			reload_not_empty = 2.0,
@@ -3238,8 +3107,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 11,
 			recoil = 7,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.x_usp.timers = {
 			reload_not_empty = 3.7,
@@ -3270,8 +3138,7 @@ function WeaponTweakData:init(...)
 			damage = 45,
 			spread = 13,
 			recoil = 7,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.x_1911.timers = {
 			reload_not_empty = 3.7,
@@ -3298,8 +3165,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 19,
 			recoil = 6,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.deagle.timers = {
 			reload_not_empty = 2.5,
@@ -3324,8 +3190,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 16,
 			recoil = 9,
-			concealment = 20,
-			value = 1
+			concealment = 20
 		}
 		self.new_raging_bull.timers = {
 			reload_not_empty = 2.5,
@@ -3348,8 +3213,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 19,
 			recoil = 10,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.chinchilla.timers = {
 			reload_not_empty = 3.4,
@@ -3371,8 +3235,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 21,
 			recoil = 9,
-			concealment = 18,
-			value = 1
+			concealment = 18
 		}
 		self.model3.timers = {
 			reload_not_empty = 2.65,
@@ -3395,8 +3258,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 14,
 			recoil = 13,
-			concealment = 21,
-			value = 1
+			concealment = 21
 		}
 		self.mateba.timers = {
 			reload_not_empty = 4.1,
@@ -3423,8 +3285,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 17,
 			recoil = 6,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.x_chinchilla.timers = {
 			reload_not_empty = 3.74,
@@ -3458,8 +3319,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 17,
 			recoil = 5,
-			concealment = 18,
-			value = 1
+			concealment = 18
 		}
 		self.shatters_fury.timers = {
 			reload_not_empty = 2.5,
@@ -3489,8 +3349,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 15,
 			recoil = 7,
-			concealment = 17,
-			value = 1
+			concealment = 17
 		}
 		self.rsh12.timers = {
 			reload_not_empty = 2.7,
@@ -3520,8 +3379,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 19,
 			recoil = 8,
-			concealment = 19,
-			value = 1
+			concealment = 19
 		}
 		self.peacemaker.timers = {
 			shotgun_reload_enter = 1.4333333333333333,
@@ -3536,11 +3394,6 @@ function WeaponTweakData:init(...)
 
 	--Grenade Launchers (Primary)
 		--GL 40
-		self.gre_m79.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.gre_m79.desc_id = "bm_40mm_weapon_sc_desc"
 		self.gre_m79.has_description = true
 		self.gre_m79.fire_mode_data.fire_rate = 0.3
@@ -3552,8 +3405,7 @@ function WeaponTweakData:init(...)
 			damage = 40,
 			spread = 18,
 			recoil = 10,
-			concealment = 15,
-			value = 1
+			concealment = 15
 		}
 		self.gre_m79.timers = {
 			reload_not_empty = 3.2,
@@ -3579,8 +3431,7 @@ function WeaponTweakData:init(...)
 			damage = 40,
 			spread = 12,
 			recoil = 10,
-			concealment = 7,
-			value = 1
+			concealment = 7
 		}
 		self.m32.stats_modifiers = {damage = 10}
 		self.m32.timers = {
@@ -3597,11 +3448,6 @@ function WeaponTweakData:init(...)
 
 	--Grenade Launchers (Secondary)
 		--Compact 40mm
-		self.slap.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.slap.desc_id = "bm_40mm_weapon_sc_desc"
 		self.slap.has_description = true
 		self.slap.fire_mode_data.fire_rate = 0.5
@@ -3613,8 +3459,7 @@ function WeaponTweakData:init(...)
 			damage = 40,
 			spread = 16,
 			recoil = 10,
-			concealment = 15,
-			value = 1
+			concealment = 15
 		}
 		self.slap.timers = {
 			reload_not_empty = 4,
@@ -3642,8 +3487,7 @@ function WeaponTweakData:init(...)
 			damage = 40,
 			spread = 9,
 			recoil = 7,
-			concealment = 11,
-			value = 1
+			concealment = 11
 		}
 		self.china.stats_modifiers = {damage = 10}
 		self.china.timers = {
@@ -3670,8 +3514,7 @@ function WeaponTweakData:init(...)
 			damage = 30,
 			spread = 9,
 			recoil = 5,
-			concealment = 7,
-			value = 1
+			concealment = 7
 		}
 		self.arbiter.timers = {
 			reload_not_empty = 4.1,
@@ -3702,8 +3545,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 6,
 			recoil = 21,
-			concealment = 5,
-			value = 1
+			concealment = 5
 		}
 		self.ray.timers = {
 			reload_not_empty = 7.5,
@@ -3720,11 +3562,6 @@ function WeaponTweakData:init(...)
 
 	--Rocket Launchers (Secondary)
 		--HRL-7
-		self.rpg7.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.rpg7.kick = self.stat_info.kick_tables.even_recoil
 		self.rpg7.kick_pattern = self.stat_info.kick_patterns.random
 		self.rpg7.has_description = true
@@ -3736,8 +3573,7 @@ function WeaponTweakData:init(...)
 			damage = 60,
 			spread = 10,
 			recoil = 17,
-			concealment = 6,
-			value = 1
+			concealment = 6
 		}
 		self.rpg7.timers = {
 			reload_not_empty = 5.6,
@@ -3765,8 +3601,7 @@ function WeaponTweakData:init(...)
 			spread = 14,
 			recoil = 16,
 			concealment = 11,
-			alert_size = 2,
-			value = 1
+			alert_size = 2
 		}
 		self.ecp.timers = {
 			reload_not_empty = 3.6,
@@ -3780,11 +3615,6 @@ function WeaponTweakData:init(...)
 		}
 
 		--Heavy Crossbow
-		self.arblast.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.arblast.has_description = true
 		self.arblast.desc_id = "bm_ap_3_weapon_sc_desc"
 		self.arblast.single.fire_rate = 0.5
@@ -3797,8 +3627,7 @@ function WeaponTweakData:init(...)
 			spread = 21,
 			recoil = 21,
 			concealment = 14,
-			alert_size = 2,
-			value = 1
+			alert_size = 2
 		}
 		self.arblast.timers = {
 			reload_empty = 3.8,
@@ -3814,11 +3643,6 @@ function WeaponTweakData:init(...)
 		self.arblast.reload_speed_multiplier = 1.2666 --3s
 
 		--Light Crossbow
-		self.frankish.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.frankish.has_description = true
 		self.frankish.desc_id = "bm_ap_3_weapon_sc_desc"
 		self.frankish.single.fire_rate = 0.5
@@ -3831,8 +3655,7 @@ function WeaponTweakData:init(...)
 			spread = 21,
 			recoil = 21,
 			concealment = 15,
-			alert_size = 2,
-			value = 1
+			alert_size = 2
 		}
 		self.frankish.timers = {
 			reload_not_empty = 2,
@@ -3849,11 +3672,6 @@ function WeaponTweakData:init(...)
 
 	--Crossbows (Secondary)
 		--Pistol Crossbow
-		self.hunter.upgrade_blocks = {
-			weapon = {
-				"clip_ammo_increase"
-			}
-		}
 		self.hunter.has_description = true
 		self.hunter.desc_id = "bm_ap_3_weapon_sc_desc"
 		self.hunter.single.fire_rate = 0.5
@@ -3867,8 +3685,7 @@ function WeaponTweakData:init(...)
 			recoil = 21,
 			concealment = 20,
 			alert_size = 2,
-			reload = 20,
-			value = 1
+			reload = 20
 		}
 		self.hunter.timers = {
 			reload_not_empty = 1.6,
@@ -3882,6 +3699,93 @@ function WeaponTweakData:init(...)
 		}
 		self.hunter.crossbow_string_time = 0.067
 
+	--Bows (Primary)
+		--Plainsrider bow.
+		self.plainsrider.has_description = true
+		self.plainsrider.desc_id = "bm_ap_2_weapon_sc_desc"
+		self.plainsrider.kick = self.stat_info.kick_tables.none
+		self.plainsrider.kick_pattern = self.stat_info.kick_patterns.random
+		self.plainsrider.supported = true
+		self.plainsrider.fire_mode_data.fire_rate = 0.1
+		self.plainsrider.single.fire_rate = 0.1
+		self.plainsrider.stats = {
+			damage = 120,
+			spread = 20,
+			recoil = 21,
+			concealment = 15,
+			alert_size = 2
+		}
+		self.plainsrider.timers = {
+			reload_operational = 0.65,
+			empty_reload_operational = 0.65,
+			reload_not_empty = 0.8,
+			reload_empty = 0.8,
+			reload_interrupt = 0,
+			empty_reload_interrupt = 0,
+			equip = 0.4,
+			unequip = 0.4
+		}
+		self.plainsrider.charge_speed = 0.8
+		self.plainsrider.fire_rate_multiplier = 0.5
+		self.plainsrider.reload_speed_multiplier = 1.33333 --1.2s reload + charge time
+
+		--English Longbow
+		self.long.has_description = true
+		self.long.desc_id = "bm_ap_2_weapon_sc_desc"
+		self.long.kick = self.stat_info.kick_tables.none
+		self.long.kick_pattern = self.stat_info.kick_patterns.random
+		self.long.supported = true
+		self.long.charge_speed = 1.5
+		self.long.fire_mode_data.fire_rate = 0.175
+		self.long.single.fire_rate = 0.175
+		self.long.stats = {
+			damage = 180,
+			spread = 21,
+			recoil = 21,
+			concealment = 14,
+			alert_size = 2
+		}
+		self.long.timers = {
+			reload_operational = 0.9,
+			empty_reload_operational = 0.9,
+			reload_not_empty = 1.5,
+			reload_empty = 1.5,
+			reload_interrupt = 0,
+			empty_reload_interrupt = 0,
+			equip = 0.5,
+			unequip = 0.5
+		}
+		self.long.reload_speed_multiplier = 1.3 --2.3s reload+charge time
+
+		--DECA Technologies Compound Bow
+		self.elastic.has_description = true
+		self.elastic.desc_id = "bm_ap_2_weapon_sc_desc"
+		self.elastic.kick = self.stat_info.kick_tables.none
+		self.elastic.kick_patterns = self.stat_info.kick_patterns.random
+		self.elastic.supported = true
+		self.elastic.charge_speed = 1.35
+		self.elastic.fire_mode_data.fire_rate = 1
+		self.elastic.single.fire_rate = 1
+		self.elastic.stats = {
+			damage = 180,
+			spread = 21,
+			recoil = 21,
+			concealment = 13,
+			alert_size = 2
+		}
+		self.elastic.timers = {
+			reload_operational = 1.3,
+			empty_reload_operational = 1.3,
+			reload_not_empty = 1.3,
+			reload_empty = 1.3,
+			reload_interrupt = 0,
+			empty_reload_interrupt = 0,
+			unequip = 0.7,
+			equip = 0.7
+		}
+		self.elastic.fire_rate_multiplier = 1.5
+		self.elastic.reload_speed_multiplier = 1.6
+
 	--[[
 	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
 	self.ultima.kick_pattern = self.stat_info.kick_patterns.random
@@ -3890,8 +3794,7 @@ function WeaponTweakData:init(...)
 		damage = 60,
 		spread = 7,
 		recoil = 4,
-		concealment = 11,
-		value = 1
+		concealment = 11
 	}
 	]]
 
@@ -3916,7 +3819,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 
@@ -3942,7 +3844,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.saiga.reload_speed_multiplier = 1.25
@@ -3967,7 +3868,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 
@@ -4001,7 +3901,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.huntsman.timers.reload_not_empty = 2.3
@@ -4022,8 +3921,7 @@ function WeaponTweakData:init(...)
 		spread = 21,
 		recoil = 16,
 		damage = 60,
-		concealment = 11,
-		value = 1
+		concealment = 11
 	}
 	self.saw.timers = {
 		reload_not_empty = 4.8,
@@ -4067,7 +3965,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.judge.timers.reload_not_empty = 2.4
@@ -4099,7 +3996,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 
@@ -4125,7 +4021,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.striker.timers.shotgun_reload_first_shell_offset = 0.4
@@ -4150,7 +4045,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 
@@ -4176,7 +4070,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.spas12.stats_modifiers = {damage = 1}
@@ -4207,7 +4100,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.b682.reload_speed_multiplier = 1.2
@@ -4253,7 +4145,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 
@@ -4276,63 +4167,9 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.aa12.reload_speed_multiplier = 1.15
-
-	--Plainsrider bow.
-	self.plainsrider.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.plainsrider.has_description = true
-	self.plainsrider.desc_id = "bm_ap_2_weapon_sc_desc"
-	self.plainsrider.kick = self.stat_info.kick_tables.none
-	self.plainsrider.AMMO_MAX = 30
-	self.plainsrider.charge_data.max_t = 0.5
-	self.plainsrider.not_allowed_in_bleedout = false
-	self.plainsrider.supported = false
-	self.plainsrider.stats = {
-		damage = 60,
-		spread = 21,
-		recoil = 26,
-		spread_moving = 12,
-		zoom = 1,
-		concealment = 30,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.plainsrider.stats_modifiers = {damage = 4}
-
-	--English Longbow
-	self.long.has_description = true
-	self.long.desc_id = "bm_ap_2_weapon_sc_desc"
-	self.long.kick = self.stat_info.kick_tables.none
-	self.long.charge_data.max_t = 1
-	self.long.not_allowed_in_bleedout = false
-	self.long.AMMO_MAX = 20
-	self.long.supported = false
-	self.long.stats = {
-		damage = 90,
-		spread = 21,
-		recoil = 26,
-		spread_moving = 12,
-		zoom = 1,
-		concealment = 29,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.long.stats_modifiers = {damage = 4}
 
 	--GSPS--
 	self.m37.rays = 9
@@ -4354,7 +4191,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 
@@ -4379,7 +4215,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.boot.timers = {
@@ -4415,7 +4250,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.rota.stats_modifiers = nil
@@ -4439,7 +4273,6 @@ function WeaponTweakData:init(...)
 		spread = 7,
 		spread_moving = 8,
 		recoil = 19,
-		value = 1,
 		extra_ammo = 101,
 		reload = 20,
 		suppression = 6,
@@ -4470,7 +4303,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.x_judge.stats_modifiers = nil
@@ -4521,45 +4353,9 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.system.stats_modifiers = nil
-
-	--DECA Technologies Compound Bow
-	self.elastic.upgrade_blocks = {
-		weapon = {
-			"clip_ammo_increase"
-		}
-	}
-	self.elastic.has_description = true
-	self.elastic.desc_id = "bm_ap_2_weapon_sc_desc"
-	self.elastic.timers = {
-		reload_not_empty = 1.5,
-		reload_empty = 1.5,
-		unequip = 0.85,
-		equip = 0.85
-	}
-	self.elastic.kick = self.stat_info.kick_tables.none
-	self.elastic.charge_data.max_t = 1
-	self.elastic.not_allowed_in_bleedout = false
-	self.elastic.AMMO_MAX = 20
-	self.elastic.supported = false
-	self.elastic.stats = {
-		damage = 90,
-		spread = 20,
-		recoil = 26,
-		spread_moving = 12,
-		zoom = 1,
-		concealment = 30,
-		suppression = 20,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		value = 1,
-		reload = 20
-	}
-	self.elastic.stats_modifiers = {damage = 4}
 
 	--Claire 12G
 	self.coach.muzzleflash = "effects/particles/shotgun/muzzleflash"
@@ -4591,7 +4387,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.coach.stats_modifiers = nil
@@ -4619,7 +4414,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.m1897.stats_modifiers = nil
@@ -4644,7 +4438,6 @@ function WeaponTweakData:init(...)
 		alert_size = 2,
 		extra_ammo = 101,
 		total_ammo_mod = 100,
-		value = 1,
 		reload = 20
 	}
 	self.m590.stats_modifiers = nil
@@ -4724,9 +4517,18 @@ function WeaponTweakData:init(...)
 				weap.stats.extra_ammo = 101
 				weap.stats.total_ammo_mod = 100
 				weap.stats.reload = 20
+				weap.stats.value = 1
 				weap.panic_suppression_chance = 0.05
 				self:calculate_ammo_data(weap)
 				self:calculate_suppression_data(weap)
+
+				if weap.CLIP_AMMO_MAX == 1 then
+					weap.upgrade_blocks = {
+						weapon = {
+							"clip_ammo_increase"
+						}
+					}
+				end
 
 				--Normalize camera shake.
 				if weap.shake then
@@ -4746,9 +4548,9 @@ end
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 364, suppression = 4}, --18/36 damage guns
-	{damage = 20,  pickup = 346, suppression = 6},
-	{damage = 24,  pickup = 328, suppression = 8},
+	{damage = 18,  pickup = 364, suppression =  4}, --18/36 damage guns
+	{damage = 20,  pickup = 346, suppression =  6},
+	{damage = 24,  pickup = 328, suppression =  8},
 	{damage = 30,  pickup = 310, suppression = 10},
 	{damage = 45,  pickup = 292, suppression = 11},
 	{damage = 60,  pickup = 274, suppression = 12},
@@ -4764,7 +4566,7 @@ local damage_tier_data = {
 local damage_pool_primary = 3600
 local damage_pool_secondary = 1800
 
-function get_damage_tier(weapon)
+local function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
 	local damage = weapon.stats.damage * damage_mul
 	for i, damage_tier in ipairs(damage_tier_data) do
@@ -4776,22 +4578,29 @@ function get_damage_tier(weapon)
 	return damage_tier_data[#damage_tier_data]
 end
 
-local category_pickup_muls = { --Different gun categories have different pickup mults to compensate for various factors.
-	shotgun = 0.7, --Compensate for ease of aim+multikills and/or versatility.
-	bow = 0.6, --Compensate for picking arrows back up.
-	crossbow = 0.6,
-	pistol = 1.1, --Compensate for low range.
-	smg = 1.1,
-	saw = 0.4,
-	lmg = 1,
-	minigun = 1,
-	grenade_launcher = 0.5
+local category_data = {
+	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	bow              = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
+	crossbow         = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
+	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},
+	smg              = {pickup = 1.1, suppression = 1.0, ammo_max = 1.0},
+	lmg              = {pickup = 1.0, suppression = 1.5, ammo_max = 1.5}, --Applies on top of SMG preset
+	minigun          = {pickup = 1.0, suppression = 2.0, ammo_max = 2.0}, --Applies on top of SMG preset
+	saw              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	grenade_launcher = {pickup = 0.5, suppression = 1.0, ammo_max = 1.0},
+	snp              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	assault_rifle    = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0}
 }
 
-local category_ammo_max_muls = {
-	lmg = 1.5,
-	minigun = 2
-}
+local function get_category_modifier(weapon, field)
+	local result = 1
+	for i = 1, #weapon.categories do
+		local cat_data = category_data[weapon.categories[i]]
+		result = result * (cat_data and cat_data[field] or 1)
+	end
+	return result
+end
 
 --Multipliers for ammo pickup to interpolate between based on current ammo. Make sure these average to 1 for sanity's sake.
 local pickup_mul_near_empty = 1.333333333334
@@ -4811,21 +4620,14 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	weapon.AMMO_PICKUP[1] = pickup_mul_near_empty * (damage_tier.pickup / damage_tier.damage)
 	weapon.AMMO_PICKUP[2] = pickup_mul_near_full * (damage_tier.pickup / damage_tier.damage)
 
-	local pickup_multiplier = 1
-	for i = 1, #weapon.categories do
-		local category = weapon.categories[i]
-		pickup_multiplier = pickup_multiplier * (category_pickup_muls[category] or 1)
-	end
+	local pickup_multiplier = get_category_modifier(weapon, "pickup")
 
 	local ammo_max = weapon.AMMO_MAX
 	if not ammo_max then
 		ammo_max = damage_pool / damage_tier.damage
 
 		--Get weapon category specific max ammo multipliers.
-		for i = 1, #weapon.categories do
-			local category = weapon.categories[i]
-			ammo_max = ammo_max * (category_ammo_max_muls[category] or 1)
-		end
+		ammo_max = ammo_max * get_category_modifier(weapon, "ammo_max")
 
 		if weapon.use_data.selection_index == 1 then
 			pickup_multiplier = pickup_multiplier * (damage_pool_secondary / damage_pool_primary)
@@ -4840,26 +4642,13 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	weapon.AMMO_MAX = math.floor(ammo_max)
 end
 
-local category_suppression_muls = {
-	minigun = 2,
-	lmg = 1.5,
-	bow = 0.5,
-	crossbow = 0.5,
-	snp = 0.5,
-	pistol = 0.5
-}
-
 --Determines the suppression value of the gun. Generally increases with higher damage guns.
 --More headshot focused typically-single-fire gun categories get lower suppression, LMGs and Shotties get higher suppression to fit their roles/fantasies.
 function WeaponTweakData:calculate_suppression_data(weapon)
 	local damage_tier = get_damage_tier(weapon)
 
 	--Get weapon category specific suppression multipliers.
-	local multiplier = 1
-	for i = 1, #weapon.categories do
-		local category = weapon.categories[i]
-		multiplier = multiplier * (category_suppression_muls[category] or 1)
-	end
+	local multiplier = get_category_modifier(weapon, "suppression")
 
 	--Silenced guns have their suppression reduced by an additional 4 points.
 	weapon.stats.suppression = math.clamp(math.round(damage_tier.suppression * multiplier) - (weapon.stats.alert_size == 2 and 4 or 0), 1, #self.stats.suppression)

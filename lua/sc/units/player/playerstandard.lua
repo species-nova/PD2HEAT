@@ -1565,7 +1565,7 @@ Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_da
 
 	--Don't hide the crosshair during steelsight for weapons of these categories.
 	--Check for it whenever we enter PlayerStandard, or swap weapons.
-	self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+	self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "minigun")
 
 	--Set the crosshair to be visible.
 	managers.hud:show_crosshair_panel(true)
@@ -1578,7 +1578,7 @@ function PlayerStandard:inventory_clbk_listener(unit, event, ...)
 	orig_inventory_clbk_listener(self, unit, event, ...)
 
 	if event == "equip" then
-		self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "bow", "minigun")
+		self._crosshair_ignore_steelsight = self._equipped_unit:base():is_category("akimbo", "minigun")
 		self:_attempt_offhand_reload()
 	elseif event == "unequip" then
 		self:_stop_offhand_reload()

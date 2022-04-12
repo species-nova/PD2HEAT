@@ -725,8 +725,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 		["bm_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, AND THIN WALLS.",
 		["bm_heavy_ap_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR, SHIELDS, TITAN SHIELDS, AND THIN WALLS.",
-		["bm_ap_2_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE RESTORED BY PICKING THEM UP, AND RANGE INCREASES THE LONGER AN ARROW IS DRAWN.",
-		["bm_ap_3_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE RESTORED BY PICKING THEM UP.",
+		["bm_ap_2_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. ARROWS CAN BE PICKED BACK UP. MUST BE DRAWN FOR MAXIMUM EFFECTIVENESS. DRAW SPEED SCALES WITH RELOAD SPEED.",
+		["bm_ap_3_weapon_sc_desc"] = "CAN PENETRATE BODY ARMOR. BOLTS CAN BE PICKED BACK UP.",
 		["bm_40mm_weapon_sc_desc"] = "Press $BTN_GADGET to toggle Flip Up Sight.",
 		["bm_rocket_launcher_sc_desc"] = "ROCKETS FIRED BY THIS WEAPON INSTANTLY DESTROY TURRETS.",
 		["bm_quake_shotgun_sc_desc"] = "FIRES BOTH BARRELS AT ONCE, DOUBLING THE NUMBER OF PELLETS.",
@@ -1554,7 +1554,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Rip and Tear--
 			["menu_carbon_blade_beta_sc"] = "Specialized Equipment",
-			["menu_carbon_blade_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped increases their reload speed by ##75%## for ##1## second.\n\nACE: ##$pro##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped has a ##50%## chance to cause nearby enemies in a ##10## meter radius to panic.\n\nPanic makes enemies go into short bursts of uncontrollable fear.",
+			["menu_carbon_blade_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped increases their reload speed by ##75%## for ##1.5## seconds.\n\nACE: ##$pro##\nKilling an enemy while you have the the OVE9000 Portable Saw or a weapon that can hold a single shot equipped has a ##50%## chance to cause nearby enemies in a ##10## meter radius to panic.\n\nPanic makes enemies go into short bursts of uncontrollable fear.",
 
 			--Fully Loaded--
 			["menu_bandoliers_beta_sc"] = "Fully Loaded",

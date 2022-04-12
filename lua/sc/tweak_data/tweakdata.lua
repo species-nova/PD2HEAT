@@ -146,19 +146,35 @@ tweak_data.projectiles.launcher_electric_arbiter.curve_pow = 1
 tweak_data.projectiles.launcher_electric_arbiter.init_timer = nil
 
 --Plainsrider--
-tweak_data.projectiles.west_arrow.damage = 24
-tweak_data.projectiles.west_arrow.launch_speed = 2500
-tweak_data.projectiles.west_arrow_exp.damage = 48
+tweak_data.projectiles.west_arrow.damage = 12
+tweak_data.projectiles.west_arrow_exp.damage = 18
+tweak_data.projectiles.bow_poison_arrow.damage = 9
+tweak_data.projectiles.west_arrow.launch_speed = 2000
 tweak_data.projectiles.west_arrow_exp.launch_speed = 2500
-tweak_data.projectiles.bow_poison_arrow.damage = 20
 tweak_data.projectiles.bow_poison_arrow.launch_speed = 2500
+
+--Long Arrow--
+tweak_data.projectiles.long_arrow.damage = 18
+tweak_data.projectiles.long_arrow_exp.damage = 24
+tweak_data.projectiles.long_poison_arrow.damage = 12
+tweak_data.projectiles.long_arrow.launch_speed = 2500
+tweak_data.projectiles.long_arrow_exp.launch_speed = 3125
+tweak_data.projectiles.long_poison_arrow.launch_speed = 3125
+
+--The not longbow--
+tweak_data.projectiles.elastic_arrow.damage = 18
+tweak_data.projectiles.elastic_arrow_exp.damage = 24
+tweak_data.projectiles.elastic_arrow_poison.damage = 12
+tweak_data.projectiles.elastic_arrow.launch_speed = 2500
+tweak_data.projectiles.elastic_arrow_exp.launch_speed = 3125
+tweak_data.projectiles.elastic_arrow_poison.launch_speed = 3125	
 
 --Pistol Crossbow--
 tweak_data.projectiles.crossbow_arrow.damage = 12
 tweak_data.projectiles.crossbow_arrow_exp.damage = 18
 tweak_data.projectiles.crossbow_poison_arrow.damage = 9
-tweak_data.projectiles.crossbow_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.crossbow_arrow.launch_speed = 3125
+tweak_data.projectiles.crossbow_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.crossbow_poison_arrow.launch_speed = 3125
 
 --Arblast Heavy Crossbow--
@@ -183,24 +199,7 @@ tweak_data.projectiles.ecp_arrow_exp.damage = 18
 tweak_data.projectiles.ecp_arrow_poison.damage = 9
 tweak_data.projectiles.ecp_arrow_poison.launch_speed = 3125
 tweak_data.projectiles.ecp_arrow_exp.launch_speed = 2500
-tweak_data.projectiles.ecp_arrow.launch_speed = 3125	
-
---Long Arrow--
-tweak_data.projectiles.long_arrow.damage = 36
-tweak_data.projectiles.long_arrow_exp.damage = 60
-tweak_data.projectiles.long_poison_arrow.damage = 30
-tweak_data.projectiles.long_arrow_exp.launch_speed = 3125
-tweak_data.projectiles.long_arrow.launch_speed = 3125
-tweak_data.projectiles.long_poison_arrow.launch_speed = 3125
-
-
---The not longbow--
-tweak_data.projectiles.elastic_arrow.damage = 36
-tweak_data.projectiles.elastic_arrow_exp.damage = 60
-tweak_data.projectiles.elastic_arrow_poison.damage = 30
-tweak_data.projectiles.elastic_arrow_exp.launch_speed = 3125
-tweak_data.projectiles.elastic_arrow.launch_speed = 3125
-tweak_data.projectiles.elastic_arrow_poison.launch_speed = 3125	
+tweak_data.projectiles.ecp_arrow.launch_speed = 3125
 
 --Frag Grenade--
 tweak_data.projectiles.frag.damage = 40

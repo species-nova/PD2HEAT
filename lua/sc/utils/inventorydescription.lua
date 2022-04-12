@@ -111,7 +111,11 @@ function WeaponDescription._get_base_stats(name)
 			base_stats.totalammo.index = weapon_tweak.stats.total_ammo_mod
 			base_stats.totalammo.value = weapon_tweak.AMMO_MAX
 		elseif stat.name == "fire_rate" then
-			base_stats.fire_rate.value = 60 * (weapon_tweak.fire_rate_multiplier or 1) / weapon_tweak.fire_mode_data.fire_rate
+			local firing_delay = weapon_tweak.fire_mode_data.fire_rate / (weapon_tweak.fire_rate_multiplier or 1)
+			if weapon_tweak.charge_speed then
+				firing_delay = firing_delay + (weapon_tweak.charge_speed / (weapon_tweak.reload_speed_multiplier or 1))
+			end
+			base_stats.fire_rate.value = 60 / firing_delay
 		elseif stat.name == "reload" then
 			index = math.clamp(weapon_tweak.stats.reload, 1, #tweak_stats[stat.name])
 			base_stats[stat.name].index = tweak_data.weapon[name].stats.reload

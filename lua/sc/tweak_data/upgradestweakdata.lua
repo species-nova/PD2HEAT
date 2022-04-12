@@ -809,7 +809,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Specialized Equipment
 				--Basic
-					self.values.temporary.single_shot_reload_speed_multiplier = {{1.75, 1}}
+					self.values.temporary.single_shot_reload_speed_multiplier = {{1.75, 1.5}}
 				--Ace
 					self.values.weapon.single_shot_panic_when_kill = {0.5}
 				
