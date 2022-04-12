@@ -386,25 +386,14 @@ local shield_knock_data = {
 	}
 }
 function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound, ricochet)
-	--Blanks prevent bullet from doing actual damage. Used to prevent off-host duplicate bullets and ricochets killing civilians.
+	--Prevents bullet from doing actual damage. Used to prevent off-host duplicate bullets and ricochets killing civilians.
 	blank = blank or Network:is_client() and user_unit ~= managers.player:player_unit()
+
 	local hit_unit = col_ray.unit
 	local hit_char_damage = hit_unit:character_damage()
-
-	-- MUST be done at the start of the function because you may shoot a destructible body and it'll get respawned into a slotmask the decal effect won't find
-	-- i.e, you shoot a dozer's armour and destroy it, it gets moved into the slotmask for debris and therefore won't
-	-- be found for the decal impact so you get a blood impact instead so the decal effect must be queued before damage is applied
-	if not hit_char_damage or not hit_char_damage._no_blood and
-		(not hit_char_damage.is_friendly_fire or not hit_char_damage:is_friendly_fire(user_unit)) then
-		managers.game_play_central:play_impact_flesh({
-			col_ray = col_ray,
-			no_sound = no_sound
-		})
-		self:play_impact_sound_and_effects(weapon_unit, col_ray, no_sound)
-	end
-
 	local is_shield = hit_unit:in_slot(managers.slot:get_mask("enemy_shield_check")) and alive(hit_unit:parent())
 	local weapon_base = alive(weapon_unit) and weapon_unit:base()
+
 	if alive(weapon_unit) and is_shield and weapon_base._shield_knock then
 		local enemy_unit = hit_unit:parent()
 
@@ -433,6 +422,8 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 			blank = true
 		end
 	end
+
+	local play_impact_flesh = not hit_char_damage or not hit_char_damage._no_blood
 
 	if hit_unit:damage() and managers.network:session() and col_ray.body:extension() and col_ray.body:extension().damage then
 		local damage_body_extension = true
@@ -486,13 +477,30 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 			result = self:give_impact_damage(col_ray, weapon_unit, user_unit, damage, weapon_base._use_armor_piercing, false, false, weapon_base._stagger, weapon_base._variant)
 		end
 
-		push_multiplier = self:_get_character_push_multiplier(weapon_unit, was_alive and hit_char_damage:dead())
+		local is_dead = hit_char_damage:dead()
+
+		if not is_dead then
+			if not result or result == "friendly_fire" then
+				play_impact_flesh = false
+			end
+		end
+
+		push_multiplier = self:_get_character_push_multiplier(weapon_unit, was_alive and is_dead)
 	end
 
 	managers.game_play_central:physics_push(col_ray, push_multiplier)
 
+	if play_impact_flesh then
+		managers.game_play_central:play_impact_flesh({
+			col_ray = col_ray,
+			no_sound = no_sound
+		})
+		self:play_impact_sound_and_effects(weapon_unit, col_ray, no_sound)
+	end
+
 	return result
 end
+
 
 --New pickup mechanics.
 --Fully determinisitic, with no RNG.
