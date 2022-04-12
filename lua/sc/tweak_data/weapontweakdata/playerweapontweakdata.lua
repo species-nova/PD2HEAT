@@ -3762,7 +3762,7 @@ function WeaponTweakData:init(...)
 		self.elastic.has_description = true
 		self.elastic.desc_id = "bm_ap_2_weapon_sc_desc"
 		self.elastic.kick = self.stat_info.kick_tables.none
-		self.elastic.kick_patterns = self.stat_info.kick_patterns.random
+		self.elastic.kick_pattern = self.stat_info.kick_patterns.random
 		self.elastic.supported = true
 		self.elastic.charge_speed = 0.9
 		self.elastic.fire_mode_data.fire_rate = 1
