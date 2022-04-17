@@ -292,7 +292,7 @@ function CopDamage:damage_fire(attack_data)
 				end
 
 				local damage_scale = 1
-				if weap_base.last_hit_falloff then
+				if weap_base.last_hit_falloff or attack_data.col_ray.count and attack_data.col_ray.count < 5 then
 					damage_scale = 0.5
 				end		
 
@@ -776,7 +776,7 @@ function CopDamage:damage_bullet(attack_data)
 		
 		local damage_scale = 1
 
-		if weap_base.last_hit_falloff then
+		if weap_base.last_hit_falloff or attack_data.col_ray.count and attack_data.col_ray.count < 5 then
 			damage_scale = 0.5
 		end		
 		

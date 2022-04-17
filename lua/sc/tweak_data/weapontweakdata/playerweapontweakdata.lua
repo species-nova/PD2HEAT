@@ -8,25 +8,12 @@ function WeaponTweakData:init(...)
 
 	for i, weap in pairs(self) do
 		if weap.categories and weap.stats then --Nil out various values globally, since most are not needed.
-			if weap.CAN_TOGGLE_FIREMODE then
-				weap.BURST_FIRE = false
-			end
-
-			if weap.upgrade_blocks then
-				weap.upgrade_blocks = nil
-			end
-
-			if weap.stats_modifiers then
-				weap.stats_modifiers = nil
-			end
-
-			if weap.AMMO_MAX then
-				weap.AMMO_MAX = nil
-			end
-
-			if weap.not_allowed_in_bleedout then
-				weap.not_allowed_in_bleedout = nil
-			end
+			weap.BURST_FIRE = false
+			weap.upgrade_blocks = nil
+			weap.stats_modifiers = nil
+			weap.AMMO_MAX = nil
+			weap.not_allowed_in_bleedout = nil
+			weap.rays = nil
 		end
 	end
 
@@ -3787,67 +3774,128 @@ function WeaponTweakData:init(...)
 		self.elastic.fire_rate_multiplier = 1.25
 		self.elastic.reload_speed_multiplier = 2
 
-	--[[
-	self.ultima.kick = self.stat_info.kick_tables.vertical_kick
-	self.ultima.kick_pattern = self.stat_info.kick_patterns.random
-	self.ultima.supported = true
-	self.ultima.stats = {
-		damage = 60,
-		spread = 7,
-		recoil = 4,
-		concealment = 11
-	}
-	]]
+	--Light Shotgun (Primary)
+		--Steakout
+		self.aa12.CLIP_AMMO_MAX = 10
+		self.aa12.kick = self.stat_info.kick_tables.moderate_kick
+		self.aa12.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.aa12.FIRE_MODE = "auto"
+		self.aa12.CAN_TOGGLE_FIREMODE = false
+		self.aa12.supported = true
+		self.aa12.stats = {
+			damage = 6,
+			spread = 10,
+			recoil = 18,
+			concealment = 12
+		}
+		self.aa12.timers = {
+			reload_not_empty = 3.8,
+			reload_empty = 5.2,
+			reload_operational = 3,
+			empty_reload_operational = 4.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.55,
+			equip = 0.55
+		}
+		self.aa12.reload_speed_multiplier = 1.2 --3.2/4.3
 
-	--Reinfeld 880
-	self.r870.desc_id = "bm_menu_sc_r870_desc"
-	self.r870.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.r870.rays = 9
-	self.r870.CLIP_AMMO_MAX = 8
-	self.r870.kick = self.stat_info.kick_tables.vertical_kick
-	self.r870.single.fire_rate = 0.5
-	self.r870.fire_mode_data.fire_rate = 0.5
-	self.r870.AMMO_MAX = 60
-	self.r870.supported = false
-	self.r870.stats = {
-		damage = 60,
-		spread = 9,
-		recoil = 17,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 22,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
+		--Izhma 12G
+		self.saiga.rays = 9
+		self.saiga.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.saiga.CLIP_AMMO_MAX = 5
+		self.saiga.fire_mode_data.fire_rate = 0.1
+		self.saiga.auto.fire_rate = 0.1
+		self.saiga.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.saiga.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.saiga.supported = true
+		self.saiga.stats = {
+			damage = 6,
+			spread = 14,
+			recoil = 14,
+			concealment = 16
+		}
+		self.saiga.timers = {
+			reload_not_empty = 3.3,
+			reload_empty = 4.5,
+			reload_operational = 2.65,
+			empty_reload_operational = 3.95,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.saiga.reload_speed_multiplier = 1.3 --2.5/3.4
 
-	--Izhma 12G
-	self.saiga.rays = 9
-	self.saiga.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.saiga.CLIP_AMMO_MAX = 6
-	self.saiga.AMMO_MAX = 120
-	self.saiga.fire_mode_data.fire_rate = 0.1
-	self.saiga.auto.fire_rate = 0.1
-	self.saiga.shake.fire_multiplier = 1
-	self.saiga.shake.fire_steelsight_multiplier = -1
-	self.saiga.kick = self.stat_info.kick_tables.right_kick
-	self.saiga.supported = false
-	self.saiga.stats = {
-		damage = 30,
-		spread = 7,
-		recoil = 19,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 24,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.saiga.reload_speed_multiplier = 1.25
+	--Light Shotgun (Akimbo)
+		--Brothers Grimm
+		self.x_basset.CLIP_AMMO_MAX = 10
+		self.x_basset.kick = self.stat_info.kick_tables.right_kick
+		self.x_basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.x_basset.BURST_FIRE = 2
+		self.x_basset.ADAPTIVE_BURST_SIZE = true
+		self.x_basset.fire_mode_data.fire_rate = 0.2
+		self.x_basset.single.fire_rate = 0.2 --300 rpm
+		self.x_basset.supported = true
+		self.x_basset.stats = {
+			damage = 6,
+			spread = 9,
+			recoil = 7,
+			concealment = 15
+		}
+		self.x_basset.timers = {
+			reload_not_empty = 3.6,
+			reload_empty = 3.9,
+			half_reload_operational = 1.7,
+			empty_half_reload_operational = 2.5,
+			reload_operational = 2.2,
+			empty_reload_operational = 2.8,
+			reload_interrupt = 0.38,
+			empty_reload_interrupt = 0.38,
+			unequip = 0.5,
+			equip = 0.65
+		}
+		self.x_basset.reload_speed_multiplier = 0.9 --4/4.3s
+
+	--Light Shotgun (Secondary)
+		--Grimm 12g
+		self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.basset.CLIP_AMMO_MAX = 5
+		self.basset.kick = self.stat_info.kick_tables.right_kick
+		self.basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.basset.supported = true
+		self.basset.stats = {
+			damage = 6,
+			spread = 13,
+			recoil = 11,
+			concealment = 18
+		}
+		self.basset.timers = {
+			reload_not_empty = 2.7,
+			reload_empty = 3.3,
+			reload_operational = 2.16,
+			empty_reload_operational = 2.9,
+			reload_interrupt = 0.44,
+			empty_reload_interrupt = 0.44,
+			unequip = 0.55,
+			equip = 0.55
+		}
+		self.basset.reload_speed_multiplier = 1.25 --2.1/2.8
+
+		--Reinfeld 880
+		self.r870.desc_id = "bm_menu_sc_r870_desc"
+		self.r870.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.r870.CLIP_AMMO_MAX = 8
+		self.r870.kick = self.stat_info.kick_tables.vertical_kick
+		self.r870.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.r870.AMMO_MAX = 60
+		self.r870.supported = true
+		self.r870.stats = {
+			damage = 11,
+			spread = 5,
+			recoil = 16,
+			concealment = 10
+		}
 
 	--Loco 12g
 	self.serbu.rays = 9
@@ -4149,29 +4197,6 @@ function WeaponTweakData:init(...)
 		reload = 20
 	}
 
-	--Steakout
-	self.aa12.rays = 9
-	self.aa12.AMMO_MAX = 120
-	self.aa12.CLIP_AMMO_MAX = 10
-	self.aa12.kick = self.stat_info.kick_tables.moderate_kick
-	self.aa12.FIRE_MODE = "auto"
-	self.aa12.CAN_TOGGLE_FIREMODE = false
-	self.aa12.supported = false
-	self.aa12.stats = {
-		damage = 30,
-		spread = 7,
-		recoil = 24,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 25,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.aa12.reload_speed_multiplier = 1.15
-
 	--GSPS--
 	self.m37.rays = 9
 	self.m37.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4256,33 +4281,6 @@ function WeaponTweakData:init(...)
 	self.rota.stats_modifiers = nil
 	self.rota.timers.reload_interrupt = 0.46 --Technically the cylinder is disengaged by like 14% in, but it felt really bad at that value. Animations cover it up anyway.
 	self.rota.timers.empty_reload_interrupt = 0.46
-
-	--Grimm 12g
-	self.basset.rays = 9
-	self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.basset.CLIP_AMMO_MAX = 6
-	self.basset.AMMO_MAX = 60
-	self.basset.fire_mode_data = {fire_rate = 0.1}
-	self.basset.auto = {fire_rate = 0.1}
-	self.basset.kick = self.stat_info.kick_tables.moderate_left_kick
-	self.basset.supported = false
-	self.basset.stats = {
-		zoom = 1,
-		total_ammo_mod = 100,
-		damage = 30,
-		alert_size = 2,
-		spread = 7,
-		spread_moving = 8,
-		recoil = 19,
-		extra_ammo = 101,
-		reload = 20,
-		suppression = 6,
-		concealment = 24
-	}
-	self.basset.stats_modifiers = nil
-	self.basset.reload_speed_multiplier = 1.25
-	self.basset.timers.reload_interrupt = 0.2
-	self.basset.timers.empty_reload_interrupt = 0.16
 
 	--Akimbo Judge
 	--Keeping
@@ -4452,7 +4450,6 @@ function WeaponTweakData:init(...)
 		--A: Fail to fit into an interesting and non-degenerate gameplay niche.
 		--B: Lack unique animations, or have animations that make glaringly obvious limitations with current akimbo code.
 		--C: Are cases where the guns have been made into primary weapons.
-		--Akimbo Grimms
 		--Akimbo M13
 		--Akimbo AK Gen 21 Tactical
 		--Akimbo Miyaka 10
@@ -4512,6 +4509,10 @@ function WeaponTweakData:init(...)
 					weap.categories[2] = "akimbo"
 				end
 
+				if weap.categories[1] == "shotgun" and not weap.rays then
+					weap.rays = 9
+				end
+
 				--Fixed stat values that are the same for all, or nearly all guns.
 				weap.stats.zoom = weap.stats.zoom or 1
 				weap.stats.alert_size = weap.stats.alert_size or 2
@@ -4569,7 +4570,7 @@ local damage_pool_secondary = 1800
 
 local function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
-	local damage = weapon.stats.damage * damage_mul
+	local damage = weapon.stats.damage * damage_mul * (weapon.rays or 1)
 	for i, damage_tier in ipairs(damage_tier_data) do
 		if damage - 1 <= damage_tier.damage then
 			return damage_tier
@@ -4580,7 +4581,7 @@ local function get_damage_tier(weapon)
 end
 
 local category_data = {
-	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	shotgun          = {pickup = 0.7, suppression = 1.0, ammo_max = 1.0},
 	bow              = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
 	crossbow         = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
 	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},

@@ -49,6 +49,8 @@ function RaycastWeaponBase:init(unit)
 
 	self._curr_kick = 0
 	self._kick_pattern = weapon_tweak.kick_pattern
+	self._rays = weapon_tweak.rays or 1
+
 
 	self._autohit_prog = 0
 	local stat_info = tweak_data.weapon.stat_info
@@ -80,12 +82,13 @@ end
 --ricochet_distance applies a distance_offset so that falloff on ricochets continues from where the initial hit left off.
 function RaycastWeaponBase:_iter_ray_hits(ray_hits, user_unit, damage, ricochet_distance)
 	local cop_kill_count = 0
-	local hit_through_wall = false
+	local cop_headshot_count = 0
 	local hit_through_shield = false
-	local hit_through_head = false
+	local hit_through_wall = false
 	local hit_result = nil
 
-	for _, hit in ipairs(ray_hits) do
+	for i = 1, #ray_hits do
+		local hit = ray_hits[i]
 		--Incidentally leads to falloff being double counted in cases where a bullet pierces something at falloff distance.
 		--Since this makes a fair degree of ballistic sense, this behavior will be kept.
 		damage = self:get_damage_falloff(damage, hit, user_unit, ricochet_distance)
@@ -97,75 +100,162 @@ function RaycastWeaponBase:_iter_ray_hits(ray_hits, user_unit, damage, ricochet_
 		elseif hit.unit:in_slot(managers.slot:get_mask("enemy_shield_check")) then
 			hit_through_shield = hit_through_shield or alive(hit.unit:parent())
 			damage = damage * self._pierce_damage_mult
+		elseif hit.headshot then
+			damage = damage * self._headshot_pierce_damage_mult
 		end
 
 		--Consolidated all checks for hit_result existing.
 		if hit_result then
+			hit.through_shield = hit_through_shield
+			hit.through_wall = hit_through_wall
 			hit.damage_result = hit_result
+			cop_kill_count, cop_headshot_count = self:_process_hit(hit, cop_kill_count, cop_headshot_count)
+		end
+	end
 
-			local unit_type = hit.unit:base() and hit.unit:base()._tweak_table
-			local is_civilian = unit_type and CopDamage.is_civilian(unit_type)
+	return ray_hits, hit_result, cop_kill_count
+end
 
-			--Record that a shot hit a good target.
-			--Skip incrementing the ammo count, let fire_raycast handle that.
-			if not is_civilian then
-				self._shot_fired_stats_table.skip_bullet_count = true
-				self._shot_fired_stats_table.hit = true
-				managers.statistics:shot_fired(self._shot_fired_stats_table)
-				self._shot_fired_stats_table.hit = false
-				self._shot_fired_stats_table.skip_bullet_count = false
+--Multi-ray variant of iter_ray_hits. Used primarily for shotguns.
+--Generates a table of 'best' hits on a per-unit basis then processes all collisions on those.
+--The 'best' hit is always the one that deals the most damage. Headshots are always assumed to have more damage than body shots.
+--Damage to enemies is based on the damage of the 'best' hit * number of rays hit.
+function RaycastWeaponBase:_iter_all_ray_hits(all_hits, user_unit, damage)
+	local best_hits = {}
+	local cop_kill_count = 0
+	local cop_headshot_count = 0
+	local hit_result = nil
+
+	--Determine best hits, and handle ray-level info like penetration and related damage mults.
+	for i = 1, #all_hits do
+		local ray_hits = all_hits[i]
+		local ray_damage = damage
+		local hit_through_shield = false
+		local hit_through_wall = false
+
+		for i = 1, #ray_hits do
+			local hit = ray_hits[i]
+			--Populate data related to hit.
+			ray_damage = self:get_damage_falloff(ray_damage, hit, user_unit, ricochet_distance)
+			hit.damage = ray_damage
+			hit.through_shield = hit_through_shield
+			hit.through_wall = hit_through_wall
+			hit.count = 1
+
+			--Handle penetration.
+			if hit.unit:in_slot(managers.slot:get_mask("world_geometry")) then
+				hit_through_wall = true
+				ray_damage = ray_damage * self._pierce_damage_mult
+			elseif hit.unit:in_slot(managers.slot:get_mask("enemy_shield_check")) then
+				hit_through_shield = hit_through_shield or alive(hit.unit:parent())
+				ray_damage = ray_damage * self._pierce_damage_mult
+			elseif hit.headshot then
+				ray_damage = ray_damage * self._headshot_pierce_damage_mult
 			end
 
-			if hit.head_pierced and not hit_through_head then
-				hit_through_head = true
-				damage = damage * self._headshot_pierce_damage_mult
-			end
-
-			if hit_result.type == "death" then
-				if not is_civilian then
-					cop_kill_count = cop_kill_count + 1
-
-					self._kills_without_releasing_trigger = (self._kills_without_releasing_trigger or 0) + 1
-
-					if self:is_category(tweak_data.achievement.easy_as_breathing.weapon_type) then
-						if tweak_data.achievement.easy_as_breathing.count <= self._kills_without_releasing_trigger then
-							managers.achievment:award(tweak_data.achievement.easy_as_breathing.award)
-						end
+			--Update best hits.
+			--Fire non-best hits off as blanks.
+			local unit_key = hit.unit:key()
+			local old_hit = best_hits[unit_key]
+			if old_hit then
+				if hit.headshot and not old_hit.headshot then
+					hit.count = old_hit.count + 1
+					best_hits[unit_key] = hit
+					self._bullet_class:on_collision(old_hit, self._unit, user_unit, 0, true, false)
+				else
+					old_hit.count = old_hit.count + 1
+					if hit.damage > old_hit.damage then
+						old_hit.damage = hit.damage
 					end
+					self._bullet_class:on_collision(hit, self._unit, user_unit, 0, true, false)
 				end
-
-				if cop_kill_count > 0 then
-					local unit_type = hit.unit:base() and hit.unit:base()._tweak_table
-					local multi_kill, enemy_pass, obstacle_pass, weapon_pass, weapons_pass, weapon_type_pass = nil
-
-					for achievement, achievement_data in pairs(tweak_data.achievement.sniper_kill_achievements) do
-						multi_kill = not achievement_data.multi_kill or cop_kill_count == achievement_data.multi_kill
-						enemy_pass = not achievement_data.enemy or unit_type == achievement_data.enemy
-						obstacle_pass = not achievement_data.obstacle or achievement_data.obstacle == "wall" and hit_through_wall or achievement_data.obstacle == "shield" and hit_through_shield
-						weapon_pass = not achievement_data.weapon or self._name_id == achievement_data.weapon
-						weapons_pass = not achievement_data.weapons or table.contains(achievement_data.weapons, self._name_id)
-						weapon_type_pass = not achievement_data.weapon_type or self:is_category(achievement_data.weapon_type)
-
-						if multi_kill and enemy_pass and obstacle_pass and weapon_pass and weapons_pass and weapon_type_pass then
-							if achievement_data.stat then
-								managers.achievment:award_progress(achievement_data.stat)
-							elseif achievement_data.award then
-								managers.achievment:award(achievement_data.award)
-							elseif achievement_data.challenge_stat then
-								managers.challenge:award_progress(achievement_data.challenge_stat)
-							elseif achievement_data.trophy_stat then
-								managers.custom_safehouse:award(achievement_data.trophy_stat)
-							elseif achievement_data.challenge_award then
-								managers.challenge:award(achievement_data.challenge_award)
-							end
-						end
-					end
-				end
+			else
+				best_hits[unit_key] = hit
 			end
 		end
 	end
 
+	--Once we have all the best hits, process the collision, statistics, and achievement information for each one.
+	for unit, hit in pairs(best_hits) do
+		local curr_hit_result = self._bullet_class:on_collision(hit, self._unit, user_unit, hit.damage * hit.count, false, false)
+
+		if curr_hit_result then
+			hit_result = managers.mutators:modify_value("ShotgunBase:_fire_raycast", curr_hit_result)
+			hit.damage_result = curr_hit_result
+			cop_kill_count, cop_headshot_count = self:_process_hit(hit, cop_kill_count, cop_headshot_count)
+		end
+	end
+
 	return hit_result, cop_kill_count
+end
+
+--Process statistics and achievement related information for a given enemy hit.
+function RaycastWeaponBase:_process_hit(hit, cop_kill_count, cop_headshot_count)
+	local unit_type = hit.unit:base() and hit.unit:base()._tweak_table
+	local is_civilian = unit_type and CopDamage.is_civilian(unit_type)
+
+	--Record that a shot hit a good target.
+	--Skip incrementing the ammo count, let fire_raycast handle that.
+	if not is_civilian then
+		self._shot_fired_stats_table.skip_bullet_count = true
+		self._shot_fired_stats_table.hit = true
+		managers.statistics:shot_fired(self._shot_fired_stats_table)
+		self._shot_fired_stats_table.hit = false
+		self._shot_fired_stats_table.skip_bullet_count = false
+	end
+
+	if not is_civilian then
+		if hit.headshot then
+			cop_headshot_count = cop_headshot_count + 1
+		end
+
+		if hit.damage_result.type == "death" then
+			cop_kill_count = cop_kill_count + 1
+
+			self._kills_without_releasing_trigger = (self._kills_without_releasing_trigger or 0) + 1
+
+			if self:is_category(tweak_data.achievement.easy_as_breathing.weapon_type) then
+				if tweak_data.achievement.easy_as_breathing.count <= self._kills_without_releasing_trigger then
+					managers.achievment:award(tweak_data.achievement.easy_as_breathing.award)
+				end
+			end
+		end
+
+		if cop_kill_count > 0 then
+			self:_check_kill_achievements(hit, cop_kill_count, cop_headshot_count)
+		end
+	end
+
+	return cop_kill_count, cop_headshot_count
+end
+
+--Handles kill related achievements.
+--Is overrided by ShotgunBase to handle shotgun specific achievements.
+function RaycastWeaponBase:_check_kill_achievements(hit, cop_kill_count, cop_headshot_count)
+	local multi_kill, enemy_pass, obstacle_pass, weapon_pass, weapons_pass, weapon_type_pass = nil
+
+	for achievement, achievement_data in pairs(tweak_data.achievement.sniper_kill_achievements) do
+		multi_kill = not achievement_data.multi_kill or cop_kill_count == achievement_data.multi_kill
+		enemy_pass = not achievement_data.enemy or unit_type == achievement_data.enemy
+		obstacle_pass = not achievement_data.obstacle or achievement_data.obstacle == "wall" and hit.through_wall or achievement_data.obstacle == "shield" and hit.through_shield
+		weapon_pass = not achievement_data.weapon or self._name_id == achievement_data.weapon
+		weapons_pass = not achievement_data.weapons or table.contains(achievement_data.weapons, self._name_id)
+		weapon_type_pass = not achievement_data.weapon_type or self:is_category(achievement_data.weapon_type)
+
+		if multi_kill and enemy_pass and obstacle_pass and weapon_pass and weapons_pass and weapon_type_pass then
+			if achievement_data.stat then
+				managers.achievment:award_progress(achievement_data.stat)
+			elseif achievement_data.award then
+				managers.achievment:award(achievement_data.award)
+			elseif achievement_data.challenge_stat then
+				managers.challenge:award_progress(achievement_data.challenge_stat)
+			elseif achievement_data.trophy_stat then
+				managers.custom_safehouse:award(achievement_data.trophy_stat)
+			elseif achievement_data.challenge_award then
+				managers.challenge:award(achievement_data.challenge_award)
+			end
+		end
+	end
 end
 
 --Consolidated copy/paste of vanilla tango_4 checks into a function.
@@ -201,39 +291,66 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	if self:gadget_overrides_weapon_functions() then
 		return self:gadget_function_override("_fire_raycast", self, user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul)
 	end
-	local result = {}
-	local spread_x, spread_y = self:_get_spread(user_unit)
-	local ray_distance = self.far_falloff_distance or self:weapon_range()
-	local right = direction:cross(Vector3(0, 0, 1)):normalized()
-	local up = direction:cross(right):normalized()
-	local r = math.sqrt(math.random())  --Ensures even spread distribution, rather than center biased.
-	local theta = math.random() * 360
-	--Calculate spread as a random point in a circle, rather than the vanilla cross biased system.
-	local ax = math.tan(r * spread_x * (spread_mul or 1)) * math.cos(theta)
-	local ay = math.tan(r * spread_y * (spread_mul or 1)) * math.sin(theta) * -1
-
-	mvector3.set(mvec_spread_direction, direction)
-	mvector3.add(mvec_spread_direction, right * ax)
-	mvector3.add(mvec_spread_direction, up * ay)
-	mvector3.set(mvec_to, mvec_spread_direction)
-	mvector3.multiply(mvec_to, ray_distance)
-	mvector3.add(mvec_to, from_pos)
 
 	local damage = self._damage * dmg_mul
-	local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
+	local ray_distance = self.far_falloff_distance or self:weapon_range()
+	local result = {}
+	local all_hits = {}
+	for i = 1, self._rays do
+		local spread_x, spread_y = self:_get_spread(user_unit)
+		local right = direction:cross(Vector3(0, 0, 1)):normalized()
+		local up = direction:cross(right):normalized()
+		local r = math.sqrt(math.random())  --Ensures even spread distribution, rather than center biased.
+		local theta = math.random() * 360
+		--Calculate spread as a random point in a circle, rather than the vanilla cross biased system.
+		local ax = math.tan(r * spread_x * (spread_mul or 1)) * math.cos(theta)
+		local ay = math.tan(r * spread_y * (spread_mul or 1)) * math.sin(theta) * -1
 
-	local auto_hit_candidate = not hit_unit and self:check_near_hits(from_pos, direction)
+		mvector3.set(mvec_spread_direction, direction)
+		mvector3.add(mvec_spread_direction, right * ax)
+		mvector3.add(mvec_spread_direction, up * ay)
+		mvector3.set(mvec_to, mvec_spread_direction)
+		mvector3.multiply(mvec_to, ray_distance)
+		mvector3.add(mvec_to, from_pos)
 
-	if auto_hit_candidate then	
-		mvector3.set(mvec_to, from_pos)
-		mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
+		local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 
-		ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
-		mvector3.set(mvec_spread_direction, mvec_to)
+		local auto_hit_candidate = not hit_unit and self:check_near_hits(from_pos, direction)
+
+		if auto_hit_candidate then	
+			mvector3.set(mvec_to, from_pos)
+			mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
+
+			ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
+			mvector3.set(mvec_spread_direction, mvec_to)
+		end
+		all_hits[#all_hits + 1] = ray_hits
+
+		if hit_enemy then
+			result.hit_enemy = true
+		end
+
+		if self._alert_events and ray_hits then
+			self:_check_alert(ray_hits, from_pos, direction, user_unit)
+		end
+
+		local furthest_hit = ray_hits[#ray_hits]
+		if (furthest_hit and furthest_hit.distance > 600 or not furthest_hit) and alive(self._obj_fire) then
+			self._obj_fire:m_position(self._trail_effect_table.position)
+			mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
+
+			local trail = World:effect_manager():spawn(self._trail_effect_table)
+
+			if furthest_hit then
+				World:effect_manager():set_remaining_lifetime(trail, math.clamp((furthest_hit.distance - 600) / 10000, 0, furthest_hit.distance))
+			else
+				World:effect_manager():set_remaining_lifetime(trail, math.clamp((ray_distance - 600) / 10000, 0, ray_distance))
+			end
+		end
 	end
 
-	result.hit_enemy = hit_enemy
-	local hit_result, cop_kill_count = self:_iter_ray_hits(ray_hits, user_unit, damage)
+	local hit_result, cop_kill_count = #all_hits == 1 and self:_iter_ray_hits(all_hits[1], user_unit, damage)
+		or self:_iter_all_ray_hits(all_hits, user_unit, damage)
 
 	self:_check_tango_4(cop_kill_count)
 
@@ -243,24 +360,6 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 		if (not self._ammo_data or not self._ammo_data.ignore_statistic) and not self._rays then
 			managers.statistics:shot_fired(self._shot_fired_stats_table)
 		end
-	end
-
-	local furthest_hit = ray_hits[#ray_hits]
-	if (furthest_hit and furthest_hit.distance > 600 or not furthest_hit) and alive(self._obj_fire) then
-		self._obj_fire:m_position(self._trail_effect_table.position)
-		mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
-
-		local trail = World:effect_manager():spawn(self._trail_effect_table)
-
-		if furthest_hit then
-			World:effect_manager():set_remaining_lifetime(trail, math.clamp((furthest_hit.distance - 600) / 10000, 0, furthest_hit.distance))
-		else
-			World:effect_manager():set_remaining_lifetime(trail, math.clamp((ray_distance - 600) / 10000, 0, ray_distance))
-		end
-	end
-
-	if self._alert_events then
-		result.rays = ray_hits
 	end
 
 	return result
@@ -290,7 +389,6 @@ function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, 
 
 	--Give more generous auto-aim.
 	local auto_hit_candidate = not hit_unit and self:check_near_hits(from_pos, reflect_dir, ray_distance, true)
-
 	if auto_hit_candidate then
 		mvector3.set(reflect_dir, from_pos)
 		mvector3.add_scaled(reflect_dir, auto_hit_candidate.ray, ray_distance)
@@ -303,11 +401,14 @@ function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, 
 
 	self:_check_tango_4(cop_kill_count)
 
-	local furthest_hit = ray_hits[#ray_hits]
+	if self._alert_events and ray_hits then
+		self:_check_alert(ray_hits, from_pos, reflect_vec, user_unit)
+	end
 
-	if (furthest_hit and furthest_hit.distance > 600 or not furthest_hit) then
-		mvector3.set(self._trail_effect_table.position, from_pos)
-		mvector3.set(self._trail_effect_table.normal, reflect_dir)
+	local furthest_hit = ray_hits[#ray_hits]
+	if (furthest_hit and furthest_hit.distance > 600 or not furthest_hit) and alive(self._obj_fire) then
+		self._obj_fire:m_position(self._trail_effect_table.position)
+		mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
 
 		local trail = World:effect_manager():spawn(self._trail_effect_table)
 
@@ -318,17 +419,12 @@ function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, 
 		end
 	end
 
-	if self._alert_events and ray_hits then
-		self:_check_alert(ray_hits, from_pos, reflect_vec, user_unit)
-	end
-
 	--The result from the local player firing their gun is not relevant for ricochets. Any relevant side-effects should be captured elsewhere.
 end
 
 --Minor fixes and making Winters unpiercable.
 local ai_vision_ids = Idstring("ai_vision")
 local bulletproof_ids = Idstring("bulletproof")
-
 function RaycastWeaponBase:_collect_hits(from, to)
 	local hit_enemy = false
 	local enemy_mask = managers.slot:get_mask("enemies")
@@ -340,24 +436,26 @@ function RaycastWeaponBase:_collect_hits(from, to)
 	local units_hit = {}
 	local unique_hits = {}
 
-	for i, hit in ipairs(ray_hits) do
+	for i = 1, #ray_hits do
+		local hit = ray_hits[i]
 		if not units_hit[hit.unit:key()] then
 			units_hit[hit.unit:key()] = true
 			unique_hits[#unique_hits + 1] = hit
 			hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
 
-			--Tactical Precision headshot piercing.
-			if self._can_shoot_through_head
-				and hit.unit:in_slot(enemy_mask)
+			--Check if headshot.
+			if  hit.unit:in_slot(enemy_mask)
 				and not hit.unit:character_damage()._char_tweak.ignore_headshot
 				and hit.unit:character_damage()._ids_head_body_name
 				and hit.unit:character_damage()._ids_head_body_name == hit.body:name() then
-				hit.head_pierced = true
+				
+				--Track which hits are headshots for achievements, shotgun mechanics, and Tactical Precision.
+				hit.headshot = true
 			end
 
 			--Determine when bullet travel ends.
 			--Ricochets are handled by the bullet itself instead of in here since the alternative would be a massive complexity increase to this function in comparison to that one. 
-			if not self._can_shoot_through_enemy and not hit.head_pierced and hit_enemy then
+			if not self._can_shoot_through_enemy and not self._can_shoot_through_head and hit.headshot and hit_enemy then
 				break
 			elseif not self._can_shoot_through_wall and hit.unit:in_slot(wall_mask) and (hit.body:has_ray_type(ai_vision_ids) or hit.body:has_ray_type(bulletproof_ids)) then
 				break
@@ -370,7 +468,6 @@ function RaycastWeaponBase:_collect_hits(from, to)
 			end		
 		end
 	end
-
 	return unique_hits, hit_enemy
 end	
 
@@ -386,15 +483,14 @@ local shield_knock_data = {
 	}
 }
 function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound, ricochet)
-	--Prevents bullet from doing actual damage. Used to prevent off-host duplicate bullets and ricochets killing civilians.
-	blank = blank or Network:is_client() and user_unit ~= managers.player:player_unit()
+	blank = Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
 
 	local hit_unit = col_ray.unit
 	local hit_char_damage = hit_unit:character_damage()
 	local is_shield = hit_unit:in_slot(managers.slot:get_mask("enemy_shield_check")) and alive(hit_unit:parent())
 	local weapon_base = alive(weapon_unit) and weapon_unit:base()
 
-	if alive(weapon_unit) and is_shield and weapon_base._shield_knock then
+	if alive(weapon_unit) and not blank and is_shield and weapon_base._shield_knock then
 		local enemy_unit = hit_unit:parent()
 
 		if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
@@ -424,6 +520,10 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 	end
 
 	local play_impact_flesh = not hit_char_damage or not hit_char_damage._no_blood
+	
+	if col_ray.falloff_distance and weapon_base.near_falloff_distance then
+		self.last_hit_falloff = col_ray.falloff_distance > (weapon_base.near_falloff_distance or 0) --Whether or not this bullet had falloff. Used for hitmarker stuff. 
+	end
 
 	if hit_unit:damage() and managers.network:session() and col_ray.body:extension() and col_ray.body:extension().damage then
 		local damage_body_extension = true
@@ -459,8 +559,9 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 				col_ray.body:extension().damage:damage_damage(user_unit, col_ray.normal, col_ray.position, col_ray.ray, damage)
 
 				if alive(weapon_unit) and weapon_base.categories and weapon_base:categories() then
-					for _, category in ipairs(weapon_base:categories()) do
-						col_ray.body:extension().damage:damage_bullet_type(category, user_unit, col_ray.normal, col_ray.position, col_ray.ray, 1)
+					local categories = weapon_base:categories()
+					for i = 1, #categories do
+						col_ray.body:extension().damage:damage_bullet_type(categories[i], user_unit, col_ray.normal, col_ray.position, col_ray.ray, 1)
 					end
 				end
 			end
@@ -500,7 +601,6 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 
 	return result
 end
-
 
 --New pickup mechanics.
 --Fully determinisitic, with no RNG.
@@ -629,7 +729,8 @@ function RaycastWeaponBase:check_near_hits(from_pos, direction, max_dist, is_ric
 
 		--Iterate through raycast until any enemy is hit. This will usually, but not always, be the desired target.
 		local units_hit = {}
-		for i, hit in ipairs(vis_ray) do
+		for i = 1, #vis_ray do
+			hit = vis_ray[i]
 			if not units_hit[hit.unit:key()] then
 				units_hit[hit.unit:key()] = true
 
@@ -696,6 +797,11 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local consume_ammo = not is_player
 
 	if is_player then
+		--Invalidate old falloff data.
+		self.near_falloff_distance = nil
+		self.far_falloff_distance = nil
+		self.last_hit_falloff = false
+
 		self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
 		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 
@@ -754,10 +860,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	self:_spawn_shell_eject_effect()
 
 	local ray_res = self:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, target_unit)
-
-	if self._alert_events and ray_res.rays then
-		self:_check_alert(ray_res.rays, from_pos, direction, user_unit)
-	end
 
 	managers.player:send_message(Message.OnWeaponFired, nil, self._unit, ray_res)
 
@@ -879,12 +981,6 @@ end
 --Multipliers for overall spread.
 function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 	local mul = 1
-
-	--Multi-pellet spread increase.
-	if self._rays and self._rays > 1 then
-		mul = mul * tweak_data.weapon.stat_info.shotgun_spread_increase
-	end
-
 	local pm = managers.player
 
 	if self._can_desperado then
@@ -897,8 +993,9 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
 
 	if current_state:in_steelsight() then
 		mul = mul * pm:upgrade_value("weapon", "steelsight_accuracy_inc", 1)
-		for _, category in ipairs(self:categories()) do
-			mul = mul * pm:upgrade_value(category, "steelsight_accuracy_inc", 1)
+		local categories = self:weapon_tweak_data().categories
+		for i = 1, #categories do
+			mul = mul * pm:upgrade_value(categories[i], "steelsight_accuracy_inc", 1)
 		end
 	end
 
@@ -910,16 +1007,18 @@ end
 --Multiplier for movement penalty to spread.
 function RaycastWeaponBase:moving_spread_penalty_reduction()
 	local spread_multiplier = 1
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		spread_multiplier = spread_multiplier * managers.player:upgrade_value(category, "move_spread_multiplier", 1)
+	local categories = self:weapon_tweak_data().categories
+	for i = 1, #categories do
+		spread_multiplier = spread_multiplier * managers.player:upgrade_value(categories[i], "move_spread_multiplier", 1)
 	end
 	return spread_multiplier
 end
 
 function RaycastWeaponBase:bloom_spread_penality_reduction()
 	local spread_multiplier = 1
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		spread_multiplier = spread_multiplier * managers.player:upgrade_value(category, "bloom_spread_multiplier", 1)
+	local categories = self:weapon_tweak_data().categories
+	for i = 1, #categories do
+		spread_multiplier = spread_multiplier * managers.player:upgrade_value(categories[i], "bloom_spread_multiplier", 1)
 	end
 	return spread_multiplier
 end
@@ -1039,7 +1138,6 @@ end
 		if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() then
 			local dot_data = self:_dot_data_by_weapon(weapon_unit)
 			dot_data.dot_damage = dot_data.dot_damage * managers.player:get_perk_damage_bonus(user_unit)
-			log(dot_data.dot_damage)
 			result = self:start_dot_damage(col_ray, weapon_unit, dot_data)
 		end
 

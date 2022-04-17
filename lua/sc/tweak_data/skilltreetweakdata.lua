@@ -1711,7 +1711,8 @@ function SkillTreeTweakData:init(tweak_data)
 						"x_mp5",
 						"x_akmsu",
 						"x_mac10",
-						"x_g22c"
+						"x_g22c",
+						"x_basset"
 					},
 					cost = self.costs.hightier
 				},

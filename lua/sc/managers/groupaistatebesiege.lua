@@ -1206,22 +1206,12 @@ end
 
 function GroupAIStateBesiege:_find_spawn_group_near_area(target_area, allowed_groups, target_pos, max_dis, verify_clbk)
 	local all_areas = self._area_data
-	
 	max_dis = max_dis and max_dis * max_dis
-	local min_dis = nil
-	
-	if fuck then
-		if managers.skirmish:is_skirmish() or self._small_map then
-			min_dis = 2250000
-		else
-			min_dis = 4000000
-		end
-	end
-	
+
 	local t = self._t
 	local valid_spawn_groups = {}
 	local valid_spawn_group_distances = {}
-	local total_dis = 0
+	--Removed total_dis since it was dead code.
 	target_pos = target_pos or target_area.pos
 	local to_search_areas = {
 		target_area
@@ -1266,35 +1256,23 @@ function GroupAIStateBesiege:_find_spawn_group_near_area(target_area, allowed_gr
 						end
 					end
 
-					if self._graph_distance_cache[dis_id] then
-						local my_dis = self._graph_distance_cache[dis_id]
-						
-						local should_add_spawngroup = true
-						--log(tostring(my_dis))
-						--log(tostring(min_dis))
-						if min_dis and min_dis > my_dis then
-							should_add_spawngroup = nil
-							--log("piss")
-						end
-						
-						if max_dis and my_dis > max_dis then
-							should_add_spawngroup = nil
-							--log("piss2")
-						end
-						
-						if self._current_objective_dir then
+					local my_dis = self._graph_distance_cache[dis_id]
+					if my_dis then						
+						local should_add_spawngroup = not max_dis or my_dis < max_dis
+
+						--On street maps, allow spawns to ignore distance requirements if they're in the direction of the objective.
+						if self._current_objective_dir and not should_add_spawngroup then
 							local spawn_group_dir = spawn_group.pos:with_z(0)
 							mvec3_sub(spawn_group_dir, target_pos:with_z(0))
 							mvec3_norm(spawn_group_dir)
-							
-							if mvec3_dis_sq(spawn_group.pos:with_z(0), target_pos:with_z(0)) < 1500 or mvec3_dot(self._current_objective_dir, spawn_group_dir) < 0.2 then
-								should_add_spawngroup = nil
+						
+							--TODO: Double check that this vector math is correctly spawning enemies between players and objective.
+							if mvec3_dot(self._current_objective_dir, spawn_group_dir) < 0.2 then
+								should_add_spawngroup = false
 							end
 						end
 						
 						if should_add_spawngroup then
-							--log("confusion")
-							total_dis = total_dis + my_dis
 							valid_spawn_groups[spawn_group_id(spawn_group)] = spawn_group
 							valid_spawn_group_distances[spawn_group_id(spawn_group)] = my_dis
 						end	
@@ -1313,25 +1291,30 @@ function GroupAIStateBesiege:_find_spawn_group_near_area(target_area, allowed_gr
 	until #to_search_areas == 0
 
 	local time = TimerManager:game():time()
-	local spawn_group_number = #valid_spawn_groups
-	
+	local timer_can_spawn = false
+	for id in pairs(valid_spawn_groups) do
+		if not self._spawn_group_timers[id] or self._spawn_group_timers[id] <= time then
+			timer_can_spawn = true
+
+			break
+		end
+	end
+
+	if not timer_can_spawn then
+		self._spawn_group_timers = {}
+	end
+
 	for id in pairs(valid_spawn_groups) do
 		if self._spawn_group_timers[id] and time < self._spawn_group_timers[id] then
 			valid_spawn_groups[id] = nil
 			valid_spawn_group_distances[id] = nil
 		end
 	end
-	
-	local delays = {15, 20}
-
-	if total_dis == 0 then
-		total_dis = 1
-	end
 
 	local total_weight = 0
 	local candidate_groups = {}
 	self._debug_weights = {}
-	local dis_limit = max_dis or 64000000 --80 meters
+	local dis_limit = max_dis or 25000000 --Properly weight things by distance, rather than using a dis_limit too small to matter. Assume max of 50m if no max_dis is provided.
 	
 	for i, dis in pairs(valid_spawn_group_distances) do
 		local my_wgt = math_lerp(1, 0.2, math.min(1, dis / dis_limit)) * 5
@@ -1349,10 +1332,10 @@ function GroupAIStateBesiege:_find_spawn_group_near_area(target_area, allowed_gr
 		table_insert(self._debug_weights, clone(group))
 	end
 
-	return self:_choose_best_group(candidate_groups, total_weight, delays)
+	return self:_choose_best_group(candidate_groups, total_weight, 15, 20)
 end
 
-function GroupAIStateBesiege:_choose_best_group(best_groups, total_weight, delays)
+function GroupAIStateBesiege:_choose_best_group(best_groups, total_weight, min_delay, max_delay)
 	local rand_wgt = total_weight * math_random()
 	local best_grp, best_grp_type = nil
 
@@ -1360,8 +1343,8 @@ function GroupAIStateBesiege:_choose_best_group(best_groups, total_weight, delay
 		rand_wgt = rand_wgt - candidate.wght
 		
 		if rand_wgt <= 0 then
-			if delays then
-				self._spawn_group_timers[spawn_group_id(candidate.group)] = TimerManager:game():time() + math_lerp(delays[1], delays[2], math_random())
+			if min_delay then
+				self._spawn_group_timers[spawn_group_id(candidate.group)] = TimerManager:game():time() + math_lerp(min_delay, max_delay or min_delay, math_random())
 			end
 			best_grp = candidate.group
 			best_grp_type = candidate.group_type

@@ -11,14 +11,20 @@ end
 --Refactor for general simplicity. No longer uses callbacks, firing both guns reuses generic burst fire code.
 local fire_original = AkimboWeaponBase.fire
 function AkimboWeaponBase:fire(...)
+	if self.parent_weapon then
+		return AkimboWeaponBase.super.fire(self, ...)
+	end
+
 	if self:is_npc() then
 		return fire_original(self, ...)
 	end
 
 	local result = nil
 	if self._fire_second_gun_next then
+		log("     Left Gun")
 		result = self:_fire_second_gun(...)
 	else
+		log("     Right Gun")
 		result = AkimboWeaponBase.super.fire(self, ...)
 	end
 

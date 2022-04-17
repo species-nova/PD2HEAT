@@ -60,8 +60,7 @@ function WeaponTweakData:_init_stats()
 			max = 4000,
 			acc_bonus = 120,
 			near_mul = 1,
-			far_mul = 2,
-			shotgun_penalty = 0.3
+			far_mul = 2
 		}
 		
 		--Cosmetic camera movement.
@@ -152,9 +151,6 @@ function WeaponTweakData:_init_stats()
 			table.insert(self.stats.recoil, self.stat_info.base_recoil_mult + (i * self.stat_info.recoil_per_stability))
 		end
 		setmetatable(self.stats.recoil, stat_meta_table)
-
-	--Multiplier for spread on multi-pellet shotguns. This compensates for linear spread scaling which would otherwise cripple their multikill potential.
-	self.stat_info.shotgun_spread_increase = 2.5
 
 	--Stance multipliers for overall gun spread.
 	self.stat_info.stance_spread_mults = {

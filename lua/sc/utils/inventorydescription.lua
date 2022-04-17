@@ -149,10 +149,6 @@ function WeaponDescription._get_base_stats(name)
 				local acc_bonus = falloff_info.acc_bonus * base_stats.spread.index
 
 				local range = (base_falloff + acc_bonus) * category_mul
-				if weapon_tweak.rays and weapon_tweak.rays > 1 then
-					range = range * falloff_info.shotgun_penalty
-				end
-
 				base_stats.range.value = range
 			else
 				base_stats.range.value = -1 --Set the text for this to be blank.
@@ -256,11 +252,6 @@ function WeaponDescription._get_mods_stats(name, base_stats, equipped_mods, bonu
 					local base_range = base_stats.range.value
 
 					local range = (base_falloff + acc_bonus) * category_mul
-
-					if weapon_tweak.rays and weapon_tweak.rays > 1 and not (ammo_data.rays and ammo_data.rays == 1) then
-						range = range * falloff_info.shotgun_penalty
-					end
-
 					if ammo_data.damage_near_mul then
 						range = range * ammo_data.damage_near_mul
 					end
@@ -374,11 +365,6 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 						local base_range = base_stats.range.value
 
 						local range = (base_falloff + acc_bonus) * category_mul
-
-						if weapon_tweak.rays and weapon_tweak.rays > 1 and not (part_data.custom_stats and part_data.custom_stats.rays == 1) then
-							range = range * falloff_info.shotgun_penalty
-						end
-
 						if part_data.custom_stats and part_data.custom_stats.damage_near_mul then
 							range = range * part_data.custom_stats.damage_near_mul
 						end
@@ -519,11 +505,6 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 				local base_falloff = falloff_info.base
 				local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mods_stats.spread.value + skill_stats.spread.value)
 				local range = (base_falloff + acc_bonus) * category_mul
-
-				if weapon_tweak.rays and weapon_tweak.rays > 1 and not (ammo_data.rays and ammo_data.rays == 1) then
-					range = range * falloff_info.shotgun_penalty
-				end
-
 				if ammo_data.damage_near_mul then
 					range = range * ammo_data.damage_near_mul
 				end
