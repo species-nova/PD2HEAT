@@ -28,26 +28,6 @@
 	<level ai_group_type="america" briefing_assets_gui="@ID22163786cf7929ac@" briefing_dialog="Play_pln_bigoil_stage2_brief" cube="cube_apply_heist_bank" id="stage_2" intro_event="Play_pln_bigoil_stage2_intro_a" load_screen="guis/dlcs/pic/textures/loading/job_bigoil_02" max_bags="15" music="heist">
 		<add directory="assets"/>
 		<assets/>
-		<include directory="levels/stage_2">
-			<file file="world.world" type="binary"/>
-			<file file="mission.mission" type="binary"/>
-			<file file="nav_manager_data.nav_data" type="binary"/>
-			<file file="cover_data.cover_data" type="binary"/>
-			<file file="world_sounds.world_sounds" type="binary"/>
-			<file file="world_cameras.world_cameras" type="binary"/>
-			<file file="world_cameras.world_cameras" type="binary"/>
-			<file file="continents.continents" type="binary"/>
-			<file file="pc_only/pc_only.continent" type="binary"/>
-			<file file="pc_only/pc_only.mission" type="binary"/>
-			<file file="world/world.continent" type="binary"/>
-			<file file="world/world.mission" type="binary"/>
-			<file file="backdrop/backdrop.continent" type="binary"/>
-			<file file="backdrop/backdrop.mission" type="binary"/>
-			<file file="editor_only/editor_only.continent" type="binary"/>
-			<file file="editor_only/editor_only.mission" type="binary"/>
-			<file file="nature/nature.continent" type="binary"/>
-			<file file="nature/nature.mission" type="binary"/>
-		</include>
 		<outro_event>
 			<value_node value="Play_pln_bigoil_stage2_end_a"/>
 			<value_node value="Play_pln_bigoil_stage2_end_b"/>
