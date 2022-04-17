@@ -36,8 +36,8 @@ HEAT_debug = {}
 
 function HEAT_debug.print_value(v, k, max_depth, indent, seen)
 	indent = indent and indent + 1 or 1
-	if max_depth and indent > max_depth then log(i .. "...") return end
 	local i = get_indent(indent)
+	if max_depth and indent > max_depth then log(i .. "...") return end
 	
 	seen = seen or {}
 	k = k or "[Unknown]"
