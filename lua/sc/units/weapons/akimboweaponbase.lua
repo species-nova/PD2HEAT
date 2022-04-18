@@ -21,10 +21,8 @@ function AkimboWeaponBase:fire(...)
 
 	local result = nil
 	if self._fire_second_gun_next then
-		log("     Left Gun")
 		result = self:_fire_second_gun(...)
 	else
-		log("     Right Gun")
 		result = AkimboWeaponBase.super.fire(self, ...)
 	end
 

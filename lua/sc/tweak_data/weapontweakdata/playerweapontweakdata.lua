@@ -3825,7 +3825,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.saiga.reload_speed_multiplier = 1.3 --2.5/3.4
+		self.saiga.reload_speed_multiplier = 1.3 --2.5/3.5
 
 	--Light Shotgun (Akimbo)
 		--Brothers Grimm
@@ -4565,14 +4565,23 @@ local damage_tier_data = {
 	{damage = 400, pickup = 148, suppression = 19},
 	{damage = 600, pickup = 130, suppression = 20}
 }
+local shotgun_damage_tier_data = {
+	{tier = 6,  damage = 45,  pickup = 256, suppression = 12}, --108 damage shotguns = 90 damage other weapons
+	{tier = 8,  damage = 72,  pickup = 238, suppression = 13}, --144 damage shotguns = 120 damage other weapons
+	{tier = 11, damage = 90,  pickup = 220, suppression = 14}, --198 damage shotguns = 180 damage other weapons
+	{tier = 14, damage = 120, pickup = 202, suppression = 15}  --252 damage shotguns = 240 damage other weapons
+}
+
 local damage_pool_primary = 3600
 local damage_pool_secondary = 1800
 
 local function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
-	local damage = weapon.stats.damage * damage_mul * (weapon.rays or 1)
-	for i, damage_tier in ipairs(damage_tier_data) do
-		if damage - 1 <= damage_tier.damage then
+	local damage = weapon.stats.damage * damage_mul
+	local damage_tiers = weapon.rays and shotgun_damage_tier_data or damage_tier_data
+	for i = 1, #damage_tiers do
+		local damage_tier = damage_tiers[i]
+		if damage - 1 <= (damage_tier.tier or damage_tier.damage) then
 			return damage_tier
 		end
 	end
@@ -4581,7 +4590,7 @@ local function get_damage_tier(weapon)
 end
 
 local category_data = {
-	shotgun          = {pickup = 0.7, suppression = 1.0, ammo_max = 1.0},
+	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	bow              = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
 	crossbow         = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
 	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},
