@@ -144,8 +144,8 @@ function WeaponTweakData:_init_stats()
 		}
 
 		--Recoil multiplier. Used for stability, and cosmetic camera shake.
-		self.stat_info.base_recoil_mult = 3.5
-		self.stat_info.recoil_per_stability = -0.15
+		self.stat_info.base_recoil_mult = 4.5
+		self.stat_info.recoil_per_stability = -0.2
 		self.stats.recoil = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.recoil, self.stat_info.base_recoil_mult + (i * self.stat_info.recoil_per_stability))
@@ -166,9 +166,9 @@ function WeaponTweakData:_init_stats()
 	--Stance multipliers for weapon recoil.
 	self.stat_info.stance_recoil_mults = {
 		standing = 1,
-		crouching = 0.8,
-		steelsight = 0.6,
-		bipod = 0.5
+		crouching = 0.75,
+		steelsight = 0.5,
+		bipod = 0.35
 	}
 
 	self.stats.value = {}
