@@ -3892,8 +3892,8 @@ function WeaponTweakData:init(...)
 		self.r870.supported = true
 		self.r870.stats = {
 			damage = 11,
-			spread = 5,
-			recoil = 16,
+			spread = 9,
+			recoil = 15,
 			concealment = 10
 		}
 

@@ -113,7 +113,7 @@ function RaycastWeaponBase:_iter_ray_hits(ray_hits, user_unit, damage, ricochet_
 		end
 	end
 
-	return ray_hits, hit_result, cop_kill_count
+	return hit_result, cop_kill_count
 end
 
 --Multi-ray variant of iter_ray_hits. Used primarily for shotguns.
