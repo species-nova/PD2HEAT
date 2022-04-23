@@ -818,11 +818,16 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local user_unit = self._setup.user_unit
 	local is_player = user_unit == managers.player:player_unit()
 	local consume_ammo = not is_player
-	self._bullets_fired = self._bullets_fired and self._bullets_fired + 1
 
-	if not self:_soundfix_should_play_normal() then
-		self:play_tweak_data_sound(self:weapon_tweak_data().sounds.fire_single,"fire_single")
+	if self._bullets_fired then
+		if self:_soundfix_should_play_normal() and self._bullets_fired == 1 and self:weapon_tweak_data().sounds.fire_single then
+			self:play_tweak_data_sound("stop_fire")
+			self:play_tweak_data_sound("fire_auto", "fire")
+		else
+			self:play_tweak_data_sound(self:weapon_tweak_data().sounds.fire_single,"fire_single")
+		end
 	end
+	self._bullets_fired = self._bullets_fired and self._bullets_fired + 1
 
 	if is_player then
 		--Invalidate old falloff data.
