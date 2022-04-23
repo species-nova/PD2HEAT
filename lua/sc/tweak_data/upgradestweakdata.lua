@@ -1174,7 +1174,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Basic
 					self.values.pistol.swap_speed_multiplier = {1.5}
 				--Ace
-					self.values.pistol.first_shot_damage_multiplier = {2}
+					self.values.pistol.first_shot_bonus_rays = {1}
 				
 			--Snap Shot
 				--Basic
@@ -1982,12 +1982,12 @@ function UpgradesTweakData:_player_definitions()
 			value = 2
 		}
 	}
-	self.definitions.pistol_first_shot_damage_multiplier = {
+	self.definitions.pistol_first_shot_bonus_rays = {
 		category = "feature",
-		name_id = "menu_pistol_first_shot_damage_multiplier",
+		name_id = "menu_pistol_first_shot_bonus_rays",
 		upgrade = {
 			category = "pistol",
-			upgrade = "first_shot_damage_multiplier",
+			upgrade = "first_shot_bonus_rays",
 			value = 1
 		}
 	}

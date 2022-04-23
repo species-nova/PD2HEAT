@@ -35,14 +35,16 @@ function NewRaycastWeaponBase:init(...)
 		self._can_desperado = true
 	end
 
-	self._first_shot_damage_mul = 1
 	for _, category in ipairs(self:categories()) do
 		if managers.player:has_category_upgrade(category, "ap_bullets") then
 			self._use_armor_piercing = true
 		end
 
 		if managers.player:has_category_upgrade(category, "ricochet_bullets") then
-			self._can_ricochet = true
+			self._ricochet_data = {
+				cop_kill_count = 0,
+				hit_enemy = false
+			}
 		end
 	
 		self._headshot_pierce_damage_mult = math.max(self._headshot_pierce_damage_mult, managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0))
@@ -64,9 +66,9 @@ function NewRaycastWeaponBase:init(...)
 			break
 		end
 
-		if managers.player:has_category_upgrade(category, "first_shot_damage_multiplier") then
-			self._first_shot_skill_value = (self._first_shot_skill_value or 1) + managers.player:upgrade_value(category, "first_shot_damage_multiplier", 1) - 1
-			self._first_shot_damage_mul = self._first_shot_skill_value
+		if managers.player:has_category_upgrade(category, "first_shot_bonus_rays") then
+			self._first_shot_bonus_rays = (self._first_shot_bonus_rays or 0) + managers.player:upgrade_value(category, "first_shot_bonus_rays", 0)
+			self._first_shot_active = true
 		end
 
 		if category == "pistol" then
@@ -81,7 +83,10 @@ function NewRaycastWeaponBase:init(...)
 	end
 
 	if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
-		self._can_ricochet = true
+		self._ricochet_data = self._ricochet_data or {
+			cop_kill_count = 0,
+			hit_enemy = false
+		}
 	end
 end
 
@@ -90,13 +95,14 @@ function NewRaycastWeaponBase:get_offhand_auto_reload_speed()
 end
 
 function NewRaycastWeaponBase:can_ricochet()
-	return self._can_ricochet
+	return self._ricochet_data ~= nil
 end
 
-function RaycastWeaponBase:first_shot_dmg_mul()
-	local mul = self._first_shot_damage_mul
-	self._first_shot_damage_mul = 1
-	return mul
+--Returns the number of additional rays fired by the gun, beyond the normal amount defined in the tweakdata.
+function RaycastWeaponBase:_get_bonus_rays()
+	local result = self._first_shot_active and self._first_shot_bonus_rays or 0
+	self._first_shot_active = false
+	return result
 end
 
 function NewRaycastWeaponBase:clip_full()
@@ -658,7 +664,7 @@ function NewRaycastWeaponBase:on_equip(...)
 	end
 
 	self._equipped = true
-	self._first_shot_damage_mul = self._first_shot_skill_value
+	self._first_shot_active = true
 end
 
 local old_on_unequip = NewRaycastWeaponBase.on_unequip

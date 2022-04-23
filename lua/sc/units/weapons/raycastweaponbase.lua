@@ -14,6 +14,9 @@ local init_original = RaycastWeaponBase.init
 
 local SPIN_UP = 1
 local SPIN_DOWN = -1
+local SKIP_AUTOHIT = 0
+local NORMAL_AUTOHIT = 1
+local RICOCHET_AUTOHIT = 2
 function RaycastWeaponBase:init(unit)
 	init_original(self, unit)
 	
@@ -67,15 +70,16 @@ function RaycastWeaponBase:setup(...)
 	self._spread_bloom = tweak_data.weapon.stat_info.bloom_spread[self._current_stats_indices.recoil] or 0
 	self._bloom_stacks = 0
 	self._current_spread = 0
-
-	--Tracker for shots without releasing trigger. Used by Mag Dumper and Bullet Hell.
-	self._shots_without_releasing_trigger = 0
-
 	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
 end
 
-function RaycastWeaponBase:first_shot_dmg_mul()
-	return 1
+--Returns the number of additional rays fired by the gun, beyond the normal amount defined in the tweakdata.
+function RaycastWeaponBase:_get_bonus_rays()
+	return 0
+end
+
+function RaycastWeaponBase:can_ricochet()
+	return false
 end
 
 --General raycast iteration. Handles damage value of bullet as it gets modified, and applies collision.
@@ -113,7 +117,7 @@ function RaycastWeaponBase:_iter_ray_hits(ray_hits, user_unit, damage, ricochet_
 		end
 	end
 
-	return hit_result, cop_kill_count
+	return cop_kill_count
 end
 
 --Multi-ray variant of iter_ray_hits. Used primarily for shotguns.
@@ -186,7 +190,7 @@ function RaycastWeaponBase:_iter_all_ray_hits(all_hits, user_unit, damage)
 		end
 	end
 
-	return hit_result, cop_kill_count
+	return cop_kill_count
 end
 
 --Process statistics and achievement related information for a given enemy hit.
@@ -296,34 +300,37 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	local ray_distance = self.far_falloff_distance or self:weapon_range()
 	local result = {}
 	local all_hits = {}
-	for i = 1, self._rays do
-		local spread_x, spread_y = self:_get_spread(user_unit)
-		local right = direction:cross(Vector3(0, 0, 1)):normalized()
-		local up = direction:cross(right):normalized()
+	local spread_x, spread_y = self:_get_spread(user_unit)
+	local right = direction:cross(Vector3(0, 0, 1)):normalized()
+	local up = direction:cross(right):normalized()
+	local ray_count = self._rays + self:_get_bonus_rays()
+	log(ray_count)
+	for i = 1, ray_count do
 		local r = math.sqrt(math.random())  --Ensures even spread distribution, rather than center biased.
 		local theta = math.random() * 360
 		--Calculate spread as a random point in a circle, rather than the vanilla cross biased system.
 		local ax = math.tan(r * spread_x * (spread_mul or 1)) * math.cos(theta)
 		local ay = math.tan(r * spread_y * (spread_mul or 1)) * math.sin(theta) * -1
-
 		mvector3.set(mvec_spread_direction, direction)
 		mvector3.add(mvec_spread_direction, right * ax)
 		mvector3.add(mvec_spread_direction, up * ay)
 		mvector3.set(mvec_to, mvec_spread_direction)
 		mvector3.multiply(mvec_to, ray_distance)
 		mvector3.add(mvec_to, from_pos)
-
 		local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 
-		local auto_hit_candidate = not hit_unit and self:check_near_hits(from_pos, direction)
-
-		if auto_hit_candidate then	
-			mvector3.set(mvec_to, from_pos)
-			mvector3.add_scaled(mvec_to, auto_hit_candidate.ray, ray_distance)
-
-			ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
-			mvector3.set(mvec_spread_direction, mvec_to)
+		--Apply suppression and check for auto hit if no enemy was hit.
+		if self._autoaim then
+			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, hit_enemy and NORMAL_AUTOHIT or SKIP_AUTOHIT)
+			if auto_hit_enemy then
+				hit_enemy = auto_hit_enemy	
+				ray_hits = auto_ray_hits
+				mvector3.set(mvec_to, from_pos)
+				mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
+				mvector3.set(mvec_spread_direction, mvec_to)
+			end
 		end
+
 		all_hits[#all_hits + 1] = ray_hits
 
 		if hit_enemy then
@@ -334,30 +341,33 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 			self:_check_alert(ray_hits, from_pos, direction, user_unit)
 		end
 
-		local furthest_hit = ray_hits[#ray_hits]
-		if (furthest_hit and furthest_hit.distance > 600 or not furthest_hit) and alive(self._obj_fire) then
+		local trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_distance
+		if trail_distance > 600 and alive(self._obj_fire) then
 			self._obj_fire:m_position(self._trail_effect_table.position)
 			mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
-
 			local trail = World:effect_manager():spawn(self._trail_effect_table)
-
-			if furthest_hit then
-				World:effect_manager():set_remaining_lifetime(trail, math.clamp((furthest_hit.distance - 600) / 10000, 0, furthest_hit.distance))
-			else
-				World:effect_manager():set_remaining_lifetime(trail, math.clamp((ray_distance - 600) / 10000, 0, ray_distance))
-			end
+			World:effect_manager():set_remaining_lifetime(trail, math.clamp((trail_distance - 600) / 10000, 0, trail_distance))
 		end
 	end
 
-	local hit_result, cop_kill_count = #all_hits == 1 and self:_iter_ray_hits(all_hits[1], user_unit, damage)
+	--Once all hits are determined, handle collisions.
+	local cop_kill_count = #all_hits == 1 and self:_iter_ray_hits(all_hits[1], user_unit, damage)
 		or self:_iter_all_ray_hits(all_hits, user_unit, damage)
+
+	--Grab any results from ricochets, and apply them to the 
+	if self._ricochet_data then
+		result.hit_enemy = result.hit_enemy or self._ricochet_data.hit_enemy
+		cop_kill_count = cop_kill_count + self._ricochet_data.cop_kill_count
+		self._ricochet_data.hit_enemy = false
+		self._ricochet_data.cop_kill_count = 0
+	end
 
 	self:_check_tango_4(cop_kill_count)
 
-	--Record that a shot was fired. Only player guns have autoaim. _collect_hits records actual hits for accuracy stats.
+	--Record that a shot was fired. Only player guns have autoaim. _process_hit records actual hits for accuracy stats.
 	if self._autoaim then
 		self._shot_fired_stats_table.hit = false
-		if (not self._ammo_data or not self._ammo_data.ignore_statistic) and not self._rays then
+		if (not self._ammo_data or not self._ammo_data.ignore_statistic) then
 			managers.statistics:shot_fired(self._shot_fired_stats_table)
 		end
 	end
@@ -388,38 +398,38 @@ function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, 
 	local ray_hits, hit_enemy = self:_collect_hits(from_pos, reflect_vec)
 
 	--Give more generous auto-aim.
-	local auto_hit_candidate = not hit_unit and self:check_near_hits(from_pos, reflect_dir, ray_distance, true)
-	if auto_hit_candidate then
+	local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, hit_enemy and RICOCHET_AUTOHIT or SKIP_AUTOHIT, ray_distance)
+	if auto_hit_enemy then
+		hit_enemy = auto_hit_enemy
+		ray_hits = auto_ray_hits
 		mvector3.set(reflect_dir, from_pos)
-		mvector3.add_scaled(reflect_dir, auto_hit_candidate.ray, ray_distance)
-
-		ray_hits, hit_enemy = self:_collect_hits(from_pos, reflect_vec)
+		mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
 		mvector3.set(mvec_spread_direction, reflect_dir)
 	end
 
-	local hit_result, cop_kill_count = self:_iter_ray_hits(ray_hits, user_unit, damage, distance)
-
-	self:_check_tango_4(cop_kill_count)
+	local cop_kill_count = self:_iter_ray_hits(ray_hits, user_unit, damage, distance)
 
 	if self._alert_events and ray_hits then
 		self:_check_alert(ray_hits, from_pos, reflect_vec, user_unit)
 	end
 
-	local furthest_hit = ray_hits[#ray_hits]
-	if (furthest_hit and furthest_hit.distance > 600 or not furthest_hit) and alive(self._obj_fire) then
-		self._obj_fire:m_position(self._trail_effect_table.position)
-		mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
+	--Skip tango 4 checks. Let _fire_raycast handle those.
 
-		local trail = World:effect_manager():spawn(self._trail_effect_table)
-
-		if furthest_hit then
-			World:effect_manager():set_remaining_lifetime(trail, math.clamp((furthest_hit.distance - 600) / 10000, 0, furthest_hit.distance))
-		else
-			World:effect_manager():set_remaining_lifetime(trail, math.clamp((ray_distance - 600) / 10000, 0, ray_distance))
-		end
+	--Spawn a delayed bullet trail.
+	local trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_distance
+	if trail_distance > 600 then
+		DelayedCalls:Add("ricochet_trail " .. tostring(reflect_vec), math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
+			mvector3.set(self._trail_effect_table.position, from_pos)
+			mvector3.set(self._trail_effect_table.normal, reflect_dir)
+			local trail = World:effect_manager():spawn(self._trail_effect_table)
+			World:effect_manager():set_remaining_lifetime(trail, math.clamp((trail_distance - 600) / 10000, 0, trail_distance))
+		end)
 	end
 
-	--The result from the local player firing their gun is not relevant for ricochets. Any relevant side-effects should be captured elsewhere.
+	--Collect results of ricochets into table.
+	--This table is reset at the end of _fire_raycast, and contains information that impacts achievements or return info.
+	self._ricochet_data.cop_kill_count = self._ricochet_data.cop_kill_count + cop_kill_count
+	self._ricochet_data.hit_enemy = self._ricochet_data.hit_enemy or hit_enemy
 end
 
 --Minor fixes and making Winters unpiercable.
@@ -507,7 +517,7 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 		end
 	end
 
-	if not ricochet and weapon_base and weapon_base.can_ricochet and weapon_base:can_ricochet() and user_unit == managers.player:player_unit() and hit_unit and 
+	if not ricochet and weapon_base and weapon_base:can_ricochet() and user_unit == managers.player:player_unit() and hit_unit and 
 		((not weapon_base._can_shoot_through_shield and is_shield)
 		or (not weapon_base._can_shoot_through_wall and hit_unit:in_slot(managers.slot:get_mask("world_geometry", "vehicles")) and col_ray.body:has_ray_type(ai_vision_ids))
 		or col_ray.body:has_ray_type(bulletproof_ids)) then
@@ -659,14 +669,14 @@ end
 --Determines if a near hit should turn into an auto_hit, and applies suppression to enemies near the path of the bullet.
 local body_vec = Vector3()
 local head_vec = Vector3()
-function RaycastWeaponBase:check_near_hits(from_pos, direction, max_dist, is_ricochet)
+function RaycastWeaponBase:_check_near_hits(from_pos, direction, autohit_type, max_dist_override)
 	--Get relevant slot masks
 	local enemy_mask = managers.slot:get_mask("player_autoaim")
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
 
 	--Get general cone distance bounds.
-	local cone_distance = math.max(max_dist or self.far_falloff_distance or self:weapon_range(), 100)
+	local cone_distance = math.max(max_dist_override or self.far_falloff_distance or self:weapon_range(), 100)
 
 	--Set target vector to match the firing direction up to the max distance autohit can occur at.
 	local tar_vec = mvector3.copy(direction)
@@ -688,13 +698,13 @@ function RaycastWeaponBase:check_near_hits(from_pos, direction, max_dist, is_ric
 	--If use_aim_assist is set to true (IE: For controller players ADSing), then always autoaim.
 	--Same with ricocheting bullets.
 	--Otherwise, accumulate the autohit progression tracker and see if it procs.
-	if not is_ricochet and not self:roll_autohit() then
+	if autohit_type == SKIP_AUTOHIT or not self:roll_autohit() then
 		return
 	end
 
 	--TODO (Not urgent): Replace second cone cast with vector math checks for angle, and reuse suppressed enemies cast.
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit.
-	local autohit_angle = is_ricochet and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
+	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
 	local autohit_cone_radius = cone_distance * math.tan(autohit_angle)
 	local autohit_candidates = self._unit:find_units("cone", from_pos, tar_vec, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
 
@@ -724,59 +734,72 @@ function RaycastWeaponBase:check_near_hits(from_pos, direction, max_dist, is_ric
 		mvec3_mul(tar_vec, tar_vec_len)
 		mvec3_add(tar_vec, from_pos)
 
-		--Check if this raycast is a valid path to the desired target or not.
-		local vis_ray = World:raycast_all("ray", from_pos, tar_vec, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units)
-
-		--Iterate through raycast until any enemy is hit. This will usually, but not always, be the desired target.
-		local units_hit = {}
-		for i = 1, #vis_ray do
-			hit = vis_ray[i]
-			if not units_hit[hit.unit:key()] then
-				units_hit[hit.unit:key()] = true
-
-				if hit.unit:in_slot(enemy_mask) then
-					return hit
-				elseif hit.unit:in_slot(wall_mask) and (hit.body:has_ray_type(ai_vision_ids) or hit.body:has_ray_type(bulletproof_ids)) then
-					break
-				elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
-					break
-				elseif hit.unit:in_slot(shield_mask) and hit.unit:name():key() == 'af254947f0288a6c' and not self._can_shoot_through_titan_shield then --Titan shields
-					break
-				elseif hit.unit:in_slot(shield_mask) and hit.unit:name():key() == '4a4a5e0034dd5340' then --Winters shield
-					break						
-				end
-			end
+		local unique_hits, hit_enemy = self:_collect_hits(from_pos, tar_vec)
+		if hit_enemy then
+			return unique_hits, hit_enemy
 		end
 	end
 end
 
---Original mod by 90e, uploaded by DarKobalt.
---Reverb fixed by Doctor Mister Cool, aka Didn'tMeltCables, aka DinoMegaCool
---New version uploaded and maintained by Offyerrocker.
+--Autofire soundfix integration.
+	local afsf_blacklist = {
+		["saw"] = true,
+		["saw_secondary"] = true,
+		["flamethrower_mk2"] = true,
+		["m134"] = true,
+		["mg42"] = true,
+		["shuno"] = true,
+		["system"] = true,
+		["par"] = true
+	}
 
-local afsf_blacklist = {
-	["saw"] = true,
-	["saw_secondary"] = true,
-	["flamethrower_mk2"] = true,
-	["system"] = true
-}
-
-function RaycastWeaponBase:_soundfix_should_play_normal()
-	if not self._setup.user_unit == managers.player:player_unit() then
-		return true
-	elseif afsf_blacklist[self._name_id] then
-		return true
-	elseif not tweak_data.weapon[self._name_id].sounds.fire_single then
-		return true
+	--Check for if AFSF's fix code should apply to this particular weapon
+	function RaycastWeaponBase:_soundfix_should_play_normal()
+		local name_id = self:get_name_id()
+		if not self._setup.user_unit == managers.player:player_unit() then
+			--don't apply fix for NPCs or other players
+			return true
+		elseif afsf_blacklist[name_id] then
+			--blacklisted sound
+			return true
+		elseif tweak_data.weapon[name_id].use_fix ~= nil then 
+			--for custom weapons
+			return tweak_data.weapon[name_id].use_fix
+		elseif not self:weapon_tweak_data().sounds.fire_single then
+			--no singlefire sound; should play normal
+			return true
+		end
 	end
-end
 
-local orig_fire_sound = RaycastWeaponBase._fire_sound
-function RaycastWeaponBase:_fire_sound(...)
-	if self:_soundfix_should_play_normal() then
-		orig_fire_sound(self,...)
+	function RaycastWeaponBase:stop_shooting(...)
+		--Apply AFSF
+		if self:_soundfix_should_play_normal() then
+			self:play_tweak_data_sound("stop_fire")
+		end
+
+		self._shooting = nil
+		self._kills_without_releasing_trigger = nil
+		self._bullets_fired = nil
+
+		--Clear/start timer for bullet hell.
+		if self._bullet_hell_procced then
+			managers.player:activate_temporary_upgrade("temporary", "bullet_hell")
+			self._bullet_hell_procced = nil
+		end	
+
+		--Stop minigun spin.
+		if self._spin_rounds and not self._in_steelsight then
+			self:_stop_spin()
+		end
 	end
-end
+
+	--Prevent playing sounds except for blacklisted weapons
+	local orig_fire_sound = RaycastWeaponBase._fire_sound
+	function RaycastWeaponBase:_fire_sound(...)
+		if self:_soundfix_should_play_normal() then
+			return orig_fire_sound(self,...)
+		end
+	end
 
 function RaycastWeaponBase:update_next_shooting_time()
 	if self:gadget_overrides_weapon_functions() then
@@ -795,6 +818,11 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local user_unit = self._setup.user_unit
 	local is_player = user_unit == managers.player:player_unit()
 	local consume_ammo = not is_player
+	self._bullets_fired = self._bullets_fired and self._bullets_fired + 1
+
+	if not self:_soundfix_should_play_normal() then
+		self:play_tweak_data_sound(self:weapon_tweak_data().sounds.fire_single,"fire_single")
+	end
 
 	if is_player then
 		--Invalidate old falloff data.
@@ -803,7 +831,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		self.last_hit_falloff = false
 
 		self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
-		self._shots_without_releasing_trigger = self._shots_without_releasing_trigger + 1
 
 		if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then
 			managers.player:deactivate_temporary_upgrade("temporary", "no_ammo_cost_buff")
@@ -815,10 +842,10 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 
 		consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") --Bullet Storm
 			and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) --Swan Song
-			and not (self._bullets_until_free and self._shots_without_releasing_trigger % self._bullets_until_free == 0) --Spray and Pray
+			and not (self._bullets_until_free and self._bullets_fired % self._bullets_until_free == 0) --Spray and Pray
 			and not (math.random() < managers.player:temporary_upgrade_value("temporary", "bullet_hell", {free_ammo_chance = 0}).free_ammo_chance) --Bullet Hell
 
-		if self._shots_before_bullet_hell and self._shots_before_bullet_hell <= self._shots_without_releasing_trigger then
+		if self._shots_before_bullet_hell and self._shots_before_bullet_hell <= self._bullets_fired then
 			self._bullet_hell_procced = true
 			managers.player:activate_temporary_upgrade_indefinitely("temporary", "bullet_hell")
 		end
@@ -863,16 +890,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 
 	managers.player:send_message(Message.OnWeaponFired, nil, self._unit, ray_res)
 
-	--Autofire soundfix integration.
-	if self:_soundfix_should_play_normal() then
-		return ray_res
-	end
-
-	if ray_res and self._setup.user_unit == managers.player:player_unit() then
-		self:play_tweak_data_sound("fire_single","fire")
-		self:play_tweak_data_sound("stop_fire")
-	end
-
 	return ray_res
 end
 
@@ -889,23 +906,6 @@ function RaycastWeaponBase:_play_magazine_empty_anims()
 
 	if w_td.effects and w_td.effects.magazine_empty then
 		self:_spawn_tweak_data_effect("magazine_empty")
-	end
-end
-
-function RaycastWeaponBase:stop_shooting()
-	self._shots_without_releasing_trigger = 0
-	
-	if self._bullet_hell_procced then
-		managers.player:activate_temporary_upgrade("temporary", "bullet_hell")
-		self._bullet_hell_procced = nil
-	end	
-
-	self._shooting = nil
-	self._kills_without_releasing_trigger = nil
-	self._bullets_fired = nil
-
-	if self:_soundfix_should_play_normal() then
-		self:play_tweak_data_sound("stop_fire")
 	end
 end
 
@@ -1056,15 +1056,6 @@ end
 		
 		if self._spin_rounds then
 			self:_start_spin()
-		end
-	end
-
-	local stop_shooting_original = RaycastWeaponBase.stop_shooting
-	function RaycastWeaponBase:stop_shooting(...)
-		stop_shooting_original(self, ...)
-
-		if self._spin_rounds and not self._in_steelsight then
-			self:_stop_spin()
 		end
 	end
 

@@ -1801,7 +1801,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Fast on the Draw",
-		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##50%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to deal ##100%## more damage.",
+		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##50%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to fire an additional bullet.",
 
 		--Snap Shot--
 		["menu_dance_instructor_sc"] = "Snap Shot",

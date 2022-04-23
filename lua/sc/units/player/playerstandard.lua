@@ -2346,7 +2346,6 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					end
 
 					dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
-					dmg_mul = dmg_mul * (weap_base.first_shot_dmg_mul and weap_base:first_shot_dmg_mul() or 1)
 
 					local fired = nil
 					if fire_mode == "single" and (not weap_base:burst_rounds_remaining() or input.skip_burst_check) then
