@@ -68,7 +68,7 @@ function AkimboWeaponBase:_fire_second_gun(...)
 	local second_gun_base = alive(self._second_gun) and self._second_gun:base()
 	if second_gun_base and self._setup and alive(self._setup.user_unit) then
 		second_gun_base._bloom_stacks = self._bloom_stacks
-		second_gun_base._shots_without_releasing_trigger = self._shots_without_releasing_trigger
+		second_gun_base._bullets_fired = self._bullets_fired
 
 		local fired = second_gun_base.super.fire(second_gun_base, ...)
 
@@ -78,7 +78,7 @@ function AkimboWeaponBase:_fire_second_gun(...)
 			managers.hud:set_ammo_amount(self:selection_index(), self:ammo_info())
 			
 			self._bloom_stacks = math.max(second_gun_base._bloom_stacks, self._bloom_stacks)
-			self._shots_without_releasing_trigger = second_gun_base._shots_without_releasing_trigger
+			self._bullets_fired = second_gun_base._bullets_fired
 			self:_update_burst_fire()
 		end
 

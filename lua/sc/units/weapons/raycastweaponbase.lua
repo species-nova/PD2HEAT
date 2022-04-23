@@ -50,10 +50,10 @@ function RaycastWeaponBase:init(unit)
 		self._next_spin_animation_t = 0 --Time to play next animation loop.
 	end
 
+	self._bullets_fired = 0
 	self._curr_kick = 0
 	self._kick_pattern = weapon_tweak.kick_pattern
 	self._rays = weapon_tweak.rays or 1
-
 
 	self._autohit_prog = 0
 	local stat_info = tweak_data.weapon.stat_info
@@ -304,7 +304,6 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	local right = direction:cross(Vector3(0, 0, 1)):normalized()
 	local up = direction:cross(right):normalized()
 	local ray_count = self._rays + self:_get_bonus_rays()
-	log(ray_count)
 	for i = 1, ray_count do
 		local r = math.sqrt(math.random())  --Ensures even spread distribution, rather than center biased.
 		local theta = math.random() * 360
@@ -741,25 +740,29 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, autohit_type, m
 	end
 end
 
---Autofire soundfix integration.
-	local afsf_blacklist = {
-		["saw"] = true,
-		["saw_secondary"] = true,
-		["flamethrower_mk2"] = true,
-		["m134"] = true,
-		["mg42"] = true,
-		["shuno"] = true,
-		["system"] = true,
-		["par"] = true
+--Autofire soundfix 2 integration.
+	_G.AutoFireSoundFixBlacklist = {
+		["saw"] = true, --OVE9000 Saw
+		["saw_secondary"] = true, --Also OVE9000 Saw
+		["flamethrower_mk2"] = true, --Flamethrower Mk1
+		["m134"] = true, --Minigun
+		["shuno"] = true,  --Microgun
+		["system"] = true --Flamethrower Mk2
 	}
+
+	--Allows users/modders to easily edit this blacklist from outside of this mod
+	Hooks:Register("AFSF2_OnWriteBlacklist")
+	Hooks:Add("BaseNetworkSessionOnLoadComplete","AFSF2_OnLoadComplete",function()
+		Hooks:Call("AFSF2_OnWriteBlacklist",AutoFireSoundFixBlacklist)
+	end)
 
 	--Check for if AFSF's fix code should apply to this particular weapon
 	function RaycastWeaponBase:_soundfix_should_play_normal()
 		local name_id = self:get_name_id()
-		if not self._setup.user_unit == managers.player:player_unit() then
+		if self._setup.user_unit ~= managers.player:player_unit() then
 			--don't apply fix for NPCs or other players
 			return true
-		elseif afsf_blacklist[name_id] then
+		elseif AutoFireSoundFixBlacklist[name_id] then
 			--blacklisted sound
 			return true
 		elseif tweak_data.weapon[name_id].use_fix ~= nil then 
@@ -779,7 +782,7 @@ end
 
 		self._shooting = nil
 		self._kills_without_releasing_trigger = nil
-		self._bullets_fired = nil
+		self._bullets_fired = 0
 
 		--Clear/start timer for bullet hell.
 		if self._bullet_hell_procced then
@@ -819,16 +822,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	local is_player = user_unit == managers.player:player_unit()
 	local consume_ammo = not is_player
 
-	if self._bullets_fired then
-		if self:_soundfix_should_play_normal() and self._bullets_fired == 1 and self:weapon_tweak_data().sounds.fire_single then
-			self:play_tweak_data_sound("stop_fire")
-			self:play_tweak_data_sound("fire_auto", "fire")
-		else
-			self:play_tweak_data_sound(self:weapon_tweak_data().sounds.fire_single,"fire_single")
-		end
-	end
-	self._bullets_fired = self._bullets_fired and self._bullets_fired + 1
-
 	if is_player then
 		--Invalidate old falloff data.
 		self.near_falloff_distance = nil
@@ -854,6 +847,8 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			self._bullet_hell_procced = true
 			managers.player:activate_temporary_upgrade_indefinitely("temporary", "bullet_hell")
 		end
+
+		self._bullets_fired = self._bullets_fired + 1
 	end
 
 	if consume_ammo and (is_player or Network:is_server()) then
@@ -892,6 +887,16 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	self:_spawn_shell_eject_effect()
 
 	local ray_res = self:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, target_unit)
+
+	--Autofire soundfix integration.
+	if self:_soundfix_should_play_normal() then
+		return ray_res
+	end
+
+	if ray_res and self._setup.user_unit == managers.player:player_unit() then
+		self:play_tweak_data_sound("fire_single","fire")
+		self:play_tweak_data_sound("stop_fire")
+	end
 
 	managers.player:send_message(Message.OnWeaponFired, nil, self._unit, ray_res)
 
@@ -1055,13 +1060,24 @@ function RaycastWeaponBase:shake_multiplier(multiplier_type)
 end
 
 --Minigun spin mechanics.
-	local start_shooting_original = RaycastWeaponBase.start_shooting
-	function RaycastWeaponBase:start_shooting(...)
-		start_shooting_original(self, ...)
-		
+	function RaycastWeaponBase:start_shooting()
+		if self:gadget_overrides_weapon_functions() then
+			local gadget_func = self:gadget_function_override("start_shooting")
+
+			if gadget_func then
+				return gadget_func
+			end
+		end
+
 		if self._spin_rounds then
 			self:_start_spin()
+		else
+			self:_fire_sound()
 		end
+
+		self._next_fire_allowed = math.max(self._next_fire_allowed, self._unit:timer():time())
+		self._shooting = true
+		self._bullets_fired = 0
 	end
 
 	local trigger_held_original = RaycastWeaponBase.trigger_held
