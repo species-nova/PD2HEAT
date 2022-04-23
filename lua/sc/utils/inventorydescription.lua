@@ -126,7 +126,7 @@ function WeaponDescription._get_base_stats(name)
 		elseif stat.name == "damage" then
 			getGenericStatValue(stat)
 			local modifier_stats = weapon_tweak.stats_modifiers
-			base_stats.damage.value = base_stats.damage.value * (modifier_stats and modifier_stats.damage or 1)
+			base_stats.damage.value = base_stats.damage.value * (modifier_stats and modifier_stats.damage or 1) * (weapon_tweak.rays or 1)
 		elseif not stat.derived then
 			getGenericStatValue(stat)
 		end
@@ -230,7 +230,7 @@ function WeaponDescription._get_mods_stats(name, base_stats, equipped_mods, bonu
 
 				if stat.name == "damage" then
 					local modifier_stats = tweak_data.weapon[name].stats_modifiers
-					mods_stats.damage.value = mods_stats.damage.value * (modifier_stats and modifier_stats.damage or 1)
+					mods_stats.damage.value = mods_stats.damage.value * (modifier_stats and modifier_stats.damage or 1) * (ammo_data.rays or weapon_tweak.rays or 1)
 				end
 				
 				mods_stats[stat.name].value = mods_stats[stat.name].value - base_stats[stat.name].value
@@ -346,7 +346,7 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 				elseif stat.name == "damage" then
 					getGenericStatValue(mod, part_data, stat)
 					local modifier_stats = weapon_tweak.stats_modifiers
-					mod.damage = mod.damage * (modifier_stats and modifier_stats.damage or 1)
+					mod.damage = mod.damage * (modifier_stats and modifier_stats.damage or 1) * (part_data.custom_stats and part_data.custom_stats.rays or weapon_tweak.rays or 1)
 				elseif not stat.derived and stat.name ~= "fire_rate" then
 					getGenericStatValue(mod, part_data, stat)
 				end
