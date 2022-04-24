@@ -566,21 +566,20 @@ function SkillTreeTweakData:init(tweak_data)
 				}
 			}			
 			
-			--Pigeon Shooter--
+			--Shotgun Surgeon--
 			self.skills.far_away = {
 				["name_id"] = "menu_far_away_beta_sc",
 				["desc_id"] = "menu_far_away_beta_desc_sc",
 				["icon_xy"] = {8, 5},
 				[1] = {
 					upgrades = {
-						"player_steelsight_speed_multiplier"
+						"shotgun_overhealed_damage_mul"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"shotgun_steelsight_accuracy_inc_1",
-						"shotgun_steelsight_range_inc_1"
+						"shotgun_headshots_ignore_medics"
 					},
 					cost = self.costs.hightierpro
 				}

@@ -1049,6 +1049,15 @@ function RaycastWeaponBase:shake_multiplier(multiplier_type)
 	return 1
 end
 
+
+function RaycastWeaponBase:can_ignore_medic_heals()
+	return false
+end
+
+function RaycastWeaponBase:overhealed_damage_mul()
+	return 1
+end
+
 --Minigun spin mechanics.
 	function RaycastWeaponBase:start_shooting()
 		if self:gadget_overrides_weapon_functions() then

@@ -1493,9 +1493,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 			["menu_shotgun_impact_beta_sc"] = "Riding Coach",
 			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw shotguns and flamethrowers ##75%## faster.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you holster all weapons ##75%## faster.",
 
-			--Pigeon Shooting--
-			["menu_far_away_beta_sc"] = "Pigeon Shooter",
-			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nYou move ##60%## faster while aiming down sights.\n\nACE: ##$pro##\nShotguns and Flamethrowers gain ##30%## more accuracy and range while aiming down sights.",
+			--Shotgun Surgeon--
+			["menu_far_away_beta_sc"] = "Shotgun Surgeon",
+			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and flamethrowers deal ##75%## more damage to overhealed enemies within ##8## meters.\n\nACE: ##$pro##\nLethal headshots with shotguns and flamethrowers against enemies within ##8## meters cannot be healed by medics.",
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",
@@ -1724,7 +1724,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Frenzy--
 			["menu_frenzy_sc"] = "Frenzy",
-			["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nYour health cannot be increased above ##25%##, but you deal ##150%## more saw and melee damage.\n\nACE: ##$pro##\nYou gain ##30## deflection, and you deal ##75%## more gun damage.\n\nEach point of deflection makes you take ##1%## less health damage.",
+			["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nYour health cannot be increased above ##25%##, but you deal ##150%## more saw and melee damage.\n\nACE: ##$pro##\nYou deal ##75%## more gun damage.",
 
 
 

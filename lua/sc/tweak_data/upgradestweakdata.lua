@@ -727,12 +727,16 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				--Ace
 					self.values.player.close_combat_damage_reduction = {{value = 0.05, max = 5}}
 				
-			--Pigeon Shooter
+			--Shotgun Surgeon
 				--Basic
-					self.values.player.steelsight_speed_multiplier = {1.6} --Movement speed while ADSing.
+					self.values.shotgun.overhealed_damage_mul = {
+						{
+							damage = 1.75,
+							range = 800
+						}
+					}
 				--Ace
-					self.values.shotgun.steelsight_range_inc = {1.3}
-					self.values.shotgun.steelsight_accuracy_inc = {0.7}
+					self.values.shotgun.headshots_ignore_medics = {800}
 				
 			--Overheat
 				self.values.player.overheat = {{
@@ -1332,7 +1336,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					
 				--Aced
 					self.values.player.damage_health_ratio_multiplier = {1.75}
-					self.values.player.frenzy_deflection = {0.3}
 
 	--Singleplayer stealth stuff, to give them access to resources closer to what they would have in coop.
 	if Global.game_settings and Global.game_settings.single_player then
@@ -2737,15 +2740,6 @@ function UpgradesTweakData:_player_definitions()
 			category = "player"
 		}
 	}
-	self.definitions.player_steelsight_speed_multiplier = {
-		name_id = "menu_player_steelsight_speed_multiplier",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "steelsight_speed_multiplier",
-			category = "player"
-		}
-	}
 	self.definitions.player_dodge_stacking_heal = {
 		name_id = "menu_player_dodge_stacking_heal",
 		category = "feature",
@@ -2993,15 +2987,6 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "kill_dodge_regen",
-			category = "player"
-		}
-	}
-	self.definitions.player_frenzy_deflection = {
-		name_id = "menu_player_frenzy_deflection",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "frenzy_deflection",
 			category = "player"
 		}
 	}
@@ -3422,22 +3407,22 @@ function UpgradesTweakData:_saw_definitions()
 end
 
 Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", function(self)
-	self.definitions.weapon_steelsight_accuracy_inc_1 = {
-		name_id = "menu_weapon_steelsight_accuracy_inc",
+	self.definitions.shotgun_overhealed_damage_mul = {
+		name_id = "menu_shotgun_overhealed_damage_mul",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "steelsight_accuracy_inc",
-			category = "weapon"
+			upgrade = "overhealed_damage_mul",
+			category = "shotgun"
 		}
 	}
-	self.definitions.weapon_steelsight_range_inc_1 = {
-		name_id = "menu_weapon_steelsight_range_inc",
+	self.definitions.shotgun_headshots_ignore_medics = {
+		name_id = "menu_shotgun_headshots_ignore_medics",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "steelsight_range_inc",
-			category = "weapon"
+			upgrade = "headshots_ignore_medics",
+			category = "shotgun"
 		}
 	}
 	self.definitions.shotgun_shell_stacking_reload_speed_1 = {

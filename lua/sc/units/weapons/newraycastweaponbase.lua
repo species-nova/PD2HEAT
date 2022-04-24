@@ -47,7 +47,7 @@ function NewRaycastWeaponBase:init(...)
 			}
 		end
 	
-		self._headshot_pierce_damage_mult = math.max(self._headshot_pierce_damage_mult, managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0))
+		self._headshot_pierce_damage_mult = (self._headshot_pierce_damage_mult or 1) * managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0)
 
 		if managers.player:has_category_upgrade(category, "headshot_pierce") then
 			self._can_shoot_through_head = true
@@ -55,8 +55,7 @@ function NewRaycastWeaponBase:init(...)
 
 		--Tracker for Mag Dumper Ace
 		if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
-			self._bullets_until_free = managers.player:upgrade_value(category, "full_auto_free_ammo")
-			break
+			self._bullets_until_free = math.min(self._bullets_until_free or math.huge, managers.player:upgrade_value(category, "full_auto_free_ammo"))
 		end
 
 		if managers.player:has_category_upgrade(category, "first_shot_bonus_rays") then
@@ -70,6 +69,16 @@ function NewRaycastWeaponBase:init(...)
 
 		if managers.player:has_category_upgrade(category, "offhand_auto_reload") then
 			self._offhand_auto_reload_speed = (self._offhand_auto_reload_speed or 0) + managers.player:upgrade_value(category, "offhand_auto_reload")
+		end
+
+		if managers.player:has_category_upgrade(category, "overhealed_damage_mul") then
+			local overheal_bonus_data = managers.player:upgrade_value(category, "overhealed_damage_mul")
+			self._overheal_damage_dist = math.max(self._overheal_damage_dist or -1, overheal_bonus_data.range or math.huge)
+			self._overheal_damage_mul = (self._overheal_damage_mul or 1) * (overheal_bonus_data.damage or 1)
+		end
+
+		if managers.player:has_category_upgrade(category, "headshots_ignore_medics") then
+			self._headshot_ignore_medics_distance = math.max(self._headshot_ignore_medics_distance or -1, managers.player:upgrade_value(category, "headshots_ignore_medics", -1))
 		end
 
 		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
@@ -489,6 +498,20 @@ function NewRaycastWeaponBase:cancel_burst(soft_cancel)
 		self._burst_rounds_fired = nil
 	end
 end	
+
+function RaycastWeaponBase:can_ignore_medic_heals(distance)
+	if self._headshot_ignore_medics_distance and distance < self._headshot_ignore_medics_distance then
+		return self._headshot_ignore_medics_distance
+	end
+end
+
+function RaycastWeaponBase:overhealed_damage_mul(distance)
+	if self._overheal_damage_dist and distance < self._overheal_damage_dist then
+		return self._overheal_damage_mul
+	end
+
+	return 1
+end
 
 function NewRaycastWeaponBase:reload_speed_multiplier()
 	if self._current_reload_speed_multiplier then
