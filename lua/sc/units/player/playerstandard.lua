@@ -164,7 +164,6 @@ function PlayerStandard:_update_movement(t, dt)
 		local lleration = acceleration
 		
 		if math.abs(self._last_velocity_xy:length()) > wanted_walk_speed then
-			--log("deccelerate!")
 			lleration = decceleration
 		end
 
@@ -1701,6 +1700,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			--Update trackers.
 			managers.statistics:reloaded()
 			managers.hud:set_ammo_amount(weapon:selection_index(), self._equipped_unit:base():ammo_info())
+			managers.player:consume_shell_rack_stacks(weapon)
 
 			state.refill_half_magazine_t = nil
 		elseif state.refill_magazine_t and state.refill_magazine_t <= t then
@@ -1709,6 +1709,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			--Update trackers.
 			managers.statistics:reloaded()
 			managers.hud:set_ammo_amount(weapon:selection_index(), weapon:ammo_info())
+			managers.player:consume_shell_rack_stacks(weapon)
 			
 			state.refill_magazine_t = nil --Magazine loaded, so no time to reload it exists any more.
 		end
@@ -1763,9 +1764,9 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 				else
 					offhand_weapon:set_ammo_remaining_in_clip(math.min(offhand_weapon:get_ammo_max_per_clip() + 1, offhand_weapon:get_ammo_remaining_in_clip() + state.bullets_to_load))
 				end
+				managers.player:consume_shell_rack_stacks(offhand_weapon)
 				managers.job:set_memory("kill_count_no_reload_" .. tostring(offhand_weapon._name_id), nil, true)
 				managers.hud:set_ammo_amount(offhand_weapon:selection_index(), offhand_weapon:ammo_info())
-				offhand_weapon:check_reset_last_bullet_stagger()
 			end
 
 			if state.offhand_reload_t < t then
@@ -1775,6 +1776,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 					offhand_weapon:on_reload() --Load up the magazine.
 					managers.hud:set_ammo_amount(offhand_weapon:selection_index(), offhand_weapon:ammo_info())
 					managers.statistics:reloaded()
+					managers.player:consume_shell_rack_stacks(offhand_weapon)
 				end
 
 				self:_stop_offhand_reload()
@@ -1804,6 +1806,7 @@ end
 --Adds a delay + input queuing based on the firing delay of the weapon for 2 reasons.
 --1. Reduce animation clipping.
 --2. To make using the short duration reload speed bonus on kill smoother on projectile weapons.
+--Also invalidates the current cached reload speed multiplier.
 function PlayerStandard:_start_action_reload_enter(t)
 	local weapon = self._equipped_unit:base()
 
@@ -1818,6 +1821,7 @@ function PlayerStandard:_start_action_reload_enter(t)
 				self:_interupt_action_running(t)
 			end
 
+			weapon:invalidate_current_reload_speed_multiplier()
 			local is_reload_not_empty = weapon:clip_not_empty()
 			local base_reload_enter_expire_t = weapon:reload_enter_expire_t(is_reload_not_empty)
 
@@ -1930,15 +1934,13 @@ function PlayerStandard:_get_swap_speed_multiplier(is_holstering)
 	local skill_multiplier = 1 --Skill multiplier reflects bonuses from skills, and has additive scaling to match other skills.
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
 	skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "passive_swap_speed_multiplier", 1) - 1
+	skill_multiplier = skill_multiplier + player_manager:upgrade_value("team", "crew_faster_swap", 1) - 1
 
 	--Get per category multipliers (IE: Pistols swap faster, Akimbos swap slower, ect).
 	for _, category in ipairs(weapon_tweak_data.categories) do
 		base_multiplier = base_multiplier * (tweak_data[category] and tweak_data[category].swap_bonus or 1)
 		skill_multiplier = skill_multiplier + player_manager:upgrade_value(category, "swap_speed_multiplier", 1) - 1
-		skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value(category, "close_combat_swap_speed_multiplier", 1) - 1
 	end
-
-	skill_multiplier = skill_multiplier + player_manager:upgrade_value("team", "crew_faster_swap", 1) - 1
 
 	if managers.player:has_activate_temporary_upgrade("temporary", "swap_weapon_faster") then
 		skill_multiplier = skill_multiplier + player_manager:temporary_upgrade_value("temporary", "swap_weapon_faster", 1) - 1
@@ -1948,11 +1950,20 @@ function PlayerStandard:_get_swap_speed_multiplier(is_holstering)
 		if weap_base:clip_empty() then
 			skill_multiplier = skill_multiplier + player_manager:upgrade_value("weapon", "empty_unequip_speed_multiplier", 1) - 1
 		end
+
+		skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value("weapon", "close_combat_holster_speed_multiplier", 1) - 1
+		for _, category in ipairs(weapon_tweak_data.categories) do
+			skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value(category, "close_combat_holster_speed_multiplier", 1) - 1
+		end
+	else
+		skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value("weapon", "close_combat_draw_speed_multiplier", 1) - 1
+		for _, category in ipairs(weapon_tweak_data.categories) do
+			skill_multiplier = skill_multiplier + player_manager:close_combat_upgrade_value(category, "close_combat_draw_speed_multiplier", 1) - 1
+		end
 	end
 
 	local multiplier = base_multiplier * skill_multiplier
-	multiplier = managers.modifiers:modify_value("PlayerStandard:GetSwapSpeedMultiplier", multiplier)
-	return multiplier
+	return managers.modifiers:modify_value("PlayerStandard:GetSwapSpeedMultiplier", multiplier)
 end
 
 --Inspire no longer works through walls.
@@ -2452,6 +2463,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 	return new_action
 end
 
+--Apply cosmetic sway effects to weapons based on their stats.
 function PlayerStandard:_stance_entered(unequipped)
 	local stance_standard = tweak_data.player.stances.default[managers.player:current_state()] or tweak_data.player.stances.default.standard
 	local head_stance = self._state_data.ducking and tweak_data.player.stances.default.crouched.head or stance_standard.head
@@ -2483,7 +2495,7 @@ function PlayerStandard:_stance_entered(unequipped)
 	misc_attribs = (not self:_is_using_bipod() or self:_is_throwing_projectile() or stances.bipod) and (self._state_data.in_steelsight and stances.steelsight or self._state_data.ducking and stances.crouched or stances.standard)
 	sway = sway or misc_attribs.shakers
 	vel_overshot = vel_overshot or misc_attribs.vel_overshot	
-	
+
 	local duration = tweak_data.player.TRANSITION_DURATION + (weap_base:transition_duration() or 0)
 	local duration_multiplier = self._state_data.in_steelsight and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
 	local new_fov = self:get_zoom_fov(misc_attribs) + 0

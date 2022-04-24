@@ -138,17 +138,23 @@
 				}
 			}
 	local function append_stats(part, append_table)
-		for table_name, t in pairs(append_table) do
-			--Clone current table to avoid changing the global attachment tables.
-			part[table_name] = deep_clone(part[table_name]) or {}
+		for k, v in pairs(append_table) do
+			if type(v) == "table" then			
+				--Clone current table to avoid changing the global attachment tables.
+				part[k] = part[k] and deep_clone(part[k]) or {}
 
-			for stat, data in pairs(t) do
-				orig_stat = part[table_name][stat]
-				if orig_stat and type(orig_stat) == "number" then
-					part[table_name][stat] = part[table_name][stat] + data
-				else
-					part[table_name][stat] = data
+				for stat, data in pairs(v) do
+					orig_stat = part[k][stat]
+					if type(orig_stat) == "number" then
+						part[k][stat] = orig_stat + data
+					else
+						part[k][stat] = data
+					end
 				end
+			elseif type(t) == "number" and type(part[k]) == "number" then
+				part[k] = part[k] + v
+			else
+				part[k] = v
 			end
 		end
 	end
@@ -175,6 +181,51 @@ function WeaponFactoryTweakData:init()
 			part.has_description = true
 		end
 	end
+end
+
+
+
+local orig_init_aa12 = WeaponFactoryTweakData._init_aa12
+function WeaponFactoryTweakData:_init_aa12()
+	orig_init_aa12(self)
+	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_long, light_acc_barrel) --Long Barrel
+	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, light_acc_barrel) --Suppressed Barrel
+		append_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, suppressor)
+	
+	self.wpn_fps_sho_aa12.override = {
+		wpn_fps_upg_a_slug = {
+			name_id = "bm_wp_upg_a_slug",
+			desc_id = "bm_wp_upg_a_slug_desc",
+			supported = true,
+			stats = {
+				value = 6,
+				damage = 39,
+				spread = 4,
+				recoil = -4
+			},
+			custom_stats = {
+				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
+				rays = 1,
+				armor_piercing_add = 1,
+				can_shoot_through_enemy = true,
+				can_shoot_through_shield = true,
+				can_shoot_through_wall = true
+			}
+		},
+		wpn_fps_upg_a_custom = {
+			supported = true,
+			stats = {
+				value = 6,
+				damage = 6,
+				spread = -2
+			},
+			custom_stats = {
+				damage_near_mul = 0.7,
+				damage_far_mul = 0.7,
+				rays = 6
+			}
+		}
+	}
 end
 
 --GL 40
@@ -257,6 +308,7 @@ function WeaponFactoryTweakData:_init_plainsrider()
 		append_stats(self.parts.wpn_fps_upg_a_bow_poison, light_bow_poison)
 end
 
+--English Longbow
 local orig_init_long = WeaponFactoryTweakData._init_long
 function WeaponFactoryTweakData:_init_long()
 	orig_init_long(self)
@@ -265,6 +317,7 @@ function WeaponFactoryTweakData:_init_long()
 		append_stats(self.parts.wpn_fps_bow_long_m_poison, heavy_bow_poison)
 end
 
+--DECA Technologies Compound Bow
 local orig_init_elastic = WeaponFactoryTweakData._init_elastic
 function WeaponFactoryTweakData:_init_elastic()
 	orig_init_elastic(self)

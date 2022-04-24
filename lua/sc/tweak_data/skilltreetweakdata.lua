@@ -515,32 +515,32 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {5, 0},
 				[1] = {
 					upgrades = {
-						"shotgun_close_combat_swap_speed_multiplier_1"
+						"shotgun_close_combat_draw_speed_multiplier"
 					},
 					cost = self.costs.default
 				},
 				[2] = {
 					upgrades = {
-						"shotgun_close_combat_swap_speed_multiplier_2"
+						"weapon_close_combat_holster_speed_multiplier"
 					},
 					cost = self.costs.pro
 				}
 			}			
 
-			--Shell Shocked--
+			--Shell Rack--
 			self.skills.shotgun_cqb = {
 				["name_id"] = "menu_shotgun_cqb_beta_sc",
 				["desc_id"] = "menu_shotgun_cqb_beta_desc_sc",
 				["icon_xy"] = {5, 1},
 				[1] = {
 					upgrades = {
-						"shotgun_last_shot_stagger"
+						"shotgun_shell_stacking_reload_speed_1"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"shotgun_close_combat_reload_speed_multiplier"
+						"shotgun_shell_stacking_reload_speed_2"
 					},
 					cost = self.costs.hightierpro
 				}

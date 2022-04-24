@@ -693,23 +693,33 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--ENFORCER--
 		--Shotgunner--
 			--Riding Coach
-				self.values.shotgun.close_combat_swap_speed_multiplier = {
-					{value = 1.3, min = 3}, --Basic
-					{value = 2.2, min = 3} --Ace
-				}
+				--Basic
+					self.values.shotgun.close_combat_draw_speed_multiplier = {{value = 1.75, min = 3}}
+				--Ace
+					self.values.weapon.close_combat_holster_speed_multiplier = {{value = 1.75, min = 3}}
 
-			--Shell Shocked
-				--Ace
-					self.values.shotgun.last_shot_stagger = {800}
-				--Ace
-					self.values.shotgun.close_combat_reload_speed_multiplier = {{value = 0.4, min = 3}}
+			--Shell Rack
+				self.values.shotgun.shell_stacking_reload_speed = {
+					{ --Basic
+						mag_reload_value = 0.04,
+						shotgun_reload_value = 0.04,
+						max_stacks = 5,
+						apply_to_shotgun_reload = false
+					},
+					{ --Ace
+						mag_reload_value = 0.04,
+						shotgun_reload_value = 0.08,
+						max_stacks = 5,
+						apply_to_shotgun_reload = true
+					}
+				}
 
 			--Gung-Ho
 				--Basic
 					self.values.shotgun.hip_rate_of_fire = {1.20}
 				--Ace
 					self.values.player.hip_run_and_shoot = {true}
-					self.values.player.sprint_kill_stamina_regen = {2}
+					self.values.player.sprint_kill_stamina_regen = {1}
 				
 			--Underdog
 				--Basic
@@ -3430,40 +3440,40 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "weapon"
 		}
 	}
-	self.definitions.shotgun_close_combat_reload_speed_multiplier = {
-		name_id = "menu_shotgun_close_combat_reload_speed_multiplier",
+	self.definitions.shotgun_shell_stacking_reload_speed_1 = {
+		name_id = "menu_shotgun_shell_stacking_reload_speed",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "close_combat_reload_speed_multiplier",
+			upgrade = "shell_stacking_reload_speed",
 			category = "shotgun"
 		}
 	}
-	self.definitions.shotgun_close_combat_swap_speed_multiplier_1 = {
-		name_id = "menu_shotgun_close_combat_swap_speed_multiplier_1",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "close_combat_swap_speed_multiplier",
-			category = "shotgun"
-		}
-	}
-	self.definitions.shotgun_close_combat_swap_speed_multiplier_2 = {
-		name_id = "menu_shotgun_close_combat_swap_speed_multiplier_2",
+	self.definitions.shotgun_shell_stacking_reload_speed_2 = {
+		name_id = "menu_shotgun_shell_stacking_reload_speed",
 		category = "feature",
 		upgrade = {
 			value = 2,
-			upgrade = "close_combat_swap_speed_multiplier",
+			upgrade = "shell_stacking_reload_speed",
 			category = "shotgun"
 		}
 	}
-	self.definitions.shotgun_last_shot_stagger = {
-		name_id = "menu_shotgun_last_shot_stagger",
+	self.definitions.shotgun_close_combat_draw_speed_multiplier = {
+		name_id = "menu_shotgun_close_combat_draw_speed_multiplier",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "last_shot_stagger",
+			upgrade = "close_combat_draw_speed_multiplier",
 			category = "shotgun"
+		}
+	}
+	self.definitions.weapon_close_combat_holster_speed_multiplier = {
+		name_id = "menu_shotgun_close_combat_holster_speed_multiplier",
+		category = "feature",
+		upgrade = {
+			value = 1,
+			upgrade = "close_combat_holster_speed_multiplier",
+			category = "weapon"
 		}
 	}
 	self.definitions.akimbo_pick_up_multiplier = {

@@ -360,7 +360,7 @@
 				<option type="bool" default_value="true" name="Info_increased_movement_speed"/> <!-- Running From Death -->
 				<option type="bool" default_value="true" name="Info_damage_speed_multiplier"/> <!-- Second Wind -->
 				<option type="bool" default_value="true" name="Info_headshot_accuracy_addend"/> <!-- Sharpshooter -->
-				<option type="bool" default_value="true" name="Info_shotgun_last_shot_stagger"/> <!-- Shell Shocked -->
+				<option type="bool" default_value="true" name="Info_shell_stacking_reload"/> <!-- Shell Rack -->
 				<option type="bool" default_value="true" name="Info_silent_precision"/>
 				<option type="bool" default_value="true" name="Info_melee_kill_increase_reload_speed"/> <!-- Snatch -->
 				<option type="bool" default_value="true" name="Info_trigger_happy"/>

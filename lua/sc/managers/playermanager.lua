@@ -191,13 +191,19 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 		panic_chance = panic_chance + self:upgrade_value("weapon", "single_shot_panic_when_kill")
 	end
 
-	--Apply Sociopath panic chance.
+	--Apply Sociopath panic chance and add shell rack stack.
 	local dist_sq = mvector3.distance_sq(player_unit:movement():m_pos(), killed_unit:movement():m_pos())
-	local close_combat_sq = tweak_data.upgrades.close_combat_distance * tweak_data.upgrades.close_combat_distance
+	local close_combat_sq = tweak_data.upgrades.close_combat_distance * tweak_data.upgrades.close_combat_distance --18m for Sociopath.
+	local real_close_combat_sq = tweak_data.upgrades.close_combat_data.distance * tweak_data.upgrades.close_combat_data.distance --8m for shotgun skills.
 	if dist_sq <= close_combat_sq then
 		panic_chance = panic_chance + self:use_cooldown_upgrade("cooldown", "killshot_close_panic_chance", 0)
 		+ self:upgrade_value("player", "killshot_extra_spooky_panic_chance", 0) --Add Haunt skill to panic chance.
 		+ self:upgrade_value("player", "killshot_spooky_panic_chance", 0) * damage_ext:get_missing_revives()
+
+		if self._shell_rack and dist_sq <= real_close_combat_sq then
+			self._shell_rack_stacks = math.min(self._shell_rack_stacks + 1, self._shell_rack.max_stacks)
+			managers.hud:set_stacks("shell_stacking_reload", self._shell_rack_stacks)
+		end
 	end
 
 	--Apply panic chance modifier.
@@ -225,14 +231,6 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 		if melee_weapon.special_weapon and melee_weapon.special_weapon == "stamina_restore" then
 			player_unit:movement():add_stamina(player_unit:movement():_max_stamina())
 		end
-	end
-
-	if _G.IS_VR then
-		local steelsight_multiplier = equipped_unit:base():enter_steelsight_speed_multiplier()
-		local stamina_percentage = (steelsight_multiplier - 1) * tweak_data.vr.steelsight_stamina_regen
-		local stamina_regen = player_unit:movement():_max_stamina() * stamina_percentage
-
-		player_unit:movement():add_stamina(stamina_regen)
 	end
 end
 
@@ -456,6 +454,11 @@ function PlayerManager:check_skills()
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
 	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
 	self._slow_duration_multiplier = self:upgrade_value("player", "slow_duration_multiplier", 1)
+
+	if self:has_category_upgrade("shotgun", "shell_stacking_reload_speed") then
+		self._shell_rack = self:upgrade_value("shotgun", "shell_stacking_reload_speed")
+		self._shell_rack_stacks = 0
+	end
 
 	--Make Trigger Happy and Desperado stack off of headshots.
 	if self:has_category_upgrade("pistol", "stacked_accuracy_bonus") then
@@ -1092,6 +1095,34 @@ function PlayerManager:_trigger_rapid_reset_bloom_reduction(attack_data)
 			end
 		end
 	end
+end
+
+--Returns the bonus attached to shell rack.
+function PlayerManager:get_shell_rack_bonus(weap_base)
+	local bonus = 0
+	if not self._shell_rack then
+		return 0
+	end
+
+	local is_shotgun = weap_base:is_category("shotgun")
+	local is_shotgun_reload = weap_base:use_shotgun_reload()
+	if not (is_shotgun and (self._shell_rack.apply_to_shotgun_reload and is_shotgun_reload)) then
+		return 0
+	end
+
+	return self._shell_rack_stacks * (is_shotgun_reload and self._shell_rack.shotgun_reload_value or self._shell_rack.mag_reload_value)
+end
+
+--Removes all shell rack stacks if the given weapon can use them. Should be called after reloading has started.
+function PlayerManager:consume_shell_rack_stacks(weap_base)
+	local is_shotgun = weap_base:is_category("shotgun")
+	local is_shotgun_reload = weap_base:use_shotgun_reload()
+	if not self._shell_rack or not (is_shotgun and (self._shell_rack.apply_to_shotgun_reload and is_shotgun_reload)) then
+		return
+	end
+
+	self._shell_rack_stacks = 0
+	managers.hud:remove_skill("shell_stacking_reload")
 end
 
 --No longer applies anything to the hud element. Since it's now used to reflect the amount damage was recently reduced by.

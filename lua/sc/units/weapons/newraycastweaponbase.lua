@@ -59,13 +59,6 @@ function NewRaycastWeaponBase:init(...)
 			break
 		end
 
-		--Tracker for shell shocked.
-		if managers.player:has_category_upgrade(category, "last_shot_stagger") then
-			self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-			managers.hud:add_skill(category .. "_last_shot_stagger")
-			break
-		end
-
 		if managers.player:has_category_upgrade(category, "first_shot_bonus_rays") then
 			self._first_shot_bonus_rays = (self._first_shot_bonus_rays or 0) + managers.player:upgrade_value(category, "first_shot_bonus_rays", 0)
 			self._first_shot_active = true
@@ -140,9 +133,6 @@ function NewRaycastWeaponBase:on_reload(...)
 	managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
 
 	self._reload_ammo_base = nil
-
-	--Check if the last shot staggering buff should be reapplied. 
-	self:check_reset_last_bullet_stagger()
 end
 
 function NewRaycastWeaponBase:max_bullets_to_reload(from_empty)
@@ -223,14 +213,13 @@ function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
 			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + ammo_to_reload))
 		end
 
+		managers.player:consume_shell_rack_stacks(self)
 		managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
 
 		if not next_queue_data or not next_queue_data.skip_update_ammo then
 			self:update_ammo_objects()
 		end
 
-		--Check if the last shot staggering buff should be reapplied. 
-		self:check_reset_last_bullet_stagger()
 		return true
 	end
 end
@@ -281,6 +270,13 @@ local on_disabled_original = NewRaycastWeaponBase.on_disabled
 function NewRaycastWeaponBase:on_disabled(...)
 	self:cancel_burst()
 	return on_disabled_original(self, ...)
+end
+
+--Resolves a vanilla issue that can let you cheat timed buffs from one reload->next on shotgun reloads.
+--Since all reloads use this cache to avoid 1000 skill checks, it's pretty important to make sure it's invalidated.
+--Any time the player starts a new reload.
+function NewRaycastWeaponBase:invalidate_current_reload_speed_multiplier()
+	self._current_reload_speed_multiplier = nil
 end
 
 local start_reload_original = NewRaycastWeaponBase.start_reload
@@ -536,40 +532,39 @@ function NewRaycastWeaponBase:reload_speed_multiplier()
 		end
 	end
 
-	if self:is_single_shot() and player_manager:has_activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier") then
+	if self:holds_single_round() and player_manager:has_activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier") then
 		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_reload_speed_multiplier", 1) - 1
-	end
-	
-	if player_manager:has_activate_temporary_upgrade("temporary", "reload_weapon_faster") then
-		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "reload_weapon_faster", 1) - 1
 	end
 	
 	if player_manager:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
 		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1) - 1
 	end
 	
+	multiplier = multiplier + player_manager:get_shell_rack_bonus(self)
 	multiplier = multiplier + player_manager:get_temporary_property("bloodthirst_reload_speed", 1) - 1
 	multiplier = multiplier + player_manager:upgrade_value("team", "crew_faster_reload", 1) - 1
 
 	multiplier = multiplier * self:reload_speed_stat()  * self._reload_speed_mult
 	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)
 
+	self._current_reload_speed_multiplier = multiplier
 	return multiplier
 end
 
 function NewRaycastWeaponBase:enter_steelsight_speed_multiplier()
+	--Make mobility affect this.
+	local base_multiplier = tweak_data.weapon.stats.mobility[self:get_concealment()]
 	local multiplier = 1
 	local categories = self:weapon_tweak_data().categories
-	for _, category in ipairs(categories) do
-		multiplier = multiplier * managers.player:upgrade_value(category, "enter_steelsight_speed_multiplier", 1)
-	end
-			
-	multiplier = multiplier * self._ads_speed_mult
 
-	multiplier = multiplier * managers.player:temporary_upgrade_value("temporary", "combat_medic_enter_steelsight_speed_multiplier", 1)
-	multiplier = multiplier * managers.player:upgrade_value(self._name_id, "enter_steelsight_speed_multiplier", 1)
-	
-	return multiplier
+	--Removed blatantly unused upgrades.
+	for i = 1, #categories do
+		multiplier = multiplier + 1 - managers.player:upgrade_value(category, "enter_steelsight_speed_multiplier", 1)
+	end
+
+	multiplier = multiplier + 1 - managers.player:upgrade_value("weapon", "enter_steelsight_speed_multiplier", 1)
+
+	return multiplier * base_multiplier
 end
 
 function NewRaycastWeaponBase:calculate_ammo_max_per_clip()
@@ -638,46 +633,21 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit, dis
 	return math.max((1 - math.min(1, math.max(0, distance - falloff_near) / (falloff_far))) * damage, 0.05 * damage)
 end
 
---Shell Shocked Skill Reset
-function NewRaycastWeaponBase:check_reset_last_bullet_stagger()
-	if self:get_ammo_remaining_in_clip() >= self:get_ammo_max_per_clip() then
-		for _, category in ipairs(self:categories()) do
-			if managers.player:has_category_upgrade(category, "last_shot_stagger") then
-				self._stagger_on_last_shot = managers.player:upgrade_value(category, "last_shot_stagger")
-				if self._equipped then
-					managers.hud:add_skill(category .. "_last_shot_stagger")
-				end
-				break
-			end
-		end
-	end
-end
-
-local old_on_equip = NewRaycastWeaponBase.on_equip
+local orig_on_equip = NewRaycastWeaponBase.on_equip
 function NewRaycastWeaponBase:on_equip(...)
-	old_on_equip(self, ...)
-
-	if self._stagger_on_last_shot then
-		for _, category in ipairs(self:categories()) do
-			managers.hud:add_skill(category .. "_last_shot_stagger")
-		end
-	end
-
+	orig_on_equip(self, ...)
+	
 	self._equipped = true
 	self._first_shot_active = true
 end
 
-local old_on_unequip = NewRaycastWeaponBase.on_unequip
+local orig_on_unequip = NewRaycastWeaponBase.on_unequip
 function NewRaycastWeaponBase:on_unequip(...)
-	old_on_unequip(self, ...)
+	orig_on_unequip(self, ...)
 
 	self._equipped = false
 	managers.player:deactivate_temporary_upgrade("temporary", "bullet_hell")
 	managers.hud:remove_skill("bullet_hell")
-
-	for _, category in ipairs(self:categories()) do
-		managers.hud:remove_skill(category .. "_last_shot_stagger")
-	end
 end
 
 function NewRaycastWeaponBase:sway_mul(move_state)

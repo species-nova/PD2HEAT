@@ -4566,10 +4566,10 @@ local damage_tier_data = {
 	{damage = 600, pickup = 130, suppression = 20}
 }
 local shotgun_damage_tier_data = {
-	{tier = 6,  damage = 45,  pickup = 256, suppression = 12}, --108 damage shotguns = 90 damage other weapons
-	{tier = 8,  damage = 72,  pickup = 238, suppression = 13}, --144 damage shotguns = 120 damage other weapons
-	{tier = 11, damage = 90,  pickup = 220, suppression = 14}, --198 damage shotguns = 180 damage other weapons
-	{tier = 14, damage = 120, pickup = 202, suppression = 15}  --252 damage shotguns = 240 damage other weapons
+	{tier = 6,  damage = 45,  pickup = 292, suppression = 12}, --108 damage shotguns = 90 damage other weapons
+	{tier = 8,  damage = 72,  pickup = 274, suppression = 13}, --144 damage shotguns = 120 damage other weapons
+	{tier = 11, damage = 90,  pickup = 256, suppression = 14}, --198 damage shotguns = 180 damage other weapons
+	{tier = 14, damage = 120, pickup = 238, suppression = 15}  --252 damage shotguns = 240 damage other weapons
 }
 
 local damage_pool_primary = 3600
