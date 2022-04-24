@@ -1694,17 +1694,18 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 			elseif state.reload_expire_t <= t then --Update timers in case player total ammo changes to allow for more to be reloaded.
 				state.reload_expire_t = t + (weapon:reload_expire_t(not weapon:started_reload_empty()) or 2.2) / speed_multiplier
 			end
+			managers.player:consume_shell_rack_stacks(weapon)
 		elseif state.refill_half_magazine_t and state.refill_half_magazine_t <= t then
 			weapon:on_half_reload() --Load up one magazine on an akimbo weapon. If timer is set on a non-akimbo weapon, expect a crash (so don't set it!).
 
 			--Update trackers.
 			managers.statistics:reloaded()
-			managers.hud:set_ammo_amount(weapon:selection_index(), self._equipped_unit:base():ammo_info())
+			managers.hud:set_ammo_amount(weapon:selection_index(), weapon:ammo_info())
 			managers.player:consume_shell_rack_stacks(weapon)
 
 			state.refill_half_magazine_t = nil
 		elseif state.refill_magazine_t and state.refill_magazine_t <= t then
-			self._equipped_unit:base():on_reload() --Load up the magazine.
+			weapon:on_reload() --Load up the magazine.
 			
 			--Update trackers.
 			managers.statistics:reloaded()

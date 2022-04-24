@@ -3786,7 +3786,7 @@ function WeaponTweakData:init(...)
 			damage = 6,
 			spread = 10,
 			recoil = 18,
-			concealment = 12
+			concealment = 16
 		}
 		self.aa12.timers = {
 			reload_not_empty = 3.8,
@@ -3811,7 +3811,7 @@ function WeaponTweakData:init(...)
 		self.saiga.supported = true
 		self.saiga.stats = {
 			damage = 6,
-			spread = 14,
+			spread = 15,
 			recoil = 14,
 			concealment = 16
 		}

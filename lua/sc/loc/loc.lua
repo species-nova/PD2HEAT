@@ -610,20 +610,14 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		--Shotgun Generic Mods--
 		["bm_wp_ns_duck_desc_sc"] = "Causes pellets to spread horizontally, instead of clustering.",
-		["bm_wp_upg_a_slug_sc"] = "AP Slug",
-		["bm_wp_upg_a_slug_sc_desc"] = "Fires a single accurate shotgun slug. Does not pierce.", --Auto/Semi-Auto shotguns--
-		["bm_wp_upg_a_slug_heavy_desc_sc"] = "Fires a single accurate lead slug that penetrates body armor, enemies, shields, titan shields, and walls.", --For shotguns that can hit Heavy Sniper damage tier--
-		["bm_wp_upg_a_explosive_desc_sc"] = "High-explosive slugs. Fires one explosive charge that kills or stuns targets. Cannot headshot.\n\nGreat for harassing shields, and knocking up enemies.",
-		["bm_wp_upg_a_custom_desc"] = "Fewer, bigger pellets that increase damage, at the cost of some consistency and ammo.\nFor those close range engagements.",
-		["bm_wp_upg_a_dragons_breath_auto_desc_sc"] = "Fires pellets that burn through body armor. Has a chance to set enemies on fire at close range, dealing 96 damage, and potentially stunning over three seconds.",
-		["bm_wp_upg_a_dragons_breath_semi_desc_sc"] = "Fires pellets that burn through body armor. Has a chance to set enemies on fire at close range, dealing 120 damage, and potentially stunning over three seconds.",
-		["bm_wp_upg_a_dragons_breath_pump_desc_sc"] = "Fires pellets that burn through body armor. Has a chance to set enemies on fire at close range, dealing 180 damage, and potentially stunning over three seconds.",
-		["bm_wp_upg_a_dragons_breath_heavy_desc_sc"] = "Fires pellets that burn through body armor. Has a chance to set enemies on fire at close range, dealing 240 damage, and potentially stunning over three seconds.",
-		["bm_wp_upg_a_piercing_auto_desc_sc"] = "Fires armor piercing flechettes that inflict 96 bleed damage over three seconds.",
-		["bm_wp_upg_a_piercing_semi_desc_sc"] = "Fires armor piercing flechettes that inflict 120 bleed damage over three seconds.",
-		["bm_wp_upg_a_piercing_pump_desc_sc"] = "Fires armor piercing flechettes that inflict 180 bleed damage over three seconds.",
-		["bm_wp_upg_a_piercing_heavy_desc_sc"] = "Fires armor piercing flechettes that inflict 240 bleed damage over three seconds.",
-
+		["bm_wp_upg_a_slug"] = "AP Slug",
+		["bm_wp_upg_a_slug_desc"] = "Fires a single lead slug that penetrates body armor, enemies, shields, titan shields, and walls.",
+		["bm_wp_upg_a_taser_slug"] = "Taser Slug",
+		["bm_wp_upg_a_taser_slug_desc"] = "Fires a single barbed slug that tases the target upon impact.",
+		["bm_wp_upg_a_custom_desc"] = "Fires a wide spread with 6 large pellets. Effective at close range.",
+		["bm_wp_upg_a_dragons_breath_auto_desc_sc"] = "Fires a wide spread of pellets that burn through body armor. Has a chance to set enemies on fire.",
+		["bm_wp_upg_a_piercing_auto_desc_sc"] = "Fires armor piercing flechettes that inflict bleed damage over time. Effective at longer ranges than normal.",
+		
 		--Generic Mods--
 		["bm_wp_upg_vg_afg"] = "AFG",
 		["bm_wp_upg_vg_stubby"] = "Stubby Vertical Grip",

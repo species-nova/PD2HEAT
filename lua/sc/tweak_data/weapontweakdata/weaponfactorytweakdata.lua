@@ -100,6 +100,7 @@
 			heat_stat_table = "explosive_arrow",
 			heat_mod_filters = {}
 		}
+
 	--Applies a HEAT attachment stat table to a given attachment.
 	local function apply_stats(part, stat_table)
 		part.supported = true
@@ -159,6 +160,102 @@
 		end
 	end
 
+	--Shotgun Ammo Types
+		local auto_shotgun_slug = {
+			supported = true,
+			stats = {
+				value = 6,
+				damage = 39,
+				spread = 3,
+				recoil = -3
+			},
+			custom_stats = {
+				damage_near_mul = 1.3333,
+				damage_far_mul = 1.3333,
+				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
+				rays = 1,
+				armor_piercing_add = 1,
+				can_shoot_through_enemy = true,
+				can_shoot_through_shield = true,
+				can_shoot_through_wall = true
+			}
+		}
+		local auto_shotgun_taser_slug = {
+			name_id = "bm_wp_upg_a_taser_slug",
+			desc_id = "bm_wp_upg_a_taser_slug_desc",
+			supported = true,
+			stats = {
+				value = 6,
+				damage = 39,
+				spread = 3,
+				recoil = -3
+			},
+			custom_stats = {
+				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
+				rays = 1,
+				bullet_class = "InstantElectricBulletBase"
+			}
+		}
+		local auto_shotgun_00buck = {
+			supported = true,
+			stats = {
+				value = 6,
+				damage = 6,
+				spread = -3
+			},
+			custom_stats = {
+				damage_near_mul = 0.75,
+				damage_far_mul = 0.75,
+				rays = 6
+			}
+		}
+		local auto_shotgun_flechette = {
+			desc_id = "bm_wp_upg_a_piercing_auto_desc_sc",
+			stats = {
+				value = 6,
+				damage = -3
+			},
+			custom_stats = {
+				damage_near_mul = 1.3333,
+				damage_far_mul = 1.3333,
+				armor_piercing_add = 1,
+				bullet_class = "BleedBulletBase",
+				dot_data = { 
+					type = "bleed",
+					custom_data = {
+						dot_damage = 1.35,
+						dot_length = 3.1,
+						dot_tick_period = 0.5
+					}
+				}
+			}
+		}
+		local auto_shotgun_dragons_breath = {
+			desc_id = "bm_wp_upg_a_dragons_breath_auto_desc_sc",
+			stats = {
+				value = 6,
+				damage = -3,
+				spread = -3
+			},
+			custom_stats = {
+				ignore_statistic = true,
+				bullet_class = "FlameBulletBase",
+				armor_piercing_add = 1,
+				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
+				fire_dot_data = {
+					dot_damage = 1.35,
+					dot_trigger_chance = 50,
+					dot_length = 3.1,
+					dot_tick_period = 0.5
+				}
+			}
+		}
+
+	local function create_override(weapon, part, stat_block)
+		weapon.override = weapon.override or {}
+		weapon.override[part] = stat_block
+	end
+
 local orig_init = WeaponFactoryTweakData.init
 function WeaponFactoryTweakData:init()
 	orig_init(self)
@@ -191,41 +288,13 @@ function WeaponFactoryTweakData:_init_aa12()
 	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_long, light_acc_barrel) --Long Barrel
 	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, light_acc_barrel) --Suppressed Barrel
 		append_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, suppressor)
-	
-	self.wpn_fps_sho_aa12.override = {
-		wpn_fps_upg_a_slug = {
-			name_id = "bm_wp_upg_a_slug",
-			desc_id = "bm_wp_upg_a_slug_desc",
-			supported = true,
-			stats = {
-				value = 6,
-				damage = 39,
-				spread = 4,
-				recoil = -4
-			},
-			custom_stats = {
-				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
-				rays = 1,
-				armor_piercing_add = 1,
-				can_shoot_through_enemy = true,
-				can_shoot_through_shield = true,
-				can_shoot_through_wall = true
-			}
-		},
-		wpn_fps_upg_a_custom = {
-			supported = true,
-			stats = {
-				value = 6,
-				damage = 6,
-				spread = -2
-			},
-			custom_stats = {
-				damage_near_mul = 0.7,
-				damage_far_mul = 0.7,
-				rays = 6
-			}
-		}
-	}
+
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_slug", auto_shotgun_slug) --Slugs
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_explosive", auto_shotgun_taser_slug) --Taser Slug
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom", auto_shotgun_00buck) --00 Buckshot
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom_free", auto_shotgun_00buck) --00 Buckshot (free)
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_piercing", auto_shotgun_flechette) --Flechettes
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_dragons_breath", auto_shotgun_dragons_breath) --Dragon's Breath
 end
 
 --GL 40

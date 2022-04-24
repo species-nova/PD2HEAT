@@ -222,7 +222,6 @@ function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
 			self:set_ammo_remaining_in_clip(math.min(self:get_ammo_max_per_clip(), self:get_ammo_remaining_in_clip() + ammo_to_reload))
 		end
 
-		managers.player:consume_shell_rack_stacks(self)
 		managers.job:set_memory("kill_count_no_reload_" .. tostring(self._name_id), nil, true)
 
 		if not next_queue_data or not next_queue_data.skip_update_ammo then

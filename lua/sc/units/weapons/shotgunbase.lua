@@ -1,5 +1,3 @@
-local old_update_stats_values = ShotgunBase._update_stats_values
-
 function ShotgunBase:_update_stats_values()
 	ShotgunBase.super._update_stats_values(self)
 	self:setup_default()
@@ -57,11 +55,6 @@ function ShotgunBase:fire_rate_multiplier()
 	return mul * (self._fire_rate_multiplier or 1)
 end
 
-local mvec_temp = Vector3()
-local mvec_to = Vector3()
-local mvec_direction = Vector3()
-local mvec_spread_direction = Vector3()
-
 ShotgunBase._fire_raycast = RaycastWeaponBase._fire_raycast --Baseline fire_raycast supports multiple rays.
 
 --Update achievement checks to also use shotgun specific ones.
@@ -109,4 +102,26 @@ function ShotgunBase:_check_kill_achievements(hit, cop_kill_count, cop_headshot_
 	end
 
 	return result
+end
+
+--Let taser slugs also do damage things.
+function InstantElectricBulletBase:give_impact_damage(col_ray, weapon_unit, user_unit, damage, armor_piercing)
+	local hit_unit = col_ray.unit
+	local action_data = {
+		damage = 0,
+		weapon_unit = weapon_unit,
+		attacker_unit = user_unit,
+		col_ray = col_ray,
+		armor_piercing = armor_piercing,
+		attacker_unit = user_unit,
+		attack_dir = col_ray.ray,
+		variant = weapon_unit:base() and weapon_unit:base().get_tase_strength and weapon_unit:base():get_tase_strength() or "light"
+	}
+
+	--The result of this isn't very important compared with the result of damage_bullet.
+	if hit_unit and hit_unit:character_damage().damage_tase then
+		hit_unit:character_damage():damage_tase(action_data)
+	end
+
+	return InstantElectricBulletBase.super.give_impact_damage(self, col_ray, weapon_unit, user_unit, damage, armor_piercing)
 end

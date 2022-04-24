@@ -1104,7 +1104,7 @@ function PlayerManager:get_shell_rack_bonus(weap_base)
 
 	local is_shotgun = weap_base:is_category("shotgun")
 	local is_shotgun_reload = weap_base:use_shotgun_reload()
-	if not (is_shotgun and (self._shell_rack.apply_to_shotgun_reload and is_shotgun_reload)) then
+	if not (is_shotgun or (self._shell_rack.apply_to_shotgun_reload and is_shotgun_reload)) then
 		return 0
 	end
 
@@ -1115,7 +1115,7 @@ end
 function PlayerManager:consume_shell_rack_stacks(weap_base)
 	local is_shotgun = weap_base:is_category("shotgun")
 	local is_shotgun_reload = weap_base:use_shotgun_reload()
-	if not self._shell_rack or not (is_shotgun and (self._shell_rack.apply_to_shotgun_reload and is_shotgun_reload)) then
+	if not self._shell_rack or not (is_shotgun or (self._shell_rack.apply_to_shotgun_reload and is_shotgun_reload)) then
 		return
 	end
 
