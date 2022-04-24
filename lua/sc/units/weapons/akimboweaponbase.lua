@@ -99,9 +99,6 @@ function AkimboWeaponBase:on_half_reload(...)
 	self._bloodthist_value_during_reload = 0
 	self._current_reload_speed_multiplier = nil
 
-	--Check if the last shot staggering buff should be reapplied. 
-	self:check_reset_last_bullet_stagger()
-
 	if not self._setup.expend_ammo then
 		--Nothing
 		return
@@ -142,9 +139,6 @@ end
 function AkimboWeaponBase:on_reload(...)
 	self._bloodthist_value_during_reload = 0
 	self._current_reload_speed_multiplier = nil
-
-	--Check if the last shot staggering buff should be reapplied. 
-	self:check_reset_last_bullet_stagger()
 
 	if not self._setup.expend_ammo then
 		NewRaycastWeaponBase.super.on_reload(self, ...)

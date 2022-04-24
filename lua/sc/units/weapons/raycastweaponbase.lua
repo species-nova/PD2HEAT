@@ -865,13 +865,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		if mag > 0 and remaining_ammo <= 0 then
 			self:_play_magazine_empty_anims()
 			self:set_magazine_empty(true)
-
-			if is_player and self._stagger_on_last_shot then
-				self._setup.user_unit:movement():stagger_in_aoe(self._stagger_on_last_shot)
-				local categories = self:categories()
-				managers.hud:remove_skill(categories[1] .. "_last_shot_stagger")
-				self._stagger_on_last_shot = nil
-			end
 		end
 
 		base:set_ammo_remaining_in_clip(mag - ammo_usage)
@@ -976,7 +969,8 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom * self:bloom_spread_penality_reduction())
 
 	--Apply skill multipliers to overall spread area.
-	spread_area = spread_area * tweak_data.weapon.stat_info.stance_spread_mults[current_state:get_movement_state()] * self:conditional_accuracy_multiplier(current_state)
+	local movement_state = current_state:get_movement_state()
+	spread_area = spread_area * tweak_data.weapon.stat_info.stance_spread_mults[movement_state] * self:conditional_accuracy_multiplier(movement_state)
 
 	self._current_spread_area = spread_area
 
@@ -989,7 +983,7 @@ function RaycastWeaponBase:multiply_bloom(amount)
 end
 
 --Multipliers for overall spread.
-function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
+function RaycastWeaponBase:conditional_accuracy_multiplier(movement_state)
 	local mul = 1
 	local pm = managers.player
 
@@ -997,11 +991,7 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(current_state)
  		mul = mul * pm:get_property("desperado", 1)
  	end
 
-	if not current_state then
-		return mul
-	end
-
-	if current_state:in_steelsight() then
+	if movement_state == "steelsight" or movement_state == "moving_steelsight" then
 		mul = mul * pm:upgrade_value("weapon", "steelsight_accuracy_inc", 1)
 		local categories = self:weapon_tweak_data().categories
 		for i = 1, #categories do

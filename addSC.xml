@@ -214,7 +214,7 @@
 	<texture path="guis/textures/pd2/skilltree/info_increased_movement_speed" force="false" load="false"/> <!-- Running From Death -->
 	<texture path="guis/textures/pd2/skilltree/info_damage_speed_multiplier" force="false" load="false"/> <!-- Second Wind -->
 	<texture path="guis/textures/pd2/skilltree/info_headshot_accuracy_addend" force="false" load="false"/> <!-- Sharpshooter Ace -->
-	<texture path="guis/textures/pd2/skilltree/info_shotgun_last_shot_stagger" force="false" load="false"/> <!-- Shell Shocked -->
+	<texture path="guis/textures/pd2/skilltree/info_shell_stacking_reload" force="false" load="false"/> <!-- Shell Rack -->
 	<texture path="guis/textures/pd2/skilltree/info_silent_precision" force="false" load="false"/>
 	<texture path="guis/textures/pd2/skilltree/info_melee_kill_increase_reload_speed" force="false" load="false"/> <!-- Snatch -->
 	<texture path="guis/textures/pd2/skilltree/info_offhand_auto_reload" force="false" load="false"/>

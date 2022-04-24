@@ -117,8 +117,8 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 		["PD2HEATInfo_damage_speed_multiplierDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_headshot_accuracy_addendTitleID"] = "Sharpshooter",
 		["PD2HEATInfo_headshot_accuracy_addendDescID"] = "Enables or disables tracking of this specific skill.",
-		["PD2HEATInfo_shotgun_last_shot_staggerTitleID"] = "Shell Shocked",
-		["PD2HEATInfo_shotgun_last_shot_staggerDescID"] = "Enables or disables tracking of this specific skill.",
+		["PD2HEATInfo_shell_stacking_reloadTitleID"] = "Shell Rack",
+		["PD2HEATInfo_shell_stacking_reloadDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_silent_precisionTitleID"] = "Silent Precision",
 		["PD2HEATInfo_silent_precisionDescID"] = "Enables or disables tracking of this specific skill.",
 		["PD2HEATInfo_melee_kill_increase_reload_speedTitleID"] = "Snatch",
@@ -1483,15 +1483,15 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Gung-Ho--
 			["menu_close_by_beta_sc"] = "Gung-Ho",
-			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.\n\nACE: ##$pro##\nYou can now hip-fire while sprinting.\n\nKilling an enemy while sprinting regenerates ##2## stamina.",
+			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.\n\nACE: ##$pro##\nYou can now hip-fire while sprinting.\n\nKilling an enemy while sprinting regenerates ##1## stamina.",
 
-			--Shell Shocked--
-			["menu_shotgun_cqb_beta_sc"] = "Shell Shocked",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nFiring the last shot in your shotgun or flamethrower staggers enemies within ##8## meters of you. You must fully reload to use this effect again.\n\nNote: Tactical reloading is not required.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you reload shotguns and flamethrowers ##40%## faster.",
+			--Shell Rack--
+			["menu_shotgun_cqb_beta_sc"] = "Shell Rack",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within 8 meters increases your shotgun and flamethrower reload speed by ##4%##, stacking up to ##5## times. All stacks are lost when you reload a gun that benefits from this bonus.\n\nACE: ##$pro##\nStacks apply to all per-round reloads, and grant an additional ##4%## reload speed to such reloads.",
 
 			--Riding Coach--
 			["menu_shotgun_impact_beta_sc"] = "Riding Coach",
-			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw and holster shotguns and flamethrowers ##30%## faster.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you draw and holster shotguns and flamethrowers an additional ##90%## faster.",
+			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw shotguns and flamethrowers ##75%## faster.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you holster all weapons ##75%## faster.",
 
 			--Pigeon Shooting--
 			["menu_far_away_beta_sc"] = "Pigeon Shooter",
