@@ -375,7 +375,7 @@ function WeaponTweakData:init(...)
 
 		--Ak17
 		self.flint.CLIP_AMMO_MAX = 30
-		self.flint.BURST_FIRE = 3
+		self.flint.BURST_FIRE = 2
 		self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.53846153833 --1000 rpm in burst fire, 650 otherwise.
 		self.flint.fire_mode_data.fire_rate = 0.09230769230 --650 rpm
 		self.flint.auto.fire_rate = 0.09230769230
@@ -388,7 +388,7 @@ function WeaponTweakData:init(...)
 			damage = 24,
 			spread = 17,
 			recoil = 14,
-			concealment = 12
+			concealment = 13
 		}
 		self.flint.timers = {
 			reload_not_empty = 2.7,
