@@ -3774,7 +3774,7 @@ function WeaponTweakData:init(...)
 		self.elastic.fire_rate_multiplier = 1.25
 		self.elastic.reload_speed_multiplier = 2
 
-	--Light Shotgun (Primary)
+	--Auto Shotgun (Primary)
 		--Steakout
 		self.aa12.CLIP_AMMO_MAX = 10
 		self.aa12.kick = self.stat_info.kick_tables.moderate_kick
@@ -3825,9 +3825,9 @@ function WeaponTweakData:init(...)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.saiga.reload_speed_multiplier = 1.3 --2.5/3.5
+		self.saiga.reload_speed_multiplier = 1.5 --2.2/3
 
-	--Light Shotgun (Akimbo)
+	--Auto Shotgun (Akimbo)
 		--Brothers Grimm
 		self.x_basset.CLIP_AMMO_MAX = 10
 		self.x_basset.kick = self.stat_info.kick_tables.right_kick
@@ -3835,7 +3835,7 @@ function WeaponTweakData:init(...)
 		self.x_basset.BURST_FIRE = 2
 		self.x_basset.ADAPTIVE_BURST_SIZE = true
 		self.x_basset.fire_mode_data.fire_rate = 0.2
-		self.x_basset.single.fire_rate = 0.2 --300 rpm
+		self.x_basset.single.fire_rate = 0.2 --300 rpm, 600 rpm introduces audio issues on the Grimms
 		self.x_basset.supported = true
 		self.x_basset.stats = {
 			damage = 6,
@@ -3857,7 +3857,7 @@ function WeaponTweakData:init(...)
 		}
 		self.x_basset.reload_speed_multiplier = 0.9 --4/4.3s
 
-	--Light Shotgun (Secondary)
+	--Auto Shotgun (Secondary)
 		--Grimm 12g
 		self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.basset.CLIP_AMMO_MAX = 5
@@ -3896,6 +3896,8 @@ function WeaponTweakData:init(...)
 			recoil = 15,
 			concealment = 10
 		}
+
+	--Semi-Auto Shotgun
 
 	--Loco 12g
 	self.serbu.rays = 9

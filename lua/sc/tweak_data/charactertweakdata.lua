@@ -854,7 +854,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --blue heavy swat
 	self.heavy_swat.experience = {}
 	self.heavy_swat.weapon = presets.weapon.expert
 	self.heavy_swat.detection = presets.detection.normal
-	self.heavy_swat.HEALTH_INIT = 31.2
+	self.heavy_swat.HEALTH_INIT = 32.4
 	self.heavy_swat.headshot_dmg_mul = normal_headshot
 	self.heavy_swat.move_speed = presets.move_speed.fast
 	self.heavy_swat.surrender_break_time = {6, 8}

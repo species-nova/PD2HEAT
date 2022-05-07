@@ -56,7 +56,6 @@ function RaycastWeaponBase:init(unit)
 	self._rays = weapon_tweak.rays or 1
 
 	self._autohit_prog = 0
-	local stat_info = tweak_data.weapon.stat_info
 end
 
 local setup_original = RaycastWeaponBase.setup
@@ -71,6 +70,7 @@ function RaycastWeaponBase:setup(...)
 	self._bloom_stacks = 0
 	self._current_spread = 0
 	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
+	self._is_tango_4_viable = table.contains(self._gadgets, "wpn_fps_upg_o_45rds")
 end
 
 --Returns the number of additional rays fired by the gun, beyond the normal amount defined in the tweakdata.
@@ -78,53 +78,10 @@ function RaycastWeaponBase:_get_bonus_rays()
 	return 0
 end
 
-function RaycastWeaponBase:can_ricochet()
-	return false
-end
-
---General raycast iteration. Handles damage value of bullet as it gets modified, and applies collision.
---ricochet_distance applies a distance_offset so that falloff on ricochets continues from where the initial hit left off.
-function RaycastWeaponBase:_iter_ray_hits(ray_hits, user_unit, damage, ricochet_distance)
-	local cop_kill_count = 0
-	local cop_headshot_count = 0
-	local hit_through_shield = false
-	local hit_through_wall = false
-	local hit_result = nil
-
-	for i = 1, #ray_hits do
-		local hit = ray_hits[i]
-		--Incidentally leads to falloff being double counted in cases where a bullet pierces something at falloff distance.
-		--Since this makes a fair degree of ballistic sense, this behavior will be kept.
-		damage = self:get_damage_falloff(damage, hit, user_unit, ricochet_distance)
-		hit_result = self._bullet_class:on_collision(hit, self._unit, user_unit, damage, false, false, ricochet_distance)
-
-		if hit.unit:in_slot(managers.slot:get_mask("world_geometry")) then
-			hit_through_wall = true
-			damage = damage * self._pierce_damage_mult
-		elseif hit.unit:in_slot(managers.slot:get_mask("enemy_shield_check")) then
-			hit_through_shield = hit_through_shield or alive(hit.unit:parent())
-			damage = damage * self._pierce_damage_mult
-		elseif hit.headshot then
-			damage = damage * self._headshot_pierce_damage_mult
-		end
-
-		--Consolidated all checks for hit_result existing.
-		if hit_result then
-			hit.through_shield = hit_through_shield
-			hit.through_wall = hit_through_wall
-			hit.damage_result = hit_result
-			cop_kill_count, cop_headshot_count = self:_process_hit(hit, cop_kill_count, cop_headshot_count)
-		end
-	end
-
-	return cop_kill_count
-end
-
---Multi-ray variant of iter_ray_hits. Used primarily for shotguns.
---Generates a table of 'best' hits on a per-unit basis then processes all collisions on those.
+--Iterates through the hits table(s), generates a table of 'best' hits on a per-unit basis, then processes all collisions on those.
 --The 'best' hit is always the one that deals the most damage. Headshots are always assumed to have more damage than body shots.
 --Damage to enemies is based on the damage of the 'best' hit * number of rays hit.
-function RaycastWeaponBase:_iter_all_ray_hits(all_hits, user_unit, damage)
+function RaycastWeaponBase:_iter_ray_hits(all_hits, user_unit, damage)
 	local best_hits = {}
 	local cop_kill_count = 0
 	local cop_headshot_count = 0
@@ -140,11 +97,12 @@ function RaycastWeaponBase:_iter_all_ray_hits(all_hits, user_unit, damage)
 		for i = 1, #ray_hits do
 			local hit = ray_hits[i]
 			--Populate data related to hit.
-			ray_damage = self:get_damage_falloff(ray_damage, hit, user_unit, ricochet_distance)
+			ray_damage = self:get_damage_falloff(ray_damage, hit, user_unit)
 			hit.damage = ray_damage
 			hit.through_shield = hit_through_shield
 			hit.through_wall = hit_through_wall
 			hit.count = 1
+			hit.max_count = #all_hits
 
 			--Handle penetration.
 			if hit.unit:in_slot(managers.slot:get_mask("world_geometry")) then
@@ -181,10 +139,15 @@ function RaycastWeaponBase:_iter_all_ray_hits(all_hits, user_unit, damage)
 
 	--Once we have all the best hits, process the collision, statistics, and achievement information for each one.
 	for unit, hit in pairs(best_hits) do
+		--Whether or not this hit had falloff. Used for hitmarker stuff.
+		self.last_hit_falloff = (hit.falloff_distance or hit.distance) > self.near_falloff_distance or hit.count < self._rays * 0.5
+
 		local curr_hit_result = self._bullet_class:on_collision(hit, self._unit, user_unit, hit.damage * hit.count, false, false)
 
 		if curr_hit_result then
-			hit_result = managers.mutators:modify_value("ShotgunBase:_fire_raycast", curr_hit_result)
+			if #all_hits > 1 then
+				hit_result = managers.mutators:modify_value("ShotgunBase:_fire_raycast", curr_hit_result)
+			end
 			hit.damage_result = curr_hit_result
 			cop_kill_count, cop_headshot_count = self:_process_hit(hit, cop_kill_count, cop_headshot_count)
 		end
@@ -262,33 +225,6 @@ function RaycastWeaponBase:_check_kill_achievements(hit, cop_kill_count, cop_hea
 	end
 end
 
---Consolidated copy/paste of vanilla tango_4 checks into a function.
-function RaycastWeaponBase:_check_tango_4(cop_kill_count)
-	if not tweak_data.achievement.tango_4.difficulty or table.contains(tweak_data.achievement.tango_4.difficulty, Global.game_settings.difficulty) then
-		if self._gadgets and table.contains(self._gadgets, "wpn_fps_upg_o_45rds") and cop_kill_count > 0 and managers.player:player_unit():movement():current_state():in_steelsight() then
-			if self._tango_4_data then
-				if self._gadget_on == self._tango_4_data.last_gadget_state then
-					self._tango_4_data = nil
-				else
-					self._tango_4_data.last_gadget_state = self._gadget_on
-					self._tango_4_data.count = self._tango_4_data.count + 1
-				end
-
-				if self._tango_4_data and tweak_data.achievement.tango_4.count <= self._tango_4_data.count then
-					managers.achievment:_award_achievement(tweak_data.achievement.tango_4, "tango_4")
-				end
-			else
-				self._tango_4_data = {
-					count = 1,
-					last_gadget_state = self._gadget_on
-				}
-			end
-		elseif self._tango_4_data then
-			self._tango_4_data = nil
-		end
-	end
-end
-
 local mvec_to = Vector3()
 local mvec_spread_direction = Vector3()
 function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul)
@@ -321,7 +257,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 		--Apply suppression and check for auto hit if no enemy was hit.
 		if self._autoaim then
 			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, hit_enemy and NORMAL_AUTOHIT or SKIP_AUTOHIT)
-			if auto_hit_enemy then
+			if auto_ray_hits then
 				hit_enemy = auto_hit_enemy	
 				ray_hits = auto_ray_hits
 				mvector3.set(mvec_to, from_pos)
@@ -330,38 +266,68 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 			end
 		end
 
-		all_hits[#all_hits + 1] = ray_hits
+		if ray_hits then
+			if self._alert_events then
+				self:_check_alert(ray_hits, from_pos, mvec_to, user_unit)
+			end
 
-		if hit_enemy then
-			result.hit_enemy = true
-		end
+			--Spawn bullet trail for the main bullet.
+			local trail_distance = ray_hits.trail_index > 0 and ray_hits[ray_hits.trail_index] and ray_hits[ray_hits.trail_index].distance or ray_distance
+			if trail_distance > 600 and alive(self._obj_fire) then
+				self._obj_fire:m_position(self._trail_effect_table.position)
+				mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
+				local trail = World:effect_manager():spawn(self._trail_effect_table)
+				World:effect_manager():set_remaining_lifetime(trail, math.clamp((trail_distance - 600) / 10000, 0, trail_distance))
+			end
 
-		if self._alert_events and ray_hits then
-			self:_check_alert(ray_hits, from_pos, direction, user_unit)
-		end
+			--Spawn a delayed bullet trail if the bullet did a ricochet.
+			if ray_hits.ricochet_distance then
+				local ricochet_trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_hits.ricochet_distance
+				if ricochet_trail_distance > 600 then
+					DelayedCalls:Add("ricochet_trail " .. tostring(ray_hits.ricochet_direction), math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
+						mvector3.set(self._trail_effect_table.position, ray_hits.ricochet_from_pos)
+						mvector3.set(self._trail_effect_table.normal, ray_hits.ricochet_direction)
+						local trail = World:effect_manager():spawn(self._trail_effect_table)
+						World:effect_manager():set_remaining_lifetime(trail, math.clamp((ricochet_trail_distance - 600) / 10000, 0, ricochet_trail_distance))
+					end)
+				end
+			end
 
-		local trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_distance
-		if trail_distance > 600 and alive(self._obj_fire) then
-			self._obj_fire:m_position(self._trail_effect_table.position)
-			mvector3.set(self._trail_effect_table.normal, mvec_spread_direction)
-			local trail = World:effect_manager():spawn(self._trail_effect_table)
-			World:effect_manager():set_remaining_lifetime(trail, math.clamp((trail_distance - 600) / 10000, 0, trail_distance))
+			all_hits[#all_hits + 1] = ray_hits
+
+			if hit_enemy then
+				result.hit_enemy = true
+			end
 		end
 	end
 
 	--Once all hits are determined, handle collisions.
-	local cop_kill_count = #all_hits == 1 and self:_iter_ray_hits(all_hits[1], user_unit, damage)
-		or self:_iter_all_ray_hits(all_hits, user_unit, damage)
+	local cop_kill_count = self:_iter_ray_hits(all_hits, user_unit, damage)
 
-	--Grab any results from ricochets, and apply them to the 
-	if self._ricochet_data then
-		result.hit_enemy = result.hit_enemy or self._ricochet_data.hit_enemy
-		cop_kill_count = cop_kill_count + self._ricochet_data.cop_kill_count
-		self._ricochet_data.hit_enemy = false
-		self._ricochet_data.cop_kill_count = 0
+	--Check the tango 4 achievement stuff.
+	if not tweak_data.achievement.tango_4.difficulty or table.contains(tweak_data.achievement.tango_4.difficulty, Global.game_settings.difficulty) then
+		if self._gadgets and self._is_tango_4_viable and cop_kill_count > 0 and managers.player:player_unit():movement():current_state():in_steelsight() then
+			if self._tango_4_data then
+				if self._gadget_on == self._tango_4_data.last_gadget_state then
+					self._tango_4_data = nil
+				else
+					self._tango_4_data.last_gadget_state = self._gadget_on
+					self._tango_4_data.count = self._tango_4_data.count + 1
+				end
+
+				if self._tango_4_data and tweak_data.achievement.tango_4.count <= self._tango_4_data.count then
+					managers.achievment:_award_achievement(tweak_data.achievement.tango_4, "tango_4")
+				end
+			else
+				self._tango_4_data = {
+					count = 1,
+					last_gadget_state = self._gadget_on
+				}
+			end
+		elseif self._tango_4_data then
+			self._tango_4_data = nil
+		end
 	end
-
-	self:_check_tango_4(cop_kill_count)
 
 	--Record that a shot was fired. Only player guns have autoaim. _process_hit records actual hits for accuracy stats.
 	if self._autoaim then
@@ -374,17 +340,18 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	return result
 end
 
-function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, blank, no_sound)
-	local ray_distance = (self.far_falloff_distance or self:weapon_range()) - distance
+function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy)
+	local start_distance = hit.distance
+	local ray_distance = (self.far_falloff_distance or self:weapon_range()) - start_distance
 
 	--Offset the raycast a small amount from the wall, otherwise it will result in the wall 'catching' the bullet.
-	local from_pos = col_ray.position + col_ray.normal
+	local from_pos = hit.position + hit.normal
 
-	local reflect_dir = mvector3.copy(col_ray.ray)
-	mvector3.add(reflect_dir, -2 * col_ray.ray:dot(col_ray.normal) * col_ray.normal) --Should probably optimize this to create less Vector3 objects, but I don't feel like it atm.
+	local reflect_dir = mvector3.copy(hit.ray)
+	mvector3.add(reflect_dir, -2 * hit.ray:dot(hit.normal) * hit.normal)
 
 	--Prevent bullets bouncing directly backwards
-	local angle = math.abs(mvector3.angle(col_ray.ray, reflect_dir))
+	local angle = math.abs(mvector3.angle(hit.ray, reflect_dir))
 	if angle < 0 or angle > 170 then
 		return
 	end
@@ -393,48 +360,42 @@ function RaycastWeaponBase:_fire_ricochet(col_ray, user_unit, damage, distance, 
 	local reflect_vec = mvector3.copy(reflect_dir)
 	mvector3.multiply(reflect_vec, ray_distance)
 	mvector3.add(reflect_vec, from_pos)
-
-	local ray_hits, hit_enemy = self:_collect_hits(from_pos, reflect_vec)
+	local ray_hits, ricochet_hit_enemy = self:_collect_hits(from_pos, reflect_vec, true)
 
 	--Give more generous auto-aim.
-	local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, hit_enemy and RICOCHET_AUTOHIT or SKIP_AUTOHIT, ray_distance)
-	if auto_hit_enemy then
-		hit_enemy = auto_hit_enemy
+	local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ricochet_hit_enemy and RICOCHET_AUTOHIT or SKIP_AUTOHIT, ray_distance)
+	if auto_ray_hits then
+		ricochet_hit_enemy = auto_hit_enemy
 		ray_hits = auto_ray_hits
 		mvector3.set(reflect_dir, from_pos)
 		mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
 		mvector3.set(mvec_spread_direction, reflect_dir)
 	end
 
-	local cop_kill_count = self:_iter_ray_hits(ray_hits, user_unit, damage, distance)
-
-	if self._alert_events and ray_hits then
-		self:_check_alert(ray_hits, from_pos, reflect_vec, user_unit)
+	--Append hits to table, and add/update relevant fields for the ricochets.
+	for i = 1, #ray_hits do
+		local hit = ray_hits[i]
+		if not units_hit[hit.unit:key()] then
+			hit.ricochet = true --Used in on_collision functions to let them know to ignore civilians.
+			hit.falloff_distance = start_distance + hit.distance --Needed for correct falloff calcs.
+			unique_hits[#unique_hits + 1] = hit
+		end
 	end
 
-	--Skip tango 4 checks. Let _fire_raycast handle those.
+	--Store data for ricohet particle effect
+	unique_hits.ricochet_from_pos = from_pos
+	unique_hits.ricochet_direction = reflect_vec
+	unique_hits.ricochet_distance = ray_distance
 
-	--Spawn a delayed bullet trail.
-	local trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_distance
-	if trail_distance > 600 then
-		DelayedCalls:Add("ricochet_trail " .. tostring(reflect_vec), math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
-			mvector3.set(self._trail_effect_table.position, from_pos)
-			mvector3.set(self._trail_effect_table.normal, reflect_dir)
-			local trail = World:effect_manager():spawn(self._trail_effect_table)
-			World:effect_manager():set_remaining_lifetime(trail, math.clamp((trail_distance - 600) / 10000, 0, trail_distance))
-		end)
-	end
-
-	--Collect results of ricochets into table.
-	--This table is reset at the end of _fire_raycast, and contains information that impacts achievements or return info.
-	self._ricochet_data.cop_kill_count = self._ricochet_data.cop_kill_count + cop_kill_count
-	self._ricochet_data.hit_enemy = self._ricochet_data.hit_enemy or hit_enemy
+	return unique_hits, ricochet_hit_enemy or hit_enemy
 end
 
 --Minor fixes and making Winters unpiercable.
 local ai_vision_ids = Idstring("ai_vision")
 local bulletproof_ids = Idstring("bulletproof")
-function RaycastWeaponBase:_collect_hits(from, to)
+function RaycastWeaponBase:_collect_hits(from, to, is_ricochet)
+	local units_hit = {}
+	local unique_hits = {}
 	local hit_enemy = false
 	local enemy_mask = managers.slot:get_mask("enemies")
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
@@ -442,8 +403,6 @@ function RaycastWeaponBase:_collect_hits(from, to)
 	--Just set this immediately.
 	local ray_hits = self._can_shoot_through_wall and World:raycast_wall("ray", from, to, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units, "thickness", 40, "thickness_mask", wall_mask)
 		or World:raycast_all("ray", from, to, "slot_mask", self._bullet_slotmask, "ignore_unit", self._setup.ignore_units)
-	local units_hit = {}
-	local unique_hits = {}
 
 	for i = 1, #ray_hits do
 		local hit = ray_hits[i]
@@ -453,7 +412,7 @@ function RaycastWeaponBase:_collect_hits(from, to)
 			hit_enemy = hit_enemy or hit.unit:in_slot(enemy_mask)
 
 			--Check if headshot.
-			if  hit.unit:in_slot(enemy_mask)
+			if hit.unit:in_slot(enemy_mask)
 				and not hit.unit:character_damage()._char_tweak.ignore_headshot
 				and hit.unit:character_damage()._ids_head_body_name
 				and hit.unit:character_damage()._ids_head_body_name == hit.body:name() then
@@ -463,35 +422,40 @@ function RaycastWeaponBase:_collect_hits(from, to)
 			end
 
 			--Determine when bullet travel ends.
-			--Ricochets are handled by the bullet itself instead of in here since the alternative would be a massive complexity increase to this function in comparison to that one. 
-			if not self._can_shoot_through_enemy and not self._can_shoot_through_head and hit.headshot and hit_enemy then
-				break
-			elseif not self._can_shoot_through_wall and hit.unit:in_slot(wall_mask) and (hit.body:has_ray_type(ai_vision_ids) or hit.body:has_ray_type(bulletproof_ids)) then
-				break
-			elseif not self._can_shoot_through_shield and hit.unit:in_slot(shield_mask) then
-				break
-			elseif not self._can_shoot_through_titan_shield and hit.unit:in_slot(shield_mask) and hit.unit:name():key() == 'af254947f0288a6c' then --Titan shields
-				break
-			elseif hit.unit:in_slot(shield_mask) and hit.unit:name():key() == '4a4a5e0034dd5340' then --Winters being a shit.
-				break						
-			end		
+			if hit_enemy then
+				if not self._can_shoot_through_enemy and (not self._can_shoot_through_head or not hit.headshot) then
+					break
+				end
+			elseif not self._can_shoot_through_wall and hit.unit:in_slot(wall_mask) and (hit.body:has_ray_type(ai_vision_ids) or hit.body:has_ray_type(bulletproof_ids))
+				or hit.unit:in_slot(shield_mask) and (hit.unit:name():key() == '4a4a5e0034dd5340' --Winter's Shield
+					or (hit.unit:name():key() == 'af254947f0288a6c' and not self._can_shoot_through_titan_shield) --Titan Shields
+					or not self._can_shoot_through_shield) then --Regular Shields
+				if self._can_ricochet and not is_ricochet then
+					unique_hits.trail_index = i
+					return self:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy)
+				else
+					break
+				end
+			end
 		end
 	end
+
+	unique_hits.trail_index = #unique_hits
 	return unique_hits, hit_enemy
-end	
+end
 
 --Cache shield attack_data table.
 local shield_knock_data = {
 	damage = 0,
 	type = "shield_knock",
 	variant = "melee",
-	col_ray = nil, --Set this when table is used.
+	col_ray = nil, --Set this when table is used. Leave rest untouched.
 	result = {
 		variant = "melee",
 		type = "shield_knock"
 	}
 }
-function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound, ricochet)
+function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound)
 	blank = Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
 
 	local hit_unit = col_ray.unit
@@ -516,12 +480,7 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 		end
 	end
 
-	if not ricochet and weapon_base and weapon_base:can_ricochet() and user_unit == managers.player:player_unit() and hit_unit and 
-		((not weapon_base._can_shoot_through_shield and is_shield)
-		or (not weapon_base._can_shoot_through_wall and hit_unit:in_slot(managers.slot:get_mask("world_geometry", "vehicles")) and col_ray.body:has_ray_type(ai_vision_ids))
-		or col_ray.body:has_ray_type(bulletproof_ids)) then
-			weapon_base:_fire_ricochet(col_ray, user_unit, damage, col_ray.distance, blank, no_sound)
-	elseif ricochet then --Civilian hits turn Ricochets into blanks as a QOL feature.
+	if col_ray.ricochet then --Civilian hits treat Ricochets as blanks as a QOL feature.
 		local unit_type = alive(hit_unit) and hit_unit.base and hit_unit:base() and hit_unit:base()._tweak_table
 		if unit_type and CopDamage.is_civilian(unit_type) then
 			blank = true
@@ -529,10 +488,6 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 	end
 
 	local play_impact_flesh = not hit_char_damage or not hit_char_damage._no_blood
-	
-	if col_ray.falloff_distance and weapon_base.near_falloff_distance then
-		self.last_hit_falloff = col_ray.falloff_distance > (weapon_base.near_falloff_distance or 0) --Whether or not this bullet had falloff. Used for hitmarker stuff. 
-	end
 
 	if hit_unit:damage() and managers.network:session() and col_ray.body:extension() and col_ray.body:extension().damage then
 		local damage_body_extension = true
@@ -733,7 +688,7 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, autohit_type, m
 		mvec3_mul(tar_vec, tar_vec_len)
 		mvec3_add(tar_vec, from_pos)
 
-		local unique_hits, hit_enemy = self:_collect_hits(from_pos, tar_vec)
+		local unique_hits, hit_enemy = self:_collect_hits(from_pos, tar_vec, autohit_type ~= RICOCHET_AUTOHIT)
 		if hit_enemy then
 			return unique_hits, hit_enemy
 		end
@@ -1142,8 +1097,8 @@ end
 	end
 
 --BulletBase additions/changes.
-	function DOTBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, ricochet)
-		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, ricochet)
+	function DOTBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank)
+		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank)
 		local hit_unit = col_ray.unit
 
 		if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() then
@@ -1155,8 +1110,8 @@ end
 		return result
 	end
 
-	function ProjectilesPoisonBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, ricochet)
-		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank, ricochet)
+	function ProjectilesPoisonBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank)
+		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank)
 		local hit_unit = col_ray.unit
 		if hit_unit:character_damage() and hit_unit:character_damage().damage_dot and not hit_unit:character_damage():dead() and alive(weapon_unit) then
 			local dot_data = tweak_data.projectiles[weapon_unit:base()._projectile_entry].dot_data
@@ -1294,4 +1249,132 @@ end
 		return managers.slot:get_mask("bullet_impact_targets")
 	end	
 
-	--TODO: FlameBulletBase on_collision.
+	--Similar to vanilla, effectively a copy/paste of the InstantBulletBase:on_collision function but with 2 differences.
+	--1. Blood impact effects are removed.
+	--2. Use give_fire_damage instead of give_impact_damage.
+	--DragonsBreathBulletBase is no longer used. DB rounds use FlameBulletBase.
+	function FlameBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank)
+		blank = Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
+
+		local hit_unit = col_ray.unit
+		local hit_char_damage = hit_unit:character_damage()
+		local is_shield = hit_unit:in_slot(managers.slot:get_mask("enemy_shield_check")) and alive(hit_unit:parent())
+		local weapon_base = alive(weapon_unit) and weapon_unit:base()
+
+		--Add shield knocking, since we no longer pierce shields.
+		if alive(weapon_unit) and not blank and is_shield and weapon_base._shield_knock then
+			local enemy_unit = hit_unit:parent()
+
+			if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
+				if enemy_unit:base():char_tweak() then
+					if not enemy_unit:character_damage():is_immune_to_shield_knockback() then 
+						local knock_chance = math.sqrt(0.02 * damage)
+
+						if knock_chance > math.random() then
+							shield_knock_data.col_ray = col_ray
+							enemy_unit:character_damage():_call_listeners(shield_knock_data)
+						end
+					end
+				end
+			end
+		end
+
+		if col_ray.ricochet then --Civilian hits treat Ricochets as blanks as a QOL feature.
+			local unit_type = alive(hit_unit) and hit_unit.base and hit_unit:base() and hit_unit:base()._tweak_table
+			if unit_type and CopDamage.is_civilian(unit_type) then
+				blank = true
+			end
+		end
+
+		if hit_unit:damage() and managers.network:session() and col_ray.body:extension() and col_ray.body:extension().damage then
+			local damage_body_extension = true
+			local character_unit = nil
+
+			if hit_char_damage then
+				character_unit = hit_unit
+			elseif is_shield and hit_unit:parent():character_damage() then
+				character_unit = hit_unit:parent()
+			end
+
+			--do a friendly fire check if the unit hit is a character or a character's shield before damaging the body extension that was hit
+			if character_unit and character_unit:character_damage().is_friendly_fire and character_unit:character_damage():is_friendly_fire(user_unit) then
+				damage_body_extension = false
+			end
+
+			if damage_body_extension then
+				local sync_damage = not blank and hit_unit:id() ~= -1
+				local network_damage = math.ceil(damage * 163.84)
+				damage = network_damage / 163.84
+
+				if sync_damage then
+					local normal_vec_yaw, normal_vec_pitch = self._get_vector_sync_yaw_pitch(col_ray.normal, 128, 64)
+					local dir_vec_yaw, dir_vec_pitch = self._get_vector_sync_yaw_pitch(col_ray.ray, 128, 64)
+
+					managers.network:session():send_to_peers_synched("sync_body_damage_bullet", col_ray.unit:id() ~= -1 and col_ray.body or nil, user_unit:id() ~= -1 and user_unit or nil, normal_vec_yaw, normal_vec_pitch, col_ray.position, dir_vec_yaw, dir_vec_pitch, math.min(16384, network_damage))
+				end
+
+				local local_damage = not blank or hit_unit:id() == -1
+
+				if local_damage then
+					col_ray.body:extension().damage:damage_bullet(user_unit, col_ray.normal, col_ray.position, col_ray.ray, 1)
+					col_ray.body:extension().damage:damage_damage(user_unit, col_ray.normal, col_ray.position, col_ray.ray, damage)
+
+					if alive(weapon_unit) and weapon_base.categories and weapon_base:categories() then
+						local categories = weapon_base:categories()
+						for i = 1, #categories do
+							col_ray.body:extension().damage:damage_bullet_type(categories[i], user_unit, col_ray.normal, col_ray.position, col_ray.ray, 1)
+						end
+					end
+				end
+			end
+		end
+
+		local result = nil
+		local push_multiplier = nil
+
+		if alive(weapon_unit) and hit_char_damage and hit_char_damage.damage_bullet then
+			local was_alive = not hit_char_damage:dead()
+
+			if not blank then
+				result = self:give_fire_damage(col_ray, weapon_unit, user_unit, damage)
+			end
+
+			push_multiplier = self:_get_character_push_multiplier(weapon_unit, was_alive and hit_char_damage:dead())
+		end
+
+		managers.game_play_central:physics_push(col_ray, push_multiplier)
+
+		return result
+	end
+
+	function FlameBulletBase:give_fire_damage(col_ray, weapon_unit, user_unit, damage, armor_piercing)
+		local fire_dot_data = nil
+
+		if weapon_unit.base and weapon_unit:base()._ammo_data and weapon_unit:base()._ammo_data.bullet_class == "FlameBulletBase" then
+			if col_ray.count then --If multiple rays hit, then multiply the chance by the number of rays. Requires a clone to avoid mutating global state.
+				fire_dot_data = clone(weapon_unit:base()._ammo_data.fire_dot_data)
+				fire_dot_data.dot_trigger_chance = fire_dot_data.dot_trigger_chance * col_ray.count
+			else
+				fire_dot_data = weapon_unit:base()._ammo_data.fire_dot_data
+			end
+		elseif weapon_unit.base and weapon_unit:base()._name_id then
+			local weapon_name_id = weapon_unit:base()._name_id
+
+			if tweak_data.weapon[weapon_name_id] and tweak_data.weapon[weapon_name_id].fire_dot_data then
+				fire_dot_data = tweak_data.weapon[weapon_name_id].fire_dot_data
+			end
+		end
+
+		local action_data = {
+			variant = "fire",
+			damage = damage,
+			weapon_unit = weapon_unit,
+			attacker_unit = user_unit,
+			col_ray = col_ray,
+			armor_piercing = armor_piercing,
+			fire_dot_data = fire_dot_data
+		}
+		local defense_data = col_ray.unit:character_damage():damage_fire(action_data)
+
+		return defense_data
+	end

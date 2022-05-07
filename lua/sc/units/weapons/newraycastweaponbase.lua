@@ -41,10 +41,7 @@ function NewRaycastWeaponBase:init(...)
 		end
 
 		if managers.player:has_category_upgrade(category, "ricochet_bullets") then
-			self._ricochet_data = {
-				cop_kill_count = 0,
-				hit_enemy = false
-			}
+			self._can_ricochet = true
 		end
 	
 		self._headshot_pierce_damage_mult = (self._headshot_pierce_damage_mult or 1) * managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0)
@@ -85,19 +82,12 @@ function NewRaycastWeaponBase:init(...)
 	end
 
 	if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
-		self._ricochet_data = self._ricochet_data or {
-			cop_kill_count = 0,
-			hit_enemy = false
-		}
+		self._can_ricochet = true
 	end
 end
 
 function NewRaycastWeaponBase:get_offhand_auto_reload_speed()
 	return self._offhand_auto_reload_speed
-end
-
-function NewRaycastWeaponBase:can_ricochet()
-	return self._ricochet_data ~= nil
 end
 
 --Returns the number of additional rays fired by the gun, beyond the normal amount defined in the tweakdata.
@@ -598,12 +588,12 @@ function NewRaycastWeaponBase:calculate_ammo_max_per_clip()
 	return ammo
 end
 
-function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit, distance_offset)
-	local distance = col_ray.distance or mvector3.distance(col_ray.unit:position(), user_unit:position())
-	if distance_offset then
-		distance = distance + distance_offset
+function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit)
+	local distance = col_ray.falloff_distance or col_ray.distance
+	if not distance then
+		log("TODO: Figure out why distance was nil!")
+		distance = mvector3.distance(col_ray.unit:position(), user_unit:position())
 	end
-	col_ray.falloff_distance = distance
 
 	--Use cached values if still valid (IE: When shooting multiple rays at once). Otherwise, recalculate falloff.
 	local falloff_near = self.near_falloff_distance
@@ -649,7 +639,6 @@ function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray, user_unit, dis
 		self.near_falloff_distance = falloff_near
 		self.far_falloff_distance = falloff_far --Previous range values. Will generally be the same bullet-to-bullet.
 	end
-
 
 	--Compute final damage.
 	return math.max((1 - math.min(1, math.max(0, distance - falloff_near) / (falloff_far))) * damage, 0.05 * damage)

@@ -723,9 +723,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Underdog
 				--Basic
-					self.values.player.close_combat_damage_boost = {{value = 0.05, max = 5}}
+					self.values.player.close_combat_damage_boost = {{value = 0.04, max = 5}}
 				--Ace
-					self.values.player.close_combat_damage_reduction = {{value = 0.05, max = 5}}
+					self.values.player.close_combat_damage_reduction = {{value = 0.04, max = 5}}
 				
 			--Shotgun Surgeon
 				--Basic

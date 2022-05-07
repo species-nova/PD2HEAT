@@ -612,7 +612,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_ns_duck_desc_sc"] = "Causes pellets to spread horizontally, instead of clustering.",
 		["bm_wp_upg_a_slug"] = "AP Slug",
 		["bm_wp_upg_a_slug_desc"] = "Fires a single lead slug that penetrates body armor, enemies, shields, titan shields, and walls.",
-		["bm_wp_upg_a_taser_slug"] = "Taser Slug",
+		["bm_wp_upg_a_explosive"] = "Taser Slug",
 		["bm_wp_upg_a_taser_slug_desc"] = "Fires a single barbed slug that tases the target upon impact.",
 		["bm_wp_upg_a_custom_desc"] = "Fires a wide spread with 6 large pellets. Effective at close range.",
 		["bm_wp_upg_a_dragons_breath_auto_desc_sc"] = "Fires a wide spread of pellets that burn through body armor. Has a chance to set enemies on fire.",
@@ -1473,7 +1473,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Underdog--
 			["menu_underdog_beta_sc"] = "Underdog",
-			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##5%## more gun and melee damage for each enemy within ##8## meters, up to ##25%## more damage.\n\nACE: ##$pro##\nYou take ##5%## less damage for each enemy within ##8## meters, up to ##25%## less damage.",
+			["menu_underdog_beta_desc_sc"] = "BASIC: ##$basic##\nYou deal ##4%## more gun and melee damage for each enemy within ##8## meters, up to ##20%## more damage.\n\nACE: ##$pro##\nYou take ##4%## less damage for each enemy within ##8## meters, up to ##20%## less damage.",
 
 			--Gung-Ho--
 			["menu_close_by_beta_sc"] = "Gung-Ho",
