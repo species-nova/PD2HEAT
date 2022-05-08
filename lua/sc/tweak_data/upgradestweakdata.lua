@@ -229,6 +229,15 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"model70"
 				}
 			},
+		l35 = {
+			name_id = "weapons",
+			upgrades = {
+				"r93",
+				"judge",
+				"mining_pick",
+				"wing"
+			}
+		},
 		l36 = {
 				name_id = "weapons",
 				upgrades = {
@@ -702,14 +711,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				self.values.shotgun.shell_stacking_reload_speed = {
 					{ --Basic
 						mag_reload_value = 0.04,
-						shotgun_reload_value = 0.04,
-						max_stacks = 5,
+						shotgun_reload_value = 0.05,
+						max_stacks = 6,
 						apply_to_shotgun_reload = false
 					},
 					{ --Ace
 						mag_reload_value = 0.04,
 						shotgun_reload_value = 0.08,
-						max_stacks = 5,
+						max_stacks = 6,
 						apply_to_shotgun_reload = true
 					}
 				}

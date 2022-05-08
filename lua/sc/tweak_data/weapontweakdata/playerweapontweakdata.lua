@@ -3777,7 +3777,7 @@ function WeaponTweakData:init(...)
 	--Auto Shotgun (Primary)
 		--Steakout
 		self.aa12.CLIP_AMMO_MAX = 10
-		self.aa12.kick = self.stat_info.kick_tables.moderate_kick
+		self.aa12.kick = self.stat_info.kick_tables.vertical_kick
 		self.aa12.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.aa12.FIRE_MODE = "auto"
 		self.aa12.CAN_TOGGLE_FIREMODE = false
@@ -3806,7 +3806,7 @@ function WeaponTweakData:init(...)
 		self.saiga.CLIP_AMMO_MAX = 5
 		self.saiga.fire_mode_data.fire_rate = 0.1
 		self.saiga.auto.fire_rate = 0.1
-		self.saiga.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.saiga.kick = self.stat_info.kick_tables.right_kick
 		self.saiga.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.saiga.supported = true
 		self.saiga.stats = {
@@ -3855,7 +3855,6 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.65
 		}
-		self.x_basset.reload_speed_multiplier = 0.9 --4/4.3s
 
 	--Auto Shotgun (Secondary)
 		--Grimm 12g
@@ -3882,22 +3881,203 @@ function WeaponTweakData:init(...)
 		}
 		self.basset.reload_speed_multiplier = 1.25 --2.1/2.8
 
+		--[[
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.3,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+		]]
+	--Semi-Auto Shotgun (Primary)
+		--Predator 12g
+		self.spas12.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.spas12.CLIP_AMMO_MAX = 6
+		self.spas12.fire_mode_data.fire_rate = 0.175
+		self.spas12.single.fire_rate = 0.175
+		self.spas12.fire_rate_multiplier = 1.166 --400 rpm
+		self.spas12.kick = self.stat_info.kick_tables.left_kick
+		self.spas12.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.spas12.supported = true
+		self.spas12.stats = {
+			damage = 8,
+			spread = 15,
+			recoil = 13,
+			concealment = 13
+		}
+		self.spas12.timers = {
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 1.2,
+			shotgun_reload_exit_not_empty = 0.2,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+			unequip = 0.55,
+			equip = 0.85
+		}
+		self.spas12.reload_speed_multiplier = 1.1
+
+		--M1014
+		self.benelli.CLIP_AMMO_MAX = 7
+		self.benelli.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.benelli.fire_mode_data.fire_rate = 0.175
+		self.benelli.single.fire_rate = 0.175
+		self.benelli.fire_rate_multiplier = 1.166 --400 rpm
+		self.benelli.kick = self.stat_info.kick_tables.moderate_kick
+		self.benelli.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.benelli.supported = true
+		self.benelli.stats = {
+			damage = 8,
+			spread = 14,
+			recoil = 9,
+			concealment = 15
+		}
+		self.benelli.timers = {
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 1.2,
+			shotgun_reload_exit_not_empty = 0.2,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+			unequip = 0.55,
+			equip = 0.85
+		}
+		self.benelli.reload_speed_multiplier = 1.1
+
+		--Street Sweeper
+		self.striker.use_data.selection_index = 2
+		self.striker.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.striker.fire_mode_data.fire_rate = 0.175
+		self.striker.single.fire_rate = 0.175
+		self.striker.fire_rate_multiplier = 1.312 --450 rpm
+		self.striker.kick = self.stat_info.kick_tables.right_kick
+		self.striker.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.striker.supported = true
+		self.striker.stats = {
+			damage = 8,
+			spread = 9,
+			recoil = 14,
+			concealment = 14
+		}
+		self.striker.timers = {
+			shotgun_reload_enter = 0.5333333333333333,
+			shotgun_reload_exit_empty = 0.4,
+			shotgun_reload_exit_not_empty = 0.4,
+			shotgun_reload_shell = 0.6,
+			shotgun_reload_first_shell_offset = 0.4,
+			unequip = 0.6,
+			equip = 0.85
+		}
+		self.striker.reload_speed_multiplier = 0.85
+
+	--Semi-Auto Shotgun (Akimbo)
+		--Akimbo Judge
+		self.x_judge.fire_mode_data.fire_rate = 0.272727
+		self.x_judge.single.fire_rate = 0.272727
+		self.x_judge.FIRE_MODE = "burst"
+		self.x_judge.BURST_FIRE = 2
+		self.x_judge.ADAPTIVE_BURST_SIZE = true
+		self.x_judge.supported = true
+		self.x_judge.kick = self.stat_info.kick_tables.vertical_kick
+		self.x_judge.kick_pattern = self.stat_info.kick_patterns.zigzag_3
+		--The Akimbo Castigo animations look nicer, but have audio issues.
+		--self.x_judge.weapon_hold = "x_chinchilla"
+		--self.x_judge.animations.reload_name_id = "x_chinchilla"
+		--self.x_judge.animations.second_gun_versions = self.x_judge.animations.second_gun_versions or {}
+		--self.x_judge.animations.second_gun_versions.reload = "reload"
+		self.x_judge.stats = {
+			damage = 8,
+			spread = 8,
+			recoil = 5,
+			concealment = 17
+		}
+		self.x_judge.timers = {
+			reload_not_empty = 4.5,
+			reload_empty = 4.5,
+			reload_operational = 3.36,
+			empty_reload_operational = 3.36,
+			half_reload_operational = 2.96,
+			empty_half_reload_operational = 2.96,
+			reload_interrupt = 0.28,
+			empty_reload_interrupt = 0.28,
+			unequip = 0.5,
+			equip = 0.5
+		}
+
+	--Semi-Auto Shotguns (Secondary)
+		--Goliath 12G
+		self.rota.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.rota.kick = self.stat_info.kick_tables.vertical_kick
+		self.rota.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.rota.fire_mode_data.fire_rate = 0.175
+		self.rota.single.fire_rate = 0.175
+		self.rota.fire_rate_multiplier = 1.166 --400 rpm
+		self.rota.supported = true
+		self.rota.stats = {
+			damage = 8,
+			spread = 9,
+			recoil = 13,
+			concealment = 11
+		}
+		self.rota.timers = {
+			reload_not_empty = 3.1,
+			reload_empty = 3.1,
+			reload_operational = 2.55,
+			empty_reload_operational = 2.55, 
+			reload_interrupt = 1.15, --Technically the cylinder is disengaged by ~0.36s, but it felt really bad at that value. Animations cover it up anyway.
+			empty_reload_interrupt = 1.15,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.rota.reload_speed_multiplier = 0.9 --3.6s
+		
+		--Argos 3
+		self.ultima.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.ultima.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.ultima.kick_pattern = self.stat_info.kick_patterns.random
+		self.ultima.supported = true
+		self.ultima.stats = {
+			damage = 8,
+			spread = 10,
+			recoil = 10,
+			concealment = 15
+		}
+		--Just use the vanilla timers, since they match the unique reload animation pretty well.
+
+		--Judge
+		self.judge.fire_mode_data.fire_rate = 0.272727
+		self.judge.single.fire_rate = 0.272727
+		self.judge.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.judge.kick = self.stat_info.kick_tables.left_kick
+		self.judge.kick_pattern = self.stat_info.kick_patterns.random
+		self.judge.supported = true
+		self.judge.stats = {
+			damage = 8,
+			spread = 12,
+			recoil = 9,
+			concealment = 19
+		}
+		self.judge.timers = {
+			reload_not_empty = 2.4,
+			reload_empty = 2.4,
+			reload_operational = 2.2,
+			empty_reload_operational = 2.2,
+			reload_interrupt = 0.29,
+			empty_reload_interrupt = 0.29,
+			unequip = 0.5,
+			equip = 0.45
+		}
+
 		--Reinfeld 880
 		self.r870.desc_id = "bm_menu_sc_r870_desc"
 		self.r870.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.r870.CLIP_AMMO_MAX = 8
 		self.r870.kick = self.stat_info.kick_tables.vertical_kick
 		self.r870.kick_pattern = self.stat_info.kick_patterns.jumpy_2
-		self.r870.AMMO_MAX = 60
-		self.r870.supported = true
+		self.r870.supported = false
 		self.r870.stats = {
 			damage = 11,
-			spread = 9,
-			recoil = 15,
-			concealment = 10
+			spread = 11,
+			recoil = 14,
+			concealment = 14
 		}
-
-	--Semi-Auto Shotgun
 
 	--Loco 12g
 	self.serbu.rays = 9
@@ -3996,86 +4176,6 @@ function WeaponTweakData:init(...)
 	self.saw_secondary.stats = deep_clone(self.saw.stats)
 	self.saw_secondary.timers = deep_clone(self.saw.timers)
 
-	--Judge
-	self.judge.fire_mode_data = {}
-	self.judge.fire_mode_data.fire_rate = 0.272727
-	self.judge.single = {}
-	self.judge.single.fire_rate = 0.272727
-	self.judge.rays = 9
-	self.judge.muzzleflash = "effects/particles/shotgun/muzzleflash"
-	self.judge.AMMO_MAX = 20
-	self.judge.supported = false
-	self.judge.stats = {
-		damage = 90,
-		spread = 5,
-		recoil = 10,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 25,
-		suppression = 4,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.judge.timers.reload_not_empty = 2.4
-	self.judge.timers.reload_empty = 2.4
-	self.judge.stats_modifiers = {damage = 1}
-	self.judge.kick = self.stat_info.kick_tables.left_kick
-	self.judge.reload_speed_multiplier = 0.85
-	self.judge.timers.reload_interrupt = 0.12
-	self.judge.timers.empty_reload_interrupt = 0.12
-
-	--M1014
-	self.benelli.AMMO_MAX = 80
-	self.benelli.rays = 9
-	self.benelli.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.benelli.fire_mode_data.fire_rate = 0.13953488372
-	self.benelli.CAN_TOGGLE_FIREMODE = false
-	self.benelli.single = {}
-	self.benelli.single.fire_rate = 0.13953488372
-	self.benelli.kick = self.stat_info.kick_tables.moderate_kick
-	self.benelli.supported = false
-	self.benelli.stats = {
-		damage = 45,
-		spread = 8,
-		recoil = 18,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 22,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-
-	--Street Sweeper
-	self.striker.rays = 9
-	self.striker.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.striker.AMMO_MAX = 40
-	self.striker.fire_mode_data.fire_rate = 0.13953488372
-	self.striker.CAN_TOGGLE_FIREMODE = false
-	self.striker.single = {}
-	self.striker.single.fire_rate = 0.13953488372
-	self.striker.CLIP_AMMO_MAX = 12
-	self.striker.kick = self.stat_info.kick_tables.right_kick
-	self.striker.supported = false
-	self.striker.stats = {
-		damage = 45,
-		spread = 7,
-		recoil = 18,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 20,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.striker.timers.shotgun_reload_first_shell_offset = 0.4
-
 	--Raven
 	self.ksg.rays = 9
 	self.ksg.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4098,32 +4198,6 @@ function WeaponTweakData:init(...)
 		total_ammo_mod = 100,
 		reload = 20
 	}
-
-	--Predator 12g
-	self.spas12.rays = 9
-	self.spas12.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.spas12.AMMO_MAX = 80
-	self.spas12.CLIP_AMMO_MAX = 8
-	self.spas12.fire_mode_data.fire_rate = 0.13953488372
-	self.spas12.CAN_TOGGLE_FIREMODE = false
-	self.spas12.single = {}
-	self.spas12.single.fire_rate = 0.13953488372
-	self.spas12.kick = self.stat_info.kick_tables.left_kick
-	self.spas12.supported = false
-	self.spas12.stats = {
-		damage = 45,
-		spread = 8,
-		recoil = 18,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 22,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.spas12.stats_modifiers = {damage = 1}
 
 	--Joceline O/U 12G
 	self.b682.rays = 9
@@ -4257,61 +4331,6 @@ function WeaponTweakData:init(...)
 	self.boot.stats_modifiers = nil
 	self.boot.stats_modifiers = {damage = 1}
 	self.boot.reload_speed_multiplier = 0.75
-
-	--Goliath 12G
-	self.rota.upgrade_blocks = nil
-	self.rota.AMMO_MAX = 40
-	self.rota.rays = 9
-	self.rota.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.rota.kick = self.stat_info.kick_tables.vertical_kick
-	self.rota.fire_mode_data.fire_rate = 0.13953488372
-	self.rota.single.fire_rate = 0.13953488372
-	self.rota.supported = false
-	self.rota.stats = {
-		damage = 45,
-		spread = 5,
-		recoil = 17,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 22,
-		suppression = 6,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.rota.stats_modifiers = nil
-	self.rota.timers.reload_interrupt = 0.46 --Technically the cylinder is disengaged by like 14% in, but it felt really bad at that value. Animations cover it up anyway.
-	self.rota.timers.empty_reload_interrupt = 0.46
-
-	--Akimbo Judge
-	--Keeping
-	self.x_judge.fire_mode_data.fire_rate = 0.272727
-	self.x_judge.single.fire_rate = 0.272727
-	self.x_judge.rays = 9
-	self.x_judge.FIRE_MODE = "single"
-	self.x_judge.BURST_FIRE = true
-	self.x_judge.AMMO_MAX = 40
-	self.x_judge.supported = false
-	self.x_judge.stats = {
-		damage = 90,
-		spread = 3,
-		recoil = 0,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 25,
-		suppression = 4,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.x_judge.stats_modifiers = nil
-	self.x_judge.weapon_hold = "x_chinchilla"
-	self.x_judge.animations.reload_name_id = "x_chinchilla"
-	self.x_judge.animations.second_gun_versions = self.x_judge.animations.second_gun_versions or {}
-	self.x_judge.animations.second_gun_versions.reload = "reload"
-	self.x_judge.kick = self.stat_info.kick_tables.vertical_kick
 
 	--MA-17 Flamethrower
 	self.system.categories = {
@@ -4569,7 +4588,7 @@ local damage_tier_data = {
 }
 local shotgun_damage_tier_data = {
 	{tier = 6,  damage = 45,  pickup = 292, suppression = 12}, --108 damage shotguns = 90 damage other weapons
-	{tier = 8,  damage = 72,  pickup = 274, suppression = 13}, --144 damage shotguns = 120 damage other weapons
+	{tier = 8,  damage = 60,  pickup = 274, suppression = 13}, --144 damage shotguns = 120 damage other weapons
 	{tier = 11, damage = 90,  pickup = 256, suppression = 14}, --198 damage shotguns = 180 damage other weapons
 	{tier = 14, damage = 120, pickup = 238, suppression = 15}  --252 damage shotguns = 240 damage other weapons
 }

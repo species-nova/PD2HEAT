@@ -145,7 +145,7 @@ function RaycastWeaponBase:_iter_ray_hits(all_hits, user_unit, damage)
 		local curr_hit_result = self._bullet_class:on_collision(hit, self._unit, user_unit, hit.damage * hit.count, false, false)
 
 		if curr_hit_result then
-			if #all_hits > 1 then
+			if self._rays > 1 then
 				hit_result = managers.mutators:modify_value("ShotgunBase:_fire_raycast", curr_hit_result)
 			end
 			hit.damage_result = curr_hit_result

@@ -1481,7 +1481,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shell Rack--
 			["menu_shotgun_cqb_beta_sc"] = "Shell Rack",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within 8 meters increases your shotgun and flamethrower reload speed by ##4%##, stacking up to ##5## times. All stacks are lost when you reload a gun that benefits from this bonus.\n\nACE: ##$pro##\nStacks apply to all per-round reloads, and grant an additional ##4%## reload speed to such reloads.",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within 8 meters increases your shotgun and flamethrower reload speed by ##4%##, stacking up to ##6## times. All stacks are lost when you reload a gun that benefits from this bonus.\n\nACE: ##$pro##\nStacks apply to all per-round reloads, and grant an additional ##4%## reload speed to such reloads.",
 
 			--Riding Coach--
 			["menu_shotgun_impact_beta_sc"] = "Riding Coach",
@@ -1823,6 +1823,8 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["bm_menu_skill_locked_x_mac10"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_akmsu"] = "Requires the Ambidexterity skill.",
 		["bm_menu_skill_locked_x_basset"] = "Requires the Ambidexterity skill.",
+		["bm_menu_skill_locked_x_judge"] = "Requires the Ambidexterity skill.",
+
 
 		--Desperado--
 		["menu_expert_handling_sc"] = "Desperado",
