@@ -973,12 +973,8 @@ function PlayerStandard:_do_chainsaw_damage(t)
 
 		managers.game_play_central:physics_push(col_ray)
 
-		character_unit = character_unit or hit_unit
-
+		local character_unit = character_unit or hit_unit
 		if character_unit:character_damage() and character_unit:character_damage().damage_melee then
-			local target_dead = character_unit:character_damage().dead and not character_unit:character_damage():dead()
-			local target_hostile = managers.enemy:is_enemy(character_unit) and not tweak_data.character[character_unit:base()._tweak_table].is_escort
-
 			local action_data = {
 				variant = "melee",
 				damage = damage,
