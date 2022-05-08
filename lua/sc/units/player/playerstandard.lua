@@ -1834,7 +1834,7 @@ function PlayerStandard:_start_action_reload_enter(t)
 			end
 
 			self:_start_action_reload(t)
-		else
+		elseif not weapon:use_shotgun_reload() then
 			--Otherwise, flag that we want the reload to start at the soonest opportunity.
 			self._queue_reload_start = true
 		end
