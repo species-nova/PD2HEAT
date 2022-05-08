@@ -2577,7 +2577,52 @@ function WeaponTweakData:init(...)
 			equip = 0.35
 		}
 
-		--TODO: Kang Arms Model 54
+		--Kang Arms Model 54
+		--TODO: Still very buggy/crashy.
+		self.type54.use_data.selection_index = 2
+		self.type54.kick = self.stat_info.kick_tables.left_recoil
+		self.type54.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.type54.supported = false
+		self.type54.CLIP_AMMO_MAX = 8
+		self.type54.tactical_reload = true
+		self.type54.stats = {
+			damage = 24,
+			spread = 21,
+			recoil = 21,
+			concealment = 21
+		}
+		self.type54.timers = {
+			reload_not_empty = 2.0,
+			reload_empty = 2.4,
+			reload_operational = 1.45,
+			empty_reload_operational = 2.1,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.5,
+			equip = 0.35
+		}
+		self.type54.reload_speed_multiplier = 1.2 --1.7/2s
+		self.type54_underbarrel.use_data.selection_index = 4
+		self.type54_underbarrel.supported = false
+		self.type54_underbarrel.AMMO_MAX = 15
+		self.type54_underbarrel.stats = {
+			damage = 14,
+			spread = 16,
+			recoil = 5,
+			concealment = 21
+		}
+		self.type54_underbarrel.timers = {
+			reload_not_empty = 2,
+			reload_empty = 2,
+			reload_operational = 1.78,
+			empty_reload_operational = 1.78,
+			reload_interrupt = 0.4,
+			empty_reload_interrupt = 0.4,
+			unequip = 0.6,
+			equip = 0.6,
+			equip_underbarrel = 0.4,
+			unequip_underbarrel = 0.4
+		}
 
 	--Medium Pistol (Secondary)
 		--Gruber Kurz
@@ -4065,42 +4110,182 @@ function WeaponTweakData:init(...)
 			equip = 0.45
 		}
 
+	--Pump Shotguns (Primary)
 		--Reinfeld 880
 		self.r870.desc_id = "bm_menu_sc_r870_desc"
 		self.r870.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-		self.r870.CLIP_AMMO_MAX = 8
+		self.r870.single.fire_rate = 0.5
+		self.r870.fire_mode_data.fire_rate = 0.5
 		self.r870.kick = self.stat_info.kick_tables.vertical_kick
 		self.r870.kick_pattern = self.stat_info.kick_patterns.jumpy_2
-		self.r870.supported = false
+		self.r870.supported = true
 		self.r870.stats = {
 			damage = 11,
-			spread = 11,
+			spread = 14,
+			recoil = 14,
+			concealment = 12
+		}
+		self.r870.timers = {
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.3,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+			unequip = 0.6,
+			equip = 0.55
+		}
+
+		--Mosconi 12G Tactical
+		self.m590.tactical_reload = true
+		self.m590.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.m590.CLIP_AMMO_MAX = 7
+		self.m590.kick = self.stat_info.kick_tables.vertical_kick
+		self.m590.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.m590.supported = true
+		self.m590.stats = {
+			damage = 11,
+			spread = 12,
+			recoil = 14,
+			concealment = 11
+		}
+		self.m590.timers = {
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.3,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+			unequip = 0.6,
+			equip = 0.55
+		}
+		self.m590.reload_speed_multiplier = 0.8 --6.6s
+
+		--Raven
+		self.ksg.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.ksg.CLIP_AMMO_MAX = 14
+		self.ksg.single.fire_rate = 0.55
+		self.ksg.fire_mode_data.fire_rate = 0.55
+		self.ksg.fire_rate_multiplier = 0.825 --90rpm
+		self.ksg.kick = self.stat_info.kick_tables.left_kick
+		self.ksg.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.ksg.supported = true
+		self.ksg.stats = {
+			damage = 11,
+			spread = 9,
 			recoil = 14,
 			concealment = 14
 		}
+		self.ksg.timers = {
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.3,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+			unequip = 0.6,
+			equip = 0.55
+		}
+		self.ksg.reload_speed_multiplier = 0.85 --11s
 
-	--Loco 12g
-	self.serbu.rays = 9
-	self.serbu.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.serbu.CLIP_AMMO_MAX = 4
-	self.serbu.AMMO_MAX = 30
-	self.serbu.fire_mode_data.fire_rate = 0.5
-	self.serbu.single.fire_rate = 0.5
-	self.serbu.kick = self.stat_info.kick_tables.moderate_kick
-	self.serbu.supported = false
-	self.serbu.stats = {
-		damage = 60,
-		spread = 8,
-		recoil = 17,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 22,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
+		--Reinfeld 88
+		self.m1897.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.m1897.CLIP_AMMO_MAX = 5
+		self.m1897.kick = self.stat_info.kick_tables.moderate_left_kick
+		self.m1897.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.m1897.single.fire_rate = 0.5
+		self.m1897.fire_mode_data.fire_rate = 0.5
+		self.m1897.supported = true
+		self.m1897.stats = {
+			damage = 11,
+			spread = 12,
+			recoil = 15,
+			concealment = 15
+		}
+		self.m1897.timers = {
+			shotgun_reload_enter = 0.5,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.55,
+			shotgun_reload_shell = 0.65,
+			shotgun_reload_first_shell_offset = 0,
+			unequip = 0.85,
+			equip = 0.85
+		}
+		self.m1897.reload_speed_multiplier = 1.1
+		self.m1897.swap_speed_multiplier = 1.1
+
+	--Pump Shotguns (Secondary)
+		--Breaker 12g
+		self.boot.use_data.selection_index = 1
+		self.boot.CLIP_AMMO_MAX = 5
+		self.boot.fire_rate_multiplier = 1.13
+		self.boot.fire_mode_data.fire_rate = 0.85
+		self.boot.single.fire_rate = 0.85
+		self.boot.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.boot.kick = self.stat_info.kick_tables.left_kick
+		self.boot.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.boot.supported = true
+		self.boot.stats = {
+			damage = 11,
+			spread = 16,
+			recoil = 9,
+			concealment = 15
+		}
+		self.boot.timers = {
+			shotgun_reload_enter = 0.733,
+			shotgun_reload_exit_empty = 0.85,
+			shotgun_reload_exit_not_empty = 0.55,
+			shotgun_reload_shell = 0.33,
+			shotgun_reload_first_shell_offset = 0.15,
+			unequip = 0.55,
+			equip = 0.85
+		}
+
+		--Locomotive 12g
+		self.serbu.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.serbu.CLIP_AMMO_MAX = 4
+		self.serbu.fire_mode_data.fire_rate = 0.5
+		self.serbu.single.fire_rate = 0.5
+		self.serbu.kick = self.stat_info.kick_tables.vertical_kick
+		self.serbu.kick_pattern = self.stat_info.kick_patterns.jumpy_2
+		self.serbu.supported = true
+		self.serbu.stats = {
+			damage = 11,
+			spread = 12,
+			recoil = 12,
+			concealment = 15
+		}
+		self.serbu.timers = {
+			shotgun_reload_enter = 0.3,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.3,
+			shotgun_reload_shell = 0.57,
+			shotgun_reload_first_shell_offset = 0.33,
+			unequip = 0.7,
+			equip = 0.6
+		}
+
+		--GSPS--
+		self.m37.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.m37.CLIP_AMMO_MAX = 4
+		self.m37.fire_mode_data.fire_rate = 0.75
+		self.m37.single.fire_rate = 0.75
+		self.m37.kick = self.stat_info.kick_tables.left_kick
+		self.m37.kick_pattern = self.stat_info.kick_patterns.jumpy_1
+		self.m37.supported = true
+		self.m37.stats = {
+			damage = 11,
+			spread = 14,
+			recoil = 14,
+			concealment = 14
+		}
+		self.m37.timers = {
+			shotgun_reload_enter = 0.5,
+			shotgun_reload_exit_empty = 0.7,
+			shotgun_reload_exit_not_empty = 0.3,
+			shotgun_reload_shell = 0.65,
+			shotgun_reload_first_shell_offset = 0,
+			unequip = 0.6,
+			equip = 0.85
+		}
+		self.m37.reload_speed_multiplier = 1.25 --3s
 
 	--Mosconi 12G
 	self.huntsman.rays = 9
@@ -4176,29 +4361,6 @@ function WeaponTweakData:init(...)
 	self.saw_secondary.stats = deep_clone(self.saw.stats)
 	self.saw_secondary.timers = deep_clone(self.saw.timers)
 
-	--Raven
-	self.ksg.rays = 9
-	self.ksg.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.ksg.AMMO_MAX = 60
-	self.ksg.CLIP_AMMO_MAX = 12
-	self.ksg.single.fire_rate = 0.6
-	self.ksg.fire_mode_data.fire_rate = 0.6
-	self.ksg.kick = self.stat_info.kick_tables.vertical_kick
-	self.ksg.supported = false
-	self.ksg.stats = {
-		damage = 60,
-		spread = 8,
-		recoil = 18,
-		spread_moving = 7,
-		zoom = 1,
-		concealment = 23,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-
 	--Joceline O/U 12G
 	self.b682.rays = 9
 	self.b682.muzzleflash = "effects/particles/shotgun/muzzleflash"
@@ -4272,65 +4434,6 @@ function WeaponTweakData:init(...)
 		total_ammo_mod = 100,
 		reload = 20
 	}
-
-	--GSPS--
-	self.m37.rays = 9
-	self.m37.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.m37.CLIP_AMMO_MAX = 6
-	self.m37.AMMO_MAX = 30
-	self.m37.fire_mode_data.fire_rate = 0.4
-	self.m37.single.fire_rate = 0.4
-	self.m37.kick = self.stat_info.kick_tables.right_kick
-	self.m37.supported = false
-	self.m37.stats = {
-		damage = 60,
-		spread = 9,
-		recoil = 16,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 20,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-
-	--Breaker 12g
-	self.boot.AMMO_MAX = 40
-	self.boot.CLIP_AMMO_MAX = 6
-	self.boot.fire_rate_multiplier = 1.13
-	self.boot.fire_mode_data.fire_rate = 0.85
-	self.boot.single.fire_rate = 0.85
-	self.boot.rays = 9
-	self.boot.muzzleflash = "effects/particles/shotgun/muzzleflash"
-	self.boot.kick = self.stat_info.kick_tables.right_kick
-	self.boot.supported = false
-	self.boot.stats = {
-		damage = 90,
-		spread = 9,
-		recoil = 13,
-		spread_moving = 5,
-		zoom = 1,
-		concealment = 18,
-		suppression = 4,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.boot.timers = {
-		shotgun_reload_enter = 0.733,
-		shotgun_reload_exit_empty = 0.85,
-		shotgun_reload_exit_not_empty = 0.55,
-		shotgun_reload_shell = 0.33,
-		shotgun_reload_first_shell_offset = 0.15,
-		unequip = 0.55,
-		equip = 0.85
-	}
-	self.boot.stats_modifiers = nil
-	self.boot.stats_modifiers = {damage = 1}
-	self.boot.reload_speed_multiplier = 0.75
 
 	--MA-17 Flamethrower
 	self.system.categories = {
@@ -4413,54 +4516,6 @@ function WeaponTweakData:init(...)
 	self.coach.reload_speed_multiplier = 1.2
 	self.coach.timers.reload_interrupt = 0.05
 	self.coach.timers.empty_reload_interrupt = 0.05
-
-	--Reinfeld 88
-	self.m1897.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.m1897.rays = 9
-	self.m1897.CLIP_AMMO_MAX = 7
-	self.m1897.kick = self.stat_info.kick_tables.vertical_kick
-	self.m1897.single.fire_rate = 0.5
-	self.m1897.fire_mode_data.fire_rate = 0.5
-	self.m1897.AMMO_MAX = 60
-	self.m1897.supported = false
-	self.m1897.stats = {
-		damage = 60,
-		spread = 10,
-		recoil = 17,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 25,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.m1897.stats_modifiers = nil
-
-
-	--Mosconi 12G Tactical
-	self.m590.tactical_reload = true
-	self.m590.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-	self.m590.rays = 9
-	self.m590.CLIP_AMMO_MAX = 7
-	self.m590.kick = self.stat_info.kick_tables.vertical_kick
-	self.m590.AMMO_MAX = 60
-	self.m590.supported = false
-	self.m590.stats = {
-		damage = 60,
-		spread = 9,
-		recoil = 16,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 24,
-		suppression = 5,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.m590.stats_modifiers = nil
 
 	--Anubis .45
 	if self.socom then

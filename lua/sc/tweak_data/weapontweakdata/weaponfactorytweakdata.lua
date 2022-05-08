@@ -161,17 +161,17 @@
 	end
 
 	--Shotgun Ammo Types
-		local auto_shotgun_slug = {
+		local auto_slug_damage = 39
+		local semi_slug_damage = 52
+		local pump_slug_damage = 79
+		local heavy_slug_damage = 106
+		local slug = {
 			supported = true,
 			stats = {
 				value = 6,
-				damage = 39,
-				spread = 3,
-				recoil = -3
+				spread = 3
 			},
 			custom_stats = {
-				damage_near_mul = 1.3333,
-				damage_far_mul = 1.3333,
 				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
 				rays = 1,
 				armor_piercing_add = 1,
@@ -180,15 +180,13 @@
 				can_shoot_through_wall = true
 			}
 		}
-		local auto_shotgun_taser_slug = {
+		local taser_slug = {
 			name_id = "bm_wp_upg_a_taser_slug",
 			desc_id = "bm_wp_upg_a_taser_slug_desc",
 			supported = true,
 			stats = {
 				value = 6,
-				damage = 39,
-				spread = 3,
-				recoil = -3
+				spread = 3
 			},
 			custom_stats = {
 				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
@@ -196,11 +194,15 @@
 				bullet_class = "InstantElectricBulletBase"
 			}
 		}
-		local auto_shotgun_00buck = {
+
+		local auto_buck_damage = 6
+		local semi_buck_damage = 8
+		local pump_buck_damage = 11
+		local heavy_buck_damage = 14
+		local d0buck = {
 			supported = true,
 			stats = {
 				value = 6,
-				damage = 6,
 				spread = -3
 			},
 			custom_stats = {
@@ -209,7 +211,12 @@
 				rays = 6
 			}
 		}
-		local auto_shotgun_flechette = {
+
+		local auto_dot_damage = {-3, 1.4}
+		local semi_dot_damage = {-4, 1.8}
+		local pump_dot_damage = {-5, 2.3}
+		local heavy_dot_damage = {-7, 3.2}
+		local flechette = {
 			desc_id = "bm_wp_upg_a_piercing_auto_desc_sc",
 			stats = {
 				value = 6,
@@ -230,7 +237,7 @@
 				}
 			}
 		}
-		local auto_shotgun_dragons_breath = {
+		local dragons_breath = {
 			desc_id = "bm_wp_upg_a_dragons_breath_auto_desc_sc",
 			stats = {
 				value = 6,
@@ -250,6 +257,22 @@
 				}
 			}
 		}
+
+	local function create_shotgun_ammo(preset, damage)
+		local ammo = deep_clone(preset)
+		if type(damage) == "number" then
+			ammo.stats.damage = damage
+		else
+			ammo.stats.damage = damage[1]
+			if ammo.custom_stats.dot_data then
+				ammo.custom_stats.dot_data.damage = damage[2]
+			elseif ammo.custom_stats.fire_dot_data then
+				ammo.custom_stats.fire_dot_data.damage = damage[2]
+			end
+		end
+
+		return ammo
+	end
 
 	local function create_override(weapon, part, stat_block)
 		weapon.override = weapon.override or {}
@@ -280,8 +303,7 @@ function WeaponFactoryTweakData:init()
 	end
 end
 
-
-
+--Stakeout
 local orig_init_aa12 = WeaponFactoryTweakData._init_aa12
 function WeaponFactoryTweakData:_init_aa12()
 	orig_init_aa12(self)
@@ -289,12 +311,33 @@ function WeaponFactoryTweakData:_init_aa12()
 	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, light_acc_barrel) --Suppressed Barrel
 		append_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, suppressor)
 
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_slug", auto_shotgun_slug) --Slugs
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_explosive", auto_shotgun_taser_slug) --Taser Slug
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom", auto_shotgun_00buck) --00 Buckshot
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom_free", auto_shotgun_00buck) --00 Buckshot (free)
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_piercing", auto_shotgun_flechette) --Flechettes
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_dragons_breath", auto_shotgun_dragons_breath) --Dragon's Breath
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_slug", create_shotgun_ammo(slug, auto_slug_damage)) --Slugs
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_explosive", create_shotgun_ammo(taser_slug, auto_slug_damage)) --Taser Slug
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom", create_shotgun_ammo(d0buck, auto_buck_damage)) --00 Buckshot
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom_free", create_shotgun_ammo(d0buck, auto_buck_damage)) --00 Buckshot (free)
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_piercing", create_shotgun_ammo(flechette, auto_dot_damage)) --Flechettes
+	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_dragons_breath", create_shotgun_ammo(dragons_breath, auto_dot_damage)) --Dragon's Breath
+end
+
+--Type 54
+local orig_init_type54 = WeaponFactoryTweakData._init_type54
+function WeaponFactoryTweakData:_init_type54()
+	orig_init_type54(self)
+	apply_stats(self.parts.wpn_fps_pis_type54_underbarrel, {
+		stats = {
+			total_ammo_mod = -50,
+			value = 6,
+			recoil = -1,
+			concealment = -2
+		},
+		custom_stats = {
+			ammo_pickup_max_mul = 0.5,
+			ammo_pickup_min_mul = 0.5
+		},
+		heat_stat_table = "type54_underbarrel"
+	})
+	--apply_stats(self.parts.wpn_fps_upg_a_slug_underbarrel, create_shotgun_ammo(slug, heavy_slug_damage))
+	--apply_stats(self.parts.wpn_fps_upg_a_piercing_underbarrel, create_shotgun_ammo(flechette, heavy_dot_damage))
 end
 
 --GL 40
