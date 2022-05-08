@@ -710,14 +710,14 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Shell Rack
 				self.values.shotgun.shell_stacking_reload_speed = {
 					{ --Basic
-						mag_reload_value = 0.04,
+						mag_reload_value = 0.05,
 						shotgun_reload_value = 0.05,
 						max_stacks = 4,
 						apply_to_shotgun_reload = false
 					},
 					{ --Ace
-						mag_reload_value = 0.04,
-						shotgun_reload_value = 0.08,
+						mag_reload_value = 0.05,
+						shotgun_reload_value = 0.10,
 						max_stacks = 4,
 						apply_to_shotgun_reload = true
 					}
