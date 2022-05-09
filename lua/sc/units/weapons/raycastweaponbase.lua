@@ -256,7 +256,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 		--Apply suppression and check for auto hit if no enemy was hit.
 		if self._autoaim then
-			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, hit_enemy and NORMAL_AUTOHIT or SKIP_AUTOHIT)
+			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, hit_enemy and NORMAL_AUTOHIT or SKIP_AUTOHIT)
 			if auto_ray_hits then
 				hit_enemy = auto_hit_enemy	
 				ray_hits = auto_ray_hits
@@ -303,6 +303,19 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 	--Once all hits are determined, handle collisions.
 	local cop_kill_count = self:_iter_ray_hits(all_hits, user_unit, damage)
+
+	--Apply suppression to relevant enemies.
+	if self._autoaim and self._suppression then
+		local suppression_cone_radius = ray_distance * math.tan(tweak_data.weapon.stat_info.suppression_angle)
+		local suppressed_enemies = self._unit:find_units("cone", from_pos, direction, suppression_cone_radius, managers.slot:get_mask("player_autoaim"))
+		if suppressed_enemies then
+			for _, enemy in pairs(suppressed_enemies) do
+				if not enemy:movement():cool() then
+					enemy:character_damage():build_suppression(self._suppression, self._panic_suppression_chance)
+				end
+			end
+		end
+	end
 
 	--Check the tango 4 achievement stuff.
 	if not tweak_data.achievement.tango_4.difficulty or table.contains(tweak_data.achievement.tango_4.difficulty, Global.game_settings.difficulty) then
@@ -363,7 +376,7 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 	local ray_hits, ricochet_hit_enemy = self:_collect_hits(from_pos, reflect_vec, true)
 
 	--Give more generous auto-aim.
-	local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ricochet_hit_enemy and RICOCHET_AUTOHIT or SKIP_AUTOHIT, ray_distance)
+	local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ray_distance, ricochet_hit_enemy and RICOCHET_AUTOHIT or SKIP_AUTOHIT, ray_distance)
 	if auto_ray_hits then
 		ricochet_hit_enemy = auto_hit_enemy
 		ray_hits = auto_ray_hits
@@ -623,30 +636,11 @@ end
 --Determines if a near hit should turn into an auto_hit, and applies suppression to enemies near the path of the bullet.
 local body_vec = Vector3()
 local head_vec = Vector3()
-function RaycastWeaponBase:_check_near_hits(from_pos, direction, autohit_type, max_dist_override)
+function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, autohit_type, max_dist_override)
 	--Get relevant slot masks
 	local enemy_mask = managers.slot:get_mask("player_autoaim")
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
-
-	--Get general cone distance bounds.
-	local cone_distance = math.max(max_dist_override or self.far_falloff_distance or self:weapon_range(), 100)
-
-	--Set target vector to match the firing direction up to the max distance autohit can occur at.
-	local tar_vec = mvector3.copy(direction)
-	mvector3.multiply(tar_vec, cone_distance)
-	mvector3.add(tar_vec, from_pos)
-
-	--Apply suppression to relevant enemies.
-	local suppression_cone_radius = cone_distance * math.tan(tweak_data.weapon.stat_info.suppression_angle)
-	local suppressed_enemies = self._unit:find_units("cone", from_pos, tar_vec, suppression_cone_radius, managers.slot:get_mask("player_autoaim"))
-	if suppressed_enemies and self._suppression then
-		for _, enemy in pairs(suppressed_enemies) do
-			if not enemy:movement():cool() then
-				enemy:character_damage():build_suppression(self._suppression, self._panic_suppression_chance)
-			end
-		end
-	end
 
 	--Check if autohit occurs.
 	--If use_aim_assist is set to true (IE: For controller players ADSing), then always autoaim.
@@ -656,12 +650,11 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, autohit_type, m
 		return
 	end
 
-	--TODO (Not urgent): Replace second cone cast with vector math checks for angle, and reuse suppressed enemies cast.
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit.
 	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
 	local autohit_cone_radius = cone_distance * math.tan(autohit_angle)
-	local autohit_candidates = self._unit:find_units("cone", from_pos, tar_vec, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
-
+	local autohit_candidates = self._unit:find_units("cone", from_pos, direction, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
+	local autohit_dir = Vector3()
 	for _, enemy in pairs(autohit_candidates) do
 		--Get head and body positions of the enemy, and determine which one is closer to where the player was aiming to determine final raycast direction.
 		--An additional difficulty factor is added to the head's error value to make it slightly trickier to get- just like with a non-autohit bullet.
@@ -675,20 +668,20 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, autohit_type, m
 		local body_vec_len = mvec3_dir(body_vec, from_pos, body_pos)
 		local body_error_angle = math.acos(mvec3_dot(direction, body_vec))
 
-		local tar_vec_len = 0
+		local autohit_dir_len = 0
 		if head_error_angle * tweak_data.weapon.stat_info.autohit_head_difficulty_factor < body_error_angle then
-			mvec3_set(tar_vec, head_vec)
-			tar_vec_len = head_vec_len
+			mvec3_set(autohit_dir, head_vec)
+			autohit_dir_len = head_vec_len
 		else
-			mvec3_set(tar_vec, body_vec)
-			tar_vec_len = body_vec_len
+			mvec3_set(autohit_dir, body_vec)
+			autohit_dir_len = body_vec_len
 		end
 
 		--Convert the target vector to originate from the player and go the distance to the enemy head.
-		mvec3_mul(tar_vec, tar_vec_len)
-		mvec3_add(tar_vec, from_pos)
+		mvec3_mul(autohit_dir, autohit_dir_len)
+		mvec3_add(autohit_dir, from_pos)
 
-		local unique_hits, hit_enemy = self:_collect_hits(from_pos, tar_vec, autohit_type ~= RICOCHET_AUTOHIT)
+		local unique_hits, hit_enemy = self:_collect_hits(from_pos, autohit_dir, autohit_type ~= RICOCHET_AUTOHIT)
 		if hit_enemy then
 			return unique_hits, hit_enemy
 		end
