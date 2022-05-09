@@ -571,10 +571,10 @@ function NewRaycastWeaponBase:enter_steelsight_speed_multiplier()
 
 	--Removed blatantly unused upgrades.
 	for i = 1, #categories do
-		multiplier = multiplier + 1 - managers.player:upgrade_value(category, "enter_steelsight_speed_multiplier", 1)
+		multiplier = multiplier + managers.player:upgrade_value(category, "enter_steelsight_speed_multiplier", 1) - 1
 	end
 
-	multiplier = multiplier + 1 - managers.player:upgrade_value("weapon", "enter_steelsight_speed_multiplier", 1)
+	multiplier = multiplier + managers.player:upgrade_value("weapon", "enter_steelsight_speed_multiplier", 1) - 1
 
 	return multiplier * base_multiplier
 end
