@@ -3819,7 +3819,7 @@ function WeaponTweakData:init(...)
 		self.elastic.fire_rate_multiplier = 1.25
 		self.elastic.reload_speed_multiplier = 2
 
-	--Auto Shotgun (Primary)
+	--Light Shotgun (Primary)
 		--Steakout
 		self.aa12.CLIP_AMMO_MAX = 10
 		self.aa12.kick = self.stat_info.kick_tables.vertical_kick
@@ -3828,10 +3828,10 @@ function WeaponTweakData:init(...)
 		self.aa12.CAN_TOGGLE_FIREMODE = false
 		self.aa12.supported = true
 		self.aa12.stats = {
-			damage = 6,
-			spread = 10,
-			recoil = 18,
-			concealment = 16
+			damage = 8,
+			spread = 8,
+			recoil = 13,
+			concealment = 12
 		}
 		self.aa12.timers = {
 			reload_not_empty = 3.8,
@@ -3843,7 +3843,6 @@ function WeaponTweakData:init(...)
 			unequip = 0.55,
 			equip = 0.55
 		}
-		self.aa12.reload_speed_multiplier = 1.2 --3.2/4.3
 
 		--Izhma 12G
 		self.saiga.rays = 9
@@ -3855,9 +3854,9 @@ function WeaponTweakData:init(...)
 		self.saiga.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.saiga.supported = true
 		self.saiga.stats = {
-			damage = 6,
-			spread = 15,
-			recoil = 14,
+			damage = 8,
+			spread = 12,
+			recoil = 9,
 			concealment = 16
 		}
 		self.saiga.timers = {
@@ -3870,70 +3869,8 @@ function WeaponTweakData:init(...)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.saiga.reload_speed_multiplier = 1.5 --2.2/3
+		self.saiga.reload_speed_multiplier = 1.2 --2.2/3
 
-	--Auto Shotgun (Akimbo)
-		--Brothers Grimm
-		self.x_basset.CLIP_AMMO_MAX = 10
-		self.x_basset.kick = self.stat_info.kick_tables.right_kick
-		self.x_basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
-		self.x_basset.BURST_FIRE = 2
-		self.x_basset.ADAPTIVE_BURST_SIZE = true
-		self.x_basset.fire_mode_data.fire_rate = 0.2
-		self.x_basset.single.fire_rate = 0.2 --300 rpm, 600 rpm introduces audio issues on the Grimms
-		self.x_basset.supported = true
-		self.x_basset.stats = {
-			damage = 6,
-			spread = 9,
-			recoil = 7,
-			concealment = 15
-		}
-		self.x_basset.timers = {
-			reload_not_empty = 3.6,
-			reload_empty = 3.9,
-			half_reload_operational = 1.7,
-			empty_half_reload_operational = 2.5,
-			reload_operational = 2.2,
-			empty_reload_operational = 2.8,
-			reload_interrupt = 0.38,
-			empty_reload_interrupt = 0.38,
-			unequip = 0.5,
-			equip = 0.65
-		}
-
-	--Auto Shotgun (Secondary)
-		--Grimm 12g
-		self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-		self.basset.CLIP_AMMO_MAX = 5
-		self.basset.kick = self.stat_info.kick_tables.right_kick
-		self.basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
-		self.basset.supported = true
-		self.basset.stats = {
-			damage = 6,
-			spread = 13,
-			recoil = 11,
-			concealment = 18
-		}
-		self.basset.timers = {
-			reload_not_empty = 2.7,
-			reload_empty = 3.3,
-			reload_operational = 2.16,
-			empty_reload_operational = 2.9,
-			reload_interrupt = 0.44,
-			empty_reload_interrupt = 0.44,
-			unequip = 0.55,
-			equip = 0.55
-		}
-		self.basset.reload_speed_multiplier = 1.25 --2.1/2.8
-
-		--[[
-			shotgun_reload_enter = 0.3,
-			shotgun_reload_exit_empty = 0.7,
-			shotgun_reload_exit_not_empty = 0.3,
-			shotgun_reload_shell = 0.57,
-			shotgun_reload_first_shell_offset = 0.33,
-		]]
-	--Semi-Auto Shotgun (Primary)
 		--Predator 12g
 		self.spas12.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.spas12.CLIP_AMMO_MAX = 6
@@ -4012,7 +3949,35 @@ function WeaponTweakData:init(...)
 		}
 		self.striker.reload_speed_multiplier = 0.85
 
-	--Semi-Auto Shotgun (Akimbo)
+	--Light Shotgun (Akimbo)
+		--Brothers Grimm
+		self.x_basset.CLIP_AMMO_MAX = 10
+		self.x_basset.kick = self.stat_info.kick_tables.right_kick
+		self.x_basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.x_basset.BURST_FIRE = 2
+		self.x_basset.ADAPTIVE_BURST_SIZE = true
+		self.x_basset.fire_mode_data.fire_rate = 0.2
+		self.x_basset.single.fire_rate = 0.2 --300 rpm, 600 rpm introduces audio issues on the Grimms
+		self.x_basset.supported = true
+		self.x_basset.stats = {
+			damage = 8,
+			spread = 9,
+			recoil = 5,
+			concealment = 13
+		}
+		self.x_basset.timers = {
+			reload_not_empty = 3.6,
+			reload_empty = 3.9,
+			half_reload_operational = 1.7,
+			empty_half_reload_operational = 2.5,
+			reload_operational = 2.2,
+			empty_reload_operational = 2.8,
+			reload_interrupt = 0.38,
+			empty_reload_interrupt = 0.38,
+			unequip = 0.5,
+			equip = 0.65
+		}
+
 		--Akimbo Judge
 		self.x_judge.fire_mode_data.fire_rate = 0.272727
 		self.x_judge.single.fire_rate = 0.272727
@@ -4046,7 +4011,7 @@ function WeaponTweakData:init(...)
 			equip = 0.5
 		}
 
-	--Semi-Auto Shotguns (Secondary)
+	--Light Shotguns (Secondary)
 		--Goliath 12G
 		self.rota.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.rota.kick = self.stat_info.kick_tables.vertical_kick
@@ -4110,7 +4075,31 @@ function WeaponTweakData:init(...)
 			equip = 0.45
 		}
 
-	--Pump Shotguns (Primary)
+		--Grimm 12g
+		self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.basset.CLIP_AMMO_MAX = 5
+		self.basset.kick = self.stat_info.kick_tables.right_kick
+		self.basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.basset.supported = true
+		self.basset.stats = {
+			damage = 8,
+			spread = 13,
+			recoil = 9,
+			concealment = 17
+		}
+		self.basset.timers = {
+			reload_not_empty = 2.7,
+			reload_empty = 3.3,
+			reload_operational = 2.16,
+			empty_reload_operational = 2.9,
+			reload_interrupt = 0.44,
+			empty_reload_interrupt = 0.44,
+			unequip = 0.55,
+			equip = 0.55
+		}
+		self.basset.reload_speed_multiplier = 1.1 --2.1/2.8
+
+	--Medium Shotguns (Primary)
 		--Reinfeld 880
 		self.r870.desc_id = "bm_menu_sc_r870_desc"
 		self.r870.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4211,7 +4200,7 @@ function WeaponTweakData:init(...)
 		self.m1897.reload_speed_multiplier = 1.1
 		self.m1897.swap_speed_multiplier = 1.1
 
-	--Pump Shotguns (Secondary)
+	--Medium Shotguns (Secondary)
 		--Breaker 12g
 		self.boot.use_data.selection_index = 1
 		self.boot.CLIP_AMMO_MAX = 5
