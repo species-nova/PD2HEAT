@@ -3936,7 +3936,7 @@ function WeaponTweakData:init(...)
 			damage = 8,
 			spread = 9,
 			recoil = 14,
-			concealment = 14
+			concealment = 12
 		}
 		self.striker.timers = {
 			shotgun_reload_enter = 0.5333333333333333,
