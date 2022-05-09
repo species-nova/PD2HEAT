@@ -1344,7 +1344,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 19,
 			recoil = 12,
-			concealment = 14
+			concealment = 13
 		}
 		self.msr.timers = {
 			reload_not_empty = 3.3,
@@ -1367,7 +1367,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 21,
 			recoil = 14,
-			concealment = 14
+			concealment = 13
 		}
 		self.r700.timers = {
 			reload_not_empty = 4.2,
@@ -1391,7 +1391,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 20,
 			recoil = 14,
-			concealment = 15
+			concealment = 14
 		}
 		self.wa2000.timers = {
 			reload_not_empty = 5.2,
@@ -1423,7 +1423,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 19,
 			recoil = 11,
-			concealment = 17
+			concealment = 16
 		}
 		self.winchester1874.timers = {
 			shotgun_reload_enter = 0.43333333333333335,
@@ -1448,7 +1448,7 @@ function WeaponTweakData:init(...)
 			damage = 90,
 			spread = 18,
 			recoil = 14,
-			concealment = 11
+			concealment = 10
 		}
 		self.siltstone.timers = {
 			reload_not_empty = 2.9,
@@ -1481,7 +1481,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 17,
 			recoil = 9,
-			concealment = 15
+			concealment = 14
 		}
 		self.sbl.timers = {
 			shotgun_reload_enter = 0.43333333333333335,
@@ -1505,7 +1505,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 21,
 			recoil = 13,
-			concealment = 11
+			concealment = 10
 		}
 		self.model70.timers = {
 			reload_not_empty = 4,
@@ -1531,7 +1531,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 19,
 			recoil = 11,
-			concealment = 15
+			concealment = 14
 		}
 		self.desertfox.timers = {
 			reload_not_empty = 3.5,
@@ -1556,7 +1556,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 21,
 			recoil = 16,
-			concealment = 8
+			concealment = 7
 		}
 		self.r93.timers = {
 			reload_not_empty = 3.5,
@@ -1582,7 +1582,7 @@ function WeaponTweakData:init(...)
 			damage = 120,
 			spread = 20,
 			recoil = 14,
-			concealment = 13
+			concealment = 12
 		}
 		self.mosin.timers = {
 			reload_not_empty = 4.2,
@@ -1609,7 +1609,7 @@ function WeaponTweakData:init(...)
 			damage = 180,
 			spread = 21,
 			recoil = 6,
-			concealment = 8
+			concealment = 7
 		}
 		self.m95.timers = {
 			reload_not_empty = 4.9,
@@ -3349,7 +3349,7 @@ function WeaponTweakData:init(...)
 		self.shatters_fury.armor_piercing_chance = 1
 		self.shatters_fury.stats = {
 			damage = 90,
-			spread = 17,
+			spread = 16,
 			recoil = 5,
 			concealment = 18
 		}
@@ -3379,7 +3379,7 @@ function WeaponTweakData:init(...)
 		self.rsh12.swap_speed_multiplier = 0.6
 		self.rsh12.stats = {
 			damage = 90,
-			spread = 15,
+			spread = 14,
 			recoil = 7,
 			concealment = 17
 		}
@@ -3409,7 +3409,7 @@ function WeaponTweakData:init(...)
 		self.peacemaker.fire_rate_multiplier = 0.6 --240 rpm
 		self.peacemaker.stats = {
 			damage = 90,
-			spread = 19,
+			spread = 18,
 			recoil = 8,
 			concealment = 19
 		}
