@@ -254,7 +254,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 		mvector3.add(mvec_to, from_pos)
 		local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 
-		--Apply suppression and check for auto hit if no enemy was hit.
+		--Check for auto hit if no enemy was hit.
 		if self._autoaim then
 			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, hit_enemy and NORMAL_AUTOHIT or SKIP_AUTOHIT)
 			if auto_ray_hits then
@@ -633,7 +633,7 @@ function RaycastWeaponBase:roll_autohit()
 	return false
 end
 
---Determines if a near hit should turn into an auto_hit, and applies suppression to enemies near the path of the bullet.
+--Determines if a near hit should turn into an auto_hit.
 local body_vec = Vector3()
 local head_vec = Vector3()
 function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, autohit_type, max_dist_override)
