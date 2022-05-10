@@ -481,7 +481,7 @@ end
 
 function NewRaycastWeaponBase:cancel_burst(soft_cancel)
 	if self._adaptive_burst_size or not soft_cancel then		
-		if self._delayed_burst_recoil and self._burst_rounds_fired > 0 then
+		if self._delayed_burst_recoil and self._burst_rounds_fired and self._burst_rounds_fired > 0 then
 			self._setup.user_unit:movement():current_state():force_recoil_kick(self, self._burst_rounds_fired)
 		end
 		self._burst_rounds_fired = nil

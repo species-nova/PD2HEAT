@@ -3883,7 +3883,7 @@ function WeaponTweakData:init(...)
 		self.spas12.stats = {
 			damage = 8,
 			spread = 15,
-			recoil = 13,
+			recoil = 12,
 			concealment = 13
 		}
 		self.spas12.timers = {
@@ -4276,109 +4276,152 @@ function WeaponTweakData:init(...)
 		}
 		self.m37.reload_speed_multiplier = 1.25 --3s
 
-	--Mosconi 12G
-	self.huntsman.rays = 9
-	self.huntsman.muzzleflash = "effects/particles/shotgun/muzzleflash"
-	self.huntsman.AMMO_MAX = 40
-	self.huntsman.sounds.fire_single = "huntsman_fire"
-	self.huntsman.sounds.fire_auto = "huntsman_fire"
-	self.huntsman.BURST_FIRE = 3
-	self.huntsman.BURST_FIRE_RATE_MULTIPLIER = 120
-	self.huntsman.ADAPTIVE_BURST_SIZE = false
-	self.huntsman.CAN_TOGGLE_FIREMODE = false
-	self.huntsman.DELAYED_BURST_RECOIL = true
-	self.huntsman.fire_mode_data = {}
-	self.huntsman.fire_mode_data.fire_rate = 0.06
-	self.huntsman.single = {}
-	self.huntsman.single.fire_rate = 0.06
-	self.huntsman.auto = {}
-	self.huntsman.auto.fire_rate = 0.06
-	self.huntsman.kick = self.stat_info.kick_tables.vertical_kick
-	self.huntsman.supported = false
-	self.huntsman.stats = {
-		damage = 90,
-		spread = 12,
-		recoil = 13,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 21,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.huntsman.timers.reload_not_empty = 2.3
-	self.huntsman.timers.reload_empty = 2.3
-	self.huntsman.reload_speed_multiplier = 1.2
+	--Heavy Shotgun (Primary)
+		--Mosconi 12G
+		self.huntsman.muzzleflash = "effects/particles/shotgun/muzzleflash"
+		self.huntsman.sounds.fire_single = "huntsman_fire"
+		self.huntsman.sounds.fire_auto = "huntsman_fire"
+		self.huntsman.BURST_FIRE = 3
+		self.huntsman.BURST_FIRE_RATE_MULTIPLIER = 6
+		self.huntsman.ADAPTIVE_BURST_SIZE = false
+		self.huntsman.CAN_TOGGLE_FIREMODE = false
+		self.huntsman.DELAYED_BURST_RECOIL = true
+		self.huntsman.fire_mode_data = {}
+		self.huntsman.fire_mode_data.fire_rate = 0.3
+		self.huntsman.single = {}
+		self.huntsman.single.fire_rate = 0.3
+		self.huntsman.auto = {}
+		self.huntsman.auto.fire_rate = 0.3
+		self.huntsman.fire_rate_multiplier = 2 --400 rpm
+		self.huntsman.kick = self.stat_info.kick_tables.right_kick
+		self.huntsman.kick_pattern = self.stat_info.kick_patterns.random
+		self.huntsman.supported = true
+		self.huntsman.stats = {
+			damage = 14,
+			spread = 13,
+			recoil = 10,
+			concealment = 17
+		}
+		self.huntsman.timers = {
+			reload_empty = 2.8,
+			reload_not_empty = 2.8,
+			reload_operational = 2.5,
+			empty_reload_operational = 2.5,
+			reload_interrupt = 0.1,
+			empty_reload_interrupt = 0.1,
+			equip = 0.6,
+			unequip = 0.6
+		}
+		self.huntsman.reload_speed_multiplier = 1.04 --2.7s
 
-	--OVE9000 Saw
-	self.saw.has_description = true
-	self.saw.desc_id = "bm_ap_saw_sc_desc"
-	self.saw.CLIP_AMMO_MAX = 100
-	self.saw.AMMO_MAX = 200
-	self.saw.kick = self.stat_info.kick_tables.vertical_kick
-	self.saw.kick_pattern = self.stat_info.kick_patterns.random
-	self.saw.fire_mode_data.fire_rate = 0.1
-	self.saw.auto.fire_rate = 0.1
-	self.saw.supported = true
-	self.saw.stats = {
-		spread = 21,
-		recoil = 16,
-		damage = 60,
-		concealment = 11
-	}
-	self.saw.timers = {
-		reload_not_empty = 4.8,
-		reload_empty = 4.8,
-		reload_operational = 3.7,
-		empty_reload_operational = 3.7,
-		reload_interrupt = 0.0,
-		empty_reload_interrupt = 0.0,
-		unequip = 0.8,
-		equip = 0.8
-	}
-	self.saw_secondary.kick = self.saw.kick
-	self.saw_secondary.kick_pattern = self.saw.kick_pattern
-	self.saw_secondary.has_description = true
-	self.saw_secondary.desc_id = "bm_ap_saw_sc_desc"
-	self.saw_secondary.CLIP_AMMO_MAX = self.saw.CLIP_AMMO_MAX
-	self.saw_secondary.AMMO_MAX = math.floor(self.saw.AMMO_MAX / 2)
-	self.saw_secondary.fire_mode_data.fire_rate = self.saw.fire_mode_data.fire_rate
-	self.saw_secondary.auto.fire_rate = self.saw.auto.fire_rate
-	self.saw_secondary.supported = true
-	self.saw_secondary.stats = deep_clone(self.saw.stats)
-	self.saw_secondary.timers = deep_clone(self.saw.timers)
+		--Joceline O/U 12G
+		self.b682.muzzleflash = "effects/particles/shotgun/muzzleflash"
+		self.b682.sounds.fire_single = "b682_fire"
+		self.b682.sounds.fire_auto = "b682_fire"
+		self.b682.kick = self.stat_info.kick_tables.vertical_kick
+		self.b682.kick_pattern = self.stat_info.kick_patterns.random
+		self.b682.supported = true
+		self.b682.fire_mode_data = {
+			fire_rate = 0.18
+		}
+		self.b682.single = {
+			fire_rate = 0.18
+		}
+		self.b682.fire_rate_multiplier = 1.2 --400 rpm
+		self.b682.stats = {
+			damage = 14,
+			spread = 16,
+			recoil = 9,
+			concealment = 16
+		}
+		self.b682.timers = {
+			reload_not_empty = 3.3,
+			reload_empty = 3.3,
+			reload_operational = 2.7,
+			empty_reload_operational = 2.7,
+			reload_interrupt = 0.48,
+			empty_reload_interrupt = 0.48,
+			unequip = 0.55,
+			equip = 0.55
+		}
+		self.b682.reload_speed_multiplier = 1.1 --3s
 
-	--Joceline O/U 12G
-	self.b682.rays = 9
-	self.b682.muzzleflash = "effects/particles/shotgun/muzzleflash"
-	self.b682.AMMO_MAX = 40
-	self.b682.fire_mode_data = {}
-	self.b682.CAN_TOGGLE_FIREMODE = false
-	self.b682.fire_mode_data.fire_rate = 0.075
-	self.b682.single = {}
-	self.b682.single.fire_rate = 0.075
-	self.b682.auto = {}
-	self.b682.auto.fire_rate = 0.075
-	self.b682.sounds.fire_single = "b682_fire"
-	self.b682.sounds.fire_auto = "b682_fire"
-	self.b682.kick = self.stat_info.kick_tables.vertical_kick
-	self.b682.supported = false
-	self.b682.stats = {
-		damage = 90,
-		spread = 13,
-		recoil = 14,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 20,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.b682.reload_speed_multiplier = 1.2
+	--Heavy Shotgun (Secondary)
+		--Claire 12G
+		self.coach.muzzleflash = "effects/particles/shotgun/muzzleflash"
+		self.coach.kick = self.stat_info.kick_tables.left_kick
+		self.coach.kick_pattern = self.stat_info.kick_patterns.random
+		self.coach.sounds.fire_single = "coach_fire"
+		self.coach.sounds.fire_auto = "coach_fire"
+		self.coach.BURST_FIRE = 3
+		self.coach.CAN_TOGGLE_FIREMODE = false
+		self.coach.BURST_FIRE_RATE_MULTIPLIER = 6
+		self.coach.DELAYED_BURST_RECOIL = true
+		self.coach.ADAPTIVE_BURST_SIZE = false
+		self.coach.fire_mode_data = {}
+		self.coach.fire_mode_data.fire_rate = 0.18
+		self.coach.single = {}
+		self.coach.single.fire_rate = 0.18
+		self.coach.auto = {}
+		self.coach.auto.fire_rate = 0.18
+		self.coach.fire_rate_multiplier = 1.2 --400 rpm
+		self.coach.supported = true
+		self.coach.stats = {
+			damage = 14,
+			spread = 12,
+			recoil = 10,
+			concealment = 17
+		}
+		self.coach.timers = {
+			reload_not_empty = 2.3,
+			reload_empty = 2.3,
+			reload_operational = 2.2,
+			empty_reload_operational = 2.2,
+			reload_interrupt = 0.1,
+			empty_reload_interrupt = 0.1,
+			equip = 0.6,
+			unequip = 0.4
+		}
+		self.coach.reload_speed_multiplier = 1.05 --2.2s
+
+	--Saws
+		--OVE9000 Saw
+		self.saw.has_description = true
+		self.saw.desc_id = "bm_ap_saw_sc_desc"
+		self.saw.CLIP_AMMO_MAX = 100
+		self.saw.AMMO_MAX = 200
+		self.saw.kick = self.stat_info.kick_tables.vertical_kick
+		self.saw.kick_pattern = self.stat_info.kick_patterns.random
+		self.saw.fire_mode_data.fire_rate = 0.1
+		self.saw.auto.fire_rate = 0.1
+		self.saw.supported = true
+		self.saw.stats = {
+			spread = 21,
+			recoil = 16,
+			damage = 60,
+			concealment = 11
+		}
+		self.saw.timers = {
+			reload_not_empty = 4.8,
+			reload_empty = 4.8,
+			reload_operational = 3.7,
+			empty_reload_operational = 3.7,
+			reload_interrupt = 0.0,
+			empty_reload_interrupt = 0.0,
+			unequip = 0.8,
+			equip = 0.8
+		}
+		self.saw_secondary.kick = self.saw.kick
+		self.saw_secondary.kick_pattern = self.saw.kick_pattern
+		self.saw_secondary.has_description = true
+		self.saw_secondary.desc_id = "bm_ap_saw_sc_desc"
+		self.saw_secondary.CLIP_AMMO_MAX = self.saw.CLIP_AMMO_MAX
+		self.saw_secondary.AMMO_MAX = math.floor(self.saw.AMMO_MAX / 2)
+		self.saw_secondary.fire_mode_data.fire_rate = self.saw.fire_mode_data.fire_rate
+		self.saw_secondary.auto.fire_rate = self.saw.auto.fire_rate
+		self.saw_secondary.supported = true
+		self.saw_secondary.stats = deep_clone(self.saw.stats)
+		self.saw_secondary.timers = deep_clone(self.saw.timers)
 
 	--Flamethrower Mk1
 	self.flamethrower_mk2.categories = {
@@ -4468,43 +4511,6 @@ function WeaponTweakData:init(...)
 		reload = 20
 	}
 	self.system.stats_modifiers = nil
-
-	--Claire 12G
-	self.coach.muzzleflash = "effects/particles/shotgun/muzzleflash"
-	self.coach.rays = 9
-	self.coach.kick = self.stat_info.kick_tables.vertical_kick
-	self.coach.AMMO_MAX = 20
-	self.coach.sounds.fire_single = "coach_fire"
-	self.coach.sounds.fire_auto = "coach_fire"
-	self.coach.BURST_FIRE = 3
-	self.coach.CAN_TOGGLE_FIREMODE = false
-	self.coach.BURST_FIRE_RATE_MULTIPLIER = 120
-	self.coach.DELAYED_BURST_RECOIL = true
-	self.coach.ADAPTIVE_BURST_SIZE = false
-	self.coach.fire_mode_data = {}
-	self.coach.fire_mode_data.fire_rate = 0.06
-	self.coach.single = {}
-	self.coach.single.fire_rate = 0.06
-	self.coach.auto = {}
-	self.coach.auto.fire_rate = 0.06
-	self.coach.supported = false
-	self.coach.stats = {
-		damage = 90,
-		spread = 10,
-		recoil = 13,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 21,
-		suppression = 3,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.coach.stats_modifiers = nil
-	self.coach.reload_speed_multiplier = 1.2
-	self.coach.timers.reload_interrupt = 0.05
-	self.coach.timers.empty_reload_interrupt = 0.05
 
 	--Anubis .45
 	if self.socom then
