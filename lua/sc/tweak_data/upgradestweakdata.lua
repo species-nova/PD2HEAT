@@ -703,9 +703,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Shotgunner--
 			--Riding Coach
 				--Basic
-					self.values.shotgun.close_combat_draw_speed_multiplier = {{value = 1.75, min = 3}}
+					self.values.shotgun.close_combat_draw_speed_multiplier = {{value = 1.5, min = 3}}
 				--Ace
-					self.values.weapon.close_combat_holster_speed_multiplier = {{value = 1.75, min = 3}}
+					self.values.weapon.close_combat_holster_speed_multiplier = {{value = 1.5, min = 3}}
 
 			--Shell Rack
 				self.values.shotgun.shell_stacking_reload_speed = {
@@ -1195,7 +1195,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		--Gunslinger
 			--Fast on the Draw
 				--Basic
-					self.values.pistol.swap_speed_multiplier = {1.5}
+					self.values.pistol.swap_speed_multiplier = {1.4}
 				--Ace
 					self.values.pistol.first_shot_bonus_rays = {1}
 				
@@ -1207,7 +1207,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Trusty Sidearm
 				--Basic
-					self.values.weapon.empty_unequip_speed_multiplier = {1.5}
+					self.values.weapon.empty_unequip_speed_multiplier = {1.4}
 					self.values.pistol.backup_reload_speed_multiplier = {1.2}
 				--Ace
 					self.values.pistol.offhand_auto_reload = {0.35}
@@ -1541,7 +1541,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--Rogue
 	self.values.player.dodge_on_revive = {true}
 	self.values.weapon.passive_swap_speed_multiplier = {
-		1.5,
+		1.3,
 		2 --Unused
 	}
 

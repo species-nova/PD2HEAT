@@ -1485,7 +1485,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Riding Coach--
 			["menu_shotgun_impact_beta_sc"] = "Riding Coach",
-			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw shotguns and flamethrowers ##75%## faster.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you holster all weapons ##75%## faster.",
+			["menu_shotgun_impact_beta_desc_sc"] = "BASIC: ##$basic##\nWhen there are ##3## or more enemies within ##8## meters, you draw shotguns and flamethrowers ##50%## faster.\n\nACE: ##$pro##\nWhen there are ##3## or more enemies within ##8## meters, you holster all weapons ##50%## faster.",
 
 			--Shotgun Surgeon--
 			["menu_far_away_beta_sc"] = "Shotgun Surgeon",
@@ -1795,7 +1795,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Equilibrium--
 		["menu_equilibrium_beta_sc"] = "Fast on the Draw",
-		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##50%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to fire an additional bullet.",
+		["menu_equilibrium_beta_desc_sc"] = "BASIC: ##$basic##\nYou draw and holster pistols ##40%## faster\n\nACE: ##$pro##\nSwapping to a pistol causes its first shot to fire an additional bullet.",
 
 		--Snap Shot--
 		["menu_dance_instructor_sc"] = "Snap Shot",
@@ -1803,7 +1803,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Trusty Sidearm--
 		["menu_gun_fighter_sc"] = "Trusty Sidearm",
-		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##50%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##35%## speed while you have a pistol equipped.",
+		["menu_gun_fighter_desc_sc"] = "BASIC: ##$basic##\nYou holster weapons ##40%## faster when their magazine is empty.\n\nPistols reload ##20%## faster while your other weapon's magazine is empty.\n\nACE: ##$pro##\nYou automatically reload your other weapon at ##35%## speed while you have a pistol equipped.",
 
 		--Ambidexterity--
 		["menu_akimbo_skill_sc"] = "Ambidexterity",
@@ -1875,7 +1875,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Perk_Decks", function(
 		["menu_deck6_9_desc_sc"] = "Your armor is increased by an additional ##20%## for ballistic vests.\n\nDeck completion Bonus: Your chance of getting a higher quality item during PAYDAY is increased by ##10%.##",
 
 		--Rogue
-		["menu_deck4_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nYou swap between your weapons ##50%## faster.",
+		["menu_deck4_1_desc_sc"] = "Your dodge is increased by ##5## points.\n\nYou swap between your weapons ##30%## faster.",
 		["menu_deck4_3_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
 		["menu_deck4_5_desc_sc"] = "Your dodge meter will be filled to ##200%## of its normal maximum when you are revived.",
 		["menu_deck4_7_desc_sc"] = "Your dodge is increased by an additional ##5## points.",
