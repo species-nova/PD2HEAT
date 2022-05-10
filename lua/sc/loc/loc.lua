@@ -1477,7 +1477,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Gung-Ho--
 			["menu_close_by_beta_sc"] = "Gung-Ho",
-			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.\n\nACE: ##$pro##\nYou can now hip-fire while sprinting.\n\nKilling an enemy while sprinting regenerates ##1## stamina.",
+			["menu_close_by_beta_desc_sc"] = "BASIC: ##$basic##\nYou can now hip-fire while sprinting.\n\nACE: ##$pro##\nYour rate of fire is increased by ##20%## while hip-firing with shotguns and flamethrowers.",
 
 			--Shell Rack--
 			["menu_shotgun_cqb_beta_sc"] = "Shell Rack",

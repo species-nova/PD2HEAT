@@ -653,12 +653,6 @@ function PlayerManager:check_skills()
 		self:unregister_message(Message.OnEnemyKilled, "bullet_hell_reload")
 	end
 
-	if self:has_category_upgrade("player", "sprint_kill_stamina_regen") then
-		self:register_message(Message.OnEnemyKilled, "sprint_kill_stamina_regen", callback(self, self, "_trigger_sprint_kill_stamina_regen"))
-	else
-		self:unregister_message(Message.OnEnemyKilled, "sprint_kill_stamina_regen")
-	end
-
 	if self:has_category_upgrade("player", "survive_one_hit_kill_cdr") then
 		self:register_message(Message.OnEnemyKilled, "yakuza_on_kill_cdr", callback(self, self, "_trigger_survive_one_hit_cdr"))
 	else
@@ -1261,13 +1255,6 @@ function PlayerManager:_trigger_bullet_hell_reload(equipped_unit, variant, kille
 		bullets_loaded = math.min(bullets_loaded, math.min(weapon_unit:get_ammo_total(), weapon_unit:get_ammo_max_per_clip()))
 		weapon_unit:set_ammo_remaining_in_clip(bullets_loaded)
 		managers.hud:set_ammo_amount(weapon_unit:selection_index(), weapon_unit:ammo_info())
-	end
-end
-
-function PlayerManager:_trigger_sprint_kill_stamina_regen(equipped_unit, variant, killed_unit)
-	local movement_ext = self:player_unit():movement()
-	if movement_ext:running() then
-		movement_ext:_change_stamina(self:upgrade_value("player", "sprint_kill_stamina_regen"))
 	end
 end
 

@@ -725,10 +725,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 			--Gung-Ho
 				--Basic
-					self.values.shotgun.hip_rate_of_fire = {1.20}
-				--Ace
 					self.values.player.hip_run_and_shoot = {true}
-					self.values.player.sprint_kill_stamina_regen = {1}
+				--Ace
+					self.values.shotgun.hip_rate_of_fire = {1.20}
 				
 			--Underdog
 				--Basic
@@ -3239,15 +3238,6 @@ function UpgradesTweakData:_saw_definitions()
 		upgrade = {
 			value = 1,
 			upgrade = "civilians_dont_flee",
-			category = "player"
-		}
-	}
-	self.definitions.player_sprint_kill_stamina_regen = {
-		name_id = "menu_player_sprint_kill_stamina_regen",
-		category = "feature",
-		upgrade = {
-			value = 1,
-			upgrade = "sprint_kill_stamina_regen",
 			category = "player"
 		}
 	}

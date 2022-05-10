@@ -553,14 +553,14 @@ function SkillTreeTweakData:init(tweak_data)
 				["icon_xy"] = {8, 6},
 				[1] = {
 					upgrades = {
-						"shotgun_hip_rate_of_fire_1"
+						"player_run_and_shoot_1",
+						"player_sprint_kill_stamina_regen"
 					},
 					cost = self.costs.hightier
 				},
 				[2] = {
 					upgrades = {
-						"player_run_and_shoot_1",
-						"player_sprint_kill_stamina_regen"
+						"shotgun_hip_rate_of_fire_1"
 					},
 					cost = self.costs.hightierpro
 				}
