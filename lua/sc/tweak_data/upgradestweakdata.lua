@@ -710,15 +710,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Shell Rack
 				self.values.shotgun.shell_stacking_reload_speed = {
 					{ --Basic
-						mag_reload_value = 0.05,
-						shotgun_reload_value = 0.05,
-						max_stacks = 4,
+						mag_reload_value = 0.04,
+						shotgun_reload_value = 0.04,
+						max_stacks = 5,
 						apply_to_shotgun_reload = false
 					},
 					{ --Ace
-						mag_reload_value = 0.05,
-						shotgun_reload_value = 0.10,
-						max_stacks = 4,
+						mag_reload_value = 0.04,
+						shotgun_reload_value = 0.08,
+						max_stacks = 5,
 						apply_to_shotgun_reload = true
 					}
 				}
@@ -756,7 +756,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 
 				self.values.player.overheat_stacking = {{
 					range = 800,
-					chance_inc = 0.15,
+					chance_inc = 0.12,
 					time = 10
 				}}
 			

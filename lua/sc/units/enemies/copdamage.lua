@@ -371,7 +371,7 @@ function CopDamage:damage_fire(attack_data)
 	if self._health <= damage then
 		attack_data.damage = self._health
 
-		if not (weap_base and weap_base:can_ignore_medic_heals(distance) and head) and self:check_medic_heal() then
+		if not (head and weap_base and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant
@@ -899,7 +899,7 @@ function CopDamage:damage_bullet(attack_data)
 	if self._health <= damage then
 		attack_data.damage = self._health
 
-		if not (weap_base:can_ignore_medic_heals(distance) and head) and self:check_medic_heal() then
+		if not (head and weap_base and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant
