@@ -289,7 +289,7 @@ function TeamAILogicTravel.check_inspire(data, my_data, revive_unit)
 			num_heisters_standing = num_heisters_standing - 1
 		else
 			local dmg_ext =  u_data.unit:character_damage()
-			if dmg_ext:bleed_out() or (dmg_ext.fatal and dmg_ext:fatal()) or dmg_ext:arrested() or dmg_ext:dead() then
+			if (dmg_ext.bleed_out and dmg_ext:bleed_out()) or (dmg_ext.fatal and dmg_ext:fatal()) or dmg_ext:arrested() or dmg_ext:dead() then
 				num_heisters_standing = num_heisters_standing - 1
 			end
 		end
