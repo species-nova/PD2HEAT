@@ -1481,7 +1481,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shell Rack--
 			["menu_shotgun_cqb_beta_sc"] = "Shell Rack",
-			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within 8 meters increases your shotgun and flamethrower reload speed by ##4%##, stacking up to ##5## times. All stacks are lost when you reload a gun that benefits from this bonus.\n\nACE: ##$pro##\nStacks apply to all per-round reloads, and grant an additional ##4%## reload speed to such reloads.",
+			["menu_shotgun_cqb_beta_desc_sc"] = "BASIC: ##$basic##\nKilling an enemy within 8 meters increases your shotgun and flamethrower reload speed by ##5%##, stacking up to ##4## times. All stacks are lost when you reload a gun that benefits from this bonus.\n\nACE: ##$pro##\nStacks apply to all per-round reloads, and grant an additional ##5%## reload speed to such reloads.",
 
 			--Riding Coach--
 			["menu_shotgun_impact_beta_sc"] = "Riding Coach",
@@ -1493,7 +1493,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",
-			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##40%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##12%## for ##10## seconds. This effect stacks up to ##5## times.",
+			["menu_overkill_desc_sc"] = "BASIC: ##$basic##\nShooting an enemy within ##8## meters with a shotgun or flamethrower has a ##40%## chance to cause one of the enemy's carried magazines to cook off, dealing an additional ##50%## of the damage dealt to the target and enemies within ##5## meters.\n\nACE: ##$pro##\nEvery time you kill an enemy within ##8## meters, Overheat's chance to trigger increases by an additional ##15%## for ##10## seconds. This effect stacks up to ##4## times.",
 
 			--}
 
