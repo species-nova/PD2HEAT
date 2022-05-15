@@ -32,7 +32,8 @@ function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
 			local attack_data = result and result.attack_data
 			hit_enemies[key] = {
 				position = hit.position,
-				damage = attack_data.damage
+				damage = attack_data.damage,
+				distance = hit.falloff_distance or hit.distance or 0
 			}
 			ignored_enemies[key] = true
 		end
@@ -40,9 +41,8 @@ function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
 
 	local radius = upgrade_value.radius
 	for _, hit in pairs(hit_enemies) do
-		local distance_sq = mvector3.distance_sq(hit.position, player_unit:movement():m_head_pos())
 		local times = 1
-		while distance_sq > times * times * upgrade_value.range_increment * upgrade_value.range_increment do
+		while hit.distance > times * upgrade_value.range_increment do
 			times = times + 1
 		end
 		local damage_mult = upgrade_value.damage_factor + (times > 1 and upgrade_value.damage_factor_range or 0)
