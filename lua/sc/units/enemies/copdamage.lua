@@ -2285,7 +2285,7 @@ function CopDamage:damage_simple(attack_data)
 			}
 
 			self:die(attack_data)
-			self:chk_killshot(attacker_unit, "shock")
+			self:chk_killshot(attack_data.attacker_unit, attack_data.variant)
 		end
 	else
 		attack_data.damage = damage
@@ -2453,7 +2453,7 @@ function CopDamage:sync_damage_simple(attacker_unit, damage_percent, i_attack_va
 		}
 
 		self:die(attack_data)
-		self:chk_killshot(attacker_unit, "shock")
+		self:chk_killshot(attacker_unit, variant)
 
 		local data = {
 			name = self._unit:base()._tweak_table,
