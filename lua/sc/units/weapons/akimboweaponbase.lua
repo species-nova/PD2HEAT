@@ -32,7 +32,7 @@ function AkimboWeaponBase:fire(...)
 		self:_play_magazine_empty_anims()
 	end
 
-	if self:in_burst_mode() and self._burst_rounds_fired == nil then
+	if self:fire_mode() == "burst" and self._burst_rounds_fired == nil then
 		self.skip_fire_animation = true
 	else
 		self.skip_fire_animation = false

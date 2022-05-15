@@ -1739,7 +1739,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 		--Sharpshooter--
 		["menu_discipline_sc"] = "Sharpshooter",
-		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto increase your accuracy with guns by ##10## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto increase your rate of fire by ##20%## for ##10## seconds.",
+		["menu_discipline_desc_sc"] = "BASIC: ##$basic##\nLethal headshots using Rifles set to semi-auto or burst fire increase your accuracy with guns by ##10## for ##10## seconds.\n\nACE: ##$pro##\nLethal headshots using Rifles set to semi-auto or burst fire increase your rate of fire by ##20%## for ##10## seconds.",
 
 		--Tactical Precision--
 		["menu_heavy_impact_beta_sc"] = "Tactical Precision",

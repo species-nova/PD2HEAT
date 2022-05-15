@@ -475,8 +475,6 @@ function PlayerStandard:update(t, dt)
 	self:_upd_nav_data()
 	self:_update_omniscience(t, dt)
 	self:_upd_stance_switch_delay(t, dt)
-
-	self:_update_burst_fire(t)
 	
 	--Update the current weapon's spread value based on recent actions.
 	local weapon = self._unit:inventory():equipped_unit():base() 
@@ -907,12 +905,15 @@ function PlayerStandard:_start_action_melee(t, ...)
 	end
 end
 
-Hooks:PostHook(PlayerStandard, "_check_action_melee", "ResEndChainsaw", function(self, t, input)
+local orig_check_action_melee = PlayerStandard._check_action_melee
+function PlayerStandard:_check_action_melee(t, input)
+	orig_check_action_melee(self, t, input)
+
 	--Stop chainsaw when no longer meleeing.
 	if input.btn_melee_release then
 		self._state_data.chainsaw_t = nil
 	end
-end)
+end
 
 
 --Effectively a slightly modified version of _do_melee_damage but without charging and certain melee gimmicks.
@@ -1268,38 +1269,8 @@ end
 function PlayerStandard:_update_crosshair_offset(t)
 end
 
---Deals with burst fire hud stuff when swapping from an underbarrel back to a weapon in burst fire.
-local _check_action_deploy_underbarrel_original = PlayerStandard._check_action_deploy_underbarrel	
-function PlayerStandard:_check_action_deploy_underbarrel(...)
-	local new_action = _check_action_deploy_underbarrel_original(self, ...)
-	
-	if new_action and alive(self._equipped_unit) and self._equipped_unit:base() and self._equipped_unit:base():in_burst_mode() then
-		managers.hud:set_teammate_weapon_firemode_burst(self._equipped_unit:base():selection_index())
-	end
-	
-	return new_action
-end	
-
---Adds burst fire check.
-function PlayerStandard:_check_action_weapon_firemode(t, input)
-	local wbase = self._equipped_unit:base()
-	if input.btn_weapon_firemode_press and wbase.toggle_firemode then
-		self:_check_stop_shooting()
-		if wbase:toggle_firemode() then
-			if wbase:in_burst_mode() then
-				managers.hud:set_teammate_weapon_firemode_burst(self._unit:inventory():equipped_selection())
-			else
-				managers.hud:set_teammate_weapon_firemode(HUDManager.PLAYER_PANEL, self._unit:inventory():equipped_selection(), wbase:fire_mode())
-			end
-		end
-	end
-end
-
---Fires next round in burst if needed.
-function PlayerStandard:_update_burst_fire(t)
-	if alive(self._equipped_unit) and self._equipped_unit:base():burst_rounds_remaining() then
-		self:_check_action_primary_attack(t, { btn_primary_attack_state = true, btn_primary_attack_press = true, skip_burst_check = true})
-	end
+function PlayerStandard:is_shooting_count()
+	return self._shooting and self._equipped_unit and self._equipped_unit:base():burst_rounds_remaining()
 end
 
 --Recoil used at the end of burst fire.
@@ -1372,14 +1343,17 @@ function PlayerStandard:_start_action_steelsight(t, gadget_state)
 end
 
 --Ends minigun spinup.
-Hooks:PostHook(PlayerStandard, "_end_action_steelsight", "ResMinigunExitSteelsight", function(self, t, gadget_state)
+local orig_end_action_steelsight = PlayerStandard._end_action_steelsight
+function PlayerStandard:_end_action_steelsight(t, gadget_state)
+	orig_end_action_steelsight(self, t, gadget_state)
+
 	if not self._state_data.in_steelsight then
 		local weapon = self._unit:inventory():equipped_unit():base()
 		if weapon:has_spin() then
 			weapon:vulcan_exit_steelsight()
 		end
 	end
-end)
+end
 
 function PlayerStandard:discharge_melee()
 	self:_do_action_melee(managers.player:player_timer():time(), nil, nil, nil, true)
@@ -1572,7 +1546,9 @@ end
 
 --Initiate dodge stuff when player enters a state where they can begin dodging stuff.
 --Crashes here indicate syntax errors in playerdamage.
-Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_data)
+local orig_enter = PlayerStandard._enter
+function PlayerStandard:_enter(enter_data)
+	orig_enter(self, enter_data)
 	self._ext_damage:set_dodge_points()
 	self._can_free_run = managers.player:has_category_upgrade("player", "can_free_run")
 	self._can_trigger_happy_all_guns = managers.player:has_category_upgrade("pistol", "trigger_happy_all_guns")
@@ -1586,7 +1562,7 @@ Hooks:PostHook(PlayerStandard, "_enter", "ResDodgeInit", function(self, enter_da
 
 	--Set the crosshair to be visible.
 	managers.hud:show_crosshair_panel(true)
-end)
+end
 
 --Update whenever the crosshair should ignore steelsights whenever the equipped gun changes.
 --Also kick off offhand reloads as desired.
@@ -1790,7 +1766,9 @@ function PlayerStandard:_check_action_reload(t, input)
 	if action_wanted then
 		local action_forbidden = self:_is_reloading() or self:_changing_weapon() or self:_is_meleeing() or self._use_item_expire_t or self:_interacting() or self:_is_throwing_projectile()
 
-		if not action_forbidden and self._equipped_unit and not self._equipped_unit:base():clip_full() then
+		if self:is_shooting_count() then --Queue a reload to occur once the current burst ends.
+			self._queue_reload_start = true
+		elseif not action_forbidden and self._equipped_unit and not self._equipped_unit:base():clip_full() then
 			self:_start_action_reload_enter(t)
 			
 			new_action = not self._queue_reload_start
@@ -2275,7 +2253,7 @@ end
 
 function PlayerStandard:_check_action_primary_attack(t, input)
 	local new_action = nil
-	local action_wanted = input.btn_primary_attack_state or input.btn_primary_attack_release
+	local action_wanted = input.btn_primary_attack_state or input.btn_primary_attack_release or self:is_shooting_count()
 
 	if action_wanted then
 		local action_forbidden = self:_is_reloading() or self:_changing_weapon() or self:_is_meleeing() or self._use_item_expire_t or self:_interacting() or self:_is_throwing_projectile() or self:_is_deploying_bipod() or self._menu_closed_fire_cooldown > 0 or self:is_switching_stances()
@@ -2316,8 +2294,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 				else
 					if not self._shooting then
 						if weap_base:start_shooting_allowed() then
-							local start = fire_mode == "single" and input.btn_primary_attack_press
-							start = start or fire_mode ~= "single" and input.btn_primary_attack_state
+							local start = fire_mode ~= "auto" and input.btn_primary_attack_press
+							start = start or fire_mode == "auto" and input.btn_primary_attack_state
 							start = start and not fire_on_release
 							start = start or fire_on_release and input.btn_primary_attack_release
 
@@ -2356,7 +2334,11 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					dmg_mul = dmg_mul * (1 + managers.player:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 
 					local fired = nil
-					if fire_mode == "single" and (not weap_base:burst_rounds_remaining() or input.skip_burst_check) then
+					if weap_base:burst_rounds_remaining() then
+						fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+					elseif fire_mode == "auto" then
+						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+					else
 						if input.btn_primary_attack_press and start_shooting then
 							--TODO: Investigate removing spread/autohit muls, since they are no longer relevant.
 							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
@@ -2367,8 +2349,6 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
 							end
 						end
-					elseif input.btn_primary_attack_state then
-						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
 					end
 
 					if weap_base.manages_steelsight and weap_base:manages_steelsight() then
@@ -2403,7 +2383,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							weap_base:tweak_data_anim_play("fire", weap_base:fire_rate_multiplier())
 						end
 
-						if fire_mode == "single" and weap_base:get_name_id() ~= "saw" and not weap_base.skip_fire_animation then
+						if (fire_mode == "single" or fire_mode == "burst") and weap_base:get_name_id() ~= "saw" and not weap_base.skip_fire_animation then
 							if not self._state_data.in_steelsight then
 								self._ext_camera:play_redirect(self:get_animation("recoil"), weap_base:fire_rate_multiplier())
 							elseif weap_tweak_data.animations.recoil_steelsight then
@@ -2440,10 +2420,10 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 						if weap_base.third_person_important and weap_base:third_person_important() then
 							self._ext_network:send("shot_blank_reliable", impact, 0)
-						elseif weap_base.akimbo and not weap_base:weapon_tweak_data().allow_akimbo_autofire or fire_mode == "single" then
+						elseif weap_base.akimbo and not weap_base:weapon_tweak_data().allow_akimbo_autofire or fire_mode == "single" or fire_mode == "burst" then
 							self._ext_network:send("shot_blank", impact, 0)
 						end
-					elseif fire_mode == "single" then
+					elseif fire_mode == "single" or fire_mode == "burst" and not weap_base:burst_rounds_remaining() then
 						new_action = false
 					end
 				end

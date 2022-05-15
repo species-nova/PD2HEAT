@@ -8,7 +8,7 @@ function WeaponTweakData:init(...)
 
 	for i, weap in pairs(self) do
 		if weap.categories and weap.stats then --Nil out various values globally, since most are not needed.
-			weap.BURST_FIRE = false
+			weap.BURST_COUNT = false
 			weap.upgrade_blocks = nil
 			weap.stats_modifiers = nil
 			weap.AMMO_MAX = nil
@@ -75,7 +75,7 @@ function WeaponTweakData:init(...)
 		--self.tecci.crossbow_string_time = 0.067
 		
 		--If this exists, the gun gets burst fire. Fires in bursts equivalent to this many rounds.
-		--self.tecci.BURST_FIRE = 3
+		--self.tecci.BURST_COUNT = 3
 		--Set to true if you want bursts to be interrupt-able early by releasing the trigger.
 		--self.tecci.ADAPTIVE_BURST_SIZE = true
 		--Acts similarly to the fire_rate_multiplier flag, but only applies while the gun is actively shooting a burst.
@@ -111,7 +111,7 @@ function WeaponTweakData:init(...)
 		}
 
 		--JP36
-		self.g36.BURST_FIRE = 3
+		self.g36.BURST_COUNT = 3
 		self.g36.ADAPTIVE_BURST_SIZE = false
 		self.g36.fire_rate_multiplier = 1.062 --750 rpm
 		self.g36.CLIP_AMMO_MAX = 30
@@ -166,7 +166,7 @@ function WeaponTweakData:init(...)
 		--Commando 553
 		self.s552.fire_mode_data.fire_rate = 0.08571428571
 		self.s552.auto.fire_rate = 0.08571428571
-		self.s552.BURST_FIRE = 3
+		self.s552.BURST_COUNT = 3
 		self.s552.ADAPTIVE_BURST_SIZE = false
 		self.s552.kick = self.stat_info.kick_tables.right_recoil
 		self.s552.kick_pattern = self.stat_info.kick_patterns.random
@@ -275,7 +275,7 @@ function WeaponTweakData:init(...)
 		--Clarion
 		self.famas.use_data.selection_index = 1
 		self.famas.CLIP_AMMO_MAX = 25
-		self.famas.BURST_FIRE = 3
+		self.famas.BURST_COUNT = 3
 		self.famas.FIRE_MODE = "burst"
 		self.famas.ADAPTIVE_BURST_SIZE = false
 		self.famas.CAN_TOGGLE_FIREMODE = true
@@ -375,7 +375,7 @@ function WeaponTweakData:init(...)
 
 		--Ak17
 		self.flint.CLIP_AMMO_MAX = 30
-		self.flint.BURST_FIRE = 2
+		self.flint.BURST_COUNT = 2
 		self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.53846153833 --1000 rpm in burst fire, 650 otherwise.
 		self.flint.fire_mode_data.fire_rate = 0.09230769230 --650 rpm
 		self.flint.auto.fire_rate = 0.09230769230
@@ -503,7 +503,7 @@ function WeaponTweakData:init(...)
 
 	--Medium Rifles (SECONDARY)
 		--CR 805B
-		self.hajk.BURST_FIRE = 3
+		self.hajk.BURST_COUNT = 3
 		self.hajk.ADAPTIVE_BURST_SIZE = false
 		self.hajk.kick = self.stat_info.kick_tables.moderate_kick
 		self.hajk.kick_pattern = self.stat_info.kick_patterns.random
@@ -696,7 +696,7 @@ function WeaponTweakData:init(...)
 			"akimbo"
 		}
 		self.x_akmsu.CLIP_AMMO_MAX = self.akmsu.CLIP_AMMO_MAX * 2
-		self.x_akmsu.BURST_FIRE = 2
+		self.x_akmsu.BURST_COUNT = 2
 		self.x_akmsu.ADAPTIVE_BURST_SIZE = true
 		self.x_akmsu.fire_mode_data.fire_rate = self.akmsu.fire_mode_data.fire_rate
 		self.x_akmsu.single.fire_rate = self.akmsu.auto.fire_rate
@@ -1730,7 +1730,7 @@ function WeaponTweakData:init(...)
 		self.x_sr2.CLIP_AMMO_MAX = self.sr2.CLIP_AMMO_MAX * 2
 		self.x_sr2.kick = self.sr2.kick
 		self.x_sr2.kick_pattern = self.sr2.kick_pattern
-		self.x_sr2.BURST_FIRE = 2
+		self.x_sr2.BURST_COUNT = 2
 		self.x_sr2.ADAPTIVE_BURST_SIZE = true
 		self.x_sr2.supported = true
 		self.x_sr2.stats = {
@@ -1855,7 +1855,7 @@ function WeaponTweakData:init(...)
 
 		--Compact-5
 		self.new_mp5.fire_rate_multiplier = 1.0666667 --800 rpm
-		self.new_mp5.BURST_FIRE = 3
+		self.new_mp5.BURST_COUNT = 3
 		self.new_mp5.ADAPTIVE_BURST_SIZE = false
 		self.new_mp5.kick = self.stat_info.kick_tables.right_recoil
 		self.new_mp5.kick_pattern = self.stat_info.kick_patterns.zigzag_2
@@ -1908,7 +1908,7 @@ function WeaponTweakData:init(...)
 		self.x_mac10.kick = self.mac10.kick
 		self.x_mac10.kick_pattern = self.mac10.kick_pattern
 		self.x_mac10.supported = true
-		self.x_mac10.BURST_FIRE = 2
+		self.x_mac10.BURST_COUNT = 2
 		self.x_mac10.ADAPTIVE_BURST_SIZE = true
 		self.x_mac10.stats = {
 			damage = 20,
@@ -1931,7 +1931,7 @@ function WeaponTweakData:init(...)
 
 		--Akimbo Compact-5
 		self.x_mp5.fire_rate_multiplier = self.new_mp5.fire_rate_multiplier
-		self.x_mp5.BURST_FIRE = 6
+		self.x_mp5.BURST_COUNT = 6
 		self.x_mp5.ADAPTIVE_BURST_SIZE = false
 		self.x_mp5.kick = self.new_mp5.kick
 		self.x_mp5.kick_pattern = self.new_mp5.kick_pattern
@@ -2136,7 +2136,7 @@ function WeaponTweakData:init(...)
 		self.schakal.use_data.selection_index = 2
 		self.schakal.fire_rate_multiplier = 0.92 --600 rpm
 		self.schakal.CLIP_AMMO_MAX = 25
-		self.schakal.BURST_FIRE = 3
+		self.schakal.BURST_COUNT = 3
 		self.schakal.ADAPTIVE_BURST_SIZE = false
 		self.schakal.kick = self.stat_info.kick_tables.even_recoil
 		self.schakal.kick_pattern = self.stat_info.kick_patterns.zigzag_2
@@ -2160,7 +2160,7 @@ function WeaponTweakData:init(...)
 
 		--Kross Vertex
 		self.polymer.use_data.selection_index = 2
-		self.polymer.BURST_FIRE = 3
+		self.polymer.BURST_COUNT = 3
 		self.polymer.ADAPTIVE_BURST_SIZE = false
 		self.polymer.kick = self.stat_info.kick_tables.even_recoil
 		self.polymer.kick_pattern = self.stat_info.kick_patterns.jumpy_1
@@ -2254,7 +2254,7 @@ function WeaponTweakData:init(...)
 		--Bernetti Auto
 		self.beer.use_data.selection_index = 2
 		self.beer.fire_mode_data.fire_rate = 0.11009174311
-		self.beer.BURST_FIRE = 3
+		self.beer.BURST_COUNT = 3
 		self.beer.ADAPTIVE_BURST_SIZE = false
 		self.beer.BURST_FIRE_RATE_MULTIPLIER = 2.01835 --1100 rpm
 		self.beer.single = {fire_rate = 0.11009174311}
@@ -2441,7 +2441,7 @@ function WeaponTweakData:init(...)
 		self.x_g17.CLIP_AMMO_MAX = self.glock_17.CLIP_AMMO_MAX * 2
 		self.x_g17.fire_mode_data.fire_rate = self.glock_17.fire_mode_data.fire_rate
 		self.x_g17.single.fire_rate = self.glock_17.single.fire_rate
-		self.x_g17.BURST_FIRE = 2
+		self.x_g17.BURST_COUNT = 2
 		self.x_g17.ADAPTIVE_BURST_SIZE = true
 		self.x_g17.FIRE_MODE = "burst"
 		self.x_g17.supported = true
@@ -2468,7 +2468,7 @@ function WeaponTweakData:init(...)
 		self.x_b92fs.kick = self.b92fs.kick
 		self.x_b92fs.kick_pattern = self.b92fs.kick_pattern
 		self.x_b92fs.FIRE_MODE = "burst"
-		self.x_b92fs.BURST_FIRE = 2
+		self.x_b92fs.BURST_COUNT = 2
 		self.x_b92fs.ADAPTIVE_BURST_SIZE = true
 		self.x_b92fs.CLIP_AMMO_MAX = self.b92fs.CLIP_AMMO_MAX * 2
 		self.x_b92fs.fire_mode_data.fire_rate = self.b92fs.fire_mode_data.fire_rate
@@ -2500,7 +2500,7 @@ function WeaponTweakData:init(...)
 		self.jowi.fire_mode_data.fire_rate = self.g26.fire_mode_data.fire_rate
 		self.jowi.single.fire_rate = self.g26.single.fire_rate
 		self.jowi.CLIP_AMMO_MAX = self.g26.CLIP_AMMO_MAX * 2
-		self.jowi.BURST_FIRE = 2
+		self.jowi.BURST_COUNT = 2
 		self.jowi.ADAPTIVE_BURST_SIZE = true
 		self.jowi.FIRE_MODE = "burst"
 		self.jowi.supported = true
@@ -2531,7 +2531,7 @@ function WeaponTweakData:init(...)
 		self.x_g18c.CLIP_AMMO_MAX = self.glock_18c.CLIP_AMMO_MAX * 2
 		self.x_g18c.kick = self.glock_18c.kick
 		self.x_g18c.kick_pattern = self.glock_18c.kick_pattern
-		self.x_g18c.BURST_FIRE = 2
+		self.x_g18c.BURST_COUNT = 2
 		self.x_g18c.ADAPTIVE_BURST_SIZE = true
 		self.x_g18c.supported = true
 		self.x_g18c.stats = {
@@ -2768,7 +2768,7 @@ function WeaponTweakData:init(...)
 		self.x_legacy.kick = self.legacy.kick
 		self.x_legacy.kick_pattern = self.legacy.kick_pattern
 		self.x_legacy.CLIP_AMMO_MAX = self.legacy.CLIP_AMMO_MAX * 2
-		self.x_legacy.BURST_FIRE = 2
+		self.x_legacy.BURST_COUNT = 2
 		self.x_legacy.ADAPTIVE_BURST_SIZE = true
 		self.x_legacy.FIRE_MODE = "burst"
 		self.x_legacy.supported = true
@@ -2796,7 +2796,7 @@ function WeaponTweakData:init(...)
 		self.x_pl14.fire_mode_data.fire_rate = self.pl14.fire_mode_data.fire_rate
 		self.x_pl14.single.fire_rate = self.pl14.single.fire_rate
 		self.x_pl14.CLIP_AMMO_MAX = self.pl14.CLIP_AMMO_MAX * 2
-		self.x_pl14.BURST_FIRE = 2
+		self.x_pl14.BURST_COUNT = 2
 		self.x_pl14.ADAPTIVE_BURST_SIZE = true
 		self.x_pl14.FIRE_MODE = "burst"
 		self.x_pl14.kick = self.pl14.kick
@@ -2975,7 +2975,7 @@ function WeaponTweakData:init(...)
 		self.x_g22c.kick = self.g22c.kick
 		self.x_g22c.kick_pattern = self.g22c.kick_pattern
 		self.x_g22c.CLIP_AMMO_MAX = self.g22c.CLIP_AMMO_MAX * 2
-		self.x_g22c.BURST_FIRE = 2
+		self.x_g22c.BURST_COUNT = 2
 		self.x_g22c.ADAPTIVE_BURST_SIZE = true
 		self.x_g22c.FIRE_MODE = "burst"
 		self.x_g22c.fire_mode_data.fire_rate = self.g22c.fire_mode_data.fire_rate
@@ -3131,7 +3131,7 @@ function WeaponTweakData:init(...)
 		self.x_usp.CLIP_AMMO_MAX = self.usp.CLIP_AMMO_MAX * 2
 		self.x_usp.fire_mode_data.fire_rate = self.usp.fire_mode_data.fire_rate
 		self.x_usp.single.fire_rate = self.usp.single.fire_rate
-		self.x_usp.BURST_FIRE = 2
+		self.x_usp.BURST_COUNT = 2
 		self.x_usp.ADAPTIVE_BURST_SIZE = true
 		self.x_usp.FIRE_MODE = "burst"
 		self.x_usp.supported = true
@@ -3162,7 +3162,7 @@ function WeaponTweakData:init(...)
 		self.x_1911.single.fire_rate = self.colt_1911.single.fire_rate
 		self.x_1911.kick = self.colt_1911.kick
 		self.x_1911.kick_pattern = self.colt_1911.kick_pattern
-		self.x_1911.BURST_FIRE = 2
+		self.x_1911.BURST_COUNT = 2
 		self.x_1911.ADAPTIVE_BURST_SIZE = true
 		self.x_1911.FIRE_MODE = "burst"
 		self.x_1911.supported = true
@@ -3309,7 +3309,7 @@ function WeaponTweakData:init(...)
 		self.x_chinchilla.single.fire_rate = self.chinchilla.single.fire_rate
 		self.x_chinchilla.kick = self.chinchilla.kick
 		self.x_chinchilla.kick_pattern = self.chinchilla.kick_pattern
-		self.x_chinchilla.BURST_FIRE = 2
+		self.x_chinchilla.BURST_COUNT = 2
 		self.x_chinchilla.ADAPTIVE_BURST_SIZE = true
 		self.x_chinchilla.FIRE_MODE = "burst"
 		self.x_chinchilla.supported = true
@@ -3954,7 +3954,7 @@ function WeaponTweakData:init(...)
 		self.x_basset.CLIP_AMMO_MAX = 10
 		self.x_basset.kick = self.stat_info.kick_tables.right_kick
 		self.x_basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
-		self.x_basset.BURST_FIRE = 2
+		self.x_basset.BURST_COUNT = 2
 		self.x_basset.ADAPTIVE_BURST_SIZE = true
 		self.x_basset.fire_mode_data.fire_rate = 0.2
 		self.x_basset.single.fire_rate = 0.2 --300 rpm, 600 rpm introduces audio issues on the Grimms
@@ -3982,7 +3982,7 @@ function WeaponTweakData:init(...)
 		self.x_judge.fire_mode_data.fire_rate = 0.272727
 		self.x_judge.single.fire_rate = 0.272727
 		self.x_judge.FIRE_MODE = "burst"
-		self.x_judge.BURST_FIRE = 2
+		self.x_judge.BURST_COUNT = 2
 		self.x_judge.ADAPTIVE_BURST_SIZE = true
 		self.x_judge.supported = true
 		self.x_judge.kick = self.stat_info.kick_tables.vertical_kick
@@ -4281,7 +4281,7 @@ function WeaponTweakData:init(...)
 		self.huntsman.muzzleflash = "effects/particles/shotgun/muzzleflash"
 		self.huntsman.sounds.fire_single = "huntsman_fire"
 		self.huntsman.sounds.fire_auto = "huntsman_fire"
-		self.huntsman.BURST_FIRE = 3
+		self.huntsman.BURST_COUNT = 3
 		self.huntsman.BURST_FIRE_RATE_MULTIPLIER = 6
 		self.huntsman.ADAPTIVE_BURST_SIZE = false
 		self.huntsman.CAN_TOGGLE_FIREMODE = false
@@ -4353,7 +4353,7 @@ function WeaponTweakData:init(...)
 		self.coach.kick_pattern = self.stat_info.kick_patterns.random
 		self.coach.sounds.fire_single = "coach_fire"
 		self.coach.sounds.fire_auto = "coach_fire"
-		self.coach.BURST_FIRE = 3
+		self.coach.BURST_COUNT = 3
 		self.coach.CAN_TOGGLE_FIREMODE = false
 		self.coach.BURST_FIRE_RATE_MULTIPLIER = 6
 		self.coach.DELAYED_BURST_RECOIL = true

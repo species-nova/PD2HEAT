@@ -118,7 +118,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"baka",
 					"pugio",
 					"ballistic",
-					"maxim9"
+					"maxim9",
+					"scout"
 				}
 			},
 		l20 = {

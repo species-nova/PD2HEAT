@@ -2631,6 +2631,12 @@ function CopDamage:damage_dot(attack_data)
 
 	self:_send_dot_attack_result(attack_data, attacker, damage_percent, sync_attack_variant)
 	self:_on_damage_received(attack_data)
+	
+	result.attack_data = attack_data
+	result.damage_percent = damage_percent
+	result.damage = damage
+
+	return result
 end
 
 function CopDamage:sync_damage_dot(attacker_unit, damage_percent, death, variant, hurt_animation, weapon_id)

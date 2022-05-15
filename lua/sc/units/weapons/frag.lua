@@ -7,6 +7,11 @@ end
 --If a grenade's tweakdata has a .cluster, then spawn the referenced grenade and throw it in a random direction.
 --Use .cluster_count to determine the number spawned (defaults to 1). 
 function FragGrenade:_detonate(tag, unit, body, other_unit, other_body, position, normal, collision_velocity, velocity, other_velocity, new_velocity, direction, damage, ...)
+	if self._detonated then
+		return
+	end
+
+	self._detonated = true
 	local pos = self._unit:position()
 	local normal = math.UP
 	local range = self._range
@@ -41,6 +46,11 @@ function FragGrenade:_detonate(tag, unit, body, other_unit, other_body, position
 end
 
 function FragGrenade:_detonate_on_client()
+	if self._detonated then
+		return
+	end
+
+	self._detonated = true
 	local pos = self._unit:position()
 	local range = self._range
 

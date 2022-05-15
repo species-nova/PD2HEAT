@@ -963,3 +963,15 @@ function WeaponTweakData:_init_data_r700_crew()
 	orig_init_data_r700_crew(self)
 	apply_crew_weapon_preset(self.r700_crew, crew_sniper_stats)
 end
+
+local orig_init_data_hk51b_crew = WeaponTweakData._init_data_hk51b_crew
+function WeaponTweakData:_init_data_hk51b_crew()
+	orig_init_data_hk51b_crew(self)
+	apply_crew_weapon_preset(self.hk51b_crew, crew_lmg_stats)
+end
+
+local orig_init_data_scout_crew = WeaponTweakData._init_data_scout_crew
+function WeaponTweakData:_init_data_scout_crew()
+	orig_init_data_scout_crew(self)
+	apply_crew_weapon_preset(self.scout_crew, crew_sniper_stats)
+end

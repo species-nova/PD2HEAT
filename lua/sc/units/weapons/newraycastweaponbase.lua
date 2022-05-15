@@ -44,7 +44,7 @@ function NewRaycastWeaponBase:init(...)
 			self._can_ricochet = true
 		end
 	
-		self._headshot_pierce_damage_mult = (self._headshot_pierce_damage_mult or 1) * managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 0)
+		self._headshot_pierce_damage_mult = (self._headshot_pierce_damage_mult or 1) * managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 1)
 
 		if managers.player:has_category_upgrade(category, "headshot_pierce") then
 			self._can_shoot_through_head = true
@@ -84,6 +84,87 @@ function NewRaycastWeaponBase:init(...)
 	if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
 		self._can_ricochet = true
 	end
+end
+
+local old_update_stats_values = NewRaycastWeaponBase._update_stats_values	
+function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
+	old_update_stats_values(self, disallow_replenish)
+	
+	self._reload_speed_mult = self:weapon_tweak_data().reload_speed_multiplier or 1
+	self._ads_speed_mult = self._ads_speed_mult or 1
+	
+	self._deploy_anim_override = self:weapon_tweak_data().deploy_anim_override or nil
+	self._deploy_ads_stance_mod = self:weapon_tweak_data().deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
+		
+	if not self:is_npc() then
+		local weapon = {
+			factory_id = self._factory_id,
+			blueprint = self._blueprint
+		}
+		self._current_concealment = managers.blackmarket:calculate_weapon_concealment(weapon) + managers.blackmarket:get_silencer_concealment_modifiers(weapon)
+
+		self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
+	
+		self._burst_rounds_fired = nil
+
+		local can_toggle = tweak_data.weapon[self._name_id].CAN_TOGGLE_FIREMODE
+		self._has_auto = not self._locked_fire_mode and (can_toggle or self:weapon_tweak_data().FIRE_MODE == "auto")
+		self._has_burst = (can_toggle or self:weapon_tweak_data().BURST_COUNT) and self:weapon_tweak_data().BURST_COUNT ~= false
+		self._has_single = can_toggle or (self._has_burst and not self._has_auto)
+		
+		self._burst_fire_rate_multiplier = self:weapon_tweak_data().BURST_FIRE_RATE_MULTIPLIER or 1
+		self._delayed_burst_recoil = self:weapon_tweak_data().DELAYED_BURST_RECOIL
+	end
+	
+	--Set range multipliers.
+	self._damage_near_mul = tweak_data.weapon.stat_info.damage_falloff.near_mul
+	self._damage_far_mul = tweak_data.weapon.stat_info.damage_falloff.far_mul
+
+	if self._ammo_data then
+		if self._ammo_data.damage_near_mul ~= nil then
+			self._damage_near_mul = self._damage_near_mul * self._ammo_data.damage_near_mul
+		end
+		if self._ammo_data.damage_far_mul ~= nil then
+			self._damage_far_mul = self._damage_far_mul * self._ammo_data.damage_far_mul
+		end
+	end
+
+	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
+	for part_id, stats in pairs(custom_stats) do
+		if stats.disable_steelsight_stance then
+			if self:weapon_tweak_data().animations then
+				self:weapon_tweak_data().animations.has_steelsight_stance = false
+			end
+		end
+
+		if stats.is_drum_aa12 then
+			if self:weapon_tweak_data().animations then
+				self:weapon_tweak_data().animations.reload_name_id = "aa12"
+			end
+		end
+
+		if stats.is_mag_akm then
+			if self:weapon_tweak_data().animations then
+				self:weapon_tweak_data().animations.reload_name_id = "akm"
+			end
+		end
+
+		if stats.can_shoot_through_titan_shield then
+			self._can_shoot_through_titan_shield = true
+		end
+
+		if stats.damage_near_mul then
+			self._damage_near_mul = self._damage_near_mul * stats.damage_near_mul
+		end
+
+		if stats.damage_far_mul then
+			self._damage_far_mul = self._damage_far_mul * stats.damage_far_mul
+		end
+	end
+
+	self._flame_max_range = self._damage_far_mul
+
+	self:precalculate_ammo_pickup()
 end
 
 function NewRaycastWeaponBase:get_offhand_auto_reload_speed()
@@ -222,10 +303,6 @@ function NewRaycastWeaponBase:update_reloading(t, dt, time_left)
 	end
 end
 
-NewRaycastWeaponBase.DEFAULT_BURST_SIZE = 3
-NewRaycastWeaponBase.IDSTRING_SINGLE = Idstring("single")
-NewRaycastWeaponBase.IDSTRING_AUTO = Idstring("auto")
-
 --Ensure that RaycastWeaponBase functions are used to avoid duplicate code.
 NewRaycastWeaponBase.conditional_accuracy_multiplier = RaycastWeaponBase.conditional_accuracy_multiplier  
 NewRaycastWeaponBase.moving_spread_penalty_reduction = RaycastWeaponBase.moving_spread_penalty_reduction
@@ -234,11 +311,11 @@ NewRaycastWeaponBase._get_spread = RaycastWeaponBase._get_spread
 
 function NewRaycastWeaponBase:recoil_multiplier(...)
 	local rounds = 1
-	if self._delayed_burst_recoil and self:in_burst_mode() then
+	if self._delayed_burst_recoil and self:fire_mode() == "burst" then
 		if self:burst_rounds_remaining() then
 			return 0
 		else
-			rounds = self._burst_size
+			rounds = self._burst_count
 		end
 	end
 
@@ -277,12 +354,6 @@ function NewRaycastWeaponBase:invalidate_current_reload_speed_multiplier()
 	self._current_reload_speed_multiplier = nil
 end
 
-local start_reload_original = NewRaycastWeaponBase.start_reload
-function NewRaycastWeaponBase:start_reload(...)
-	self:cancel_burst()
-	return start_reload_original(self, ...)
-end
-
 --Returns the weapon's current concealment stat.
 function RaycastWeaponBase:get_concealment()
 	local result = self._current_concealment or self._concealment
@@ -292,94 +363,6 @@ function RaycastWeaponBase:get_concealment()
 		return 20
 	end
 	
-end
-
---Le stats face
-local old_update_stats_values = NewRaycastWeaponBase._update_stats_values	
-function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
-	old_update_stats_values(self, disallow_replenish)
-	
-	self._reload_speed_mult = self:weapon_tweak_data().reload_speed_multiplier or 1
-	self._ads_speed_mult = self._ads_speed_mult or 1
-	
-	self._deploy_anim_override = self:weapon_tweak_data().deploy_anim_override or nil
-	self._deploy_ads_stance_mod = self:weapon_tweak_data().deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
-		
-	if not self:is_npc() then
-		local weapon = {
-			factory_id = self._factory_id,
-			blueprint = self._blueprint
-		}
-		self._current_concealment = managers.blackmarket:calculate_weapon_concealment(weapon) + managers.blackmarket:get_silencer_concealment_modifiers(weapon)
-
-		self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
-	
-		self._burst_rounds_fired = nil
-		self._has_auto = not self._locked_fire_mode and (self:can_toggle_firemode() or self:weapon_tweak_data().FIRE_MODE == "auto")
-		
-		self._has_burst_fire = (self:can_toggle_firemode() or self:weapon_tweak_data().BURST_FIRE) and self:weapon_tweak_data().BURST_FIRE ~= false
-		
-		--self._has_burst_fire = (not self._locked_fire_mode or managers.weapon_factor:has_perk("fire_mode_burst", self._factory_id, self._blueprint) or (self:can_toggle_firemode() or self:weapon_tweak_data().BURST_FIRE) and self:weapon_tweak_data().BURST_FIRE ~= false
-		--self._locked_fire_mode = self._locked_fire_mode or managers.weapon_factor:has_perk("fire_mode_burst", self._factory_id, self._blueprint) and Idstring("burst")
-		self._burst_size = self:weapon_tweak_data().BURST_FIRE or NewRaycastWeaponBase.DEFAULT_BURST_SIZE
-		self._adaptive_burst_size = self:weapon_tweak_data().ADAPTIVE_BURST_SIZE ~= false
-		self._burst_fire_rate_multiplier = self:weapon_tweak_data().BURST_FIRE_RATE_MULTIPLIER or 1
-		self._delayed_burst_recoil = self:weapon_tweak_data().DELAYED_BURST_RECOIL
-
-		if self:weapon_tweak_data().FIRE_MODE == "burst" then
-			self:_set_burst_mode(true, true)
-		end
-	end		
-	
-	--Set range multipliers.
-	self._damage_near_mul = tweak_data.weapon.stat_info.damage_falloff.near_mul
-	self._damage_far_mul = tweak_data.weapon.stat_info.damage_falloff.far_mul
-
-	if self._ammo_data then
-		if self._ammo_data.damage_near_mul ~= nil then
-			self._damage_near_mul = self._damage_near_mul * self._ammo_data.damage_near_mul
-		end
-		if self._ammo_data.damage_far_mul ~= nil then
-			self._damage_far_mul = self._damage_far_mul * self._ammo_data.damage_far_mul
-		end
-	end
-
-	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
-	for part_id, stats in pairs(custom_stats) do
-		if stats.disable_steelsight_stance then
-			if self:weapon_tweak_data().animations then
-				self:weapon_tweak_data().animations.has_steelsight_stance = false
-			end
-		end
-
-		if stats.is_drum_aa12 then
-			if self:weapon_tweak_data().animations then
-				self:weapon_tweak_data().animations.reload_name_id = "aa12"
-			end
-		end
-
-		if stats.is_mag_akm then
-			if self:weapon_tweak_data().animations then
-				self:weapon_tweak_data().animations.reload_name_id = "akm"
-			end
-		end
-
-		if stats.can_shoot_through_titan_shield then
-			self._can_shoot_through_titan_shield = true
-		end
-
-		if stats.damage_near_mul then
-			self._damage_near_mul = self._damage_near_mul * stats.damage_near_mul
-		end
-
-		if stats.damage_far_mul then
-			self._damage_far_mul = self._damage_far_mul * stats.damage_far_mul
-		end
-	end
-
-	self._flame_max_range = self._damage_far_mul
-
-	self:precalculate_ammo_pickup()
 end
 
 function NewRaycastWeaponBase:precalculate_ammo_pickup()
@@ -419,74 +402,98 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 	return mul * (self._fire_rate_multiplier or 1)
 end
 
-local fire_original = NewRaycastWeaponBase.fire
+--Use pre-existing custom burst fire code, rather than copying all of the vanilla code. Since there are a few incompatibilities between the two.
+--Primarily relating to how burst delays are handled, since vanilla ones don't respect ROF modifiers.
+NewRaycastWeaponBase.stop_shooting = NewRaycastWeaponBase.super.start_shooting
+NewRaycastWeaponBase.stop_shooting = NewRaycastWeaponBase.super.stop_shooting
+NewRaycastWeaponBase.trigger_held = NewRaycastWeaponBase.super.trigger_held
 function NewRaycastWeaponBase:fire(...)
-	local result = fire_original(self, ...)
+	local result = NewRaycastWeaponBase.super.fire(self, ...)
 	
-	if result and self:in_burst_mode() then
-		self:_update_burst_fire()
+	if result and self:fire_mode() == "burst" then
+		self:_update_burst_fire() --Use single update_burst_fire function to handle burst fired guns.
 	end
 	
 	return result
 end	
 
+--Single update function for all burst fire counter updates. Call this whenever a given gun fires.
 function NewRaycastWeaponBase:_update_burst_fire()
 	if self:clip_empty() then
 		self:cancel_burst()
-	elseif self:in_burst_mode() then
+	elseif self:fire_mode() == "burst" then
+		--Vanilla uses a down moving counter, but here an upwards moving counter is used. With a nil value == no burst
 		self._burst_rounds_fired = (self._burst_rounds_fired or 0) + 1
-		if self._burst_rounds_fired >= self._burst_size then
+		if self._burst_rounds_fired >= self._burst_count then
 			self:cancel_burst()
 		end
 	end
 end
 
-local toggle_firemode_original = NewRaycastWeaponBase.toggle_firemode
-function NewRaycastWeaponBase:toggle_firemode(...)
-	return self._has_burst_fire and not self._locked_fire_mode and not self:gadget_overrides_weapon_functions() and self:_check_toggle_burst() or toggle_firemode_original(self, ...)
-end
-
-function NewRaycastWeaponBase:_check_toggle_burst()
-	if self:in_burst_mode() then
-		self:_set_burst_mode(false, self.AKIMBO and not self._has_auto)
-		return true
-	elseif (self._fire_mode == NewRaycastWeaponBase.IDSTRING_SINGLE) or (self._fire_mode == NewRaycastWeaponBase.IDSTRING_AUTO and not self:can_toggle_firemode()) then
-		self:_set_burst_mode(true, self.AKIMBO)
-		return true
+--Stops the current burst. Applies recoil to the player if the burst should have delayed recoil.
+function NewRaycastWeaponBase:cancel_burst()	
+	if self._delayed_burst_recoil and self._burst_rounds_fired and self._burst_rounds_fired > 0 then
+		self._setup.user_unit:movement():current_state():force_recoil_kick(self, self._burst_rounds_fired)
 	end
+	self._burst_rounds_fired = nil
 end
 
-function NewRaycastWeaponBase:_set_burst_mode(status, skip_sound)
-	self._in_burst_mode = status
-	self._fire_mode = NewRaycastWeaponBase["IDSTRING_" .. (status and "SINGLE" or self._has_auto and "AUTO" or "SINGLE")]
-	
-	if not skip_sound then
-		self._sound_fire:post_event(status and "wp_auto_switch_on" or self._has_auto and "wp_auto_switch_on" or "wp_auto_switch_off")
-	end
-	
-	self:cancel_burst()
-end
-
-function NewRaycastWeaponBase:can_use_burst_mode()
-	return self._has_burst_fire
-end
-
-function NewRaycastWeaponBase:in_burst_mode()
-	return self._fire_mode == NewRaycastWeaponBase.IDSTRING_SINGLE and self._in_burst_mode and not self:gadget_overrides_weapon_functions()
-end
-
+--Returns whether or not the gun is firing a burst.
 function NewRaycastWeaponBase:burst_rounds_remaining()
-	return self._burst_rounds_fired and self._burst_rounds_fired < self._burst_size
+	return self._burst_rounds_fired and self._burst_rounds_fired < self._burst_count
 end
 
-function NewRaycastWeaponBase:cancel_burst(soft_cancel)
-	if self._adaptive_burst_size or not soft_cancel then		
-		if self._delayed_burst_recoil and self._burst_rounds_fired and self._burst_rounds_fired > 0 then
-			self._setup.user_unit:movement():current_state():force_recoil_kick(self, self._burst_rounds_fired)
-		end
-		self._burst_rounds_fired = nil
+--Provides vanilla compatibility for external classes interfacing with burst fire, just in case.
+function NewRaycastWeaponBase:shooting_count()
+	return self._burst_rounds_fired and self._burst_rounds_fired - self._burst_count or 0
+end
+
+local ids_single = Idstring("single")
+local ids_auto = Idstring("auto")
+local ids_burst = Idstring("burst")
+function NewRaycastWeaponBase:can_toggle_firemode()
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("can_toggle_firemode")
 	end
-end	
+
+	return self._has_single and (self._has_burst or self._has_auto) or self._has_auto and self._has_burst
+end
+
+function NewRaycastWeaponBase:toggle_firemode(skip_post_event)
+	local can_toggle = not self._locked_fire_mode and self:can_toggle_firemode()
+
+	if can_toggle then
+		if self._fire_mode == ids_single then
+			self._fire_mode = self._has_burst and ids_burst or ids_auto
+
+			if not skip_post_event then
+				self._sound_fire:post_event("wp_auto_switch_on")
+			end
+		elseif self._fire_mode == ids_burst then
+			if self._has_auto then
+				self._fire_mode = ids_auto
+				if not skip_post_event then
+					self._sound_fire:post_event("wp_auto_switch_on")
+				end
+			else
+				self._fire_mode = ids_single
+				if not skip_post_event then
+					self._sound_fire:post_event("wp_auto_switch_off")
+				end
+			end
+		else --Automatic
+			self._fire_mode = self._has_single and ids_single or ids_burst
+
+			if not skip_post_event then
+				self._sound_fire:post_event("wp_auto_switch_off")
+			end
+		end
+
+		return true
+	end
+
+	return false
+end
 
 function RaycastWeaponBase:can_ignore_medic_heals(distance)
 	if self._headshot_ignore_medics_distance and distance < self._headshot_ignore_medics_distance then

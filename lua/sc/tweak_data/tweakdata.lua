@@ -582,6 +582,7 @@ end
 		},
 		secondaries = {
 			{"assault_rifle"},
+			{"snp"},
 			{"shotgun"},
 			{"smg"},
 			{"pistol"},

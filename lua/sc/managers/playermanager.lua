@@ -288,6 +288,7 @@ function PlayerManager:update(t, dt)
 	end
 
 	self:update_smoke_screens(t, dt)
+	self:update_poison_gas(t, dt)
 end
 
 --Now used to refresh active grinder stacks when damage is dealt.
@@ -587,6 +588,7 @@ function PlayerManager:check_skills()
 
 	self:add_coroutine("damage_control", PlayerAction.DamageControl)
 
+	--TODO: Move this to an OnHeadshot listener to cut down on pointless callbacks.
 	if self:has_category_upgrade("snp", "graze_damage") then
 		self:register_message(Message.OnWeaponFired, "graze_damage", callback(SniperGrazeDamage, SniperGrazeDamage, "on_weapon_fired"))
 	else
@@ -823,6 +825,10 @@ function PlayerManager:_internal_load()
 		managers.hud:remove_skill("silent_precision")
 	end
 
+	if not self._shell_rack_stacks or self._shell_rack_stacks == 0 then
+		managers.hud:remove_skill("shell_stacking_reload")
+	end
+
 	local default_weapon_selection = 1
 	local secondary = managers.blackmarket:equipped_secondary()
 	local secondary_slot = managers.blackmarket:equipped_weapon_slot("secondaries")
@@ -1026,9 +1032,13 @@ function PlayerManager:_trigger_sharpshooter(unit, attack_data)
 	local attacker_unit = attack_data.attacker_unit
 	local variant = attack_data.variant
 
-	if attacker_unit == self:player_unit() and variant == "bullet" and weapon_unit and weapon_unit:base():fire_mode() == "single" and weapon_unit:base():is_category("assault_rifle", "snp") and attack_data.result.type == "death" then
-		self:activate_temporary_upgrade("temporary", "headshot_accuracy_addend")
-		self:activate_temporary_upgrade("temporary", "headshot_fire_rate_mult")
+	if weapon_unit then
+		local fire_mode =  weapon_unit:base():fire_mode()
+
+		if attacker_unit == self:player_unit() and variant == "bullet" and fire_mode == "single" or fire_mode == "burst" and weapon_unit:base():is_category("assault_rifle", "snp") and attack_data.result.type == "death" then
+			self:activate_temporary_upgrade("temporary", "headshot_accuracy_addend")
+			self:activate_temporary_upgrade("temporary", "headshot_fire_rate_mult")
+		end
 	end
 end
 
@@ -1710,37 +1720,6 @@ function PlayerManager:get_value_from_risk_upgrade(risk_upgrade, detection_risk)
 	end
 
 	return risk_value
-end
-
-function PlayerManager:spawned_player(id, unit)
-	self._players[id] = unit
-
-	MenuCallbackHandler:_update_outfit_information()
-	self:setup_viewports()
-	self:_internal_load()
-	self:_change_player_state()
-
-	if id == 1 then
-		--Sets burst fire in hud for guns that start in it.
-		local primary = unit:inventory():unit_by_selection(1):base()
-		if primary:in_burst_mode() then
-			managers.hud:set_teammate_weapon_firemode_burst(1)
-		else
-			managers.hud:set_teammate_weapon_firemode(HUDManager.PLAYER_PANEL, 1, primary:fire_mode())
-		end
-
-		local secondary = unit:inventory():unit_by_selection(2):base()
-		if secondary:in_burst_mode() then
-			managers.hud:set_teammate_weapon_firemode_burst(2)
-		else
-			managers.hud:set_teammate_weapon_firemode(HUDManager.PLAYER_PANEL, 2, secondary:fire_mode())
-		end
-
-		local grenade_cooldown = tweak_data.blackmarket.projectiles[managers.blackmarket:equipped_grenade()].base_cooldown
-		if grenade_cooldown and not self:got_max_grenades() then
-			self:replenish_grenades(grenade_cooldown)
-		end
-	end
 end
 
 --Gets the perk deck damage bonus for the desired unit.

@@ -153,7 +153,7 @@ function RaycastWeaponBase:_iter_ray_hits(all_hits, user_unit, damage)
 		end
 	end
 
-	return cop_kill_count
+	return best_hits, cop_kill_count
 end
 
 --Process statistics and achievement related information for a given enemy hit.
@@ -295,14 +295,15 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 			all_hits[#all_hits + 1] = ray_hits
 
-			if hit_enemy then
+			if hit_enemy and not result.hit_enemy then
 				result.hit_enemy = true
 			end
 		end
 	end
 
 	--Once all hits are determined, handle collisions.
-	local cop_kill_count = self:_iter_ray_hits(all_hits, user_unit, damage)
+	local cop_kill_count = 0
+	result.rays, cop_kill_count = self:_iter_ray_hits(all_hits, user_unit, damage)
 
 	--Apply suppression to relevant enemies.
 	if self._autoaim and self._suppression then
@@ -829,6 +830,8 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 
 	local ray_res = self:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul, target_unit)
 
+	managers.player:send_message(Message.OnWeaponFired, nil, self._unit, ray_res)
+
 	--Autofire soundfix integration.
 	if self:_soundfix_should_play_normal() then
 		return ray_res
@@ -838,8 +841,6 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 		self:play_tweak_data_sound("fire_single","fire")
 		self:play_tweak_data_sound("stop_fire")
 	end
-
-	managers.player:send_message(Message.OnWeaponFired, nil, self._unit, ray_res)
 
 	return ray_res
 end

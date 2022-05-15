@@ -22,15 +22,14 @@ function SniperGrazeDamage:on_weapon_fired(weapon_unit, result)
 	local hit_enemies = {}
 	local ignored_enemies = {}
 
-	for _, hit in ipairs(result.rays) do
+	for key, hit in pairs(result.rays) do
 		local is_turret = hit.unit:in_slot(sentry_mask)
 		local is_ally = hit.unit:in_slot(ally_mask)
 		local is_cuff = hit.unit:in_slot(16, 21, 22)
 
-		local result = hit.damage_result
-		local attack_data = result and result.attack_data
-		if attack_data and attack_data.headshot and not is_turret and not is_ally and not is_cuff then
-			local key = hit.unit:key()
+		if hit.headshot and not is_turret and not is_ally and not is_cuff then
+			local result = hit.damage_result
+			local attack_data = result and result.attack_data
 			hit_enemies[key] = {
 				position = hit.position,
 				damage = attack_data.damage
