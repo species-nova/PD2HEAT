@@ -1007,6 +1007,11 @@ function RaycastWeaponBase:overhealed_damage_mul()
 	return 1
 end
 
+--Make mobility affect sprint-out speed.
+function RaycastWeaponBase:exit_run_speed_multiplier()
+	return tweak_data.weapon.stats.mobility[self:get_concealment()]
+end
+
 --Minigun spin mechanics.
 	function RaycastWeaponBase:start_shooting()
 		if self:gadget_overrides_weapon_functions() then

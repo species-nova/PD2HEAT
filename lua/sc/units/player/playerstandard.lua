@@ -863,7 +863,7 @@ function PlayerStandard:_start_action_running(t)
 	--Skip sprinting animations if player is doing melee things.
 	if not self:_is_charging_weapon() and not self:_is_meleeing() and (not self:_is_reloading() or not self.RUN_AND_RELOAD) then
 		if not self._equipped_unit:base():run_and_shoot_allowed() then
-			self._ext_camera:play_redirect(self:get_animation("start_running"))	
+			self._ext_camera:play_redirect(self:get_animation("start_running"), self._equipped_unit:base():exit_run_speed_multiplier())	
 		else
 			self._ext_camera:play_redirect(self:get_animation("idle"))	
 		end	
@@ -1345,7 +1345,9 @@ end
 --Ends minigun spinup.
 local orig_end_action_steelsight = PlayerStandard._end_action_steelsight
 function PlayerStandard:_end_action_steelsight(t, gadget_state)
+	self._state_data.was_in_steelsight = true --Flag that steelsight is being left.
 	orig_end_action_steelsight(self, t, gadget_state)
+	self._state_data.was_in_steelsight = false
 
 	if not self._state_data.in_steelsight then
 		local weapon = self._unit:inventory():equipped_unit():base()
@@ -2474,7 +2476,7 @@ function PlayerStandard:_stance_entered(unequipped)
 	vel_overshot = vel_overshot or misc_attribs.vel_overshot	
 
 	local duration = tweak_data.player.TRANSITION_DURATION + (weap_base:transition_duration() or 0)
-	local duration_multiplier = self._state_data.in_steelsight and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
+	local duration_multiplier = (self._state_data.in_steelsight or self._state_data.was_in_steelsight) and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
 	local new_fov = self:get_zoom_fov(misc_attribs) + 0
 
 	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration)
