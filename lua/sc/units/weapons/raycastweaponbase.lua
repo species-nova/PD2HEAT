@@ -1008,8 +1008,9 @@ function RaycastWeaponBase:overhealed_damage_mul()
 end
 
 --Make mobility affect sprint-out speed.
+--The minigun has a weirdly long animation that snaps really badly if you interrupt it. so increase the base timer but give it a bigger multiplier to mostly compensate.
 function RaycastWeaponBase:exit_run_speed_multiplier()
-	return tweak_data.weapon.stats.mobility[self:get_concealment()]
+	return tweak_data.weapon.stats.mobility[self:get_concealment()] * (self._name_id == "m134" and 2 or 1)
 end
 
 --Minigun spin mechanics.

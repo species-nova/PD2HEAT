@@ -875,10 +875,12 @@ end
 
 function PlayerStandard:_end_action_running(t)
 	if not self._end_running_expire_t then
-		local speed_multiplier = self._equipped_unit:base():exit_run_speed_multiplier()
-		self._end_running_expire_t = t + 0.4 / speed_multiplier
+		local weap_base = self._equipped_unit:base()
+		local speed_multiplier = weap_base:exit_run_speed_multiplier()
+		--The minigun has a weirdly long animation that snaps really badly if you interrupt it. so increase the base timer but give it a bigger multiplier to mostly compensate.
+		self._end_running_expire_t = t + (weap_base._name_id == "m134" and 1 or 0.4) / speed_multiplier
 		--Adds a few melee related checks to avoid cutting off animations.
-		local stop_running = not self:_is_charging_weapon() and not self:_is_meleeing() and not self._equipped_unit:base():run_and_shoot_allowed() and (not self.RUN_AND_RELOAD or not self:_is_reloading())
+		local stop_running = not self:_is_charging_weapon() and not self:_is_meleeing() and not weap_base:run_and_shoot_allowed() and (not self.RUN_AND_RELOAD or not self:_is_reloading())
 		
 		if stop_running then
 			self._ext_camera:play_redirect(self:get_animation("stop_running"), speed_multiplier)
