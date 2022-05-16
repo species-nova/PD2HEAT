@@ -3251,8 +3251,8 @@ function WeaponTweakData:init(...)
 		self.deagle.stats = {
 			damage = 60,
 			spread = 19,
-			recoil = 6,
-			concealment = 19
+			recoil = 7,
+			concealment = 18
 		}
 		self.deagle.timers = {
 			reload_not_empty = 2.5,
@@ -3404,9 +3404,9 @@ function WeaponTweakData:init(...)
 		self.shatters_fury.armor_piercing_chance = 1
 		self.shatters_fury.stats = {
 			damage = 90,
-			spread = 16,
+			spread = 17,
 			recoil = 5,
-			concealment = 18
+			concealment = 17
 		}
 		self.shatters_fury.timers = {
 			reload_not_empty = 2.5,
