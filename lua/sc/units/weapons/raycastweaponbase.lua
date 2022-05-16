@@ -14,7 +14,6 @@ local init_original = RaycastWeaponBase.init
 
 local SPIN_UP = 1
 local SPIN_DOWN = -1
-local SKIP_AUTOHIT = 0
 local NORMAL_AUTOHIT = 1
 local RICOCHET_AUTOHIT = 2
 function RaycastWeaponBase:init(unit)
@@ -259,8 +258,8 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 		local ray_hits, hit_enemy = self:_collect_hits(from_pos, mvec_to)
 
 		--Check for auto hit if no enemy was hit.
-		if self._autoaim then
-			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, hit_enemy and NORMAL_AUTOHIT or SKIP_AUTOHIT)
+		if self._autoaim and not hit_enemy then
+			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, NORMAL_AUTOHIT)
 			if auto_ray_hits then
 				hit_enemy = auto_hit_enemy	
 				ray_hits = auto_ray_hits
@@ -288,7 +287,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 			if ray_hits.ricochet_distance then
 				local ricochet_trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_hits.ricochet_distance
 				if ricochet_trail_distance > 600 then
-					DelayedCalls:Add("ricochet_trail " .. tostring(ray_hits.ricochet_direction), math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
+					DelayedCalls:Add("ricochet_trail" .. tostring(ray_hits.ricochet_direction), math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
 						mvector3.set(self._trail_effect_table.position, ray_hits.ricochet_from_pos)
 						mvector3.set(self._trail_effect_table.normal, ray_hits.ricochet_direction)
 						local trail = World:effect_manager():spawn(self._trail_effect_table)
@@ -299,7 +298,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 			all_hits[#all_hits + 1] = ray_hits
 
-			if hit_enemy and not result.hit_enemy then
+			if hit_enemy then
 				result.hit_enemy = true
 			end
 		end
@@ -381,13 +380,15 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 	local ray_hits, ricochet_hit_enemy = self:_collect_hits(from_pos, reflect_vec, true)
 
 	--Give more generous auto-aim.
-	local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ray_distance, ricochet_hit_enemy and RICOCHET_AUTOHIT or SKIP_AUTOHIT, ray_distance)
-	if auto_ray_hits then
-		ricochet_hit_enemy = auto_hit_enemy
-		ray_hits = auto_ray_hits
-		mvector3.set(reflect_dir, from_pos)
-		mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
-		mvector3.set(mvec_spread_direction, reflect_dir)
+	if not ricochet_hit_enemy then
+		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ray_distance, RICOCHET_AUTOHIT, ray_distance)
+		if auto_ray_hits then
+			ricochet_hit_enemy = auto_hit_enemy
+			ray_hits = auto_ray_hits
+			mvector3.set(reflect_dir, from_pos)
+			mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
+			mvector3.set(mvec_spread_direction, reflect_dir)
+		end
 	end
 
 	--Append hits to table, and add/update relevant fields for the ricochets.
@@ -642,18 +643,18 @@ end
 local body_vec = Vector3()
 local head_vec = Vector3()
 function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, autohit_type, max_dist_override)
-	--Get relevant slot masks
-	local enemy_mask = managers.slot:get_mask("player_autoaim")
-	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
-	local shield_mask = managers.slot:get_mask("enemy_shield_check")
-
 	--Check if autohit occurs.
 	--If use_aim_assist is set to true (IE: For controller players ADSing), then always autoaim.
 	--Same with ricocheting bullets.
 	--Otherwise, accumulate the autohit progression tracker and see if it procs.
-	if autohit_type == SKIP_AUTOHIT or not self:roll_autohit() then
+	if not self:roll_autohit() then
 		return
 	end
+
+	--Get relevant slot masks
+	local enemy_mask = managers.slot:get_mask("player_autoaim")
+	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
+	local shield_mask = managers.slot:get_mask("enemy_shield_check")
 
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit.
 	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
