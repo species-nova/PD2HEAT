@@ -1211,6 +1211,34 @@ function WeaponTweakData:init(...)
 		}
 		self.hk21.reload_speed_multiplier = 1.15 --5.2/6.7
 
+		--SG Versteckt 51D
+		self.hk51b.categories = {
+			"lmg",
+			"smg"
+		}
+		self.hk51b.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.hk51b.kick_pattern = self.stat_info.kick_patterns.random
+		self.hk51b.fire_rate_multiplier = 0.9 --600rpm
+		self.hk51b.supported = true
+		self.hk51b.stats = {
+			damage = 24,
+			spread = 12,
+			recoil = 19,
+			concealment = 13
+		}
+		self.hk51b.timers = {
+			reload_not_empty = 3.6,
+			reload_empty = 4.1,
+			reload_operational = 2.95,
+			empty_reload_operational = 3.3,
+			reload_interrupt = 0.49,
+			empty_reload_interrupt = 0.95,
+			unequip = 0.6,
+			equip = 0.65,
+			deploy_bipod = 1
+		}
+		self.hk51b.swap_speed_multiplier = 0.8
+
 	--Heavy LMG (PRIMARY)
 		--Buzzsaw
 		self.mg42.categories = {
@@ -1461,6 +1489,33 @@ function WeaponTweakData:init(...)
 			equip = 0.9
 		}
 		self.siltstone.reload_speed_multiplier = 0.85 --3.4/4.6s
+
+	--Light Sniper (Secondary)
+		--Pronghorn Sniper Rifle
+		self.scout.has_description = true
+		self.scout.desc_id = "bm_ap_weapon_sc_desc"
+		self.scout.tactical_reload = true
+		self.scout.fire_mode_data.fire_rate = 0.75
+		self.scout.kick = self.stat_info.kick_tables.vertical_kick
+		self.scout.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.scout.supported = true
+		self.scout.stats = {
+			damage = 90,
+			spread = 18,
+			recoil = 11,
+			concealment = 14
+		}
+		self.scout.timers = {
+			reload_not_empty = 4.2,
+			reload_empty = 5.7,
+			reload_operational = 3.4,
+			empty_reload_operational = 5.3,
+			reload_interrupt = 0.36,
+			empty_reload_interrupt = 0.36,
+			unequip = 0.4,
+			equip = 0.45
+		}
+
 
 	--Heavy Sniper (Primary)
 		--Bernetti Rangehitter
