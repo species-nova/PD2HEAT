@@ -225,6 +225,7 @@ function RaycastWeaponBase:_check_kill_achievements(hit, cop_kill_count, cop_hea
 	end
 end
 
+local right_vec = Vector3(0, 0, 1)
 local mvec_to = Vector3()
 local mvec_spread_direction = Vector3()
 function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul)
@@ -237,8 +238,11 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	local result = {}
 	local all_hits = {}
 	local spread_x, spread_y = self:_get_spread(user_unit)
-	local right = direction:cross(Vector3(0, 0, 1)):normalized()
-	local up = direction:cross(right):normalized()
+	local right = direction:cross(right_vec)
+	local up = direction:cross(right)
+	mvector3.normalize(right)
+	mvector3.normalize(up)
+
 	local ray_count = self._rays + self:_get_bonus_rays()
 	for i = 1, ray_count do
 		local r = math.sqrt(math.random())  --Ensures even spread distribution, rather than center biased.
