@@ -33,7 +33,7 @@ function heat:Init()
 	}
 	--Summers
 	heat.captain_teamwork = {
-		"pal", --counterfeit
+		--[["pal", --counterfeit
 		"mia_1", --Hotline Day 1
 		"crojob2", --bomb dockyard
 		"firestarter_3", --firestarter day 3
@@ -47,7 +47,7 @@ function heat:Init()
 		"watchdogs_2_day", --Watchdogs Day 2 Daytime
 		"jolly_CD", --jolly crackdown edit
 		--custom heists		
-		"firestarter_3_res" --firestarter day 3 res edit version
+		"firestarter_3_res" --firestarter day 3 res edit version]]--
 	}
 	--Spring
 	heat.captain_murderdozer = {
