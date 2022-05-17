@@ -766,33 +766,23 @@ function WeaponTweakData:_init_data_flamethrower_mk2_crew()
 	self.flamethrower_mk2_crew.FIRE_MODE = "auto"
 
 	self.flamethrower_mk2_flamer = {}
-	self.flamethrower_mk2_flamer = deep_clone(self.flamethrower_mk2_crew)
-	self.flamethrower_mk2_flamer.categories = clone(self.flamethrower_mk2.categories)
+	self.flamethrower_mk2_flamer = deep_clone(self.flamethrower_npc)
 	self.flamethrower_mk2_flamer.sounds.prefix = "flamethrower_npc"
 	self.flamethrower_mk2_flamer.sounds.fire = "flamethrower_npc_fire"
 	self.flamethrower_mk2_flamer.sounds.stop_fire = "flamethrower_npc_fire_stop"
 	self.flamethrower_mk2_flamer.CLIP_AMMO_MAX = 60
 	self.flamethrower_mk2_flamer.NR_CLIPS_MAX = 4
-	self.flamethrower_mk2_flamer.FIRE_RANGE = 1400
 	self.flamethrower_mk2_flamer.DAMAGE = 7.5
-	self.flamethrower_mk2_flamer.fire_dot_data = {
-		dot_trigger_chance = 0,
-		dot_damage = 0,
-		dot_length = 0,
-		dot_trigger_max_distance = 0,
-		dot_tick_period = 0
-	}
+	self.flamethrower_mk2_flamer.flame_max_range = 1400
+
 	self.flamethrower_mk2_flamer.FIRE_MODE = "auto"
-	self.flamethrower_mk2_flamer.fire_rate = 0.1
 	self.flamethrower_mk2_flamer.hold = {
 		"bullpup",
 		"rifle"
 	}
 	self.flamethrower_mk2_flamer.alert_size = 2500
 	self.flamethrower_mk2_flamer.suppression = 3.1
-	self.flamethrower_mk2_flamer.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
-	self.flamethrower_mk2_flamer.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
-	self.flamethrower_mk2_flamer.shell_ejection = "effects/payday2/particles/weapons/shells/shell_empty"
+
 	self.flamethrower_mk2_flamer.pull_magazine_during_reload = "large_metal"
 	self.flamethrower_mk2_flamer.anim_usage = "is_bullpup"
 	self.flamethrower_mk2_flamer.usage = "is_flamethrower"

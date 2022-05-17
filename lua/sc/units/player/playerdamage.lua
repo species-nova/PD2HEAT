@@ -666,32 +666,6 @@ function PlayerDamage:damage_explosion(attack_data)
 	end
 end
 
-function PlayerDamage:damage_fire(attack_data)
-	local damage_info = {
-		result = {
-			variant = "explosion",
-			type = "hurt"
-		}
-	}
-
-	if not self:can_take_damage(attack_data, damage_info) then
-		return
-	end
-
-	local attack_pos = attack_data.position or attack_data.col_ray.position or attack_data.attacker_unit and alive(attack_data.attacker_unit) and attack_data.attacker_unit:position()
-	local distance = mvector3.distance(attack_pos, self._unit:position())
-
-	if not attack_data.range then
-		attack_data.range = distance
-	end
-
-	if attack_data.range < distance then
-		return
-	end
-
-	self:_apply_damage(attack_data, damage_info, "fire", managers.player:player_timer():time())
-end
-
 --Does not use _apply_damage, instead uses its own stuff.
 function PlayerDamage:damage_gas(attack_data)
 	local damage_info = {
