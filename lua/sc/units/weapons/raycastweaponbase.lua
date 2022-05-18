@@ -233,7 +233,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 	end
 
 	local damage = self._damage * dmg_mul
-	local ray_distance = self.far_falloff_distance or self:weapon_range()
+	local ray_distance = self:weapon_range()
 	local result = {}
 	local all_hits = {}
 	local spread_x, spread_y = self:_get_spread(user_unit)
@@ -359,7 +359,7 @@ end
 
 function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy)
 	local start_distance = hit.distance
-	local ray_distance = (self.far_falloff_distance or self:weapon_range()) - start_distance
+	local ray_distance = self:weapon_range() - start_distance
 
 	--Offset the raycast a small amount from the wall, otherwise it will result in the wall 'catching' the bullet.
 	local from_pos = hit.position + hit.normal
@@ -461,6 +461,12 @@ function RaycastWeaponBase:_collect_hits(from, to, is_ricochet)
 
 	unique_hits.trail_index = #unique_hits
 	return unique_hits, hit_enemy
+end
+
+--Call this whenever the gun is fired to update to the latest values, since skills can change it in realtime for players.
+function RaycastWeaponBase:_compute_falloff_distance(user_unit)
+	self.near_falloff_distance = self._weapon_range
+	self.far_falloff_distance = self._weapon_range
 end
 
 --Cache shield attack_data table.
@@ -778,8 +784,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 
 	if is_player then
 		--Invalidate old falloff data.
-		self.near_falloff_distance = nil
-		self.far_falloff_distance = nil
+		self:_compute_falloff_distance(user_unit)
 		self.last_hit_falloff = false
 
 		self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
