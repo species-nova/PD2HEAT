@@ -3884,9 +3884,9 @@ function WeaponTweakData:init(...)
 		self.aa12.supported = true
 		self.aa12.stats = {
 			damage = 8,
-			spread = 8,
+			spread = 10,
 			recoil = 13,
-			concealment = 12
+			concealment = 11
 		}
 		self.aa12.timers = {
 			reload_not_empty = 3.8,
@@ -3910,7 +3910,7 @@ function WeaponTweakData:init(...)
 		self.saiga.supported = true
 		self.saiga.stats = {
 			damage = 8,
-			spread = 12,
+			spread = 14,
 			recoil = 9,
 			concealment = 16
 		}
@@ -3939,7 +3939,7 @@ function WeaponTweakData:init(...)
 			damage = 8,
 			spread = 15,
 			recoil = 12,
-			concealment = 13
+			concealment = 14
 		}
 		self.spas12.timers = {
 			shotgun_reload_enter = 0.3,
@@ -3964,7 +3964,7 @@ function WeaponTweakData:init(...)
 		self.benelli.stats = {
 			damage = 8,
 			spread = 14,
-			recoil = 9,
+			recoil = 10,
 			concealment = 15
 		}
 		self.benelli.timers = {
@@ -4216,7 +4216,7 @@ function WeaponTweakData:init(...)
 			damage = 11,
 			spread = 9,
 			recoil = 14,
-			concealment = 14
+			concealment = 12
 		}
 		self.ksg.timers = {
 			shotgun_reload_enter = 0.3,
@@ -4281,6 +4281,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.55,
 			equip = 0.85
 		}
+		self.boot.reload_speed_multiplier = 0.92 --3.7s
 
 		--Locomotive 12g
 		self.serbu.muzzleflash = "effects/particles/shotgun/shotgun_gen"

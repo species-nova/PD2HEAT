@@ -24,7 +24,9 @@ function AkimboWeaponBase:fire(...)
 		result = self:_fire_second_gun(...)
 	else
 		result = AkimboWeaponBase.super.fire(self, ...)
-		self:_fire_sound()
+		if result then
+			self:_fire_sound()
+		end
 	end
 
 	self._fire_second_gun_next = not self._fire_second_gun_next
