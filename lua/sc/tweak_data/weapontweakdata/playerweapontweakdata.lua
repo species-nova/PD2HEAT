@@ -1222,8 +1222,8 @@ function WeaponTweakData:init(...)
 		self.hk51b.supported = true
 		self.hk51b.stats = {
 			damage = 24,
-			spread = 12,
-			recoil = 19,
+			spread = 14,
+			recoil = 17,
 			concealment = 13
 		}
 		self.hk51b.timers = {
