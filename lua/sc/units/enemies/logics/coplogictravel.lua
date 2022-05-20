@@ -207,10 +207,6 @@ function CopLogicTravel.enter(data, new_logic_name, enter_params)
 			my_data.detection = data.char_tweak.detection.recon
 		end
 
-		if data.unit:base().has_tag and data.unit:base():has_tag("special") then
-			my_data.detection_uses_aim_react_or_higher = true
-		end
-
 		data.brain:set_attention_settings({
 			cbt = true
 		})
@@ -461,7 +457,7 @@ function CopLogicTravel._upd_enemy_detection(data)
 	local min_reaction = nil
 
 	if not is_cool then
-		min_reaction = my_data.aim_react_or_higher and REACT_AIM or REACT_CURIOUS
+		min_reaction = REACT_AIM
 	end
 
 	local delay = CopLogicBase._upd_attention_obj_detection(data, min_reaction, nil)
@@ -688,13 +684,13 @@ function CopLogicTravel._chk_cover_height(data, cover, slotmask)
 	local ray_from = tmp_vec1
 
 	mvec3_set(ray_from, math_up)
-	mvec3_mul(ray_from, 110)
+	mvec3_mul(ray_from, 82.5)
 	mvec3_add(ray_from, cover[1])
 
 	local ray_to = tmp_vec2
 
 	mvec3_set(ray_to, cover[2])
-	mvec3_mul(ray_to, 200)
+	mvec3_mul(ray_to, 165)
 	mvec3_add(ray_to, ray_from)
 
 	local ray = data.unit:raycast("ray", ray_from, ray_to, "slot_mask", slotmask, "ray_type", "ai_vision", "report")
@@ -2076,38 +2072,48 @@ function CopLogicTravel.chk_group_ready_to_move(data, my_data)
 	end
 
 	local my_objective = data.objective
-	
-	if my_objective.type ~= "defend_area" then
+
+	if not my_objective.grp_objective then
 		return true
 	end
 	
 	if not my_objective.area then
 		return true
 	end
-	
-	if not my_objective.grp_objective then
+
+	local my_dis = mvec3_dis_sq(my_objective.area.pos, data.m_pos)
+
+	if my_dis > 4000000 then
 		return true
 	end
 
-	local my_dis = mvec3_dis(my_objective.area.pos, data.m_pos)
+	my_dis = my_dis * 1.15 * 1.15
 
-	my_dis = my_dis * 1.2
+	local can_continue = true
 
-	for u_key, u_data in pairs_g(data.group.units) do
+	for u_key, u_data in pairs(data.group.units) do
 		if u_key ~= data.key then
-			local teammate_obj = u_data.unit:brain():objective()
+			local his_objective = u_data.unit:brain():objective()
 
-			if teammate_obj and teammate_obj.grp_objective == my_objective.grp_objective and not teammate_obj.in_place then
-				local teammate_dis_to_obj = mvec3_dis(teammate_obj.area.pos, u_data.m_pos)
+			if his_objective and his_objective.grp_objective == my_objective.grp_objective and not his_objective.in_place then
+				if his_objective.is_default then
+					can_continue = nil
+					
+					break
+				else
+					local his_dis = mvec3_dis_sq(his_objective.area.pos, u_data.m_pos)
 
-				if my_dis < teammate_dis_to_obj then
-					return
+					if my_dis < his_dis then
+						can_continue = nil
+						
+						break
+					end
 				end
 			end
 		end
 	end
 
-	return true
+	return can_continue
 end
 
 function CopLogicTravel.apply_wall_offset_to_cover(data, my_data, cover, wall_fwd_offset)

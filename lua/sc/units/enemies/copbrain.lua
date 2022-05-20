@@ -207,8 +207,6 @@ local logic_variants = {
 local security_variant = logic_variants.security
 function CopBrain:init(unit)
 	old_init(self, unit)
-	CopBrain._logic_variants.medic = clone(security_variant)
-	CopBrain._logic_variants.medic.attack = MedicLogicAttack
 	CopBrain._logic_variants.dave = security_variant
 	CopBrain._logic_variants.cop_civ = security_variant
 	CopBrain._logic_variants.cop_forest = security_variant
@@ -228,7 +226,6 @@ function CopBrain:init(unit)
 	CopBrain._logic_variants.taser = clone(security_variant)
 	CopBrain._logic_variants.taser_summers = clone(security_variant)
 	CopBrain._logic_variants.medic_summers = clone(security_variant)
-	CopBrain._logic_variants.medic_summers.attack = MedicLogicAttack
 	CopBrain._logic_variants.fbi_vet = security_variant
 	CopBrain._logic_variants.fbi_vet_boss = security_variant
 	CopBrain._logic_variants.vetlod = security_variant	
@@ -252,7 +249,6 @@ function CopBrain:init(unit)
 	CopBrain._logic_variants.summers.phalanx = CopLogicPhalanxVip
 	CopBrain._logic_variants.taser_summers.attack = CopLogicAttack
 	CopBrain._logic_variants.omnia_lpf = clone(security_variant)
-	CopBrain._logic_variants.omnia_lpf.attack = MedicLogicAttack
 	CopBrain._logic_variants.tank_biker = clone(security_variant)
 	CopBrain._logic_variants.tank_biker.attack = TankCopLogicAttack
 	CopBrain._logic_variants.biker_guard = security_variant

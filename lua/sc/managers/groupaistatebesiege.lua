@@ -2996,7 +2996,7 @@ function GroupAIStateBesiege:_set_assault_objective_to_group(group, phase)
 				area = self:get_area_from_nav_seg_id(assault_path[#assault_path][1]),
 				coarse_path = assault_path or nil,
 				pose = "stand",
-				attitude = push and "engage" or "avoid",
+				attitude = phase_is_anticipation and "avoid" or "engage",
 				moving_in = push,
 				open_fire = push,
 				pushed = push,
@@ -3088,7 +3088,6 @@ function GroupAIStateBesiege._create_objective_from_group_objective(grp_objectiv
 		objective.pose = "stand"
 		objective.scan = true
 		objective.interrupt_dis = 200
-		objective.interrupt_suppression = nil
 	elseif grp_objective.type == "retire" then
 		objective.type = "defend_area"
 		objective.running = true
@@ -3099,18 +3098,16 @@ function GroupAIStateBesiege._create_objective_from_group_objective(grp_objectiv
 	elseif grp_objective.type == "assault_area" then
 		objective.type = "defend_area"
 
-		if grp_objective.follow_unit then --chase objectives use "follow" because fuck you
+		if grp_objective.follow_unit then
 			objective.type = "follow"
 			objective.follow_unit = grp_objective.follow_unit
 			objective.distance = grp_objective.distance
 		end
-		
-		objective.no_arrest = true
+
 		objective.stance = "hos"
 		objective.pose = "stand"
 		objective.scan = true
-		objective.interrupt_dis = nil
-		objective.interrupt_suppression = nil
+		objective.interrupt_suppression = true
 	elseif grp_objective.type == "create_phalanx" then
 		objective.type = "phalanx"
 		objective.stance = "hos"
@@ -3124,6 +3121,10 @@ function GroupAIStateBesiege._create_objective_from_group_objective(grp_objectiv
 		objective.stance = "hos"
 		objective.scan = true
 		objective.interrupt_dis = 200
+	end
+	
+	if objective.type == "defend_area" then
+		objective.interrupt_on_contact = true
 	end
 
 	objective.stance = grp_objective.stance or objective.stance
