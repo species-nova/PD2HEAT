@@ -1142,11 +1142,11 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			--Unseen Strike
 				self.values.temporary.unseen_strike = {
 					{ --Basic
-						1.3,
+						1.25,
 						0.01 --Workaround for Buff Tracker sanity checks.
 					},
 					{ --Ace
-						1.3,
+						1.25,
 						3
 					}
 				}
@@ -1161,7 +1161,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 				
 			--Backstab
 				--Basic
-					self.values.player.backstab_crits = {0.4}
+					self.values.player.backstab_crits = {0.45}
 				--Ace
 					self.values.player.backstab_dodge = {1}
 

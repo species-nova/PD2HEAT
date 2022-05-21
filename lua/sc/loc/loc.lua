@@ -1659,11 +1659,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Unseen Strike--
 			["menu_hitman_beta_sc"] = "Unseen Strike",
-			["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##30%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##3## seconds after taking damage.",
+			["menu_hitman_beta_desc_sc"] = "BASIC: ##$basic##\nIf you do not take damage for ##3## seconds, you gain ##25%## increased critical hit chance until you take damage.\n\nCritical hits deal ##100%## additional damage.\n\nACE: ##$pro##\nUnseen Strike's critical hit chance persists for ##3## seconds after taking damage.",
 
 			--Backstab--
 			["menu_backstab_beta_sc"] = "Backstab",
-			["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by ##40%## when attacking enemies from behind.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
+			["menu_backstab_beta_desc_sc"] = "BASIC: ##$basic##\nYour critical hit chance is increased by ##45%## when attacking enemies from behind.\n\nACE: ##$pro##\nKilling an enemy from behind with guns or melee fills your dodge meter by ##100%## of your dodge.",
 
 			--Low Blow--
 			["menu_unseen_strike_beta_sc"] = "Low Blow",
