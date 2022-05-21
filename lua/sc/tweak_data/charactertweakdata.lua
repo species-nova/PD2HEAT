@@ -2235,7 +2235,7 @@ function CharacterTweakData:_init_phalanx_vip(presets) --captain winters
 	self.phalanx_vip.immune_to_knock_down = true
 	self.phalanx_vip.damage.shield_explosion_damage_mul = 0
 	self.phalanx_vip.damage.shield_explosion_ally_damage_mul = 0
-	self.phalanx_vip.HEALTH_INIT = 1296
+	self.phalanx_vip.HEALTH_INIT = 648
 	self.phalanx_vip.damage.shield_knock_breakpoint = 72
 	self.phalanx_vip.damage.shield_knock_resistance_stacking = 0.75
 	self.phalanx_vip.headshot_dmg_mul = normal_headshot
