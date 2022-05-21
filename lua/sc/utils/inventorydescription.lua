@@ -378,7 +378,7 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 					mod.pickup = average_pickup - base_stats.pickup.value
 				elseif stat.name == "swap_speed" then
 					local multiplier = get_swap_mul(weapon_tweak)
-					multiplier = multiplier * tweak_stats.mobility[base_stats.concealment.index + mod.concealment]
+					multiplier = multiplier * tweak_stats.mobility[base_stats.concealment.index + mod.concealment] * (part_data.custom_stats and part_data.custom_stats.swap_speed_mul or 1)
 					local modded_swap_speed = (weapon_tweak.timers.equip + weapon_tweak.timers.unequip) / multiplier
 					mod.swap_speed = modded_swap_speed - base_stats.swap_speed.value
 				end

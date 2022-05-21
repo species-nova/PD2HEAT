@@ -4677,26 +4677,25 @@ end
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 364, suppression =  4}, --18/36 damage guns
-	{damage = 20,  pickup = 346, suppression =  6},
-	{damage = 24,  pickup = 328, suppression =  8},
+	{damage = 18,  pickup = 380, suppression =  4}, --18/36 damage guns
+	{damage = 20,  pickup = 360, suppression =  6},
+	{damage = 24,  pickup = 340, suppression =  8},
 	{damage = 30,  pickup = 310, suppression = 10},
-	{damage = 45,  pickup = 292, suppression = 11},
-	{damage = 60,  pickup = 274, suppression = 12},
-	{damage = 90,  pickup = 256, suppression = 13},
-	{damage = 120, pickup = 238, suppression = 14},
-	{damage = 180, pickup = 220, suppression = 15},
-	{damage = 240, pickup = 202, suppression = 16},
-	{damage = 300, pickup = 184, suppression = 17},
-	{damage = 360, pickup = 166, suppression = 18},
-	{damage = 400, pickup = 148, suppression = 19},
-	{damage = 600, pickup = 130, suppression = 20}
+	{damage = 45,  pickup = 280, suppression = 11},
+	{damage = 60,  pickup = 250, suppression = 12},
+	{damage = 90,  pickup = 220, suppression = 13},
+	{damage = 120, pickup = 200, suppression = 14},
+	{damage = 180, pickup = 190, suppression = 15},
+	{damage = 240, pickup = 180, suppression = 16},
+	{damage = 300, pickup = 170, suppression = 17},
+	{damage = 360, pickup = 160, suppression = 18},
+	{damage = 400, pickup = 150, suppression = 19},
+	{damage = 600, pickup = 140, suppression = 20}
 }
 local shotgun_damage_tier_data = {
-	{tier = 6,  damage = 45,  pickup = 292, suppression = 12}, --108 damage shotguns = 90 damage other weapons
-	{tier = 8,  damage = 60,  pickup = 274, suppression = 13}, --144 damage shotguns = 120 damage other weapons
-	{tier = 11, damage = 90,  pickup = 256, suppression = 14}, --198 damage shotguns = 180 damage other weapons
-	{tier = 14, damage = 120, pickup = 238, suppression = 15}  --252 damage shotguns = 240 damage other weapons
+	{tier = 8,  damage = 60,  pickup = 250, suppression = 13}, --144 damage shotguns = 120 damage other weapons
+	{tier = 11, damage = 90,  pickup = 220, suppression = 14}, --198 damage shotguns = 180 damage other weapons
+	{tier = 14, damage = 120, pickup = 200, suppression = 15}  --252 damage shotguns = 240 damage other weapons
 }
 
 local damage_pool_primary = 3600
@@ -4718,18 +4717,19 @@ end
 
 local category_data = {
 	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
-	bow              = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
-	crossbow         = {pickup = 0.5, suppression = 0.5, ammo_max = 1.0},
+	bow              = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
+	crossbow         = {pickup =0.75, suppression = 0.5, ammo_max = 1.0},
 	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},
-	smg              = {pickup = 1.1, suppression = 1.0, ammo_max = 1.0},
-	lmg              = {pickup = 1.0, suppression = 1.5, ammo_max = 1.5}, --Applies on top of SMG preset
-	minigun          = {pickup = 1.0, suppression = 2.0, ammo_max = 2.0}, --Applies on top of SMG preset
+	smg              = {pickup = 1.1, suppression = 1.5, ammo_max = 1.0},
+	lmg              = {pickup = 1.0, suppression = 1.3, ammo_max = 1.5}, --Applies on top of SMG preset
+	minigun          = {pickup = 1.0, suppression = 1.3, ammo_max = 2.0}, --Applies on top of SMG preset
 	saw              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	grenade_launcher = {pickup = 0.5, suppression = 1.0, ammo_max = 1.0},
 	snp              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	assault_rifle    = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0}
 }
+local shield_piercing_pickup_mul = 0.7
 
 local function get_category_modifier(weapon, field)
 	local result = 1
@@ -4770,8 +4770,16 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 		if weapon.use_data.selection_index == 1 then
 			pickup_multiplier = pickup_multiplier * (damage_pool_secondary / damage_pool_primary)
 		end
+
+		if weapon.can_shoot_through_shield then
+			pickup_multiplier = pickup_multiplier * shield_piercing_pickup_mul
+		end
 	else
 		pickup_multiplier = pickup_multiplier * ((weapon.AMMO_MAX * damage_tier.damage) / damage_pool_primary)
+		
+		if weapon.can_shoot_through_shield then
+			pickup_multiplier = pickup_multiplier * shield_piercing_pickup_mul
+		end
 	end
 
 	--Set actual pickup values to use.

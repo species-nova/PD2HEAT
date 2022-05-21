@@ -713,8 +713,8 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 	self.omnia_lpf.experience = {}
 	self.omnia_lpf.weapon = presets.weapon.normal
 	self.omnia_lpf.detection = presets.detection.normal
-	self.omnia_lpf.HEALTH_INIT = 240
-	self.omnia_lpf.headshot_dmg_mul = strong_headshot
+	self.omnia_lpf.HEALTH_INIT = 144
+	self.omnia_lpf.headshot_dmg_mul = normal_headshot
 	self.omnia_lpf.damage.hurt_severity = presets.hurt_severities.strong
 	self.omnia_lpf.damage.melee_damage_mul = 2
 	self.omnia_lpf.move_speed = presets.move_speed.fast
@@ -1039,6 +1039,8 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec
 	self.fbi_heavy_swat.weapon = presets.weapon.normal
 	self.fbi_heavy_swat.detection = presets.detection.normal
 	self.fbi_heavy_swat.HEALTH_INIT = 50.4
+	self.fbi_heavy_swat.damage.hurt_severity = presets.hurt_severities.boom
+	self.fbi_heavy_swat.damage.explosion_damage_mul = 0.5
 	self.fbi_heavy_swat.headshot_dmg_mul = normal_headshot
 	self.fbi_heavy_swat.move_speed = presets.move_speed.fast
 	self.fbi_heavy_swat.surrender_break_time = {6, 8}
@@ -1067,6 +1069,29 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec
 	self.fbi_heavy_swat.static_dodge_preset = true
 	self.fbi_heavy_swat.static_melee_preset = true
 	table.insert(self._enemy_list, "fbi_heavy_swat")
+
+	--Bravo LMG
+	self.weekend_lmg = deep_clone(self.fbi_heavy_swat)
+	if is_reaper then
+		self.weekend_lmg.custom_voicework = "tswat_ru"
+	elseif is_murky then
+		self.weekend_lmg.custom_voicework = "bravo_murky"
+	elseif is_federales then
+		self.weekend_lmg.custom_voicework = "bravo_mex"
+	else
+		self.weekend_lmg.custom_voicework = "bravo_elite"
+	end
+	self.weekend_lmg.speech_prefix_p1 = "cum"
+	self.weekend_lmg.speech_prefix_p2 = nil
+	self.weekend_lmg.speech_prefix_count = nil
+	self.weekend_lmg.can_slide_on_suppress = true
+	self.weekend_lmg.HEALTH_INIT = 75.6
+	self.weekend_lmg.weapon = presets.weapon.expert
+	self.weekend_lmg.headshot_dmg_mul = bravo_headshot
+	self.weekend_lmg.damage.explosion_damage_mul = 0.75
+	self.weekend_lmg.damage.fire_pool_damage_mul = 0.75
+	self.weekend_lmg.grenade = frag
+	table.insert(self._enemy_list, "weekend_lmg")
 end
 
 function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
@@ -1166,62 +1191,18 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.weekend.speech_prefix_count = nil
 	self.weekend.grenade = frag
 	self.weekend.surrender = presets.surrender.bravo
-	table.insert(self._enemy_list, "weekend")				
+	table.insert(self._enemy_list, "weekend")
 	
-	self.riot_swat = deep_clone(self.city_swat) --titan riot swat
-	self.riot_swat.can_slide_on_suppress = true
-	self.riot_swat.speech_prefix_p1 = "are you team cum pisser"
-	self.riot_swat.speech_prefix_p2 = "or team poop shitter"
-	self.riot_swat.speech_prefix_count = nil		
-	if is_reaper then
-		self.riot_swat.custom_voicework = "tswat_ru"
-	else
-		self.riot_swat.custom_voicework = "pdth"
-	end				
-	self.riot_swat.HEALTH_INIT = 42
-	self.riot_swat.headshot_dmg_mul = normal_headshot
-	self.riot_swat.weapon = presets.weapon.good
-	self.riot_swat.damage.hurt_severity = presets.hurt_severities.boom
-	self.riot_swat.damage.explosion_damage_mul = 0.4
-	self.riot_swat.use_animation_on_fire_damage = true
-	self.riot_swat.move_speed = presets.move_speed.fast
-	self.riot_swat.dodge = presets.dodge.elite
-	self.riot_swat.static_weapon_preset = true
-	self.riot_swat.static_dodge_preset = true
-	self.riot_swat.static_melee_preset = true
-	table.insert(self._enemy_list, "riot_swat")
-	
-	self.skeleton_swat_titan = deep_clone(self.riot_swat) --zombie riot titan swat
+	self.skeleton_swat_titan = deep_clone(self.city_swat) --zombie riot titan swat
 	self.skeleton_swat_titan.custom_voicework = "skeleton"
-	table.insert(self._enemy_list, "skeleton_swat_titan")	
-	
-	--Bravo LMG
-	self.weekend_lmg = deep_clone(self.riot_swat)		
-	if is_reaper then
-		self.weekend_lmg.custom_voicework = "tswat_ru"
-	elseif is_murky then
-		self.weekend_lmg.custom_voicework = "bravo_murky"	
-	elseif is_federales then
-		self.weekend_lmg.custom_voicework = "bravo_mex"
-	else
-		self.weekend_lmg.custom_voicework = "bravo_elite"
-	end		
-	self.weekend_lmg.speech_prefix_p1 = "cum"
-	self.weekend_lmg.speech_prefix_p2 = nil
-	self.weekend_lmg.speech_prefix_count = nil
-	self.weekend_lmg.HEALTH_INIT = 63
-	self.weekend_lmg.weapon = presets.weapon.expert
-	self.weekend_lmg.headshot_dmg_mul = bravo_headshot
-	self.weekend_lmg.damage.hurt_severity = presets.hurt_severities.bravo_lmg
-	self.weekend_lmg.damage.explosion_damage_mul = 0.75
-	self.weekend_lmg.damage.fire_pool_damage_mul = 1.5
-	self.weekend_lmg.grenade = frag
-	table.insert(self._enemy_list, "weekend_lmg")
+	table.insert(self._enemy_list, "skeleton_swat_titan")
 
+	--[[
 	--Temp Solution
 	if job == "haunted" then
 		self.city_swat = deep_clone(self.skeleton_swat_titan)
 	end
+	]]
 end
 
 function CharacterTweakData:_init_sniper(presets) --sniper
@@ -2203,9 +2184,9 @@ function CharacterTweakData:_init_phalanx_minion(presets) --titan shield
 	self.phalanx_minion.weapon = presets.weapon.normal
 	self.phalanx_minion.detection = presets.detection.normal
 	self.phalanx_minion.headshot_dmg_mul = normal_headshot
-	self.phalanx_minion.HEALTH_INIT = 48
-	self.phalanx_minion.damage.explosion_damage_mul = 0.4
-	self.phalanx_minion.damage.fire_pool_damage_mul = 0.4
+	self.phalanx_minion.HEALTH_INIT = 50.4
+	self.phalanx_minion.damage.explosion_damage_mul = 0.5
+	self.phalanx_minion.damage.fire_pool_damage_mul = 0.5
 	self.phalanx_minion.damage.melee_damage_mul = 2
 	self.phalanx_minion.damage.hurt_severity = presets.hurt_severities.no_hurts
 	self.phalanx_minion.damage.shield_knock_breakpoint = 54
@@ -2254,11 +2235,10 @@ function CharacterTweakData:_init_phalanx_vip(presets) --captain winters
 	self.phalanx_vip.immune_to_knock_down = true
 	self.phalanx_vip.damage.shield_explosion_damage_mul = 0
 	self.phalanx_vip.damage.shield_explosion_ally_damage_mul = 0
-	self.phalanx_vip.HEALTH_INIT = 1500
+	self.phalanx_vip.HEALTH_INIT = 1296
 	self.phalanx_vip.damage.shield_knock_breakpoint = 72
 	self.phalanx_vip.damage.shield_knock_resistance_stacking = 0.75
-	self.phalanx_vip.headshot_dmg_mul = strong_headshot
-	self.phalanx_vip.damage.explosion_damage_mul = 2
+	self.phalanx_vip.headshot_dmg_mul = normal_headshot
 	self.phalanx_vip.damage.melee_damage_mul = 2
 	self.phalanx_vip.spawn_sound_event = "cpa_a02_01"	
 	self.phalanx_vip.priority_shout = "f45"

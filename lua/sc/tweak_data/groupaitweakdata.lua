@@ -1093,59 +1093,6 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		access = access_type_all
 	}
 
-	self.unit_categories.Titan_swat_shotgun = {
-		unit_types = {
-			america = {
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_skele_swat_2/ene_skele_swat_2")
-			},
-			murkywater = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun")
-			}
-		},
-		access = access_type_all
-	}
-
-	self.unit_categories.Titan_swat_rifle = {
-		unit_types = {
-			america = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle")
-			},
-			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_rifle/ene_titan_rifle")
-			},
-			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_skele_swat/ene_skele_swat")
-			},
-			murkywater = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle")
-			},
-			federales = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle")
-			},
-			nypd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle")
-			},
-			lapd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle")
-			}
-		},
-		access = access_type_all
-	}
-
 	if difficulty_index <= 7 then
 		self.unit_categories.CS_tazer = {
 			unit_types = {
@@ -4135,20 +4082,20 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_swat_M4",
-					freq = 0.3,
+					freq = 0.25,
 					amount_max = 1,
 					tactics = self._tactics.FBI_swat_rifle_flank,
 					rank = 3
 				},
 				{
 					unit = "FBI_swat_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.FBI_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.1,
+					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4161,7 +4108,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "GS_swat_M4",
-					freq = 0.3,
+					freq = 0.25,
 					amount_min = 1,
 					tactics = self._tactics.MH_swat_rifle,
 					rank = 1
@@ -4175,13 +4122,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.MH_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.15,
+					freq = 0.25,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4194,7 +4141,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "GS_swat_M4",
-					freq = 0.3,
+					freq = 0.25,
 					amount_min = 1,
 					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 1
@@ -4208,13 +4155,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.14,
+					freq = 0.24,
 					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4234,7 +4181,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "GS_swat_M4",
-					freq = 0.3,
+					freq = 0.25,
 					amount_min = 1,
 					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 1
@@ -4248,13 +4195,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.25,
+					freq = 0.2,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.18,
+					freq = 0.28,
 					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4274,7 +4221,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "Bravo_rifle_swat",
-					freq = 0.3,
+					freq = 0.2,
 					amount_min = 1,
 					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 1
@@ -4294,7 +4241,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.18,
+					freq = 0.28,
 					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4421,13 +4368,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.MH_heavy_flank,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.15,
+					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4447,20 +4394,20 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_M4",
-					freq = 0.25,
+					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.ELITE_swat_rifle_flank,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.3,
+					freq = 0.25,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 3
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.14,
+					freq = 0.24,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4487,7 +4434,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_M4",
-					freq = 0.25,
+					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.ELITE_swat_rifle_flank,
 					rank = 3
@@ -4500,7 +4447,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.18,
+					freq = 0.23,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4520,7 +4467,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_G36",
-					freq = 0.3,
+					freq = 0.25,
 					amount_min = 1,
 					tactics = self._tactics.ELITE_heavy,
 					rank = 2
@@ -4540,7 +4487,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "medic_M4",
-					freq = 0.18,
+					freq = 0.23,
 					amount_max = 1,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
@@ -4732,19 +4679,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.3,
+					freq = 0.4,
 					tactics = self._tactics.FBI_heavy_shotgun,
 					rank = 2
 				},
 				{
 					unit = "FBI_swat_R870",
-					freq = 0.5,
-					tactics = self._tactics.FBI_swat_shotgun,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.2,
+					freq = 0.6,
 					tactics = self._tactics.FBI_swat_shotgun,
 					rank = 3
 				}
@@ -4756,25 +4697,19 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.3,
+					freq = 0.4,
 					tactics = self._tactics.CS_tazer_ranged_support,
 					rank = 2
 				},
 				{
 					unit = "FBI_swat_R870",
-					freq = 0.3,
-					tactics = self._tactics.CS_tazer_ranged_support,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.2,
+					freq = 0.35,
 					tactics = self._tactics.CS_tazer_ranged_support,
 					rank = 3
 				},
 				{
 					unit = "Titan_taser",
-					freq = 0.15,
+					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.CS_Tazer,
 					rank = 4
@@ -4787,25 +4722,19 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.25,
+					freq = 0.4,
 					tactics = self._tactics.MH_swat_shotgun,
 					rank = 2
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.25,
-					tactics = self._tactics.MH_swat_shotgun,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.25,
+					freq = 0.35,
 					tactics = self._tactics.MH_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "Titan_taser",
-					freq = 0.2,
+					freq = 0.25,
 					amount_max = 1,
 					tactics = self._tactics.ELITE_tazer,
 					rank = 4
@@ -4818,25 +4747,19 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.25,
+					freq = 0.4,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 2
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.25,
-					tactics = self._tactics.ELITE_swat_shotgun,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.25,
+					freq = 0.35,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "Titan_taser",
-					freq = 0.19,
+					freq = 0.24,
 					amount_max = 1,
 					tactics = self._tactics.ELITE_tazer,
 					rank = 4
@@ -4856,25 +4779,19 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.25,
+					freq = 0.4,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 2
 				},
 				{
 					unit = "GS_swat_R870",
-					freq = 0.25,
-					tactics = self._tactics.ELITE_swat_shotgun,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.25,
+					freq = 0.35,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "Titan_taser",
-					freq = 0.18,
+					freq = 0.23,
 					amount_max = 1,
 					tactics = self._tactics.ELITE_tazer,
 					rank = 4
@@ -4894,25 +4811,19 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "FBI_heavy_R870",
-					freq = 0.2,
+					freq = 0.35,
 					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 2
 				},
 				{
 					unit = "Bravo_shotgun_swat",
-					freq = 0.3,
-					tactics = self._tactics.ELITE_swat_shotgun,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.2,
+					freq = 0.4,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
 				},
 				{
 					unit = "Titan_taser",
-					freq = 0.18,
+					freq = 0.23,
 					amount_max = 1,
 					tactics = self._tactics.ELITE_tazer,
 					rank = 4
@@ -4927,47 +4838,27 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			}
 		}
 
-
-		--Bomb squad. Resists explosive spam and buys space for other groups to push in.
-		self.enemy_spawn_groups.bomb_squad_vh = {
-			amount = 3,
-			spawn = {
-				{
-					unit = "Titan_swat_rifle",
-					freq = 0.5,
-					tactics = self._tactics.FBI_swat,
-					rank = 2
-				},
-				{
-					unit = "Titan_swat_shotgun",
-					freq = 0.5,
-					tactics = self._tactics.FBI_swat_shotgun,
-					rank = 3
-				}
-			}
-		}
-
 		self.enemy_spawn_groups.bomb_squad_ovk = {
 			amount = 3,
 			spawn = {
 				{
-					unit = "Titan_swat_rifle",
+					unit = "FBI_heavy_R870",
 					freq = 0.4,
-					tactics = self._tactics.FBI_swat,
-					rank = 2
+					tactics = self._tactics.FBI_heavy,
+					rank = 1
 				},
 				{
-					unit = "Titan_swat_shotgun",
+					unit = "FBI_heavy_G36",
 					freq = 0.4,
-					tactics = self._tactics.FBI_swat_shotgun,
-					rank = 3
+					tactics = self._tactics.FBI_heavy_shotgun,
+					rank = 2
 				},
 				{
 					unit = "boom_M4203",
 					freq = 0.2,
 					amount_max = 1,
 					tactics = self._tactics.FBI_Boom,
-					rank = 1
+					rank = 3
 				}
 			}
 		}
@@ -4976,16 +4867,16 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {3, 4},
 			spawn = {
 				{
-					unit = "Titan_swat_rifle",
+					unit = "FBI_heavy_G36",
 					freq = 0.375,
-					tactics = self._tactics.MH_swat_rifle,
+					tactics = self._tactics.MH_heavy,
 					rank = 2
 				},
 				{
-					unit = "Titan_swat_shotgun",
+					unit = "FBI_heavy_R870",
 					freq = 0.375,
-					tactics = self._tactics.MH_swat_shotgun,
-					rank = 3
+					tactics = self._tactics.MH_heavy_flank,
+					rank = 1
 				},
 				{
 					unit = "Titan_shield",
@@ -5008,16 +4899,16 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_swat_rifle",
+					unit = "FBI_heavy_G36",
 					freq = 0.3,
-					tactics = self._tactics.ELITE_swat_rifle,
+					tactics = self._tactics.ELITE_heavy,
 					rank = 2
 				},
 				{
-					unit = "Titan_swat_shotgun",
+					unit = "FBI_heavy_R870",
 					freq = 0.3,
-					tactics = self._tactics.ELITE_swat_shotgun,
-					rank = 3
+					tactics = self._tactics.ELITE_heavy_shotgun,
+					rank = 1
 				},
 				{
 					unit = "Titan_shield",
@@ -5047,16 +4938,16 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_swat_rifle",
+					unit = "FBI_heavy_G36",
 					freq = 0.3,
-					tactics = self._tactics.ELITE_swat_rifle,
+					tactics = self._tactics.ELITE_heavy,
 					rank = 2
 				},
 				{
-					unit = "Titan_swat_shotgun",
+					unit = "FBI_heavy_R870",
 					freq = 0.3,
-					tactics = self._tactics.ELITE_swat_shotgun,
-					rank = 3
+					tactics = self._tactics.ELITE_heavy_shotgun,
+					rank = 1
 				},
 				{
 					unit = "Titan_shield",
@@ -5092,7 +4983,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Titan_swat_shotgun",
+					unit = "Bravo_shotgun_swat",
 					freq = 0.3,
 					tactics = self._tactics.ELITE_swat_shotgun,
 					rank = 3
@@ -6110,18 +6001,12 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			spawn = {
 				{
 					unit = "GS_swat_M4",
-					freq = 0.3,
+					freq = 0.5,
 					tactics = self._tactics.ELITE_rush,
 					rank = 3
 				},
 				{
 					unit = "FBI_heavy_G36",
-					freq = 0.2,
-					tactics = self._tactics.ELITE_rush,
-					rank = 3
-				},
-				{
-					unit = "Titan_swat_rifle",
 					freq = 0.2,
 					tactics = self._tactics.ELITE_rush,
 					rank = 3
@@ -6717,9 +6602,9 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "Titan_swat_rifle",
+					unit = "FBI_heavy_R870",
 					freq = 0.75,
-					tactics = self._tactics.ELITE_heavy,
+					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 1
 				},
 				{
@@ -6744,9 +6629,9 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "Titan_swat_rifle",
+					unit = "FBI_heavy_R870",
 					freq = 0.75,
-					tactics = self._tactics.ELITE_heavy,
+					tactics = self._tactics.ELITE_heavy_shotgun,
 					rank = 1
 				},
 				{
@@ -7400,25 +7285,25 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 3 then
 		self.besiege.assault.groups = {
-			cops_h =           {0.16, 0.10, 0.00},
-			swats_h =          {0.32, 0.32, 0.37},
+			cops_h =           {0.18, 0.11, 0.00},
+			swats_h =          {0.32, 0.32, 0.38},
 			heavys_h =         {0.20, 0.18, 0.18},
 			hostage_rescue_h = {0.05, 0.02, 0.02},
 			shotguns_h =       {0.00, 0.06, 0.07},
 			shield_h =         {0.12, 0.15, 0.15},
-			FBI_spoocs =       {0.06, 0.06, 0.07},
+			FBI_spoocs =       {0.04, 0.05, 0.06},
 			taser_h =          {0.06, 0.08,	0.10},
 			GREEN_tanks_h =    {0.02, 0.03, 0.04}
 		}
 	elseif difficulty_index == 4 then
 		self.besiege.assault.groups = {
-			swats_vh = 			{0.30, 0.30, 0.30},
+			swats_vh = 			{0.32, 0.31, 0.30},
 			heavys_vh =         {0.21, 0.18, 0.15},
-			hostage_rescue_vh = {0.05, 0.02, 0.02},
+			hostage_rescue_vh = {0.06, 0.03, 0.03},
 			bomb_squad_vh =     {0.06, 0.06, 0.06},
 			shotguns_vh =       {0.06, 0.06, 0.06},
 			shield_vh =         {0.12, 0.15, 0.15},
-			FBI_spoocs =        {0.08, 0.08, 0.08},
+			FBI_spoocs =        {0.05, 0.06, 0.07},
 			taser_vh =          {0.08, 0.08, 0.08},
 			boom_taser_vh =     {0.00, 0.02, 0.04},
 			GREEN_tanks_vh =    {0.02,0.025, 0.03},
@@ -7426,13 +7311,13 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 5 then
 		self.besiege.assault.groups = {
-			swats_ovk =          {0.24, 0.22, 0.18},
+			swats_ovk =          {0.26, 0.24, 0.20},
 			heavys_ovk =         {0.13, 0.11, 0.11},
-			hostage_rescue_ovk = {0.05, 0.02, 0.02},
+			hostage_rescue_ovk = {0.06, 0.03, 0.03},
 			bomb_squad_ovk =     {0.10, 0.10, 0.10},
 			shotguns_ovk =       {0.10, 0.10, 0.10},
 			shield_ovk =         {0.12, 0.15, 0.15},
-			FBI_spoocs =         {0.10, 0.10, 0.10},
+			FBI_spoocs =         {0.07, 0.07, 0.07},
 			taser_ovk =          {0.10, 0.10, 0.10},
 			boom_taser_ovk =     {0.00, 0.02, 0.04},
 			GREEN_tanks_ovk =    {0.03, 0.04, 0.05},
@@ -7440,14 +7325,14 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 6 then
 		self.besiege.assault.groups = {
-			swats_mh =          {0.23,0.205, 0.19},
+			swats_mh =          {0.25,0.225, 0.22},
 			heavys_mh =         {0.12, 0.12, 0.10},
-			hostage_rescue_mh = {0.05, 0.02, 0.02},
+			hostage_rescue_mh = {0.06, 0.03, 0.02},
 			bomb_squad_mh =     {0.09, 0.09, 0.09},
 			shotguns_mh =       {0.09, 0.09, 0.09},
 			shield_mh =         {0.105,0.10,0.075},
 			shield_sniper_mh =  {0.025,0.05,0.075},
-			FBI_spoocs =        {0.10, 0.10, 0.10},
+			FBI_spoocs =        {0.07, 0.07, 0.07},
 			taser_mh =          {0.10, 0.10, 0.07},
 			boom_taser_mh =     {0.00, 0.02, 0.07},
 			GREEN_tanks_mh =    {0.03,0.035, 0.04},
@@ -7456,15 +7341,15 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		}
 	elseif difficulty_index == 7 then
 		self.besiege.assault.groups = {
-			swats_dw =          {0.20,0.195, 0.18},
-			heavys_dw =         {0.11, 0.10, 0.10},
-			hostage_rescue_dw = {0.05, 0.02, 0.02},
+			swats_dw =          {0.22,0.215, 0.20},
+			heavys_dw =         {0.11, 0.11, 0.11},
+			hostage_rescue_dw = {0.06, 0.02, 0.02},
 			bomb_squad_dw =     {0.09, 0.09, 0.09},
 			shotguns_dw =       {0.09, 0.09, 0.09},
 			shield_dw =         {0.10,0.075, 0.05},
 			shield_sniper_dw =  {0.05,0.075, 0.10},
-			FBI_spoocs =        {0.10, 0.10,0.075},
-			cloak_spooc_dw =    {0.00, 0.00,0.025},
+			FBI_spoocs =        {0.07, 0.07, 0.05},
+			cloak_spooc_dw =    {0.00, 0.00, 0.02},
 			taser_dw =          {0.10, 0.07, 0.03},
 			boom_taser_dw =     {0.02, 0.07, 0.10},
 			GREEN_tanks_dw =    {0.03,0.035, 0.04},
@@ -7475,15 +7360,15 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 	else
 		--death sentence assaults below, intentionally fairly mean. Later difficulties will scale down from this.
 		self.besiege.assault.groups = {
-			swats_ds =            {0.20,0.185, 0.17},
+			swats_ds =            {0.19, 0.19, 0.19},
 			heavys_ds =           {0.10, 0.09, 0.08},
-			hostage_rescue_ds =   {0.07, 0.02, 0.00},
+			hostage_rescue_ds =   {0.10,0.035, 0.00},
 			bomb_squad_ds =       {0.09, 0.09, 0.09},
 			shotguns_ds =         {0.09, 0.09, 0.09},
 			shield_ds =           {0.10,0.075, 0.05},
 			shield_sniper_ds =    {0.05,0.075, 0.10},
-			FBI_spoocs =          {0.10,0.075, 0.05},
-			cloak_spooc_ds =      {0.00,0.025, 0.05},
+			FBI_spoocs =          {0.07, 0.05, 0.03},
+			cloak_spooc_ds =      {0.00, 0.02, 0.04},
 			taser_ds =            {0.10, 0.07, 0.03},
 			boom_taser_ds =       {0.02, 0.07, 0.10},
 			common_wave_rush_ds = {0.00, 0.02, 0.04},

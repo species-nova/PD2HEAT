@@ -491,17 +491,11 @@ function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage,
 	if alive(weapon_unit) and not blank and is_shield and weapon_base._shield_knock then
 		local enemy_unit = hit_unit:parent()
 
-		if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
-			if enemy_unit:base():char_tweak() then
-				if not enemy_unit:character_damage():is_immune_to_shield_knockback() then 
-					local knock_chance = math.sqrt(0.02 * damage)
-
-					if knock_chance > math.random() then
-						shield_knock_data.col_ray = col_ray
-						enemy_unit:character_damage():_call_listeners(shield_knock_data)
-					end
-				end
-			end
+		if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead()
+		   and enemy_unit:base():char_tweak() and not enemy_unit:character_damage():is_immune_to_shield_knockback()
+		   and tweak_data.upgrades.shield_knock_chance > math.random() then
+			shield_knock_data.col_ray = col_ray
+			enemy_unit:character_damage():_call_listeners(shield_knock_data)
 		end
 	end
 
@@ -1275,17 +1269,11 @@ end
 		if alive(weapon_unit) and not blank and is_shield and weapon_base._shield_knock then
 			local enemy_unit = hit_unit:parent()
 
-			if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead() then
-				if enemy_unit:base():char_tweak() then
-					if not enemy_unit:character_damage():is_immune_to_shield_knockback() then 
-						local knock_chance = math.sqrt(0.02 * damage)
-
-						if knock_chance > math.random() then
-							shield_knock_data.col_ray = col_ray
-							enemy_unit:character_damage():_call_listeners(shield_knock_data)
-						end
-					end
-				end
+			if enemy_unit:character_damage() and enemy_unit:character_damage().dead and not enemy_unit:character_damage():dead()
+			   and enemy_unit:base():char_tweak() and not enemy_unit:character_damage():is_immune_to_shield_knockback()
+			   and tweak_data.upgrades.shield_knock_chance > math.random() then
+				shield_knock_data.col_ray = col_ray
+				enemy_unit:character_damage():_call_listeners(shield_knock_data)
 			end
 		end
 

@@ -675,6 +675,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					}
 				--Ace
 					self.values.player.shield_knock = {true}
+					self.shield_knock_chance = 0.2
 					--self.values.player.bipod_damage_reduction = {0.5} --To be moved to Fence Skill Tree
 	
 			--Bullet Hell

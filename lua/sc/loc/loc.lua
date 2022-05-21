@@ -610,13 +610,11 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		--Shotgun Generic Mods--
 		["bm_wp_ns_duck_desc_sc"] = "Causes pellets to spread horizontally, instead of clustering.",
-		["bm_wp_upg_a_slug"] = "AP Slug",
-		["bm_wp_upg_a_slug_desc"] = "Fires a single lead slug that penetrates body armor, enemies, shields, titan shields, and walls.",
-		["bm_wp_upg_a_explosive"] = "Taser Slug",
-		["bm_wp_upg_a_taser_slug_desc"] = "Fires a single barbed slug that tases the target upon impact.",
-		["bm_wp_upg_a_custom_desc"] = "Fires a wide spread with 6 large pellets. Effective at close range.",
-		["bm_wp_upg_a_dragons_breath_auto_desc_sc"] = "Fires a wide spread of pellets that burn through body armor. Has a chance to set enemies on fire.",
-		["bm_wp_upg_a_piercing_auto_desc_sc"] = "Fires armor piercing flechettes that inflict bleed damage over time. Effective at longer ranges than normal.",
+		["bm_wp_upg_a_he_desc_sc"] = "Fires a single, fin stabilized explosive slug. Extremely effective at crowd control.",
+		["bm_wp_upg_a_slug_desc_sc"] = "Fires a single lead slug that penetrates body armor, enemies, shields, titan shields, and walls.",
+		["bm_wp_upg_a_custom_desc_sc"] = "Fires a wide spread with 6 large pellets. Effective at close range.",
+		["bm_wp_upg_a_dragons_breath_desc_sc"] = "Fires a wide spread of pellets that burn through body armor. Has a chance to set enemies on fire.",
+		["bm_wp_upg_a_piercing_desc_sc"] = "Fires armor piercing flechettes that inflict bleed damage over time. Effective against multiple targets and at longer ranges.",
 		
 		--Generic Mods--
 		["bm_wp_upg_vg_afg"] = "AFG",
@@ -1457,7 +1455,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Heavy Impact--
 			["menu_speedy_reload_sc"] = "Heavy Impact",
-			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nYour ranged weapons to have a chance to knock back Shield enemies. Higher damage weapons have a higher chance to knock back shields.\n\nNote: Does not apply to Captain Winters",
+			["menu_speedy_reload_desc_sc"] = "BASIC: ##$basic##\nYour bullets can ##now pierce body armor.##\n\nACE: ##$pro##\nYour ranged weapons have a ##20%## chance to knock back Shields.\n\nNote: Does not apply to Captain Winters",
 
 			--Bullet Hell--
 			["menu_body_expertise_beta_sc"] = "Bullet Hell",

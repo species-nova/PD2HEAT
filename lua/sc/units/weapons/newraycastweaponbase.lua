@@ -90,11 +90,12 @@ local old_update_stats_values = NewRaycastWeaponBase._update_stats_values
 function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 	old_update_stats_values(self, disallow_replenish)
 	
-	self._reload_speed_mult = self:weapon_tweak_data().reload_speed_multiplier or 1
+	local weapon_tweak = self:weapon_tweak_data()
+	self._reload_speed_mult = weapon_tweak.reload_speed_multiplier or 1
 	self._ads_speed_mult = self._ads_speed_mult or 1
 	
-	self._deploy_anim_override = self:weapon_tweak_data().deploy_anim_override or nil
-	self._deploy_ads_stance_mod = self:weapon_tweak_data().deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
+	self._deploy_anim_override = weapon_tweak.deploy_anim_override or nil
+	self._deploy_ads_stance_mod = weapon_tweak.deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
 		
 	if not self:is_npc() then
 		local weapon = {
@@ -103,17 +104,18 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 		}
 		self._current_concealment = managers.blackmarket:calculate_weapon_concealment(weapon) + managers.blackmarket:get_silencer_concealment_modifiers(weapon)
 
-		self._can_shoot_through_titan_shield = self:weapon_tweak_data().can_shoot_through_titan_shield
+		self._can_shoot_through_titan_shield = weapon_tweak.can_shoot_through_titan_shield
 	
 		self._burst_rounds_fired = nil
 
 		local can_toggle = tweak_data.weapon[self._name_id].CAN_TOGGLE_FIREMODE
-		self._has_auto = not self._locked_fire_mode and (can_toggle or self:weapon_tweak_data().FIRE_MODE == "auto")
-		self._has_burst = (can_toggle or self:weapon_tweak_data().BURST_COUNT) and self:weapon_tweak_data().BURST_COUNT ~= false
+		self._has_auto = not self._locked_fire_mode and (can_toggle or weapon_tweak.FIRE_MODE == "auto")
+		self._has_burst = (can_toggle or weapon_tweak.BURST_COUNT) and weapon_tweak.BURST_COUNT ~= false
 		self._has_single = can_toggle or (self._has_burst and not self._has_auto)
 		
-		self._burst_fire_rate_multiplier = self:weapon_tweak_data().BURST_FIRE_RATE_MULTIPLIER or 1
-		self._delayed_burst_recoil = self:weapon_tweak_data().DELAYED_BURST_RECOIL
+		self._burst_fire_rate_multiplier = weapon_tweak.BURST_FIRE_RATE_MULTIPLIER or 1
+		self._delayed_burst_recoil = weapon_tweak.DELAYED_BURST_RECOIL
+		self._swap_speed_mul = (weapon_tweak.swap_speed_multiplier or 1) * tweak_data.weapon.stats.mobility[self._current_concealment]
 	end
 	
 	--Set range multipliers.
@@ -132,20 +134,20 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
 	for part_id, stats in pairs(custom_stats) do
 		if stats.disable_steelsight_stance then
-			if self:weapon_tweak_data().animations then
-				self:weapon_tweak_data().animations.has_steelsight_stance = false
+			if weapon_tweak.animations then
+				weapon_tweak.animations.has_steelsight_stance = false
 			end
 		end
 
 		if stats.is_drum_aa12 then
-			if self:weapon_tweak_data().animations then
-				self:weapon_tweak_data().animations.reload_name_id = "aa12"
+			if weapon_tweak.animations then
+				weapon_tweak.animations.reload_name_id = "aa12"
 			end
 		end
 
 		if stats.is_mag_akm then
-			if self:weapon_tweak_data().animations then
-				self:weapon_tweak_data().animations.reload_name_id = "akm"
+			if weapon_tweak.animations then
+				weapon_tweak.animations.reload_name_id = "akm"
 			end
 		end
 
@@ -159,6 +161,10 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 
 		if stats.damage_far_mul then
 			self._damage_far_mul = self._damage_far_mul * stats.damage_far_mul
+		end
+		
+		if stats.swap_speed_mul then
+			self._swap_speed_mul = self._swap_speed_mul * stats.swap_speed_mul
 		end
 	end
 
@@ -572,7 +578,7 @@ end
 
 function NewRaycastWeaponBase:enter_steelsight_speed_multiplier()
 	--Make mobility affect this.
-	local base_multiplier = tweak_data.weapon.stats.mobility[self:get_concealment()]
+	local base_multiplier = tweak_data.weapon.stats.mobility[self._current_concealment]
 	local multiplier = 1
 	local categories = self:weapon_tweak_data().categories
 
@@ -673,7 +679,7 @@ function NewRaycastWeaponBase:sway_mul(move_state)
 end
 
 function NewRaycastWeaponBase:vel_overshot_mul(move_state, alt_state)
-	local vel_overshot = tweak_data.weapon.stat_info.vel_overshot[self:get_concealment()] * tweak_data.weapon.stat_info.vel_overshot_stance_muls[move_state]
+	local vel_overshot = tweak_data.weapon.stat_info.vel_overshot[self._current_concealment] * tweak_data.weapon.stat_info.vel_overshot_stance_muls[move_state]
 	self.vel_overshot.yaw_neg = -vel_overshot
 	self.vel_overshot.yaw_pos = vel_overshot
 	self.vel_overshot.pitch_neg = vel_overshot
@@ -684,4 +690,8 @@ end
 
 function NewRaycastWeaponBase:shake_multiplier(multiplier_type)
 	return self:weapon_tweak_data().shake[multiplier_type] * (self.AKIMBO and 0.5 or 1) 
+end
+
+function NewRaycastWeaponBase:get_base_swap_speed_mul()
+	return self._swap_speed_mul
 end

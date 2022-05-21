@@ -97,8 +97,6 @@ function GasGrenade:_do_damage()
 	local player_unit = managers.player:player_unit()
 
 	if player_unit and mvector3.distance_sq(self._unit:position(), player_unit:position()) < self._tweak_data.radius * self._tweak_data.radius then
-		local movement_ext = player_unit:movement()
-
 		local attack_data = {
 			damage = self._damage_per_tick,
 			no_stamina_damage_mul = self._no_stamina_damage_mul,

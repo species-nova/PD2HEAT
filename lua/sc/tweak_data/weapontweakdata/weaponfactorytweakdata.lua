@@ -1,30 +1,37 @@
 --Common stat tables
 	--Cosmetic
 		local cosmetic = {
+			has_description = false,
 			stats = {value = 1},
-			heat_stat_table = "cosmetic",
-			heat_mod_filters = {}
+			heat_stat_table = "cosmetic"
 		}
 	--Barrel Extensions
 		local unsuppressor = {
 			stats = {suppression = 4, alert_size = -1},
-			heat_stat_table = "unsuppressor",
-			heat_mod_filters = {}
+			heat_stat_table = "unsuppressor"
 		}
 		local loudener = {
 			stats = {suppression = 4},
-			heat_stat_table = "loudener",
-			heat_mod_filters = {}
+			heat_stat_table = "loudener"
 		}
 		local flash_hider = {
 			stats = {suppression = -4},
-			heat_stat_table = "flash_hider",
-			heat_mod_filters = {}
+			heat_stat_table = "flash_hider"
 		}
 		local suppressor = {
 			stats = {value = 1, suppression = -4, alert_size = 1},
-			heat_stat_table = "suppressor",
-			heat_mod_filters = {}
+			heat_stat_table = "suppressor"
+		}
+	--Gadgets
+		local bulky_gadget = {
+			custom_stats = {swap_speed_mul = 0.9},
+			heat_stat_table = "bulky_gadget"
+		}
+	--Misc
+		local shell_rack = {
+			stats = {reload = 2, concealment = -1},
+			custom_stats = {swap_speed_mul = 0.9},
+			heat_stat_table = "shell_rack"
 		}
 	--Barrels
 		local light_mob_barrel = {
@@ -92,145 +99,161 @@
 	--Arrows
 		local poison_arrow = {
 			stats = {value = 4},
-			heat_stat_table = "poison_arrow",
-			heat_mod_filters = {}
+			heat_stat_table = "poison_arrow"
 		}
-		local explosive_arrow = {
-			stats = {value = 4, damage = 60, spread = -4},
-			heat_stat_table = "explosive_arrow",
-			heat_mod_filters = {}
-		}
-
-	--Applies a HEAT attachment stat table to a given attachment.
-	local function apply_stats(part, stat_table)
-		part.supported = true
-		for field, data in pairs(stat_table) do
-			part[field] = data
-		end
-	end
-
-	--DOTs
-		local light_bow_poison = {
-			stats = {damage = -30},
-			custom_stats = {
-				dot_data =  {
-					type = "poison",
-					custom_data = {
-						dot_damage = 1.5,
-						dot_duration = 3.1,
-						dot_tick_period = 0.5,
-						hurt_animation_chance = 0.5
-					}
-				}
-			}
-		}
-		local heavy_bow_poison = {
-			stats = {damage = -60},
-			custom_stats = {
-				dot_data = {
-					type = "poison",
-					custom_data = {
-						dot_damage = 1.5,
-						dot_duration = 6.1,
-						dot_tick_period = 0.5,
-						hurt_animation_chance = 0.5
+			local light_bow_poison = {
+				stats = {damage = -30},
+				custom_stats = {
+					dot_data =  {
+						type = "poison",
+						custom_data = {
+							dot_damage = 1.5,
+							dot_duration = 3.1,
+							dot_tick_period = 0.5,
+							hurt_animation_chance = 0.5
 						}
 					}
 				}
 			}
-	local function append_stats(part, append_table)
-		for k, v in pairs(append_table) do
-			if type(v) == "table" then			
-				--Clone current table to avoid changing the global attachment tables.
-				part[k] = part[k] and deep_clone(part[k]) or {}
+			local heavy_bow_poison = {
+				stats = {damage = -60},
+				custom_stats = {
+					dot_data = {
+						type = "poison",
+						custom_data = {
+							dot_damage = 1.5,
+							dot_duration = 6.1,
+							dot_tick_period = 0.5,
+							hurt_animation_chance = 0.5
+						}
+					}
+				}
+			}
+		local explosive_arrow = {
+			stats = {value = 4, damage = 60, spread = -4},
+			heat_stat_table = "explosive_arrow"
+		}
 
-				for stat, data in pairs(v) do
-					orig_stat = part[k][stat]
-					if type(orig_stat) == "number" then
-						part[k][stat] = orig_stat + data
+	--Applies a HEAT attachment stat table to a given attachment.
+	local function apply_stats(part, stat_table, ...)
+		part.supported = true
+		for field, data in pairs(stat_table) do
+			part[field] = data
+		end
+
+		if arg then
+			local function append_stats(append_table)
+				for k, v in pairs(append_table) do
+					if type(v) == "table" then			
+						--Clone current table to avoid changing the global attachment tables.
+						part[k] = part[k] and deep_clone(part[k]) or {}
+
+						for stat, data in pairs(v) do
+							orig_stat = part[k][stat]
+							if type(orig_stat) == "number" and k ~= "heat_stat_table" then
+								part[k][stat] = orig_stat + data
+							else
+								part[k][stat] = data
+							end
+						end
+					elseif type(t) == "number" and type(part[k]) == "number" then
+						part[k] = part[k] + v
 					else
-						part[k][stat] = data
+						part[k] = v
 					end
 				end
-			elseif type(t) == "number" and type(part[k]) == "number" then
-				part[k] = part[k] + v
-			else
-				part[k] = v
+			end
+
+			for i = 1, #arg do
+				append_stats(arg[i])
 			end
 		end
 	end
 
 	--Shotgun Ammo Types
-		local auto_slug_damage = 39
-		local semi_slug_damage = 52
-		local pump_slug_damage = 79
-		local heavy_slug_damage = 106
+		local slug_damage = {
+			light = 52,
+			medium = 79,
+			heavy = 106
+		}
 		local slug = {
+			desc_id = "bm_wp_upg_a_slug_desc_sc",
 			supported = true,
 			stats = {
-				value = 6,
-				spread = 3
+				value = 6
 			},
 			custom_stats = {
 				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
 				rays = 1,
+				ammo_pickup_min_mul = 0.7,
+				ammo_pickup_max_mul = 0.7,
 				armor_piercing_add = 1,
 				can_shoot_through_enemy = true,
 				can_shoot_through_shield = true,
 				can_shoot_through_wall = true
 			}
 		}
-		local taser_slug = {
-			name_id = "bm_wp_upg_a_taser_slug",
-			desc_id = "bm_wp_upg_a_taser_slug_desc",
+
+		local he_damage = {
+			light = 112,
+			medium = 169,
+			heavy = 226
+		}
+		local he_slug = {
+			desc_id = "bm_wp_upg_a_he_desc_sc",
 			supported = true,
 			stats = {
-				value = 6,
-				spread = 3
+				value = 6
 			},
 			custom_stats = {
-				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
+				ignore_statistic = true,
+				block_b_storm = true,
 				rays = 1,
-				bullet_class = "InstantElectricBulletBase"
+				bullet_class = "InstantExplosiveBulletBase",
+				ammo_pickup_min_mul = 0.5,
+				ammo_pickup_max_mul = 0.5
 			}
 		}
 
-		local auto_buck_damage = 6
-		local semi_buck_damage = 8
-		local pump_buck_damage = 11
-		local heavy_buck_damage = 14
+		local buck_damage = {
+			light = 8,
+			medium = 11,
+			heavy = 14
+		}
 		local d0buck = {
+			desc_id = "bm_wp_upg_a_custom_desc_sc",
 			supported = true,
 			stats = {
 				value = 6,
 				spread = -3
 			},
 			custom_stats = {
-				damage_near_mul = 0.75,
-				damage_far_mul = 0.75,
+				damage_near_mul = 0.6,
+				damage_far_mul = 0.6,
 				rays = 6
 			}
 		}
 
-		local auto_dot_damage = {-3, 1.4}
-		local semi_dot_damage = {-4, 1.8}
-		local pump_dot_damage = {-5, 2.3}
-		local heavy_dot_damage = {-7, 3.2}
+		local shotgun_dot_damage = {
+			light = {-4, 3.1},
+			medium = {-5, 4.1},
+			heavy = {-7, 5.1}
+		}
 		local flechette = {
-			desc_id = "bm_wp_upg_a_piercing_auto_desc_sc",
+			desc_id = "bm_wp_upg_a_piercing_desc_sc",
 			stats = {
 				value = 6,
-				damage = -3
+				spread = -3
 			},
 			custom_stats = {
-				damage_near_mul = 1.3333,
-				damage_far_mul = 1.3333,
+				damage_near_mul = 1.25,
+				damage_far_mul = 1.25,
 				armor_piercing_add = 1,
 				bullet_class = "BleedBulletBase",
 				dot_data = { 
 					type = "bleed",
 					custom_data = {
-						dot_damage = 1.35,
+						dot_damage = 1.8,
 						dot_length = 3.1,
 						dot_tick_period = 0.5
 					}
@@ -238,10 +261,9 @@
 			}
 		}
 		local dragons_breath = {
-			desc_id = "bm_wp_upg_a_dragons_breath_auto_desc_sc",
+			desc_id = "bm_wp_upg_a_dragons_breath_desc_sc",
 			stats = {
 				value = 6,
-				damage = -3,
 				spread = -3
 			},
 			custom_stats = {
@@ -250,7 +272,7 @@
 				armor_piercing_add = 1,
 				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 				fire_dot_data = {
-					dot_damage = 1.35,
+					dot_damage = 1.8,
 					dot_trigger_chance = 5, 
 					dot_length = 3.1,
 					dot_tick_period = 0.5
@@ -258,29 +280,40 @@
 			}
 		}
 
-	local function create_shotgun_ammo(preset, damage)
-		local ammo = deep_clone(preset)
-		if type(damage) == "number" then
-			ammo.stats.damage = damage
-		else
-			ammo.stats.damage = damage[1]
-			if ammo.custom_stats.dot_data then
-				ammo.custom_stats.dot_data.damage = damage[2]
-			elseif ammo.custom_stats.fire_dot_data then
-				ammo.custom_stats.fire_dot_data.damage = damage[2]
-			end
+	local function apply_shotgun_ammo_types(weapon, tier)
+		local function create_override(part, stat_block)
+			weapon.override = weapon.override or {}
+			weapon.override[part] = stat_block
 		end
 
-		return ammo
+		local function create_shotgun_ammo(preset, damage)
+			local ammo = deep_clone(preset)
+			if type(damage) == "number" then
+				ammo.stats.damage = damage
+			else
+				ammo.stats.damage = damage[1]
+				if ammo.custom_stats.dot_data then
+					ammo.custom_stats.dot_data.dot_length = damage[2]
+				elseif ammo.custom_stats.fire_dot_data then
+					ammo.custom_stats.fire_dot_data.dot_length = damage[2]
+				end
+			end
+
+			return ammo
+		end
+
+		create_override("wpn_fps_upg_a_slug", create_shotgun_ammo(slug, slug_damage[tier])) --Slugs
+		create_override("wpn_fps_upg_a_explosive", create_shotgun_ammo(he_slug, he_damage[tier])) --Taser Slug
+		create_override("wpn_fps_upg_a_custom", create_shotgun_ammo(d0buck, buck_damage[tier])) --00 Buckshot
+		create_override("wpn_fps_upg_a_custom_free", create_shotgun_ammo(d0buck, buck_damage[tier])) --00 Buckshot (free)
+		create_override("wpn_fps_upg_a_piercing", create_shotgun_ammo(flechette, shotgun_dot_damage[tier])) --Flechettes
+		create_override("wpn_fps_upg_a_dragons_breath", create_shotgun_ammo(dragons_breath, shotgun_dot_damage[tier])) --Dragon's Breath
 	end
 
-	local function create_override(weapon, part, stat_block)
-		weapon.override = weapon.override or {}
-		weapon.override[part] = stat_block
-	end
 
 local orig_init = WeaponFactoryTweakData.init
 function WeaponFactoryTweakData:init()
+	log("START WEAPON FACTORY INIT!")
 	orig_init(self)
 
 	--Apply tweakdata for custom weapons.
@@ -301,6 +334,7 @@ function WeaponFactoryTweakData:init()
 			part.has_description = true
 		end
 	end
+	log("END WEAPON FACTORY INIT!")
 end
 
 --Stakeout
@@ -308,15 +342,195 @@ local orig_init_aa12 = WeaponFactoryTweakData._init_aa12
 function WeaponFactoryTweakData:_init_aa12()
 	orig_init_aa12(self)
 	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_long, light_acc_barrel) --Long Barrel
-	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, light_acc_barrel) --Suppressed Barrel
-		append_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, suppressor)
+	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, light_acc_barrel, suppressor) --Suppressed Barrel
+	apply_shotgun_ammo_types(self.wpn_fps_sho_aa12, "light")
+end
 
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_slug", create_shotgun_ammo(slug, auto_slug_damage)) --Slugs
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_explosive", create_shotgun_ammo(taser_slug, auto_slug_damage)) --Taser Slug
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom", create_shotgun_ammo(d0buck, auto_buck_damage)) --00 Buckshot
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_custom_free", create_shotgun_ammo(d0buck, auto_buck_damage)) --00 Buckshot (free)
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_piercing", create_shotgun_ammo(flechette, auto_dot_damage)) --Flechettes
-	create_override(self.wpn_fps_sho_aa12, "wpn_fps_upg_a_dragons_breath", create_shotgun_ammo(dragons_breath, auto_dot_damage)) --Dragon's Breath
+--Izhma
+local orig_init_saiga = WeaponFactoryTweakData._init_saiga
+function WeaponFactoryTweakData:_init_saiga()
+	orig_init_saiga(self)
+	apply_stats(self.parts.wpn_fps_sho_saiga_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_upg_saiga_fg_lowerrail, cosmetic) --Tactical Russian Rail
+	apply_shotgun_ammo_types(self.wpn_fps_shot_saiga, "light")
+end
+
+--Predator
+local orig_init_spas12 = WeaponFactoryTweakData._init_spas12
+function WeaponFactoryTweakData:_init_spas12()
+	orig_init_spas12(self)
+	apply_stats(self.parts.wpn_fps_sho_s_spas12_folded, light_mob_stock) --Folded Stock
+	apply_stats(self.parts.wpn_fps_sho_s_spas12_solid, light_stab_stock) --Solid Stock
+	apply_stats(self.parts.wpn_fps_sho_s_spas12_nostock, heavy_mob_stock) --No Stock
+	apply_shotgun_ammo_types(self.wpn_fps_sho_spas12, "light")
+end
+
+--M1014
+local orig_init_ben = WeaponFactoryTweakData._init_ben
+function WeaponFactoryTweakData:_init_ben()
+	orig_init_ben(self)
+	apply_stats(self.parts.wpn_fps_sho_ben_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_fps_sho_ben_b_long, light_acc_barrel) --Long Barrel
+	apply_stats(self.parts.wpn_fps_sho_ben_s_collapsed, light_mob_stock) --Collapsed Stock
+	apply_stats(self.parts.wpn_fps_sho_ben_s_solid, light_stab_stock) --Tactical Stock
+	apply_shotgun_ammo_types(self.wpn_fps_sho_ben, "light")
+end
+
+--Street Sweeper
+local orig_init_striker = WeaponFactoryTweakData._init_striker
+function WeaponFactoryTweakData:_init_striker()
+	orig_init_striker(self)
+	apply_stats(self.parts.wpn_fps_sho_striker_b_long, light_acc_barrel) --Long Barrel
+	apply_stats(self.parts.wpn_fps_sho_striker_b_suppressed, light_acc_barrel, suppressor) --Suppressed Barrel
+	apply_shotgun_ammo_types(self.wpn_fps_sho_striker, "light")
+end
+
+--Brother's Grimm
+local orig_init_x_basset = WeaponFactoryTweakData._init_x_basset
+function WeaponFactoryTweakData:_init_x_basset()
+	orig_init_x_basset(self)
+	apply_shotgun_ammo_types(self.wpn_fps_sho_x_basset, "light")
+end
+
+--Akimbo Judge
+local orig_init_x_judge = WeaponFactoryTweakData._init_x_judge
+function WeaponFactoryTweakData:_init_x_judge()
+	orig_init_x_judge(self)
+	apply_shotgun_ammo_types(self.wpn_fps_pis_x_judge, "light")
+end
+
+--Goliath
+local orig_init_rota = WeaponFactoryTweakData._init_rota
+function WeaponFactoryTweakData:_init_rota()
+	orig_init_rota(self)
+	apply_stats(self.parts.wpn_fps_sho_rota_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_fps_sho_rota_b_silencer, cosmetic, suppressor) --Silenced Barrel
+	apply_shotgun_ammo_types(self.wpn_fps_sho_rota, "light")
+end
+
+--Argos 3
+local orig_init_ultima = WeaponFactoryTweakData._init_ultima
+function WeaponFactoryTweakData:_init_ultima()
+	orig_init_ultima(self)
+	apply_stats(self.parts.wpn_fps_sho_ultima_body_kit, cosmetic, bulky_gadget) --Triple Tech Threat
+	apply_stats(self.parts.wpn_fps_sho_ultima_body_rack, shell_rack) --ShellSwitch M8 Ammo Cashe
+	apply_stats(self.parts.wpn_fps_sho_ultima_s_light, light_stab_stock) --Flak Frame Null Stock
+	apply_shotgun_ammo_types(self.wpn_fps_sho_ultima, "light")
+end
+
+--Judge
+local orig_init_judge = WeaponFactoryTweakData._init_judge
+function WeaponFactoryTweakData:_init_judge()
+	orig_init_judge(self)
+	apply_shotgun_ammo_types(self.wpn_fps_pis_judge, "light")
+end
+
+--Grimm
+local orig_init_basset = WeaponFactoryTweakData._init_basset
+function WeaponFactoryTweakData:_init_basset()
+	orig_init_basset(self)
+	apply_stats(self.parts.wpn_fps_sho_basset_fg_short, light_mob_barrel) --Little Brother Foregrip
+	apply_shotgun_ammo_types(self.wpn_fps_sho_basset, "light")
+end
+
+--Reinfeld 880
+local orig_init_r870 = WeaponFactoryTweakData._init_r870
+function WeaponFactoryTweakData:_init_r870()
+	orig_init_r870(self)
+	apply_stats(self.parts.wpn_fps_shot_r870_fg_wood, cosmetic) --Zombie Hunter Pump
+	apply_stats(self.parts.wpn_fps_shot_r870_s_nostock, heavy_mob_stock) --Short Enough Stock
+	apply_stats(self.parts.wpn_fps_shot_r870_s_nostock_big, heavy_mob_stock) --Short Enough Tactical Stock
+	apply_stats(self.parts.wpn_fps_shot_r870_s_solid_big, cosmetic) --Government Issue Tactical Stock
+	apply_stats(self.parts.wpn_fps_shot_r870_s_folding, light_mob_stock) --Muldon Stock
+	apply_stats(self.parts.wpn_fps_shot_r870_body_rack, shell_rack) --Shell Rack
+	apply_shotgun_ammo_types(self.wpn_fps_shot_r870, "medium")
+end
+
+--Mosconi 12G Tactical
+local orig_init_m590 = WeaponFactoryTweakData._init_m590
+function WeaponFactoryTweakData:_init_m590()
+	orig_init_m590(self)
+	apply_stats(self.parts.wpn_fps_sho_m590_b_long, light_acc_barrel) --CE Extender
+	apply_stats(self.parts.wpn_fps_sho_m590_b_suppressor, light_acc_barrel, suppressor) --CE Muffler
+	apply_stats(self.parts.wpn_fps_sho_m590_body_rail, light_stab_stock) --CE Rail Stabilizer
+	apply_shotgun_ammo_types(self.wpn_fps_sho_m590, "medium")
+end
+
+--Raven
+local orig_init_ksg = WeaponFactoryTweakData._init_ksg
+function WeaponFactoryTweakData:_init_ksg()
+	orig_init_ksg(self)
+	apply_stats(self.parts.wpn_fps_sho_ksg_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_fps_sho_ksg_b_long, light_acc_barrel) --Long Barrel
+	apply_shotgun_ammo_types(self.wpn_fps_sho_ksg, "medium")
+end
+
+--Reinfeld 88
+local orig_init_m1897 = WeaponFactoryTweakData._init_m1897
+function WeaponFactoryTweakData:_init_m1897()
+	orig_init_m1897(self)
+	apply_stats(self.parts.wpn_fps_shot_m1897_b_long, light_acc_barrel) --Huntsman Barrel
+	apply_stats(self.parts.wpn_fps_shot_m1897_b_short, light_mob_barrel) --Ventilated Barrel
+	apply_stats(self.parts.wpn_fps_shot_m1897_s_short, light_mob_stock) --Artisan Stock
+	apply_shotgun_ammo_types(self.wpn_fps_shot_m1897, "medium")
+end
+
+--Breaker
+local orig_init_boot = WeaponFactoryTweakData._init_boot
+function WeaponFactoryTweakData:_init_boot()
+	orig_init_boot(self)
+	apply_stats(self.parts.wpn_fps_sho_boot_b_long, light_acc_barrel) --Long Barrel
+	apply_stats(self.parts.wpn_fps_sho_boot_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_fps_sho_boot_body_exotic, cosmetic) --Treated Body
+	apply_stats(self.parts.wpn_fps_sho_boot_s_long, heavy_stab_stock) --Long Stock
+	apply_shotgun_ammo_types(self.wpn_fps_sho_boot, "medium")
+end
+
+--Locomotive
+local orig_init_serbu = WeaponFactoryTweakData._init_serbu
+function WeaponFactoryTweakData:_init_serbu()
+	orig_init_serbu(self)
+	apply_stats(self.parts.wpn_fps_shot_r870_s_solid, heavy_stab_stock) --Standard Stock
+	apply_stats(self.parts.wpn_fps_shot_shorty_s_solid_short, heavy_stab_stock) --Police Shorty Stock
+	apply_stats(self.parts.wpn_fps_shot_shorty_s_nostock_short, cosmetic) --Tactical Shorty Stock
+	apply_shotgun_ammo_types(self.wpn_fps_shot_serbu, "medium")
+end
+
+--GSPS
+local orig_init_m37 = WeaponFactoryTweakData._init_m37
+function WeaponFactoryTweakData:_init_m37()
+	orig_init_m37(self)
+	apply_stats(self.parts.wpn_fps_shot_m37_b_short, light_mob_barrel) --Riot Barrel
+	apply_stats(self.parts.wpn_fps_shot_m37_s_short, light_mob_stock) --Stakeout Stock
+	apply_shotgun_ammo_types(self.wpn_fps_shot_m37, "medium")
+end
+
+--Mosconi
+local orig_init_huntsman = WeaponFactoryTweakData._init_huntsman
+function WeaponFactoryTweakData:_init_huntsman()
+	orig_init_huntsman(self)
+	apply_stats(self.parts.wpn_fps_shot_huntsman_b_short, heavy_mob_barrel) --Road Warrior Barrel
+	apply_stats(self.parts.wpn_fps_shot_huntsman_s_short, heavy_mob_stock) --Gangsta Special Stock
+	apply_shotgun_ammo_types(self.wpn_fps_shot_huntsman, "heavy")
+end
+
+--Joceline O/U
+local orig_init_b682 = WeaponFactoryTweakData._init_b682
+function WeaponFactoryTweakData:_init_b682()
+	orig_init_b682(self)
+	apply_stats(self.parts.wpn_fps_shot_b682_b_short, heavy_mob_barrel) --Sawed Off Barrel
+	apply_stats(self.parts.wpn_fps_shot_b682_s_ammopouch, shell_rack) --Luxurious Ammo Pouch
+	apply_stats(self.parts.wpn_fps_shot_b682_s_short, heavy_mob_stock) --Wrist Wrecker Stock
+	apply_shotgun_ammo_types(self.wpn_fps_shot_b682, "heavy")
+end
+
+--Claire
+local orig_init_coach = WeaponFactoryTweakData._init_coach
+function WeaponFactoryTweakData:_init_coach()
+	orig_init_coach(self)
+	apply_stats(self.parts.wpn_fps_sho_coach_b_short, heavy_mob_barrel) --Sawed Off Barrel
+	apply_stats(self.parts.wpn_fps_sho_coach_s_short, heavy_mob_stock) --Deadman's Stock
+	apply_shotgun_ammo_types(self.wpn_fps_sho_coach, "heavy")
 end
 
 --Type 54
@@ -336,8 +550,6 @@ function WeaponFactoryTweakData:_init_type54()
 		},
 		heat_stat_table = "type54_underbarrel"
 	})
-	--apply_stats(self.parts.wpn_fps_upg_a_slug_underbarrel, create_shotgun_ammo(slug, heavy_slug_damage))
-	--apply_stats(self.parts.wpn_fps_upg_a_piercing_underbarrel, create_shotgun_ammo(flechette, heavy_dot_damage))
 end
 
 --GL 40
@@ -379,8 +591,7 @@ function WeaponFactoryTweakData:_init_hunter()
 	apply_stats(self.parts.wpn_fps_bow_hunter_g_camo, cosmetic) --Camo Grip
 	apply_stats(self.parts.wpn_fps_bow_hunter_g_walnut, light_acc_grip) --Walnut Grip
 	apply_stats(self.parts.wpn_fps_upg_a_crossbow_explosion, explosive_arrow) --Explosive Bolt
-	apply_stats(self.parts.wpn_fps_upg_a_crossbow_poison, poison_arrow) --Poison Bolt
-		append_stats(self.parts.wpn_fps_upg_a_crossbow_poison, light_bow_poison)
+	apply_stats(self.parts.wpn_fps_upg_a_crossbow_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
 --Heavy Crossbow
@@ -388,8 +599,7 @@ local orig_init_arblast = WeaponFactoryTweakData._init_arblast
 function WeaponFactoryTweakData:_init_arblast()
 	orig_init_arblast(self)
 	apply_stats(self.parts.wpn_fps_bow_arblast_m_explosive, explosive_arrow) --Explosive Bolt
-	apply_stats(self.parts.wpn_fps_bow_arblast_m_poison, poison_arrow)	--Poison Bolt
-		append_stats(self.parts.wpn_fps_bow_arblast_m_poison, heavy_bow_poison)
+	apply_stats(self.parts.wpn_fps_bow_arblast_m_poison, poison_arrow, heavy_bow_poison) --Poison Bolt
 end
 
 --Light Crossbow
@@ -397,8 +607,7 @@ local orig_init_frankish = WeaponFactoryTweakData._init_frankish
 function WeaponFactoryTweakData:_init_frankish()
 	orig_init_frankish(self)
 	apply_stats(self.parts.wpn_fps_bow_frankish_m_explosive, explosive_arrow) --Explosive Bolt
-	apply_stats(self.parts.wpn_fps_bow_frankish_m_poison, poison_arrow) --Poison Bolt
-		append_stats(self.parts.wpn_fps_bow_frankish_m_poison, light_bow_poison)
+	apply_stats(self.parts.wpn_fps_bow_frankish_m_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
 --Airbow
@@ -407,8 +616,7 @@ function WeaponFactoryTweakData:_init_ecp()
 	orig_init_ecp(self)
 	apply_stats(self.parts.wpn_fps_bow_ecp_s_bare, heavy_mob_stock) --Light Stock
 	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_explosive, explosive_arrow) --Explosive Bolt
-	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_poison, poison_arrow) --Poison Bolt
-		append_stats(self.parts.wpn_fps_bow_ecp_m_arrows_poison, light_bow_poison)
+	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
 --Plainsrider
@@ -416,8 +624,7 @@ local orig_init_plainsrider = WeaponFactoryTweakData._init_plainsrider
 function WeaponFactoryTweakData:_init_plainsrider()
 	orig_init_plainsrider(self)
 	apply_stats(self.parts.wpn_fps_upg_a_bow_explosion, explosive_arrow) --Explosive Arrows
-	apply_stats(self.parts.wpn_fps_upg_a_bow_poison, poison_arrow) --Poisoned Arrows
-		append_stats(self.parts.wpn_fps_upg_a_bow_poison, light_bow_poison)
+	apply_stats(self.parts.wpn_fps_upg_a_bow_poison, poison_arrow, light_bow_poison) --Poisoned Arrows
 end
 
 --English Longbow
@@ -425,8 +632,7 @@ local orig_init_long = WeaponFactoryTweakData._init_long
 function WeaponFactoryTweakData:_init_long()
 	orig_init_long(self)
 	apply_stats(self.parts.wpn_fps_bow_long_m_explosive, explosive_arrow) --Explosive Arrows
-	apply_stats(self.parts.wpn_fps_bow_long_m_poison, poison_arrow) --Poisoned Arrows
-		append_stats(self.parts.wpn_fps_bow_long_m_poison, heavy_bow_poison)
+	apply_stats(self.parts.wpn_fps_bow_long_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
 end
 
 --DECA Technologies Compound Bow
@@ -437,8 +643,7 @@ function WeaponFactoryTweakData:_init_elastic()
 	apply_stats(self.parts.wpn_fps_bow_elastic_g_3, cosmetic) --Ergonomic Grip
 	apply_stats(self.parts.wpn_fps_bow_elastic_body_tactic, heavy_mob_barrel) --Tactical Frame
 	apply_stats(self.parts.wpn_fps_bow_elastic_m_explosive, explosive_arrow) --Explosive Arrows
-	apply_stats(self.parts.wpn_fps_bow_elastic_m_poison, poison_arrow) --Poisoned Arrows
-		append_stats(self.parts.wpn_fps_bow_elastic_m_poison, heavy_bow_poison)
+	apply_stats(self.parts.wpn_fps_bow_elastic_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
 end
 
 --Phoenix .500
