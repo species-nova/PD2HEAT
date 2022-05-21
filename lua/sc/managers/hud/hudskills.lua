@@ -137,10 +137,10 @@ end
 function HUDSkill:add_stack(name)
 	self:add_skill(name)
 	self._stacks[name] = self._stacks[name] + 1
-	if self._stacks[name] < 10 then
+	if self._stacks[name] < 100 then
 		self._skill_panel:child(name .. "_stacks"):set_text(tostring(self._stacks[name]))
 	else
-		self._skill_panel:child(name .. "_stacks"):set_text("X")
+		self._skill_panel:child(name .. "_stacks"):set_text("XX")
 	end
 end
 

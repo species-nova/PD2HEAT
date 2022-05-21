@@ -1331,7 +1331,7 @@ function PlayerDamage:_upd_health_regen(t, dt)
 end
 
 function PlayerDamage:got_max_hot_stacks()
-	return not self._hot_data.max_stacks or self._hot_stacks >= self._hot_data.max_stacks
+	return self._hot_data.max_stacks and self._hot_stacks >= self._hot_data.max_stacks
 end
 
 function PlayerDamage:refresh_hot_duration()
@@ -1342,7 +1342,7 @@ function PlayerDamage:refresh_hot_duration()
 end
 
 function PlayerDamage:add_hot_stack()
-	self._hot_stacks = math.min(self._hot_stacks + 1, self._hot_data.max_stacks)
+	self._hot_stacks = math.min(self._hot_stacks + 1, self._hot_data.max_stacks or math.huge)
 	managers.hud:set_stacks(self._hot_data.source, self._hot_stacks)
 
 	self:refresh_hot_duration()

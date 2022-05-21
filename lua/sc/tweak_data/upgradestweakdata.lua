@@ -1435,8 +1435,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 			source = "rogue",
 			amount = 0.1,
 			tick_time = 2,
-			tick_count = 5,
-			max_stacks = 10
+			tick_count = 5
 		},
 		{ --Grinder kill stacking heal (1)
 			source = "grinder",
