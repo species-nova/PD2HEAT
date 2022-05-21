@@ -4268,8 +4268,8 @@ function WeaponTweakData:init(...)
 		self.boot.supported = true
 		self.boot.stats = {
 			damage = 11,
-			spread = 16,
-			recoil = 9,
+			spread = 15,
+			recoil = 10,
 			concealment = 15
 		}
 		self.boot.timers = {
@@ -4386,9 +4386,9 @@ function WeaponTweakData:init(...)
 		self.b682.fire_rate_multiplier = 1.2 --400 rpm
 		self.b682.stats = {
 			damage = 14,
-			spread = 16,
+			spread = 15,
 			recoil = 9,
-			concealment = 16
+			concealment = 17
 		}
 		self.b682.timers = {
 			reload_not_empty = 3.3,
