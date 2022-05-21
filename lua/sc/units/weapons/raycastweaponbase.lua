@@ -264,7 +264,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 				hit_enemy = auto_hit_enemy	
 				ray_hits = auto_ray_hits
 				mvector3.set(mvec_to, from_pos)
-				mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
+				mvector3.add_scaled(mvec_to, auto_ray_hits[#auto_ray_hits].ray, ray_distance)
 				mvector3.set(mvec_spread_direction, mvec_to)
 			end
 		end
@@ -386,7 +386,7 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 			ricochet_hit_enemy = auto_hit_enemy
 			ray_hits = auto_ray_hits
 			mvector3.set(reflect_dir, from_pos)
-			mvector3.add_scaled(mvec_to, ray_hits[#ray_hits].ray, ray_distance)
+			mvector3.add_scaled(mvec_to, auto_ray_hits[#auto_ray_hits].ray, ray_distance)
 			mvector3.set(mvec_spread_direction, reflect_dir)
 		end
 	end
@@ -630,7 +630,6 @@ end
 --Start from a baseline of every shot procs autohit when you have 0 spread, and increase the number linearly as spread area goes up.
 function RaycastWeaponBase:roll_autohit()
 	self._autohit_prog = self._autohit_prog + (tweak_data.weapon.stat_info.autohit_rate / (self._current_spread_area + 1))
-
 	if self._autohit_prog >= 1 then
 		self._autohit_prog = math.max(self._autohit_prog - 1, 0)
 		return true
@@ -925,10 +924,10 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	local movement_state = current_state:get_movement_state()
 	spread_area = spread_area * tweak_data.weapon.stat_info.stance_spread_mults[movement_state] * self:conditional_accuracy_multiplier(movement_state)
 
-	self._current_spread_area = spread_area
+	self._current_spread_area = math.max(spread_area, 0)
 
 	--Convert spread area to degrees.
-	self._current_spread = math.sqrt((spread_area)/math.pi)
+	self._current_spread = math.sqrt((self._current_spread_area)/math.pi)
 end
 
 function RaycastWeaponBase:multiply_bloom(amount)
