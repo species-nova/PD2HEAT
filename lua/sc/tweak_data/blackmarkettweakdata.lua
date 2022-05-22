@@ -880,18 +880,9 @@ function BlackMarketTweakData:_init_projectiles(tweak_data)
 	self.projectiles.pocket_ecm_jammer.base_cooldown = 80
 	
 	--Cheat detection prevention
-	self.projectiles.frag.no_cheat_count = true
-	self.projectiles.concussion.no_cheat_count = true
-	self.projectiles.molotov.no_cheat_count = true
-	self.projectiles.wpn_prj_four.no_cheat_count = true
-	self.projectiles.wpn_prj_ace.no_cheat_count = true
-	self.projectiles.wpn_prj_jav.no_cheat_count = true
-	self.projectiles.wpn_prj_hur.no_cheat_count = true
-	self.projectiles.wpn_prj_target.no_cheat_count = true
-	self.projectiles.frag_com.no_cheat_count = true
-	self.projectiles.fir_com.no_cheat_count = true
-	self.projectiles.dada_com.no_cheat_count = true
-	self.projectiles.wpn_gre_electric.no_cheat_count = true
+	for k, v in pairs(self.projectiles) do
+		self.projectiles[k].no_cheat_count = true
+	end
 
 	--Animation overrides for grenades so they aren't shitty. Like seriously, Javelin throw for grenades..?	
 	--HE
@@ -2529,8 +2520,8 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.barbedwire.dot_data = {
 		type = "bleed",
 		custom_data = {
-			dot_damage = 2,
-			dot_length = 3.1,
+			dot_damage = 1.8,
+			dot_length = 2.1,
 			hurt_animation_chance = 0.0
 		}
 	}
@@ -2904,8 +2895,8 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.branding_iron.melee_damage_delay = 0.2
 	self.melee_weapons.branding_iron.expire_t = 1.2	
 	self.melee_weapons.branding_iron.fire_dot_data = {
-		dot_trigger_chance = 30,
-		dot_damage = 0.2,
+		dot_trigger_chance = 25,
+		dot_damage = 1.8,
 		dot_length = 3.1,
 		dot_trigger_max_distance = 3000,
 		dot_tick_period = 0.5
@@ -3078,8 +3069,8 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.cqc.dot_data = {
 		type = "poison",
 		custom_data = {
-			dot_damage = 2,
-			dot_length = 3.1,
+			dot_damage = 1.5,
+			dot_length = 4.1,
 			hurt_animation_chance = 0.75
 		}
 	}	
@@ -3406,8 +3397,8 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.clean.dot_data = {
 		type = "bleed",
 		custom_data = {
-			dot_damage = 2,
-			dot_length = 3.1,
+			dot_damage = 1.8,
+			dot_length = 2.1,
 			hurt_animation_chance = 0.0
 		}
 	}
@@ -3462,8 +3453,8 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.fear.dot_data = {
 		type = "poison",
 		custom_data = {
-			dot_damage = 2,
-			dot_length = 3.1,
+			dot_damage = 1.5,
+			dot_length = 4.1,
 			hurt_animation_chance = 0.75
 		}
 	}
@@ -3503,8 +3494,8 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.spoon_gold.melee_damage_delay = 0.2
 	self.melee_weapons.spoon_gold.expire_t = 1.2
 	self.melee_weapons.spoon_gold.fire_dot_data = {
-		dot_trigger_chance = 30,
-		dot_damage = 0.2,
+		dot_trigger_chance = 25,
+		dot_damage = 1.8,
 		dot_length = 3.1,
 		dot_trigger_max_distance = 3000,
 		dot_tick_period = 0.5

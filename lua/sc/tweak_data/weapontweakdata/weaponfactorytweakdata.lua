@@ -273,7 +273,7 @@
 				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 				fire_dot_data = {
 					dot_damage = 1.8,
-					dot_trigger_chance = 5, 
+					dot_trigger_chance = 9, 
 					dot_length = 3.1,
 					dot_tick_period = 0.5
 				}
@@ -930,6 +930,10 @@ function WeaponFactoryTweakData:create_ammunition()
 	self.parts.wpn_fps_upg_a_grenade_launcher_electric.supported = true
 	self.parts.wpn_fps_upg_a_grenade_launcher_electric.stats = {damage = -20}
 
+	--Generic poison ammo
+	self.parts.wpn_fps_upg_a_grenade_launcher_poison.supported = true
+	self.parts.wpn_fps_upg_a_grenade_launcher_poison.stats = {damage = -20}
+
 	--Arbiter incendiary ammo.
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary_arbiter.supported = true
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary_arbiter.stats = {damage = -28}
@@ -938,6 +942,11 @@ function WeaponFactoryTweakData:create_ammunition()
 	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.supported = true
 	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.stats = {damage = -15}
 
+	--Arbiter Poison Ammo
+	self.parts.wpn_fps_upg_a_grenade_launcher_poison_arbiter.supported = true
+	self.parts.wpn_fps_upg_a_grenade_launcher_poison_arbiter.stats = {damage = -15}
+
 	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.supported = true
 	self.parts.wpn_fps_upg_a_underbarrel_electric.supported = true
+	self.parts.wpn_fps_upg_a_underbarrel_poison.supported = true
 end
