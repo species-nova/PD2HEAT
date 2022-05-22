@@ -33,9 +33,7 @@ function PoisonGasEffect:update(t, dt)
 
 				for _, unit in ipairs(nearby_units) do
 					if not table.contains(self._unit_list, unit) then
-						local roll = math.random()
-						log(roll)
-						local hurt_animation = roll < self._dot_data.hurt_animation_chance
+						local hurt_animation = math.random() < self._dot_data.hurt_animation_chance
 						managers.dot:add_doted_enemy(unit, TimerManager:game():time(), self._grenade_unit, self._dot_data.dot_length, self._dot_damage_dealt, hurt_animation, "poison", self._grenade_id)
 						table.insert(self._unit_list, unit)
 					end
