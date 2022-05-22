@@ -4,7 +4,6 @@ function PoisonGasEffect:init(position, normal, projectile_tweak, grenade_unit)
 	orig_init(self, position, normal, projectile_tweak, grenade_unit)
 	self._friendly_fire_tweak = tweak_data.projectiles.gas_grenade
 	self._dot_damage_dealt = self._dot_data.dot_damage * managers.player:get_perk_damage_bonus(self._grenade_unit:base():thrower_unit())
-	log("Dot damage = " .. tostring(self._dot_damage_dealt))
 end
 
 function PoisonGasEffect:update(t, dt)
