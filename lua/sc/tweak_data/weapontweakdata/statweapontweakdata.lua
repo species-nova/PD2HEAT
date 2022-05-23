@@ -160,7 +160,7 @@ function WeaponTweakData:_init_stats()
 		moving_crouching = 0.75,
 		steelsight = 0.5,
 		moving_steelsight = 0.5,
-		bipod = 0.35
+		bipod = 0.5
 	}
 
 	--Stance multipliers for weapon recoil.
@@ -168,7 +168,7 @@ function WeaponTweakData:_init_stats()
 		standing = 1,
 		crouching = 0.75,
 		steelsight = 0.5,
-		bipod = 0.35
+		bipod = 0.25
 	}
 
 	self.stats.value = {}

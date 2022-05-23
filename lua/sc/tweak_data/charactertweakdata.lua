@@ -4827,28 +4827,28 @@ function CharacterTweakData:_presets(tweak_data)
 				r = 3000,
 				acc = {1, 1},
 				dmg_mul = 1,
-				recoil = {2.5, 2.5},
+				recoil = {2.55, 2.55},
 				burst_size = 1
 			},
 			{
 				r = 6000,
 				acc = {1, 1},
 				dmg_mul = 0.9,
-				recoil = {2.5, 2.5},
+				recoil = {2.55, 2.55},
 				burst_size = 1
 			},
 			{
 				r = 9000,
 				acc = {1, 1},
 				dmg_mul = 0.8,
-				recoil = {2.5, 2.5},
+				recoil = {2.55, 2.55},
 				burst_size = 1
 			},
 			{
 				r = 18000,
 				acc = {1, 1},
 				dmg_mul = 0.7,
-				recoil = {2.5, 2.5},
+				recoil = {2.55, 2.55},
 				burst_size = 1
 			},
 		}
