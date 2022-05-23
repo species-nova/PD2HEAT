@@ -358,15 +358,6 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		18 --ICTV
 	}
 	
-	self.values.player.body_armor.movement = { 
-		1, 
-		0.95, 
-		0.9, 
-		0.85, 
-		0.75, 
-		0.7, 
-		0.6
-	}
 	self.values.player.body_armor.dodge = {
 		0.25,
 		0.15,
@@ -395,13 +386,13 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		0.6 
 	}
 	self.values.player.body_armor.stamina = {
-		25,
-		23,
-		21,
-		19,
-		17,
-		16,
-		15
+		20,
+		20,
+		20,
+		20,
+		20,
+		20,
+		20
 	}
 	--Appears to be unused.
 	self.values.player.body_armor.skill_ammo_mul = {
@@ -427,9 +418,9 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 		340/350,
 		330/350,
 		320/350,
+		310/350,
 		300/350,
-		290/350,
-		280/350
+		290/350
 	}
 
 	self.values.rep_upgrades.values = {0}
