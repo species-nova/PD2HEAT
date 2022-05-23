@@ -352,7 +352,7 @@ function CopDamage:damage_fire(attack_data)
 
 	local damage_percent = 0
 	if self:is_overhealed() then
-		damage = (weap_base and weap_base:overhealed_damage_mul(distance) or 1) * damage
+		damage = (weap_base and weap_base.overhealed_damage_mul and weap_base:overhealed_damage_mul(distance) or 1) * damage
 		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
 		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
 		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
@@ -882,7 +882,7 @@ function CopDamage:damage_bullet(attack_data)
 
 	local damage_percent = 0
 	if self:is_overhealed() then
-		damage = (weap_base and weap_base:overhealed_damage_mul(distance) or 1) * damage
+		damage = (weap_base and weap_base.overhealed_damage_mul and weap_base:overhealed_damage_mul(distance) or 1) * damage
 		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
 		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
 		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
