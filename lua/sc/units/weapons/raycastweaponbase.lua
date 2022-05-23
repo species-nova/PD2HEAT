@@ -686,7 +686,7 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, 
 		mvec3_mul(autohit_dir, autohit_dir_len)
 		mvec3_add(autohit_dir, from_pos)
 
-		local unique_hits, hit_enemy = self:_collect_hits(from_pos, autohit_dir, autohit_type ~= RICOCHET_AUTOHIT)
+		local unique_hits, hit_enemy = self:_collect_hits(from_pos, autohit_dir, autohit_type == RICOCHET_AUTOHIT)
 		if hit_enemy then
 			return unique_hits, hit_enemy
 		end
