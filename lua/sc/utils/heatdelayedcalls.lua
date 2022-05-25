@@ -22,6 +22,6 @@ function AddHeatDelayedCall(name, delay, lambda)
 	call_name_cache[name].count = count + 1
 	DelayedCalls:Add(call_name_cache[name][count], delay, function()
 		lambda()
-		call_name_cache[name].count = count - 1
+		call_name_cache[name].count = call_name_cache[name].count - 1
 	end)
 end
