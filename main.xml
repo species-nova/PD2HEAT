@@ -319,6 +319,7 @@
 		<hook file="sc/compatibility/IncompatibilityWarningGui.lua" source_file="lib/managers/menu/menunodegui"/>
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
 		<!--Debug library-->
+		<hook file="sc/utils/heatdelayedcalls.lua" source_file="lib/utils/messages"/>
 		<hook file="sc/utils/debug_tools.lua" source_file="lib/utils/messages"/>
 		<!--///MOD SAVE DATA\\\-->
 		<!--DO NOT MODIFY-->
