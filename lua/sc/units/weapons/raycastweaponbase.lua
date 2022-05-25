@@ -1151,8 +1151,8 @@ end
 		local can_apply_dot = true
 		if alive(weapon_unit) then
 			weap_base = weapon_unit:base()
-			if weap_base.near_dot_distance then
-				can_apply_dot = weap_base.far_dot_distance + weap_base.near_dot_distance > (col_ray.distance or 0)
+			if (col_ray.falloff_distance or col_ray.distance) > weap_base.near_falloff_distance then
+				can_apply_dot = false
 			end
 		end
 
