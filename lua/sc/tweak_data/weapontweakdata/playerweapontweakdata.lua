@@ -1459,6 +1459,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.4,
 			shotgun_reload_shell = 0.5666666666666667,
 			shotgun_reload_first_shell_offset = 0.2,
+			shotgun_reload_interrupt = 0.47,
 			unequip = 0.9,
 			equip = 0.9
 		}
@@ -1544,6 +1545,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.4,
 			shotgun_reload_shell = 0.5666666666666667,
 			shotgun_reload_first_shell_offset = 0.2,
+			shotgun_reload_interrupt = 0.47,
 			unequip = 0.6,
 			equip = 0.6
 		}
@@ -3528,6 +3530,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.75,
 			shotgun_reload_shell = 2,
 			shotgun_reload_first_shell_offset = 1,
+			shotgun_reload_interrupt = 1.15,
 			unequip = 0.85,
 			equip = 0.85
 		}
@@ -3949,6 +3952,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.2,
 			shotgun_reload_shell = 0.57,
 			shotgun_reload_first_shell_offset = 0.33,
+			shotgun_reload_interrupt = 0.4,
 			unequip = 0.55,
 			equip = 0.85
 		}
@@ -3975,6 +3979,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.2,
 			shotgun_reload_shell = 0.57,
 			shotgun_reload_first_shell_offset = 0.33,
+			shotgun_reload_interrupt = 0.4,
 			unequip = 0.55,
 			equip = 0.85
 		}
@@ -4001,6 +4006,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.4,
 			shotgun_reload_shell = 0.6,
 			shotgun_reload_first_shell_offset = 0.4,
+			shotgun_reload_interrupt = 0.55,
 			unequip = 0.6,
 			equip = 0.85
 		}
@@ -4278,6 +4284,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.3,
 			shotgun_reload_shell = 0.57,
 			shotgun_reload_first_shell_offset = 0.33,
+			shotgun_reload_interrupt = 0.4,
 			unequip = 0.6,
 			equip = 0.55
 		}

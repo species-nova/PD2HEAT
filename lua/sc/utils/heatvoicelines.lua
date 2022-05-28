@@ -7,7 +7,7 @@ function HeatVoiceline:init()
 	self._load_queue = {} --Queue of unit lists to load voicelines for.
 	self._load_coroutine = nil --The current loading coroutine. Usually nil except for heist start.
 
-	if Global.level_data then
+	if Global.level_data and Global.level_data.level_id then
 		self:load()
 	end
 end
@@ -67,7 +67,7 @@ end
 --Pass lines_loaded into the function to load more than one buffer at a time.
 local TARGET_FRAMERATE = 60
 local TARGET_BUFFERS_PER_FRAME = 4
-local MENU_TARGET_BUFFER_PER_FRAME = 12
+local MENU_TARGET_BUFFERS_PER_FRAME = 12
 function HeatVoiceline:update(dt, in_menu)
 	if #self._load_queue > 0 then
 		local loading_status = self._load_coroutine and coroutine.status(self._load_coroutine) or "dead"
@@ -76,7 +76,7 @@ function HeatVoiceline:update(dt, in_menu)
 		end
 
 		--Dynamically adjust buffers loaded per frame based on framerate. Speed things up by 3 if the user is in a menu.
-		self._buffers_per_frame = math.ceil((1/dt)*((in_menu and MENU_TARGET_BUFFER_PER_FRAME or TARGET_BUFFERS_PER_FRAME)/TARGET_FRAMERATE))
+		self._buffers_per_frame = math.ceil((1/dt)*((in_menu and MENU_TARGET_BUFFERS_PER_FRAME or TARGET_BUFFERS_PER_FRAME)/TARGET_FRAMERATE))
 
 		local result, error = coroutine.resume(self._load_coroutine, self)
 		if not result then
@@ -141,7 +141,7 @@ function HeatVoiceline:_load()
 							buffers_this_frame = buffers_this_frame + 1
 						end
 
-						if buffers_this_frame == self._buffers_per_frame then
+						if buffers_this_frame >= self._buffers_per_frame then
 							coroutine.yield()
 							buffers_this_frame = 0
 						end

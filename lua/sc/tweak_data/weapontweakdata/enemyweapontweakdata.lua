@@ -212,7 +212,7 @@ function WeaponTweakData:_init_data_raging_bull_npc()
 	self.raging_bull_npc.categories = clone(self.new_raging_bull.categories)
 	self.raging_bull_npc.sounds.prefix = "rbull_npc"
 	self.raging_bull_npc.use_data.selection_index = 1
-	self.raging_bull_npc.DAMAGE = 10.5
+	self.raging_bull_npc.DAMAGE = 7.5
 	self.raging_bull_npc.muzzleflash = "effects/payday2/particles/weapons/9mm_auto"
 	self.raging_bull_npc.muzzleflash_silenced = "effects/payday2/particles/weapons/9mm_auto_silence"
 	self.raging_bull_npc.shell_ejection = "effects/payday2/particles/weapons/shells/shell_empty"
@@ -229,8 +229,6 @@ function WeaponTweakData:_init_data_raging_bull_npc()
 	self.deagle_npc.hold = "pistol"
 	self.deagle_npc.reload = "pistol"
 	self.deagle_npc.sounds.prefix = "deagle_npc"
-	self.deagle_npc.DAMAGE = 8
-	self.deagle_npc.fire_rate_multiplier = 1.3
 
 	self.peacemaker_npc = deep_clone(self.raging_bull_npc)
 	self.peacemaker_npc.sounds.prefix = "peacemaker_npc"
