@@ -287,7 +287,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 			if ray_hits.ricochet_distance then
 				local ricochet_trail_distance = ray_hits[#ray_hits] and ray_hits[#ray_hits].distance or ray_hits.ricochet_distance
 				if ricochet_trail_distance > 600 then
-					AddHeatDelayedCall("ricochet_trail", math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
+					HEAT.AddDelayedCall("ricochet_trail", math.clamp((trail_distance - 600) / 10000, 0.01, trail_distance), function()
 						mvector3.set(self._trail_effect_table.position, ray_hits.ricochet_from_pos)
 						mvector3.set(self._trail_effect_table.normal, ray_hits.ricochet_direction)
 						local trail = World:effect_manager():spawn(self._trail_effect_table)

@@ -1663,7 +1663,7 @@ function PlayerStandard:_update_reload_timers(t, dt, input)
 		local speed_multiplier = self._equipped_unit:base():reload_speed_multiplier()
 		if weapon:update_reloading(t, dt, state.reload_expire_t - t) then --Update reloading if using a per-bullet reload.
 			managers.hud:set_ammo_amount(weapon:selection_index(), weapon:ammo_info())
-			
+
 			if self._queue_reload_interupt then
 				self._queue_reload_interupt = nil
 				interupt = true
@@ -1811,6 +1811,9 @@ function PlayerStandard:_start_action_reload_enter(t)
 
 				self._state_data.reload_enter_expire_t = t + base_reload_enter_expire_t / speed_multiplier
 
+				local timers = weapon:weapon_tweak_data().timers
+				self._state_data.reload_soft_interrupt_t = timers.shotgun_reload_interrupt and t + timers.shotgun_reload_interrupt / speed_multiplier
+
 				weapon:tweak_data_anim_play("reload_enter", speed_multiplier)
 				return
 			end
@@ -1852,6 +1855,7 @@ function PlayerStandard:_start_action_reload(t)
 
 				--Set time where non-commital animations like sprinting or ADS can interrupt the reload.
 				--False == always interruptable. Make sure to set the timers!
+				--Set as part of _start_action_reload_enter for shotgun reloads.
 				self._state_data.reload_soft_interrupt_t = timers.empty_reload_interrupt and t + timers.empty_reload_interrupt / speed_multiplier
 			end
 
@@ -2207,21 +2211,20 @@ function PlayerStandard:_soft_interrupt_action_reload(t)
 	local weap_base = self._equipped_unit:base()
 
 	if self:_is_reloading() then
-		if weap_base:reload_exit_expire_t(not weap_base:started_reload_empty()) then --Per shell reloads need to finish reloading the current shell.
+		 --If the soft cancel timer hasn't been exceeded, interrupt the reload.
+		if self._state_data.reload_soft_interrupt_t and t <= self._state_data.reload_soft_interrupt_t then
+			self:_interupt_action_reload()
+			self._ext_camera:play_redirect(self:get_animation("idle"))
+			return RELOAD_INTERRUPTED
+		elseif weap_base:reload_exit_expire_t(not weap_base:started_reload_empty()) then --Otherwise, per shell reloads can just finish reloading the current shell.
 			self._queue_reload_interupt = true
 			return RELOAD_INTERRUPT_QUEUED
-		else --Otherwise instant reload cancel.
-			if self._state_data.reload_soft_interrupt_t and t <= self._state_data.reload_soft_interrupt_t then
-				self:_interupt_action_reload()
-				self._ext_camera:play_redirect(self:get_animation("idle"))
-				return RELOAD_INTERRUPTED
-			end
-
+		else --Otherwise, fot reloads are not available.
 			return RELOADING
 		end
 	end
 
-	return RELOAD_INTERRUPTED
+	return RELOAD_INTERRUPTED --Was never reloading to begin with.
 end
 
 function PlayerStandard:_interupt_action_reload(t)

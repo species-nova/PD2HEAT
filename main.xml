@@ -318,9 +318,10 @@
 		<!--///COMPATIBILITY\\\-->
 		<hook file="sc/compatibility/IncompatibilityWarningGui.lua" source_file="lib/managers/menu/menunodegui"/>
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
-		<!--Debug library-->
-		<hook file="sc/utils/heatdelayedcalls.lua" source_file="lib/utils/messages"/>
-		<hook file="sc/utils/debug_tools.lua" source_file="lib/utils/messages"/>
+		<!--HEAT core libraries-->
+		<hook file="sc/utils/heatdelayedcalls.lua" source_file="lib/entry"/>
+		<hook file="sc/utils/heatdebugtools.lua" source_file="lib/entry"/>
+		<hook file="sc/utils/heatvoicelines.lua" source_file="lib/utils/game_state_machine/gamestatemachine"/>
 		<!--///MOD SAVE DATA\\\-->
 		<!--DO NOT MODIFY-->
 		<hook file="sc/managers/savefilemanager.lua" source_file="lib/managers/savefilemanager"/>

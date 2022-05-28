@@ -3474,6 +3474,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.3333333333333333,
 			shotgun_reload_shell = 1,
 			shotgun_reload_first_shell_offset = 0.5,
+			shotgun_reload_interrupt = 0.47,
 			unequip = 0.65,
 			equip = 0.65
 		}
@@ -3583,6 +3584,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.45,
 			shotgun_reload_shell = 0.83,
 			shotgun_reload_first_shell_offset = 0.5,
+			shotgun_reload_interrupt = 0.97,
 			unequip = 0.6,
 			equip = 0.9
 		}
@@ -4104,7 +4106,57 @@ function WeaponTweakData:init(...)
 			recoil = 10,
 			concealment = 15
 		}
-		--Just use the vanilla timers, since they match the unique reload animation pretty well.
+		self.ultima.timers.shotgun_reload.empty.reload_queue = {
+			{
+				reload_num = 1,
+				expire_t = 1.4333333333333333,
+				stop_update_ammo = true,
+				shell_order = {
+					3
+				}
+			},
+			{
+				reload_num = 2,
+				expire_t = 0.6,
+				shell_order = {
+					3,
+					4,
+					1,
+					2
+				}
+			},
+			{
+				skip_update_ammo = true,
+				reload_num = 2,
+				expire_t = 0.3333333333333333
+			},
+			{
+				reload_num = 2,
+				expire_t = 0.6333333333333333,
+				shell_order = {
+					1,
+					2
+				}
+			},
+			{
+				reload_num = 2,
+				expire_t = 0.6333333333333333,
+				shell_order = {
+					1,
+					2
+				}
+			},
+			{
+				reload_num = 2,
+				expire_t = 0.6333333333333333,
+				shell_order = {
+					1,
+					2
+				}
+			}
+		}
+		self.ultima.timers.shotgun_reload_interrupt = 0.5
+		--Mostly use the vanilla timers, since they match the unique reload animation pretty well.
 
 		--Judge
 		self.judge.fire_mode_data.fire_rate = 0.272727
@@ -4175,6 +4227,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.3,
 			shotgun_reload_shell = 0.57,
 			shotgun_reload_first_shell_offset = 0.33,
+			shotgun_reload_interrupt = 0.4,
 			unequip = 0.6,
 			equip = 0.55
 		}
@@ -4198,6 +4251,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.3,
 			shotgun_reload_shell = 0.57,
 			shotgun_reload_first_shell_offset = 0.33,
+			shotgun_reload_interrupt = 0.4,
 			unequip = 0.6,
 			equip = 0.55
 		}
@@ -4249,6 +4303,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.55,
 			shotgun_reload_shell = 0.65,
 			shotgun_reload_first_shell_offset = 0,
+			shotgun_reload_interrupt = 0.77,
 			unequip = 0.85,
 			equip = 0.85
 		}
@@ -4278,6 +4333,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.55,
 			shotgun_reload_shell = 0.33,
 			shotgun_reload_first_shell_offset = 0.15,
+			shotgun_reload_interrupt = 0.3,
 			unequip = 0.55,
 			equip = 0.85
 		}
@@ -4303,6 +4359,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.3,
 			shotgun_reload_shell = 0.57,
 			shotgun_reload_first_shell_offset = 0.33,
+			shotgun_reload_interrupt = 0.4, 
 			unequip = 0.7,
 			equip = 0.6
 		}
@@ -4327,6 +4384,7 @@ function WeaponTweakData:init(...)
 			shotgun_reload_exit_not_empty = 0.3,
 			shotgun_reload_shell = 0.65,
 			shotgun_reload_first_shell_offset = 0,
+			shotgun_reload_interrupt = 0.77,
 			unequip = 0.6,
 			equip = 0.85
 		}

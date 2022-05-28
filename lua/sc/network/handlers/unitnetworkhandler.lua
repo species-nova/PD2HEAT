@@ -410,16 +410,8 @@ function UnitNetworkHandler:sync_medic_heal(unit, sender)
 				if redir_res then
 					unit:anim_state_machine():set_speed(redir_res, 0.5)
 				end
-				
-				if unit:base():char_tweak()["custom_voicework"] then
-					local voicelines = _G.voiceline_framework.BufferedSounds[unit:base():char_tweak().custom_voicework]
-					if voicelines and voicelines["heal"] then
-						local line_to_use = voicelines.heal[math.random(#voicelines.heal)]
-						unit:base():play_voiceline(line_to_use)
-					end
-				else
-					unit:sound():say("heal")
-				end
+
+				unit:sound():say("heal")
 			else
 				local action_data = {
 					body_part = 1,

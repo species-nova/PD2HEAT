@@ -95,50 +95,6 @@
 		<search>
 			<network/>
 			<rpc/>
-			<message name="request_throw_projectile"/>
-	        <param type="int" min="1" max="64" />
-		</search>
-		<target mode="attributes">
-			<attr name="max" value="128"/>
-		</target>
-	</tweak>
-	<tweak name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-			<message name="sync_throw_projectile"/>
-	        <param type="int" min="1" max="64" />
-		</search>
-		<target mode="attributes">
-			<attr name="max" value="128"/>
-		</target>
-	</tweak>
-	<tweak name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-			<message name="sync_throw_projectile_npc"/>
-	        <param type="int" min="1" max="64" />
-		</search>
-		<target mode="attributes">
-			<attr name="max" value="128"/>
-		</target>
-	</tweak>
-	<tweak name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-			<message name="sync_attach_projectile"/>
-	        <param type="int" min="1" max="64" />
-		</search>
-		<target mode="attributes">
-			<attr name="max" value="128"/>
-		</target>
-	</tweak>
-	<tweak name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
 		</search>
 		<target>
 			<message name="sync_contour_state" delivery="ordered" receiver="connection">
@@ -147,19 +103,6 @@
 				<param type="int" min="1" max="32"/> <!-- contour type -->
 				<param type="bool" /> <!-- state, add (true) or remove (false) -->
 				<param type="float" /> <!-- multiplier on the time -->
-			</message>
-		</target>
-	</tweak>
-	<tweak name="settings/network" extension="network_settings">
-		<search>
-			<network/>
-			<rpc/>
-		</search>
-		<target>
-			<message name="sync_grenades" delivery="ordered" receiver="connection">
-				<param type="string"/>	<!-- Grenade id -->
-				<param type="int" min="0" max="63"/> <!-- Amount of grenades  -->
-				<param type="int" min="0" max="15" /> <!-- Peer id -->
 			</message>
 		</target>
 	</tweak>
