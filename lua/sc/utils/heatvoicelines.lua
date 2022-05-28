@@ -7,7 +7,7 @@ function HeatVoiceline:init()
 	self._load_queue = {} --Queue of unit lists to load voicelines for.
 	self._load_coroutine = nil --The current loading coroutine. Usually nil except for heist start.
 
-	if Global.level_data and Global.level_data.mission then
+	if Global.level_data then
 		self:load()
 	end
 end
