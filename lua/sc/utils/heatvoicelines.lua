@@ -171,11 +171,3 @@ function GameStateMachine:paused_update(t, dt)
 	orig_paused_update(self, t, dt)
 	HEAT.Voicelines:update(dt, true)
 end
-
-function GameStateMachine:change_state_by_name(state_name, params)
-	local name = self:gamemode():get_state(state_name)
-	local state = assert(self._states[name], "[GameStateMachine] Name '" .. tostring(name) .. "' does not correspond to a valid state.")
-
-
-	self:change_state(state, params)
-end
