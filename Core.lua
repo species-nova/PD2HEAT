@@ -150,7 +150,6 @@ function heat:Init()
 		"four_stores",
 		"stage_2", --Big Oil Day 2 EDIT
 		"cane", --Santa's Workshop
-		"mus", --The Diamond
 		"run", --Heat Street
 		"run_res", --Whurr's Heat Street Edit
 		"bph", --Hell's Island
