@@ -7134,10 +7134,10 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		1.0 * map_scale_factor
 	}
 	self.besiege.assault.force_pool_balance_mul = {
-		0.55 * map_scale_factor,
-		0.7 * map_scale_factor,
-		0.85 * map_scale_factor,
-		1.0 * map_scale_factor
+		0.55,
+		0.7,
+		0.85,
+		1.0
 	}
 
 	self.besiege.multiple_tank_token_cooldown_mul = 1.2
