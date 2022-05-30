@@ -1621,6 +1621,114 @@ function CharacterTweakData:_init_chavez_boss(presets) --chavez
 	table.insert(self._enemy_list, "chavez_boss")
 end
 
+function CharacterTweakData:_init_triad_boss(presets) -- Yufu wang
+	self.triad_boss = deep_clone(presets.base)
+	self.triad_boss.experience = {}
+	self.triad_boss.weapon = deep_clone(presets.weapon.expert) --expert instead of good because good does not have is_flamethrower, and thus would crash
+	self.triad_boss.weapon.is_flamethrower.melee_speed = nil
+	self.triad_boss.weapon.is_flamethrower.melee_dmg = nil
+	self.triad_boss.weapon.is_flamethrower.melee_retry_delay = nil
+	self.triad_boss.detection = presets.detection.normal
+	self.triad_boss.priority_shout = "g29"
+	self.triad_boss.bot_priority_shout = "g29"
+	self.triad_boss.silent_priority_shout = nil
+	self.triad_boss.custom_shout = true
+	self.triad_boss.priority_shout_max_dis = 3000
+	self.triad_boss.HEALTH_INIT = 864
+	self.triad_boss.headshot_dmg_mul = strong_headshot
+	self.triad_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
+	self.triad_boss.damage.explosion_damage_mul = 1.25 -- vanilla is 0.5
+	self.triad_boss.suppression = nil
+	self.triad_boss.move_speed = presets.move_speed.very_slow
+	self.triad_boss.allowed_stances = {cbt = true}
+	self.triad_boss.allowed_poses = {stand = true}
+	self.triad_boss.crouch_move = false
+	self.triad_boss.no_retreat = true
+	self.triad_boss.no_limping = true
+	self.triad_boss.no_arrest = true
+	self.triad_boss.no_run_start = true
+	self.triad_boss.no_run_stop = true		
+	self.triad_boss.surrender = nil
+	self.triad_boss.ecm_vulnerability = 0
+	self.triad_boss.ecm_hurts = {}
+	self.triad_boss.weapon_voice = "3"
+	self.triad_boss.experience.cable_tie = "tie_swat"
+	self.triad_boss.access = "gangster"
+	self.triad_boss.speech_prefix_p1 = "bb"
+	self.triad_boss.speech_prefix_p2 = "n"
+	self.triad_boss.speech_prefix_count = 1
+	self.triad_boss.die_sound_event = "Play_yuw_pent_death"
+	self.triad_boss.rescue_hostages = false
+	self.triad_boss.melee_weapon_dmg_multiplier = 2.5
+	self.triad_boss.steal_loot = nil
+	self.triad_boss.calls_in = nil
+	self.triad_boss.chatter = presets.enemy_chatter.no_chatter
+	self.triad_boss.use_radio = nil
+	self.triad_boss.can_be_tased = false
+	self.triad_boss.use_animation_on_fire_damage = false
+	self.triad_boss.flammable = true
+	self.triad_boss.can_be_tased = false
+	self.triad_boss.immune_to_knock_down = true
+	self.triad_boss.immune_to_concussion = true
+	self.triad_boss.must_headshot = true
+	self.triad_boss.static_dodge_preset = true
+	self.triad_boss.is_special = true
+	self.triad_boss.throwable = "molotov"
+
+	-- Yufu Wang's special AoE
+	self.triad_boss.aoe_damage_data = {
+		verification_delay = 0.3,
+		activation_range = 300,
+		activation_delay = 1,
+		env_tweak_name = "triad_boss_aoe_fire",
+		play_voiceline = true,
+		check_player = true,
+		check_npc_slotmask = {
+			"criminals",
+			-2,
+			-3
+		}
+	}
+
+	self.triad_boss.invulnerable_to_slotmask = {
+		"enemies",
+		17
+	}
+
+	table.insert(self._enemy_list, "triad_boss")
+
+	self.triad_boss_no_armor = deep_clone(self.gangster)
+	self.triad_boss_no_armor.suspicious = nil
+	self.triad_boss_no_armor.detection = presets.detection.normal
+	self.triad_boss_no_armor.damage.hurt_severity = presets.hurt_severities.no_hurts
+	self.triad_boss_no_armor.move_speed = presets.move_speed.very_fast
+	self.triad_boss_no_armor.dodge = presets.dodge.athletic
+	self.triad_boss_no_armor.crouch_move = nil
+	self.triad_boss_no_armor.suppression = nil
+	self.triad_boss_no_armor.can_be_tased = false
+	self.triad_boss_no_armor.no_retreat = true
+	self.triad_boss_no_armor.no_arrest = true
+	self.triad_boss_no_armor.surrender = nil
+	self.triad_boss_no_armor.ecm_vulnerability = 0
+	self.triad_boss_no_armor.ecm_hurts = {
+		ears = {
+			max_duration = 0,
+			min_duration = 0
+		}
+	}
+	self.triad_boss_no_armor.rescue_hostages = false
+	self.triad_boss_no_armor.steal_loot = nil
+	self.triad_boss_no_armor.calls_in = nil
+	self.triad_boss_no_armor.chatter = presets.enemy_chatter.no_chatter
+	self.triad_boss_no_armor.use_radio = nil
+	self.triad_boss_no_armor.radio_prefix = "fri_"
+	self.triad_boss_no_armor.use_animation_on_fire_damage = false
+	self.triad_boss_no_armor.immune_to_knock_down = true
+	self.triad_boss_no_armor.immune_to_concussion = true
+
+	table.insert(self._enemy_list, "triad_boss_no_armor")
+end
+
 function CharacterTweakData:_init_bolivians(presets) --Scarface guards
 	self.bolivian = deep_clone(self.gangster)
 	self.bolivian.detection = presets.detection.normal
