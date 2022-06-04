@@ -41,7 +41,7 @@ function EnvEffectTweakData:triad_boss_aoe_fire()
 		sound_event_burning = "no_sound",
 		sound_event_impact_duration = 1.5,
 		burn_tick_period = 0.5,
-		burn_duration = 10,
+		burn_duration = 1.5,
 		effect_name = "effects/payday2/particles/explosions/molotov_grenade_pent_boss"
 	}
 

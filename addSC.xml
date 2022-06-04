@@ -2709,6 +2709,10 @@
 	<!--Gui stuff>
 	<texture path="units/gui/gui_brackets_df" load="true" /-->
 
+	<!-- Make Yufu Wang not Wang -->
+	<object path="units/pd2_dlc_pent/characters/npc_male_yufuwang_armored/npc_male_yufuwang_armored" force="true"/>
+	<material_config path="units/pd2_dlc_pent/characters/npc_male_yufuwang_armored/npc_male_yufuwang_armored"/>
+
 	<!-- Actually Good Third Person Animations -->
 	<animation path="anims/shared/boss/tank/cbt_std_arrest_gesture_var1" force="true"/>
 	<animation path="anims/shared/pistol/combat/cbt_crh_idle" force="true"/>

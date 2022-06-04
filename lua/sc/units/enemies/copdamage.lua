@@ -84,6 +84,13 @@ local big_enemy_visor_shattering_table = {
 local old_init = CopDamage.init
 function CopDamage:init(...)
 	old_init(self, ...)
+
+	--HACK: Until the issues with loading the custom .unit files can be resolved. Enable the head hitbox on Yufu Wang via lua.
+	if self._unit:base()._tweak_table == "triad_boss" then
+		self._head_body_name = "head"
+		self._ids_head_body_name = Idstring(self._head_body_name)
+		self._head_body_key = self._unit:body(self._head_body_name):key()
+	end
 	
 	self._autotarget_data = {
 		head = self._unit:get_object(Idstring("Head")),
@@ -212,6 +219,10 @@ function CopDamage:damage_fire(attack_data)
 
 	local attacker_unit = attack_data.attacker_unit
 	local weap_unit = attack_data.weapon_unit
+
+	if self:chk_immune_to_attacker(attacker_unit) then
+		return
+	end
 
 	if attacker_unit and alive(attacker_unit) then
 		if attacker_unit:base() and attacker_unit:base().thrower_unit then
@@ -839,6 +850,7 @@ function CopDamage:damage_bullet(attack_data)
 		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 		damage = damage_percent * self._HEALTH_INIT_PRECENT
 	end
+	log("Damage = " .. tostring(damage))
 
 	if self._immortal then
 		damage = math.min(damage, self._health - 1)
@@ -1120,6 +1132,10 @@ function CopDamage:damage_melee(attack_data)
 		if has_surrendered then
 			return
 		end
+	end
+
+	if self:chk_immune_to_attacker(attack_data.attacker_unit) then
+		return
 	end
 
 	local result = nil
@@ -1744,6 +1760,10 @@ function CopDamage:stun_hit(attack_data)
 		attacker_unit = attacker_unit:base():thrower_unit()
 	end
 
+	if self:chk_immune_to_attacker(attacker_unit) then
+		return
+	end
+
 	if self:is_friendly_fire(attacker_unit) then
 		return "friendly_fire"
 	end
@@ -1839,6 +1859,11 @@ function CopDamage:damage_explosion(attack_data)
 			return "friendly_fire"
 		end
 	end
+
+	if self:chk_immune_to_attacker(attacker_unit) then
+		return
+	end
+
 
 	local is_civilian = CopDamage.is_civilian(self._unit:base()._tweak_table)
 	local result = nil
@@ -2177,6 +2202,10 @@ function CopDamage:damage_simple(attack_data)
 		return
 	end
 
+	if self:chk_immune_to_attacker(attack_data.attacker_unit) then
+		return
+	end
+
 	local is_civilian = CopDamage.is_civilian(self._unit:base()._tweak_table)
 	local result = nil
 	local damage = attack_data.damage
@@ -2444,6 +2473,10 @@ function CopDamage:damage_dot(attack_data)
 		return "friendly_fire"
 	end
 
+	if self:chk_immune_to_attacker(attack_data.attacker_unit) then
+		return
+	end
+
 	local damage = attack_data.damage
 
 	if self._char_tweak.damage.dot_damage_mul then
@@ -2663,6 +2696,10 @@ function CopDamage:damage_tase(attack_data)
 
 	if attacker_unit and alive(attacker_unit) and self:is_friendly_fire(attacker_unit) then
 		return "friendly_fire"
+	end
+
+	if self:chk_immune_to_attacker(attacker_unit) then
+		return
 	end
 
 	local result = nil
@@ -2898,11 +2935,15 @@ function CopDamage:sync_damage_tase(attacker_unit, damage_percent, i_result, dea
 end
 
 function CopDamage:_on_damage_received(damage_info)
+	self:chk_health_sequences()
 	self:_call_listeners(damage_info)
 	CopDamage._notify_listeners("on_damage", damage_info)
 
 	if damage_info.result.type == "death" then
+		self:chk_disable_aoe_damage()
 		managers.enemy:on_enemy_died(self._unit, damage_info)
+	elseif not self._dead then
+		self:_chk_unique_death_requirements(damage_info, false)
 	end
 
 	local attacker_unit = damage_info and damage_info.attacker_unit

@@ -416,7 +416,7 @@ function CopActionShoot:throw_grenade(shoot_from_pos, target_vec, target_pos, di
 		if self._grenade.voiceline then
 			self._unit:sound():say(self._grenade.voiceline, true, nil, true)
 		end
-		log("THROW")
+		
 		self._shoot_t = self._shoot_t + 0.6
 
 		return true

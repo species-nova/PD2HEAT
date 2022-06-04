@@ -1,3 +1,15 @@
+local old_init = HuskCopDamage.init
+function HuskCopDamage:init(...)
+	old_init(self, ...)
+	
+	--HACK: Until the issues with loading the custom .unit files can be resolved. Enable the head hitbox on Yufu Wang via lua.
+	if self._unit:base()._tweak_table == "triad_boss" then
+		self._head_body_name = "head"
+		self._ids_head_body_name = Idstring(self._head_body_name)
+		self._head_body_key = self._unit:body(self._head_body_name):key()
+	end
+end
+
 local old_death = HuskCopDamage.die
 function HuskCopDamage:die(attack_data)
 	old_death(self, attack_data)
