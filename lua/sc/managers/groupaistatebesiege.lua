@@ -959,7 +959,7 @@ function GroupAIStateBesiege:_spawn_in_group(spawn_group, spawn_group_type, grp_
 					log("rand_i: " .. tostring(rand_i))
 					log("rand_wgt: " .. tostring(rand_wgt))
 					log("total_wgt: " .. tostring(total_wgt))
-					HEAT.print_value(valid_unit_types, "valid_unit_types", 10)
+					heat.print_value(valid_unit_types, "valid_unit_types", 10)
 					managers.chat:send_message(ChatManager.GAME, "", "A REALLY RARE BUG HAS OCCURED.")
 					managers.chat:send_message(ChatManager.GAME, "", "SEND RAVICALE#7594 YOUR MOD LOG FILE ON DISCORD.")
 					break

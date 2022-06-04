@@ -30,7 +30,7 @@ function HuskCopDamage:die(attack_data)
 	if self._unit:base():char_tweak().die_sound_event then
 		self._unit:sound():play(self._unit:base():char_tweak().die_sound_event, nil, nil)
 	else
-		HEAT.Voicelines:say(self._unit, "death")
+		heat.Voicelines:say(self._unit, "death")
 	end
 
 	if self._char_tweak.do_autumn_blackout then --clear all equipment and re-enable them when autumn dies

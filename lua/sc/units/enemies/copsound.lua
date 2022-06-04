@@ -76,7 +76,7 @@ function CopSound:init(unit)
 		self._prefix = (char_tweak.speech_prefix_p1 or "") .. (nr_variations and tostring(math.random(nr_variations)) or "") .. (char_tweak.speech_prefix_p2 or "") .. "_"
 	end
 
-	if not HEAT.Voicelines:say(self._unit, "spawn") then
+	if not heat.Voicelines:say(self._unit, "spawn") then
 		self._unit:sound():play(self._unit:base():char_tweak().spawn_sound_event, nil, nil)
 	end
 	
@@ -192,7 +192,7 @@ function CopSound:say(sound_name, sync, skip_prefix, important, callback)
 	]]
 	
 	local line_to_check = line_array[sound_name]
-	if line_to_check and HEAT.Voicelines:say(self._unit, line_to_check.line, line_to_check.force) then
+	if line_to_check and heat.Voicelines:say(self._unit, line_to_check.line, line_to_check.force) then
 		return
 	end
 	

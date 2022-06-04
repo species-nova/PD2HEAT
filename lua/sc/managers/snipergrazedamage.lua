@@ -94,7 +94,7 @@ function SniperGrazeDamage:find_closest_hit(hit, ignored_enemies, upgrade_value,
 		mvector3.set_y(trail_length, math.sqrt(closest_d_sq))
 		World:effect_manager():set_simulator_var_vector2(trail, idstr_trail, idstr_simulator_length, idstr_size, trail_length)
 
-		HEAT.AddDelayedCall("MindBlown", 0.05, function()
+		heat.AddDelayedCall("MindBlown", 0.05, function()
 			if not alive(closest) or not alive(player_unit) or not alive(weapon_unit) then
 				return
 			end

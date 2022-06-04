@@ -1,4 +1,4 @@
-HEAT = HEAT or {}
+heat = heat or {}
 
 --Wrapper over DelayedCalls:Add to resolve delayed call name collisions in an automated manner.
 --Metatable to track number of delayed calls of a given type, and cache delayed calls strings to reduce string concatenations.
@@ -18,7 +18,7 @@ local call_name_cache_meta = {
 setmetatable(call_name_cache, call_name_cache_meta)
 
 --Call this in the same way as DelayedCalls:Add.
-function HEAT.AddDelayedCall(name, delay, lambda)
+function heat.AddDelayedCall(name, delay, lambda)
 	local count = call_name_cache[name].count 
 	call_name_cache[name].count = count + 1
 	DelayedCalls:Add(call_name_cache[name][count], delay, function()

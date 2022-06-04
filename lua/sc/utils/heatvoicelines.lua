@@ -155,19 +155,19 @@ function HeatVoiceline:_load()
 	self._load_queue[#self._load_queue] = nil
 end
 
-HEAT = HEAT or {}
-HEAT.Voicelines = HEAT.Voicelines or HeatVoiceline:new()
+heat = heat or {}
+heat.Voicelines = heat.Voicelines or HeatVoiceline:new()
 
 --Update hooks to ensure that buffers get loaded.
 local orig_update = GameStateMachine.update
 function GameStateMachine:update(t, dt)
 	orig_update(self, t, dt)
-	HEAT.Voicelines:update(dt, not GameStateFilters.any_ingame_playing[self._current_state:name()]) --Load lines faster while not actually playing.
+	heat.Voicelines:update(dt, not GameStateFilters.any_ingame_playing[self._current_state:name()]) --Load lines faster while not actually playing.
 end
 
 --Load stuff more aggressively while the game is paused.
 local orig_paused_update = GameStateMachine.paused_update
 function GameStateMachine:paused_update(t, dt)
 	orig_paused_update(self, t, dt)
-	HEAT.Voicelines:update(dt, true)
+	heat.Voicelines:update(dt, true)
 end

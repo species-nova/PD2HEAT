@@ -1,5 +1,5 @@
 --Should stick these in a global table somewhere since I constantly paste them in for debugging purposes.
-HEAT = HEAT or {}
+heat = heat or {}
 	local indent_strs = {
 		"",
 		"    ",
@@ -29,11 +29,11 @@ HEAT = HEAT or {}
 
 		seen[t] = tostring(name)
 		for k, v in pairs(t) do
-			HEAT.Debug.print_value(v, k, max_depth, indent, seen)
+			heat.print_value(v, k, max_depth, indent, seen)
 		end
 	end
 
-function HEAT.print_value(v, k, max_depth, indent, seen)
+function heat.print_value(v, k, max_depth, indent, seen)
 	indent = indent and indent + 1 or 1
 	local i = get_indent(indent)
 	if max_depth and indent > max_depth then log(i .. "...") return end
