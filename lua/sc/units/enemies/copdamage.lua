@@ -850,7 +850,6 @@ function CopDamage:damage_bullet(attack_data)
 		damage_percent = math_ceil(damage / self._HEALTH_INIT_PRECENT)
 		damage = damage_percent * self._HEALTH_INIT_PRECENT
 	end
-	log("Damage = " .. tostring(damage))
 
 	if self._immortal then
 		damage = math.min(damage, self._health - 1)
