@@ -163,12 +163,10 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
 			self._damage_far_mul = self._damage_far_mul * stats.damage_far_mul
 		end
 		
-		if stats.swap_speed_mul then
+		if self._swap_speed_mul and stats.swap_speed_mul then
 			self._swap_speed_mul = self._swap_speed_mul * stats.swap_speed_mul
 		end
 	end
-
-	self._flame_max_range = self._damage_far_mul
 
 	self:precalculate_ammo_pickup()
 end

@@ -63,7 +63,7 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 0.5,
 		min_range = 500,
 		max_range = 2000,
-		throw_force = 1 / 1150,
+		throw_force = 1 / 1300,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
@@ -74,7 +74,7 @@ local projectile_throw_pos_offset = Vector3(50, 50, 0)
 		chance = 1,
 		min_range = 500,
 		max_range = 2000,
-		throw_force = 1 / 1150,
+		throw_force = 1 / 1300,
 		offset = projectile_throw_pos_offset,
 		voiceline = "use_gas"
 	}
@@ -1229,6 +1229,7 @@ function CharacterTweakData:_init_sniper(presets) --sniper
 	self.sniper.detection = presets.detection.sniper
 	self.sniper.HEALTH_INIT = 18
 	self.sniper.headshot_dmg_mul = normal_headshot
+	self.sniper.big_head_mode = true
 	self.sniper.damage.hurt_severity = presets.hurt_severities.no_hurts
 	self.sniper.allowed_poses = {stand = true}
 	self.sniper.move_speed = presets.move_speed.very_fast
@@ -1624,20 +1625,19 @@ end
 function CharacterTweakData:_init_triad_boss(presets) -- Yufu wang
 	self.triad_boss = deep_clone(presets.base)
 	self.triad_boss.experience = {}
-	self.triad_boss.weapon = deep_clone(presets.weapon.expert) --expert instead of good because good does not have is_flamethrower, and thus would crash
-	self.triad_boss.weapon.is_flamethrower.melee_speed = nil
-	self.triad_boss.weapon.is_flamethrower.melee_dmg = nil
-	self.triad_boss.weapon.is_flamethrower.melee_retry_delay = nil
+	self.triad_boss.weapon = presets.weapon.expert
 	self.triad_boss.detection = presets.detection.normal
 	self.triad_boss.priority_shout = "g29"
 	self.triad_boss.bot_priority_shout = "g29"
 	self.triad_boss.silent_priority_shout = nil
 	self.triad_boss.custom_shout = true
 	self.triad_boss.priority_shout_max_dis = 3000
-	self.triad_boss.HEALTH_INIT = 864
-	self.triad_boss.headshot_dmg_mul = strong_headshot
-	self.triad_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
-	self.triad_boss.damage.explosion_damage_mul = 1.25 -- vanilla is 0.5
+	self.triad_boss.HEALTH_INIT = 1080
+	self.triad_boss.headshot_dmg_mul = normal_headshot
+	self.triad_boss.big_head_mode = true
+	self.triad_boss.damage.hurt_severity = presets.hurt_severities.spring
+	self.triad_boss.melee_weapon = "fists_dozer"
+	self.triad_boss.damage.explosion_damage_mul = 2
 	self.triad_boss.suppression = nil
 	self.triad_boss.move_speed = presets.move_speed.very_slow
 	self.triad_boss.allowed_stances = {cbt = true}
@@ -1659,7 +1659,6 @@ function CharacterTweakData:_init_triad_boss(presets) -- Yufu wang
 	self.triad_boss.speech_prefix_count = 1
 	self.triad_boss.die_sound_event = "Play_yuw_pent_death"
 	self.triad_boss.rescue_hostages = false
-	self.triad_boss.melee_weapon_dmg_multiplier = 2.5
 	self.triad_boss.steal_loot = nil
 	self.triad_boss.calls_in = nil
 	self.triad_boss.chatter = presets.enemy_chatter.no_chatter
@@ -1670,16 +1669,17 @@ function CharacterTweakData:_init_triad_boss(presets) -- Yufu wang
 	self.triad_boss.can_be_tased = false
 	self.triad_boss.immune_to_knock_down = true
 	self.triad_boss.immune_to_concussion = true
-	self.triad_boss.must_headshot = true
+	self.triad_boss.must_headshot = false
 	self.triad_boss.static_dodge_preset = true
 	self.triad_boss.is_special = true
 	self.triad_boss.throwable = "molotov"
+	self.triad_boss.grenade = molotov
 
 	-- Yufu Wang's special AoE
 	self.triad_boss.aoe_damage_data = {
 		verification_delay = 0.3,
-		activation_range = 300,
-		activation_delay = 1,
+		activation_range = 500,
+		activation_delay = 3,
 		env_tweak_name = "triad_boss_aoe_fire",
 		play_voiceline = true,
 		check_player = true,
@@ -2400,13 +2400,10 @@ function CharacterTweakData:_init_spring(presets) --captain spring
 	self.spring.no_retreat = true
 	self.spring.no_limping = true
 	self.spring.no_arrest = true
-	self.spring.LOWER_HEALTH_PERCENTAGE_LIMIT = nil
-	self.spring.FINAL_LOWER_HEALTH_PERCENTAGE_LIMIT = nil
 	self.spring.ends_assault_on_death = true
 	self.spring.no_damage_mission = true
 	self.spring.immune_to_knock_down = true
-	self.spring.HEALTH_INIT = 1620
-	self.spring.EXTRA_HEALTH_BALANCE = 50
+	self.spring.HEALTH_INIT = 1080
 	self.spring.headshot_dmg_mul = normal_headshot
 	self.spring.damage.explosion_damage_mul = 2
 	self.spring.priority_shout = "f45"

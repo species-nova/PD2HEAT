@@ -91,7 +91,7 @@ function CopDamage:init(...)
 	}
 	
 	--Replace head hitbox with a smaller one for non-dozer enemies.	
-	if self._head_body_name then	
+	if self._head_body_name and not self._char_tweak.big_head_mode then	
 		local my_unit = self._unit
 		local base_ext = my_unit:base()
 
@@ -308,11 +308,7 @@ function CopDamage:damage_fire(attack_data)
 	end
 
 	if head and not self._damage_reduction_multiplier then
-		if self._char_tweak.headshot_dmg_mul then
-			damage = damage * self._char_tweak.headshot_dmg_mul * headshot_multiplier
-		else
-			damage = self._health * 10
-		end
+		damage = damage * (self._char_tweak.headshot_dmg_mul or 1) * headshot_multiplier
 	end
 
 	local weap_base = nil
@@ -688,49 +684,27 @@ function CopDamage:damage_bullet(attack_data)
 		return
 	end
 
-	if self:is_friendly_fire(attack_data.attacker_unit) then
+	local attacker = attack_data.attacker_unit
+	if self:is_friendly_fire(attacker) then
 		return "friendly_fire"
 	end
 
-	if alive(attack_data.attacker_unit) and attack_data.attacker_unit:in_slot(16) then
-		local has_surrendered = self._unit:brain().surrendered and self._unit:brain():surrendered() or self._unit:anim_data().surrender or self._unit:anim_data().hands_back or self._unit:anim_data().hands_tied
+	if self:chk_immune_to_attacker(attacker) then
+		return
+	end
 
-		if has_surrendered then
+	if alive(attacker) and attacker:in_slot(16) then
+		if self._unit:brain().surrendered and self._unit:brain():surrendered() or self._unit:anim_data().surrender or self._unit:anim_data().hands_back or self._unit:anim_data().hands_tied then
 			return
 		end
 	end
 
-	local weap_base = attack_data.weapon_unit:base()
-	if self._char_tweak.damage.bullet_dodge_chance then
-		local dodge_chance = self._char_tweak.damage.bullet_dodge_chance
-		if self._unit:base()._tweak_table == "fbi_vet" then
-			dodge_chance = managers.modifiers and managers.modifiers:modify_value("CopDamage:CheckingDodge", dodge_chance)
-		end
-		if weap_base.thrower_unit or weap_base.is_category and weap_base:is_category("saw") then
-			dodge_chance = 0
-		end
-
-		if dodge_chance > 0 then
-			local roll = math.rand(1, 100)
-
-			if roll <= dodge_chance then
-				self._unit:sound():play("pickup_fak_skill", nil, nil)
-
-				return
-			end
-		end
-	end
-
+	local weap_unit = attack_data.weapon_unit
+	local weap_base = weap_unit:base()
 	local is_civilian = CopDamage.is_civilian(self._unit:base()._tweak_table)
-
+	local attacked_by_local_player = attack_data.attacker_unit == managers.player:player_unit()
 	if self._has_plate and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_plate_name then
-		local pierce_armor = nil
-
 		if attack_data.armor_piercing or weap_base.thrower_unit then
-			pierce_armor = true
-		end
-
-		if pierce_armor then
 			World:effect_manager():spawn({
 				effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
 				position = attack_data.col_ray.position,
@@ -741,19 +715,19 @@ function CopDamage:damage_bullet(attack_data)
 				effect = Idstring("effects/payday2/particles/impacts/steel_no_decal_impact_pd2"),
 				position = attack_data.col_ray.position,
 				normal = attack_data.col_ray.ray
-			})			
-			--Armor Impact sound AAAAAAAAAAA
-			if attack_data.attacker_unit == managers.player:player_unit() then
+			})
+
+			if attacked_by_local_player then
 				self._unit:sound():play("knuckles_hit_gen", nil, nil)
 			end
+
 			return
 		end
 	end
 
 	local result = nil
 	local body_index = self._unit:get_body_index(attack_data.col_ray.body:name())
-	local head = self._head_body_name and not self._unit:in_slot(16) and not self._char_tweak.ignore_headshot and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name
-
+	local head = not self._char_tweak.ignore_headshot and (attack_data.col_ray.headshot or self._head_body_name and not self._unit:in_slot(16) and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name)
 	if head and not weap_base.thrower_unit and self._unit:base():has_tag("tank") then
 		mvector3.set(mvec_1, attack_data.col_ray.ray)
 		mrotation.z(self._unit:movement():m_head_rot(), mvec_2)
@@ -764,15 +738,13 @@ function CopDamage:damage_bullet(attack_data)
 			head = false
 		end
 	end
-
 	attack_data.headshot = head
 
 	local damage = attack_data.damage
 	local headshot_by_player = false
 	local headshot_multiplier = 1
-	local distance = attack_data.col_ray and attack_data.col_ray.distance or mvector3.distance(attack_data.origin, self._unit:position()) or 0
-
-	if attack_data.attacker_unit == managers.player:player_unit() then
+	local distance = attack_data.col_ray.falloff_distance or attack_data.col_ray.distance or mvector3.distance(attack_data.origin, self._unit:position()) or 0
+	if attacked_by_local_player then
 		attack_data.backstab = self:check_backstab(attack_data)
 		
 		local damage_scale = 1
@@ -781,7 +753,6 @@ function CopDamage:damage_bullet(attack_data)
 		end		
 		
 		local critical_hit, crit_damage = self:roll_critical_hit(attack_data)
-
 		if critical_hit then
 			damage = crit_damage
 			attack_data.critical_hit = true
@@ -818,23 +789,16 @@ function CopDamage:damage_bullet(attack_data)
 			end
 
 			managers.player:on_headshot_dealt(self._unit, attack_data)
-
-			headshot_by_player = true
-			headshot_multiplier = managers.player:upgrade_value("weapon", "passive_headshot_damage_multiplier", 1)
 		end
 	end
 
-	if not self._damage_reduction_multiplier and head then
-		if self._char_tweak.headshot_dmg_mul then
-			damage = damage * self._char_tweak.headshot_dmg_mul * headshot_multiplier
-		else
-			damage = self._health * 10
-		end
+	if head and not self._damage_reduction_multiplier then
+		damage = damage * (self._char_tweak.headshot_dmg_mul or 1) * headshot_multiplier
 	end
 	
 	if self._char_tweak.damage.bullet_damage_mul then
 		damage = damage * self._char_tweak.damage.bullet_damage_mul
-	end	
+	end
 
 	if self._marked_dmg_mul then
 		damage = damage * self._marked_dmg_mul
@@ -848,35 +812,19 @@ function CopDamage:damage_bullet(attack_data)
 		end
 	end
 
-	if not head and attack_data.attacker_unit == managers.player:player_unit() and not self._char_tweak.must_headshot and self._char_tweak.headshot_dmg_mul then
-		if weap_base.is_category and weap_base:is_category("smg", "lmg", "minigun") and managers.player:has_category_upgrade("weapon", "automatic_head_shot_add") or managers.player:has_category_upgrade("player", "universal_body_expertise") then
-			attack_data.add_head_shot_mul = managers.player:upgrade_value("weapon", "automatic_head_shot_add", nil)
-		end
-
-		if attack_data.add_head_shot_mul then
-			local tweak_headshot_mul = math.max(0, self._char_tweak.headshot_dmg_mul - 1)
-			local mul = tweak_headshot_mul * attack_data.add_head_shot_mul + 1
-			damage = damage * mul
-		end
-	end
-
 	damage = self:_apply_damage_reduction(damage)
 
-	--Saw+Throwables ignore clamps
-	if self._char_tweak.DAMAGE_CLAMP_BULLET then
-		if weap_base.thrower_unit or weap_base.is_category and weap_base:is_category("saw") then
-		else
-			damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
-		end
+	if self._unit:base():char_tweak().DAMAGE_CLAMP_BULLET then
+		damage = math.min(damage, self._char_tweak.DAMAGE_CLAMP_BULLET)
 	end
 
 	attack_data.raw_damage = damage
 
-	if attack_data.weapon_unit and weap_base.is_category and weap_base:is_category("saw") then
+	if weap_base:is_category("saw") then
 		managers.groupai:state():_voice_saw() --THAT MADMAN HAS A FUCKIN' SAW
 	end
 
-	if attack_data.attacker_unit:base().sentry_gun and not self:is_friendly_fire(attack_data.attacker_unit) then
+	if attacker:base().sentry_gun then
 		managers.groupai:state():_voice_sentry() --FUCKING SCI-FI ROBOT GUNS
 	end
 
@@ -899,7 +847,7 @@ function CopDamage:damage_bullet(attack_data)
 	if self._health <= damage then
 		attack_data.damage = self._health
 
-		if not (head and weap_base and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
+		if not (head and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant
@@ -907,7 +855,7 @@ function CopDamage:damage_bullet(attack_data)
 			self._player_damage_ratio = 0
 		else
 			if head then
-				managers.player:on_lethal_headshot_dealt(attack_data.attacker_unit, attack_data)
+				managers.player:on_lethal_headshot_dealt(attacker, attack_data)
 
 				if self._unit:base()._tweak_table == "boom" then
 					self._unit:damage():run_sequence_simple("grenadier_glass_break")
@@ -925,7 +873,6 @@ function CopDamage:damage_bullet(attack_data)
 				managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math.UP * 10, mvector3.copy(self._unit:movement():m_head_pos()), 7.5)
 			end
 
-
 			result = {
 				type = "death",
 				variant = attack_data.variant
@@ -934,8 +881,9 @@ function CopDamage:damage_bullet(attack_data)
 			if attack_data.backstab then
 				managers.player:add_backstab_dodge()
 			end
+
 			self:die(attack_data)
-			self:chk_killshot(attack_data.attacker_unit, "bullet", headshot_by_player)
+			self:chk_killshot(attacker, "bullet", head and attacked_by_local_player)
 		end
 	else
 		attack_data.damage = damage
@@ -977,10 +925,10 @@ function CopDamage:damage_bullet(attack_data)
 
 		managers.statistics:killed_by_anyone(data)
 
-		if attack_data.attacker_unit == managers.player:player_unit() then
-			local special_comment = self:_check_special_death_conditions(attack_data.variant, attack_data.col_ray.body, attack_data.attacker_unit, attack_data.weapon_unit)
+		if attacked_by_local_player then
+			local special_comment = self:_check_special_death_conditions(attack_data.variant, attack_data.col_ray.body, attacker, attack_data.weapon_unit)
 
-			self:_comment_death(attack_data.attacker_unit, self._unit, special_comment)
+			self:_comment_death(attacker, self._unit, special_comment)
 			self:_show_death_hint(self._unit:base()._tweak_table)
 
 			local attacker_state = managers.player:current_state()
@@ -996,7 +944,7 @@ function CopDamage:damage_bullet(attack_data)
 			if is_civilian then
 				managers.money:civilian_killed()
 			end
-		elseif attack_data.attacker_unit:base().sentry_gun then
+		elseif attacker:base().sentry_gun then
 			if Network:is_server() then
 				local server_info = weap_base:server_information()
 
@@ -1014,25 +962,20 @@ function CopDamage:damage_bullet(attack_data)
 			end
 
 			local sentry_attack_data = deep_clone(attack_data)
-			sentry_attack_data.attacker_unit = attack_data.attacker_unit:base():get_owner()
+			sentry_attack_data.attacker_unit = attacker:base():get_owner()
 
 			if sentry_attack_data.attacker_unit == managers.player:player_unit() then
 				self:_check_damage_achievements(sentry_attack_data, head)
 			else
 				self._unit:network():send("sync_damage_achievements", sentry_attack_data.weapon_unit, sentry_attack_data.attacker_unit, sentry_attack_data.damage, sentry_attack_data.col_ray and sentry_attack_data.col_ray.distance, head)
 			end
-		else
-			if managers.groupai:state():is_unit_team_AI(attack_data.attacker_unit) then
-				local special_comment = self:_check_special_death_conditions(attack_data.variant, attack_data.col_ray.body, attack_data.attacker_unit, attack_data.weapon_unit)
-
-				self:_AI_comment_death(attack_data.attacker_unit, self._unit, special_comment)
-			end
+		elseif managers.groupai:state():is_unit_team_AI(attacker) then
+			local special_comment = self:_check_special_death_conditions(attack_data.variant, attack_data.col_ray.body, attacker, weap_unit)
+			self:_AI_comment_death(attacker, self._unit, special_comment)
 		end
 	end
 
 	local hit_offset_height = math.clamp(attack_data.col_ray.position.z - self._unit:position().z, 0, 300)
-	local attacker = attack_data.attacker_unit
-
 	if not attacker or not alive(attacker) or attacker:id() == -1 then
 		attacker = self._unit
 	end
@@ -1042,7 +985,6 @@ function CopDamage:damage_bullet(attack_data)
 	end
 
 	local i_result = nil
-
 	if result.type == "healed" then
 		i_result = 1
 	else
@@ -1197,12 +1139,7 @@ function CopDamage:damage_melee(attack_data)
 
 	--Non-bludgeoning melee hits at body armor deal no damage.
 	if self._has_plate and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_plate_name then
-		local pierce_armor = nil
 		if attack_data.armor_piercing then
-			pierce_armor = true
-		end
-
-		if pierce_armor then
 			World:effect_manager():spawn({
 				effect = Idstring("effects/payday2/particles/impacts/blood/blood_impact_a"),
 				position = attack_data.col_ray.position,

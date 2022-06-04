@@ -687,20 +687,19 @@ local mvec3_dis_sq = mvector3.distance_sq
 local mvec3_cpy = mvector3.copy
 local ovh_idstr = Idstring("effects/pd2_mod_heatgen/explosions/overheat")
 function PlayerManager:enemy_shot(unit, attack_data)
+	--Filter out invalid attacks.
+	local weapon_unit = attack_data.weapon_unit
+	local player_unit = attack_data.attacker_unit
+	if player_unit ~= self:player_unit()
+		or not weapon_unit
+		or weapon_unit ~= self:equipped_weapon_unit() then
+		return
+	end
+
 	self._message_system:notify(Message.OnEnemyShot, nil, self._unit, attack_data)
 
 	--Do Overheat stuff if player has the skill.
-	if self:has_category_upgrade("player", "overheat") then
-		--Filter out invalid attacks.
-		local weapon_unit = attack_data.weapon_unit
-		local player_unit = attack_data.attacker_unit
-		if player_unit ~= self:player_unit()
-			or not weapon_unit
-			or weapon_unit ~= self:equipped_weapon_unit()
-			or not self:equipped_weapon_unit():base():is_category("shotgun", "flamethrower") then
-			return
-		end
-
+	if self:has_category_upgrade("player", "overheat") and self:equipped_weapon_unit():base():is_category("shotgun", "flamethrower") then
 		--Filter out attacks from too far away.
 		local overheat_data = self:upgrade_value("player", "overheat")
 		local player_pos = player_unit:movement():m_pos()

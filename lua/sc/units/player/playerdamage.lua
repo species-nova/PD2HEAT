@@ -461,7 +461,7 @@ function PlayerDamage:damage_bullet(attack_data)
 	self._unit:camera():play_shaker("player_bullet_damage", 1 * shake_multiplier)
 	managers.rumble:play("damage_bullet")
 	
-	if not self:_apply_damage(attack_data, damage_info, "bullet", pm:player_timer():time()) then
+	if not self:_apply_damage(attack_data, damage_info, attack_data.is_hit and "fire" or "bullet", pm:player_timer():time()) then
 		return
 	end
 
@@ -663,6 +663,32 @@ function PlayerDamage:damage_explosion(attack_data)
 		local push_force = math.lerp(30, 300, dmg_lerp_value)
 
 		self._unit:movement():push(push_vec * push_force)
+	end
+end
+
+function PlayerDamage:damage_fire(attack_data)
+	if attack_data.is_hit then
+		return self:damage_bullet(attack_data)
+	end
+
+	local damage_info = {
+		result = {
+			variant = "fire",
+			type = "hurt"
+		}
+	}
+
+	if not self:can_take_damage(attack_data, damage_info) then
+		return
+	end
+
+	local distance = mvector3.distance(attack_data.position or attack_data.col_ray.position, self._unit:position())
+	if attack_data.range < distance then
+		return
+	end
+
+	if not self:_apply_damage(attack_data, damage_info, "fire", managers.player:player_timer():time()) then
+		return
 	end
 end
 
