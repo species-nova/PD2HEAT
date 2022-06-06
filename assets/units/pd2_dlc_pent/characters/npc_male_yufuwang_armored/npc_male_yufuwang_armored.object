@@ -10,7 +10,7 @@
         </body>
         <body name="head" template="character" collision_class="ragdoll" friction="0.60000002">
             <object name="Head"/>
-            <object name="c_sphere_head" padding="-3" collision_type="sphere"/>
+            <object name="c_sphere_head" padding="-4" collision_type="sphere"/>
         </body>
         <body name="mover_blocker" enabled="true" template="mover_blocker" collision_class="ragdoll" keyframed="true">
             <object name="root_point"/>
