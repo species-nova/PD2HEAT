@@ -5379,7 +5379,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_M4",
-					freq = 0.45,
+					freq = 0.6,
 					tactics = self._tactics.MH_shield_ranged_support,
 					rank = 1
 				},
@@ -5392,8 +5392,8 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_shield",
-					freq = 0.45,
-					amount_max = 3,
+					freq = 0.3,
+					amount_max = 2,
 					tactics = self._tactics.MH_shield,
 					rank = 2
 				}
@@ -5413,7 +5413,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "GS_swat_M4",
-					freq = 0.25,
+					freq = 0.3,
 					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 1
 				},
@@ -5426,15 +5426,15 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				},
 				{
 					unit = "FBI_shield",
-					freq = 0.35,
-					amount_max = 3,
+					freq = 0.3,
+					amount_max = 2,
 					tactics = self._tactics.MH_shield,
 					rank = 2
 				},
 				{
 					unit = "medic_M4",
 					freq = 0.3,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
 				}
@@ -5462,14 +5462,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_shield",
 					freq = 0.3,
-					amount_max = 3,
+					amount_max = 2,
 					tactics = self._tactics.MH_shield_flank,
 					rank = 2
 				},
 				{
 					unit = "medic_M4",
 					freq = 0.3,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
 				}
@@ -5497,14 +5497,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 				{
 					unit = "FBI_shield",
 					freq = 0.3,
-					amount_max = 3,
+					amount_max = 2,
 					tactics = self._tactics.MH_shield_flank,
 					rank = 2
 				},
 				{
 					unit = "medic_M4",
 					freq = 0.4,
-					amount_max = 1,
+					amount_max = 2,
 					tactics = self._tactics.FBI_medic,
 					rank = 1
 				}
@@ -5889,7 +5889,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					},
 					{
 						unit = "boom_M4203",
-						freq = 0.4,
+						freq = 0.35,
 						amount_min = 1,
 						amount_max = 2,
 						tactics = self._tactics.ELITE_boom,
@@ -5898,13 +5898,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					{
 						unit = "FBI_shield",
 						freq = 0.1,
-						amount_max = 2,
+						amount_max = 1,
 						tactics = self._tactics.MH_shield,
 						rank = 2
 					},
 					{
 						unit = "Titan_taser",
-						freq = 0.1,
+						freq = 0.15,
 						amount_max = 1,
 						tactics = self._tactics.ELITE_flank_tazer,
 						rank = 4
@@ -5931,7 +5931,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					},
 					{
 						unit = "boom_M4203",
-						freq = 0.4,
+						freq = 0.3,
 						amount_min = 1,
 						amount_max = 3,
 						tactics = self._tactics.ELITE_boom,
@@ -5940,13 +5940,13 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					{
 						unit = "FBI_shield",
 						freq = 0.1,
-						amount_max = 2,
+						amount_max = 1,
 						tactics = self._tactics.MH_shield,
 						rank = 2
 					},
 					{
 						unit = "Titan_taser",
-						freq = 0.1,
+						freq = 0.2,
 						amount_max = 1,
 						tactics = self._tactics.ELITE_flank_tazer,
 						rank = 4
@@ -5973,7 +5973,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					},
 					{
 						unit = "boom_M4203",
-						freq = 0.4,
+						freq = 0.3,
 						amount_min = 1,
 						amount_max = 3,
 						tactics = self._tactics.ELITE_boom,
@@ -5982,14 +5982,14 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					{
 						unit = "FBI_shield",
 						freq = 0.1,
-						amount_max = 2,
+						amount_max = 1,
 						tactics = self._tactics.MH_shield,
 						rank = 2
 					},
 					{
 						unit = "Titan_taser",
-						freq = 0.1,
-						amount_max = 1,
+						freq = 0.2,
+						amount_max = 2,
 						tactics = self._tactics.ELITE_flank_tazer,
 						rank = 4
 					}
