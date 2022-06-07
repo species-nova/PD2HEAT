@@ -680,11 +680,10 @@ function CharacterTweakData:_init_medic(presets) --Medic
 	self.medic_summers.immune_to_knock_down = true
 	self.medic_summers.priority_shout = "f45"
 	self.medic_summers.bot_priority_shout = "f45x_any"
-	self.medic_summers.speech_prefix_p1 = "rmdc"
+	self.medic_summers.custom_voicework = "olpf"
+	self.medic_summers.speech_prefix_p1 = nil
 	self.medic_summers.speech_prefix_p2 = nil
 	self.medic_summers.custom_voicework = nil
-	self.medic_summers.spawn_sound_event = "rmdc_entrance"
-	self.medic_summers.use_radio = "dsp_radio_russian"
 	self.medic_summers.chatter = presets.enemy_chatter.omnia_lpf
 	self.medic_summers.is_special = true
 	self.medic_summers.do_summers_heal = true
@@ -2494,7 +2493,8 @@ function CharacterTweakData:_init_summers(presets) --captain summers
 	self.summers.suppression = nil
 	self.summers.weapon_voice = "3"
 	self.summers.experience.cable_tie = "tie_swat"
-	self.summers.speech_prefix_p1 = "rtsr"
+	self.summers.custom_voicework = "tdozer"
+	self.summers.speech_prefix_p1 = nil
 	self.summers.speech_prefix_p2 = nil
 	self.summers.speech_prefix_count = nil
 	self.summers.access = "taser"
@@ -2512,7 +2512,6 @@ function CharacterTweakData:_init_summers(presets) --captain summers
 	else
 		self.summers.spawn_sound_event = "cpa_a02_01"
 	end
-	self.summers.use_radio = "dsp_radio_russian"
 	self.summers.steal_loot = nil
 	self.summers.is_special = true
 	self.summers.leader = {max_nr_followers = 3}
@@ -2690,7 +2689,6 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_summers.speech_prefix_p1 = "fl"
 	self.taser_summers.speech_prefix_p2 = "n"
 	self.taser_summers.speech_prefix_count = 1
-	self.taser_summers.use_radio = "dsp_radio_russian"
 	self.taser_summers.spawn_sound_event = nil
 	self.taser_summers.custom_voicework = nil
 	self.taser_summers.is_special = true	
@@ -2821,7 +2819,6 @@ function CharacterTweakData:_init_boom(presets) --grenadier
 	self.boom_summers.speech_prefix_p2 = "n"
 	self.boom_summers.speech_prefix_count = 1
 	self.boom_summers.custom_voicework = nil
-	self.boom_summers.use_radio = "dsp_radio_russian"
 	self.boom_summers.HEALTH_INIT = 180
 	self.boom_summers.headshot_dmg_mul = normal_headshot
 	self.boom_summers.tags = {"female_enemy", "medic_summers", "custom", "special"}
