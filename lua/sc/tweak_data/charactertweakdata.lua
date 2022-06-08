@@ -948,6 +948,116 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	table.insert(self._enemy_list, "weekend_dmr")
 end
 
+function CharacterTweakData:_init_fbi_swat(presets) --green light fbi swat
+	local is_murky
+	if self:get_ai_group_type() == "murkywater" then
+		is_murky = true
+	end
+	local is_reaper
+	if self:get_ai_group_type() == "russia" then
+		is_reaper = true
+	end
+	local is_zombie
+	if self:get_ai_group_type() == "zombie" then
+		is_zombie = true
+	end
+	local is_federales
+	if self:get_ai_group_type() == "federales" then
+		is_federales = true
+	end		
+	self.fbi_swat = deep_clone(presets.base)
+	self.fbi_swat.tags = {"law"}
+	self.fbi_swat.experience = {}
+	self.fbi_swat.weapon = presets.weapon.expert
+	self.fbi_swat.detection = presets.detection.normal
+	self.fbi_swat.HEALTH_INIT = 32.4
+	self.fbi_swat.headshot_dmg_mul = normal_headshot
+	self.fbi_swat.move_speed = presets.move_speed.very_fast
+	self.fbi_swat.surrender_break_time = {6, 10}
+	self.fbi_swat.suppression = presets.suppression.hard_def
+	self.fbi_swat.surrender = presets.surrender.hard
+	self.fbi_swat.ecm_vulnerability = 1
+	self.fbi_swat.ecm_hurts = {
+		ears = {min_duration = 3, max_duration = 3}
+	}
+	self.fbi_swat.weapon_voice = "2"
+	self.fbi_swat.experience.cable_tie = "tie_swat"
+	self.fbi_swat.speech_prefix_p1 = self._prefix_data_p1.swat()
+	self.fbi_swat.speech_prefix_p2 = self._speech_prefix_p2
+	self.fbi_swat.speech_prefix_count = 4
+	self.fbi_swat.access = "swat"
+	self.fbi_swat.dodge = presets.dodge.athletic_very_hard
+	self.fbi_swat.no_arrest = false
+	self.fbi_swat.chatter = presets.enemy_chatter.swat
+	self.fbi_swat.melee_weapon = "knife_1"
+	if job == "chill_combat" then
+		self.fbi_swat.steal_loot = nil
+	else
+		self.fbi_swat.steal_loot = true
+	end
+	self.fbi_swat.static_weapon_preset = true
+	self.fbi_swat.static_dodge_preset = true
+	self.fbi_swat.static_melee_preset = true
+	table.insert(self._enemy_list, "fbi_swat")
+
+	self.fbi_swat_vet = deep_clone(self.fbi_swat)
+	table.insert(self._enemy_list, "fbi_swat_vet")
+end
+
+function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec swat
+	local is_murky
+	if self:get_ai_group_type() == "murkywater" then
+		is_murky = true
+	end
+	local is_reaper
+	if self:get_ai_group_type() == "russia" then
+		is_reaper = true
+	end
+	local is_zombie
+	if self:get_ai_group_type() == "zombie" then
+		is_zombie = true
+	end
+	local is_federales
+	if self:get_ai_group_type() == "federales" then
+		is_federales = true
+	end		
+	self.fbi_heavy_swat = deep_clone(presets.base)
+	self.fbi_heavy_swat.tags = {"law"}
+	self.fbi_heavy_swat.experience = {}
+	self.fbi_heavy_swat.weapon = presets.weapon.normal
+	self.fbi_heavy_swat.detection = presets.detection.normal
+	self.fbi_heavy_swat.HEALTH_INIT = 50.4
+	self.fbi_heavy_swat.damage.hurt_severity = presets.hurt_severities.boom
+	self.fbi_heavy_swat.damage.explosion_damage_mul = 0.5
+	self.fbi_heavy_swat.headshot_dmg_mul = normal_headshot
+	self.fbi_heavy_swat.move_speed = presets.move_speed.fast
+	self.fbi_heavy_swat.surrender_break_time = {6, 8}
+	self.fbi_heavy_swat.suppression = presets.suppression.hard_agg
+	self.fbi_heavy_swat.surrender = presets.surrender.hard
+	self.fbi_heavy_swat.ecm_vulnerability = 1
+	self.fbi_heavy_swat.ecm_hurts = {
+		ears = {min_duration = 3, max_duration = 3}
+	}
+	self.fbi_heavy_swat.weapon_voice = "2"
+	self.fbi_heavy_swat.experience.cable_tie = "tie_swat"
+	self.fbi_heavy_swat.speech_prefix_p1 = self._prefix_data_p1.heavy_swat()
+	self.fbi_heavy_swat.speech_prefix_p2 = self._speech_prefix_p2
+	self.fbi_heavy_swat.speech_prefix_count = 4
+	self.fbi_heavy_swat.access = "swat"
+	self.fbi_heavy_swat.dodge = presets.dodge.heavy_very_hard
+	self.fbi_heavy_swat.no_arrest = false
+	self.fbi_heavy_swat.melee_weapon = "knife_1"
+	self.fbi_heavy_swat.chatter = presets.enemy_chatter.swat
+	if job == "chill_combat" then
+		self.fbi_heavy_swat.steal_loot = nil
+	else
+		self.fbi_heavy_swat.steal_loot = true
+	end
+	self.fbi_heavy_swat.static_weapon_preset = true
+	self.fbi_heavy_swat.static_dodge_preset = true
+	self.fbi_heavy_swat.static_melee_preset = true
+	table.insert(self._enemy_list, "fbi_heavy_swat")
+
 	--Bravo LMG
 	self.weekend_lmg = deep_clone(self.heavy_swat)
 	if is_reaper then
@@ -971,6 +1081,81 @@ end
 	self.weekend_lmg.grenade = frag
 	table.insert(self._enemy_list, "weekend_lmg")
 end
+
+function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
+	local is_murky
+	if self:get_ai_group_type() == "murkywater" then
+		is_murky = true
+	end
+	local is_reaper
+	if self:get_ai_group_type() == "russia" then
+		is_reaper = true
+	end
+	local is_zombie
+	if self:get_ai_group_type() == "zombie" then
+		is_zombie = true
+	end
+	local is_federales
+	if self:get_ai_group_type() == "federales" then
+		is_federales = true
+	end		
+	self.city_swat = deep_clone(presets.base)
+	self.city_swat.tags = {"law", "city_swat"}
+	self.city_swat.experience = {}
+	self.city_swat.weapon = presets.weapon.expert
+	self.city_swat.detection = presets.detection.normal
+	self.city_swat.HEALTH_INIT = 32.4
+	self.city_swat.headshot_dmg_mul = normal_headshot
+	self.city_swat.move_speed = presets.move_speed.very_fast
+	self.city_swat.surrender_break_time = {6, 10}
+	self.city_swat.suppression = presets.suppression.hard_def
+	self.city_swat.surrender = presets.surrender.hard
+	self.city_swat.no_arrest = false
+	self.city_swat.ecm_vulnerability = 1
+	self.city_swat.ecm_hurts = {
+		ears = {min_duration = 3, max_duration = 3}
+	}
+	self.city_swat.weapon_voice = "2"
+	self.city_swat.experience.cable_tie = "tie_swat"
+	self.city_swat.silent_priority_shout = "f37"
+	self.city_swat.speech_prefix_p1 = self._prefix_data_p1.swat()
+	self.city_swat.speech_prefix_p2 = self._speech_prefix_p2
+	self.city_swat.speech_prefix_count = 4
+	self.city_swat.access = "swat"
+	self.city_swat.dodge = presets.dodge.athletic_overkill
+	self.city_swat.chatter = presets.enemy_chatter.swat
+	self.city_swat.melee_weapon = "knife_1"
+	if job == "chill_combat" then
+		self.city_swat.steal_loot = nil
+	else
+		self.city_swat.steal_loot = true
+	end
+	if job == "kosugi" or job == "dark" then
+		self.city_swat.shooting_death = false
+		self.city_swat.radio_prefix = "fri_"
+		self.city_swat.use_radio = "dsp_radio_russian"
+	else
+		self.city_swat.shooting_death = true
+	end	
+	self.city_swat.has_alarm_pager = true
+	self.city_swat.calls_in = true
+	self.city_swat.static_weapon_preset = true
+	self.city_swat.static_dodge_preset = true
+	self.city_swat.static_melee_preset = true	
+	self.city_swat.custom_voicework = nil
+	table.insert(self._enemy_list, "city_swat")
+
+	--Unused pretty sure
+	self.city_swat_guard = deep_clone(self.city_swat)
+	self.city_swat_guard.weapon = presets.weapon.good
+	self.city_swat_guard.HEALTH_INIT = 24
+	self.city_swat_guard.headshot_dmg_mul = strong_headshot
+	self.city_swat_guard.damage.hurt_severity = presets.hurt_severities.strong
+	self.city_swat_guard.access = "security"
+	self.city_swat_guard.chatter = presets.enemy_chatter.guard
+	self.city_swat_guard.melee_weapon = "baton"
+	self.city_swat_guard.use_radio = nil
+	table.insert(self._enemy_list, "city_swat_guard")
 
 	--Bravo Shotgunner Rifle
 	self.weekend = deep_clone(self.swat)
