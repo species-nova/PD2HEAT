@@ -7,138 +7,116 @@ Day = os.date("%d")
 
 heat._mod_path = heat:GetPath()
 function heat:Init()
-	--Winters
-	heat.captain_camper = {
-		"arena", --Alesso
-		"welcome_to_the_jungle_1", --Big Oil Day 1
-		"welcome_to_the_jungle_1_night", --Big Oil Day 1 Night
-		"stage_1", --Big Oil Day 1 EDIT
-		"welcome_to_the_jungle_2", --Big Oil Day 2
-		"stage_2", --Big Oil Day 2 EDIT
-		"election_day_1", --Election Day 1
-		"election_day_2", --Election Day 2
-		"election_day_3", --Election Day 3
-		"election_day_3_skip1", --Election Day 3 (Skipped 1)
-		"election_day_3_skip2", --Election Day 3 (Skipped 2)
-		"firestarter_2", --firestarter day 2
-		"four_stores", --Four Stores
-		"moon", --Stealing Xmas
-		"mus",	--the diamond
-		"gallery", --art gallery
-		"crojob3", --bomb forest
-		"red2", --fwb
-		--Custom Heists--
-		"office_strike", --office strike
-		"firestarter_2_res" --firestarter day 2 res edit version
+	heat.captain_types = {
+		winter = {
+			spawn_group = "Cap_Winters",
+			icon = "guis/textures/pd2/hud_buff_shield",
+			vs_line = "hud_assault_vip_winters"
+		},
+		spring = {
+			spawn_group = "Cap_Spring",
+			icon = "guis/textures/pd2/hud_buff_skull",
+			vs_line = "hud_assault_vip_spring"
+		},
+		summer = {
+			spawn_group = "Cap_Summers",
+			icon = "guis/textures/pd2/hud_buff_fire",
+			vs_line = "hud_assault_vip_summers"
+		},
+		autumn = {
+			spawn_group = "Cap_Autumn",
+			icon = "guis/textures/pd2/hud_buff_spooc",
+			vs_line = "hud_assault_vip_autumn"
+		},
+		hvh = {
+			spawn_group = "HVH_Boss",
+			icon = "guis/textures/pd2/hud_buff_halloween",
+			vs_line = "hud_assault_vip_hvh",
+			captain_warn = "hud_assault_vip_hvhwarn"
+		}
 	}
-	--Summers
-	heat.captain_teamwork = {
-		"pal", --counterfeit
-		"mia_1", --Hotline Day 1
-		"crojob2", --bomb dockyard
-		"firestarter_3", --firestarter day 3
-		"jolly", --aftershock
-		"rvd1", --highland mortuary 
-		"mad", --boiling point
-		"wwh", --alaskan deal
-		"run", --Heat Street
-		"run_res", --Whurr's Heat Street Edit
-		"watchdogs_2", --watch dogs 2
-		"watchdogs_2_day", --Watchdogs Day 2 Daytime
-		"jolly_CD", --jolly crackdown edit
-		--custom heists		
-		"firestarter_3_res" --firestarter day 3 res edit version
-	}
-	--Spring
-	heat.captain_murderdozer = {
-		"dah", --diamond heist
-		"hox_2", --Hoxout Day 2
-		"xmn_hox_2", --Hoxout Day 2, christmas
-		"firestarter_1", --firestarter day 1
-		"arm_for",	--train heist
-		"arm_for_heat",	--train heist heat edit
-		"big", --big bank
-		"kenaz", --ggc
-		"bex", --san martin bank
-		"dinner", --Slaughterhouse
-		"chas", --Dragon Heist
-		--custom heists		
-		"firestarter_1_res", --firestarter day 1 res edit version
-		"lvl_friday", --Crashing Capitol
-		"bnktower" --GenSec HIVE
-	}
-	--Autumn
-	heat.captain_stelf = {
-		"alex_1", --Rats Day 1
-		"rat",	--cook off
-		"flat", --panic room
-		"nightclub", --and Autumn stay off the dance floor
-		"branchbank", --well the trees are orange
-		"family", --diamond store
-		"framing_frame_1", --art gallery but ff
-		"framing_frame_3", --Powerbox simulator
-		"jewelry_store", --Jewelry Store
-		"ukrainian_job", --Ukrainian Job
-		"pex", --police station mex
-		"man", --undercover--
-		"rvd2", --garnet group boutique 
-		--"brb", --brooklyn bank THIS SUCKS CURRENTLY.  REDO THE SCRIPTED SPAWNS ON BRB BEFORE GIVING IT A CAPTAIN!!!
-		--custom heists
-		"wetwork", --res map package wetworks
-		"alex_1_res", --Rats Day 1 res edit version
-		"lvl_fourmorestores", --four more stores
-		"ukrainian_job_res", --Ukrainian Job res edit version
-		"hntn" --harvest and trustee north
-	}
-	--Headless
-	heat.what_a_horrible_heist_to_have_a_curse = {
-		"help", --Prison Nightmare
-		"nail" --lab rats
-		--"haunted", --safehouse nightmare
-		--"hvh" --cursed kill room
 
+	--Defines what captains spawn on what heists.
+	heat.captain_spawns = {
+		arena = heat.captain_types.winter, --Alesso
+		welcome_to_the_jungle_1 = heat.captain_types.winter, --Big Oil Day 1
+		welcome_to_the_jungle_1_night = heat.captain_types.winter, --Big Oil Day 1 Night
+		stage_1 = heat.captain_types.winter, --Big Oil Day 1 EDIT
+		welcome_to_the_jungle_2 = heat.captain_types.winter, --Big Oil Day 2
+		stage_2 = heat.captain_types.winter, --Big Oil Day 2 EDIT
+		election_day_1 = heat.captain_types.winter, --Election Day 1
+		election_day_2 = heat.captain_types.winter, --Election Day 2
+		election_day_3 = heat.captain_types.winter, --Election Day 3
+		election_day_3_skip1 = heat.captain_types.winter, --Election Day 3 (Skipped 1)
+		election_day_3_skip2 = heat.captain_types.winter, --Election Day 3 (Skipped 2)
+		firestarter_2 = heat.captain_types.winter, --firestarter day 2
+		four_stores = heat.captain_types.winter, --Four Stores
+		moon = heat.captain_types.winter, --Stealing Xmas
+		mus = heat.captain_types.winter,	--the diamond
+		gallery = heat.captain_types.winter, --art gallery
+		crojob3 = heat.captain_types.winter, --bomb forest
+		red2 = heat.captain_types.winter, --fwb
+		pal = heat.captain_types.summer, --counterfeit
+		mia_1 = heat.captain_types.summer, --Hotline Day 1
+		crojob2 = heat.captain_types.summer, --bomb dockyard
+		firestarter_3 = heat.captain_types.summer, --firestarter day 3
+		jolly = heat.captain_types.summer, --aftershock
+		rvd1 = heat.captain_types.summer, --highland mortuary 
+		mad = heat.captain_types.summer, --boiling point
+		wwh = heat.captain_types.summer, --alaskan deal
+		run = heat.captain_types.summer, --Heat Street
+		run_res = heat.captain_types.summer, --Whurr's Heat Street Edit
+		watchdogs_2 = heat.captain_types.summer, --watch dogs 2
+		watchdogs_2_day = heat.captain_types.summer, --Watchdogs Day 2 Daytime
+		jolly_CD = heat.captain_types.summer, --jolly crackdown edit
+		dah = heat.captain_types.spring, --diamond heist
+		hox_2 = heat.captain_types.spring, --Hoxout Day 2
+		xmn_hox_2 = heat.captain_types.spring, --Hoxout Day 2, christmas
+		firestarter_1 = heat.captain_types.spring, --firestarter day 1
+		arm_for = heat.captain_types.spring, --train heist
+		arm_for_heat = heat.captain_types.spring,	--train heist heat edit
+		big = heat.captain_types.spring, --big bank
+		kenaz = heat.captain_types.spring, --ggc
+		bex = heat.captain_types.spring, --san martin bank
+		dinner = heat.captain_types.spring, --Slaughterhouse
+		chas = heat.captain_types.spring, --Dragon Heist
+		alex_1 = heat.captain_types.autumn, --Rats Day 1
+		rat = heat.captain_types.autumn,	--cook off
+		flat = heat.captain_types.autumn, --panic room
+		nightclub = heat.captain_types.autumn, --Night Club
+		branchbank = heat.captain_types.autumn, --Bank Heist
+		family = heat.captain_types.autumn, --diamond store
+		framing_frame_1 = heat.captain_types.autumn, --art gallery but ff
+		framing_frame_3 = heat.captain_types.autumn, --Powerbox simulator
+		jewelry_store = heat.captain_types.autumn, --Jewelry Store
+		ukrainian_job = heat.captain_types.autumn, --Ukrainian Job
+		pex = heat.captain_types.autumn, --police station mex
+		man = heat.captain_types.autumn, --undercover--
+		rvd2 = heat.captain_types.autumn, --garnet group boutique 
+		brb = heat.captain_types.autumn, --brooklyn bank
+		help = heat.captain_types.hvh, --Prison Nightmare
+		nail = heat.captain_types.hvh, --lab rats
+		--Custom Heists--
+		office_strike = heat.captain_types.winter, --office strike
+		firestarter_2_res = heat.captain_types.winter, --firestarter day 2 edit
+		firestarter_3_res = heat.captain_types.summer, --firestarter day 3 edit
+		firestarter_1_res = heat.captain_types.spring, --firestarter day 1 edit
+		lvl_friday = heat.captain_types.spring, --Crashing Capitol
+		bnktower = heat.captain_types.spring, --GenSec HIVE
+		alex_1_res = heat.captain_types.autumn, --Rats Day 1 edit
+		lvl_fourmorestores = heat.captain_types.autumn, --four more stores
+		ukrainian_job_res = heat.captain_types.autumn, --Ukrainian Job res edit version
+		hntn = heat.captain_types.autumn --harvest and trustee north
 	}
-	
+
 	if Month == "10" and heat.Options:GetValue("Holiday") then
-		--No Spring During holidays
-		heat.captain_murderdozer = {}
-		--Autumn loses a few heists
-		heat.captain_stelf = {
-			"alex_1", --Rats Day 1
-			"rat",	--cook off
-			"nightclub", --and Autumn stay off the dance floor
-			"family", --diamond store
-			"framing_frame_1", --art gallery but ff
-			"framing_frame_3", --Powerbox simulator
-			"jewelry_store", --Jewelry Store
-			"ukrainian_job", --Ukrainian Job
-			--custom heists
-			"wetwork", --res map package wetworks
-			"alex_1_res", --Rats Day 1 res edit version
-			"lvl_fourmorestores", --four more stores
-			"ukrainian_job_res", --Ukrainian Job res edit version
-			"hntn" --harvest and trustee north
-		}		
-		heat.what_a_horrible_heist_to_have_a_curse = {
-			"dah", --diamond heist
-			"hox_2", --Hoxout Day 2
-			"xmn_hox_2", --Hoxout Day 2, christmas
-			"firestarter_1", --firestarter day 1
-			"arm_for",	--train heist
-			"big", --big bank
-			"dinner", --Slaughterhouse
-			"branchbank", --Gets Branchbank from Autumn
-			"help", --Prison Nightmare			
-			"chas", --Dragon Heist
-			--custom heists		
-			"firestarter_1_res", --firestarter day 1 res edit version
-			"lvl_friday" --Crashing Capitol
-		}		
+		for heist, captain in pairs(heat.captain_spawns) do
+			if captain == heat.captain_types.spring then
+				heat.captain_spawns[heist] = heat.captain_types.hvh
+			end
+		end
 	end
-	--Monsoon
-	--[[heat.captain_viper = {
-		"jackal_zero_day_stage7" --Zero Day 7
-	}]]--
+
 	--Increased spawns, should only be reserved for larger maps.
 	heat.large_levels = {
 		"friend", --Scarface Mansion

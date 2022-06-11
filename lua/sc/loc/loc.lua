@@ -563,15 +563,12 @@ Hooks:Add("LocalizationManagerPostInit", "PD2HEAT_english_Localization", functio
 	})
 
 	local job = Global.level_data and Global.level_data.level_id
-	for _,j4 in ipairs(heat.what_a_horrible_heist_to_have_a_curse) do
-		if job == j4 then
-			LocalizationManager:add_localized_strings({	
-				["hud_assault_vip"] = "FACE YOUR NIGHTMARES AND WAKE UP",
-			})
-			break
-		end
-	end			
-	
+	local captain_type = job and heat.captain_spawns[job]
+	if captain_type == heat.captain_types.hvh then
+		LocalizationManager:add_localized_strings({	
+			["hud_assault_vip"] = "FACE YOUR NIGHTMARES AND WAKE UP",
+		})
+	end	
 end)
 
 Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)

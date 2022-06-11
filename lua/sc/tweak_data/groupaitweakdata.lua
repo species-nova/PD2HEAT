@@ -7384,82 +7384,16 @@ function GroupAITweakData:_init_task_data(difficulty_index, difficulty)
 		0,
 		0
 	}
-	--Captain Autumn stuff here--
-	for _,v in pairs(heat.captain_stelf) do
-		if job == v then
-			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Autumn = {0, 0, 0}
-			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Autumn = {0, 0.05, 0.1}
-			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Autumn = {0, 0.1, 0.15}
-			else
-				self.besiege.assault.groups.Cap_Autumn = {0, 0.1, 0.2}
-			end
-			break
-		end
-	end
 
-	--Captain Summers stuff here--
-	for _,v in pairs(heat.captain_teamwork) do
-		if job == v then
-			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Summers = {0, 0, 0}
-			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Summers = {0, 0.05, 0.1}
-			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Summers = {0, 0.1, 0.15}
-			else
-				self.besiege.assault.groups.Cap_Summers = {0, 0.1, 0.2}
-			end
-			break
-		end
-	end
-
-	--Captain Spring stuff here--
-	for _,v in pairs(heat.captain_murderdozer) do
-		if job == v then
-			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Spring = {0, 0, 0}
-			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Spring = {0, 0.05, 0.1}
-			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Spring = {0, 0.1, 0.15}
-			else
-				self.besiege.assault.groups.Cap_Spring = {0, 0.1, 0.2}
-			end
-			break
-		end
-	end
-	--HVH Boss stuff--
-	for _,v in pairs(heat.what_a_horrible_heist_to_have_a_curse) do
-		if job == v then
-			if difficulty_index <= 3 then
-				self.besiege.assault.groups.HVH_Boss = {0, 0, 0}
-			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.HVH_Boss = {0, 0.05, 0.1}
-			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.HVH_Boss = {0, 0.1, 0.15}
-			else
-				self.besiege.assault.groups.HVH_Boss = {0, 0.1, 0.2}
-			end
-			break
-		end
-	end
-
-	--Captain Winters stuff here--
-	for _,v in pairs(heat.captain_camper) do
-		if job == v then
-			if difficulty_index <= 3 then
-				self.besiege.assault.groups.Cap_Winters = {0, 0, 0}
-			elseif difficulty_index == 4 then
-				self.besiege.assault.groups.Cap_Winters = {0, 0.05, 0.1}
-			elseif difficulty_index == 5 then
-				self.besiege.assault.groups.Cap_Winters = {0, 0.1, 0.15}
-			else
-				self.besiege.assault.groups.Cap_Winters = {0, 0.1, 0.2}
-			end
-			break
+	--Add the relevant captain to the assault groups, if able to.
+	local captain_type = heat.captain_spawns[job]
+	if captain_type then
+		if difficulty_index == 4 then
+			self.besiege.assault.groups[captain_type.spawn_group] = {0,0.05, 0.1}
+		elseif difficulty_index == 5 then
+			self.besiege.assault.groups[captain_type.spawn_group] = {0, 0.1,0.15}
+		else
+			self.besiege.assault.groups[captain_type.spawn_group] = {0, 0.1, 0.2}
 		end
 	end
 

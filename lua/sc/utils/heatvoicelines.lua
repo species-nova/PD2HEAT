@@ -6,10 +6,6 @@ function HeatVoiceline:init()
 	self._loaded = {} --Currently loaded buffers. All of them need to be close(true)'d at heist exit or you'll leak memory.
 	self._load_queue = {} --Queue of unit lists to load voicelines for.
 	self._load_coroutine = nil --The current loading coroutine. Usually nil except for heist start.
-
-	if Global.level_data and Global.level_data.level_id then
-		self:load()
-	end
 end
 
 --Attempts to 'make a given unit say' a voice line.
@@ -57,7 +53,7 @@ function HeatVoiceline:load(units_to_load)
 		log("HEAT VOICELINE: Loading all voicelines!")
 		units_to_load = file.GetDirectories(Application:nice_path(self._custom_voice_path))
 	else 
-		log("HEAT VOICELINE: Loading voicelines for selected units.")
+		log("HEAT VOICELINE: Loading voicelines for " .. tostring(#units_to_load) .. " selected units.")
 	end
 
 	self._load_queue[#self._load_queue + 1] = units_to_load
@@ -126,6 +122,7 @@ function HeatVoiceline:_load()
 	for i = 1, #self._load_queue[#self._load_queue] do
 		local unit_type = self._load_queue[#self._load_queue][i]
 		if not self._loaded[unit_type] then
+			log("HEAT VOICELINE: Loading " .. unit_type)
 			self._loaded[unit_type] = {}
 			local unit_dir = self._custom_voice_path .. "\\" .. unit_type
 			for _, line_type in pairs(file.GetDirectories(unit_dir)) do

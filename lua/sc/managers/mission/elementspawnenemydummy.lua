@@ -898,43 +898,51 @@ function ElementSpawnEnemyDummy:init(...)
 end
 
 local dozers = {
-	"units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1",
-	"units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2",
-	"units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw",
-	"units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3",
-	"units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4",
-	"units/payday2/characters/ene_bulldozer_biker_1/ene_bulldozer_biker_1",
-	"units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic",
-	"units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic",
-	"units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun",
-	"units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic",
-	"units/pd2_dlc_vip/characters/ene_vip_2_assault/ene_vip_2_assault",
-	"units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_1/ene_bulldozer_hvh_1",
-	"units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2",
-	"units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3",
-	"units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale",
-	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870",
-	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga",
-	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249",
-	"units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun",
-	"units/pd2_mod_omnia/characters/ene_bulldozer_1/ene_bulldozer_1",
-	"units/pd2_mod_omnia/characters/ene_bulldozer_2/ene_bulldozer_2",
-	"units/pd2_mod_omnia/characters/ene_bulldozer_3/ene_bulldozer_3",
-	"units/pd2_mod_nypd/characters/ene_bulldozer_1/ene_bulldozer_1",
-	"units/pd2_mod_nypd/characters/ene_bulldozer_2/ene_bulldozer_2",
-	"units/pd2_mod_lapd/characters/ene_bulldozer_3/ene_bulldozer_3",
-	"units/pd2_mod_halloween/characters/ene_zeal_bulldozer/ene_zeal_bulldozer",
-	"units/pd2_mod_halloween/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2",
-	"units/pd2_mod_halloween/characters/ene_zeal_bulldozer_3/ene_zeal_bulldozer_3",
-	"units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer/ene_zeal_bulldozer",
-	"units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2",
-	"units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_3/ene_zeal_bulldozer_3",
-	"units/pd2_dlc_mad/characters/ene_akan_fbi_tank_r870/ene_akan_fbi_tank_r870",
-	"units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg",
-	"units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga",
-	"units/pd2_mod_sharks/characters/ene_murky_fbi_tank_m249/ene_murky_fbi_tank_m249",
-	"units/pd2_mod_sharks/characters/ene_murky_fbi_tank_saiga/ene_murky_fbi_tank_saiga",
-	"units/pd2_mod_sharks/characters/ene_murky_fbi_tank_r870/ene_murky_fbi_tank_r870"
+	["units/payday2/characters/ene_bulldozer_1/ene_bulldozer_1"] = true,
+	["units/payday2/characters/ene_bulldozer_2/ene_bulldozer_2"] = true,
+	["units/payday2/characters/ene_bulldozer_2_hw/ene_bulldozer_2_hw"] = true,
+	["units/payday2/characters/ene_bulldozer_3/ene_bulldozer_3"] = true,
+	["units/payday2/characters/ene_bulldozer_4/ene_bulldozer_4"] = true,
+	["units/payday2/characters/ene_bulldozer_biker_1/ene_bulldozer_biker_1"] = true,
+	["units/pd2_dlc_drm/characters/ene_bulldozer_medic/ene_bulldozer_medic"] = true,
+	["units/pd2_dlc_drm/characters/ene_bulldozer_medic_classic/ene_bulldozer_medic_classic"] = true,
+	["units/pd2_dlc_drm/characters/ene_bulldozer_minigun/ene_bulldozer_minigun"] = true,
+	["units/pd2_dlc_drm/characters/ene_bulldozer_minigun_classic/ene_bulldozer_minigun_classic"] = true,
+	["units/pd2_dlc_vip/characters/ene_vip_2_assault/ene_vip_2_assault"] = true,
+	["units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_1/ene_bulldozer_hvh_1"] = true,
+	["units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_2/ene_bulldozer_hvh_2"] = true,
+	["units/pd2_dlc_hvh/characters/ene_bulldozer_hvh_3/ene_bulldozer_hvh_3"] = true,
+	["units/pd2_dlc_bex/characters/ene_swat_dozer_medic_policia_federale/ene_swat_dozer_medic_policia_federale"] = true,
+	["units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_r870/ene_swat_dozer_policia_federale_r870"] = true,
+	["units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_saiga/ene_swat_dozer_policia_federale_saiga"] = true,
+	["units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_m249/ene_swat_dozer_policia_federale_m249"] = true,
+	["units/pd2_dlc_bex/characters/ene_swat_dozer_policia_federale_minigun/ene_swat_dozer_policia_federale_minigun"] = true,
+	["units/pd2_mod_omnia/characters/ene_bulldozer_1/ene_bulldozer_1"] = true,
+	["units/pd2_mod_omnia/characters/ene_bulldozer_2/ene_bulldozer_2"] = true,
+	["units/pd2_mod_omnia/characters/ene_bulldozer_3/ene_bulldozer_3"] = true,
+	["units/pd2_mod_nypd/characters/ene_bulldozer_1/ene_bulldozer_1"] = true,
+	["units/pd2_mod_nypd/characters/ene_bulldozer_2/ene_bulldozer_2"] = true,
+	["units/pd2_mod_lapd/characters/ene_bulldozer_3/ene_bulldozer_3"] = true,
+	["units/pd2_mod_halloween/characters/ene_zeal_bulldozer/ene_zeal_bulldozer"] = true,
+	["units/pd2_mod_halloween/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"] = true,
+	["units/pd2_mod_halloween/characters/ene_zeal_bulldozer_3/ene_zeal_bulldozer_3"] = true,
+	["units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer/ene_zeal_bulldozer"] = true,
+	["units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_2/ene_zeal_bulldozer_2"] = true,
+	["units/pd2_dlc_gitgud/characters/ene_zeal_bulldozer_3/ene_zeal_bulldozer_3"] = true,
+	["units/pd2_dlc_mad/characters/ene_akan_fbi_tank_r870/ene_akan_fbi_tank_r870"] = true,
+	["units/pd2_dlc_mad/characters/ene_akan_fbi_tank_rpk_lmg/ene_akan_fbi_tank_rpk_lmg"] = true,
+	["units/pd2_dlc_mad/characters/ene_akan_fbi_tank_saiga/ene_akan_fbi_tank_saiga"] = true,
+	["units/pd2_mod_sharks/characters/ene_murky_fbi_tank_m249/ene_murky_fbi_tank_m249"] = true,
+	["units/pd2_mod_sharks/characters/ene_murky_fbi_tank_saiga/ene_murky_fbi_tank_saiga"] = true,
+	["units/pd2_mod_sharks/characters/ene_murky_fbi_tank_r870/ene_murky_fbi_tank_r870"] = true
+}
+
+local captains = {
+	["units/pd2_dlc_vip/characters/ene_vip_autumn/ene_vip_autumn"] = true,
+	["units/pd2_dlc_vip/characters/ene_summers/ene_summers"] = true,
+	["units/pd2_dlc_vip/characters/ene_spring/ene_spring"] = true,
+	["units/pd2_mod_halloween/characters/ene_headless_hatman/ene_headless_hatman"] = true,
+	["units/pd2_dlc_vip/characters/ene_vip_1/ene_vip_1"] = true
 }
 
 function ElementSpawnEnemyDummy:produce(params)
@@ -952,18 +960,8 @@ function ElementSpawnEnemyDummy:produce(params)
 	if params and params.name then
 		local enemy_name = params.name
 		
-		if self._needs_replacements then --if replacements are enabled, run the checks
-			local is_dozer = nil
-			
-			for _, name in pairs(dozers) do --have to do a loop for this, sadly.
-				local name = Idstring(name)
-				if name == params.name then
-					is_dozer = true
-					break
-				end
-			end
-			
-			if is_dozer and not (Global.level_data and Global.level_data.level_id == "modders_devmap") then --cant use local enemy_name for the above since it causes problems
+		if self._needs_replacements then --if replacements are enabled, run the checks			
+			if dozers[params.name] and not (Global.level_data and Global.level_data.level_id == "modders_devmap") then --cant use local enemy_name for the above since it causes problems
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = groupai:_get_special_unit_type_count("tank") --current active dozer count
@@ -979,6 +977,8 @@ function ElementSpawnEnemyDummy:produce(params)
 				else
 					groupai:reserve_tank_token()
 				end
+			elseif captains[params.name] then
+				groupai:reserve_tank_token()
 			end
 		end
 		
@@ -990,17 +990,7 @@ function ElementSpawnEnemyDummy:produce(params)
 		local enemy_name = self:value("enemy") or self._enemy_name
 		
 		if self._needs_replacements then --if replacements are enabled, run the checks
-			local is_dozer = nil
-			
-			for _, name in pairs(dozers) do --have to do a loop for this, sadly.
-				local name = Idstring(name)
-				if name == enemy_name then
-					is_dozer = true
-					break
-				end
-			end
-			
-			if is_dozer and not (Global.level_data and Global.level_data.level_id == "modders_devmap") then --cant use local enemy_name for the above since it causes problems
+			if dozers[enemy_name] and not (Global.level_data and Global.level_data.level_id == "modders_devmap") then --cant use local enemy_name for the above since it causes problems
 				--log("get funky")
 				local spawn_limit = managers.job:current_spawn_limit("tank") --gets the actual spawn cap of dozers
 				local current_active_count = groupai:_get_special_unit_type_count("tank") --current active dozer count
@@ -1016,6 +1006,8 @@ function ElementSpawnEnemyDummy:produce(params)
 				else
 					groupai:reserve_tank_token()
 				end
+			elseif captains[enemy_name] then
+				groupai:reserve_tank_token()
 			end
 		end
 		

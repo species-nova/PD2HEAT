@@ -231,42 +231,10 @@ function CharacterTweakData:_init_region_lapd()
 end		
 
 function CharacterTweakData:get_ai_group_type()    
-	local bullshit = self.tweak_data.levels:get_ai_group_type()
-	if not Global.game_settings then
-		return group_to_use
-	end
-	local ai_group_type = {}
-	ai_group_type["murkywater"] = "murkywater"    
-	ai_group_type["federales"] = "federales"        
-	ai_group_type["zombie"] = "zombie"                
-	ai_group_type["russia"] = "russia"        
-   
-	if bullshit then
-		if ai_group_type[bullshit] then
-			group_to_use = ai_group_type[bullshit]
-		end
-	end
-	return group_to_use
+	return self.tweak_data.levels:get_ai_group_type()
 end
 
 function CharacterTweakData:_init_security(presets)
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
-	
 	self.security = deep_clone(presets.base) --Security Guard
 	self.security.tags = {"law"}
 	self.security.experience = {}
@@ -347,22 +315,6 @@ function CharacterTweakData:_init_security(presets)
 end
 
 function CharacterTweakData:_init_gensec(presets) --gensec guard, used on armored transport
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.gensec = deep_clone(presets.base)
 	self.gensec.tags = {"law"}
 	self.gensec.experience = {}
@@ -404,22 +356,6 @@ function CharacterTweakData:_init_gensec(presets) --gensec guard, used on armore
 end
 
 function CharacterTweakData:_init_cop(presets) --beat cop
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.cop = deep_clone(presets.base)
 	self.cop.tags = {"law"}
 	self.cop.experience = {}
@@ -491,22 +427,6 @@ function CharacterTweakData:_init_cop(presets) --beat cop
 end
 
 function CharacterTweakData:_init_fbi(presets) --fbi hrt
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.fbi = deep_clone(presets.base)
 	self.fbi.tags = {"law"}
 	self.fbi.experience = {}
@@ -554,10 +474,15 @@ function CharacterTweakData:_init_fbi(presets) --fbi hrt
 	self.fbi_vet.access = "spooc"
 	self.fbi_vet.damage.hurt_severity = presets.hurt_severities.bravo
 	self.fbi_vet.move_speed = presets.move_speed.lightning
-	if is_reaper then
-	   self.fbi_vet.custom_voicework = nil	
+	if self:get_ai_group_type() == "russia" then
+		self.fbi_vet.custom_voicework = nil
+		self.fbi_vet.speech_prefix_p1 = self._prefix_data_p1.swat()
+		self.fbi_vet.speech_prefix_p2 = self._speech_prefix_p2
+		self.fbi_vet.speech_prefix_count = 4
 	else   
 	   self.fbi_vet.custom_voicework = "bruce"
+		self.fbi_vet.speech_prefix_p1 = "CVOV"
+		self.fbi_vet.speech_prefix_count = nil
 	end   
 	self.fbi_vet.dodge_with_grenade = {
 		flash = {duration = {
@@ -576,14 +501,6 @@ function CharacterTweakData:_init_fbi(presets) --fbi hrt
 		end
 	}	
 	self.fbi_vet.static_dodge_preset = true
-	if is_reaper then
-		self.fbi_vet.speech_prefix_p1 = self._prefix_data_p1.swat()
-		self.fbi_vet.speech_prefix_p2 = self._speech_prefix_p2
-		self.fbi_vet.speech_prefix_count = 4
-	else
-		self.fbi_vet.speech_prefix_p1 = "CVOV"
-		self.fbi_vet.speech_prefix_count = nil	
-	end
 	table.insert(self._enemy_list, "fbi_vet")	
 
 	self.fbi_vet_boss = deep_clone(self.fbi_vet) --hoxout fbi boss
@@ -596,22 +513,6 @@ function CharacterTweakData:_init_fbi(presets) --fbi hrt
 end
 
 function CharacterTweakData:_init_medic(presets) --Medic
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.medic = deep_clone(presets.base)
 	self.medic.tags = {"law", "medic", "special"}
 	self.medic.experience = {}
@@ -636,7 +537,7 @@ function CharacterTweakData:_init_medic(presets) --Medic
 	self.medic.dodge = presets.dodge.athletic
 	self.medic.deathguard = true
 	self.medic.no_arrest = true
-	if is_murky then
+	if self:get_ai_group_type() == "murkywater" then
 	    self.medic.custom_voicework = "murky_medic"
 	else	
 	    self.medic.custom_voicework = nil
@@ -689,22 +590,6 @@ function CharacterTweakData:_init_medic(presets) --Medic
 end
 
 function CharacterTweakData:_init_omnia_lpf(presets) --lpf
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.omnia_lpf = deep_clone(presets.base)
 	self.omnia_lpf.experience = {}
 	self.omnia_lpf.weapon = presets.weapon.normal
@@ -723,7 +608,7 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 	}
 	self.omnia_lpf.weapon_voice = "2"
 	self.omnia_lpf.experience.cable_tie = "tie_swat"	
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.omnia_lpf.speech_prefix_p1 = self._prefix_data_p1.medic()
 		self.omnia_lpf.speech_prefix_count = nil
 		self.omnia_lpf.spawn_sound_event = "rmdc_entrance"
@@ -740,9 +625,9 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 	self.omnia_lpf.melee_weapon = "baton"
 	self.omnia_lpf.rescue_hostages = false
 	self.omnia_lpf.steal_loot = nil
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.omnia_lpf.custom_voicework = nil
-	elseif is_zombie then
+	elseif self:get_ai_group_type() == "zombie" then
 		self.omnia_lpf.custom_voicework = "awoolpf"
 	else
 		self.omnia_lpf.custom_voicework = "olpf"
@@ -760,22 +645,6 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 end
 
 function CharacterTweakData:_init_swat(presets) --light swat
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.swat = deep_clone(presets.base)
 	self.swat.tags = {"law"}
 	self.swat.experience = {}
@@ -806,7 +675,7 @@ function CharacterTweakData:_init_swat(presets) --light swat
 	self.swat.no_arrest = false
 	self.swat.chatter = presets.enemy_chatter.swat
 	self.swat.melee_weapon = "knife_1"
-	if is_murky then
+	if self:get_ai_group_type() == "murkywater" then
 	    self.swat.has_alarm_pager = true
 	else
 	    self.swat.has_alarm_pager = false
@@ -827,22 +696,6 @@ function CharacterTweakData:_init_swat(presets) --light swat
 end
 
 function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.heavy_swat = deep_clone(presets.base)
 	self.heavy_swat.tags = {"law"}
 	self.heavy_swat.experience = {}
@@ -872,7 +725,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	else
 		self.heavy_swat.steal_loot = true
 	end
-	if is_murky then
+	if self:get_ai_group_type() == "murkywater" then
 	    self.heavy_swat.has_alarm_pager = true
 	else
 	    self.heavy_swat.has_alarm_pager = false
@@ -918,8 +771,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	self.heavy_swat_sniper.calls_in = true
 	self.heavy_swat_sniper.static_weapon_preset = true
 	self.heavy_swat_sniper.static_dodge_preset = true
-	self.heavy_swat_sniper.static_melee_preset = true	
-	self.heavy_swat_sniper.custom_voicework = nil
+	self.heavy_swat_sniper.static_melee_preset = true
 	self.heavy_swat_sniper.die_sound_event = "mga_death_scream"
 	self.heavy_swat_sniper.custom_voicework = "tsniper"
 	self.heavy_swat_sniper.is_special = true
@@ -930,11 +782,11 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	self.weekend_dmr.speech_prefix_p1 = "CVOB"
 	self.weekend_dmr.speech_prefix_p2 = nil
 	self.weekend_dmr.speech_prefix_count = nil
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.weekend_dmr.custom_voicework = "bravo_elite"
-	elseif is_murky then
+	elseif self:get_ai_group_type() == "murkywater" then
 		self.weekend_dmr.custom_voicework = "bravo_murky"	
-	elseif is_federales then
+	elseif self:get_ai_group_type() == "federales" then
 		self.weekend_dmr.custom_voicework = "bravo_mex"
 	else
 		self.weekend_dmr.custom_voicework = "bravo_elite"
@@ -949,22 +801,6 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 end
 
 function CharacterTweakData:_init_fbi_swat(presets) --green light fbi swat
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.fbi_swat = deep_clone(presets.base)
 	self.fbi_swat.tags = {"law"}
 	self.fbi_swat.experience = {}
@@ -1005,22 +841,6 @@ function CharacterTweakData:_init_fbi_swat(presets) --green light fbi swat
 end
 
 function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec swat
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.fbi_heavy_swat = deep_clone(presets.base)
 	self.fbi_heavy_swat.tags = {"law"}
 	self.fbi_heavy_swat.experience = {}
@@ -1060,11 +880,11 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec
 
 	--Bravo LMG
 	self.weekend_lmg = deep_clone(self.heavy_swat)
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.weekend_lmg.custom_voicework = "bravo_elite"
-	elseif is_murky then
+	elseif self:get_ai_group_type() == "murkywater" then
 		self.weekend_lmg.custom_voicework = "bravo_murky"
-	elseif is_federales then
+	elseif self:get_ai_group_type() == "federales" then
 		self.weekend_lmg.custom_voicework = "bravo_mex"
 	else
 		self.weekend_lmg.custom_voicework = "bravo_elite"
@@ -1083,22 +903,6 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec
 end
 
 function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.city_swat = deep_clone(presets.base)
 	self.city_swat.tags = {"law", "city_swat"}
 	self.city_swat.experience = {}
@@ -1159,11 +963,11 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 
 	--Bravo Shotgunner Rifle
 	self.weekend = deep_clone(self.swat)
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.weekend.custom_voicework = "bravo"
-	elseif is_murky then
+	elseif self:get_ai_group_type() == "murkywater" then
 		self.weekend.custom_voicework = "bravo_murky"	
-	elseif is_federales then
+	elseif self:get_ai_group_type() == "federales" then
 		self.weekend.custom_voicework = "bravo_mex"
 	else
 		self.weekend.custom_voicework = "bravo"
@@ -1182,34 +986,10 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	table.insert(self._enemy_list, "weekend")
 	
 	self.skeleton_swat_titan = deep_clone(self.city_swat) --zombie riot titan swat
-	self.skeleton_swat_titan.custom_voicework = "skeleton"
 	table.insert(self._enemy_list, "skeleton_swat_titan")
-
-	--[[
-	--Temp Solution
-	if job == "haunted" then
-		self.city_swat = deep_clone(self.skeleton_swat_titan)
-	end
-	]]
 end
 
 function CharacterTweakData:_init_sniper(presets) --sniper
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.sniper = deep_clone(presets.base)
 	self.sniper.tags = {"law", "sniper", "special"}
 	self.sniper.experience = {}
@@ -1870,22 +1650,6 @@ function CharacterTweakData:_init_drug_lord_boss_stealth(presets) --sosa stealth
 end
 
 function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.tank = deep_clone(presets.base)
 	self.tank.tags = {"law", "tank", "special"}
 	self.tank.experience = {}
@@ -1910,7 +1674,7 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 	self.tank.surrender = nil
 	self.tank.ecm_vulnerability = 0
 	self.tank.ecm_hurts = {}
-	if is_federales then
+	if self:get_ai_group_type() == "federales" then
 		self.tank.die_sound_event = "bdz_x02a_any_3p"
 	else
 		self.tank.die_sound_event = nil
@@ -1971,24 +1735,18 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 	self.tank_titan.immune_to_knock_down = true
 	self.tank_titan.priority_shout_max_dis = 3000
 	self.tank_titan.ecm_vulnerability = 0		
-	if is_reaper then
-		self.tank_titan.custom_voicework = "tdozer_ru"
-	else
-		self.tank_titan.custom_voicework = "tdozer"
-	end			
-	if is_reaper then
-		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
-	else
-		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
-	end		
-	if is_reaper then
+	self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
+	if self:get_ai_group_type() == "russia" then
 		self.tank.speech_prefix_p1 = self._prefix_data_p1.bulldozer()
 		self.tank.speech_prefix_p2 = nil
 		self.tank.speech_prefix_count = nil
+		self.tank_titan.custom_voicework = "tdozer_ru"
+		self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
 	else
+		self.tank_titan.custom_voicework = "tdozer"
 		self.tank_titan.speech_prefix_p1 = "CVOD"
-		self.tank_titan.speech_prefix_count = nil	
-	end				
+		self.tank_titan.speech_prefix_count = nil
+	end
 	self.tank_titan.ecm_hurts = {}
 	self.tank_titan.is_special = true
 	table.insert(self._enemy_list, "tank_titan")
@@ -2019,22 +1777,6 @@ function CharacterTweakData:_init_tank_biker(presets) --biker dozer
 end
 
 function CharacterTweakData:_init_spooc(presets) --cloaker
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.spooc = deep_clone(presets.base)
 	self.spooc.tags = {"law", "spooc", "special"}
 	self.spooc.experience = {}
@@ -2104,12 +1846,14 @@ function CharacterTweakData:_init_spooc(presets) --cloaker
 	self.spooc_titan.headshot_dmg_mul = strong_headshot	
 	self.spooc_titan.damage.melee_damage_mul = 2
 	self.spooc_titan.damage.explosion_damage_mul = 2
-	if is_reaper then	
+	if self:get_ai_group_type() == "russia" then	
 		self.spooc_titan.speech_prefix_p1 = self._prefix_data_p1.cloaker()
 		self.spooc_titan.speech_prefix_count = nil
+		self.spooc_titan.custom_voicework = nil
 	else
 		self.spooc_titan.speech_prefix_p1 = "CVOC"
 		self.spooc_titan.speech_prefix_count = nil
+		self.spooc_titan.custom_voicework = "tspook"
 	end
 	self.spooc_titan.damage.hurt_severity = presets.hurt_severities.spooc
 	self.spooc_titan.can_cloak = true
@@ -2120,11 +1864,6 @@ function CharacterTweakData:_init_spooc(presets) --cloaker
 	self.spooc_titan.spawn_sound_event = "cloaker_presence_loop"
 	self.spooc_titan.die_sound_event = "cloaker_presence_stop"
 	self.spooc_titan.is_special = true
-	if is_reaper then
-		self.spooc_titan.custom_voicework = nil
-	else
-		self.spooc_titan.custom_voicework = "tspook"
-	end	
 	table.insert(self._enemy_list, "spooc_titan")	
 end
 
@@ -2182,22 +1921,6 @@ function CharacterTweakData:_init_shadow_spooc(presets) --white house shadow clo
 end	
 
 function CharacterTweakData:_init_shield(presets) --shielddddd
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.shield = deep_clone(presets.base)
 	self.shield.tags = {"law", "shield", "special"}
 	self.shield.damage.shield_explosion_ally_damage_mul = 1
@@ -2256,22 +1979,6 @@ function CharacterTweakData:_init_shield(presets) --shielddddd
 end
 
 function CharacterTweakData:_init_phalanx_minion(presets) --titan shield
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.phalanx_minion = deep_clone(self.shield)
 	self.phalanx_minion.tags = {"law", "shield", "special", "shield_titan"}
 	self.phalanx_minion.experience = {}
@@ -2369,6 +2076,7 @@ function CharacterTweakData:_init_phalanx_vip(presets) --captain winters
 		cooldown = 8,
 		radius = 1200
 	}
+	self.phalanx_vip.captain_type = heat.captain_types.winter
 	table.insert(self._enemy_list, "phalanx_vip")
 end
 
@@ -2416,6 +2124,7 @@ function CharacterTweakData:_init_spring(presets) --captain spring
 	self.spring.die_sound_event_2 = "bdz_x02a_any_3p"
 	self.spring.static_dodge_preset = true
 	self.spring.is_special = true
+	self.spring.captain_type = heat.captain_types.spring
 	table.insert(self._enemy_list, "spring")
 	
 	--Headless Titandozer Boss 
@@ -2426,26 +2135,11 @@ function CharacterTweakData:_init_spring(presets) --captain spring
 		power = 0.5
 	}
 	self.headless_hatman.grenade = hatman_molotov
+	self.headless_hatman.captain_type = heat.captain_types.hvh
 	table.insert(self._enemy_list, "headless_hatman")
 end
 
 function CharacterTweakData:_init_summers(presets) --captain summers
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.summers = deep_clone(presets.base)
 	self.summers.tags = {"law", "custom", "special", "summers"}
 	self.summers.experience = {}
@@ -2492,13 +2186,14 @@ function CharacterTweakData:_init_summers(presets) --captain summers
 	self.summers.tase_on_melee = true
 	self.summers.chatter = presets.enemy_chatter.summers
 	self.summers.announce_incomming = "incomming_captain"
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.summers.spawn_sound_event = "cloaker_spawn"
 	else
 		self.summers.spawn_sound_event = "cpa_a02_01"
 	end
 	self.summers.steal_loot = nil
 	self.summers.is_special = true
+	self.summers.captain_type = heat.captain_types.summer
 	self.summers.leader = {max_nr_followers = 3}
 	table.insert(self._enemy_list, "summers")
 end
@@ -2576,26 +2271,11 @@ function CharacterTweakData:_init_autumn(presets) --captain autumn
 		end
 	}
 	self.autumn.do_autumn_blackout = true --if true, deployables in a radius around this cop will be disabled
+	self.autumn.captain_type = heat.captain_types.autumn
 	table.insert(self._enemy_list, "autumn")
 end	
 
 function CharacterTweakData:_init_taser(presets) --taser
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end		
 	self.taser = deep_clone(presets.base)
 	self.taser.tags = {"law", "taser", "special"}
 	self.taser.experience = {}
@@ -2696,7 +2376,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_titan.immune_to_concussion = true	
 	self.taser_titan.use_animation_on_fire_damage = false
 	self.taser_titan.can_be_tased = false	
-	if is_reaper then
+	if self:get_ai_group_type() == "russia" then
 		self.taser_titan.spawn_sound_event = "rtsr_elite"
 	else
 		self.taser_titan.spawn_sound_event = "tsr_elite"
@@ -2717,22 +2397,6 @@ function CharacterTweakData:_init_taser(presets) --taser
 end
 
 function CharacterTweakData:_init_boom(presets) --grenadier
-	local is_murky
-	if self:get_ai_group_type() == "murkywater" then
-		is_murky = true
-	end
-	local is_reaper
-	if self:get_ai_group_type() == "russia" then
-		is_reaper = true
-	end
-	local is_zombie
-	if self:get_ai_group_type() == "zombie" then
-		is_zombie = true
-	end
-	local is_federales
-	if self:get_ai_group_type() == "federales" then
-		is_federales = true
-	end			
 	self.boom = deep_clone(presets.base)
 	self.boom.tags = {"law", "boom", "custom", "special", "customvo"}
 	self.boom.experience = {}
@@ -2782,11 +2446,8 @@ function CharacterTweakData:_init_boom(presets) --grenadier
 	}
 	self.boom.announce_incomming = "incomming_gren"
 	self.boom.steal_loot = nil
-	if is_federales then
+	if self:get_ai_group_type() == "federales" then
 		self.boom.custom_voicework = "grenadier_bex"
-	--Temp, until we get a better one
-	elseif is_reaper then
-		self.boom.custom_voicework = "grenadier"
 	else
 		self.boom.custom_voicework = "grenadier"
 	end
