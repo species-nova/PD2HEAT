@@ -161,6 +161,9 @@
 	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
 	<object path="units/payday2/props/lcm_prop_securitydoor/lcm_prop_securitydoor_01" force="true"/>
 	<texture path="units/payday2/props/str_prop_street_signs/str_prop_street_signs_lamppost_df" force="true"/>
+	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_leafs_df" unload="true"/>
+	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_trunk_df" unload="true"/>
+	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_trunk_nm" unload="true"/>
 	<material_config path="units/pd2_dlc_friend/nature/terrain/sfm_backdrop" force="true"/>
 	
 	<object path="units/vehicles/animated_cars/police_ny_bank_anim" force="true"/>
