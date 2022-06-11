@@ -76,7 +76,7 @@ function HeatVoiceline:update(dt, in_menu)
 
 		local result, error = coroutine.resume(self._load_coroutine, self)
 		if not result then
-			log("HEAD VOICELINE: Unable to resume loading coroutine. Message - " .. tostring(error))
+			log("HEAT VOICELINE: Unable to resume loading coroutine. Message - " .. tostring(error))
 		end
 	end
 end
