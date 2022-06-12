@@ -196,36 +196,11 @@ function PlayerDamage:init(unit)
 	self:clear_delayed_damage()
 end
 
+local orig_pre_destroy = PlayerDamage.pre_destroy
 function PlayerDamage:pre_destroy()
-	if alive_g(self._gui) and alive_g(self._ws) then
-		self._gui:destroy_workspace(self._ws)
-	end
-
-	if self._critical_state_heart_loop_instance then
-		self._critical_state_heart_loop_instance:stop()
-	end
-
-	if self._slomo_sound_instance then
-		self._slomo_sound_instance:stop()
-
-		self._slomo_sound_instance = nil
-	end
-
-	managers.player:unregister_message(Message.RevivePlayer, self)
-	managers.environment_controller:set_last_life(false)
-	managers.environment_controller:set_downed_value(0)
-	SoundDevice:set_rtpc("downed_state_progression", 0)
-	SoundDevice:set_rtpc("shield_status", 100)
+	orig_pre_destroy(self)
 	managers.environment_controller:kill_player_hurt_screen()
 	managers.environment_controller:set_extra_exposure_value(0)
-	managers.environment_controller:set_hurt_value(1)
-	managers.environment_controller:set_health_effect_value(1)
-	managers.environment_controller:set_suppression_value(0)
-	managers.sequence:remove_inflict_updator_body("fire", self._unit:key(), self._inflict_damage_body:key())
-	CopDamage.unregister_listener("on_damage")
-	managers.mission:remove_global_event_listener("player_regenerate_armor")
-	managers.mission:remove_global_event_listener("player_force_bleedout")
-	self._unit:sound():play("concussion_effect_off")
 end 
 
 function PlayerDamage:is_friendly_fire(unit, check_ally_attack, is_explosive)
@@ -332,7 +307,7 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	self._next_allowed_dmg_t = Application:digest_value(t + self._dmg_interval, true)
 	if type(next_allowed_dmg_t_old) == "number" and next_allowed_dmg_t_old > t then --Check if grace piercing occurred, and if so, apply the difference in damage taken.
 		local damage_taken = math.max(math.round(attack_data.damage * 10) * 0.1, 0.1)
-		attack_data.damage = math.max(attack_data.damage - self._last_taken_dmg, 0.1)
+		attack_data.damage = math.max(damage_taken - self._last_taken_dmg, 0.1)
 		self._last_taken_dmg = damage_taken
 	else
 		attack_data.damage = math.max(math.round(attack_data.damage * 10) * 0.1, 0.1)

@@ -174,31 +174,3 @@ function HUDAssaultCorner:feed_point_of_no_return_timer(time, is_inside)
 
 	self._is_inside_ponr = is_inside
 end
-
-function HUDAssaultCorner:flash_point_of_no_return_timer(beep)
-	local font_size = tweak_data.hud_corner.noreturn_size
-
-	local function flash_timer(o)
-		local t = 0
-
-		while t < 0.5 do
-			local noreturn_data = self._noreturn_data
-			local flash_color = noreturn_data and noreturn_data.flash_color or Color(1, 1, 0.8, 0.2)
-			local color = self._is_inside_ponr and self._assault_survived_color
-			color = color or noreturn_data and noreturn_data.color or Color(1, 1, 0, 0)
-
-			t = t + coroutine.yield()
-			local n = 1 - math_sin(t * 180)
-			local r = math_lerp(color.r, flash_color.r, n)
-			local g = math_lerp(color.g, flash_color.g, n)
-			local b = math_lerp(color.b, flash_color.b, n)
-
-			o:set_color(Color(r, g, b))
-			o:set_font_size(math_lerp(font_size, font_size * 1.25, n))
-		end
-	end
-
-	local point_of_no_return_timer = self._noreturn_bg_box:child("point_of_no_return_timer")
-
-	point_of_no_return_timer:animate(flash_timer)
-end

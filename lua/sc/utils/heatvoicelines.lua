@@ -11,9 +11,10 @@ end
 --Attempts to 'make a given unit say' a voice line.
 --Check and see if you can use CopSound:say first, before calling this directly!
 --If a line is missing from there, check and see if it can be added to the line_array table.
---If the desired line has not been loaded yet, then no audio is output. Usually only happens during the first few seconds of a heist.
+--If the desired line has not been loaded yet, then no audio is output.
 --Likewise, if a unit is currently saying another line, they will not respond to the newest call unless the force parameter is set to true.
---Returns whether or not the unit has custom voicelines.
+--Try to reserve the force parameter for things like pain or death lines as a result. Stuff that would sound natural as a speech interruption.
+--Returns whether or not the unit has that custom voiceline loaded. Generally used to fall back to vanilla behavior if it doesn't.
 function HeatVoiceline:say(unit, line, force)
 	local custom_voicework = unit:base():char_tweak().custom_voicework
 	if not custom_voicework then
