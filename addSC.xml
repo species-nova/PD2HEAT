@@ -161,25 +161,12 @@
 	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
 	<object path="units/payday2/props/lcm_prop_securitydoor/lcm_prop_securitydoor_01" force="true"/>
 	<texture path="units/payday2/props/str_prop_street_signs/str_prop_street_signs_lamppost_df" force="true"/>
+	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_leafs_df" unload="true"/>
+	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_trunk_df" unload="true"/>
+	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_trunk_nm" unload="true"/>
 	<material_config path="units/pd2_dlc_friend/nature/terrain/sfm_backdrop" force="true"/>
 	
 	<object path="units/vehicles/animated_cars/police_ny_bank_anim" force="true"/>
-	<!-- Dark window cop cars with fixed uniforms -->
-	<!--Washington DC-->
-	<material_config path="units/payday2/vehicles/bnk_vehicle_police_animated/bnk_vehicle_police_animated" force="true" />
-	<material_config path="units/payday2/vehicles/bnk_vehicle_car_police_anim_4/bnk_vehicle_car_police_anim_4" force="true" />
-	<material_config path="units/payday2/vehicles/bnk_vehicle_car_police_anim_3/bnk_vehicle_car_police_anim_3" force="true" />
-	<material_config path="units/payday2/vehicles/bnk_vehicle_car_police_anim_2/bnk_vehicle_car_police_anim_2" force="true" />
-	<material_config path="units/payday2/vehicles/bnk_vehicle_car_police_anim_1/bnk_vehicle_car_police_anim_1" force="true" />
-	<material_config path="units/payday2/vehicles/anim_vehicle_car_police/anim_vehicle_car_police" force="true" />
-	<!--NYPD-->
-	<material_config path="units/pd2_dlc_spa/vehicles/str_vehicle_car_police_new_york/str_vehicle_car_police_new_york" force="true" />
-	<material_config path="units/pd2_dlc_spa/vehicles/str_vehicle_car_police_new_york/str_vehicle_car_police_new_york_windows_tinted" force="true" />
-	<!--NYPD PDTH model-->
-	<material_config path="units/vehicles/animated_cars/police_ny_noinstance" force="true" />
-	<material_config path="units/vehicles/animated_cars/police_ny_suburbia" force="true" />
-	
-	<texture path="units/payday2/props/off_prop_office_monitor/display_master_jewelry_il" force="true"/>
 	
 	<!--New logo-->
 	<texture path="guis/textures/game_small_logo" force="true"/>
