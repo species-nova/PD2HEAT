@@ -21,4 +21,5 @@ Hooks:PostHook( NarrativeTweakData, "init", "SC_Narratives", function(self)
 		700000,
 		700000
 		}	
+	table.insert(self._jobs_index, "arm_wrapper")
 end)
