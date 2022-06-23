@@ -1,6 +1,4 @@
-local init_original = GuiTweakData.init
-function GuiTweakData:init()
-    init_original(self)
+--[[Hooks:PostHook(GuiTweakData, "init", "init_heatgui", function(self, tweak_data)
     -- self.new_heists = {
     --     limit = 4,
     --     {
@@ -69,4 +67,4 @@ function GuiTweakData:init()
         discord,
         changelog
     }
-end
+end]]--
