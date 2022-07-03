@@ -61,7 +61,7 @@ local setup_original = RaycastWeaponBase.setup
 function RaycastWeaponBase:setup(...)
 	setup_original(self, ...)
 
-	if self._autoaim then --These should only apply for players.
+	if self._current_stats_indices then --These should only apply for players.
 		--Use mobility stat to get the moving accuracy penalty.
 		self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
 
