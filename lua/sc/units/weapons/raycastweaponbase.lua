@@ -61,15 +61,19 @@ local setup_original = RaycastWeaponBase.setup
 function RaycastWeaponBase:setup(...)
 	setup_original(self, ...)
 
-	--Use mobility stat to get the moving accuracy penalty.
-	self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
+	if self._autoaim then --These should only apply for players.
+		--Use mobility stat to get the moving accuracy penalty.
+		self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
 
-	--Use stability stat for dynamic bloom accuracy.
-	self._spread_bloom = tweak_data.weapon.stat_info.bloom_spread[self._current_stats_indices.recoil] or 0
-	self._bloom_stacks = 0
-	self._current_spread = 0
-	self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
-	self._is_tango_4_viable = table.contains(self._gadgets, "wpn_fps_upg_o_45rds")
+		--Use stability stat for dynamic bloom accuracy.
+		self._spread_bloom = tweak_data.weapon.stat_info.bloom_spread[self._current_stats_indices.recoil] or 0
+		self._bloom_stacks = 0
+		self._current_spread = 0
+		self._ammo_overflow = 0 --Amount of non-integer ammo picked up.
+		if self._gadgets then
+			self._is_tango_4_viable = table.contains(self._gadgets, "wpn_fps_upg_o_45rds")
+		end
+	end
 end
 
 --Returns the number of additional rays fired by the gun, beyond the normal amount defined in the tweakdata.
