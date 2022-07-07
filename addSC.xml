@@ -229,6 +229,9 @@
 
 	<mission path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
 	<continent path="levels/narratives/elephant/mad/world/world" force="true" unload="true"/>
+	
+	<mission path="levels/instances/unique/red/red_camera_room/world/world" force="true" /> <!--camera guard in front has a shotgun-->
+	<mission path="levels/instances/unique/mus_security_room/world/world" force="true" /> <!--camera guard in front has a shotgun-->
 		
 	<!--<mission path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> adds a bikerdozer to the bunker, removes swat turret.-->	
 	<!--<continent path="levels/narratives/elephant/born/world/world" force="true" unload="true"/> fixes cars clipping into ground-->

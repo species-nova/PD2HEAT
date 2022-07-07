@@ -234,7 +234,8 @@ function PlayerTweakData:init()
 			}
 		}
 	}
-	self.stances.default.standard.head.translation = Vector3(0, 0, 145)
+	--self.stances.default.standard.head.translation = Vector3(0, 0, 145) --Original value
+	self.stances.default.standard.head.translation = Vector3(0, 0, 158) --Matches team AI
 	self.stances.default.standard.head.rotation = Rotation()
 	self.stances.default.standard.shakers = {}
 	self.stances.default.standard.shakers.breathing = {}
@@ -246,7 +247,8 @@ function PlayerTweakData:init()
 	self.stances.default.steelsight.shakers.breathing = {}
 	self.stances.default.steelsight.shakers.breathing.amplitude = 0.025
 	self.stances.default.mask_off = deep_clone(self.stances.default.standard)
-	self.stances.default.mask_off.head.translation = Vector3(0, 0, 160)
+	--self.stances.default.mask_off.head.translation = Vector3(0, 0, 160) --Original value
+	self.stances.default.mask_off.head.translation = Vector3(0, 0, 168) -- Matches team AI
 	self.stances.default.clean = deep_clone(self.stances.default.mask_off)
 	local pivot_head_translation = Vector3()
 	local pivot_head_rotation = Rotation()
