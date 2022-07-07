@@ -1,11 +1,12 @@
 --Loads any custom voicelines that have a chance of being used.
 --Only loads bravo lines if pro job is enabled.
 --Only loads a captain's lines if the current map spawns that captain.
-local projob_only_voicelines = {
+heat.projob_only_voicelines = {
 	bravo = true,
 	bravo_elite = true,
 	bravo_mex = true,
-	bravo_murky = true
+	bravo_murky = true,
+	bruce = true
 }
 Hooks:PostHook(Setup, "load_packages", "HeatVoicelineLoad", function (self)
 	local job = Global.level_data and Global.level_data.level_id
@@ -14,11 +15,9 @@ Hooks:PostHook(Setup, "load_packages", "HeatVoicelineLoad", function (self)
 		local load_list = {}
 		for unit, data in pairs(tweak_data.character) do
 			if type(data) == "table" and data.custom_voicework then
-				if data.captain_type then
-					if data.captain_type == map_captain then
-						load_list[#load_list + 1] = data.custom_voicework					
-					end
-				elseif not projob_only_voicelines[data.custom_voicework] then
+				if data.captain_type and data.captain_type == map_captain then
+					load_list[#load_list + 1] = data.custom_voicework
+				elseif not heat.projob_only_voicelines[data.custom_voicework] then
 					load_list[#load_list + 1] = data.custom_voicework
 				elseif Global.game_settings and Global.game_settings.one_down then
 					load_list[#load_list + 1] = data.custom_voicework

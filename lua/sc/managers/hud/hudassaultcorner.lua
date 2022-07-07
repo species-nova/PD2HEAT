@@ -108,8 +108,8 @@ function HUDAssaultCorner:_get_assault_strings()
 	end
 
 	if self._assault_mode == "phalanx" then
-		local vs_line =	self._captain.vs_line or "hud_assault_vip_winters"
-		local captain_warn = self._captain.captain_warn or "hud_assault_vip"
+		local vs_line = self._captain and self._captain.vs_line or "hud_assault_vip_winters"
+		local captain_warn = self._captain and self._captain.captain_warn or "hud_assault_vip"
 		local padlock = "hud_assault_padlock"
 		
 		if managers.job:current_difficulty_stars() > 0 then

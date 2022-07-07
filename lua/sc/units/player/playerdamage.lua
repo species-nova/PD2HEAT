@@ -350,7 +350,8 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	end
 	local health_subtracted = self:_calc_armor_damage(attack_data)
 	if armor_reduction_multiplier == 1 and self._armor_broken then
-		self._last_received_dmg = math.huge --Armor breaking gives an unpiercable grace period.
+		self._next_allowed_dmg_t = Application:digest_value(t + self._dodge_dmg_interval, true)
+		self._last_received_dmg = math.huge --Makes the grace period from armor breaking effectively impossible to pierce.
 	end
 	
 	--Apply health damage.

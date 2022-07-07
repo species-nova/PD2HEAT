@@ -482,7 +482,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 	local wave_9_captain = math.random()
 
 	if wave_9_captain < 0.23335 then --autumn
-		self.captain = "Cap_Autumn"
+		self.captain = heat.captain_types.autumn
 		assault_groups[9] = {
 			swats_skm = 0.16,
 			heavys_skm = 0.08,
@@ -500,7 +500,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			Titan_tanks_skm = 0.02
 		}
 	elseif wave_9_captain < 0.4667 then --summers
-		self.captain = "Cap_Summers"
+		self.captain = heat.captain_types.summer
 		assault_groups[9] = {
 			swats_skm = 0.16,
 			heavys_skm = 0.08,
@@ -518,7 +518,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			Titan_tanks_skm = 0.02
 		}
 	elseif wave_9_captain < 0.7005 then --winters
-		self.captain = "Cap_Winters"
+		self.captain = heat.captain_types.winter
 		assault_groups[9] = {
 			swats_skm = 0.16,
 			heavys_skm = 0.08,
@@ -536,7 +536,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			Titan_tanks_skm = 0.02
 		}
 	elseif wave_9_captain < 0.9334 then --spring
-		self.captain = "Cap_Spring"
+		self.captain = heat.captain_types.spring
 		assault_groups[9] = {
 			swats_skm = 0.16,
 			heavys_skm = 0.08,
@@ -552,7 +552,7 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 			common_wave_rush_skm = 0.04
 		}
 	else --Spooky halloween boss.
-		self.captain = "HVH_Boss"
+		self.captain = heat.captain_types.hvh
 		assault_groups[9] = {
 			swats_skm = 0.16,
 			heavys_skm = 0.08,
@@ -576,7 +576,6 @@ function SkirmishTweakData:_init_spawn_group_weights(tweak_data)
 
 	--Generate assault.groups for each wave.
 	self.spawn_group_waves = {{}, {}, {}, {}, {}, {}, {}, {}, {}}
-	local i = 0
 	for i = 1, #assault_groups do
 		local wave_groups = assault_groups[i]
 		for group, chance in pairs(wave_groups) do
