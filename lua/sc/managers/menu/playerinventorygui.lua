@@ -686,3 +686,21 @@ function PlayerInventoryGui:_update_stats(name)
 		end
 	end
 end
+
+--Display the correct throwable count.
+function PlayerInventoryGui:_update_info_throwable(name)
+	local throwable_id, amount = managers.blackmarket:equipped_projectile()
+	amount = math.ceil(amount * managers.player:upgrade_value("player", "throwables_multiplier", 1.0))
+	local projectile_data = throwable_id and tweak_data.blackmarket.projectiles[throwable_id]
+	local text_string = ""
+
+	if projectile_data then
+		text_string = text_string .. managers.localization:text(projectile_data.name_id) .. " (x" .. tostring(amount) .. ")" .. "\n\n"
+
+		if self:_should_show_description() then
+			text_string = text_string .. managers.localization:text(projectile_data.desc_id) .. "\n"
+		end
+	end
+
+	self:set_info_text(text_string)
+end

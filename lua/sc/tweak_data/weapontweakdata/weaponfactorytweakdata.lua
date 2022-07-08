@@ -133,6 +133,39 @@
 			stats = {value = 4, damage = 60, spread = -4},
 			heat_stat_table = "explosive_arrow"
 		}
+	--Flamethrower Tanks
+		local rare_tank = {
+			stats = {value = 4},
+			has_description = true,
+			desc_id = "bm_wp_fla_mk2_mag_rare_desc_sc",
+			heat_stat_table = "rare_tank",
+			custom_stats = {
+				fire_dot_data = {
+					dot_damage = 1.8,
+					dot_trigger_chance = 25,
+					dot_length = 2.1,
+					dot_tick_period = 0.5
+				},
+				damage_near_mul = 1.2727273,
+				damage_far_mul = 1.2727273
+			}
+		}
+		local well_done_tank = {
+			stats = {value = 4},
+			has_description = true,
+			desc_id = "bm_wp_fla_mk2_mag_well_desc_sc",
+			heat_stat_table = "well_done_tank",
+			custom_stats = {
+				fire_dot_data = {
+					dot_damage = 1.8,
+					dot_trigger_chance = 75,
+					dot_length = 2.1,
+					dot_tick_period = 0.5
+				},
+				damage_near_mul = 0.7272727,
+				damage_far_mul = 0.7272727
+			}
+		}
 
 	--Applies a HEAT attachment stat table to a given attachment.
 	local function apply_stats(part, stat_table, ...)
@@ -313,7 +346,6 @@
 
 local orig_init = WeaponFactoryTweakData.init
 function WeaponFactoryTweakData:init()
-	log("START WEAPON FACTORY INIT!")
 	orig_init(self)
 
 	--Apply tweakdata for custom weapons.
@@ -334,7 +366,6 @@ function WeaponFactoryTweakData:init()
 			part.has_description = true
 		end
 	end
-	log("END WEAPON FACTORY INIT!")
 end
 
 --Stakeout
@@ -644,6 +675,23 @@ function WeaponFactoryTweakData:_init_elastic()
 	apply_stats(self.parts.wpn_fps_bow_elastic_body_tactic, heavy_mob_barrel) --Tactical Frame
 	apply_stats(self.parts.wpn_fps_bow_elastic_m_explosive, explosive_arrow) --Explosive Arrows
 	apply_stats(self.parts.wpn_fps_bow_elastic_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
+end
+
+--Flamethrower Mk1
+local orig_init_flamethrower_mk2 = WeaponFactoryTweakData._init_flamethrower_mk2
+function WeaponFactoryTweakData:_init_flamethrower_mk2()
+	orig_init_flamethrower_mk2(self)
+	apply_stats(self.parts.wpn_fps_fla_mk2_mag_rare, rare_tank) --Rare
+	apply_stats(self.parts.wpn_fps_fla_mk2_mag_welldone, well_done_tank) --Well Done
+end
+
+--MA-17 Flamethrower
+local orig_init_system = WeaponFactoryTweakData._init_system
+function WeaponFactoryTweakData:_init_system()
+	orig_init_system(self)
+	apply_stats(self.parts.wpn_fps_fla_system_b_wtf, cosmetic) --Merlin Barrel
+	apply_stats(self.parts.wpn_fps_fla_system_m_high, well_done_tank) --High Temperature Mixture
+	apply_stats(self.parts.wpn_fps_fla_system_m_low, rare_tank) --Low Temperature Mixture
 end
 
 --Phoenix .500

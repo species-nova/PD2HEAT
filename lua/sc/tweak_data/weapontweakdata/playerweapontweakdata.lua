@@ -4544,94 +4544,88 @@ function WeaponTweakData:init(...)
 		self.saw_secondary.stats = deep_clone(self.saw.stats)
 		self.saw_secondary.timers = deep_clone(self.saw.timers)
 
-	--Flamethrower Mk1
-	self.flamethrower_mk2.categories = {
-		"flamethrower",
-		"shotgun"
-	}
-	self.flamethrower_mk2.recategorize = "wpn_special"
-	self.flamethrower_mk2.has_description = true
-	self.flamethrower_mk2.desc_id = "bm_ap_flamethrower_sc_desc"
-	self.flamethrower_mk2.timers.reload_not_empty = 7.7
-	self.flamethrower_mk2.timers.reload_empty = 7.7
-	self.flamethrower_mk2.rays = 9
-	self.flamethrower_mk2.CLIP_AMMO_MAX = 60
-	self.flamethrower_mk2.AMMO_MAX = 120
-	self.flamethrower_mk2.fire_mode_data.fire_rate = 0.1
-	self.flamethrower_mk2.auto = {}
-	self.flamethrower_mk2.auto.fire_rate = 0.1
-	self.flamethrower_mk2.flame_max_range = 1600
-	self.flamethrower_mk2.single_flame_effect_duration = 1
-	self.flamethrower_mk2.armor_piercing_chance = 1
-	self.flamethrower_mk2.can_shoot_through_enemy = false
-	self.flamethrower_mk2.can_shoot_through_shield = false
-	self.flamethrower_mk2.can_shoot_through_wall = false
-	self.flamethrower_mk2.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.flamethrower_mk2.fire_dot_data = {
-		dot_damage = 1.6,
-		dot_trigger_chance = 60,
-		dot_length = 3.1,
-		dot_tick_period = 0.5
-	}
-	self.flamethrower_mk2.supported = false
-	self.flamethrower_mk2.stats = {
-		damage = 24,
-		spread = 7,
-		recoil = 23,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 16,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
+	--Flamethrowers
+		--Flamethrower Mk1
+		self.flamethrower_mk2.categories = {
+			"flamethrower",
+			"shotgun"
+		}
+		self.flamethrower_mk2.CLIP_AMMO_MAX = 80
+		self.flamethrower_mk2.recategorize = "wpn_special"
+		self.flamethrower_mk2.has_description = true
+		self.flamethrower_mk2.desc_id = "bm_ap_flamethrower_sc_desc"
+		self.flamethrower_mk2.timers.reload_not_empty = 7.7
+		self.flamethrower_mk2.timers.reload_empty = 7.7
+		self.flamethrower_mk2.fire_mode_data.fire_rate = 0.06
+		self.flamethrower_mk2.auto.fire_rate = 0.06
+		self.flamethrower_mk2.flame_max_range = 1100
+		self.flamethrower_mk2.flame_radius = 50
+		self.flamethrower_mk2.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.flamethrower_mk2.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.flamethrower_mk2.fire_dot_data = {
+			dot_damage = 1.8,
+			dot_trigger_chance = 50,
+			dot_length = 2.1,
+			dot_tick_period = 0.5
+		}
+		self.flamethrower_mk2.supported = true
+		self.flamethrower_mk2.stats = {
+			damage = 36,
+			spread = 0,
+			recoil = 23,
+			concealment = 6
+		}
+		self.flamethrower_mk2.timers = {
+			reload_not_empty = 9.2,
+			reload_empty = 9.2,
+			reload_operational = 8.5,
+			empty_reload_operational = 8.5,
+			reload_interrupt = 0.72,
+			empty_reload_interrupt = 0.72,
+			equip = 0.85,
+			unequip = 0.85
+		}
+		self.flamethrower_mk2.reload_speed_multiplier = 1.1 --8.4s
 
-	--MA-17 Flamethrower
-	self.system.categories = {
-		"flamethrower",
-		"shotgun"
-	}
-	self.system.recategorize = "wpn_special"
-	self.system.has_description = true
-	self.system.desc_id = "bm_ap_flamethrower_sc_desc"
-	self.system.timers.reload_not_empty = 8
-	self.system.timers.reload_empty = 8
-	self.system.rays = 9
-	self.system.CLIP_AMMO_MAX = 35
-	self.system.AMMO_MAX = 60
-	self.system.fire_mode_data.fire_rate = 0.1
-	self.system.auto = {}
-	self.system.auto.fire_rate = 0.1
-	self.system.flame_max_range = 1400
-	self.system.single_flame_effect_duration = 1
-	self.system.armor_piercing_chance = 1
-	self.system.can_shoot_through_enemy = false
-	self.system.can_shoot_through_shield = false
-	self.system.can_shoot_through_wall = false
-	self.system.kick = self.stat_info.kick_tables.horizontal_recoil
-	self.system.fire_dot_data = {
-		dot_damage = 1.6,
-		dot_trigger_chance = 60,
-		dot_length = 3.1,
-		dot_tick_period = 0.5
-	}
-	self.system.supported = false
-	self.system.stats = {
-		damage = 24,
-		spread = 6,
-		recoil = 23,
-		spread_moving = 6,
-		zoom = 1,
-		concealment = 19,
-		suppression = 7,
-		alert_size = 2,
-		extra_ammo = 101,
-		total_ammo_mod = 100,
-		reload = 20
-	}
-	self.system.stats_modifiers = nil
+		--MA-17 Flamethrower
+		self.system.categories = {
+			"flamethrower",
+			"shotgun"
+		}
+		self.system.recategorize = "wpn_special"
+		self.system.has_description = true
+		self.system.desc_id = "bm_ap_flamethrower_sc_desc"
+		self.system.CLIP_AMMO_MAX = 80
+		self.system.fire_mode_data.fire_rate = 0.06
+		self.system.auto.fire_rate = 0.06
+		self.system.flame_max_range = 1100
+		self.system.single_flame_effect_duration = 1
+		self.system.kick = self.stat_info.kick_tables.horizontal_recoil
+		self.system.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.system.supported = true
+		self.system.fire_dot_data = {
+			dot_damage = 1.8,
+			dot_trigger_chance = 50,
+			dot_length = 2.1,
+			dot_tick_period = 0.5
+		}
+		self.system.stats = {
+			damage = 36,
+			spread = 0,
+			recoil = 23,
+			concealment = 12
+		}
+		self.system.timers = {
+			reload_not_empty = 9.2,
+			reload_empty = 9.2,
+			reload_operational = 8.5,
+			empty_reload_operational = 8.5,
+			reload_interrupt = 1.56,
+			empty_reload_interrupt = 1.56,
+			equip = 0.85,
+			unequip = 0.85
+		}
+		self.system.reload_speed_multiplier = 1.05 --8.8s
 
 	--Anubis .45
 	if self.socom then
@@ -4726,8 +4720,13 @@ function WeaponTweakData:init(...)
 
 				--Normalize camera shake.
 				if weap.shake then
-					weap.shake.fire_multiplier = weap.shake.fire_multiplier / math.abs(weap.shake.fire_multiplier)
-					weap.shake.fire_steelsight_multiplier = weap.shake.fire_steelsight_multiplier / math.abs(weap.shake.fire_steelsight_multiplier)
+					if weap.shake.fire_multiplier ~= 0 then
+						weap.shake.fire_multiplier = weap.shake.fire_multiplier / math.abs(weap.shake.fire_multiplier)
+					end
+
+					if weap.shake.fire_steelsight_multiplier ~= 0 then
+						weap.shake.fire_steelsight_multiplier = weap.shake.fire_steelsight_multiplier / math.abs(weap.shake.fire_steelsight_multiplier)
+					end
 				end
 			end
 		end
@@ -4792,7 +4791,8 @@ local category_data = {
 	grenade_launcher = {pickup = 0.5, suppression = 1.0, ammo_max = 1.0},
 	snp              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	assault_rifle    = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
-	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0}
+	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	flamethrower     = {pickup =1.25, suppression = 1.5, ammo_max = 2.0}
 }
 local shield_piercing_pickup_mul = 0.7
 

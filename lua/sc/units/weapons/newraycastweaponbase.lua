@@ -75,7 +75,7 @@ function NewRaycastWeaponBase:init(...)
 		end
 
 		if managers.player:has_category_upgrade(category, "headshots_ignore_medics") then
-			self._headshot_ignore_medics_distance = math.max(self._headshot_ignore_medics_distance or -1, managers.player:upgrade_value(category, "headshots_ignore_medics", -1))
+			self._ignore_medics_distance = math.max(self._ignore_medics_distance or -1, managers.player:upgrade_value(category, "close_combat_ignore_medics", -1))
 		end
 
 		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
@@ -500,8 +500,8 @@ function NewRaycastWeaponBase:toggle_firemode(skip_post_event)
 end
 
 function RaycastWeaponBase:can_ignore_medic_heals(distance)
-	if self._headshot_ignore_medics_distance and distance < self._headshot_ignore_medics_distance then
-		return self._headshot_ignore_medics_distance
+	if self._ignore_medics_distance and (not distance or distance < self._ignore_medics_distance) then
+		return self._ignore_medics_distance
 	end
 end
 

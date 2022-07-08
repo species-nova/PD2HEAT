@@ -141,17 +141,21 @@ function WeaponDescription._get_base_stats(name)
 		elseif stat.name == "pickup" then
 			base_stats.pickup.value = (weapon_tweak.AMMO_PICKUP[1] + weapon_tweak.AMMO_PICKUP[2]) * 0.5
 		elseif stat.name == "range" then --Range is derived from accuracy.
-			local category_mul = get_range_mul(weapon_tweak)
-
-			if category_mul then
-				local falloff_info = tweak_data.weapon.stat_info.damage_falloff
-				local base_falloff = falloff_info.base
-				local acc_bonus = falloff_info.acc_bonus * base_stats.spread.index
-
-				local range = (base_falloff + acc_bonus) * category_mul
-				base_stats.range.value = range
+			if weapon_tweak.flame_max_range then
+				base_stats.range.value = weapon_tweak.flame_max_range
 			else
-				base_stats.range.value = -1 --Set the text for this to be blank.
+				local category_mul = get_range_mul(weapon_tweak)
+
+				if category_mul then
+					local falloff_info = tweak_data.weapon.stat_info.damage_falloff
+					local base_falloff = falloff_info.base
+					local acc_bonus = falloff_info.acc_bonus * base_stats.spread.index
+
+					local range = (base_falloff + acc_bonus) * category_mul
+					base_stats.range.value = range
+				else
+					base_stats.range.value = -1 --Set the text for this to be blank.
+				end
 			end
 		end
 	end
@@ -214,6 +218,13 @@ function WeaponDescription._get_mods_stats(name, base_stats, equipped_mods, bonu
 						else
 							mods_stats[stat.name].index = mods_stats[stat.name].index + (part_data.stats[stat.name] or 0)
 						end
+					elseif weapon_tweak.flame_max_range and stat.name == "range" then
+						local base_range = base_stats.range.value
+						local range = weapon_tweak.flame_max_range
+						if part_data.custom_stats and part_data.custom_stats.damage_near_mul then
+							range = range * part_data.custom_stats.damage_near_mul
+						end
+						mods_stats.range.value = range - base_range 
 					end
 				end
 			end
@@ -243,22 +254,22 @@ function WeaponDescription._get_mods_stats(name, base_stats, equipped_mods, bonu
 				multiplier = multiplier * tweak_data.weapon.stats.mobility[base_stats.concealment.value + mods_stats.concealment.value]
 				mods_stats.swap_speed.value = (weapon_tweak.timers.equip + weapon_tweak.timers.unequip) / multiplier - base_stats.swap_speed.value
 			elseif stat.name == "range" then
-				local category_mul = get_range_mul(weapon_tweak)
+				if not weapon_tweak.flame_max_range then
+					local category_mul = get_range_mul(weapon_tweak)
 
-				if category_mul then
-					local falloff_info = tweak_data.weapon.stat_info.damage_falloff
-					local base_falloff = falloff_info.base
-					local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mods_stats.spread.value)
-					local base_range = base_stats.range.value
+					if category_mul then
+						local falloff_info = tweak_data.weapon.stat_info.damage_falloff
+						local base_falloff = falloff_info.base
+						local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mods_stats.spread.value)
+						local base_range = base_stats.range.value
 
-					local range = (base_falloff + acc_bonus) * category_mul
-					if ammo_data.damage_near_mul then
-						range = range * ammo_data.damage_near_mul
+						local range = (base_falloff + acc_bonus) * category_mul
+						if ammo_data.damage_near_mul then
+							range = range * ammo_data.damage_near_mul
+						end
+
+						mods_stats.range.value = range - base_range
 					end
-
-					mods_stats.range.value = range - base_range
-				else
-					mods_stats.range.value = 0
 				end
 			elseif stat.name == "pickup" then
 				local min_pickup = weapon_tweak.AMMO_PICKUP[1] * (ammo_data.ammo_pickup_min_mul or 1)
@@ -357,19 +368,28 @@ function WeaponDescription._get_weapon_mod_stats(mod_name, weapon_name, base_sta
 		for _, stat in pairs(WeaponDescription._stats_shown) do
 			if part_data and part_data.stats then
 				if stat.name == "range" then
-					local category_mul = get_range_mul(weapon_tweak)
-					if category_mul then
-						local falloff_info = tweak_data.weapon.stat_info.damage_falloff
-						local base_falloff = falloff_info.base
-						local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mod.spread)
+					if weapon_tweak.flame_max_range then
 						local base_range = base_stats.range.value
-
-						local range = (base_falloff + acc_bonus) * category_mul
+						local range = weapon_tweak.flame_max_range
 						if part_data.custom_stats and part_data.custom_stats.damage_near_mul then
 							range = range * part_data.custom_stats.damage_near_mul
 						end
+						mod.range = range - base_range 
+					else
+						local category_mul = get_range_mul(weapon_tweak)
+						if category_mul then
+							local falloff_info = tweak_data.weapon.stat_info.damage_falloff
+							local base_falloff = falloff_info.base
+							local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mod.spread)
+							local base_range = base_stats.range.value
 
-						mod.range = range - base_range
+							local range = (base_falloff + acc_bonus) * category_mul
+							if part_data.custom_stats and part_data.custom_stats.damage_near_mul then
+								range = range * part_data.custom_stats.damage_near_mul
+							end
+
+							mod.range = range - base_range
+						end
 					end
 				elseif stat.name == "pickup" then
 					local min_pickup = weapon_tweak.AMMO_PICKUP[1] * (part_data.custom_stats and part_data.custom_stats.ammo_pickup_min_mul or 1)
@@ -499,17 +519,21 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 			local multiplier = base_multiplier * skill_multiplier * tweak_data.weapon.stats.mobility[base_stats.concealment.value + mods_stats.concealment.value + skill_stats.concealment.value]
 			skill_value = ((tweak_data.weapon[name].timers.equip + tweak_data.weapon[name].timers.unequip) / multiplier) - base_stats.swap_speed.value - mods_stats.swap_speed.value
 		elseif stat.name == "range" then
-			local category_mul = get_range_mul(weapon_tweak)
-			if category_mul then
-				local falloff_info = tweak_data.weapon.stat_info.damage_falloff
-				local base_falloff = falloff_info.base
-				local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mods_stats.spread.value + skill_stats.spread.value)
-				local range = (base_falloff + acc_bonus) * category_mul
-				if ammo_data.damage_near_mul then
-					range = range * ammo_data.damage_near_mul
-				end
+			if weapon_tweak.flame_max_range then
+				skill_stats.range.value = 0 
+			else
+				local category_mul = get_range_mul(weapon_tweak)
+				if category_mul then
+					local falloff_info = tweak_data.weapon.stat_info.damage_falloff
+					local base_falloff = falloff_info.base
+					local acc_bonus = falloff_info.acc_bonus * (base_stats.spread.value + mods_stats.spread.value + skill_stats.spread.value)
+					local range = (base_falloff + acc_bonus) * category_mul
+					if ammo_data.damage_near_mul then
+						range = range * ammo_data.damage_near_mul
+					end
 
-				skill_value = range - base_stats.range.value - mods_stats.range.value
+					skill_value = range - base_stats.range.value - mods_stats.range.value
+				end
 			end
 		elseif stat.name == "pickup" then
 			local pickup_multiplier = managers.player:upgrade_value("player", "fully_loaded_pick_up_multiplier", 1)

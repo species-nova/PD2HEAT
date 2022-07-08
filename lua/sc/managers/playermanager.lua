@@ -699,7 +699,9 @@ function PlayerManager:enemy_shot(unit, attack_data)
 	self._message_system:notify(Message.OnEnemyShot, nil, self._unit, attack_data)
 
 	--Do Overheat stuff if player has the skill.
-	if self:has_category_upgrade("player", "overheat") and self:equipped_weapon_unit():base():is_category("shotgun", "flamethrower") then
+	if attack_data.variant ~= "overheat" and
+		self:has_category_upgrade("player", "overheat") and
+		self:equipped_weapon_unit():base():is_category("shotgun", "flamethrower") then
 		--Filter out attacks from too far away.
 		local overheat_data = self:upgrade_value("player", "overheat")
 		local player_pos = player_unit:movement():m_pos()
@@ -739,7 +741,8 @@ function PlayerManager:enemy_shot(unit, attack_data)
 						damage = attack_data.damage * overheat_data.damage,
 						attacker_unit = player_unit,
 						pos = mvec3_cpy(m_com),
-						attack_dir = attack_dir
+						attack_dir = attack_dir,
+						weapon_unit = self:equipped_weapon_unit()
 					}
 
 					dmg_ext:damage_simple(overheat_attack_data)

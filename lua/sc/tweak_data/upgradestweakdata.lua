@@ -737,7 +737,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 						}
 					}
 				--Ace
-					self.values.shotgun.headshots_ignore_medics = {800}
+					self.values.shotgun.close_combat_ignore_medics = {800}
 				
 			--Overheat
 				self.values.player.overheat = {{
@@ -3407,12 +3407,12 @@ Hooks:PostHook(UpgradesTweakData, "_weapon_definitions", "ResWeaponSkills", func
 			category = "shotgun"
 		}
 	}
-	self.definitions.shotgun_headshots_ignore_medics = {
-		name_id = "menu_shotgun_headshots_ignore_medics",
+	self.definitions.shotgun_close_combat_ignore_medics = {
+		name_id = "menu_shotgun_close_combat_ignore_medics",
 		category = "feature",
 		upgrade = {
 			value = 1,
-			upgrade = "headshots_ignore_medics",
+			upgrade = "close_combat_ignore_medics",
 			category = "shotgun"
 		}
 	}

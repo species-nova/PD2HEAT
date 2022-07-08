@@ -219,6 +219,7 @@ function CopDamage:damage_fire(attack_data)
 
 	local attacker_unit = attack_data.attacker_unit
 	local weap_unit = attack_data.weapon_unit
+	local weap_base = weap_unit and alive(weap_unit) and weap_unit:base()
 
 	if self:chk_immune_to_attacker(attacker_unit) then
 		return
@@ -236,9 +237,9 @@ function CopDamage:damage_fire(attack_data)
 	end
 
 	local is_civilian = CopDamage.is_civilian(self._unit:base()._tweak_table)
-	local head = attack_data.variant ~= "stun" and self._head_body_name and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name
+	local head = attack_data.variant ~= "stun" and self._head_body_name and attack_data.col_ray.body and attack_data.col_ray.body:name() == self._ids_head_body_name and not (weap_base.is_category and weap_base:is_category("flamethrower"))
 
-	if head and weap_unit and alive(weap_unit) and weap_unit:base() and not weap_unit:base().thrower_unit and attack_data.col_ray and attack_data.col_ray.ray and self._unit:base():has_tag("tank") then
+	if head and weap_base and not weap_base.thrower_unit and attack_data.col_ray and attack_data.col_ray.ray and self._unit:base():has_tag("tank") then
 		mvec3_set(mvec_1, attack_data.col_ray.ray)
 		mrotation.z(self._unit:movement():m_head_rot(), mvec_2)
 
@@ -255,20 +256,12 @@ function CopDamage:damage_fire(attack_data)
 	local hit_pos = attack_data.col_ray.hit_position
 
 	if attack_data.attacker_unit == managers.player:player_unit() then
-		if weap_unit and alive(weap_unit) and attack_data.variant ~= "stun" then
+		if weap_base and attack_data.variant ~= "stun" then
 			if hit_pos then
 				distance = mvector3.distance(hit_pos, attack_data.attacker_unit:position())
 			end
 
-			local weap_base = weap_unit:base()
-			local is_grenade_or_ground_fire = nil
-
-			if weap_base then
-				if weap_base.thrower_unit or weap_base.get_name_id and weap_base:get_name_id() == "environment_fire" then
-					is_grenade_or_ground_fire = true
-				end
-			end
-
+			local is_grenade_or_ground_fire = weap_base.thrower_unit or weap_base.get_name_id and weap_base:get_name_id() == "environment_fire"
 			if is_grenade_or_ground_fire then
 				if attack_data.is_fire_dot_damage and self._char_tweak.priority_shout then
 					damage = damage * managers.player:upgrade_value("weapon", "special_damage_taken_multiplier", 1)
@@ -322,11 +315,6 @@ function CopDamage:damage_fire(attack_data)
 		damage = damage * (self._char_tweak.headshot_dmg_mul or 1) * headshot_multiplier
 	end
 
-	local weap_base = nil
-	if alive(weap_unit) then
-		weap_base = weap_unit:base()
-	end
-
 	--Allows seperate damage mults for fire pools, dot, and fire damage.
 	if weap_base and self._char_tweak.damage.fire_pool_damage_mul and (weap_base.thrower_unit or weap_base.get_name_id and weap_base:get_name_id() == "environment_fire") then
 		damage = damage * self._char_tweak.damage.fire_pool_damage_mul
@@ -378,7 +366,7 @@ function CopDamage:damage_fire(attack_data)
 	if self._health <= damage then
 		attack_data.damage = self._health
 
-		if not (head and weap_base and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
+		if not (weap_base and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant
@@ -858,7 +846,7 @@ function CopDamage:damage_bullet(attack_data)
 	if self._health <= damage then
 		attack_data.damage = self._health
 
-		if not (head and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
+		if not (weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant
@@ -1847,6 +1835,8 @@ function CopDamage:damage_explosion(attack_data)
 
 	local attacker_unit = attack_data.attacker_unit
 	local weap_unit = attack_data.weapon_unit
+	local weap_base = alive(weap_unit) and weap_unit:base()
+	local distance = mvec3_dis(attacker_unit:position(), self._unit:position())
 
 	if attacker_unit and alive(attacker_unit) then
 		if attacker_unit:base() and attacker_unit:base().thrower_unit then
@@ -1876,10 +1866,9 @@ function CopDamage:damage_explosion(attack_data)
 		damage = damage * self._marked_dmg_mul
 
 		if self._marked_dmg_dist_mul and alive(attacker_unit) then
-			local dst = mvec3_dis(attacker_unit:position(), self._unit:position())
 			local spott_dst = tweak_data.upgrades.values.player.marked_inc_dmg_distance[self._marked_dmg_dist_mul]
 
-			if spott_dst[1] < dst then
+			if spott_dst[1] < distance then
 				damage = damage * spott_dst[2]
 			end
 		end
@@ -1900,6 +1889,7 @@ function CopDamage:damage_explosion(attack_data)
 
 	local damage_percent = 0
 	if self:is_overhealed() then
+		damage = (weap_base and weap_base.overhealed_damage_mul and weap_base:overhealed_damage_mul(distance) or 1) * damage
 		damage = math_clamp(damage, 0, self._OVERHEALTH_INIT)
 		damage_percent = math_ceil(damage / self._OVERHEALTH_INIT_PRECENT)
 		damage = damage_percent * self._OVERHEALTH_INIT_PRECENT
@@ -1915,8 +1905,7 @@ function CopDamage:damage_explosion(attack_data)
 
 	if self._health <= damage then
 		attack_data.damage = self._health
-
-		if self:check_medic_heal() then
+		if not (weap_base and weap_base.can_ignore_medic_heals and weap_base:can_ignore_medic_heals(distance)) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant
@@ -1976,10 +1965,6 @@ function CopDamage:damage_explosion(attack_data)
 			managers.groupai:state():detonate_cs_grenade(self._unit:movement():m_pos() + math_UP * 10, mvec3_cpy(self._unit:movement():m_head_pos()), 7.5)
 		end
 
-		if not is_civilian and managers.player:has_category_upgrade("temporary", "overkill_damage_multiplier") and attacker_unit == managers.player:player_unit() and attack_data.weapon_unit and attack_data.weapon_unit:base().weapon_tweak_data and not attack_data.weapon_unit:base().thrower_unit and attack_data.weapon_unit:base():is_category("shotgun", "saw") then
-			managers.player:activate_temporary_upgrade("temporary", "overkill_damage_multiplier")
-		end
-
 		self:chk_killshot(attacker_unit, "explosion")
 
 		if attacker_unit == managers.player:player_unit() then
@@ -2002,8 +1987,8 @@ function CopDamage:damage_explosion(attack_data)
 		end
 	end
 
-	if alive(weap_unit) and weap_unit:base() and weap_unit:base().add_damage_result then
-		weap_unit:base():add_damage_result(self._unit, result.type == "death", attacker_unit, damage_percent)
+	if weap_base and weap_base.add_damage_result then
+		weap_base:add_damage_result(self._unit, result.type == "death", attacker_unit, damage_percent)
 	end
 
 	if attack_data.variant ~= "stun" and not self._no_blood and damage > 0 then
@@ -2237,7 +2222,7 @@ function CopDamage:damage_simple(attack_data)
 	if self._health <= damage then
 		attack_data.damage = self._health
 
-		if self:check_medic_heal() then
+		if not (variant == "overheat" and attack_data.weapon_unit:base():can_ignore_medic_heals()) and self:check_medic_heal() then
 			result = {
 				type = "healed",
 				variant = attack_data.variant

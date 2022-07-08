@@ -140,6 +140,7 @@ function RaycastWeaponBase:_iter_ray_hits(all_hits, user_unit, damage)
 		end
 	end
 
+	local hit_anyone = false
 	--Once we have all the best hits, process the collision, statistics, and achievement information for each one.
 	for unit, hit in pairs(best_hits) do
 		--Whether or not this hit had falloff. Used for hitmarker stuff.
@@ -153,10 +154,11 @@ function RaycastWeaponBase:_iter_ray_hits(all_hits, user_unit, damage)
 			end
 			hit.damage_result = curr_hit_result
 			cop_kill_count, cop_headshot_count = self:_process_hit(hit, cop_kill_count, cop_headshot_count)
+			hit_anyone = true
 		end
 	end
 
-	return best_hits, cop_kill_count
+	return best_hits, cop_kill_count, hit_anyone
 end
 
 --Process statistics and achievement related information for a given enemy hit.
@@ -301,16 +303,12 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 			end
 
 			all_hits[#all_hits + 1] = ray_hits
-
-			if hit_enemy then
-				result.hit_enemy = true
-			end
 		end
 	end
 
 	--Once all hits are determined, handle collisions.
 	local cop_kill_count = 0
-	result.rays, cop_kill_count = self:_iter_ray_hits(all_hits, user_unit, damage)
+	result.rays, cop_kill_count, result.hit_enemy = self:_iter_ray_hits(all_hits, user_unit, damage)
 
 	--Apply suppression to relevant enemies.
 	if self._autoaim and self._suppression then
@@ -1355,15 +1353,20 @@ end
 			if col_ray.count then --If multiple rays hit, then multiply the chance by the number of rays. Requires a clone to avoid mutating global state.
 				fire_dot_data = clone(weapon_unit:base()._ammo_data.fire_dot_data)
 				fire_dot_data.dot_trigger_chance = fire_dot_data.dot_trigger_chance * col_ray.count
+				log("Trigger chance: " .. tostring(fire_dot_data.dot_trigger_chance))
 			else
-				fire_dot_data = weapon_unit:base()._ammo_data.fire_dot_data
+				fire_dot_data = clone(weapon_unit:base()._ammo_data.fire_dot_data)
 			end
 		elseif weapon_unit.base and weapon_unit:base()._name_id then
 			local weapon_name_id = weapon_unit:base()._name_id
 
 			if tweak_data.weapon[weapon_name_id] and tweak_data.weapon[weapon_name_id].fire_dot_data then
-				fire_dot_data = tweak_data.weapon[weapon_name_id].fire_dot_data
+				fire_dot_data = clone(tweak_data.weapon[weapon_name_id].fire_dot_data)
 			end
+		end
+
+		if fire_dot_data then
+			fire_dot_data.dot_damage = fire_dot_data.dot_damage * managers.player:get_perk_damage_bonus(user_unit)
 		end
 
 		local action_data = {

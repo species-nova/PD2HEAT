@@ -612,7 +612,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_wp_upg_a_custom_desc_sc"] = "Fires a wide spread with 6 large pellets. Effective at close range.",
 		["bm_wp_upg_a_dragons_breath_desc_sc"] = "Fires a wide spread of pellets that burn through body armor. Has a chance to set enemies on fire.",
 		["bm_wp_upg_a_piercing_desc_sc"] = "Fires armor piercing flechettes that inflict bleed damage over time. Effective against multiple targets and at longer ranges.",
-		
+
 		--Generic Mods--
 		["bm_wp_upg_vg_afg"] = "AFG",
 		["bm_wp_upg_vg_stubby"] = "Stubby Vertical Grip",
@@ -649,9 +649,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		--Flamethrowers--
 		["bm_wp_fla_mk2_mag_rare_sc"] = "Rare",
-		["bm_wp_fla_mk2_mag_rare_desc_sc"] = "Doubles the burn duration on ignited enemies, but halves damage over time.",
-		["bm_wp_fla_mk2_mag_well_desc_sc"] = "Halves the burn duration on ignited enemies, but doubles damage over time.",
-		["bm_ap_flamethrower_sc_desc"] = "Set the world ablaze.\n\nBURNS THROUGH BODY ARMOR.", --used by both flamethrowers, decouple later?--
+		["bm_wp_fla_mk2_mag_rare_desc_sc"] = "Reduces ignite chance by 50%.",
+		["bm_wp_fla_mk2_mag_well_desc_sc"] = "Increases ignite chance by 50%.",
+		["bm_ap_flamethrower_sc_desc"] = "Fire hits all enemies inside. 50% chance to ignite enemies. Cannot headshot. Deals no damage outside effective range.",
 
 		--LMGs/Miniguns--
 		["bm_wp_upg_a_halfthatkit"] = "Super Size Me!", -- lol
@@ -883,20 +883,20 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Weapons", function(loc
 		["menu_akimbo_assault_rifle"] = "Akimbo Assault Rifle",
 
 		--Throwables--
-		["bm_concussion_desc"] = "Capacity: 3 \nRange: 10m \nStuns enemy for up to 4s \nEnemy accuracy reduced by 50% for 7s \nStuns all enemies, excluding Titan-Shields, Titan-Bulldozers and Captains\n\nThis stunning little beauty will take everyone's breath away, giving you that extra moment to kill them.",
+		["bm_concussion_desc"] = "Range: 10m \nStuns enemy for up to 4s \nEnemy accuracy reduced by 50% for 7s \nStuns all enemies, excluding Titan-Shields, Titan-Bulldozers and Captains\n\nThis stunning little beauty will take everyone's breath away, giving you that extra moment to kill them.",
 		["bm_grenade_smoke_screen_grenade_desc"] = "Range: 8m \nDuration: 12s \n \nDrop one of these, and you'll vanish in a cloud of smoke, leaving your enemies struggling to take aim at you.",
-		["bm_grenade_frag_desc"] = "Capacity: 3\nDamage: 800 \nRange: 5m \n \nThe classic explosive hand grenade. Is there any more to say?",
-		["bm_dynamite_desc"] = "Capacity: 3\nDamage: 800 \nRange: 4m \nDoes not bounce or roll from impact point, but deals less splash damage than similar explosives.\n\nDesigned to effectively blast through rock. Even more effective at blasting through people.",
-		["bm_grenade_frag_com_desc"] = "Capacity: 3 \nDamage: 800 \nRange: 5m \n \nA sleek new look to the classic hand grenade, sure to provide that OVERKILL touch to each blast.",
-		["bm_grenade_dada_com_desc"] = "Capacity: 3 \nDamage: 800 \nRange: 5m \n \nThe doll's outer layers hides its explosive inner workings. A tribute to the Motherland.",
-		["bm_grenade_molotov_desc"] = "Capacity: 3 \nDamage: 1200 per pool over 10s \nRange: 3.75m \nDuration: 10s \nDetonates on impact \n \nA breakable bottle of flammable liquid with a burning rag. It is cheap, simple and highly effective. Light this motherf***er up!",
-		["bm_grenade_fir_com_desc"] = "Capacity: 3 \nDamage: 1440 per pool over 12s \nRange: 3.75m \nDuration: 12s \nDetonates after 2.5s \n \nA self igniting phosphorus container. Perfect for bouncing off walls and around corners towards your enemies.",
-		["bm_wpn_prj_ace_desc"] = "Capacity: 9 \nDamage: 240 \n \nThrowing cards with added weight and a razor edge. A real killer hand of cards.",
-		["bm_wpn_prj_four_desc"] = "Capacity: 9 \nDamage: 200 (Impact) \nDamage: 200 over 5s (Poison) \nInterrupts enemy actions \n \nThe throwing star has a long history filled with blood and battle. These poison coated stainless steel stars will pose a lethal threat to anyone in your way.",
-		["bm_wpn_prj_target_desc"] = "Capacity: 9 \nDamage: 240 \n \nA solid backup plan and a reliable tactic for a precise and silent kill.",
-		["bm_wpn_prj_jav_desc"] = "Capacity: 6 \nDamage: 360 \n \nWith its origins lost in cloudy pre-history, the javelin is a simple weapon. After all, it's a thrown stick with a pointy end that ruins someone's day.",
-		["bm_wpn_prj_hur_desc"] = "Capacity: 6 \nDamage: 360 \n \nThey say a sharp axe is never wrong. A thrown sharp axe couldn't be any more right.",
-		["bm_grenade_electric_desc"] = "Capacity: 3\nDamage: 400 \nRange: 5m \n \nShrapnel is all well and good but some things need to be fried, and this little beauty is a rather practical beast for dishing out some damage with high voltage.",
+		["bm_grenade_frag_desc"] = "Damage: 800 \nRange: 5m \n \nThe classic explosive hand grenade. Is there any more to say?",
+		["bm_dynamite_desc"] = "Damage: 800 \nRange: 4m \nDoes not bounce or roll from impact point, but deals less splash damage than similar explosives.\n\nDesigned to effectively blast through rock. Even more effective at blasting through people.",
+		["bm_grenade_frag_com_desc"] = "Damage: 800 \nRange: 5m \n \nA sleek new look to the classic hand grenade, sure to provide that OVERKILL touch to each blast.",
+		["bm_grenade_dada_com_desc"] = "Damage: 800 \nRange: 5m \n \nThe doll's outer layers hides its explosive inner workings. A tribute to the Motherland.",
+		["bm_grenade_molotov_desc"] = "Damage: 1200 per pool over 10s \nRange: 3.75m \nDuration: 10s \nDetonates on impact \n \nA breakable bottle of flammable liquid with a burning rag. It is cheap, simple and highly effective. Light this motherf***er up!",
+		["bm_grenade_fir_com_desc"] = "Damage: 1440 per pool over 12s \nRange: 3.75m \nDuration: 12s \nDetonates after 2.5s \n \nA self igniting phosphorus container. Perfect for bouncing off walls and around corners towards your enemies.",
+		["bm_wpn_prj_ace_desc"] = "Damage: 240 \n \nThrowing cards with added weight and a razor edge. A real killer hand of cards.",
+		["bm_wpn_prj_four_desc"] = "Damage: 200 (Impact) \nDamage: 200 over 5s (Poison) \nInterrupts enemy actions \n \nThe throwing star has a long history filled with blood and battle. These poison coated stainless steel stars will pose a lethal threat to anyone in your way.",
+		["bm_wpn_prj_target_desc"] = "Damage: 240 \n \nA solid backup plan and a reliable tactic for a precise and silent kill.",
+		["bm_wpn_prj_jav_desc"] = "Damage: 360 \n \nWith its origins lost in cloudy pre-history, the javelin is a simple weapon. After all, it's a thrown stick with a pointy end that ruins someone's day.",
+		["bm_wpn_prj_hur_desc"] = "Damage: 360 \n \nThey say a sharp axe is never wrong. A thrown sharp axe couldn't be any more right.",
+		["bm_grenade_electric_desc"] = "Damage: 400 \nRange: 5m \n \nShrapnel is all well and good but some things need to be fried, and this little beauty is a rather practical beast for dishing out some damage with high voltage.",
 	})
 end)
 
@@ -1484,7 +1484,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shotgun Surgeon--
 			["menu_far_away_beta_sc"] = "Shotgun Surgeon",
-			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and flamethrowers deal ##75%## more damage to overhealed enemies within ##8## meters.\n\nACE: ##$pro##\nLethal headshots with shotguns and flamethrowers against enemies within ##8## meters cannot be healed by medics.",
+			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and flamethrowers deal ##75%## more damage to overhealed enemies within ##8## meters.\n\nACE: ##$pro##\nMedics cannot prevent shotguns or flamethrower kills against enemies within ##8## meters of you.",
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",

@@ -2423,7 +2423,6 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						managers.hud:set_ammo_amount(weap_base:selection_index(), weap_base:ammo_info())
 
 						local impact = not fired.hit_enemy
-
 						if weap_base.third_person_important and weap_base:third_person_important() then
 							self._ext_network:send("shot_blank_reliable", impact, 0)
 						elseif weap_base.akimbo and not weap_base:weapon_tweak_data().allow_akimbo_autofire or fire_mode == "single" or fire_mode == "burst" then
