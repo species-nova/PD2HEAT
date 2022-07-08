@@ -1484,7 +1484,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Shotgun Surgeon--
 			["menu_far_away_beta_sc"] = "Shotgun Surgeon",
-			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and flamethrowers deal ##75%## more damage to overhealed enemies within ##8## meters.\n\nACE: ##$pro##\nMedics cannot prevent shotguns or flamethrower kills against enemies within ##8## meters of you.",
+			["menu_far_away_beta_desc_sc"] = "BASIC: ##$basic##\nShotguns and flamethrowers deal ##75%## more damage to overhealed enemies within ##8## meters.\n\nACE: ##$pro##\nMedics cannot prevent shotgun or flamethrower kills against enemies within ##8## meters of you.",
 
 			--OVERHEAT--
 			["menu_overkill_sc"] = "OVERHEAT",
