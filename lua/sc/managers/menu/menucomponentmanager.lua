@@ -32,9 +32,10 @@ function MenuComponentManager:play_transition(run_in_pause)
             t = t + dt
             p = t / seconds
 
-            fade1:set_alpha(1 - p)
-            --local oneminuspee = 1-p
-            --fade1:set_color(oneminuspee,oneminuspee,oneminuspee)
+
+			local oneminuspee = (1-p)
+            fade1:set_alpha(oneminuspee)
+
         end
     end
 
