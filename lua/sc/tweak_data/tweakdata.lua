@@ -2,6 +2,68 @@ if not tweak_data then
 	return 
 end
 
+tweak_data.overlay_effects.level_fade_in = {
+			blend_mode = "sub",
+			sustain = 1,
+			play_paused = true,
+			fade_in = 0,
+			fade_out = 3,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:game()
+}
+tweak_data.overlay_effects.fade_out = {
+			blend_mode = "sub",
+			sustain = 30,
+			play_paused = true,
+			fade_in = 3,
+			fade_out = 0,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:main()
+}
+tweak_data.overlay_effects.fade_in = {
+			blend_mode = "sub",
+			sustain = 0,
+			play_paused = true,
+			fade_in = 0,
+			fade_out = 3,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:main()
+}
+tweak_data.overlay_effects.fade_out_permanent = {
+			blend_mode = "sub",
+			fade_out = 0,
+			play_paused = true,
+			fade_in = 1,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:main()
+}
+tweak_data.overlay_effects.fade_out_in = {
+			blend_mode = "sub",
+			sustain = 1,
+			play_paused = true,
+			fade_in = 1,
+			fade_out = 1,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:main()
+}
+tweak_data.overlay_effects.element_fade_in = {
+			blend_mode = "sub",
+			sustain = 0,
+			play_paused = true,
+			fade_in = 0,
+			fade_out = 3,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:main()
+}
+tweak_data.overlay_effects.element_fade_out = {
+			blend_mode = "sub",
+			sustain = 0,
+			play_paused = true,
+			fade_in = 3,
+			fade_out = 0,
+			color = Color(1, 1, 1, 1),
+			timer = TimerManager:main()
+}
 --tweak_data.screen_colors.button_stage_2 = Color(255, 1, 240, 255) / 255
 --tweak_data.screen_colors.button_stage_3 = Color(127, 1, 190, 255) / 255
 tweak_data.screen_colors.button_stage_2 = Color(255, 1, 161, 255) / 255
