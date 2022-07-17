@@ -4627,6 +4627,22 @@ function WeaponTweakData:init(...)
 		}
 		self.system.reload_speed_multiplier = 1.05 --8.8s
 
+	--Mounted Turrets
+		--Mounted Ranc Heavy Turret
+		self.ranc_heavy_machine_gun.categories = {
+			"lmg",
+			"smg"
+		}
+		self.ranc_heavy_machine_gun.stats = {
+			damage = 60,
+			spread = 10,
+			recoil = 19,
+			concealment = 5
+		}
+		self.ranc_heavy_machine_gun.AMMO_MAX = self.ranc_heavy_machine_gun.CLIP_AMMO_MAX
+		self.ranc_heavy_machine_gun.kick = self.stat_info.kick_tables.moderate_kick
+		self.ranc_heavy_machine_gun.kick_pattern = self.stat_info.kick_patterns.zigzag_3
+
 	--Anubis .45
 	if self.socom then
 		--TODO: Implement Anubis stats once the standalone gun is released.
