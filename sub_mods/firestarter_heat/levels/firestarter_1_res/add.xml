@@ -356,4 +356,20 @@
 	<add from_db="true" path="environments/cubemaps/cubemap_diamond_01" type="texture"/>
 	<add from_db="true" path="environments/cubemaps/cubemap_gold" type="texture"/>
 	<add from_db="true" path="environments/cubemaps/cubemap_gold_strong_df" type="texture"/>
+	<add from_db="true" path="core/environments/skies/sky_2335_night_moon/sky_2335_night_moon" type="scene">
+		<material_config path="core/environments/skies/sky_2335_night_moon/sky_2335_night_moon"/>
+		<scene load="true" path="core/environments/skies/sky_2335_night_moon/sky_2335_night_moon"/>
+	</add>
+	<add from_db="true" path="units/world/props/container/container_blue" type="material_config">
+		<material_config path="units/world/props/container/container_blue"/>
+	</add>
+	<add from_db="true" path="units/world/props/container/container_green" type="material_config">
+		<material_config path="units/world/props/container/container_green"/>
+	</add>
+	<add from_db="true" path="units/world/props/container/container_orange" type="material_config">
+		<material_config path="units/world/props/container/container_orange"/>
+	</add>
+	<add from_db="true" path="units/world/props/container/container_red" type="material_config">
+		<material_config path="units/world/props/container/container_red"/>
+	</add>
 </table>

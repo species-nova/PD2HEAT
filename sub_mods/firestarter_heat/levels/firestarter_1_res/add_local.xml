@@ -14,5 +14,37 @@
 	<continent path="env/env" script_data_type="binary"/>
 	<mission path="env/env" script_data_type="binary"/>
 	<cover_data path="cover_data" script_data_type="binary"/>
+	<texture path="cube_lights/103288"/>
+	<texture path="cube_lights/103289"/>
+	<texture path="cube_lights/101954"/>
+	<texture path="cube_lights/104340"/>
+	<texture path="cube_lights/103290"/>
+	<texture path="cube_lights/102395"/>
+	<texture path="cube_lights/103286"/>
+	<texture path="cube_lights/103284"/>
+	<texture path="cube_lights/103285"/>
+	<texture path="cube_lights/104028"/>
+	<texture path="cube_lights/101160"/>
+	<texture path="cube_lights/101163"/>
+	<texture path="cube_lights/101171"/>
+	<texture path="cube_lights/101280"/>
+	<texture path="cube_lights/101288"/>
+	<texture path="cube_lights/101220"/>
+	<texture path="cube_lights/101191"/>
+	<texture path="cube_lights/102808"/>
+	<texture path="cube_lights/102814"/>
+	<texture path="cube_lights/103680"/>
+	<texture path="cube_lights/103684"/>
+	<texture path="cube_lights/103681"/>
+	<texture path="cube_lights/103792"/>
+	<texture path="cube_lights/101633"/>
+	<texture path="cube_lights/104404"/>
+	<texture path="cube_lights/101153"/>
+	<texture path="cube_lights/102805"/>
+	<texture path="cube_lights/103686"/>
+	<texture path="cube_lights/104085"/>
+	<texture path="cube_lights/101358"/>
+	<texture path="cube_lights/101356"/>
+	<environment path="environments/fs1" script_data_type="custom_xml"/>
 	<environment path="environments/firestarter1" script_data_type="custom_xml"/>
 </table>
