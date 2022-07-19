@@ -976,6 +976,8 @@ function WeaponTweakData:_init_data_scout_crew()
 	apply_crew_weapon_preset(self.scout_crew, crew_sniper_stats)
 end
 
+local orig_init_data_flamethrower_mk2_crew = WeaponTweakData._init_data_flamethrower_mk2_crew
 function WeaponTweakData:_init_data_flamethrower_mk2_crew()
-	--TODO
+	orig_init_data_flamethrower_mk2_crew(self)
+	--Todo
 end
