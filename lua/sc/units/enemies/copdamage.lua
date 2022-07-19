@@ -1836,7 +1836,7 @@ function CopDamage:damage_explosion(attack_data)
 	local attacker_unit = attack_data.attacker_unit
 	local weap_unit = attack_data.weapon_unit
 	local weap_base = alive(weap_unit) and weap_unit:base()
-	local distance = mvec3_dis(attacker_unit:position(), self._unit:position())
+	local distance = attacker_unit and mvec3_dis(attacker_unit:position(), self._unit:position())
 
 	if attacker_unit and alive(attacker_unit) then
 		if attacker_unit:base() and attacker_unit:base().thrower_unit then
@@ -1862,7 +1862,7 @@ function CopDamage:damage_explosion(attack_data)
 		damage = damage * self._char_tweak.damage.explosion_damage_mul
 	end
 
-	if self._marked_dmg_mul then
+	if distance and self._marked_dmg_mul then
 		damage = damage * self._marked_dmg_mul
 
 		if self._marked_dmg_dist_mul and alive(attacker_unit) then

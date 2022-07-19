@@ -506,7 +506,7 @@ function RaycastWeaponBase:can_ignore_medic_heals(distance)
 end
 
 function RaycastWeaponBase:overhealed_damage_mul(distance)
-	if self._overheal_damage_dist and distance < self._overheal_damage_dist then
+	if self._overheal_damage_dist and (not distance and distance < self._overheal_damage_dist) then
 		return self._overheal_damage_mul
 	end
 
