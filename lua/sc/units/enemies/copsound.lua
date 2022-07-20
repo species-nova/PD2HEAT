@@ -94,106 +94,10 @@ function CopSound:chk_voice_prefix()
 	end
 end	
 
-local line_array = {
-	c01 =       {line = "contact"},
-	c01x =      {line = "contact"},
-	burnhurt =  {line = "burnhurt",  force = true},
-	burndeath = {line = "burndeath", force = true},
-	rrl =       {line = "reload"},
-	gr1a =      {line = "spawn"},
-	gr1b =      {line = "spawn"},
-	gr1c =      {line = "spawn"},
-	gr1d =      {line = "spawn"},
-	gr2a =      {line = "spawn"},
-	gr2b =      {line = "spawn"},
-	gr2c =      {line = "spawn"},
-	gr2d =      {line = "spawn"},
-	a05 =       {line = "clear_stelf"},
-	a06 =       {line = "clear_stelf"},
-	e01 =       {line = "disabled_gear", force = true}, --look into restoring this chatter in general
-	e02 =       {line = "disabled_gear", force = true},
-	e03 =       {line = "disabled_gear", force = true},
-	e04 =       {line = "disabled_gear", force = true},
-	e05 =       {line = "disabled_gear", force = true},
-	e06 =       {line = "disabled_gear", force = true},
-	i01 =       {line = "contact"},
-	i02 =       {line = "gogo"},
-	i03 =       {line = "kill"},
-	lk3a =      {line = "buddy_died"},
-	lk3b =      {line = "cover_me"},  --could use this to add calmer panic between assaults
-	mov =       {line = "gogo"},
-	med =       {line = "buddy_died"},
-	amm =       {line = "buddy_died"},
-	ch1 =       {line = "trip_mines"},
-	ch2 =       {line = "sentry"},
-	ch3 =       {line = "ecm"},
-	ch4 =       {line = "saw"},
-	t01 =       {line = "flank"},
-	pus =       {line = "gogo"},
-	g90 =       {line = "buddy_died"},
-	civ =       {line = "hostage"},
-	bak =       {line = "ready"},
-	p01 =       {line = "hostage"},
-	p02 =       {line = "hostage"},
-	p03 =       {line = "gogo"},
-	m01 =       {line = "retreat"},
-	h01 =       {line = "rescue_civ"},
-	cr1 =       {line = "hostage"},
-	rdy =       {line = "ready"},
-	r01 =       {line = "ready"},
-	clr =       {line = "clear"},
-	att =       {line = "gogo"},
-	a08 =       {line = "gogo"},
-	prm =       {line = "ready"},
-	pos =       {line = "ready"},
-	d01 =       {line = "ready"},
-	d02 =       {line = "ready"},
-	x01a_any_3p =    {line = "pain",  force = true},
-	x01a_any_3p_01 = {line = "pain",  force = true},
-	x01a_any_3p_02 = {line = "pain",  force = true},
-	x02a_any_3p =    {line = "death", force = true},
-	x02a_any_3p_01 = {line = "death", force = true},
-	x02a_any_3p_02 = {line = "death", force = true},
-	hlp =            {line = "buddy_died"},
-	buddy_died =     {line = "buddy_died"},
-	s01x =           {line = "surrender"},
-	cn1 =            {line = "joker"},
-	use_gas =        {line = "use_gas"},
-	spawn =          {line = "spawn"},
-	tasing =         {line = "tasing"},
-	heal =           {line = "heal"},
-	tsr_x02a_any_3p = {line = "death", force = true},
-	tsr_x01a_any_3p = {line = "pain",  force = true},
-	tsr_post_tasing_taunt = {line = "tasing"},
-	post_tasing_taunt =     {line = "tasing"},
-	tsr_g90 =               {line = "contact"},
-	tsr_entrance =          {line = "gogo"},
-	tsr_c01 =               {line = "contact"},
-	bdz_c01 =               {line = "contact"},
-	bdz_entrance =          {line = "spawn"},
-	bdz_entrance_elite =    {line = "spawn"},
-	bdz_g90 =               {line = "gogo"},
-	bdz_post_kill_taunt =   {line = "gogo"},
-	dz_visor_lost =         {line = "visor_lost"},
-	visor_lost =            {line = "visor_lost"},
-	cloaker_taunt_after_assault =  {line = "kill"},
-	cloaker_taunt_during_assault = {line = "kill"},
-	cpa_taunt_after_assault =      {line = "kill"},
-	cpa_taunt_during_assault =     {line = "kill"},
-	police_radio =                 {line = "radio"}, -- doesnt work :<
-	clk_x02a_any_3p =              {line = "death", force = true}
-}
-
 function CopSound:say(sound_name, sync, skip_prefix, important, callback)
-	--[[ Disabling vanilla death check to allow for death screams.
-	if self._unit:character_damage():dead() then
-		return
-	end
-	]]
-	
-	local line_to_check = line_array[sound_name]
-    if line_to_check and heat.Voicelines:say(self._unit, line_to_check.line, line_to_check.force) then
-    	heat.print_value(sound_name, "sound_name")
+	--Disabling vanilla death check to allow for death screams.
+
+    if heat.Voicelines:say_id(self._unit, sound_name) then
     	if sync then
 			self._unit:network():send("say", SoundDevice:string_to_id(sound_name))
 		end
