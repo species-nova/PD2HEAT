@@ -493,3 +493,16 @@ function UnitNetworkHandler:sync_explosion_to_client(unit, position, normal, dam
 	managers.explosion:give_local_player_dmg(position, range, damage, unit)
 	managers.explosion:explode_on_client(position, normal, unit, damage, range, curve_pow)
 end
+
+function UnitNetworkHandler:say(unit, event_id, sender)
+	if not alive(unit) or not self._verify_gamestate(self._gamestate_filter.any_ingame) or not self._verify_sender(sender) then
+		return
+	end
+
+	log("Synced line: " .. tostring(event_id))
+	if unit:in_slot(managers.slot:get_mask("all_criminals")) and not managers.groupai:state():is_enemy_converted_to_criminal(unit) then
+		unit:sound():say(event_id, nil, false)
+	else
+		unit:sound():say(event_id, nil, true)
+	end
+end
