@@ -10,8 +10,8 @@ function HeatVoiceline:init()
 	self._line_id_data = {}
 	local line_id_data_meta = {
 		__newindex = function(t, k, v)
-			rawset(t, k, v)
-			rawset(t, tostring(SoundDevice:string_to_id(k)), v)
+			rawset(t, k, v) --String used for local voicelines.
+			rawset(t, tostring(SoundDevice:string_to_id(k)), v) --Float used for synced voicelines.
 		end
 	}
 	setmetatable(self._line_id_data, line_id_data_meta)
@@ -104,15 +104,6 @@ function HeatVoiceline:init()
 	self._line_id_data.clk_x02a_any_3p =              {line = "death", force = true}
 end
 
-function HeatVoiceline:say_id(unit, line_id)
-	local line_data = self._line_id_data[tostring(line_id)]
-	if line_data then
-		return self:say(unit, line_data.line, line_data.force)
-	else
-		return false
-	end
-end
-
 --Attempts to 'make a given unit say' a voice line.
 --Check and see if you can use CopSound:say first, before calling this directly!
 --If a line is missing from there, check and see if it can be added to the self._line_id_data table.
@@ -150,6 +141,20 @@ function HeatVoiceline:say(unit, line, force)
 	end
 	
 	return true
+end
+
+--Version of say() that takes in a vanilla-style line id.
+--What vanilla IDs correspond to what lines are defined inside of the _line_id_data table.
+--Note that multiple lines inside the same folder will result in a random one of those playing.
+--Meaning that peers will hear the same 'type' of line, but not the same exact line.
+--Unless each vanilla style line ID only corresponds to one voiceline file.
+function HeatVoiceline:say_id(unit, line_id)
+	local line_data = self._line_id_data[tostring(line_id)]
+	if line_data then
+		return self:say(unit, line_data.line, line_data.force)
+	else
+		return false
+	end
 end
 
 --Enqueues the voice lines related to a list of units to be loaded.
