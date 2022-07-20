@@ -11,8 +11,7 @@ function HeatVoiceline:init()
 	local line_id_data_meta = {
 		__newindex = function(t, k, v)
 			rawset(t, k, v)
-			log("Line = " .. tostring(k) .. " == " .. tostring(SoundDevice:string_to_id(k)))
-			rawset(t, SoundDevice:string_to_id(k), v)
+			rawset(t, tostring(SoundDevice:string_to_id(k)), v)
 		end
 	}
 	setmetatable(self._line_id_data, line_id_data_meta)
@@ -106,7 +105,7 @@ function HeatVoiceline:init()
 end
 
 function HeatVoiceline:say_id(unit, line_id)
-	local line_data = self._line_id_data[line_id]
+	local line_data = self._line_id_data[tostring(line_id)]
 	if line_data then
 		return self:say(unit, line_data.line, line_data.force)
 	else
