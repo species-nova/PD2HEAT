@@ -499,7 +499,7 @@ function UnitNetworkHandler:say(unit, event_id, sender)
 		return
 	end
 
-	log("Synced line: " .. tostring(event_id))
+	heat.print_value(event_id, "event_id")
 	if unit:in_slot(managers.slot:get_mask("all_criminals")) and not managers.groupai:state():is_enemy_converted_to_criminal(unit) then
 		unit:sound():say(event_id, nil, false)
 	else
