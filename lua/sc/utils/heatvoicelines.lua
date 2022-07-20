@@ -7,7 +7,6 @@ function HeatVoiceline:init()
 	self._load_queue = {} --Queue of unit lists to load voicelines for.
 	self._load_coroutine = nil --The current loading coroutine. Usually nil except for heist start.
 
-	--TODO: Move to HeatVoiceline.
 	self._line_id_data = {}
 	local line_id_data_meta = {
 		__newindex = function(t, k, v)
