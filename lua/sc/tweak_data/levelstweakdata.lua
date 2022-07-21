@@ -54,30 +54,30 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 
 	self.mex_cooking.package = {"packages/mexicoassets", "levels/narratives/h_alex_must_die/stage_1/world_sounds", "levels/narratives/vlad/bex/world_sounds", "packages/job_bex", "packages/job_mex2"}
 	self.mex_cooking.ai_group_type = federales 
-	self.mex_cooking.player_style = "suit_sunny"	
+	self.mex_cooking.player_style = "jumpsuit"	
 	
 	self.pex.package = {"packages/mexicoassets", "packages/job_pex"}
 	self.pex.player_style = "slaughterhouse"
 	
 	self.fex.package = {"packages/mexicoassets", "packages/job_fex"}
-	self.fex.player_style = "suit_sunny"
+	self.fex.player_style = "jumpsuit"
 	
 	--///MURKYWATER LEVELS\\\--
 	self.shoutout_raid.package = {"packages/murkyassets", "packages/vlad_shout"}
 	self.shoutout_raid.ai_group_type = murkywater
-	self.shoutout_raid.player_style = "loud_suit" --using this until we sort out the coats
+	self.shoutout_raid.player_style = "jumpsuit" 
 	
 	self.pbr.package = {"packages/murkyassets", "packages/narr_jerry1"}
 	self.pbr.ai_group_type = murkywater
-	self.pbr.player_style = "loud_suit"
+	self.pbr.player_style = "jumpsuit"
 	
 	self.des.package = {"packages/murkyassets", "packages/job_des"}
 	self.des.ai_group_type = murkywater 
-	self.des.player_style = "loud_suit"
+	self.des.player_style = "jumpsuit"
 	
 	self.bph.package = {"packages/murkyassets", "packages/dlcs/bph/job_bph"}
 	self.bph.ai_group_type = murkywater 
-	self.bph.player_style = "loud_suit"
+	self.bph.player_style = "jumpsuit"
 	
 	self.vit.package = {"packages/murkyassets", "packages/dlcs/vit/job_vit"}
 	self.vit.ai_group_type = murkywater 
@@ -88,7 +88,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	
 	self.mex.package = {"packages/murkyassets", "levels/narratives/h_alex_must_die/stage_1/world_sounds", "packages/job_mex"}
 	self.mex.ai_group_type = murkywater 
-	self.mex.player_style = "suit_sunny"	
+	self.mex.player_style = "jumpsuit"	
 
 	self.crojob2.package = {"packages/dlcs/the_bomb/crojob_stage_2", "packages/murkyassets"}
 	self.crojob2.ai_group_type = murkywater			
@@ -210,7 +210,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	
 	self.jolly.ai_group_type = nypd
 	self.jolly.package = {"packages/jolly", "levels/narratives/dentist/mia/stage2/world_sounds", "packages/nypdassets"}
-	self.jolly.player_style = "suit_sunny"
+	self.jolly.player_style = "jumpsuit"
 	
 	self.pal.ai_group_type = nypd
 	self.pal.package = {"packages/narr_pal", "packages/nypdassets"}	
@@ -221,11 +221,11 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	
 	self.rvd1.ai_group_type = nypd
 	self.rvd1.package = {"packages/job_rvd", "packages/nypdassets"}
-	self.rvd1.player_style = "suit_sunny"		
+	self.rvd1.player_style = "jumpsuit"		
 	
 	self.rvd2.ai_group_type = nypd
 	self.rvd2.package = {"packages/job_rvd2", "packages/nypdassets"}
-	self.rvd2.player_style = "suit_sunny"
+	self.rvd2.player_style = "jumpsuit"
 	
 	self.nmh.ai_group_type = nypd
 	self.nmh.package = {"packages/dlcs/nmh/job_nmh", "packages/nypdassets"}
@@ -240,7 +240,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	--///LAPD LEVELS\\\--			
 	--self.friend.ai_group_type = lapd
 	self.friend.package = {"levels/narratives/h_alex_must_die/stage_1/world_sounds", "packages/lvl_friend"} --, "packages/lapdassets"}
-	self.friend.player_style = "suit_sunny"
+	self.friend.player_style = "jumpsuit"
 	
 	--self.chas.ai_group_type = lapd
 	self.chas.package = {"packages/job_chas"} --, "packages/lapdassets"}
@@ -273,7 +273,7 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	
 	self.hox_3.player_style = "slaughterhouse"
 	
-	self.rat.player_style = "suit_sunny"
+	self.rat.player_style = "jumpsuit"
 	
 	
 	self.election_day_1.player_style = "sneak_suit"	
@@ -287,28 +287,28 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.framing_frame_3.player_style = "sneak_suit"
 	
 			
-	self.alex_1.player_style = "suit_sunny"
-	self.alex_2.player_style = "suit_sunny"
+	self.alex_1.player_style = "jumpsuit"
+	self.alex_2.player_style = "jumpsuit"
 	
 	self.alex_3.player_style = "slaughterhouse"
 	
-	self.welcome_to_the_jungle_1.player_style = "suit_sunny"
-	self.welcome_to_the_jungle_1_night.player_style = "suit_sunny"
+	self.welcome_to_the_jungle_1.player_style = "jumpsuit"
+	self.welcome_to_the_jungle_1_night.player_style = "jumpsuit"
 	
 	self.welcome_to_the_jungle_2.package = {"packages/narr_jungle2", "packages/murkyassets",}
 	self.welcome_to_the_jungle_2.ai_group_type = murkywater
 	self.welcome_to_the_jungle_2.player_style = "sneak_suit"
 	
-	self.chew.player_style = "loud_suit"
+	self.chew.player_style = "jumpsuit"
 	
 	self.pbr2.package = {"packages/narr_jerry2", "packages/miscassets"}
-	self.pbr2.player_style = "loud_suit"
+	self.pbr2.player_style = "jumpsuit"
 	
-	self.watchdogs_1.player_style = "suit_sunny"
-	self.watchdogs_2.player_style = "loud_suit"
+	self.watchdogs_1.player_style = "jumpsuit"
+	self.watchdogs_2.player_style = "jumpsuit"
 	
-	self.watchdogs_1_night.player_style = "suit_sunny"
-	self.watchdogs_2_day.player_style = "loud_suit"
+	self.watchdogs_1_night.player_style = "jumpsuit"
+	self.watchdogs_2_day.player_style = "jumpsuit"
 	
 	self.mia_1.player_style = "miami"
 	self.mia_2.player_style = "miami"
@@ -468,17 +468,17 @@ Hooks:PostHook( LevelsTweakData, "init", "SC_levels", function(self)
 	self.mad.player_style = "winter_suit"
 	--We're never actually told where the forest is ;)
 	self.pines.package = {"packages/narr_pines", "packages/akanassets", "packages/lvl_mad",}
-	self.pines.player_style = "loud_suit"
+	self.pines.player_style = "jumpsuit"
 	self.pines.ai_group_type = russia	
 	
 	--Bomb: Forest--
 	self.crojob3.package = {"packages/dlcs/the_bomb/crojob_stage_3", "packages/akanassets", "packages/lvl_mad",}
 	self.crojob3.ai_group_type = russia			
-	self.crojob3.player_style = "loud_suit"
+	self.crojob3.player_style = "jumpsuit"
 
 	self.crojob3_night.package = {"packages/dlcs/the_bomb/crojob_stage_3_night", "packages/akanassets", "packages/lvl_mad",}
 	self.crojob3_night.ai_group_type = russia				
-	self.crojob3_night.player_style = "loud_suit"		
+	self.crojob3_night.player_style = "jumpsuit"		
 	
 	--///BAG FIXES\\\--
 	self.pbr2.max_bags = 20
