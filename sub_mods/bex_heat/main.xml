@@ -1,0 +1,123 @@
+<table min_lib_ver="4.5" name="bex_heat">
+	<level ai_group_type="federales" briefing_dialog="Play_loc_bex_brf" cube="cube_apply_heist_bank" ghost_bonus="0.15" id="bex_heat" intro_event="Play_loc_bex_intro" load_screen="guis/dlcs/bex/textures/loading/job_bex_01_df" music="heist" narrator="locke">
+		<assets/>
+		<outro_event>
+			<value_node value="Play_loc_bex_end"/>
+		</outro_event>
+		<packages>
+			<value_node value="packages/mexicoassets"/>
+			<value_node value="packages/job_bex"/>
+			<value_node value="levels/narratives/vlad/bex/world"/>
+			<value_node value="levels/narratives/vlad/bex/world_sounds"/>
+			<value_node value="levels/narratives/vlad/bex/collision/collision"/>
+			<value_node value="levels/narratives/vlad/bex/art_arch/art_arch"/>
+			<value_node value="levels/narratives/vlad/bex/art_props_interior/art_props_interior"/>
+			<value_node value="levels/narratives/vlad/bex/editor_only/editor_only"/>
+			<value_node value="levels/narratives/vlad/bex/art_props/art_props"/>
+			<value_node value="levels/narratives/vlad/bex/lights_interior/lights_interior"/>
+			<value_node value="levels/narratives/vlad/bex/world/world"/>
+			<value_node value="levels/narratives/vlad/bex/backdrop/backdrop"/>
+			<value_node value="levels/narratives/vlad/bex/lights/lights"/>
+		</packages>
+		<preplanning mission_briefing_texture="guis/dlcs/bex/textures/pd2/pre_planning/bex_preview" post_event_prefix="loc" total_budget="10">
+			<table map_size="1" map_x="-0.55" map_y="0" name_id="menu_pp_bex_bpr_loc_a" rotation="180" texture="guis/dlcs/bex/textures/pd2/pre_planning/bex_01" x1="-6000" x2="6000" y1="-7000" y2="5000">
+				<custom_points/>
+			</table>
+			<table map_size="1" map_x="0.25" map_y="0" name_id="menu_pp_bex_bpr_loc_b" rotation="180" texture="guis/dlcs/bex/textures/pd2/pre_planning/bex_02" x1="-6000" x2="6000" y1="-7000" y2="5000">
+				<custom_points/>
+			</table>
+			<table map_size="1" map_x="1.05" map_y="0" name_id="menu_pp_bex_bpr_loc_c" rotation="180" texture="guis/dlcs/bex/textures/pd2/pre_planning/bex_03" x1="-6000" x2="6000" y1="-7000" y2="5000">
+				<custom_points/>
+			</table>
+			<default_plans/>
+			<start_location group="a" x="512" y="512" zoom="1"/>
+		</preplanning>
+		<script_data_mods directory="scriptdata">
+			<mod replacement="objectives.objective" replacement_type="custom_xml" target_ext="objective" target_path="gamedata/objectives">
+				<options merge_mode="add" mode="add"/>
+			</mod>
+		</script_data_mods>
+	</level>
+	<narrative briefing_event="Play_vld_bex_cbf_01" cn_map="mexico" contact="vlad" dlc="bex" icon="guis/dlcs/bex/textures/pd2/crimenet/bex" id="bex_heat" jc="30" region="street">
+		<chain>
+			<table level_id="bex_heat" type="d" type_id="heist_type_assault">
+				<mission_filter>
+					<value_node value="1"/>
+				</mission_filter>
+			</table>
+		</chain>
+		<cn_icon_id texture="guis/dlcs/trk/atlases/achievement_atlas_bex">
+			<texture_rect>
+				<value_node value="89"/>
+				<value_node value="176"/>
+				<value_node value="85"/>
+				<value_node value="85"/>
+			</texture_rect>
+		</cn_icon_id>
+		<cn_position>
+			<value_node value="809"/>
+			<value_node value="1300"/>
+		</cn_position>
+		<contract_cost>
+			<value_node value="24000"/>
+			<value_node value="48000"/>
+			<value_node value="120000"/>
+			<value_node value="240000"/>
+			<value_node value="300000"/>
+			<value_node value="300000"/>
+			<value_node value="300000"/>
+		</contract_cost>
+		<crimenet_callouts>
+			<value_node value="Play_vld_bex_cnc_01"/>
+		</crimenet_callouts>
+		<crimenet_videos>
+			<value_node value="cn_ukr1"/>
+			<value_node value="cn_ukr2"/>
+			<value_node value="cn_ukr3"/>
+		</crimenet_videos>
+		<date_added>
+			<value_node value="2020"/>
+			<value_node value="2"/>
+			<value_node value="27"/>
+		</date_added>
+		<experience_mul>
+			<value_node value="1"/>
+			<value_node value="1"/>
+			<value_node value="1"/>
+			<value_node value="1"/>
+			<value_node value="3"/>
+			<value_node value="3"/>
+			<value_node value="3"/>
+		</experience_mul>
+		<max_mission_xp>
+			<value_node value="23200"/>
+			<value_node value="23200"/>
+			<value_node value="23200"/>
+			<value_node value="23200"/>
+			<value_node value="23200"/>
+			<value_node value="23200"/>
+			<value_node value="23200"/>
+		</max_mission_xp>
+		<min_mission_xp>
+			<value_node value="14200"/>
+			<value_node value="14200"/>
+			<value_node value="14200"/>
+			<value_node value="14200"/>
+			<value_node value="14200"/>
+			<value_node value="14200"/>
+			<value_node value="14200"/>
+		</min_mission_xp>
+		<payout>
+			<value_node value="50000"/>
+			<value_node value="125000"/>
+			<value_node value="250000"/>
+			<value_node value="550000"/>
+			<value_node value="700000"/>
+			<value_node value="700000"/>
+			<value_node value="700000"/>
+		</payout>
+	</narrative>
+	<Localization default="english.txt" directory="loc">
+		<loc file="english.txt" language="english"/>
+	</Localization>
+</table>
