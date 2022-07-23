@@ -1713,7 +1713,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Frenzy--
 			["menu_frenzy_sc"] = "Frenzy",
-			["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nYour health cannot be increased above ##25%##, but you deal ##150%## more saw and melee damage.\n\nACE: ##$pro##\nYou deal ##75%## more gun damage.",
+			["menu_frenzy_desc_sc"] = "BASIC: ##$basic##\nYour health cannot be increased above ##25%##, but you deal ##150%## more saw and melee damage.\n\nACE: ##$pro##\nYou deal ##80%## more gun damage.",
 
 
 

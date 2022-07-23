@@ -156,20 +156,15 @@ function WeaponTweakData:_init_stats()
 	self.stat_info.stance_spread_mults = {
 		standing = 1,
 		moving_standing = 1,
-		crouching = 0.75,
-		moving_crouching = 0.75,
-		steelsight = 0.5,
-		moving_steelsight = 0.5,
-		bipod = 0.5
+		crouching = 0.7,
+		moving_crouching = 0.7,
+		steelsight = 0.4,
+		moving_steelsight = 0.4,
+		bipod = 0.4
 	}
 
 	--Stance multipliers for weapon recoil.
-	self.stat_info.stance_recoil_mults = {
-		standing = 1,
-		crouching = 0.75,
-		steelsight = 0.5,
-		bipod = 0.25
-	}
+	self.stat_info.stance_recoil_mults = self.stat_info.stance_spread_mults
 
 	self.stats.value = {}
 	for i = 1, 10.01, 1 do
@@ -479,16 +474,6 @@ function WeaponTweakData:_init_stats()
 			}
 		}
 	}
-
-	--[[
-	for type, _ in pairs(self.stat_info.kick_tables) do
-		self.stat_info.kick_tables[type] = {
-			standing = {0.85, -0.85, 0.85, -0.85},
-			crouching = {0.85, -0.85, 0.85, -0.85},
-			steelsight = {0.85, -0.85, 0.85, -0.85}
-		}
-	end
-	]]
 
 	--Generate PRNG tables for recoil patterns.
 	local function generate_circle_pattern(angle, size, switch)

@@ -102,7 +102,7 @@
 			heat_stat_table = "poison_arrow"
 		}
 			local light_bow_poison = {
-				stats = {damage = -30},
+				stats = {damage = -45},
 				custom_stats = {
 					dot_data =  {
 						type = "poison",
@@ -129,9 +129,13 @@
 					}
 				}
 			}
-		local explosive_arrow = {
+		local light_explosive_arrow = {
+			stats = {value = 4, damage = 45, spread = -4},
+			heat_stat_table = "light_explosive_arrow"
+		}
+		local heavy_explosive_arrow = {
 			stats = {value = 4, damage = 60, spread = -4},
-			heat_stat_table = "explosive_arrow"
+			heat_stat_table = "heavy_explosive_arrow"
 		}
 	--Flamethrower Tanks
 		local rare_tank = {
@@ -207,7 +211,7 @@
 		local slug_damage = {
 			light = 52,
 			medium = 79,
-			heavy = 106
+			heavy = 119
 		}
 		local slug = {
 			desc_id = "bm_wp_upg_a_slug_desc_sc",
@@ -230,7 +234,7 @@
 		local he_damage = {
 			light = 112,
 			medium = 169,
-			heavy = 226
+			heavy = 224
 		}
 		local he_slug = {
 			desc_id = "bm_wp_upg_a_he_desc_sc",
@@ -251,7 +255,7 @@
 		local buck_damage = {
 			light = 8,
 			medium = 11,
-			heavy = 14
+			heavy = 16
 		}
 		local d0buck = {
 			desc_id = "bm_wp_upg_a_custom_desc_sc",
@@ -270,7 +274,7 @@
 		local shotgun_dot_damage = {
 			light = {-4, 3.1},
 			medium = {-5, 4.1},
-			heavy = {-7, 5.1}
+			heavy = {-8, 5.1}
 		}
 		local flechette = {
 			desc_id = "bm_wp_upg_a_piercing_desc_sc",
@@ -621,7 +625,7 @@ function WeaponFactoryTweakData:_init_hunter()
 	apply_stats(self.parts.wpn_fps_bow_hunter_b_skeletal, light_mob_barrel) --Skeletal Limb
 	apply_stats(self.parts.wpn_fps_bow_hunter_g_camo, cosmetic) --Camo Grip
 	apply_stats(self.parts.wpn_fps_bow_hunter_g_walnut, light_acc_grip) --Walnut Grip
-	apply_stats(self.parts.wpn_fps_upg_a_crossbow_explosion, explosive_arrow) --Explosive Bolt
+	apply_stats(self.parts.wpn_fps_upg_a_crossbow_explosion, light_explosive_arrow) --Explosive Bolt
 	apply_stats(self.parts.wpn_fps_upg_a_crossbow_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
@@ -629,7 +633,7 @@ end
 local orig_init_arblast = WeaponFactoryTweakData._init_arblast
 function WeaponFactoryTweakData:_init_arblast()
 	orig_init_arblast(self)
-	apply_stats(self.parts.wpn_fps_bow_arblast_m_explosive, explosive_arrow) --Explosive Bolt
+	apply_stats(self.parts.wpn_fps_bow_arblast_m_explosive, heavy_explosive_arrow) --Explosive Bolt
 	apply_stats(self.parts.wpn_fps_bow_arblast_m_poison, poison_arrow, heavy_bow_poison) --Poison Bolt
 end
 
@@ -637,7 +641,7 @@ end
 local orig_init_frankish = WeaponFactoryTweakData._init_frankish
 function WeaponFactoryTweakData:_init_frankish()
 	orig_init_frankish(self)
-	apply_stats(self.parts.wpn_fps_bow_frankish_m_explosive, explosive_arrow) --Explosive Bolt
+	apply_stats(self.parts.wpn_fps_bow_frankish_m_explosive, light_explosive_arrow) --Explosive Bolt
 	apply_stats(self.parts.wpn_fps_bow_frankish_m_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
@@ -646,7 +650,7 @@ local orig_init_ecp = WeaponFactoryTweakData._init_ecp
 function WeaponFactoryTweakData:_init_ecp()
 	orig_init_ecp(self)
 	apply_stats(self.parts.wpn_fps_bow_ecp_s_bare, heavy_mob_stock) --Light Stock
-	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_explosive, explosive_arrow) --Explosive Bolt
+	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_explosive, light_explosive_arrow) --Explosive Bolt
 	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
@@ -654,7 +658,7 @@ end
 local orig_init_plainsrider = WeaponFactoryTweakData._init_plainsrider
 function WeaponFactoryTweakData:_init_plainsrider()
 	orig_init_plainsrider(self)
-	apply_stats(self.parts.wpn_fps_upg_a_bow_explosion, explosive_arrow) --Explosive Arrows
+	apply_stats(self.parts.wpn_fps_upg_a_bow_explosion, light_explosive_arrow) --Explosive Arrows
 	apply_stats(self.parts.wpn_fps_upg_a_bow_poison, poison_arrow, light_bow_poison) --Poisoned Arrows
 end
 
@@ -662,7 +666,7 @@ end
 local orig_init_long = WeaponFactoryTweakData._init_long
 function WeaponFactoryTweakData:_init_long()
 	orig_init_long(self)
-	apply_stats(self.parts.wpn_fps_bow_long_m_explosive, explosive_arrow) --Explosive Arrows
+	apply_stats(self.parts.wpn_fps_bow_long_m_explosive, heavy_explosive_arrow) --Explosive Arrows
 	apply_stats(self.parts.wpn_fps_bow_long_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
 end
 
@@ -673,7 +677,7 @@ function WeaponFactoryTweakData:_init_elastic()
 	apply_stats(self.parts.wpn_fps_bow_elastic_g_2, cosmetic) --Wooden Grip
 	apply_stats(self.parts.wpn_fps_bow_elastic_g_3, cosmetic) --Ergonomic Grip
 	apply_stats(self.parts.wpn_fps_bow_elastic_body_tactic, heavy_mob_barrel) --Tactical Frame
-	apply_stats(self.parts.wpn_fps_bow_elastic_m_explosive, explosive_arrow) --Explosive Arrows
+	apply_stats(self.parts.wpn_fps_bow_elastic_m_explosive, heavy_explosive_arrow) --Explosive Arrows
 	apply_stats(self.parts.wpn_fps_bow_elastic_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
 end
 

@@ -29,7 +29,7 @@ local small_font_size = tweak_data.menu.pd2_small_font_size
 local tiny_font_size = tweak_data.menu.pd2_tiny_font_size
 
 local function format_round(num, round_value)
-	return round_value and tostring(math.round(num)) or string.format("%.1f", num):gsub("%.?0+$", "")
+	return round_value and tostring(math.round(num)) or num >= 1 and string.format("%.1f", num):gsub("%.?0+$", "") or string.format("%.2f", num):gsub("%.?0+$", "")
 end
 
 function BlackMarketGui:populate_mods(data)

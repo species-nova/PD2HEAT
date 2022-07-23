@@ -518,7 +518,7 @@ function CharacterTweakData:_init_medic(presets) --Medic
 	self.medic.experience = {}
 	self.medic.weapon = presets.weapon.normal
 	self.medic.detection = presets.detection.normal
-	self.medic.HEALTH_INIT = 57.6
+	self.medic.HEALTH_INIT = 72
 	self.medic.headshot_dmg_mul = normal_headshot
 	self.medic.suppression = nil
 	self.medic.surrender = presets.surrender.special
@@ -650,7 +650,7 @@ function CharacterTweakData:_init_swat(presets) --light swat
 	self.swat.experience = {}
 	self.swat.weapon = presets.weapon.expert
 	self.swat.detection = presets.detection.normal
-	self.swat.HEALTH_INIT = 21.6
+	self.swat.HEALTH_INIT = 32.4
 	self.swat.headshot_dmg_mul = normal_headshot
 	self.swat.move_speed = presets.move_speed.very_fast
 	self.swat.surrender_break_time = {6, 10}
@@ -701,7 +701,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	self.heavy_swat.experience = {}
 	self.heavy_swat.weapon = presets.weapon.expert
 	self.heavy_swat.detection = presets.detection.normal
-	self.heavy_swat.HEALTH_INIT = 32.4
+	self.heavy_swat.HEALTH_INIT = 50.4
 	self.heavy_swat.headshot_dmg_mul = normal_headshot
 	self.heavy_swat.move_speed = presets.move_speed.fast
 	self.heavy_swat.surrender_break_time = {6, 8}
@@ -1783,7 +1783,7 @@ function CharacterTweakData:_init_spooc(presets) --cloaker
 	self.spooc.damage.hurt_severity = presets.hurt_severities.spooc
 	self.spooc.weapon = presets.weapon.good
 	self.spooc.detection = presets.detection.normal
-	self.spooc.HEALTH_INIT = 115.2
+	self.spooc.HEALTH_INIT = 144
 	self.spooc.headshot_dmg_mul = strong_headshot
 	self.spooc.damage.melee_damage_mul = 0.5
 	self.spooc.move_speed = presets.move_speed.lightning
@@ -1842,9 +1842,6 @@ function CharacterTweakData:_init_spooc(presets) --cloaker
 	self.spooc_titan.weapon = presets.weapon.normal
 	self.spooc_titan.tags = {"law", "custom", "special", "spooc"}
 	self.spooc_titan.special_deaths = nil
-	self.spooc_titan.HEALTH_INIT = 144
-	self.spooc_titan.headshot_dmg_mul = strong_headshot	
-	self.spooc_titan.damage.melee_damage_mul = 2
 	self.spooc_titan.damage.explosion_damage_mul = 2
 	if self:get_ai_group_type() == "russia" then	
 		self.spooc_titan.speech_prefix_p1 = self._prefix_data_p1.cloaker()
@@ -1876,7 +1873,7 @@ function CharacterTweakData:_init_shadow_spooc(presets) --white house shadow clo
 	self.shadow_spooc.detection = presets.detection.normal
 	self.shadow_spooc.HEALTH_INIT = 144
 	self.shadow_spooc.headshot_dmg_mul = strong_headshot	
-	self.shadow_spooc.damage.melee_damage_mul = 2
+	self.shadow_spooc.damage.melee_damage_mul = 0.5
 	self.shadow_spooc.damage.explosion_damage_mul = 2
 	self.shadow_spooc.move_speed = presets.move_speed.lightning
 	self.shadow_spooc.no_retreat = true
@@ -2282,7 +2279,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser.weapon = presets.weapon.taser
 	self.taser.detection = presets.detection.normal
 	self.taser.damage.hurt_severity = presets.hurt_severities.taser
-	self.taser.HEALTH_INIT = 72
+	self.taser.HEALTH_INIT = 81
 	self.taser.headshot_dmg_mul = normal_headshot
 	self.taser.move_speed = presets.move_speed.fast
 	self.taser.no_retreat = true
@@ -2369,7 +2366,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_titan = deep_clone(self.taser) --titan taser
 	self.taser_titan.weapon = presets.weapon.good
 	self.taser_titan.tags = {"taser", "taser_titan", "custom", "special"}
-	self.taser_titan.HEALTH_INIT = 81
+	self.taser_titan.HEALTH_INIT = 96
 	self.taser_titan.headshot_dmg_mul = normal_headshot
 	self.taser_titan.priority_shout = "f32"
 	self.taser_titan.bot_priority_shout = "f32x_any"
@@ -2404,7 +2401,7 @@ function CharacterTweakData:_init_boom(presets) --grenadier
 	self.boom.melee_weapon = "baton"
 	self.boom.weapon_safety_range = 1000
 	self.boom.detection = presets.detection.normal
-	self.boom.HEALTH_INIT = 72
+	self.boom.HEALTH_INIT = 81
 	self.boom.headshot_dmg_mul = normal_headshot
 	self.boom.HEALTH_SUICIDE_LIMIT = 0.25
 	self.boom.flammable = true

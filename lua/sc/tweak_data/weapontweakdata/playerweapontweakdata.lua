@@ -1534,10 +1534,10 @@ function WeaponTweakData:init(...)
 		self.sbl.tactical_reload = true
 		self.sbl.supported = true
 		self.sbl.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 17,
 			recoil = 9,
-			concealment = 14
+			concealment = 13
 		}
 		self.sbl.timers = {
 			shotgun_reload_enter = 0.43333333333333335,
@@ -1559,10 +1559,10 @@ function WeaponTweakData:init(...)
 		self.model70.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.model70.supported = true
 		self.model70.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 21,
 			recoil = 13,
-			concealment = 10
+			concealment = 9
 		}
 		self.model70.timers = {
 			reload_not_empty = 4,
@@ -1585,10 +1585,10 @@ function WeaponTweakData:init(...)
 		self.desertfox.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.desertfox.supported = true
 		self.desertfox.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 19,
 			recoil = 11,
-			concealment = 14
+			concealment = 13
 		}
 		self.desertfox.timers = {
 			reload_not_empty = 3.5,
@@ -1610,10 +1610,10 @@ function WeaponTweakData:init(...)
 		self.r93.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.r93.supported = true
 		self.r93.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 21,
 			recoil = 16,
-			concealment = 7
+			concealment = 6
 		}
 		self.r93.timers = {
 			reload_not_empty = 3.5,
@@ -1636,10 +1636,10 @@ function WeaponTweakData:init(...)
 		self.mosin.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.mosin.supported = true
 		self.mosin.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 20,
 			recoil = 14,
-			concealment = 12
+			concealment = 11
 		}
 		self.mosin.timers = {
 			reload_not_empty = 4.2,
@@ -2663,7 +2663,7 @@ function WeaponTweakData:init(...)
 		self.type54_underbarrel.supported = false
 		self.type54_underbarrel.AMMO_MAX = 15
 		self.type54_underbarrel.stats = {
-			damage = 14,
+			damage = 16,
 			spread = 16,
 			recoil = 5,
 			concealment = 21
@@ -3689,7 +3689,7 @@ function WeaponTweakData:init(...)
 		self.ecp.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.ecp.supported = true
 		self.ecp.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 14,
 			recoil = 16,
 			concealment = 11,
@@ -3743,7 +3743,7 @@ function WeaponTweakData:init(...)
 		self.frankish.kick_pattern = self.stat_info.kick_patterns.random
 		self.frankish.supported = true
 		self.frankish.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 21,
 			recoil = 21,
 			concealment = 15,
@@ -3772,7 +3772,7 @@ function WeaponTweakData:init(...)
 		self.hunter.kick_pattern = self.stat_info.kick_patterns.random
 		self.hunter.supported = true
 		self.hunter.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 16,
 			recoil = 21,
 			concealment = 20,
@@ -3801,7 +3801,7 @@ function WeaponTweakData:init(...)
 		self.plainsrider.fire_mode_data.fire_rate = 0.1
 		self.plainsrider.single.fire_rate = 0.1
 		self.plainsrider.stats = {
-			damage = 120,
+			damage = 135,
 			spread = 20,
 			recoil = 21,
 			concealment = 15,
@@ -4418,7 +4418,7 @@ function WeaponTweakData:init(...)
 		self.huntsman.kick_pattern = self.stat_info.kick_patterns.random
 		self.huntsman.supported = true
 		self.huntsman.stats = {
-			damage = 14,
+			damage = 16,
 			spread = 13,
 			recoil = 10,
 			concealment = 17
@@ -4450,7 +4450,7 @@ function WeaponTweakData:init(...)
 		}
 		self.b682.fire_rate_multiplier = 1.2 --400 rpm
 		self.b682.stats = {
-			damage = 14,
+			damage = 16,
 			spread = 15,
 			recoil = 9,
 			concealment = 17
@@ -4488,7 +4488,7 @@ function WeaponTweakData:init(...)
 		self.coach.fire_rate_multiplier = 1.2 --400 rpm
 		self.coach.supported = true
 		self.coach.stats = {
-			damage = 14,
+			damage = 16,
 			spread = 12,
 			recoil = 10,
 			concealment = 17
@@ -4757,25 +4757,25 @@ end
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 380, suppression =  4}, --18/36 damage guns
-	{damage = 20,  pickup = 360, suppression =  6},
-	{damage = 24,  pickup = 340, suppression =  8},
-	{damage = 30,  pickup = 310, suppression = 10},
-	{damage = 45,  pickup = 280, suppression = 11},
-	{damage = 60,  pickup = 250, suppression = 12},
-	{damage = 90,  pickup = 220, suppression = 13},
-	{damage = 120, pickup = 200, suppression = 14},
-	{damage = 180, pickup = 190, suppression = 15},
-	{damage = 240, pickup = 180, suppression = 16},
-	{damage = 300, pickup = 170, suppression = 17},
-	{damage = 360, pickup = 160, suppression = 18},
-	{damage = 400, pickup = 150, suppression = 19},
-	{damage = 600, pickup = 140, suppression = 20}
+	{damage = 18,  pickup = 320, suppression =  4}, --18/36 damage guns
+	{damage = 20,  pickup = 310, suppression =  6},
+	{damage = 24,  pickup = 290, suppression =  8},
+	{damage = 30,  pickup = 260, suppression = 10},
+	{damage = 45,  pickup = 230, suppression = 11},
+	{damage = 60,  pickup = 210, suppression = 12},
+	{damage = 90,  pickup = 190, suppression = 13},
+	{damage = 135, pickup = 160, suppression = 14},
+	{damage = 180, pickup = 150, suppression = 15},
+	{damage = 240, pickup = 140, suppression = 16},
+	{damage = 300, pickup = 130, suppression = 17},
+	{damage = 360, pickup = 120, suppression = 18},
+	{damage = 400, pickup = 110, suppression = 19},
+	{damage = 600, pickup = 100, suppression = 20}
 }
 local shotgun_damage_tier_data = {
-	{tier = 8,  damage = 60,  pickup = 250, suppression = 13}, --144 damage shotguns = 120 damage other weapons
-	{tier = 11, damage = 90,  pickup = 220, suppression = 14}, --198 damage shotguns = 180 damage other weapons
-	{tier = 14, damage = 120, pickup = 200, suppression = 15}  --252 damage shotguns = 240 damage other weapons
+	{tier = 8,  damage = 60,  pickup = 210, suppression = 13}, --144 damage shotguns = 120 damage other weapons
+	{tier = 11, damage = 90,  pickup = 190, suppression = 14}, --198 damage shotguns = 180 damage other weapons
+	{tier = 16, damage = 135, pickup = 160, suppression = 15}  --252 damage shotguns = 270 damage other weapons
 }
 
 local damage_pool_primary = 3600
@@ -4798,7 +4798,7 @@ end
 local category_data = {
 	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	bow              = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
-	crossbow         = {pickup =0.75, suppression = 0.5, ammo_max = 1.0},
+	crossbow         = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
 	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},
 	smg              = {pickup = 1.1, suppression = 1.5, ammo_max = 1.0},
 	lmg              = {pickup = 1.0, suppression = 1.3, ammo_max = 1.5}, --Applies on top of SMG preset
@@ -4808,7 +4808,7 @@ local category_data = {
 	snp              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	assault_rifle    = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
-	flamethrower     = {pickup =1.25, suppression = 1.5, ammo_max = 2.0}
+	flamethrower     = {pickup = 1.3, suppression = 1.5, ammo_max = 2.0}
 }
 local shield_piercing_pickup_mul = 0.7
 

@@ -1336,7 +1336,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.player.max_health_reduction = {0.25}
 					
 				--Aced
-					self.values.player.damage_health_ratio_multiplier = {1.75}
+					self.values.player.damage_health_ratio_multiplier = {1.8}
 
 	--Singleplayer stealth stuff, to give them access to resources closer to what they would have in coop.
 	if Global.game_settings and Global.game_settings.single_player then

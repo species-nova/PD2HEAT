@@ -93,7 +93,7 @@ function WeaponDescription._get_base_stats(name)
 	local weapon_tweak = tweak_data.weapon[name]
 	local tweak_stats = tweak_data.weapon.stats
 
-	function getGenericStatValue(stat)
+	local function getGenericStatValue(stat)
 		index = math.clamp(tweak_data.weapon[name].stats[stat.name], 1, #tweak_stats[stat.name])
 		base_stats[stat.name].index = index
 		base_stats[stat.name].value = stat.use_index and index or tweak_stats[stat.name][index]

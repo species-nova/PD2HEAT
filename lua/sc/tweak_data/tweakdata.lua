@@ -225,7 +225,7 @@ tweak_data.projectiles.launcher_poison_arbiter.poison_gas_dot_data = arbiter_poi
 
 
 --Plainsrider--
-tweak_data.projectiles.west_arrow.damage = 12
+tweak_data.projectiles.west_arrow.damage = 13.5
 tweak_data.projectiles.west_arrow_exp.damage = 18
 tweak_data.projectiles.bow_poison_arrow.damage = 9
 tweak_data.projectiles.west_arrow.launch_speed = 2000
@@ -249,7 +249,7 @@ tweak_data.projectiles.elastic_arrow_exp.launch_speed = 3125
 tweak_data.projectiles.elastic_arrow_poison.launch_speed = 3125	
 
 --Pistol Crossbow--
-tweak_data.projectiles.crossbow_arrow.damage = 12
+tweak_data.projectiles.crossbow_arrow.damage = 13.5
 tweak_data.projectiles.crossbow_arrow_exp.damage = 18
 tweak_data.projectiles.crossbow_poison_arrow.damage = 9
 tweak_data.projectiles.crossbow_arrow.launch_speed = 3125
@@ -265,7 +265,7 @@ tweak_data.projectiles.arblast_arrow_exp.launch_speed = 3500
 tweak_data.projectiles.arblast_poison_arrow.launch_speed = 4375
 
 --Light Crossbow Arrow--
-tweak_data.projectiles.frankish_arrow.damage = 12
+tweak_data.projectiles.frankish_arrow.damage = 13.5
 tweak_data.projectiles.frankish_arrow_exp.damage = 18
 tweak_data.projectiles.frankish_poison_arrow.damage = 9
 tweak_data.projectiles.frankish_poison_arrow.launch_speed = 3750
@@ -273,7 +273,7 @@ tweak_data.projectiles.frankish_arrow_exp.launch_speed = 3000
 tweak_data.projectiles.frankish_arrow.launch_speed = 3750
 
 --Airbow--
-tweak_data.projectiles.ecp_arrow.damage = 12
+tweak_data.projectiles.ecp_arrow.damage = 13.5
 tweak_data.projectiles.ecp_arrow_exp.damage = 18
 tweak_data.projectiles.ecp_arrow_poison.damage = 9
 tweak_data.projectiles.ecp_arrow_poison.launch_speed = 3125

@@ -2727,7 +2727,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.cleaver.info_id = "bm_melee_cleaver_info"
 	self.melee_weapons.cleaver.anim_speed_mult = 1.25
 	self.melee_weapons.cleaver.stats.min_damage = 6
-	self.melee_weapons.cleaver.stats.max_damage = 12
+	self.melee_weapons.cleaver.stats.max_damage = 13.5
 	self.melee_weapons.cleaver.repeat_expire_t = 0.5
 	self.melee_weapons.cleaver.stats.range = 185
 	self.melee_weapons.cleaver.melee_damage_delay = 0.1
@@ -2751,7 +2751,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	}
 	self.melee_weapons.fireaxe.anim_speed_mult = 1.5
 	self.melee_weapons.fireaxe.stats.min_damage = 4.5
-	self.melee_weapons.fireaxe.stats.max_damage = 12
+	self.melee_weapons.fireaxe.stats.max_damage = 13.5
 	self.melee_weapons.fireaxe.stats.range = 205
 	self.melee_weapons.fireaxe.repeat_expire_t = 0.9
 	self.melee_weapons.fireaxe.melee_damage_delay = 0.1
@@ -2805,7 +2805,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.freedom.anim_attack_vars = {"var1","var2","var3","var4"}
 	self.melee_weapons.freedom.anim_speed_mult = 1.75
 	self.melee_weapons.freedom.stats.min_damage = 4.5
-	self.melee_weapons.freedom.stats.max_damage = 12
+	self.melee_weapons.freedom.stats.max_damage = 13.5
 	self.melee_weapons.freedom.stats.range = 225
 	self.melee_weapons.freedom.repeat_expire_t = 1.1
 	self.melee_weapons.freedom.melee_damage_delay = 0.1
@@ -2867,7 +2867,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.poker.align_objects = {"a_weapon_left"}
 	self.melee_weapons.poker.anim_attack_vars = {"var1","var2","var3","var4"}
 	self.melee_weapons.poker.stats.min_damage = 4.5
-	self.melee_weapons.poker.stats.max_damage = 12
+	self.melee_weapons.poker.stats.max_damage = 13.5
 	self.melee_weapons.poker.stats.range = 195
 	self.melee_weapons.poker.repeat_expire_t = 0.85
 	self.melee_weapons.poker.melee_damage_delay = 0.1
@@ -2889,7 +2889,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.branding_iron.anim_attack_vars = {"var1","var2","var3","var4"}
 	self.melee_weapons.branding_iron.damage_type = "piercing"
 	self.melee_weapons.branding_iron.stats.min_damage = 4.5
-	self.melee_weapons.branding_iron.stats.max_damage = 12
+	self.melee_weapons.branding_iron.stats.max_damage = 13.5
 	self.melee_weapons.branding_iron.stats.range = 190
 	self.melee_weapons.branding_iron.repeat_expire_t = 0.9
 	self.melee_weapons.branding_iron.melee_damage_delay = 0.2
@@ -2926,7 +2926,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.mining_pick.make_decal = true
 	self.melee_weapons.mining_pick.make_effect = true
 	self.melee_weapons.mining_pick.stats.min_damage = 4.5
-	self.melee_weapons.mining_pick.stats.max_damage = 12
+	self.melee_weapons.mining_pick.stats.max_damage = 13.5
 	self.melee_weapons.mining_pick.stats.range = 225
 	self.melee_weapons.mining_pick.repeat_expire_t = 1.1
 	self.melee_weapons.mining_pick.melee_damage_delay = 0.15
@@ -3112,7 +3112,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	}	
 	self.melee_weapons.beardy.anim_speed_mult = 1.6
 	self.melee_weapons.beardy.stats.min_damage = 4.5
-	self.melee_weapons.beardy.stats.max_damage = 12
+	self.melee_weapons.beardy.stats.max_damage = 13.5
 	self.melee_weapons.beardy.stats.range = 225
 	self.melee_weapons.beardy.repeat_expire_t = 1.1
 	self.melee_weapons.beardy.melee_damage_delay = 0.1
@@ -3135,7 +3135,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	}
 	self.melee_weapons.great.anim_speed_mult = 1.6
 	self.melee_weapons.great.stats.min_damage = 9
-	self.melee_weapons.great.stats.max_damage = 12
+	self.melee_weapons.great.stats.max_damage = 13.5
 	self.melee_weapons.great.stats.range = 215
 	self.melee_weapons.great.repeat_expire_t = 1
 	self.melee_weapons.great.melee_damage_delay = 0.1
@@ -3191,7 +3191,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	self.melee_weapons.pitchfork.damage_type = "piercing" 
 	self.melee_weapons.pitchfork.anim_speed_mult = 1.65
 	self.melee_weapons.pitchfork.stats.min_damage = 4.5
-	self.melee_weapons.pitchfork.stats.max_damage = 12
+	self.melee_weapons.pitchfork.stats.max_damage = 13.5
 	self.melee_weapons.pitchfork.stats.range = 225
 	self.melee_weapons.pitchfork.repeat_expire_t = 1.1
 	self.melee_weapons.pitchfork.melee_damage_delay = 0.15
@@ -3386,7 +3386,7 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 	}
 	self.melee_weapons.meter.anim_speed_mult = 1.6
 	self.melee_weapons.meter.stats.min_damage = 9
-	self.melee_weapons.meter.stats.max_damage = 12
+	self.melee_weapons.meter.stats.max_damage = 13.5
 	self.melee_weapons.meter.stats.range = 215
 	self.melee_weapons.meter.repeat_expire_t = 1
 	self.melee_weapons.meter.melee_damage_delay = 0.1
@@ -3538,22 +3538,22 @@ function BlackMarketTweakData:_init_melee_weapons(...)
 			--Second number corresponds to repeat_expire_t
 			--Allows for bult-setting of melee knockdown.
 			[3] = {
-				[0.3] = {0.5, 0.5}, --Nova's Shank, Diving Knife
-				[0.35] = {0.75, 0.75}, --Utility Knife, Trench Knife
-				[0.4] = {1, 1} --Berger Knife, Bayonet Knife, Scout Knife
+				[0.3] = {0.75, 0.75}, --Nova's Shank, Diving Knife
+				[0.35] = {1, 1}, --Utility Knife, Trench Knife
+				[0.4] = {1.25, 1.25} --Berger Knife, Bayonet Knife, Scout Knife
 			},
 			[4.5] = {
-				[0.45] = {0.5, 0.5}, --Kento's Tanto
-				[0.5] = {0.7, 0.7}, --Ursa Tanto, Kabar Knife
-				[0.55] = {0.8, 0.8}, --Krieger Blade, X-46 Knife, Arkansas Toothpick
-				[0.6] = {1, 1} --Utility Machete, Machete
+				[0.45] = {0.75, 0.75}, --Kento's Tanto
+				[0.5] = {0.9, 0.9}, --Ursa Tanto, Kabar Knife
+				[0.55] = {1.1, 1.1}, --Krieger Blade, X-46 Knife, Arkansas Toothpick
+				[0.6] = {1.25, 1.25} --Utility Machete, Machete
 			},
 			[6] = {
-				[0.6] = {0.5, 0.5}, --Shawn's Shears
-				[0.7] = {0.6, 0.6}, --Trautman Knife, Hook
-				[0.75] = {0.7, 0.7}, --Machete Knife, Rezkoye
-				[0.85] = {0.9, 0.9}, --El Verdugo
-				[0.9] = {1, 1} --Shinsakuto Katana
+				[0.6] = {0.75, 0.75}, --Shawn's Shears
+				[0.7] = {0.85, 0.85}, --Trautman Knife, Hook
+				[0.75] = {1, 1}, --Machete Knife, Rezkoye
+				[0.85] = {1.15, 1.15}, --El Verdugo
+				[0.9] = {1.25, 1.25} --Shinsakuto Katana
 			},
 			[9] = { 
 				[1] = {0.75, 0.75} --Great Sword, Great Ruler
