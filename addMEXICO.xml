@@ -120,24 +120,6 @@
 	<texture path="units/pd2_dlc_bex/characters/ene_acc_shield_zeal/shield_nm"/>
 	<texture path="units/pd2_dlc_bex/characters/ene_acc_shield_zeal/shield_il"/>	
 	
-	<!--Vet Cops-->	
-	<!--1-->	
-	<object path="units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1" />
-	<model path="units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1" />
-	<unit path="units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1"  load="true"/>
-	<material_config path="units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1" />
-	<material_config path="units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1_contour" />
-	<unit path="units/pd2_dlc_bex/characters/ene_veteran_enrique_1/ene_veteran_enrique_1_husk"  load="true"/>	
-	<!--2-->	
-	<object path="units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2" />
-	<model path="units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2" />
-	<unit path="units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2"  load="true"/>
-	<material_config path="units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2" />
-	<material_config path="units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2_contour" />
-	<unit path="units/pd2_dlc_bex/characters/ene_veteran_enrique_2/ene_veteran_enrique_2_husk"  load="true"/>	
-	<!--MARIACHI HAT-->	
-	<unit_mat path="units/pd2_dlc_bex/characters/ene_acc_bex_sexyhat/ene_acc_bex_sexyhat" load="true"/>
-	
 	<!--Sniper-->	
 	<object path="units/pd2_dlc_bex/characters/ene_swat_policia_sniper/ene_swat_policia_sniper" force="true"/>
 	<model path="units/pd2_dlc_bex/characters/ene_swat_policia_sniper/ene_swat_policia_sniper" force="true"/>
@@ -268,31 +250,6 @@
 
 	<unit_mat path="units/pd2_dlc_pex/characters/ene_acc_office_cap/ene_acc_office_cap" load="true" />
 	<cooked_physics path="units/pd2_dlc_pex/characters/ene_acc_office_cap/ene_acc_office_cap"/>
-
-	<!--HRT-->	
-	<!--glock-->	
-	<object path="units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1" />
-	<cooked_physics path="units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1" />
-	<model path="units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1" />
-	<unit path="units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1" load="true"/>
-	<unit path="units/pd2_dlc_bex/characters/ene_fbi_1/ene_fbi_1_husk" load="true"/>	
-	<!--m4-->	
-	<object path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2" />
-	<cooked_physics path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2" />
-	<model path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2" />
-	<unit path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2" load="true"/>
-	<material_config path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2"/>
-	<material_config path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2_contour"/>
-	<unit path="units/pd2_dlc_bex/characters/ene_fbi_2/ene_fbi_2_husk" load="true"/>	
-	<texture path="units/pd2_dlc_bex/characters/ene_fbi_2/bex_fbi_jerome_df" />	
-	<!--mp5-->	
-	<object path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3" />
-	<cooked_physics path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3" />
-	<model path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3" />
-	<unit path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3" load="true"/>
-	<material_config path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3"/>
-	<material_config path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3_contour"/>
-	<unit path="units/pd2_dlc_bex/characters/ene_fbi_3/ene_fbi_3_husk" load="true"/>	
 	
 	<!--City Tier-->
 	<!--Rifle-->
