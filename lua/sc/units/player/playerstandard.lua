@@ -488,7 +488,7 @@ function PlayerStandard:update(t, dt)
 end
 
 function PlayerStandard:_update_crosshair(t, dt, weapon)
-	local crosshair_visible = alive(self._equipped_unit) and
+	local crosshair_visible = (weapon or alive(self._equipped_unit)) and
 							  not weapon:is_category("saw") and
 							  not self:_is_meleeing() and
 							  not self:_interacting() and
@@ -521,12 +521,13 @@ function PlayerStandard:_update_crosshair(t, dt, weapon)
 	end
 
 	--Vanilla accessibility dot updates are handled here, once per frame, instead of potentially multiple times per frame.
-	local name_id = self._equipped_unit:base():get_name_id()
-
-	if self._state_data.in_steelsight and managers.user:get_setting("accessibility_dot_hide_ads") then
-		managers.hud:set_accessibility_dot_visible(not tweak_data.weapon[name_id].crosshair.steelsight.hidden)
-	else
-		managers.hud:set_accessibility_dot_visible(not tweak_data.weapon[name_id].crosshair[self._state_data.ducking and "crouching" or "standing"].hidden)
+	local weapon_crosshair_tweak = tweak_data.weapon[weapon:get_name_id()].crosshair
+	if weapon_crosshair_tweak then
+		if self._state_data.in_steelsight and managers.user:get_setting("accessibility_dot_hide_ads") then
+			managers.hud:set_accessibility_dot_visible(not weapon_crosshair_tweak.steelsight.hidden)
+		else
+			managers.hud:set_accessibility_dot_visible(not weapon_crosshair_tweak[self._state_data.ducking and "crouching" or "standing"].hidden)
+		end
 	end
 end
 

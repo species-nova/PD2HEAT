@@ -18,7 +18,10 @@ local NORMAL_AUTOHIT = 1
 local RICOCHET_AUTOHIT = 2
 function RaycastWeaponBase:init(unit)
 	init_original(self, unit)
-	
+	self:heat_init()
+end
+
+function RaycastWeaponBase:heat_init()
 	self._shoot_through_data = {
 		kills = 0,
 		from = Vector3()
@@ -61,7 +64,7 @@ local setup_original = RaycastWeaponBase.setup
 function RaycastWeaponBase:setup(...)
 	setup_original(self, ...)
 
-	if self._current_stats_indices then --These should only apply for players.
+	if self._current_stats_indices then --These should only apply for weapons using actual stats.
 		--Use mobility stat to get the moving accuracy penalty.
 		self._spread_moving = tweak_data.weapon.stats.spread_moving[self._concealment] or 0
 
@@ -794,7 +797,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 
 		consume_ammo = not managers.player:has_active_temporary_property("bullet_storm") --Bullet Storm
 			and (not managers.player:has_activate_temporary_upgrade("temporary", "berserker_damage_multiplier") or not managers.player:has_category_upgrade("player", "berserker_no_ammo_cost")) --Swan Song
-			and not (self._bullets_until_free and self._bullets_fired % self._bullets_until_free == 0) --Spray and Pray
+			and not (self._bullets_until_free and self._bullets_fired > 0 and self._bullets_fired % self._bullets_until_free == 0) --Spray and Pray
 			and not (math.random() < managers.player:temporary_upgrade_value("temporary", "bullet_hell", {free_ammo_chance = 0}).free_ammo_chance) --Bullet Hell
 
 		if self._shots_before_bullet_hell and self._shots_before_bullet_hell <= self._bullets_fired then
@@ -1016,6 +1019,12 @@ end
 --The minigun has a weirdly long animation that snaps really badly if you interrupt it. so increase the base timer but give it a bigger multiplier to mostly compensate.
 function RaycastWeaponBase:exit_run_speed_multiplier()
 	return tweak_data.weapon.stats.mobility[self:get_concealment()] * (self._name_id == "m134" and 2 or 1)
+end
+
+--Returns whether or not the gun is firing a burst.
+--Always false for RaycastWeaponBase
+function RaycastWeaponBase:burst_rounds_remaining()
+	return false
 end
 
 --Minigun spin mechanics.

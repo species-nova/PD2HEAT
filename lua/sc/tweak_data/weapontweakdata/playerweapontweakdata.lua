@@ -4629,6 +4629,7 @@ function WeaponTweakData:init(...)
 
 	--Mounted Turrets
 		--Mounted Ranc Heavy Turret
+		self.ranc_heavy_machine_gun.supported = true
 		self.ranc_heavy_machine_gun.categories = {
 			"lmg",
 			"smg"
@@ -4636,7 +4637,7 @@ function WeaponTweakData:init(...)
 		self.ranc_heavy_machine_gun.stats = {
 			damage = 60,
 			spread = 10,
-			recoil = 19,
+			recoil = 17,
 			concealment = 5
 		}
 		self.ranc_heavy_machine_gun.AMMO_MAX = self.ranc_heavy_machine_gun.CLIP_AMMO_MAX

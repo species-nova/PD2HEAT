@@ -56,3 +56,15 @@ function heat.print_value(v, k, max_depth, indent, seen)
 		log(i .. tostring(k) .. " = " .. tostring(v) .. " | type = " .. type)
 	end
 end
+
+--Safer wrapper for the sblt builtin log function.
+--Takes in var args of any type (including nil) and concatenates them all together.
+function heat.log(...)
+	local args = {...}
+
+	for i = 1, #args do
+		args[i] = tostring(args[i])
+	end
+
+	log(table.concat(args, ""))
+end

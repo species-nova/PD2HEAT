@@ -23,7 +23,8 @@ function PlayerMovement:init(...)
 	self._crosshair_states = {
 		standard = true,
 		carry = true,
-		bipod = true
+		bipod = true,
+		player_turret = true
 	}
 end
 

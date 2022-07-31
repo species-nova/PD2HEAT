@@ -1,7 +1,5 @@
---Adds ability to define per weapon category AP skills.
-local old_init = NewRaycastWeaponBase.init
-function NewRaycastWeaponBase:init(...)
-	old_init(self, ...)
+function NewRaycastWeaponBase:heat_init()
+	NewRaycastWeaponBase.super.heat_init(self)
 
 	--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
 	--TODO: Move to autogen stuff in WeaponTweakData.
@@ -639,7 +637,7 @@ function NewRaycastWeaponBase:_compute_falloff_distance(user_unit)
 end
 
 function NewRaycastWeaponBase:weapon_range()
-	if not self.near_falloff_distance then
+	if self.near_falloff_distance then
 		return self.near_falloff_distance + self.far_falloff_distance
 	else
 		return self._weapon_range or 20000

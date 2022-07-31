@@ -659,7 +659,7 @@ function PlayerDamage:damage_fire(attack_data)
 	end
 
 	local distance = mvector3.distance(attack_data.position or attack_data.col_ray.position, self._unit:position())
-	if attack_data.range < distance then
+	if attack_data.range and attack_data.range < distance then
 		return
 	end
 
