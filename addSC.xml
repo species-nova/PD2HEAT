@@ -2571,6 +2571,7 @@
 	<effect path="effects/particles/rain/rain_01_a" force="true"/>
 	<texture path="effects/textures/liquid/rain_01_a_df" force="true"/>
 	<!--Restored + Improved Bloody Screen-->
+	<!--Referenced from the mod by Dorpenka, this just makes it operational ingame again, but with my own set of alterations (WIP)-->
 	<effect path="effects/particles/character/player/blood_screen" force="true"/>
 	
 	<!--Skill-based VFX-->
