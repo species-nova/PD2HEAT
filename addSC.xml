@@ -2030,6 +2030,7 @@
 	<!--new zeals end-->
 		
 	<!--My son... (NYPD BRONCO COP) -->
+	<!--MOVE ME TO A LEVEL PACKAGE?-->
 	<object path="units/pd2_mod_nypd/characters/ene_cop_2/ene_cop_2"/>
 	<cooked_physics path="units/pd2_mod_nypd/characters/ene_cop_2/ene_cop_2"/>
 	<model path="units/pd2_mod_nypd/characters/ene_cop_2/ene_cop_2"/>
@@ -2461,10 +2462,12 @@
 	<texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/player_styles/poggers"/>	
 		
 	<!--zombie necro cloaker-->
+	<!--MOVE ME TO A LEVEL PACKAGE!-->
 	<material_config path="units/pd2_dlc_help/props/hlp_prop_giant_cloaker/hlp_prop_giant_cloaker"/>
 	<material_config path="units/pd2_dlc_nails/props/nls_prop_giant_cloaker/nls_prop_giant_cloaker"/>
 
 	<!--Beat Cops for Bomb Forest-->
+	<!--MOVE ME TO A LEVEL PACKAGE!-->
 	<unit path="units/payday2/characters/ene_cop_1_forest/ene_cop_1_forest" load="true"/>
 	<unit path="units/payday2/characters/ene_cop_1_forest/ene_cop_1_forest_husk" load="true"/>	
 	
@@ -2472,6 +2475,7 @@
 	<unit path="units/payday2/characters/ene_cop_2_forest/ene_cop_2_forest_husk" load="true"/>		
 
 	<!--HoxRev Heavy FBI Swats with helmet pop-->
+	<!--MOVE ME TO A LEVEL PACKAGE!-->
 	<cooked_physics path="units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1" force="true"/>
 	<material_config path="units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1" force="true" />
 	<material_config path="units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1_contour" force="true" />
@@ -2516,12 +2520,14 @@
 	<texture path="units/payday2/weapons/wpn_npc_scar_light/wpn_npc_scar_light_df"/>
 	<texture path="units/payday2/weapons/wpn_npc_scar_light/wpn_npc_scar_light_nm"/>
 
-	<!--female cop husk fixes-->	
+	<!--female cop husk fixes-->
+	<!--MOVE ME TO A LEVEL PACKAGE!-->
 	<unit path="units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1_husk" load="true" force="true" />	
 	<unit path="units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2_husk" load="true" force="true" />	
 	<unit path="units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3_husk" load="true" force="true" />	
 	<unit path="units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4_husk" load="true" force="true" />	
 	<!--object files just in case-->
+	<!--MOVE ME TO A LEVEL PACKAGE!-->
 	<object path="units/payday2/characters/ene_fbi_female_1/ene_fbi_female_1" force="true" />	
 	<object path="units/payday2/characters/ene_fbi_female_2/ene_fbi_female_2" force="true" />	
 	<object path="units/payday2/characters/ene_fbi_female_3/ene_fbi_female_3" force="true" />	
@@ -2582,6 +2588,7 @@
 	<texture path="units/gui/gui_brackets_df" load="true" /-->
 
 	<!-- Make Yufu Wang not Wang -->
+	<!--MOVE ME TO A LEVEL PACKAGE!-->
 	<object path="units/pd2_dlc_pent/characters/npc_male_yufuwang_armored/npc_male_yufuwang_armored" force="true"/>
 	<material_config path="units/pd2_dlc_pent/characters/npc_male_yufuwang_armored/npc_male_yufuwang_armored"/>
 
