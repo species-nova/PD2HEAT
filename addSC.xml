@@ -2570,6 +2570,8 @@
 	<!--Better rain-->
 	<effect path="effects/particles/rain/rain_01_a" force="true"/>
 	<texture path="effects/textures/liquid/rain_01_a_df" force="true"/>
+	<!--Restored + Improved Bloody Screen-->
+	<effect path="effects/particles/character/player/blood_screen" force="true"/>
 	
 	<!--Skill-based VFX-->
 	<!--these are used at all times and need to use load=true, their size is small, so it should be fine-->
