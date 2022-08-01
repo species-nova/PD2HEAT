@@ -1098,7 +1098,7 @@
 	<unit path="units/payday2/weapons/wpn_npc_peacemaker/wpn_npc_peacemaker" force="false" load="false"/>
 	<texture path="units/payday2/weapons/wpn_npc_peacemaker/peacemaker_df" force="false"/>
 
-	<!--Titan Shotgunner-->	
+	<!--Titan Shotgunner CUT CURRENTLY
 	<unit path="units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun" force="false" load="true"/>
 	<unit path="units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun_husk" force="false" load="true"/>
 	<object path="units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun" force="false"/>
@@ -1106,9 +1106,9 @@
 	<model path="units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun" force="false"/>
 	<material_config path="units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun" force="false"/>
 	<material_config path="units/pd2_dlc_vip/characters/ene_titan_shotgun/ene_titan_shotgun_contour" force="false"/>
-	<texture path="units/pd2_dlc_vip/characters/shared_textures/ene_titan_shotgun_df" force="false"/>
+	<texture path="units/pd2_dlc_vip/characters/shared_textures/ene_titan_shotgun_df" force="false"/> -->
 	
-	<!--Titan Rifle-->	
+	<!--Titan Rifle CUT CURRENTLY
 	<unit path="units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle" force="false" load="true"/>
 	<unit path="units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle_husk" force="false" load="true"/>	
 	<object path="units/pd2_dlc_vip/characters/ene_titan_rifle/ene_titan_rifle" force="false"/>
@@ -1123,7 +1123,7 @@
 	<material_config path="units/payday2/weapons/wpn_npc_hk23_sc/wpn_npc_hk23_sc" force="false"/>
 	<model path="units/payday2/weapons/wpn_npc_hk23_sc/wpn_npc_hk23_sc" force="false"/>
 	<object path="units/payday2/weapons/wpn_npc_hk23_sc/wpn_npc_hk23_sc" force="false"/>
-	<cooked_physics path="units/payday2/weapons/wpn_npc_hk23_sc/wpn_npc_hk23_sc" force="false"/>
+	<cooked_physics path="units/payday2/weapons/wpn_npc_hk23_sc/wpn_npc_hk23_sc" force="false"/> -->
 	
 	<!--Keep those helmets flying ;)-->	
 	<object path="units/pd2_dlc_vip/characters/ene_acc_titan_helmet/ene_acc_titan_helmet" force="false"/>
@@ -1336,7 +1336,8 @@
 	<!--Fixed Sniper-->
 	<object path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper" force="true"/>
 
-	<!--FBI & SWAT Snipers (so you can shoot off their hat)-->	
+	<!--FBI & SWAT Snipers (so you can shoot off their hat)-->
+	<!--Are these necessary?  REVIEW ME!-->
 	<unit path="units/payday2/characters/ene_sniper_1/ene_sniper_1" load="true" force="true"/>
 	<unit path="units/payday2/characters/ene_sniper_1/ene_sniper_1_husk" load="true" force="true"/>
 
@@ -1494,6 +1495,7 @@
 	<texture path="units/pd2_dlc_vip/characters/ene_acc_buzzer_1/ene_acc_buzzer_1_nm" force="false"/>
 
 	<!--Loading Screen Tips-->
+	<!--TO BE UPDATED OR PHASED OUT!-->
 	<texture path="guis/textures/loading/hints/grenadier_load" force="false"/>	
 	<texture path="guis/textures/loading/hints/vet_cop_loading" force="false"/>	
 	<texture path="guis/textures/loading/hints/generic_tip" force="false"/>	
@@ -1529,6 +1531,7 @@
 	
 	<!--Sniper Trails-->
 	<effect path="effects/particles/weapons/sniper_trail_sc" force="false"/>
+	<!--REVISE ME!-->
 	<effect path="effects/particles/weapons/titan_trail_sc" force="false"/>
 	
 	<!--Stat Boost-->
@@ -1640,6 +1643,7 @@
 
 	<!--NPC Sniper Overrides-->
 	<!--swat-->
+	<!--SNIPER MODELS NO LONGER NEEDED!  REMOVE ME!-->
 	<material_config path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper_contour" force="true"/>
 	<material_config path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper" force="true"/>
 	<sequence_manager path="units/payday2/weapons/wpn_npc_sniper/wpn_npc_sniper" force="true"/>		
@@ -1652,6 +1656,7 @@
 	<model path="units/pd2_dlc_mad/weapons/wpn_npc_svd/wpn_npc_svd" force="true"/>
 	<object path="units/pd2_dlc_mad/weapons/wpn_npc_svd/wpn_npc_svd" force="true"/>		
 	<!--glint texture-->
+	<!--PHASED OUT FOR OVERKILL'S!  REMOVE ME!-->
 	<texture path="units/payday2/weapons/wpn_npc_sniper/material_flare_il"/>
 	
 	<!--NPC DS Police Sniper-->
@@ -1670,6 +1675,7 @@
 	<material_config path="units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc_contour" />
 	
 	<!--P90 Tan Body-->
+	<!--PHASED OUT!  REMOVE ME!-->
 	<texture path="units/payday2/weapons/wpn_fps_smg_p90_pts/body_tan_df"/>
 	<unit path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan" load="false"/>
 	<model path="units/payday2/weapons/wpn_fps_smg_p90_pts/wpn_fps_smg_p90_body_tan"/>
