@@ -2567,6 +2567,9 @@
 	<!--Headshot effect-->
 	<effect path="effects/payday2/particles/impacts/blood/brain_splat" />		
 	<texture path="effects/textures/brain_impacts_df" />
+	<!--Better rain-->
+	<effect path="effects/particles/rain/rain_01_a" force="true"/>
+	<texture path="effects/textures/liquid/rain_01_a_df" force="true"/>
 	
 	<!--Skill-based VFX-->
 	<!--these are used at all times and need to use load=true, their size is small, so it should be fine-->
