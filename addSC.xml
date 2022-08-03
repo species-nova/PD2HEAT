@@ -2446,12 +2446,12 @@
 	<texture path="guis/dlcs/mods/textures/pd2/blackmarket/icons/player_styles/poggers"/>	
 		
 	<!--zombie necro cloaker-->
-	<!--MOVE ME TO A LEVEL PACKAGE!-->
+	<!--MOVE ME TO A LEVEL PACKAGE?!-->
 	<material_config path="units/pd2_dlc_help/props/hlp_prop_giant_cloaker/hlp_prop_giant_cloaker"/>
 	<material_config path="units/pd2_dlc_nails/props/nls_prop_giant_cloaker/nls_prop_giant_cloaker"/>
 
 	<!--Beat Cops for Bomb Forest-->
-	<!--MOVE ME TO A LEVEL PACKAGE!-->
+	<!--MOVE ME TO A LEVEL PACKAGE?!-->
 	<unit path="units/payday2/characters/ene_cop_1_forest/ene_cop_1_forest" load="true"/>
 	<unit path="units/payday2/characters/ene_cop_1_forest/ene_cop_1_forest_husk" load="true"/>	
 	
@@ -2459,7 +2459,7 @@
 	<unit path="units/payday2/characters/ene_cop_2_forest/ene_cop_2_forest_husk" load="true"/>		
 
 	<!--HoxRev Heavy FBI Swats with helmet pop-->
-	<!--MOVE ME TO A LEVEL PACKAGE!-->
+	<!--MOVE ME TO A LEVEL PACKAGE?!  REMOVE ME?!  DONT KNOW!-->
 	<cooked_physics path="units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1" force="true"/>
 	<material_config path="units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1" force="true" />
 	<material_config path="units/pd2_mcmansion/characters/ene_hoxton_breakout_guard_1/ene_hoxton_breakout_guard_1_contour" force="true" />
@@ -2518,6 +2518,7 @@
 	<object path="units/payday2/characters/ene_fbi_female_4/ene_fbi_female_4" force="true" />		
 	    
 	<!--raincoats-->
+	<!--REVIEW ME!  Do we need this?  This seems unnecessary!-->
 	<unit path="units/pd2_dlc_glace/characters/glc_acc_raincoat/glc_acc_raincoat" force="true" load="true"/>
 	<object path="units/pd2_dlc_glace/characters/glc_acc_raincoat/glc_acc_raincoat" force="true"/>
 	<model path="units/pd2_dlc_glace/characters/glc_acc_raincoat/glc_acc_raincoat" force="true"/>
@@ -2543,6 +2544,7 @@
 	<cooked_physics path="units/pd2_dlc_glace/characters/glc_acc_fps_raincoat/glc_acc_fps_raincoat" force="true"/>
 
 	<!--Alpha blood effects improved-->
+	<!--These got made standalone from ResMod.  Do we need them?  REVIEW ME!-->
 	<texture path="effects/particles/bullet_hit/flesh/textures/e_bullet_impact_blood_01_df" force="true"/>
 	<texture path="effects/particles/bullet_hit/flesh/textures/e_bullet_impact_blood_02_df" force="true"/>
 	<texture path="effects/particles/bullet_hit/flesh/textures/e_head_chunks_01_df" force="true"/>
@@ -2555,6 +2557,7 @@
 	<effect path="effects/payday2/particles/impacts/blood/blood_impact_a" force="true"/>	
 	<effect path="effects/payday2/particles/impacts/blood/blood_impact_b" force="true"/>		
 	<!--Headshot effect-->
+	<!--These got made standalone from ResMod.  Do we need them?  REVIEW ME!-->
 	<effect path="effects/payday2/particles/impacts/blood/brain_splat" />		
 	<texture path="effects/textures/brain_impacts_df" />
 	<!--Better rain-->
