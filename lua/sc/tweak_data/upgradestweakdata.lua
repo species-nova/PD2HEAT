@@ -959,8 +959,8 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.snp.headshot_pierce_damage_mult = {2}
 				--Ace
 					self.values.weapon.pop_helmets = {true}
-					self.values.assault_rifle.headshot_repeat_damage_mult = {1.25}
-					self.values.snp.headshot_repeat_damage_mult = {1.25}
+					self.values.assault_rifle.headshot_repeat_damage_mult = {1.35}
+					self.values.snp.headshot_repeat_damage_mult = {1.35}
 
 			--Mind Blown
 				self.values.snp.graze_damage = {
@@ -1336,7 +1336,7 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 					self.values.player.max_health_reduction = {0.25}
 					
 				--Aced
-					self.values.player.damage_health_ratio_multiplier = {1.8}
+					self.values.player.damage_health_ratio_multiplier = {1.75}
 
 	--Singleplayer stealth stuff, to give them access to resources closer to what they would have in coop.
 	if Global.game_settings and Global.game_settings.single_player then
@@ -1644,15 +1644,15 @@ Hooks:PostHook(UpgradesTweakData, "_init_pd2_values", "ResSkillsInit", function(
 	--I AM A BAD MOTHERFUCKA--
 	--maniac
 	self.cocaine_stacks_convert_levels = {
-		400,
-		300
-	}	
+		200,
+		150
+	}
 	self.cocaine_stacks_dmg_absorption_value = 0.1
 	self.cocaine_stacks_tick_t = 0
-	self.max_cocaine_stacks_per_tick = 2400
-	self.max_total_cocaine_stacks = 2400
+	self.max_cocaine_stacks_per_tick = 1200
+	self.max_total_cocaine_stacks = 1200
 	self.cocaine_stacks_decay_t = 8
-	self.cocaine_stacks_decay_amount_per_tick = 400
+	self.cocaine_stacks_decay_amount_per_tick = 200
 	self.cocaine_stacks_decay_percentage_per_tick = 0
 	self.values.player.cocaine_stacking = {1}
 	self.values.player.sync_cocaine_stacks = {true}

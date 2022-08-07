@@ -107,7 +107,7 @@ tweak_data.shotgun = {range_mul = 0.6}
 
 
 local function apply_rocket_frag(projectile)
-	projectile.damage = 60
+	projectile.damage = 30
 	projectile.player_damage = 32
 	projectile.range = 500
 	projectile.curve_pow = 0.1
@@ -116,9 +116,9 @@ end
 apply_rocket_frag(tweak_data.projectiles.launcher_rocket)
 apply_rocket_frag(tweak_data.projectiles.rocket_ray_frag)
 
-
+local grenade_damage = 20
 local function apply_launcher_grenade(grenade)
-	grenade.damage = 40
+	grenade.damage = grenade_damage
 	grenade.player_damage = 21.5
 	grenade.curve_pow = 1
 	grenade.range = 500
@@ -130,9 +130,8 @@ apply_launcher_grenade(tweak_data.projectiles.launcher_frag_china)
 apply_launcher_grenade(tweak_data.projectiles.launcher_frag_slap)
 apply_launcher_grenade(tweak_data.projectiles.underbarrel_m203_groza)
 
-tweak_data.projectiles.launcher_frag_arbiter.damage = 30
+tweak_data.projectiles.launcher_frag_arbiter.damage = 15
 tweak_data.projectiles.launcher_frag_arbiter.player_damage = 16
-tweak_data.projectiles.launcher_frag_arbiter.launch_speed = 2500
 tweak_data.projectiles.launcher_frag_arbiter.range = 400
 tweak_data.projectiles.launcher_frag_arbiter.curve_pow = 1
 tweak_data.projectiles.launcher_frag_arbiter.init_timer = nil
@@ -140,7 +139,7 @@ tweak_data.projectiles.launcher_frag_osipr = deep_clone(tweak_data.projectiles.l
 
 
 local fire_pool_dot_data = {
-	dot_damage = 1.8,
+	dot_damage = 1,
 	dot_trigger_max_distance = 3000,
 	dot_trigger_chance = 50,
 	dot_length = 3.1,
@@ -148,8 +147,9 @@ local fire_pool_dot_data = {
 }
 local arbiter_fire_pool_dot_data = clone(fire_pool_dot_data)
 arbiter_fire_pool_dot_data.dot_length = 2.1
+local incendiary_damage = 2
 local function apply_launcher_indendiary(grenade)
-	grenade.damage = 3
+	grenade.damage = incendiary_damage
 	grenade.launch_speed = 1250
 	grenade.curve_pow = 1
 	grenade.player_damage = 3
@@ -161,8 +161,7 @@ apply_launcher_indendiary(tweak_data.projectiles.launcher_incendiary_m32)
 apply_launcher_indendiary(tweak_data.projectiles.launcher_incendiary_china)
 apply_launcher_indendiary(tweak_data.projectiles.launcher_incendiary_slap)
 
-tweak_data.projectiles.launcher_incendiary_arbiter.damage = 2
-tweak_data.projectiles.launcher_incendiary_arbiter.launch_speed = 2500
+tweak_data.projectiles.launcher_incendiary_arbiter.damage = 1.6
 tweak_data.projectiles.launcher_incendiary_arbiter.player_damage = 2.5
 tweak_data.projectiles.launcher_incendiary_arbiter.burn_duration = 5
 tweak_data.projectiles.launcher_incendiary_arbiter.init_timer = nil
@@ -171,10 +170,11 @@ tweak_data.projectiles.launcher_incendiary_osipr = deep_clone(tweak_data.project
 
 
 --Tactical ZAPper grenades (Grenade Launchers)
+local electric_grenade_damage = 10
 local function apply_launcher_electric(grenade)
-	grenade.damage = 20
+	grenade.damage = electric_grenade_damage
 	grenade.player_damage = 0.5
-	grenade.curve_pow = 1
+	grenade.curve_pow = 0.1
 	grenade.range = 500
 end
 apply_launcher_electric(tweak_data.projectiles.launcher_electric)
@@ -184,25 +184,25 @@ apply_launcher_electric(tweak_data.projectiles.launcher_electric_slap)
 apply_launcher_electric(tweak_data.projectiles.underbarrel_electric)
 apply_launcher_electric(tweak_data.projectiles.underbarrel_electric_groza)
 
-tweak_data.projectiles.launcher_electric_arbiter.damage = 15
+tweak_data.projectiles.launcher_electric_arbiter.damage = 8
 tweak_data.projectiles.launcher_electric_arbiter.player_damage = 0.4
-tweak_data.projectiles.launcher_electric_arbiter.launch_speed = 2500
 tweak_data.projectiles.launcher_electric_arbiter.range = 400
-tweak_data.projectiles.launcher_electric_arbiter.curve_pow = 1
+tweak_data.projectiles.launcher_electric_arbiter.curve_pow = 0.1
 tweak_data.projectiles.launcher_electric_arbiter.init_timer = nil
 tweak_data.projectiles.launcher_electric_osipr = deep_clone(tweak_data.projectiles.launcher_electric_arbiter)
 
 
 local poison_gas_cloud_dot_data = {
 	hurt_animation_chance = 0.5,
-	dot_damage = 1.5,
+	dot_damage = 0.6,
 	dot_length = 9.1,
 	dot_tick_period = 0.5
 }
-local arbiter_fire_pool_dot_data = clone(poison_gas_cloud_dot_data)
-arbiter_fire_pool_dot_data.dot_length = 6.1
+local arbiter_poison_gas_cloud_dot_data = clone(poison_gas_cloud_dot_data)
+arbiter_poison_gas_cloud_dot_data.dot_length = 6.1
+local poison_grenade_damage = 10
 local function apply_laucher_poison(grenade)
-	grenade.damage = 20
+	grenade.damage = poison_grenade_damage
 	grenade.player_damage = 12
 	grenade.poison_gas_range = 450
 	grenade.poison_gas_duration = 5
@@ -217,157 +217,177 @@ apply_laucher_poison(tweak_data.projectiles.launcher_poison_slap)
 apply_laucher_poison(tweak_data.projectiles.launcher_poison_contraband)
 apply_laucher_poison(tweak_data.projectiles.launcher_poison)
 
-tweak_data.projectiles.launcher_poison_arbiter.damage = 15
+tweak_data.projectiles.launcher_poison_arbiter.damage = 8
 tweak_data.projectiles.launcher_poison_arbiter.player_damage = 8
 tweak_data.projectiles.launcher_poison_arbiter.poison_gas_range = 600
 tweak_data.projectiles.launcher_poison_arbiter.poison_gas_duration = 8
 tweak_data.projectiles.launcher_poison_arbiter.poison_gas_dot_data = arbiter_poison_gas_cloud_dot_data
 
+local light_poison_arrow_damage = 60
+local light_arrow_damage = 80
+local light_exp_arrow_damage = 100
+local heavy_poison_arrow_damage = 80
+local heavy_arrow_damage = 100
+local heavy_exp_arrow_damage = 120
 
 --Plainsrider--
-tweak_data.projectiles.west_arrow.damage = 13.5
-tweak_data.projectiles.west_arrow_exp.damage = 18
-tweak_data.projectiles.bow_poison_arrow.damage = 9
+tweak_data.projectiles.west_arrow.damage = light_arrow_damage
+tweak_data.projectiles.west_arrow_exp.damage = light_exp_arrow_damage
+tweak_data.projectiles.bow_poison_arrow.damage = light_poison_arrow_damage
 tweak_data.projectiles.west_arrow.launch_speed = 2000
 tweak_data.projectiles.west_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.bow_poison_arrow.launch_speed = 2500
 
 --Long Arrow--
-tweak_data.projectiles.long_arrow.damage = 18
-tweak_data.projectiles.long_arrow_exp.damage = 24
-tweak_data.projectiles.long_poison_arrow.damage = 12
+tweak_data.projectiles.long_arrow.damage = heavy_arrow_damage
+tweak_data.projectiles.long_arrow_exp.damage = heavy_exp_arrow_damage
+tweak_data.projectiles.long_poison_arrow.damage = heavy_poison_arrow_damage
 tweak_data.projectiles.long_arrow.launch_speed = 2500
 tweak_data.projectiles.long_arrow_exp.launch_speed = 3125
 tweak_data.projectiles.long_poison_arrow.launch_speed = 3125
 
 --The not longbow--
-tweak_data.projectiles.elastic_arrow.damage = 18
-tweak_data.projectiles.elastic_arrow_exp.damage = 24
-tweak_data.projectiles.elastic_arrow_poison.damage = 12
+tweak_data.projectiles.elastic_arrow.damage = heavy_arrow_damage
+tweak_data.projectiles.elastic_arrow_exp.damage = heavy_exp_arrow_damage
+tweak_data.projectiles.elastic_arrow_poison.damage = heavy_poison_arrow_damage
 tweak_data.projectiles.elastic_arrow.launch_speed = 2500
 tweak_data.projectiles.elastic_arrow_exp.launch_speed = 3125
 tweak_data.projectiles.elastic_arrow_poison.launch_speed = 3125	
 
 --Pistol Crossbow--
-tweak_data.projectiles.crossbow_arrow.damage = 13.5
-tweak_data.projectiles.crossbow_arrow_exp.damage = 18
-tweak_data.projectiles.crossbow_poison_arrow.damage = 9
+tweak_data.projectiles.crossbow_arrow.damage = light_arrow_damage
+tweak_data.projectiles.crossbow_arrow_exp.damage = light_exp_arrow_damage
+tweak_data.projectiles.crossbow_poison_arrow.damage = light_poison_arrow_damage
 tweak_data.projectiles.crossbow_arrow.launch_speed = 3125
 tweak_data.projectiles.crossbow_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.crossbow_poison_arrow.launch_speed = 3125
 
 --Arblast Heavy Crossbow--
-tweak_data.projectiles.arblast_arrow.damage = 18
-tweak_data.projectiles.arblast_arrow_exp.damage = 24
-tweak_data.projectiles.arblast_poison_arrow.damage = 12
+tweak_data.projectiles.arblast_arrow.damage = heavy_arrow_damage
+tweak_data.projectiles.arblast_arrow_exp.damage = heavy_exp_arrow_damage
+tweak_data.projectiles.arblast_poison_arrow.damage = heavy_poison_arrow_damage
 tweak_data.projectiles.arblast_arrow.launch_speed = 4375
 tweak_data.projectiles.arblast_arrow_exp.launch_speed = 3500
 tweak_data.projectiles.arblast_poison_arrow.launch_speed = 4375
 
 --Light Crossbow Arrow--
-tweak_data.projectiles.frankish_arrow.damage = 13.5
-tweak_data.projectiles.frankish_arrow_exp.damage = 18
-tweak_data.projectiles.frankish_poison_arrow.damage = 9
+tweak_data.projectiles.frankish_arrow.damage = light_arrow_damage
+tweak_data.projectiles.frankish_arrow_exp.damage = light_exp_arrow_damage
+tweak_data.projectiles.frankish_poison_arrow.damage = light_poison_arrow_damage
 tweak_data.projectiles.frankish_poison_arrow.launch_speed = 3750
 tweak_data.projectiles.frankish_arrow_exp.launch_speed = 3000
 tweak_data.projectiles.frankish_arrow.launch_speed = 3750
 
 --Airbow--
-tweak_data.projectiles.ecp_arrow.damage = 13.5
-tweak_data.projectiles.ecp_arrow_exp.damage = 18
-tweak_data.projectiles.ecp_arrow_poison.damage = 9
+tweak_data.projectiles.ecp_arrow.damage = light_arrow_damage
+tweak_data.projectiles.ecp_arrow_exp.damage = light_exp_arrow_damage
+tweak_data.projectiles.ecp_arrow_poison.damage = light_poison_arrow_damage
 tweak_data.projectiles.ecp_arrow_poison.launch_speed = 3125
 tweak_data.projectiles.ecp_arrow_exp.launch_speed = 2500
 tweak_data.projectiles.ecp_arrow.launch_speed = 3125
 
 --Frag Grenade--
-tweak_data.projectiles.frag.damage = 40
+tweak_data.projectiles.frag.damage = grenade_damage
 tweak_data.projectiles.frag.player_damage = 21.5
 tweak_data.projectiles.frag.curve_pow = 0.5
 tweak_data.projectiles.frag.range = 500
 
 --Viper Poison Gas Grenade
-tweak_data.projectiles.poison_gas_grenade.damage = 20
+tweak_data.projectiles.poison_gas_grenade.damage = poison_grenade_damage
 tweak_data.projectiles.poison_gas_grenade.poison_gas_range = 600
 tweak_data.projectiles.poison_gas_grenade.poison_gas_duration = 10
 tweak_data.projectiles.poison_gas_grenade.poison_gas_dot_data = poison_gas_cloud_dot_data
 
 --Dynamite--
-tweak_data.projectiles.dynamite.damage = 40
+tweak_data.projectiles.dynamite.damage = grenade_damage
 tweak_data.projectiles.dynamite.player_damage = 21.5
 tweak_data.projectiles.dynamite.curve_pow = 0.5
 tweak_data.projectiles.dynamite.range = 400
 
 --Community Frag--
-tweak_data.projectiles.frag_com.damage = 40
+tweak_data.projectiles.frag_com.damage = grenade_damage
 tweak_data.projectiles.frag_com.player_damage = 21.5
 tweak_data.projectiles.frag_com.curve_pow = 0.5
 tweak_data.projectiles.frag_com.range = 500
 
 --The other community frag--
-tweak_data.projectiles.dada_com.damage = 40
+tweak_data.projectiles.dada_com.damage = grenade_damage
 tweak_data.projectiles.dada_com.player_damage = 21.5
 tweak_data.projectiles.dada_com.curve_pow = 0.5
 tweak_data.projectiles.dada_com.range = 500
 
 --Molliest of tovs--
-tweak_data.projectiles.molotov.damage = 3
+tweak_data.projectiles.molotov.damage = incendiary_damage
 tweak_data.projectiles.molotov.player_damage = 3
 tweak_data.projectiles.molotov.burn_duration = 10
 tweak_data.projectiles.molotov.fire_dot_data = fire_pool_dot_data
 
 --Incendiary Nades--
-tweak_data.projectiles.fir_com.damage = 3
+tweak_data.projectiles.fir_com.damage = incendiary_damage
 tweak_data.projectiles.fir_com.player_damage = 3
 tweak_data.projectiles.fir_com.fire_dot_data = fire_pool_dot_data
 tweak_data.projectiles.fir_com.range = 75
 tweak_data.blackmarket.projectiles.fir_com.impact_detonation = false
 
 --Throwing Card--
-tweak_data.projectiles.wpn_prj_ace.damage = 12
+tweak_data.projectiles.wpn_prj_ace.damage = 5
 tweak_data.projectiles.wpn_prj_ace.adjust_z = 0
 
 --Shuriken
-tweak_data.projectiles.wpn_prj_four.damage = 9
+tweak_data.projectiles.wpn_prj_four.damage = 5
 tweak_data.projectiles.wpn_prj_four.dot_data = {
 	type = "poison",
-	dot_damage = 1.5,
-	dot_duration = 3.1,
+	dot_damage = 0.6,
+	dot_duration = 5.1,
 	hurt_animation_chance = 0.5
 }
 
 --Throwing Knife--
-tweak_data.projectiles.wpn_prj_target.damage = 12
+tweak_data.projectiles.wpn_prj_target.damage = 5
 tweak_data.projectiles.wpn_prj_target.adjust_z = 0
 tweak_data.projectiles.wpn_prj_target.launch_speed = 2000
+tweak_data.projectiles.wpn_prj_target.dot_data = {
+	type = "bleed",
+	dot_damage = 1,
+	dot_duration = 3.1,
+	hurt_animation_chance = 0
+}
+tweak_data.projectiles.wpn_prj_target.bullet_class = "ProjectilesBleedBulletBase"
 
 --Javelin--
-tweak_data.projectiles.wpn_prj_jav.damage = 18
+tweak_data.projectiles.wpn_prj_jav.damage = 8
 tweak_data.projectiles.wpn_prj_jav.launch_speed = 1500
 tweak_data.projectiles.wpn_prj_jav.adjust_z = 30
 
 --Throwing axe--
-tweak_data.projectiles.wpn_prj_hur.damage = 18
+tweak_data.projectiles.wpn_prj_hur.damage = 8
 tweak_data.projectiles.wpn_prj_hur.launch_speed = 1000
 tweak_data.projectiles.wpn_prj_hur.adjust_z = 120
+tweak_data.projectiles.wpn_prj_hur.dot_data = {
+	type = "bleed",
+	dot_damage = 1,
+	dot_duration = 4.1,
+	hurt_animation_chance = 0
+}
+tweak_data.projectiles.wpn_prj_hur.bullet_class = "ProjectilesBleedBulletBase"
 
 --ZAPper grenade
-tweak_data.projectiles.wpn_gre_electric.damage = 20
+tweak_data.projectiles.wpn_gre_electric.damage = electric_grenade_damage
 tweak_data.projectiles.wpn_gre_electric.player_damage = 0.5
-tweak_data.projectiles.wpn_gre_electric.curve_pow = 0.5
-tweak_data.projectiles.wpn_gre_electric.range = 500
+tweak_data.projectiles.wpn_gre_electric.curve_pow = 0.05
+tweak_data.projectiles.wpn_gre_electric.range = 600
 
 tweak_data.dot_types.poison = {
 	damage_class = "PoisonBulletBase",
 	dot_length = 3.1,
-	dot_damage = 1.5,
+	dot_damage = 0.6,
 	hurt_animation_chance = 0.5
 }
 
 tweak_data.dot_types.bleed = {
 	damage_class = "BleedBulletBase",
 	dot_length = 3.1,
-	dot_damage = 1.8,
+	dot_damage = 1,
 	hurt_animation_chance = 0
 }
 

@@ -21,7 +21,7 @@ function WeaponTweakData:get_npc_mappings()
 end
 
 local crew_pistol_stats = {
-	DAMAGE = 6,
+	DAMAGE = 4,
 	CLIP_AMMO_MAX = 12,
 	NR_CLIPS_MAX = 10,
 	alert_size = 2500,
@@ -33,7 +33,7 @@ local crew_pistol_stats = {
 }
 
 local crew_revolver_stats = {
-	DAMAGE = 12,
+	DAMAGE = 6,
 	CLIP_AMMO_MAX = 6,
 	NR_CLIPS_MAX = 10,
 	alert_size = 2500,
@@ -45,7 +45,7 @@ local crew_revolver_stats = {
 }
 
 local crew_rifle_stats = {
-	DAMAGE = 4.8,
+	DAMAGE = 3.2,
 	CLIP_AMMO_MAX = 30,
 	NR_CLIPS_MAX = 5,
 	alert_size = 2500,
@@ -58,7 +58,7 @@ local crew_rifle_stats = {
 }
 
 local crew_underbarrel_rifle_stats = {
-	DAMAGE = 4.8,
+	DAMAGE = 3.2,
 	CLIP_AMMO_MAX = 20,
 	NR_CLIPS_MAX = 5,
 	alert_size = 2500,
@@ -71,7 +71,7 @@ local crew_underbarrel_rifle_stats = {
 }
 
 local crew_smg_stats = {
-	DAMAGE = 4,
+	DAMAGE = 2.4,
 	CLIP_AMMO_MAX = 20,
 	NR_CLIPS_MAX = 9,
 	alert_size = 2500,
@@ -84,7 +84,7 @@ local crew_smg_stats = {
 }
 
 local crew_lmg_stats = {
-	DAMAGE = 4,
+	DAMAGE = 2.4,
 	CLIP_AMMO_MAX = 90,
 	NR_CLIPS_MAX = 2,
 	alert_size = 2500,
@@ -97,7 +97,7 @@ local crew_lmg_stats = {
 }
 
 local crew_dmr_stats = {
-	DAMAGE = 12,
+	DAMAGE = 6,
 	CLIP_AMMO_MAX = 10,
 	NR_CLIPS_MAX = 6,
 	alert_size = 2500,
@@ -109,7 +109,7 @@ local crew_dmr_stats = {
 }
 
 local crew_sniper_stats = {
-	DAMAGE = 18,
+	DAMAGE = 10,
 	CLIP_AMMO_MAX = 5,
 	NR_CLIPS_MAX = 8,
 	alert_size = 2500,
@@ -122,7 +122,7 @@ local crew_sniper_stats = {
 }
 
 local crew_shotgun_mag_stats = {
-	DAMAGE = 90,
+	DAMAGE = 6,
 	CLIP_AMMO_MAX = 10,
 	NR_CLIPS_MAX = 8,
 	alert_size = 2500,
@@ -136,7 +136,7 @@ local crew_shotgun_mag_stats = {
 }
 
 local crew_shotgun_stats = {
-	DAMAGE = 18,
+	DAMAGE = 10,
 	CLIP_AMMO_MAX = 10,
 	NR_CLIPS_MAX = 6,
 	alert_size = 2500,
@@ -149,7 +149,7 @@ local crew_shotgun_stats = {
 }
 
 local crew_shotgun_double_stats = {
-	DAMAGE = 36,
+	DAMAGE = 20,
 	CLIP_AMMO_MAX = 2,
 	NR_CLIPS_MAX = 15,
 	alert_size = 2500,

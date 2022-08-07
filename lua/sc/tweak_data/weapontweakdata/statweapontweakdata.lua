@@ -32,7 +32,7 @@ function WeaponTweakData:_init_stats()
 	setmetatable(self.stats.suppression, stat_meta_table)
 
 	self.stats.damage = {}
-	for i = 0.1, 40.01, 0.1 do
+	for i = 0.1, 30.01, 0.1 do
 		table.insert(self.stats.damage, i)
 	end
 	setmetatable(self.stats.damage, stat_meta_table)

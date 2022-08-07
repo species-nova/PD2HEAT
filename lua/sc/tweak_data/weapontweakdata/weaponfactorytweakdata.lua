@@ -102,13 +102,13 @@
 			heat_stat_table = "poison_arrow"
 		}
 			local light_bow_poison = {
-				stats = {damage = -45},
+				stats = {damage = -20},
 				custom_stats = {
 					dot_data =  {
 						type = "poison",
 						custom_data = {
-							dot_damage = 1.5,
-							dot_duration = 3.1,
+							dot_damage = 0.6,
+							dot_duration = 5.1,
 							dot_tick_period = 0.5,
 							hurt_animation_chance = 0.5
 						}
@@ -116,13 +116,13 @@
 				}
 			}
 			local heavy_bow_poison = {
-				stats = {damage = -60},
+				stats = {damage = -20},
 				custom_stats = {
 					dot_data = {
 						type = "poison",
 						custom_data = {
-							dot_damage = 1.5,
-							dot_duration = 6.1,
+							dot_damage = 0.6,
+							dot_duration = 5.1,
 							dot_tick_period = 0.5,
 							hurt_animation_chance = 0.5
 						}
@@ -130,11 +130,11 @@
 				}
 			}
 		local light_explosive_arrow = {
-			stats = {value = 4, damage = 45, spread = -4},
+			stats = {value = 4, damage = 20, spread = -4},
 			heat_stat_table = "light_explosive_arrow"
 		}
 		local heavy_explosive_arrow = {
-			stats = {value = 4, damage = 60, spread = -4},
+			stats = {value = 4, damage = 20, spread = -4},
 			heat_stat_table = "heavy_explosive_arrow"
 		}
 	--Flamethrower Tanks
@@ -145,9 +145,9 @@
 			heat_stat_table = "rare_tank",
 			custom_stats = {
 				fire_dot_data = {
-					dot_damage = 1.8,
+					dot_damage = 1,
 					dot_trigger_chance = 25,
-					dot_length = 2.1,
+					dot_length = 3.1,
 					dot_tick_period = 0.5
 				},
 				damage_near_mul = 1.2727273,
@@ -161,9 +161,9 @@
 			heat_stat_table = "well_done_tank",
 			custom_stats = {
 				fire_dot_data = {
-					dot_damage = 1.8,
+					dot_damage = 1,
 					dot_trigger_chance = 75,
-					dot_length = 2.1,
+					dot_length = 3.1,
 					dot_tick_period = 0.5
 				},
 				damage_near_mul = 0.7272727,
@@ -209,9 +209,9 @@
 
 	--Shotgun Ammo Types
 		local slug_damage = {
-			light = 52,
-			medium = 79,
-			heavy = 119
+			light = 27,
+			medium = 45,
+			heavy = 72
 		}
 		local slug = {
 			desc_id = "bm_wp_upg_a_slug_desc_sc",
@@ -232,9 +232,9 @@
 		}
 
 		local he_damage = {
-			light = 112,
-			medium = 169,
-			heavy = 224
+			light = 47,
+			medium = 75,
+			heavy = 92
 		}
 		local he_slug = {
 			desc_id = "bm_wp_upg_a_he_desc_sc",
@@ -253,9 +253,9 @@
 		}
 
 		local buck_damage = {
-			light = 8,
-			medium = 11,
-			heavy = 16
+			light = 3,
+			medium = 5,
+			heavy = 8
 		}
 		local d0buck = {
 			desc_id = "bm_wp_upg_a_custom_desc_sc",
@@ -267,14 +267,14 @@
 			custom_stats = {
 				damage_near_mul = 0.6,
 				damage_far_mul = 0.6,
-				rays = 6
+				rays = 7
 			}
 		}
 
 		local shotgun_dot_damage = {
-			light = {-4, 3.1},
-			medium = {-5, 4.1},
-			heavy = {-8, 5.1}
+			light = {2.6},
+			medium = {4.1},
+			heavy = {6.1}
 		}
 		local flechette = {
 			desc_id = "bm_wp_upg_a_piercing_desc_sc",
@@ -286,12 +286,12 @@
 				damage_near_mul = 1.25,
 				damage_far_mul = 1.25,
 				armor_piercing_add = 1,
+				rays = 6,
 				bullet_class = "BleedBulletBase",
 				dot_data = { 
 					type = "bleed",
 					custom_data = {
-						dot_damage = 1.8,
-						dot_length = 3.1,
+						dot_damage = 1,
 						dot_tick_period = 0.5
 					}
 				}
@@ -307,11 +307,11 @@
 				ignore_statistic = true,
 				bullet_class = "FlameBulletBase",
 				armor_piercing_add = 1,
+				rays = 6,
 				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 				fire_dot_data = {
-					dot_damage = 1.8,
-					dot_trigger_chance = 7, 
-					dot_length = 3.1,
+					dot_damage = 1,
+					dot_trigger_chance = 10,
 					dot_tick_period = 0.5
 				}
 			}
@@ -328,11 +328,10 @@
 			if type(damage) == "number" then
 				ammo.stats.damage = damage
 			else
-				ammo.stats.damage = damage[1]
 				if ammo.custom_stats.dot_data then
-					ammo.custom_stats.dot_data.dot_length = damage[2]
+					ammo.custom_stats.dot_data.dot_length = damage[1]
 				elseif ammo.custom_stats.fire_dot_data then
-					ammo.custom_stats.fire_dot_data.dot_length = damage[2]
+					ammo.custom_stats.fire_dot_data.dot_length = damage[1]
 				end
 			end
 
@@ -976,27 +975,27 @@ function WeaponFactoryTweakData:create_ammunition()
 	--Generic incendiary ammo.
 	--See enveffecttweakdata.lua for remaining stats on GL incendiary ammo.
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary.supported = true
-	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary.stats = {damage = -37}
+	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary.stats = {damage = -180}
 
 	--Generic electric ammo.
 	self.parts.wpn_fps_upg_a_grenade_launcher_electric.supported = true
-	self.parts.wpn_fps_upg_a_grenade_launcher_electric.stats = {damage = -20}
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric.stats = {damage = -100}
 
 	--Generic poison ammo
 	self.parts.wpn_fps_upg_a_grenade_launcher_poison.supported = true
-	self.parts.wpn_fps_upg_a_grenade_launcher_poison.stats = {damage = -20}
+	self.parts.wpn_fps_upg_a_grenade_launcher_poison.stats = {damage = -100}
 
 	--Arbiter incendiary ammo.
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary_arbiter.supported = true
-	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary_arbiter.stats = {damage = -28}
+	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary_arbiter.stats = {damage = -134}
 
 	--Arbiter electric ammo
 	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.supported = true
-	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.stats = {damage = -15}
+	self.parts.wpn_fps_upg_a_grenade_launcher_electric_arbiter.stats = {damage = -70}
 
 	--Arbiter Poison Ammo
 	self.parts.wpn_fps_upg_a_grenade_launcher_poison_arbiter.supported = true
-	self.parts.wpn_fps_upg_a_grenade_launcher_poison_arbiter.stats = {damage = -15}
+	self.parts.wpn_fps_upg_a_grenade_launcher_poison_arbiter.stats = {damage = -70}
 
 	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.supported = true
 	self.parts.wpn_fps_upg_a_underbarrel_electric.supported = true

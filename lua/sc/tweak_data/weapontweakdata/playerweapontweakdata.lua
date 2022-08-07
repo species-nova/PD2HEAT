@@ -1,9 +1,9 @@
 local orig_init = WeaponTweakData.init
 function WeaponTweakData:init(...)
 	orig_init(self, ...)
-	self.trip_mines.damage = 40
+	self.trip_mines.damage = 30
 	self.trip_mines.player_damage = 20
-	self.trip_mines.damage_size = 200
+	self.trip_mines.damage_size = 500
 	self.trip_mines.delay = 0.1
 
 	for i, weap in pairs(self) do
@@ -30,7 +30,7 @@ function WeaponTweakData:init(...)
 		self.tecci.stats = {
 			--Stats not included in this table are auto-calculated.
 			--Ones that are commented out are optional, and will be given default values = to what the comments set them to if nonexistent.
-			damage = 18,
+			damage = 10,
 			--Controls the overall spread and range of the gun.
 			--Cosmetically, it influences passive weapon sway.
 			spread = 16,
@@ -94,7 +94,7 @@ function WeaponTweakData:init(...)
 		self.amcar.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.amcar.supported = true
 		self.amcar.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 16,
 			recoil = 17,
 			concealment = 14
@@ -119,7 +119,7 @@ function WeaponTweakData:init(...)
 		self.g36.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.g36.supported = true
 		self.g36.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 18,
 			recoil = 18,
 			concealment = 13
@@ -146,7 +146,7 @@ function WeaponTweakData:init(...)
 		self.vhs.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.vhs.supported = true
 		self.vhs.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 18,
 			recoil = 15,
 			concealment = 17
@@ -172,7 +172,7 @@ function WeaponTweakData:init(...)
 		self.s552.kick_pattern = self.stat_info.kick_patterns.random
 		self.s552.supported = true
 		self.s552.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 17,
 			recoil = 15,
 			concealment = 14
@@ -197,7 +197,7 @@ function WeaponTweakData:init(...)
 		self.corgi.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.corgi.supported = true
 		self.corgi.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 16,
 			recoil = 14,
 			concealment = 15
@@ -227,7 +227,7 @@ function WeaponTweakData:init(...)
 		self.olympic.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.olympic.supported = true
 		self.olympic.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 15,
 			recoil = 15,
 			concealment = 16
@@ -256,7 +256,7 @@ function WeaponTweakData:init(...)
 		self.komodo.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.komodo.supported = true
 		self.komodo.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 16,
 			recoil = 14,
 			concealment = 16
@@ -283,7 +283,7 @@ function WeaponTweakData:init(...)
 		self.famas.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.famas.supported = true
 		self.famas.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 17,
 			recoil = 15,
 			concealment = 16
@@ -309,7 +309,7 @@ function WeaponTweakData:init(...)
 		self.ak74.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.ak74.supported = true
 		self.ak74.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 17,
 			recoil = 15,
 			concealment = 14
@@ -334,7 +334,7 @@ function WeaponTweakData:init(...)
 		self.new_m4.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.new_m4.supported = true
 		self.new_m4.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 16,
 			recoil = 16,
 			concealment = 14
@@ -356,7 +356,7 @@ function WeaponTweakData:init(...)
 		self.aug.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.aug.supported = true
 		self.aug.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 16,
 			recoil = 13,
 			concealment = 17
@@ -385,7 +385,7 @@ function WeaponTweakData:init(...)
 		self.flint.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.flint.supported = true
 		self.flint.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 17,
 			recoil = 14,
 			concealment = 13
@@ -409,7 +409,7 @@ function WeaponTweakData:init(...)
 		self.ak5.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.ak5.supported = true
 		self.ak5.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 15,
 			recoil = 15,
 			concealment = 14
@@ -429,7 +429,7 @@ function WeaponTweakData:init(...)
 		--SABR
 		if self.osipr then
 			self.osipr.tactical_reload = true
-			self.osipr.AMMO_MAX = 90
+			self.osipr.AMMO_MAX = 75
 			self.osipr.CLIP_AMMO_MAX = 30
 			self.osipr.fire_mode_data.fire_rate = 0.075
 			self.osipr.auto.fire_rate = 0.075
@@ -437,7 +437,7 @@ function WeaponTweakData:init(...)
 			self.osipr.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 			self.osipr.supported = true
 			self.osipr.stats = {
-				damage = 24,
+				damage = 16,
 				spread = 18,
 				recoil = 17,
 				concealment = 7
@@ -456,7 +456,7 @@ function WeaponTweakData:init(...)
 			self.osipr.desc_id = "bm_w_osipr_desc"
 			self.osipr.custom = false
 
-			self.osipr_gl.AMMO_MAX = 6
+			self.osipr_gl.AMMO_MAX = 8
 			self.osipr_gl.CLIP_AMMO_MAX = 5
 			self.osipr_gl.tactical_reload = true
 			self.osipr_gl.fire_mode_data.fire_rate = 0.4
@@ -464,7 +464,7 @@ function WeaponTweakData:init(...)
 			self.osipr_gl.kick_pattern = self.stat_info.kick_patterns.random
 			self.osipr_gl.supported = true
 			self.osipr_gl.stats = {
-				damage = 30,
+				damage = 200,
 				spread = 9,
 				recoil = 5,
 				concealment = 7
@@ -512,7 +512,7 @@ function WeaponTweakData:init(...)
 		}
 		self.hajk.supported = true
 		self.hajk.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 15,
 			recoil = 15,
 			concealment = 15
@@ -537,7 +537,7 @@ function WeaponTweakData:init(...)
 		self.akm.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.akm.supported = true
 		self.akm.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 17,
 			recoil = 13,
 			concealment = 13
@@ -562,7 +562,7 @@ function WeaponTweakData:init(...)
 		self.akm_gold.auto.fire_rate = 0.1
 		self.akm_gold.supported = true
 		self.akm_gold.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 17,
 			recoil = 13,
 			concealment = 13
@@ -591,7 +591,7 @@ function WeaponTweakData:init(...)
 		self.l85a2.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.l85a2.supported = true
 		self.l85a2.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 18,
 			recoil = 12,
 			concealment = 16
@@ -618,7 +618,7 @@ function WeaponTweakData:init(...)
 		self.m16.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.m16.supported = true
 		self.m16.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 16,
 			recoil = 15,
 			concealment = 12
@@ -645,7 +645,7 @@ function WeaponTweakData:init(...)
 		self.fal.kick_pattern = self.stat_info.kick_patterns.random
 		self.fal.supported = true
 		self.fal.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 16,
 			recoil = 13,
 			concealment = 12
@@ -672,7 +672,7 @@ function WeaponTweakData:init(...)
 		self.akmsu.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.akmsu.supported = true
 		self.akmsu.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 15,
 			recoil = 14,
 			concealment = 13
@@ -705,7 +705,7 @@ function WeaponTweakData:init(...)
 		self.x_akmsu.kick_pattern = self.akmsu.kick_pattern
 		self.x_akmsu.supported = true
 		self.x_akmsu.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 11,
 			recoil = 10,
 			concealment = 9
@@ -733,7 +733,7 @@ function WeaponTweakData:init(...)
 		self.scar.kick_pattern = self.stat_info.kick_patterns.random
 		self.scar.supported = true
 		self.scar.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 16,
 			recoil = 14,
 			concealment = 11
@@ -754,14 +754,14 @@ function WeaponTweakData:init(...)
 		--Byk-1
 		self.groza.desc_id = "bm_m203_weapon_sc_desc"
 		self.groza.has_description = true
-		self.groza.AMMO_MAX = 40
+		self.groza.AMMO_MAX = 50
 		self.groza.tactical_reload = true
 		self.groza.fire_rate_multiplier = 1.00333333333 --700 rpm.
 		self.groza.kick = self.stat_info.kick_tables.vertical_kick
 		self.groza.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.groza.supported = true
 		self.groza.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 14,
 			recoil = 11,
 			concealment = 14
@@ -783,7 +783,7 @@ function WeaponTweakData:init(...)
 		self.groza_underbarrel.fire_rate_multiplier = 0.4 --100 rpm.
 		self.groza_underbarrel.kick = self.stat_info.kick_tables.vertical_kick
 		self.groza_underbarrel.kick_pattern = self.stat_info.kick_patterns.random
-		self.groza_underbarrel.AMMO_MAX = 4
+		self.groza_underbarrel.AMMO_MAX = 6
 		self.groza_underbarrel.supported = true
 		self.groza_underbarrel.stats = {
 			damage = 40,
@@ -804,7 +804,6 @@ function WeaponTweakData:init(...)
 			unequip_underbarrel = 0.65
 		}
 		self.groza_underbarrel.reload_speed_multiplier = 0.75
-		self.groza_underbarrel.stats_modifiers = {damage = 10}
 
 		--Valkyria
 		self.asval.sounds.fire = "akm_fire_single"
@@ -818,7 +817,7 @@ function WeaponTweakData:init(...)
 		self.asval.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.asval.supported = true
 		self.asval.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 17,
 			recoil = 11,
 			concealment = 12,
@@ -843,7 +842,7 @@ function WeaponTweakData:init(...)
 		self.galil.kick_pattern = self.stat_info.kick_patterns.random
 		self.galil.supported = true
 		self.galil.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 17,
 			recoil = 13,
 			concealment = 6
@@ -864,7 +863,7 @@ function WeaponTweakData:init(...)
 		--Little Friend Rifle
 		self.contraband.desc_id = "bm_m203_weapon_sc_desc"
 		self.contraband.has_description = true
-		self.contraband.AMMO_MAX = 40
+		self.contraband.AMMO_MAX = 50
 		self.contraband.tactical_reload = true
 		self.contraband.FIRE_MODE = "auto"
 		self.contraband.fire_mode_data.fire_rate = 0.1
@@ -874,7 +873,7 @@ function WeaponTweakData:init(...)
 		self.contraband.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.contraband.supported = true
 		self.contraband.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 17,
 			recoil = 14,
 			concealment = 9
@@ -895,7 +894,7 @@ function WeaponTweakData:init(...)
 		self.contraband_m203.fire_rate_multiplier = 0.4 --100 rpm.
 		self.contraband_m203.kick = self.stat_info.kick_tables.vertical_kick
 		self.contraband_m203.kick_pattern = self.stat_info.kick_patterns.random
-		self.contraband_m203.AMMO_MAX = 4
+		self.contraband_m203.AMMO_MAX = 6
 		self.contraband_m203.supported = true
 		self.contraband_m203.stats = {
 			damage = 40,
@@ -916,7 +915,6 @@ function WeaponTweakData:init(...)
 			unequip_underbarrel = 0.4
 		}
 		self.contraband_m203.reload_speed_multiplier = 1.25 --2s
-		self.contraband_m203.stats_modifiers = {damage = 10}
 
 	--Heavy DMR (PRIMARY)
 		--Galant--
@@ -926,7 +924,7 @@ function WeaponTweakData:init(...)
 		self.ching.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.ching.supported = true
 		self.ching.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 18,
 			recoil = 10,
 			concealment = 13
@@ -951,7 +949,7 @@ function WeaponTweakData:init(...)
 		self.new_m14.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.new_m14.supported = true
 		self.new_m14.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 19,
 			recoil = 9,
 			concealment = 7
@@ -978,7 +976,7 @@ function WeaponTweakData:init(...)
 		self.g3.kick_pattern = self.stat_info.kick_patterns.random
 		self.g3.supported = true
 		self.g3.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 17,
 			recoil = 12,
 			concealment = 9
@@ -1005,7 +1003,7 @@ function WeaponTweakData:init(...)
 		self.shak12.tactical_reload = true
 		self.shak12.supported = true
 		self.shak12.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 17,
 			recoil = 8,
 			concealment = 13
@@ -1039,7 +1037,7 @@ function WeaponTweakData:init(...)
 		self.tti.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.tti.supported = true
 		self.tti.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 20,
 			recoil = 13,
 			concealment = 12
@@ -1070,7 +1068,7 @@ function WeaponTweakData:init(...)
 		self.qbu88.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.qbu88.supported = true
 		self.qbu88.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 20,
 			recoil = 10,
 			concealment = 15
@@ -1102,7 +1100,7 @@ function WeaponTweakData:init(...)
 		self.m134.kick_pattern = self.stat_info.kick_patterns.random
 		self.m134.supported = true
 		self.m134.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 5,
 			recoil = 12,
 			concealment = 5
@@ -1133,7 +1131,7 @@ function WeaponTweakData:init(...)
 		self.shuno.kick_pattern = self.stat_info.kick_patterns.random
 		self.shuno.supported = true
 		self.shuno.stats = {
-			damage = 18,
+			damage = 10,
 			spread = 5,
 			recoil = 14,
 			concealment = 6
@@ -1165,7 +1163,7 @@ function WeaponTweakData:init(...)
 		self.m249.kick_pattern = self.stat_info.kick_patterns.random
 		self.m249.supported = true
 		self.m249.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 10,
 			recoil = 20,
 			concealment = 6
@@ -1193,7 +1191,7 @@ function WeaponTweakData:init(...)
 		self.hk21.kick_pattern = self.stat_info.kick_patterns.random
 		self.hk21.supported = true
 		self.hk21.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 9,
 			recoil = 20,
 			concealment = 9
@@ -1221,7 +1219,7 @@ function WeaponTweakData:init(...)
 		self.hk51b.fire_rate_multiplier = 0.9 --600rpm
 		self.hk51b.supported = true
 		self.hk51b.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 14,
 			recoil = 17,
 			concealment = 13
@@ -1250,7 +1248,7 @@ function WeaponTweakData:init(...)
 		self.mg42.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.mg42.supported = true
 		self.mg42.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 10,
 			recoil = 16,
 			concealment = 10
@@ -1280,7 +1278,7 @@ function WeaponTweakData:init(...)
 		self.m60.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.m60.supported = true
 		self.m60.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 8,
 			recoil = 19,
 			concealment = 8
@@ -1310,7 +1308,7 @@ function WeaponTweakData:init(...)
 		self.rpk.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.rpk.supported = true
 		self.rpk.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 6,
 			recoil = 18,
 			concealment = 11
@@ -1341,7 +1339,7 @@ function WeaponTweakData:init(...)
 		self.par.kick_pattern = self.stat_info.kick_patterns.random
 		self.par.supported = true
 		self.par.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 9,
 			recoil = 18,
 			concealment = 6,
@@ -1369,7 +1367,7 @@ function WeaponTweakData:init(...)
 		self.msr.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.msr.supported = true
 		self.msr.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 19,
 			recoil = 12,
 			concealment = 13
@@ -1392,7 +1390,7 @@ function WeaponTweakData:init(...)
 		self.r700.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.r700.supported = true
 		self.r700.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 21,
 			recoil = 14,
 			concealment = 13
@@ -1416,7 +1414,7 @@ function WeaponTweakData:init(...)
 		self.wa2000.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.wa2000.supported = true
 		self.wa2000.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 20,
 			recoil = 14,
 			concealment = 14
@@ -1448,7 +1446,7 @@ function WeaponTweakData:init(...)
 		self.winchester1874.tactical_reload = true
 		self.winchester1874.supported = true
 		self.winchester1874.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 19,
 			recoil = 11,
 			concealment = 16
@@ -1474,7 +1472,7 @@ function WeaponTweakData:init(...)
 		self.siltstone.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.siltstone.supported = true
 		self.siltstone.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 18,
 			recoil = 14,
 			concealment = 10
@@ -1501,7 +1499,7 @@ function WeaponTweakData:init(...)
 		self.scout.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.scout.supported = true
 		self.scout.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 18,
 			recoil = 11,
 			concealment = 14
@@ -1534,7 +1532,7 @@ function WeaponTweakData:init(...)
 		self.sbl.tactical_reload = true
 		self.sbl.supported = true
 		self.sbl.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 17,
 			recoil = 9,
 			concealment = 13
@@ -1559,7 +1557,7 @@ function WeaponTweakData:init(...)
 		self.model70.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.model70.supported = true
 		self.model70.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 21,
 			recoil = 13,
 			concealment = 9
@@ -1585,7 +1583,7 @@ function WeaponTweakData:init(...)
 		self.desertfox.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.desertfox.supported = true
 		self.desertfox.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 19,
 			recoil = 11,
 			concealment = 13
@@ -1610,7 +1608,7 @@ function WeaponTweakData:init(...)
 		self.r93.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.r93.supported = true
 		self.r93.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 21,
 			recoil = 16,
 			concealment = 6
@@ -1636,7 +1634,7 @@ function WeaponTweakData:init(...)
 		self.mosin.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.mosin.supported = true
 		self.mosin.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 20,
 			recoil = 14,
 			concealment = 11
@@ -1663,7 +1661,7 @@ function WeaponTweakData:init(...)
 		self.m95.kick_pattern = self.stat_info.kick_patterns.random
 		self.m95.supported = true
 		self.m95.stats = {
-			damage = 180,
+			damage = 100,
 			spread = 21,
 			recoil = 6,
 			concealment = 7
@@ -1691,7 +1689,7 @@ function WeaponTweakData:init(...)
 		self.coal.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.coal.supported = true
 		self.coal.stats = {
-			damage = 18,
+			damage = 10,
 			spread = 14,
 			recoil = 17,
 			concealment = 17
@@ -1716,7 +1714,7 @@ function WeaponTweakData:init(...)
 		self.mp9.kick_pattern = self.stat_info.kick_patterns.random
 		self.mp9.supported = true
 		self.mp9.stats = {
-			damage = 18,
+			damage = 10,
 			spread = 14,
 			recoil = 16,
 			concealment = 19
@@ -1739,7 +1737,7 @@ function WeaponTweakData:init(...)
 		self.sr2.kick_pattern = self.stat_info.kick_patterns.random
 		self.sr2.supported = true
 		self.sr2.stats = {
-			damage = 18,
+			damage = 10,
 			spread = 15,
 			recoil = 14,
 			concealment = 18
@@ -1763,7 +1761,7 @@ function WeaponTweakData:init(...)
 		self.p90.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.p90.supported = true
 		self.p90.stats = {
-			damage = 18,
+			damage = 10,
 			spread = 11,
 			recoil = 15,
 			concealment = 17
@@ -1791,7 +1789,7 @@ function WeaponTweakData:init(...)
 		self.x_sr2.ADAPTIVE_BURST_SIZE = true
 		self.x_sr2.supported = true
 		self.x_sr2.stats = {
-			damage = 18,
+			damage = 10,
 			spread = 11,
 			recoil = 14,
 			concealment = 17
@@ -1820,7 +1818,7 @@ function WeaponTweakData:init(...)
 		self.pm9.kick_pattern = self.stat_info.kick_patterns.random
 		self.pm9.supported = true
 		self.pm9.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 12,
 			recoil = 14,
 			concealment = 18
@@ -1843,7 +1841,7 @@ function WeaponTweakData:init(...)
 		self.shepheard.kick_pattern = self.stat_info.zigzag_1
 		self.shepheard.supported = true
 		self.shepheard.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 15,
 			recoil = 18,
 			concealment = 17
@@ -1867,7 +1865,7 @@ function WeaponTweakData:init(...)
 		self.mac10.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.mac10.supported = true
 		self.mac10.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 14,
 			recoil = 14,
 			concealment = 18
@@ -1894,7 +1892,7 @@ function WeaponTweakData:init(...)
 		self.cobray.fire_mode_data.fire_rate = 0.06
 		self.cobray.supported = true
 		self.cobray.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 14,
 			recoil = 13,
 			concealment = 16
@@ -1918,7 +1916,7 @@ function WeaponTweakData:init(...)
 		self.new_mp5.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.new_mp5.supported = true
 		self.new_mp5.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 16,
 			recoil = 15,
 			concealment = 16
@@ -1941,7 +1939,7 @@ function WeaponTweakData:init(...)
 		self.scorpion.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.scorpion.supported = true
 		self.scorpion.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 12,
 			recoil = 18,
 			concealment = 20
@@ -1968,7 +1966,7 @@ function WeaponTweakData:init(...)
 		self.x_mac10.BURST_COUNT = 2
 		self.x_mac10.ADAPTIVE_BURST_SIZE = true
 		self.x_mac10.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 9,
 			recoil = 9,
 			concealment = 15
@@ -1995,7 +1993,7 @@ function WeaponTweakData:init(...)
 		self.x_mp5.CLIP_AMMO_MAX = self.new_mp5.CLIP_AMMO_MAX * 2
 		self.x_mp5.supported = true
 		self.x_mp5.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 12,
 			recoil = 11,
 			concealment = 11
@@ -2023,7 +2021,7 @@ function WeaponTweakData:init(...)
 		self.vityaz.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.vityaz.supported = true
 		self.vityaz.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 15,
 			recoil = 14,
 			concealment = 17
@@ -2049,7 +2047,7 @@ function WeaponTweakData:init(...)
 		self.m1928.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.m1928.supported = true
 		self.m1928.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 10,
 			recoil = 18,
 			concealment = 15
@@ -2075,7 +2073,7 @@ function WeaponTweakData:init(...)
 		self.erma.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.erma.supported = true
 		self.erma.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 15,
 			recoil = 17,
 			concealment = 18
@@ -2099,7 +2097,7 @@ function WeaponTweakData:init(...)
 		self.mp7.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.mp7.supported = true
 		self.mp7.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 12,
 			recoil = 12,
 			concealment = 18
@@ -2123,7 +2121,7 @@ function WeaponTweakData:init(...)
 		self.tec9.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.tec9.supported = true
 		self.tec9.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 11,
 			recoil = 15,
 			concealment = 17
@@ -2147,7 +2145,7 @@ function WeaponTweakData:init(...)
 		self.sterling.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.sterling.supported = true
 		self.sterling.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 18,
 			recoil = 16,
 			concealment = 17
@@ -2172,7 +2170,7 @@ function WeaponTweakData:init(...)
 		self.fmg9.tactical_reload = true
 		self.fmg9.supported = true
 		self.fmg9.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 10,
 			recoil = 10,
 			concealment = 21
@@ -2199,7 +2197,7 @@ function WeaponTweakData:init(...)
 		self.schakal.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.schakal.supported = true
 		self.schakal.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 14,
 			recoil = 15,
 			concealment = 16
@@ -2223,7 +2221,7 @@ function WeaponTweakData:init(...)
 		self.polymer.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.polymer.supported = true
 		self.polymer.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 8,
 			recoil = 15,
 			concealment = 16
@@ -2246,7 +2244,7 @@ function WeaponTweakData:init(...)
 		self.m45.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.m45.supported = true
 		self.m45.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 14,
 			recoil = 15,
 			concealment = 15
@@ -2268,7 +2266,7 @@ function WeaponTweakData:init(...)
 		self.baka.kick_pattern = self.stat_info.kick_patterns.random
 		self.baka.supported = true
 		self.baka.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 6,
 			recoil = 13,
 			concealment = 19
@@ -2291,7 +2289,7 @@ function WeaponTweakData:init(...)
 		self.uzi.kick_pattern = self.stat_info.kick_patterns.random
 		self.uzi.supported = true
 		self.uzi.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 14,
 			recoil = 17,
 			concealment = 17
@@ -2322,7 +2320,7 @@ function WeaponTweakData:init(...)
 		self.beer.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.beer.supported = true
 		self.beer.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 15,
 			recoil = 15,
 			concealment = 18
@@ -2346,7 +2344,7 @@ function WeaponTweakData:init(...)
 		self.glock_17.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.glock_17.supported = true
 		self.glock_17.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 18,
 			recoil = 18,
 			concealment = 20
@@ -2370,7 +2368,7 @@ function WeaponTweakData:init(...)
 		self.b92fs.kick_pattern = self.stat_info.jumpy_2
 		self.b92fs.supported = true
 		self.b92fs.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 19,
 			recoil = 19,
 			concealment = 19
@@ -2400,7 +2398,7 @@ function WeaponTweakData:init(...)
 		self.lemming.armor_piercing_chance = 1
 		self.lemming.supported = true
 		self.lemming.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 18,
 			recoil = 19,
 			concealment = 19
@@ -2424,7 +2422,7 @@ function WeaponTweakData:init(...)
 		self.g26.single.fire_rate = 0.11009174311
 		self.g26.supported = true
 		self.g26.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 19,
 			recoil = 20,
 			concealment = 21
@@ -2452,7 +2450,7 @@ function WeaponTweakData:init(...)
 		self.glock_18c.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.glock_18c.supported = true
 		self.glock_18c.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 16,
 			recoil = 13,
 			concealment = 20
@@ -2474,7 +2472,7 @@ function WeaponTweakData:init(...)
 		self.maxim9.tactical_reload = true
 		self.maxim9.supported = true
 		self.maxim9.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 17,
 			recoil = 20,
 			concealment = 20,
@@ -2503,7 +2501,7 @@ function WeaponTweakData:init(...)
 		self.x_g17.FIRE_MODE = "burst"
 		self.x_g17.supported = true
 		self.x_g17.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 15,
 			recoil = 14,
 			concealment = 19
@@ -2532,7 +2530,7 @@ function WeaponTweakData:init(...)
 		self.x_b92fs.single.fire_rate = self.b92fs.single.fire_rate
 		self.x_b92fs.supported = true
 		self.x_b92fs.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 17,
 			recoil = 17,
 			concealment = 17
@@ -2562,7 +2560,7 @@ function WeaponTweakData:init(...)
 		self.jowi.FIRE_MODE = "burst"
 		self.jowi.supported = true
 		self.jowi.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 19,
 			recoil = 20,
 			concealment = 20
@@ -2592,7 +2590,7 @@ function WeaponTweakData:init(...)
 		self.x_g18c.ADAPTIVE_BURST_SIZE = true
 		self.x_g18c.supported = true
 		self.x_g18c.stats = {
-			damage = 20,
+			damage = 12,
 			spread = 11,
 			recoil = 8,
 			concealment = 19
@@ -2618,7 +2616,7 @@ function WeaponTweakData:init(...)
 		self.czech.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.czech.supported = true
 		self.czech.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 14,
 			recoil = 12,
 			concealment = 19
@@ -2643,7 +2641,7 @@ function WeaponTweakData:init(...)
 		self.type54.CLIP_AMMO_MAX = 8
 		self.type54.tactical_reload = true
 		self.type54.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 21,
 			recoil = 21,
 			concealment = 21
@@ -2688,7 +2686,7 @@ function WeaponTweakData:init(...)
 		self.ppk.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.ppk.supported = true
 		self.ppk.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 19,
 			recoil = 18,
 			concealment = 21
@@ -2712,7 +2710,7 @@ function WeaponTweakData:init(...)
 		self.packrat.fire_rate_multiplier = 1.135417 --545 rpm
 		self.packrat.supported = true
 		self.packrat.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 16,
 			recoil = 19,
 			concealment = 19
@@ -2736,7 +2734,7 @@ function WeaponTweakData:init(...)
 		self.pl14.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.pl14.supported = true
 		self.pl14.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 17,
 			recoil = 18,
 			concealment = 19
@@ -2758,7 +2756,7 @@ function WeaponTweakData:init(...)
 		self.legacy.kick_pattern = self.stat_info.kick_patterns.random
 		self.legacy.supported = true
 		self.legacy.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 18,
 			recoil = 16,
 			concealment = 21
@@ -2779,7 +2777,7 @@ function WeaponTweakData:init(...)
 		self.holt.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.holt.supported = true
 		self.holt.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 15,
 			recoil = 21,
 			concealment = 19
@@ -2801,7 +2799,7 @@ function WeaponTweakData:init(...)
 		self.stech.CLIP_AMMO_MAX = 20
 		self.stech.supported = true
 		self.stech.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 13,
 			recoil = 15,
 			concealment = 17
@@ -2830,7 +2828,7 @@ function WeaponTweakData:init(...)
 		self.x_legacy.FIRE_MODE = "burst"
 		self.x_legacy.supported = true
 		self.x_legacy.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 15,
 			recoil = 11,
 			concealment = 20
@@ -2860,7 +2858,7 @@ function WeaponTweakData:init(...)
 		self.x_pl14.kick_pattern = self.pl14.kick_pattern
 		self.x_pl14.supported = true
 		self.x_pl14.stats = {
-			damage = 24,
+			damage = 16,
 			spread = 13,
 			recoil = 15,
 			concealment = 17
@@ -2888,7 +2886,7 @@ function WeaponTweakData:init(...)
 		self.sub2000.kick_pattern = self.stat_info.kick_patterns.random
 		self.sub2000.supported = true
 		self.sub2000.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 15,
 			recoil = 11,
 			concealment = 19
@@ -2919,7 +2917,7 @@ function WeaponTweakData:init(...)
 		self.c96.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.c96.supported = true
 		self.c96.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 17,
 			recoil = 17,
 			concealment = 19
@@ -2943,7 +2941,7 @@ function WeaponTweakData:init(...)
 		self.p226.CLIP_AMMO_MAX = 13
 		self.p226.supported = true
 		self.p226.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 14,
 			recoil = 18,
 			concealment = 19
@@ -2965,7 +2963,7 @@ function WeaponTweakData:init(...)
 		self.sparrow.fire_rate_multiplier = 1.2 --480 rpm
 		self.sparrow.supported = true
 		self.sparrow.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 16,
 			recoil = 16,
 			concealment = 19
@@ -2988,7 +2986,7 @@ function WeaponTweakData:init(...)
 		self.g22c.CLIP_AMMO_MAX = 15
 		self.g22c.supported = true
 		self.g22c.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 17,
 			recoil = 13,
 			concealment = 20
@@ -3010,7 +3008,7 @@ function WeaponTweakData:init(...)
 		self.shrew.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.shrew.supported = true
 		self.shrew.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 18,
 			recoil = 15,
 			concealment = 21
@@ -3039,7 +3037,7 @@ function WeaponTweakData:init(...)
 		self.x_g22c.single.fire_rate = self.g22c.single.fire_rate
 		self.x_g22c.supported = true
 		self.x_g22c.stats = {
-			damage = 30,
+			damage = 20,
 			spread = 13,
 			recoil = 9,
 			concealment = 19
@@ -3064,7 +3062,7 @@ function WeaponTweakData:init(...)
 		self.usp.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.usp.supported = true
 		self.usp.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 15,
 			recoil = 11,
 			concealment = 19
@@ -3090,7 +3088,7 @@ function WeaponTweakData:init(...)
 		self.colt_1911.kick_pattern = self.stat_info.kick_patterns.random
 		self.colt_1911.supported = true
 		self.colt_1911.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 17,
 			recoil = 11,
 			concealment = 19
@@ -3115,7 +3113,7 @@ function WeaponTweakData:init(...)
 		self.m1911.kick_pattern = self.stat_info.kick_patterns.random
 		self.m1911.supported = true
 		self.m1911.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 16,
 			recoil = 10,
 			concealment = 19
@@ -3140,7 +3138,7 @@ function WeaponTweakData:init(...)
 		self.breech.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.breech.supported = true
 		self.breech.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 15,
 			recoil = 10,
 			concealment = 21
@@ -3163,7 +3161,7 @@ function WeaponTweakData:init(...)
 		self.hs2000.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.hs2000.supported = true
 		self.hs2000.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 11,
 			recoil = 14,
 			concealment = 20
@@ -3193,7 +3191,7 @@ function WeaponTweakData:init(...)
 		self.x_usp.FIRE_MODE = "burst"
 		self.x_usp.supported = true
 		self.x_usp.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 11,
 			recoil = 7,
 			concealment = 17
@@ -3224,7 +3222,7 @@ function WeaponTweakData:init(...)
 		self.x_1911.FIRE_MODE = "burst"
 		self.x_1911.supported = true
 		self.x_1911.stats = {
-			damage = 45,
+			damage = 24,
 			spread = 13,
 			recoil = 7,
 			concealment = 17
@@ -3251,7 +3249,7 @@ function WeaponTweakData:init(...)
 		self.deagle.CLIP_AMMO_MAX = 7
 		self.deagle.supported = true
 		self.deagle.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 19,
 			recoil = 7,
 			concealment = 18
@@ -3276,7 +3274,7 @@ function WeaponTweakData:init(...)
 		self.new_raging_bull.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.new_raging_bull.supported = true
 		self.new_raging_bull.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 16,
 			recoil = 9,
 			concealment = 20
@@ -3299,7 +3297,7 @@ function WeaponTweakData:init(...)
 		self.chinchilla.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.chinchilla.supported = true
 		self.chinchilla.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 19,
 			recoil = 10,
 			concealment = 19
@@ -3321,7 +3319,7 @@ function WeaponTweakData:init(...)
 		self.model3.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.model3.supported = true
 		self.model3.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 21,
 			recoil = 9,
 			concealment = 18
@@ -3344,7 +3342,7 @@ function WeaponTweakData:init(...)
 		self.mateba.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.mateba.supported = true
 		self.mateba.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 14,
 			recoil = 13,
 			concealment = 21
@@ -3371,7 +3369,7 @@ function WeaponTweakData:init(...)
 		self.x_chinchilla.FIRE_MODE = "burst"
 		self.x_chinchilla.supported = true
 		self.x_chinchilla.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 17,
 			recoil = 6,
 			concealment = 17
@@ -3405,7 +3403,7 @@ function WeaponTweakData:init(...)
 		self.shatters_fury.can_shoot_through_wall = true
 		self.shatters_fury.armor_piercing_chance = 1
 		self.shatters_fury.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 17,
 			recoil = 5,
 			concealment = 17
@@ -3435,7 +3433,7 @@ function WeaponTweakData:init(...)
 		self.rsh12.armor_piercing_chance = 1
 		self.rsh12.swap_speed_multiplier = 0.6
 		self.rsh12.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 14,
 			recoil = 7,
 			concealment = 17
@@ -3465,7 +3463,7 @@ function WeaponTweakData:init(...)
 		self.peacemaker.supported = true
 		self.peacemaker.fire_rate_multiplier = 0.6 --240 rpm
 		self.peacemaker.stats = {
-			damage = 90,
+			damage = 50,
 			spread = 18,
 			recoil = 8,
 			concealment = 19
@@ -3492,7 +3490,7 @@ function WeaponTweakData:init(...)
 		self.gre_m79.kick_pattern = self.stat_info.kick_patterns.random
 		self.gre_m79.supported = true
 		self.gre_m79.stats = {
-			damage = 40,
+			damage = 200,
 			spread = 18,
 			recoil = 10,
 			concealment = 15
@@ -3507,7 +3505,6 @@ function WeaponTweakData:init(...)
 			equip = 0.6,
 			unequip = 0.6
 		}
-		self.gre_m79.stats_modifiers = {damage = 10}
 
 		--Piglet	
 		self.m32.desc_id = "bm_40mm_weapon_sc_desc"
@@ -3518,12 +3515,11 @@ function WeaponTweakData:init(...)
 		self.m32.single.fire_rate = 0.4 --150 rpm.
 		self.m32.supported = true
 		self.m32.stats = {
-			damage = 40,
+			damage = 200,
 			spread = 12,
 			recoil = 10,
 			concealment = 7
 		}
-		self.m32.stats_modifiers = {damage = 10}
 		self.m32.timers = {
 			shotgun_reload_enter = 1.96,
 			shotgun_reload_exit_empty = 0.75,
@@ -3547,7 +3543,7 @@ function WeaponTweakData:init(...)
 		self.slap.kick_pattern = self.stat_info.kick_patterns.random
 		self.slap.supported = true
 		self.slap.stats = {
-			damage = 40,
+			damage = 200,
 			spread = 16,
 			recoil = 10,
 			concealment = 15
@@ -3564,7 +3560,6 @@ function WeaponTweakData:init(...)
 		}
 		self.slap.reload_speed_multiplier = 1.1 --3.6s
 		self.slap.swap_speed_multiplier = 1.25
-		self.slap.stats_modifiers = {damage = 10}
 
 		--China Puff
 		self.china.desc_id = "bm_40mm_weapon_sc_desc"
@@ -3575,12 +3570,11 @@ function WeaponTweakData:init(...)
 		self.china.supported = true
 		self.china.tactical_reload = true
 		self.china.stats = {
-			damage = 40,
+			damage = 200,
 			spread = 9,
 			recoil = 7,
 			concealment = 11
 		}
-		self.china.stats_modifiers = {damage = 10}
 		self.china.timers = {
 			shotgun_reload_enter = 0.83,
 			shotgun_reload_exit_empty = 1.1,
@@ -3603,7 +3597,7 @@ function WeaponTweakData:init(...)
 		self.arbiter.kick_pattern = self.stat_info.kick_patterns.random
 		self.arbiter.supported = true
 		self.arbiter.stats = {
-			damage = 30,
+			damage = 150,
 			spread = 9,
 			recoil = 5,
 			concealment = 7
@@ -3618,7 +3612,6 @@ function WeaponTweakData:init(...)
 			unequip = 0.6,
 			equip = 0.6
 		}
-		self.arbiter.stats_modifiers = {damage = 10}
 		self.arbiter.reload_speed_multiplier = 0.85
 		self.arbiter.swap_speed_multiplier = 0.7
 
@@ -3634,7 +3627,7 @@ function WeaponTweakData:init(...)
 		self.ray.fire_rate_multiplier = 0.75 --80 rpm
 		self.ray.supported = true
 		self.ray.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 6,
 			recoil = 21,
 			concealment = 5
@@ -3649,7 +3642,6 @@ function WeaponTweakData:init(...)
 			unequip = 0.85,
 			equip = 0.85
 		}
-		self.ray.stats_modifiers = {damage = 10}
 		self.ray.swap_speed_multiplier = 1.2
 
 	--Rocket Launchers (Secondary)
@@ -3662,7 +3654,7 @@ function WeaponTweakData:init(...)
 		self.rpg7.fire_mode_data.fire_rate = 0.75
 		self.rpg7.supported = true
 		self.rpg7.stats = {
-			damage = 60,
+			damage = 300,
 			spread = 10,
 			recoil = 17,
 			concealment = 6
@@ -3677,7 +3669,6 @@ function WeaponTweakData:init(...)
 			equip = 0.85,
 			unequip = 0.85
 		}
-		self.rpg7.stats_modifiers = {damage = 10}
 		self.rpg7.swap_speed_multiplier = 1.25
 		self.rpg7.reload_speed_multiplier = 1.1
 
@@ -3689,7 +3680,7 @@ function WeaponTweakData:init(...)
 		self.ecp.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.ecp.supported = true
 		self.ecp.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 14,
 			recoil = 16,
 			concealment = 11,
@@ -3715,7 +3706,7 @@ function WeaponTweakData:init(...)
 		self.arblast.kick_pattern = self.stat_info.kick_patterns.random
 		self.arblast.supported = true
 		self.arblast.stats = {
-			damage = 180,
+			damage = 100,
 			spread = 21,
 			recoil = 21,
 			concealment = 14,
@@ -3743,7 +3734,7 @@ function WeaponTweakData:init(...)
 		self.frankish.kick_pattern = self.stat_info.kick_patterns.random
 		self.frankish.supported = true
 		self.frankish.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 21,
 			recoil = 21,
 			concealment = 15,
@@ -3772,7 +3763,7 @@ function WeaponTweakData:init(...)
 		self.hunter.kick_pattern = self.stat_info.kick_patterns.random
 		self.hunter.supported = true
 		self.hunter.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 16,
 			recoil = 21,
 			concealment = 20,
@@ -3801,7 +3792,7 @@ function WeaponTweakData:init(...)
 		self.plainsrider.fire_mode_data.fire_rate = 0.1
 		self.plainsrider.single.fire_rate = 0.1
 		self.plainsrider.stats = {
-			damage = 135,
+			damage = 80,
 			spread = 20,
 			recoil = 21,
 			concealment = 15,
@@ -3831,7 +3822,7 @@ function WeaponTweakData:init(...)
 		self.long.fire_mode_data.fire_rate = 0.14
 		self.long.single.fire_rate = 0.14
 		self.long.stats = {
-			damage = 180,
+			damage = 100,
 			spread = 21,
 			recoil = 21,
 			concealment = 14,
@@ -3860,7 +3851,7 @@ function WeaponTweakData:init(...)
 		self.elastic.fire_mode_data.fire_rate = 1
 		self.elastic.single.fire_rate = 1
 		self.elastic.stats = {
-			damage = 180,
+			damage = 100,
 			spread = 21,
 			recoil = 21,
 			concealment = 13,
@@ -3888,7 +3879,7 @@ function WeaponTweakData:init(...)
 		self.aa12.CAN_TOGGLE_FIREMODE = false
 		self.aa12.supported = true
 		self.aa12.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 10,
 			recoil = 13,
 			concealment = 11
@@ -3914,7 +3905,7 @@ function WeaponTweakData:init(...)
 		self.saiga.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.saiga.supported = true
 		self.saiga.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 14,
 			recoil = 9,
 			concealment = 16
@@ -3941,7 +3932,7 @@ function WeaponTweakData:init(...)
 		self.spas12.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.spas12.supported = true
 		self.spas12.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 15,
 			recoil = 12,
 			concealment = 14
@@ -3968,7 +3959,7 @@ function WeaponTweakData:init(...)
 		self.benelli.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.benelli.supported = true
 		self.benelli.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 14,
 			recoil = 10,
 			concealment = 15
@@ -3995,7 +3986,7 @@ function WeaponTweakData:init(...)
 		self.striker.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.striker.supported = true
 		self.striker.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 9,
 			recoil = 14,
 			concealment = 12
@@ -4023,7 +4014,7 @@ function WeaponTweakData:init(...)
 		self.x_basset.single.fire_rate = 0.2 --300 rpm, 600 rpm introduces audio issues on the Grimms
 		self.x_basset.supported = true
 		self.x_basset.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 9,
 			recoil = 5,
 			concealment = 13
@@ -4056,7 +4047,7 @@ function WeaponTweakData:init(...)
 		--self.x_judge.animations.second_gun_versions = self.x_judge.animations.second_gun_versions or {}
 		--self.x_judge.animations.second_gun_versions.reload = "reload"
 		self.x_judge.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 8,
 			recoil = 5,
 			concealment = 17
@@ -4084,7 +4075,7 @@ function WeaponTweakData:init(...)
 		self.rota.fire_rate_multiplier = 1.166 --400 rpm
 		self.rota.supported = true
 		self.rota.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 9,
 			recoil = 13,
 			concealment = 11
@@ -4107,7 +4098,7 @@ function WeaponTweakData:init(...)
 		self.ultima.kick_pattern = self.stat_info.kick_patterns.random
 		self.ultima.supported = true
 		self.ultima.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 10,
 			recoil = 10,
 			concealment = 15
@@ -4172,7 +4163,7 @@ function WeaponTweakData:init(...)
 		self.judge.kick_pattern = self.stat_info.kick_patterns.random
 		self.judge.supported = true
 		self.judge.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 12,
 			recoil = 9,
 			concealment = 19
@@ -4195,7 +4186,7 @@ function WeaponTweakData:init(...)
 		self.basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.basset.supported = true
 		self.basset.stats = {
-			damage = 8,
+			damage = 3,
 			spread = 13,
 			recoil = 9,
 			concealment = 17
@@ -4222,7 +4213,7 @@ function WeaponTweakData:init(...)
 		self.r870.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.r870.supported = true
 		self.r870.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 14,
 			recoil = 14,
 			concealment = 12
@@ -4246,7 +4237,7 @@ function WeaponTweakData:init(...)
 		self.m590.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.m590.supported = true
 		self.m590.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 12,
 			recoil = 14,
 			concealment = 11
@@ -4273,7 +4264,7 @@ function WeaponTweakData:init(...)
 		self.ksg.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.ksg.supported = true
 		self.ksg.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 9,
 			recoil = 14,
 			concealment = 12
@@ -4299,7 +4290,7 @@ function WeaponTweakData:init(...)
 		self.m1897.fire_mode_data.fire_rate = 0.5
 		self.m1897.supported = true
 		self.m1897.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 12,
 			recoil = 15,
 			concealment = 15
@@ -4329,7 +4320,7 @@ function WeaponTweakData:init(...)
 		self.boot.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.boot.supported = true
 		self.boot.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 15,
 			recoil = 10,
 			concealment = 15
@@ -4355,7 +4346,7 @@ function WeaponTweakData:init(...)
 		self.serbu.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.serbu.supported = true
 		self.serbu.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 12,
 			recoil = 12,
 			concealment = 15
@@ -4380,7 +4371,7 @@ function WeaponTweakData:init(...)
 		self.m37.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.m37.supported = true
 		self.m37.stats = {
-			damage = 11,
+			damage = 5,
 			spread = 14,
 			recoil = 14,
 			concealment = 14
@@ -4418,7 +4409,7 @@ function WeaponTweakData:init(...)
 		self.huntsman.kick_pattern = self.stat_info.kick_patterns.random
 		self.huntsman.supported = true
 		self.huntsman.stats = {
-			damage = 16,
+			damage = 8,
 			spread = 13,
 			recoil = 10,
 			concealment = 17
@@ -4450,7 +4441,7 @@ function WeaponTweakData:init(...)
 		}
 		self.b682.fire_rate_multiplier = 1.2 --400 rpm
 		self.b682.stats = {
-			damage = 16,
+			damage = 8,
 			spread = 15,
 			recoil = 9,
 			concealment = 17
@@ -4488,7 +4479,7 @@ function WeaponTweakData:init(...)
 		self.coach.fire_rate_multiplier = 1.2 --400 rpm
 		self.coach.supported = true
 		self.coach.stats = {
-			damage = 16,
+			damage = 8,
 			spread = 12,
 			recoil = 10,
 			concealment = 17
@@ -4519,7 +4510,7 @@ function WeaponTweakData:init(...)
 		self.saw.stats = {
 			spread = 21,
 			recoil = 16,
-			damage = 60,
+			damage = 30,
 			concealment = 11
 		}
 		self.saw.timers = {
@@ -4563,14 +4554,14 @@ function WeaponTweakData:init(...)
 		self.flamethrower_mk2.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.flamethrower_mk2.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.flamethrower_mk2.fire_dot_data = {
-			dot_damage = 1.8,
+			dot_damage = 1,
 			dot_trigger_chance = 50,
-			dot_length = 2.1,
+			dot_length = 3.1,
 			dot_tick_period = 0.5
 		}
 		self.flamethrower_mk2.supported = true
 		self.flamethrower_mk2.stats = {
-			damage = 36,
+			damage = 30,
 			spread = 0,
 			recoil = 23,
 			concealment = 6
@@ -4604,13 +4595,13 @@ function WeaponTweakData:init(...)
 		self.system.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.system.supported = true
 		self.system.fire_dot_data = {
-			dot_damage = 1.8,
+			dot_damage = 1,
 			dot_trigger_chance = 50,
-			dot_length = 2.1,
+			dot_length = 3.1,
 			dot_tick_period = 0.5
 		}
 		self.system.stats = {
-			damage = 36,
+			damage = 30,
 			spread = 0,
 			recoil = 23,
 			concealment = 12
@@ -4635,7 +4626,7 @@ function WeaponTweakData:init(...)
 			"smg"
 		}
 		self.ranc_heavy_machine_gun.stats = {
-			damage = 60,
+			damage = 30,
 			spread = 10,
 			recoil = 17,
 			concealment = 5
@@ -4713,7 +4704,7 @@ function WeaponTweakData:init(...)
 				end
 
 				if weap.categories[1] == "shotgun" and not weap.rays then
-					weap.rays = 9
+					weap.rays = 11
 				end
 
 				--Fixed stat values that are the same for all, or nearly all guns.
@@ -4758,29 +4749,27 @@ end
 --On guns with unique ammo counts (IE: With underbarrels), it's reduced proportionally to the primary damage pool.
 --Guns in different categories have additional pickup multipliers, somewhat correlated with their range multipliers.
 local damage_tier_data = {
-	{damage = 18,  pickup = 320, suppression =  4}, --18/36 damage guns
-	{damage = 20,  pickup = 310, suppression =  6},
-	{damage = 24,  pickup = 290, suppression =  8},
-	{damage = 30,  pickup = 260, suppression = 10},
-	{damage = 45,  pickup = 230, suppression = 11},
-	{damage = 60,  pickup = 210, suppression = 12},
-	{damage = 90,  pickup = 190, suppression = 13},
-	{damage = 135, pickup = 160, suppression = 14},
-	{damage = 180, pickup = 150, suppression = 15},
-	{damage = 240, pickup = 140, suppression = 16},
-	{damage = 300, pickup = 130, suppression = 17},
-	{damage = 360, pickup = 120, suppression = 18},
-	{damage = 400, pickup = 110, suppression = 19},
-	{damage = 600, pickup = 100, suppression = 20}
+	{damage = 10,  pickup = 200, suppression =  4}, --10/20 damage guns
+	{damage = 12,  pickup = 190, suppression =  6},
+	{damage = 16,  pickup = 180, suppression =  8},
+	{damage = 20,  pickup = 170, suppression = 10},
+	{damage = 24,  pickup = 155, suppression = 11},
+	{damage = 30,  pickup = 140, suppression = 12},
+	{damage = 50,  pickup = 120, suppression = 13},
+	{damage = 80,  pickup = 110, suppression = 14},
+	{damage = 100, pickup = 100, suppression = 15},
+	{damage = 150, pickup = 90, suppression = 16},
+	{damage = 200, pickup = 75, suppression = 17},
+	{damage = 300, pickup = 60, suppression = 18}
 }
 local shotgun_damage_tier_data = {
-	{tier = 8,  damage = 60,  pickup = 210, suppression = 13}, --144 damage shotguns = 120 damage other weapons
-	{tier = 11, damage = 90,  pickup = 190, suppression = 14}, --198 damage shotguns = 180 damage other weapons
-	{tier = 16, damage = 135, pickup = 160, suppression = 15}  --288 damage shotguns = 270 damage other weapons
+	{tier = 3, damage = 30, pickup = 210, suppression = 12}, --66 damage shotguns = 60 damage other weapons
+	{tier = 5, damage = 50, pickup = 190, suppression = 13}, --110 damage shotguns = 100 damage other weapons
+	{tier = 8, damage = 80, pickup = 160, suppression = 14}  --176 damage shotguns = 160 damage other weapons
 }
 
-local damage_pool_primary = 3600
-local damage_pool_secondary = 1800
+local damage_pool_primary = 2400
+local damage_pool_secondary = 1200
 
 local function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
@@ -4800,14 +4789,14 @@ local category_data = {
 	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	bow              = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
 	crossbow         = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
-	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},
+	pistol           = {pickup = 1.0, suppression = 0.5, ammo_max = 1.0},
 	smg              = {pickup = 1.1, suppression = 1.5, ammo_max = 1.0},
 	lmg              = {pickup = 1.0, suppression = 1.3, ammo_max = 1.5}, --Applies on top of SMG preset
 	minigun          = {pickup = 1.0, suppression = 1.3, ammo_max = 2.0}, --Applies on top of SMG preset
 	saw              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	grenade_launcher = {pickup = 0.5, suppression = 1.0, ammo_max = 1.0},
 	snp              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
-	assault_rifle    = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
+	assault_rifle    = {pickup = 1.1, suppression = 1.0, ammo_max = 1.0},
 	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	flamethrower     = {pickup = 1.3, suppression = 1.5, ammo_max = 2.0}
 }

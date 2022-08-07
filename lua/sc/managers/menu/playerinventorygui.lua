@@ -73,11 +73,13 @@ function PlayerInventoryGui:_get_melee_weapon_stats(name)
 			local charge_speed = managers.player:upgrade_value("player", "melee_swing_multiplier_delay", 1)
 			if base >= 0.1 and charge_speed > 1 then
 				skill_stats[stat.name] = {
+					value = -1 * (base - (base / charge_speed)),
 					min_value = 0, --These don't do anything.
 					max_value = 0,
-					value = -1 * (base - (base / charge_speed)),
 					skill_in_effect = true
 				}
+				--TODO: Figure out why the game is pulling display values out of hammer space that seem to have no relation to these (which are correct).
+				--heat.log("Base: ", base_stats.charge_time.value, "  Skill: ", skill_stats.charge_time.value, " Goal: ", base / charge_speed, " Theory: ", base_stats.charge_time.value + skill_stats.charge_time.value)
 			end
 		elseif stat.name == "range" then
 			local base_min = stats_data.range
