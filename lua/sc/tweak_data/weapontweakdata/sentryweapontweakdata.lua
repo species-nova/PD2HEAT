@@ -2,6 +2,7 @@
 local orig_init_data_sentry_gun_npc = WeaponTweakData._init_data_sentry_gun_npc
 function WeaponTweakData:_init_data_sentry_gun_npc()
 	orig_init_data_sentry_gun_npc(self)
+	self.sentry_gun.DAMAGE = 2
 	self.sentry_gun.SPREAD = 2
 	self.sentry_gun.FIRE_RANGE = 2500
 	self.sentry_gun.DETECTION_RANGE = self.sentry_gun.FIRE_RANGE
@@ -35,8 +36,8 @@ local function apply_sentry_stats(sentry_gun, health_multiplier)
 	sentry_gun.BAG_DMG_MUL = 10
 	sentry_gun.EXPLOSION_DMG_MUL = 10
 	sentry_gun.FIRE_DMG_MUL = 1
-	sentry_gun.HEALTH_INIT = 1200 * (health_multiplier or 1)
-	sentry_gun.SHIELD_HEALTH_INIT = 144
+	sentry_gun.HEALTH_INIT = 600 * (health_multiplier or 1)
+	sentry_gun.SHIELD_HEALTH_INIT = 72
 	sentry_gun.MAX_VEL_SPIN = 48
 	sentry_gun.MIN_VEL_SPIN = 2.4
 	sentry_gun.MAX_VEL_PITCH = sentry_gun.MAX_VEL_SPIN
