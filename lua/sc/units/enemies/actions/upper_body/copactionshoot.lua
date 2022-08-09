@@ -1175,7 +1175,7 @@ function CopActionShoot:anim_clbk_melee_strike()
 							local action_data = {
 								variant = variant,
 								damage = shield_knock and 0 or damage,
-								damage_effect = damage * 2,
+								damage_effect = damage,
 								weapon_unit = is_weapon and self._weapon_unit or nil,
 								attacker_unit = self._unit,
 								shield_knock = shield_knock,
