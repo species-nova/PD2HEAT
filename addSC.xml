@@ -2457,11 +2457,7 @@
 	
 	<unit path="units/payday2/characters/ene_cop_2_forest/ene_cop_2_forest" load="true"/>
 	<unit path="units/payday2/characters/ene_cop_2_forest/ene_cop_2_forest_husk" load="true"/>		
-
-	<!--HoxRev Heavy FBI Swats with helmet pop-->
-	<!--MOVE ME TO A LEVEL PACKAGE?!  REMOVE ME?!  DONT KNOW!-->
-
-
+	
 	<!--NPC Crosskill.45 1911-->
 	<cooked_physics path="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" force="false"/>	
 	<material_config path="units/payday2/weapons/wpn_npc_1911/wpn_npc_1911" force="false"/>
