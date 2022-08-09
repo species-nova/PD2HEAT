@@ -4889,14 +4889,14 @@ function CharacterTweakData:_presets(tweak_data)
 			},
 			{
 				r = 600,
-				acc = {0.3, 0.6},
+				acc = {0.35, 0.7},
 				dmg_mul = 1,
 				recoil = {0.4, 0.4},
 				burst_size = 20
 			},
 			{
 				r = 1125,
-				acc = {0.25, 0.5},
+				acc = {0.3, 0.6},
 				dmg_mul = 1,
 				recoil = {0.4, 0.4},
 				burst_size = 20
