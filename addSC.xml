@@ -67,7 +67,8 @@
 	<texture path="effects/pd2_mod_heatgen/particles/character/playerscreen/textures/floaties_df" load="true" />
 
 	<!--these guys have to be in here or you get stuck on the blackscreen idfk anymore-->
-    <unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36" load="true"/>
+		<!--These will be phased out later for a MUCH less bloated HVH package.  PHASE ME OUT ASAP!-->
+    <!--<unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36" load="true"/>
     <unit path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36_husk" load="true"/>
     <object path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36"/>
 	<cooked_physics path="units/pd2_mod_halloween/characters/ene_city_heavy_g36/ene_city_heavy_g36"/>
@@ -145,28 +146,26 @@
 	<cooked_physics path="units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1" force="true" />
 	<material_config path="units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1" force="true" />
 	<material_config path="units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1_contour" force="true" />
-	<object path="units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1" force="true" />
+	<object path="units/pd2_dlc_hvh/characters/ene_tazer_hvh_1/ene_tazer_hvh_1" force="true" />-->
 	
-	<!--swat cloaker-->	
-	<unit path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" load="true"/>
+	<!--swat cloaker-->
+		<!--PHASE ME OUT!-->
+	<!--<unit path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" load="true"/>
 	<unit path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1_husk" force="true" load="true"/>
 	<model path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" />
 	<cooked_physics path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" />
 	<material_config path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" />
 	<material_config path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1_contour" force="true" />
 	<object path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/ene_spook_hvh_1" force="true" />	
-	<texture path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/spook_hvh_df" force="true" />	
+	<texture path="units/pd2_dlc_hvh/characters/ene_spook_hvh_1/spook_hvh_df" force="true" />-->
 	
 	<environment path="environments/pd2_env_night/pd2_env_night" force="true"/>
 	<environment path="environments/pd2_env_mid_day/pd2_env_mid_day" force="true"/>
-	<object path="units/payday2/props/lcm_prop_securitydoor/lcm_prop_securitydoor_01" force="true"/>
 	<texture path="units/payday2/props/str_prop_street_signs/str_prop_street_signs_lamppost_df" force="true"/>
 	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_leafs_df" unload="true"/>
 	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_trunk_df" unload="true"/>
 	<texture force="true" path="units/payday2/props/str_prop_park_tree_elm/str_prop_park_tree_elm_trunk_nm" unload="true"/>
 	<material_config path="units/pd2_dlc_friend/nature/terrain/sfm_backdrop" force="true"/>
-	
-	<object path="units/vehicles/animated_cars/police_ny_bank_anim" force="true"/>
 	
 	<!--New logo-->
 	<texture path="guis/textures/game_small_logo" force="true"/>
