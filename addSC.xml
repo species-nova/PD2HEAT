@@ -1056,11 +1056,11 @@
 
 	<!--NEEDS TO BE KILLED vivinite enhanced caps-->
 		<!--DELETE ME ONCE FULLY SCRUBBED-->
-	<!--<object path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
+	<object path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<cooked_physics path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<model path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>
 	<unit path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false" load="true"/>
-	<material_config path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>-->		
+	<material_config path="units/pd2_dlc_vip/characters/ene_acc_fbi_titan/ene_acc_fbi_titan" force="false"/>	
 	
 	<!--Titandozer-->	
 	<object path="units/pd2_dlc_vip/characters/ene_vip_2/ene_vip_2" force="false"/>
