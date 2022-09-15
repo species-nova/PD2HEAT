@@ -1,4 +1,4 @@
---Used for underbarrel grenade launcher pickup (IE: On The Little Friend).
+--Used for underbarrel pickup (IE: On The Little Friend).
 function WeaponAmmo:replenish()
 	local ammo_max_multiplier = managers.player:upgrade_value("player", "extra_ammo_multiplier", 1)
 

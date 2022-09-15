@@ -456,6 +456,9 @@ function WeaponTweakData:init(...)
 			self.osipr.desc_id = "bm_w_osipr_desc"
 			self.osipr.custom = false
 
+			self.osipr_gl.categories = {
+				"grenade_launcher"
+			}
 			self.osipr_gl.AMMO_MAX = 8
 			self.osipr_gl.CLIP_AMMO_MAX = 5
 			self.osipr_gl.tactical_reload = true
@@ -778,6 +781,9 @@ function WeaponTweakData:init(...)
 		}
 		self.groza.reload_speed_multiplier = 0.89 --3.1/3.8s
 		self.groza.swap_speed_multiplier = 0.9
+		self.groza_underbarrel.categories = {
+			"grenade_launcher"
+		}
 		self.groza_underbarrel.single.fire_rate = 0.3
 		self.groza_underbarrel.fire_mode_data.fire_rate = 0.3
 		self.groza_underbarrel.fire_rate_multiplier = 0.4 --100 rpm.
@@ -888,6 +894,9 @@ function WeaponTweakData:init(...)
 			empty_reload_interrupt = 0.59,
 			unequip = 0.6,
 			equip = 0.6
+		}
+		self.contraband_m203.categories = {
+			"grenade_launcher"
 		}
 		self.contraband_m203.single.fire_rate = 0.3
 		self.contraband_m203.fire_mode_data.fire_rate = 0.3
@@ -2637,7 +2646,7 @@ function WeaponTweakData:init(...)
 		self.type54.use_data.selection_index = 2
 		self.type54.kick = self.stat_info.kick_tables.left_recoil
 		self.type54.kick_pattern = self.stat_info.kick_patterns.zigzag_1
-		self.type54.supported = false
+		self.type54.supported = true
 		self.type54.CLIP_AMMO_MAX = 8
 		self.type54.tactical_reload = true
 		self.type54.stats = {
@@ -2658,19 +2667,19 @@ function WeaponTweakData:init(...)
 		}
 		self.type54.reload_speed_multiplier = 1.2 --1.7/2s
 		self.type54_underbarrel.use_data.selection_index = 4
-		self.type54_underbarrel.supported = false
+		self.type54_underbarrel.supported = true
 		self.type54_underbarrel.AMMO_MAX = 15
 		self.type54_underbarrel.stats = {
-			damage = 16,
+			damage = 8,
 			spread = 16,
 			recoil = 5,
 			concealment = 21
 		}
 		self.type54_underbarrel.timers = {
-			reload_not_empty = 2,
-			reload_empty = 2,
-			reload_operational = 1.78,
-			empty_reload_operational = 1.78,
+			reload_not_empty = 2.1,
+			reload_empty = 2.1,
+			reload_operational = 1.84,
+			empty_reload_operational = 1.84,
 			reload_interrupt = 0.4,
 			empty_reload_interrupt = 0.4,
 			unequip = 0.6,
@@ -4733,7 +4742,7 @@ function WeaponTweakData:init(...)
 					end
 
 					if weap.shake.fire_steelsight_multiplier ~= 0 then
-						weap.shake.fire_steelsight_multiplier = weap.shake.fire_steelsight_multiplier / math.abs(weap.shake.fire_steelsight_multiplier)
+						weap.shake.fire_steelsight_multiplier = 0.5 * (weap.shake.fire_steelsight_multiplier / math.abs(weap.shake.fire_steelsight_multiplier))
 					end
 				end
 			end

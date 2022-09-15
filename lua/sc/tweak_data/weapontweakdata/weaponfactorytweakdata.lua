@@ -272,9 +272,9 @@
 		}
 
 		local shotgun_dot_damage = {
-			light = {2.6},
-			medium = {4.1},
-			heavy = {6.1}
+			light = 2.6,
+			medium = 4.1,
+			heavy = 6.1
 		}
 		local flechette = {
 			desc_id = "bm_wp_upg_a_piercing_desc_sc",
@@ -325,14 +325,13 @@
 
 		local function create_shotgun_ammo(preset, damage)
 			local ammo = deep_clone(preset)
-			if type(damage) == "number" then
-				ammo.stats.damage = damage
+
+			if ammo.custom_stats.dot_data then
+				ammo.custom_stats.dot_data.custom_data.dot_length = damage
+			elseif ammo.custom_stats.fire_dot_data then
+				ammo.custom_stats.fire_dot_data.dot_length = damage
 			else
-				if ammo.custom_stats.dot_data then
-					ammo.custom_stats.dot_data.dot_length = damage[1]
-				elseif ammo.custom_stats.fire_dot_data then
-					ammo.custom_stats.fire_dot_data.dot_length = damage[1]
-				end
+				ammo.stats.damage = damage				
 			end
 
 			return ammo
@@ -1000,4 +999,17 @@ function WeaponFactoryTweakData:create_ammunition()
 	self.parts.wpn_fps_upg_a_underbarrel_frag_groza.supported = true
 	self.parts.wpn_fps_upg_a_underbarrel_electric.supported = true
 	self.parts.wpn_fps_upg_a_underbarrel_poison.supported = true
+
+	--Type 54 Underbarrel Ammo Types
+	self.parts.wpn_fps_upg_a_slug_underbarrel.custom_stats = deep_clone(slug.custom_stats)
+	self.parts.wpn_fps_upg_a_slug_underbarrel.custom_stats.underbarrel_stats = deep_clone(slug.stats)
+	self.parts.wpn_fps_upg_a_slug_underbarrel.custom_stats.underbarrel_stats.damage = slug_damage.heavy
+	self.parts.wpn_fps_upg_a_slug_underbarrel.desc_id = slug.desc_id
+	self.parts.wpn_fps_upg_a_slug_underbarrel.supported = true
+
+	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats = deep_clone(flechette.custom_stats)
+	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats.underbarrel_stats = deep_clone(flechette.stats)
+	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats.dot_data.custom_data.dot_length = shotgun_dot_damage.heavy
+	self.parts.wpn_fps_upg_a_piercing_underbarrel.desc_id = slug.desc_id
+	self.parts.wpn_fps_upg_a_piercing_underbarrel.supported = true
 end

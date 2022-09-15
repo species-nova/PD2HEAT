@@ -56,9 +56,9 @@ function WeaponTweakData:_init_stats()
 		setmetatable(self.stats.spread, stat_meta_table)
 
 		self.stat_info.damage_falloff = {
-			base = 1480,
+			base = 1000,
 			max = 4000,
-			acc_bonus = 120,
+			acc_bonus = 150,
 			near_mul = 1,
 			far_mul = 2
 		}
@@ -144,8 +144,8 @@ function WeaponTweakData:_init_stats()
 		}
 
 		--Recoil multiplier. Used for stability, and cosmetic camera shake.
-		self.stat_info.base_recoil_mult = 4.5
-		self.stat_info.recoil_per_stability = -0.2
+		self.stat_info.base_recoil_mult = 3.5
+		self.stat_info.recoil_per_stability = -0.15
 		self.stats.recoil = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.recoil, self.stat_info.base_recoil_mult + (i * self.stat_info.recoil_per_stability))
@@ -524,7 +524,7 @@ function WeaponTweakData:_init_stats()
 		end
 	end
 
-	self.stat_info.autohit_rate = 0.5 --Multiplier for how often autohit should occur at 0 spread. (IE: 1==every shot, 0.5==every other shot, ect)
+	self.stat_info.autohit_rate = 1 --Multiplier for how often autohit should occur at 0 spread. (IE: 1==every shot, 0.5==every other shot, ect)
 	self.stat_info.autohit_angle = 1.5
 	self.stat_info.autohit_head_difficulty_factor = 0.75
 	self.stat_info.ricochet_autohit_angle = 6 --Ricochets need a fairly decently sized auto-hit angle to be usable.

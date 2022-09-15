@@ -1,132 +1,78 @@
-function NewRaycastWeaponBase:heat_init()
-	NewRaycastWeaponBase.super.heat_init(self)
-
-	--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
-	--TODO: Move to autogen stuff in WeaponTweakData.
-	if self:is_category("bow", "crossbow", "saw", "snp") then
-		self._use_armor_piercing = true
-	end
-
-	local weapon_tweak = self:weapon_tweak_data()
-	if weapon_tweak.armor_piercing_chance and weapon_tweak.armor_piercing_chance > 0 then
-		self._use_armor_piercing = true
-	end
-
-	--Shots required for Bullet Hell
-	if managers.player:has_category_upgrade("temporary", "bullet_hell") then
-		local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
-		self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
-	end
-
-	--Pre-allocate some tables so we don't waste time making new ones on every state change, or touching global state in potentially weird ways.
-	--Actual data is set in the sway and vel_overshot functions.
-	self.shakers = {breathing = {amplitude = 0}}
-	self.vel_overshot = {
-		pivot = nil, --Use the pivot from PlayerTweakData in getter.
-		yaw_neg = 0,
-		yaw_pos = 0,
-		pitch_neg = 0,
-		pitch_pos = 0
-	}
-
-	if managers.player:has_category_upgrade("pistol", "desperado_all_guns") then
-		self._can_desperado = true
-	end
-
-	for _, category in ipairs(self:categories()) do
-		if managers.player:has_category_upgrade(category, "ap_bullets") then
-			self._use_armor_piercing = true
-		end
-
-		if managers.player:has_category_upgrade(category, "ricochet_bullets") then
-			self._can_ricochet = true
-		end
-	
-		self._headshot_pierce_damage_mult = (self._headshot_pierce_damage_mult or 1) * managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 1)
-
-		if managers.player:has_category_upgrade(category, "headshot_pierce") then
-			self._can_shoot_through_head = true
-		end
-
-		--Tracker for Mag Dumper Ace
-		if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
-			self._bullets_until_free = math.min(self._bullets_until_free or math.huge, managers.player:upgrade_value(category, "full_auto_free_ammo"))
-		end
-
-		if managers.player:has_category_upgrade(category, "first_shot_bonus_rays") then
-			self._first_shot_bonus_rays = (self._first_shot_bonus_rays or 0) + managers.player:upgrade_value(category, "first_shot_bonus_rays", 0)
-			self._first_shot_active = true
-		end
-
-		if category == "pistol" then
-			self._can_desperado = true
-		end
-
-		if managers.player:has_category_upgrade(category, "offhand_auto_reload") then
-			self._offhand_auto_reload_speed = (self._offhand_auto_reload_speed or 0) + managers.player:upgrade_value(category, "offhand_auto_reload")
-		end
-
-		if managers.player:has_category_upgrade(category, "overhealed_damage_mul") then
-			local overheal_bonus_data = managers.player:upgrade_value(category, "overhealed_damage_mul")
-			self._overheal_damage_dist = math.max(self._overheal_damage_dist or -1, overheal_bonus_data.range or math.huge)
-			self._overheal_damage_mul = (self._overheal_damage_mul or 1) * (overheal_bonus_data.damage or 1)
-		end
-
-		if managers.player:has_category_upgrade(category, "headshots_ignore_medics") then
-			self._ignore_medics_distance = math.max(self._ignore_medics_distance or -1, managers.player:upgrade_value(category, "close_combat_ignore_medics", -1))
-		end
-
-		self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
-	end
-
-	if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
-		self._can_ricochet = true
-	end
-end
-
 local old_update_stats_values = NewRaycastWeaponBase._update_stats_values	
-function NewRaycastWeaponBase:_update_stats_values(disallow_replenish)
-	old_update_stats_values(self, disallow_replenish)
+function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data, ...)
+	old_update_stats_values(self, disallow_replenish, ammo_data, ...)
 	
 	local weapon_tweak = self:weapon_tweak_data()
-	self._reload_speed_mult = weapon_tweak.reload_speed_multiplier or 1
-	self._ads_speed_mult = self._ads_speed_mult or 1
-	
-	self._deploy_anim_override = weapon_tweak.deploy_anim_override or nil
-	self._deploy_ads_stance_mod = weapon_tweak.deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}		
-		
-	if not self:is_npc() then
-		local weapon = {
-			factory_id = self._factory_id,
-			blueprint = self._blueprint
-		}
-		self._current_concealment = managers.blackmarket:calculate_weapon_concealment(weapon) + managers.blackmarket:get_silencer_concealment_modifiers(weapon)
-
-		self._can_shoot_through_titan_shield = weapon_tweak.can_shoot_through_titan_shield
-	
-		self._burst_rounds_fired = nil
-
-		local can_toggle = tweak_data.weapon[self._name_id].CAN_TOGGLE_FIREMODE
-		self._has_auto = not self._locked_fire_mode and (can_toggle or weapon_tweak.FIRE_MODE == "auto")
-		self._has_burst = (can_toggle or weapon_tweak.BURST_COUNT) and weapon_tweak.BURST_COUNT ~= false
-		self._has_single = can_toggle or (self._has_burst and not self._has_auto)
-		
-		self._burst_fire_rate_multiplier = weapon_tweak.BURST_FIRE_RATE_MULTIPLIER or 1
-		self._delayed_burst_recoil = weapon_tweak.DELAYED_BURST_RECOIL
-		self._swap_speed_mul = (weapon_tweak.swap_speed_multiplier or 1) * tweak_data.weapon.stats.mobility[self._current_concealment]
-	end
-	
-	--Set range multipliers.
-	self._damage_near_mul = tweak_data.weapon.stat_info.damage_falloff.near_mul
-	self._damage_far_mul = tweak_data.weapon.stat_info.damage_falloff.far_mul
-
 	if self._ammo_data then
+		if self._ammo_data.rays ~= nil then
+			self._rays = self._ammo_data.rays
+		end
 		if self._ammo_data.damage_near_mul ~= nil then
 			self._damage_near_mul = self._damage_near_mul * self._ammo_data.damage_near_mul
 		end
 		if self._ammo_data.damage_far_mul ~= nil then
 			self._damage_far_mul = self._damage_far_mul * self._ammo_data.damage_far_mul
 		end
+
+		if self._ammo_data.underbarrel_stats then
+			--Add stuff to allow for stat modification for underbarrels using the custom stats table.
+			--The normal stat table is used for the parent gun!
+			local stats_tweak_data = tweak_data.weapon.stats
+			local base_stats = weapon_tweak.stats
+			local stats = deep_clone(base_stats)
+			local parts_stats = self._ammo_data.underbarrel_stats
+			local modifier_stats = weapon_tweak.stats_modifiers
+
+			for stat, _ in pairs(stats) do
+				if parts_stats[stat] then
+					stats[stat] = stats[stat] + parts_stats[stat]
+				end
+
+				stats[stat] = math.clamp(stats[stat], 1, #stats_tweak_data[stat])
+			end
+
+			self._current_stats_indices = stats
+			self._current_stats = {}
+
+			for stat, i in pairs(stats) do
+				self._current_stats[stat] = stats_tweak_data[stat] and stats_tweak_data[stat][i]
+
+				if modifier_stats and modifier_stats[stat] then
+					self._current_stats[stat] = self._current_stats[stat] * modifier_stats[stat]
+				end
+			end
+
+			self._current_stats.alert_size = stats_tweak_data.alert_size[math.clamp(stats.alert_size, 1, #stats_tweak_data.alert_size)]
+
+			if modifier_stats and modifier_stats.alert_size then
+				self._current_stats.alert_size = self._current_stats.alert_size * modifier_stats.alert_size
+			end
+
+			if parts_stats and parts_stats.spread_multi then
+				self._current_stats.spread_multi = parts_stats.spread_multi
+			end
+
+			self._alert_size = self._current_stats.alert_size or self._alert_size
+			self._suppression = self._current_stats.suppression or self._suppression
+			self._zoom = self._current_stats.zoom or self._zoom
+			self._spread = self._current_stats.spread or self._spread
+			self._recoil = self._current_stats.recoil or self._recoil
+			self._spread_moving = self._current_stats.spread_moving or self._spread_moving
+			self._extra_ammo = self._current_stats.extra_ammo or self._extra_ammo
+			self._total_ammo_mod = self._current_stats.total_ammo_mod or self._total_ammo_mod
+			self._damage = ((self._current_stats.damage or 0) + self:damage_addend()) * self:damage_multiplier()
+		end
+	end
+
+	self._ads_speed_mult = self._ads_speed_mult or 1
+	if not self:is_npc() then
+		local weapon = {
+			factory_id = self._factory_id,
+			blueprint = self._blueprint,
+			weapon_id = self._name_id
+		}
+		self._current_concealment = managers.blackmarket:calculate_weapon_concealment(weapon) + managers.blackmarket:get_silencer_concealment_modifiers(weapon)
+		self._swap_speed_mul = (weapon_tweak.swap_speed_multiplier or 1) * tweak_data.weapon.stats.mobility[self._current_concealment]
 	end
 
 	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
@@ -310,32 +256,10 @@ NewRaycastWeaponBase.conditional_accuracy_multiplier = RaycastWeaponBase.conditi
 NewRaycastWeaponBase.moving_spread_penalty_reduction = RaycastWeaponBase.moving_spread_penalty_reduction
 NewRaycastWeaponBase.update_spread = RaycastWeaponBase.update_spread
 NewRaycastWeaponBase._get_spread = RaycastWeaponBase._get_spread
-
-function NewRaycastWeaponBase:recoil_multiplier(...)
-	local rounds = 1
-	if self._delayed_burst_recoil and self:fire_mode() == "burst" then
-		if self:burst_rounds_remaining() then
-			return 0
-		else
-			rounds = self._burst_count
-		end
-	end
-
-	local user_unit = self._setup and self._setup.user_unit
-	local current_state = user_unit:movement()._current_state
-	local mul = 1
-	local player_manager = managers.player
-
-	if not self._in_steelsight then
-		for _, category in ipairs(self:categories()) do
-			mul = mul + player_manager:upgrade_value(category, "hip_fire_recoil_multiplier", 1) - 1
-		end
-	end
-
-	mul = mul + player_manager:temporary_upgrade_value("temporary", "bullet_hell", {recoil_multiplier = 1.0}).recoil_multiplier - 1
-
-	return rounds * self:_convert_add_to_mul(mul)
-end
+NewRaycastWeaponBase.get_damage_falloff = RaycastWeaponBase.get_damage_falloff
+NewRaycastWeaponBase.reload_speed_multiplier = RaycastWeaponBase.reload_speed_multiplier
+NewRaycastWeaponBase.weapon_range = RaycastWeaponBase.weapon_range
+NewRaycastWeaponBase.recoil_multiplier = RaycastWeaponBase.recoil_multiplier
 
 local on_enabled_original = NewRaycastWeaponBase.on_enabled
 function NewRaycastWeaponBase:on_enabled(...)
@@ -347,13 +271,6 @@ local on_disabled_original = NewRaycastWeaponBase.on_disabled
 function NewRaycastWeaponBase:on_disabled(...)
 	self:cancel_burst()
 	return on_disabled_original(self, ...)
-end
-
---Resolves a vanilla issue that can let you cheat timed buffs from one reload->next on shotgun reloads.
---Since all reloads use this cache to avoid 1000 skill checks, it's pretty important to make sure it's invalidated.
---Any time the player starts a new reload.
-function NewRaycastWeaponBase:invalidate_current_reload_speed_multiplier()
-	self._current_reload_speed_multiplier = nil
 end
 
 --Returns the weapon's current concealment stat.
@@ -374,10 +291,6 @@ function NewRaycastWeaponBase:precalculate_ammo_pickup()
 
 		--Pickup multiplier from skills.
 		local pickup_multiplier = managers.player:upgrade_value("player", "fully_loaded_pick_up_multiplier", 1)
-
-		for _, category in ipairs(self:categories()) do
-			pickup_multiplier = pickup_multiplier + managers.player:upgrade_value(category, "pick_up_multiplier", 1) - 1
-		end
 
 		--Apply multiplier from skills and ammo.
 		self._ammo_pickup[1] = self._ammo_pickup[1] * pickup_multiplier * ((self._ammo_data and self._ammo_data.ammo_pickup_min_mul) or 1)
@@ -497,81 +410,6 @@ function NewRaycastWeaponBase:toggle_firemode(skip_post_event)
 	return false
 end
 
-function RaycastWeaponBase:can_ignore_medic_heals(distance)
-	if self._ignore_medics_distance and (not distance or distance < self._ignore_medics_distance) then
-		return self._ignore_medics_distance
-	end
-end
-
-function RaycastWeaponBase:overhealed_damage_mul(distance)
-	if self._overheal_damage_dist and (not distance or distance < self._overheal_damage_dist) then
-		return self._overheal_damage_mul
-	end
-
-	return 1
-end
-
-function NewRaycastWeaponBase:reload_speed_multiplier()
-	if self._current_reload_speed_multiplier then
-		return self._current_reload_speed_multiplier
-	end
-
-	local player_manager = managers.player
-	local user_unit = self._setup and alive(self._setup.user_unit) and self._setup.user_unit
-	local multiplier = 1
-	local clip_empty = self:ammo_base():get_ammo_remaining_in_clip() == 0
-	local offhand_weapon_empty = false
-	if user_unit and user_unit:inventory() and user_unit:inventory().get_next_selection then
-		local offhand_weapon = user_unit:inventory():get_next_selection()
-		offhand_weapon = offhand_weapon and offhand_weapon.unit and offhand_weapon.unit:base()
-		if offhand_weapon then		
-			offhand_weapon_empty = offhand_weapon:clip_empty()
-		end
-	end
-
-	for _, category in ipairs(self:weapon_tweak_data().categories) do
-		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
-		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
-		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "far_combat_reload_speed_multiplier", 0)) - 1
-		multiplier = multiplier + (1 - math.min(self:get_ammo_remaining_in_clip() / self:get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
-		if offhand_weapon_empty then
-			multiplier = multiplier + player_manager:upgrade_value(category, "backup_reload_speed_multiplier", 1) - 1
-		end
-	end
-	multiplier = multiplier + player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1) - 1
-	multiplier = multiplier + player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1) - 1
-	
-	if user_unit and user_unit:movement() then
-		local morale_boost_bonus = user_unit:movement():morale_boost()
-
-		if morale_boost_bonus then
-			multiplier = multiplier + morale_boost_bonus.reload_speed_bonus - 1
-		end
-
-		if self._setup.user_unit:movement():next_reload_speed_multiplier() then
-			multiplier = multiplier + user_unit:movement():next_reload_speed_multiplier() - 1
-		end
-	end
-
-	if self:holds_single_round() and player_manager:has_activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier") then
-		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_reload_speed_multiplier", 1) - 1
-	end
-	
-	if player_manager:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
-		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1) - 1
-	end
-	
-	multiplier = multiplier + player_manager:get_shell_rack_bonus(self)
-	multiplier = multiplier + player_manager:get_temporary_property("bloodthirst_reload_speed", 1) - 1
-	multiplier = multiplier + player_manager:upgrade_value("team", "crew_faster_reload", 1) - 1
-
-	multiplier = multiplier * self:reload_speed_stat()  * self._reload_speed_mult
-	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)
-
-	self._current_reload_speed_multiplier = multiplier
-	return multiplier
-end
-
 function NewRaycastWeaponBase:enter_steelsight_speed_multiplier()
 	--Make mobility affect this.
 	local base_multiplier = tweak_data.weapon.stats.mobility[self._current_concealment]
@@ -595,60 +433,6 @@ function NewRaycastWeaponBase:calculate_ammo_max_per_clip()
 	end
 	ammo = math.round(ammo)
 	return ammo
-end
-
---Call this whenever the gun is fired to update to the latest values, since skills can change it in realtime.
-function NewRaycastWeaponBase:_compute_falloff_distance(user_unit)
-	--Initialize base info.
-	local falloff_info = tweak_data.weapon.stat_info.damage_falloff
-	local current_state = user_unit:movement()._current_state
-	local base_falloff = falloff_info.base
-	local pm = managers.player
-
-	if current_state then
-		--Get bonus from accuracy.
-		local acc_bonus = falloff_info.acc_bonus * (self._current_stats_indices.spread + managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) - 1)
-	
-		--Apply acc/stab bonuses.
-		base_falloff = base_falloff + acc_bonus
-
-		--Get ADS multiplier.
-		if current_state:in_steelsight() then
-			for _, category in ipairs(self:categories()) do
-				base_falloff = base_falloff * pm:upgrade_value(category, "steelsight_range_inc", 1)
-			end
-		end
-	end
-
-	--Apply global range multipliers.
-	base_falloff = base_falloff * (1 + 1 - pm:get_property("desperado", 1))
-	base_falloff = base_falloff * (1 + 1 - pm:temporary_upgrade_value("temporary", "silent_precision", 1))
-
-	base_falloff = base_falloff * (self:weapon_tweak_data().range_mul or 1)
-	for _, category in ipairs(self:categories()) do
-		if tweak_data[category] and tweak_data[category].range_mul then
-			base_falloff = base_falloff * tweak_data[category].range_mul
-		end
-	end
-
-	--Cache falloff values for usage in hitmarkers and other range-related calculations.
-	self.near_falloff_distance = base_falloff * self._damage_near_mul
-	self.far_falloff_distance = base_falloff * self._damage_far_mul
-end
-
-function NewRaycastWeaponBase:weapon_range()
-	if self.near_falloff_distance then
-		return self.near_falloff_distance + self.far_falloff_distance
-	else
-		return self._weapon_range or 20000
-	end
-end
-
-function NewRaycastWeaponBase:get_damage_falloff(damage, col_ray)
-	local distance = col_ray.falloff_distance or col_ray.distance
-
-	--Compute final damage.
-	return (1 - math.min(1, math.max(0, distance - self.near_falloff_distance) / self.far_falloff_distance)) * damage
 end
 
 local orig_on_equip = NewRaycastWeaponBase.on_equip

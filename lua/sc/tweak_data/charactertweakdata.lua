@@ -3457,14 +3457,14 @@ function CharacterTweakData:_presets(tweak_data)
 				},
 				{
 					health_limit = 0.5,
-					light = 0.4,
-					moderate = 0.4,
+					light = 0.5,
+					moderate = 0.3,
 					heavy = 0.2
 				},
 				{
 					health_limit = 0.75,
-					moderate = 0.5,
-					heavy = 0.5
+					moderate = 0.4,
+					heavy = 0.6
 				},
 				{
 					heavy = 1

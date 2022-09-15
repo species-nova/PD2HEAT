@@ -1,32 +1,11 @@
-function ShotgunBase:_update_stats_values()
-	ShotgunBase.super._update_stats_values(self)
-	self:setup_default()
-
-	--Set range multipliers.
-	self._damage_near_mul = tweak_data.weapon.stat_info.damage_falloff.near_mul
-	self._damage_far_mul = tweak_data.weapon.stat_info.damage_falloff.far_mul
-	if self._ammo_data then
-		if self._ammo_data.rays ~= nil then
-			self._rays = self._ammo_data.rays
-		end
-		if self._ammo_data.damage_near_mul ~= nil then
-			self._damage_near_mul = self._damage_near_mul * self._ammo_data.damage_near_mul
-		end
-		if self._ammo_data.damage_far_mul ~= nil then
-			self._damage_far_mul = self._damage_far_mul * self._ammo_data.damage_far_mul
-		end
+function ShotgunBase:_update_stats_values(...)
+	ShotgunBase.super._update_stats_values(self, ...)
+	--Range multipliers are now in NewRaycastWeaponBase
+	if tweak_data.weapon[self._name_id].use_shotgun_reload == nil then
+		self._use_shotgun_reload = self._use_shotgun_reload or self._use_shotgun_reload == nil
+	else
+		self._use_shotgun_reload = tweak_data.weapon[self._name_id].use_shotgun_reload
 	end
-	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
-	for part_id, stats in pairs(custom_stats) do
-		if stats.damage_near_mul then
-			self._damage_near_mul = self._damage_near_mul * stats.damage_near_mul
-		end
-		if stats.damage_far_mul then
-			self._damage_far_mul = self._damage_far_mul * stats.damage_far_mul
-		end
-	end
-
-	self._range = tweak_data.weapon.stat_info.damage_falloff.max * self._damage_far_mul
 end
 
 function ShotgunBase:fire_rate_multiplier()

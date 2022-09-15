@@ -9,7 +9,7 @@ local orig_on_player_enter = PlayerTurretBase.on_player_enter
 function PlayerTurretBase:on_player_enter(player_unit)
 	orig_on_player_enter(self, player_unit)
 	if self._check_skills then
-		NewRaycastWeaponBase.heat_init(self) --Needed for various skill flags. Called in game since the player might have a different build than they did in the loading screen.
+		self:heat_init() --Needed for various skill flags. Called in game since the player might have a different build than they did in the loading screen.
 		self._shield_knock = managers.player:has_category_upgrade("player", "shield_knock")
 		self._check_skills = false
 	end

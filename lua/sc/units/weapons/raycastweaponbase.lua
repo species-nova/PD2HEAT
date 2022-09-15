@@ -1,21 +1,9 @@
-local mvec3_set = mvector3.set
-local mvec3_add = mvector3.add
-local mvec3_dot = mvector3.dot
-local mvec3_sub = mvector3.subtract
-local mvec3_mul = mvector3.multiply
-local mvec3_norm = mvector3.normalize
-local mvec3_dis = mvector3.distance
-local mvec3_dir = mvector3.direction
-local mvec3_set_l = mvector3.set_length
-local mvec3_len = mvector3.length
-local mvec3_cpy = mvector3.copy
-local mvec3_add_scaled = mvector3.add_scaled
-local init_original = RaycastWeaponBase.init
-
 local SPIN_UP = 1
 local SPIN_DOWN = -1
 local NORMAL_AUTOHIT = 1
 local RICOCHET_AUTOHIT = 2
+
+local init_original = RaycastWeaponBase.init
 function RaycastWeaponBase:init(unit)
 	init_original(self, unit)
 	self:heat_init()
@@ -26,9 +14,9 @@ function RaycastWeaponBase:heat_init()
 		kills = 0,
 		from = Vector3()
 	}
+	local weapon_tweak = tweak_data.weapon[self._name_id] or self._tweak_data
 	
 	--self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
-
 	if Global.game_settings and Global.game_settings.one_down then
 		self._bullet_slotmask = self._bullet_slotmask + 3
 	else
@@ -36,12 +24,29 @@ function RaycastWeaponBase:heat_init()
 		self._bullet_slotmask = managers.modifiers:modify_value("RaycastWeaponBase:setup:weapon_slot_mask", self._bullet_slotmask)
 	end
 
-	self._headshot_pierce_damage_mult = 1 --See NewRaycastWeaponBase for where upgrades set this value.
+	self._deploy_anim_override = weapon_tweak.deploy_anim_override or nil
+	self._deploy_ads_stance_mod = weapon_tweak.deploy_ads_stance_mod or {translation = Vector3(0, 0, 0), rotation = Rotation(0, 0, 0)}
+
+	self._headshot_pierce_damage_mult = 1
 	self._pierce_damage_mult = 0.5
 	self._can_shoot_through_head = self._can_shoot_through_enemy
+	self._can_shoot_through_titan_shield = weapon_tweak.can_shoot_through_titan_shield
+	self._reload_speed_mult = weapon_tweak.reload_speed_multiplier or 1
+
+	local can_toggle = weapon_tweak.CAN_TOGGLE_FIREMODE
+	self._has_auto = not self._locked_fire_mode and (can_toggle or weapon_tweak.FIRE_MODE == "auto")
+	self._has_burst = (can_toggle or weapon_tweak.BURST_COUNT) and weapon_tweak.BURST_COUNT ~= false
+	self._has_single = can_toggle or (self._has_burst and not self._has_auto)
+
+	--Set range multipliers.
+	self._damage_near_mul = tweak_data.weapon.stat_info.damage_falloff.near_mul
+	self._damage_far_mul = tweak_data.weapon.stat_info.damage_falloff.far_mul
+	
+	self._burst_rounds_fired = nil
+	self._burst_fire_rate_multiplier = weapon_tweak.BURST_FIRE_RATE_MULTIPLIER or 1
+	self._delayed_burst_recoil = weapon_tweak.DELAYED_BURST_RECOIL
 
 	--Partially determines bloom decay rate.
-	local weapon_tweak = tweak_data.weapon[self._name_id]
 	self._base_fire_rate = (weapon_tweak.fire_mode_data and weapon_tweak.fire_mode_data.fire_rate or 0) / (weapon_tweak.fire_rate_multiplier or 1)
 
 	--Minigun spinning mechanics.
@@ -58,6 +63,89 @@ function RaycastWeaponBase:heat_init()
 	self._rays = weapon_tweak.rays or 1
 
 	self._autohit_prog = 0
+
+	if weapon_tweak.supported then
+		--Since armor piercing chance is no longer used, lets use weapon category to determine armor piercing baseline.
+		--TODO: Move to autogen stuff in WeaponTweakData.
+		if self:is_category("bow", "crossbow", "saw", "snp") then
+			self._use_armor_piercing = true
+		end
+
+		if weapon_tweak.armor_piercing_chance and weapon_tweak.armor_piercing_chance > 0 then
+			self._use_armor_piercing = true
+		end
+
+		--Shots required for Bullet Hell
+		if managers.player:has_category_upgrade("temporary", "bullet_hell") then
+			local bullet_hell_stats = managers.player:upgrade_value("temporary", "bullet_hell")[1]
+			self._shots_before_bullet_hell = (not bullet_hell_stats.smg_only or self:is_category("smg")) and bullet_hell_stats.shots_required  
+		end
+
+		--Pre-allocate some tables so we don't waste time making new ones on every state change, or touching global state in potentially weird ways.
+		--Actual data is set in the sway and vel_overshot functions.
+		self.shakers = {breathing = {amplitude = 0}}
+		self.vel_overshot = {
+			pivot = nil, --Use the pivot from PlayerTweakData in getter.
+			yaw_neg = 0,
+			yaw_pos = 0,
+			pitch_neg = 0,
+			pitch_pos = 0
+		}
+
+		if managers.player:has_category_upgrade("pistol", "desperado_all_guns") then
+			self._can_desperado = true
+		end
+
+		for _, category in ipairs(self:categories()) do
+			if managers.player:has_category_upgrade(category, "ap_bullets") then
+				self._use_armor_piercing = true
+			end
+
+			if managers.player:has_category_upgrade(category, "ricochet_bullets") then
+				self._can_ricochet = true
+			end
+		
+			self._headshot_pierce_damage_mult = (self._headshot_pierce_damage_mult or 1) * managers.player:upgrade_value(category, "headshot_pierce_damage_mult", 1)
+
+			if managers.player:has_category_upgrade(category, "headshot_pierce") then
+				self._can_shoot_through_head = true
+			end
+
+			--Tracker for Mag Dumper Ace
+			if managers.player:has_category_upgrade(category, "full_auto_free_ammo") then
+				self._bullets_until_free = math.min(self._bullets_until_free or math.huge, managers.player:upgrade_value(category, "full_auto_free_ammo"))
+			end
+
+			if managers.player:has_category_upgrade(category, "first_shot_bonus_rays") then
+				self._first_shot_bonus_rays = (self._first_shot_bonus_rays or 0) + managers.player:upgrade_value(category, "first_shot_bonus_rays", 0)
+				self._first_shot_active = true
+			end
+
+			if category == "pistol" then
+				self._can_desperado = true
+			end
+
+			if managers.player:has_category_upgrade(category, "offhand_auto_reload") then
+				self._offhand_auto_reload_speed = (self._offhand_auto_reload_speed or 0) + managers.player:upgrade_value(category, "offhand_auto_reload")
+			end
+
+			if managers.player:has_category_upgrade(category, "overhealed_damage_mul") then
+				local overheal_bonus_data = managers.player:upgrade_value(category, "overhealed_damage_mul")
+				self._overheal_damage_dist = math.max(self._overheal_damage_dist or -1, overheal_bonus_data.range or math.huge)
+				self._overheal_damage_mul = (self._overheal_damage_mul or 1) * (overheal_bonus_data.damage or 1)
+			end
+
+			if managers.player:has_category_upgrade(category, "headshots_ignore_medics") then
+				self._ignore_medics_distance = math.max(self._ignore_medics_distance or -1, managers.player:upgrade_value(category, "close_combat_ignore_medics", -1))
+			end
+
+			self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
+		end
+
+		if managers.player:has_category_upgrade("weapon", "ricochet_bullets") then
+			self._can_ricochet = true
+		end
+	end
 end
 
 local setup_original = RaycastWeaponBase.setup
@@ -92,7 +180,6 @@ function RaycastWeaponBase:_iter_ray_hits(all_hits, user_unit, damage)
 	local cop_kill_count = 0
 	local cop_headshot_count = 0
 	local hit_result = nil
-
 	--Determine best hits, and handle ray-level info like penetration and related damage mults.
 	for i = 1, #all_hits do
 		local ray_hits = all_hits[i]
@@ -238,6 +325,7 @@ local mvec_to = Vector3()
 local mvec_spread_direction = Vector3()
 function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul)
 	if self:gadget_overrides_weapon_functions() then
+		--Self is required in this call since underbarrel launchers rely on the weapon_base of the parent gun.
 		return self:gadget_function_override("_fire_raycast", self, user_unit, from_pos, direction, dmg_mul, shoot_player, spread_mul, autohit_mul)
 	end
 
@@ -268,7 +356,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 		--Check for auto hit if no enemy was hit.
 		if self._autoaim and not hit_enemy then
-			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, NORMAL_AUTOHIT)
+			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, mvec_to, direction, ray_distance, NORMAL_AUTOHIT)
 			if auto_ray_hits then
 				hit_enemy = auto_hit_enemy	
 				ray_hits = auto_ray_hits
@@ -386,7 +474,7 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 
 	--Give more generous auto-aim.
 	if not ricochet_hit_enemy then
-		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ray_distance, RICOCHET_AUTOHIT, ray_distance)
+		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_vec, direction, ray_distance, RICOCHET_AUTOHIT)
 		if auto_ray_hits then
 			ricochet_hit_enemy = auto_hit_enemy
 			ray_hits = auto_ray_hits
@@ -468,10 +556,95 @@ function RaycastWeaponBase:_collect_hits(from, to, is_ricochet)
 	return unique_hits, hit_enemy
 end
 
---Call this whenever the gun is fired to update to the latest values, since skills can change it in realtime for players.
+function RaycastWeaponBase:get_damage_falloff(damage, col_ray)
+	local distance = col_ray.falloff_distance or col_ray.distance
+	return (1 - math.min(1, math.max(0, distance - self.near_falloff_distance) / self.far_falloff_distance)) * damage
+end
+
+--Call this whenever the gun is fired to update to the latest values, since skills can change it in realtime.
 function RaycastWeaponBase:_compute_falloff_distance(user_unit)
-	self.near_falloff_distance = self._weapon_range
-	self.far_falloff_distance = self._weapon_range
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("_compute_falloff_distance", user_unit)
+	end
+
+	--Initialize base info.
+	local falloff_info = tweak_data.weapon.stat_info.damage_falloff
+	local current_state = user_unit:movement()._current_state
+	local base_falloff = falloff_info.base
+	local pm = managers.player
+	if current_state then
+		--Get bonus from accuracy.
+		local acc_bonus = falloff_info.acc_bonus * (self._current_stats_indices.spread + managers.blackmarket:accuracy_index_addend(self._name_id, self:categories(), self._silencer, current_state, self:fire_mode(), self._blueprint) - 1)
+	
+		--Apply acc/stab bonuses.
+		base_falloff = base_falloff + acc_bonus
+
+		--Get ADS multiplier.
+		if current_state:in_steelsight() then
+			for _, category in ipairs(self:categories()) do
+				base_falloff = base_falloff * pm:upgrade_value(category, "steelsight_range_inc", 1)
+			end
+		end
+	end
+
+	--Apply global range multipliers.
+	base_falloff = base_falloff * (1 + 1 - pm:get_property("desperado", 1))
+	base_falloff = base_falloff * (1 + 1 - pm:temporary_upgrade_value("temporary", "silent_precision", 1))
+
+	base_falloff = base_falloff * (self:weapon_tweak_data().range_mul or 1)
+	for _, category in ipairs(self:categories()) do
+		if tweak_data[category] and tweak_data[category].range_mul then
+			base_falloff = base_falloff * tweak_data[category].range_mul
+		end
+	end
+
+	--Cache falloff values for usage in hitmarkers and other range-related calculations.
+	self.near_falloff_distance = base_falloff * self._damage_near_mul
+	self.far_falloff_distance = base_falloff * self._damage_far_mul
+	self.last_hit_falloff = false
+end
+
+function RaycastWeaponBase:_convert_add_to_mul(value)
+	if value > 1 then
+		return 1 / value
+	elseif value < 1 then
+		return math.abs(value - 1) + 1
+	else
+		return 1
+	end
+end
+
+function RaycastWeaponBase:recoil_multiplier()
+	local rounds = 1
+	if self._delayed_burst_recoil and self:fire_mode() == "burst" then
+		if self:burst_rounds_remaining() then
+			return 0
+		else
+			rounds = self._burst_count
+		end
+	end
+
+	local user_unit = self._setup and self._setup.user_unit
+	local current_state = user_unit:movement()._current_state
+	local mul = 1
+
+	if not self._in_steelsight then
+		for _, category in ipairs(self:categories()) do
+			mul = mul + managers.player:upgrade_value(category, "hip_fire_recoil_multiplier", 1) - 1
+		end
+	end
+
+	mul = mul + managers.player:temporary_upgrade_value("temporary", "bullet_hell", {recoil_multiplier = 1.0}).recoil_multiplier - 1
+
+	return rounds * self:_convert_add_to_mul(mul)
+end
+
+function RaycastWeaponBase:weapon_range()
+	if self.near_falloff_distance then
+		return self.near_falloff_distance + self.far_falloff_distance
+	else
+		return self._weapon_range or 20000
+	end
 end
 
 --Cache shield attack_data table.
@@ -643,10 +816,87 @@ function RaycastWeaponBase:roll_autohit()
 	return false
 end
 
+
+--Resolves a vanilla issue that can let you cheat timed buffs from one reload->next on shotgun reloads.
+--Since all reloads use this cache to avoid 1000 skill checks, it's pretty important to make sure it's invalidated.
+--Any time the player starts a new reload.
+function RaycastWeaponBase:invalidate_current_reload_speed_multiplier()
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("invalidate_current_reload_speed_multiplier")
+	end
+
+	self._current_reload_speed_multiplier = nil
+end
+
+function RaycastWeaponBase:reload_speed_multiplier()
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("reload_speed_multiplier", user_unit)
+	end
+
+	if self._current_reload_speed_multiplier then
+		return self._current_reload_speed_multiplier
+	end
+
+	local player_manager = managers.player
+	local user_unit = self._setup and alive(self._setup.user_unit) and self._setup.user_unit
+	local multiplier = 1
+	local clip_empty = self:ammo_base():get_ammo_remaining_in_clip() == 0
+	local offhand_weapon_empty = false
+	if user_unit and user_unit:inventory() and user_unit:inventory().get_next_selection then
+		local offhand_weapon = user_unit:inventory():get_next_selection()
+		offhand_weapon = offhand_weapon and offhand_weapon.unit and offhand_weapon.unit:base()
+		if offhand_weapon then		
+			offhand_weapon_empty = offhand_weapon:clip_empty()
+		end
+	end
+
+	for _, category in ipairs(self:categories()) do
+		multiplier = multiplier + player_manager:upgrade_value(category, "reload_speed_multiplier", 1) - 1
+		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "close_combat_reload_speed_multiplier", 0)) - 1
+		multiplier = multiplier + (1 + player_manager:close_combat_upgrade_value(category, "far_combat_reload_speed_multiplier", 0)) - 1
+		multiplier = multiplier + (1 - math.min(self:ammo_base():get_ammo_remaining_in_clip() / self:ammo_base():get_ammo_max_per_clip(), 1)) * (player_manager:upgrade_value(category, "empty_reload_speed_multiplier", 1) - 1)
+		if offhand_weapon_empty then
+			multiplier = multiplier + player_manager:upgrade_value(category, "backup_reload_speed_multiplier", 1) - 1
+		end
+	end
+	multiplier = multiplier + player_manager:upgrade_value("weapon", "passive_reload_speed_multiplier", 1) - 1
+	multiplier = multiplier + player_manager:upgrade_value(self._name_id, "reload_speed_multiplier", 1) - 1
+	
+	if user_unit and user_unit:movement() then
+		local morale_boost_bonus = user_unit:movement():morale_boost()
+
+		if morale_boost_bonus then
+			multiplier = multiplier + morale_boost_bonus.reload_speed_bonus - 1
+		end
+
+		if self._setup.user_unit:movement():next_reload_speed_multiplier() then
+			multiplier = multiplier + user_unit:movement():next_reload_speed_multiplier() - 1
+		end
+	end
+
+	if self:holds_single_round() and player_manager:has_activate_temporary_upgrade("temporary", "single_shot_reload_speed_multiplier") then
+		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_reload_speed_multiplier", 1) - 1
+	end
+	
+	if player_manager:has_activate_temporary_upgrade("temporary", "single_shot_fast_reload") then
+		multiplier = multiplier + player_manager:temporary_upgrade_value("temporary", "single_shot_fast_reload", 1) - 1
+	end
+	
+	multiplier = multiplier + player_manager:get_shell_rack_bonus(self)
+	multiplier = multiplier + player_manager:get_temporary_property("bloodthirst_reload_speed", 1) - 1
+	multiplier = multiplier + player_manager:upgrade_value("team", "crew_faster_reload", 1) - 1
+
+	multiplier = multiplier * self:reload_speed_stat() * self._reload_speed_mult
+	multiplier = managers.modifiers:modify_value("WeaponBase:GetReloadSpeedMultiplier", multiplier)
+
+	self._current_reload_speed_multiplier = multiplier
+	return multiplier
+end
+
 --Determines if a near hit should turn into an auto_hit.
 local body_vec = Vector3()
 local head_vec = Vector3()
-function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, autohit_type, max_dist_override)
+function RaycastWeaponBase:_check_near_hits(from_pos, to_pos, direction, cone_distance, autohit_type)
 	--Check if autohit occurs.
 	--If use_aim_assist is set to true (IE: For controller players ADSing), then always autoaim.
 	--Same with ricocheting bullets.
@@ -663,7 +913,7 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, 
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit.
 	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
 	local autohit_cone_radius = cone_distance * math.tan(autohit_angle)
-	local autohit_candidates = self._unit:find_units("cone", from_pos, direction, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
+	local autohit_candidates = self._unit:find_units("cone", from_pos, to_pos, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
 	local autohit_dir = Vector3()
 	for _, enemy in pairs(autohit_candidates) do
 		--Get head and body positions of the enemy, and determine which one is closer to where the player was aiming to determine final raycast direction.
@@ -671,25 +921,25 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, cone_distance, 
 		local enemy_pos_data = enemy:character_damage():get_ranged_attack_autotarget_data_fast()
 		
 		local head_pos = enemy_pos_data.head:position()
-		local head_vec_len = mvec3_dir(head_vec, from_pos, head_pos)
-		local head_error_angle = math.acos(mvec3_dot(direction, head_vec))
+		local head_vec_len = mvector3.direction(head_vec, from_pos, head_pos)
+		local head_error_angle = math.acos(mvector3.dot(direction, head_vec))
 
 		local body_pos = enemy_pos_data.body:position()
-		local body_vec_len = mvec3_dir(body_vec, from_pos, body_pos)
-		local body_error_angle = math.acos(mvec3_dot(direction, body_vec))
+		local body_vec_len = mvector3.direction(body_vec, from_pos, body_pos)
+		local body_error_angle = math.acos(mvector3.dot(direction, body_vec))
 
 		local autohit_dir_len = 0
 		if head_error_angle * tweak_data.weapon.stat_info.autohit_head_difficulty_factor < body_error_angle then
-			mvec3_set(autohit_dir, head_vec)
+			mvector3.set(autohit_dir, head_vec)
 			autohit_dir_len = head_vec_len
 		else
-			mvec3_set(autohit_dir, body_vec)
+			mvector3.set(autohit_dir, body_vec)
 			autohit_dir_len = body_vec_len
 		end
 
 		--Convert the target vector to originate from the player and go the distance to the enemy head.
-		mvec3_mul(autohit_dir, autohit_dir_len)
-		mvec3_add(autohit_dir, from_pos)
+		mvector3.multiply(autohit_dir, autohit_dir_len)
+		mvector3.add(autohit_dir, from_pos)
 
 		local unique_hits, hit_enemy = self:_collect_hits(from_pos, autohit_dir, autohit_type == RICOCHET_AUTOHIT)
 		if hit_enemy then
@@ -783,9 +1033,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 	if is_player then
 		--Invalidate old falloff data.
 		self:_compute_falloff_distance(user_unit)
-		self.last_hit_falloff = false
-
-		self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
+		self:add_bloom_stack()
 
 		if managers.player:has_activate_temporary_upgrade("temporary", "no_ammo_cost_buff") then
 			managers.player:deactivate_temporary_upgrade("temporary", "no_ammo_cost_buff")
@@ -872,7 +1120,7 @@ end
 --Updates the position in the weapon kick pattern table, and returns the desired value.
 function RaycastWeaponBase:do_kick_pattern()
 	if not self._kick_pattern then
-		log(self._name_id .. " is missing a kick pattern!")
+		heat.log(self._name_id, " is missing a kick pattern!")
 		return {math.random(), math.random()}
 	end
 
@@ -885,7 +1133,19 @@ function RaycastWeaponBase:do_kick_pattern()
 end
 
 function RaycastWeaponBase:holds_single_round()
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("holds_single_round")
+	end
 	return self:get_ammo_max_per_clip() == 1
+end
+
+--Allows underbarrels to work with weapon category based skills properly.
+function RaycastWeaponBase:categories()
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("categories")
+	end
+	
+	return self._tweak_data and self._tweak_data.categories or self:weapon_tweak_data().categories
 end
 
 function RaycastWeaponBase:get_accuracy_addend()
@@ -893,7 +1153,11 @@ function RaycastWeaponBase:get_accuracy_addend()
 end
 
 --Calculate spread value. Done once per frame.
-function RaycastWeaponBase:update_spread(current_state, t, dt)	
+function RaycastWeaponBase:update_spread(current_state, t, dt)
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("update_spread", current_state, t, dt)
+	end
+
 	if not current_state then
 		self._current_spread = 0
 		return
@@ -904,7 +1168,6 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 
 	--Moving penalty to spread, based on stability stat- added to total area.
 	if current_state._moving or current_state._state_data.in_air then
-
 		--Get spread area from stability stat.
 		local moving_spread = math.max(self._spread_moving, 0)
 
@@ -935,6 +1198,13 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 	self._current_spread = math.sqrt((self._current_spread_area)/math.pi)
 end
 
+function RaycastWeaponBase:add_bloom_stack()
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("add_bloom_stack")
+	end
+	self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
+end
+
 function RaycastWeaponBase:multiply_bloom(amount)
 	self._bloom_stacks = self._bloom_stacks * amount
 end
@@ -950,7 +1220,7 @@ function RaycastWeaponBase:conditional_accuracy_multiplier(movement_state)
 
 	if movement_state == "steelsight" or movement_state == "moving_steelsight" then
 		mul = mul * pm:upgrade_value("weapon", "steelsight_accuracy_inc", 1)
-		local categories = self:weapon_tweak_data().categories
+		local categories = self:categories()
 		for i = 1, #categories do
 			mul = mul * pm:upgrade_value(categories[i], "steelsight_accuracy_inc", 1)
 		end
@@ -964,7 +1234,7 @@ end
 --Multiplier for movement penalty to spread.
 function RaycastWeaponBase:moving_spread_penalty_reduction()
 	local spread_multiplier = 1
-	local categories = self:weapon_tweak_data().categories
+	local categories = self:categories()
 	for i = 1, #categories do
 		spread_multiplier = spread_multiplier * managers.player:upgrade_value(categories[i], "move_spread_multiplier", 1)
 	end
@@ -973,7 +1243,7 @@ end
 
 function RaycastWeaponBase:bloom_spread_penality_reduction()
 	local spread_multiplier = 1
-	local categories = self:weapon_tweak_data().categories
+	local categories = self:categories()
 	for i = 1, #categories do
 		spread_multiplier = spread_multiplier * managers.player:upgrade_value(categories[i], "bloom_spread_multiplier", 1)
 	end
@@ -982,6 +1252,10 @@ end
 
 --Return cached spread value.
 function RaycastWeaponBase:_get_spread(user_unit)
+	if self:gadget_overrides_weapon_functions() then
+		return self:gadget_function_override("_get_spread", user_unit)
+	end
+
 	local spread = self._current_spread or self._spread
 	return spread, spread
 end
@@ -1006,12 +1280,17 @@ function RaycastWeaponBase:shake_multiplier(multiplier_type)
 	return 1
 end
 
-
-function RaycastWeaponBase:can_ignore_medic_heals()
-	return false
+function RaycastWeaponBase:can_ignore_medic_heals(distance)
+	if self._ignore_medics_distance and (not distance or distance < self._ignore_medics_distance) then
+		return self._ignore_medics_distance
+	end
 end
 
-function RaycastWeaponBase:overhealed_damage_mul()
+function RaycastWeaponBase:overhealed_damage_mul(distance)
+	if self._overheal_damage_dist and (not distance or distance < self._overheal_damage_dist) then
+		return self._overheal_damage_mul
+	end
+
 	return 1
 end
 
@@ -1362,7 +1641,6 @@ end
 			if col_ray.count then --If multiple rays hit, then multiply the chance by the number of rays. Requires a clone to avoid mutating global state.
 				fire_dot_data = clone(weapon_unit:base()._ammo_data.fire_dot_data)
 				fire_dot_data.dot_trigger_chance = fire_dot_data.dot_trigger_chance * col_ray.count
-				log("Trigger chance: " .. tostring(fire_dot_data.dot_trigger_chance))
 			else
 				fire_dot_data = clone(weapon_unit:base()._ammo_data.fire_dot_data)
 			end

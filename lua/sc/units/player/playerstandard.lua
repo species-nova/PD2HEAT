@@ -2342,18 +2342,18 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 
 					local fired = nil
 					if weap_base:burst_rounds_remaining() then
-						fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+						fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 					elseif fire_mode == "auto" then
-						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 					else
 						if input.btn_primary_attack_press and start_shooting then
 							--TODO: Investigate removing spread/autohit muls, since they are no longer relevant.
-							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 						elseif fire_on_release then
 							if input.btn_primary_attack_release then
-								fired = weap_base:trigger_released(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+								fired = weap_base:trigger_released(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 							elseif input.btn_primary_attack_state then
-								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, nil, 1, 1)
+								weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 							end
 						end
 					end
