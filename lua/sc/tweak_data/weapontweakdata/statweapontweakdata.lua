@@ -56,9 +56,9 @@ function WeaponTweakData:_init_stats()
 		setmetatable(self.stats.spread, stat_meta_table)
 
 		self.stat_info.damage_falloff = {
-			base = 1000,
+			base = 1500,
 			max = 4000,
-			acc_bonus = 150,
+			acc_bonus = 120,
 			near_mul = 1,
 			far_mul = 2
 		}
