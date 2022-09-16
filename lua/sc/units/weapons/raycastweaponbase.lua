@@ -912,7 +912,7 @@ function RaycastWeaponBase:_check_near_hits(from_pos, to_pos, direction, cone_di
 
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit.
 	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
-	local autohit_cone_radius = cone_distance * math.tan(autohit_angle)
+	local autohit_cone_radius = cone_distance * math.tan(autohit_angle + self:_get_spread())
 	local autohit_candidates = self._unit:find_units("cone", from_pos, to_pos, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
 	local autohit_dir = Vector3()
 	for _, enemy in pairs(autohit_candidates) do
