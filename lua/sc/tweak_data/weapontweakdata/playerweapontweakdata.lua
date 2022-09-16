@@ -2665,7 +2665,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.35
 		}
-		self.type54.reload_speed_multiplier = 1.2 --1.7/2s
+		self.type54.reload_speed_multiplier = 1.3 --1.5/1.8s
 		self.type54_underbarrel.use_data.selection_index = 4
 		self.type54_underbarrel.supported = true
 		self.type54_underbarrel.AMMO_MAX = 15
@@ -2684,9 +2684,10 @@ function WeaponTweakData:init(...)
 			empty_reload_interrupt = 0.4,
 			unequip = 0.6,
 			equip = 0.6,
-			equip_underbarrel = 0.4,
+			equip_underbarrel = 0.4, --TODO: Look into adding a multiplier to let players do this 2x faster!
 			unequip_underbarrel = 0.4
 		}
+		self.type54_underbarrel.reload_speed_multiplier = 1.4 --1.5s
 
 	--Medium Pistol (Secondary)
 		--Gruber Kurz
