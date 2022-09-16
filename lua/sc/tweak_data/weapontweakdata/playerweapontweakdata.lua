@@ -3906,7 +3906,6 @@ function WeaponTweakData:init(...)
 		}
 
 		--Izhma 12G
-		self.saiga.rays = 9
 		self.saiga.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.saiga.CLIP_AMMO_MAX = 5
 		self.saiga.fire_mode_data.fire_rate = 0.1
