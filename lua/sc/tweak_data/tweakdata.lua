@@ -101,9 +101,10 @@ tweak_data.pistol = {range_mul = 0.8}
 tweak_data.akimbo = {swap_bonus = 0.75, range_mul = 0.8}
 tweak_data.smg = {range_mul = 0.8}
 tweak_data.lmg = {range_mul = 1.25} --Stacks with smg to give a mul of 1
-tweak_data.snp = {range_mul = 1.25}
+tweak_data.snp = {range_mul = 1.5} --Stacks with smg to give a mul of 1.2
+tweak_data.assault_rifle = {range_mul = 1.25}
 tweak_data.minigun = {range_mul = 1.5}
-tweak_data.shotgun = {range_mul = 0.6}
+tweak_data.shotgun = {range_mul = 0.7}
 
 
 local function apply_rocket_frag(projectile)

@@ -356,7 +356,7 @@ function RaycastWeaponBase:_fire_raycast(user_unit, from_pos, direction, dmg_mul
 
 		--Check for auto hit if no enemy was hit.
 		if self._autoaim and not hit_enemy then
-			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, mvec_to, direction, ray_distance, NORMAL_AUTOHIT)
+			local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, NORMAL_AUTOHIT)
 			if auto_ray_hits then
 				hit_enemy = auto_hit_enemy	
 				ray_hits = auto_ray_hits
@@ -474,7 +474,7 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 
 	--Give more generous auto-aim.
 	if not ricochet_hit_enemy then
-		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_vec, direction, ray_distance, RICOCHET_AUTOHIT)
+		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, RICOCHET_AUTOHIT)
 		if auto_ray_hits then
 			ricochet_hit_enemy = auto_hit_enemy
 			ray_hits = auto_ray_hits
@@ -894,9 +894,10 @@ function RaycastWeaponBase:reload_speed_multiplier()
 end
 
 --Determines if a near hit should turn into an auto_hit.
+local cone_vec = Vector3()
 local body_vec = Vector3()
 local head_vec = Vector3()
-function RaycastWeaponBase:_check_near_hits(from_pos, to_pos, direction, cone_distance, autohit_type)
+function RaycastWeaponBase:_check_near_hits(from_pos, direction, shot_distance, autohit_type)
 	--Check if autohit occurs.
 	--If use_aim_assist is set to true (IE: For controller players ADSing), then always autoaim.
 	--Same with ricocheting bullets.
@@ -910,10 +911,16 @@ function RaycastWeaponBase:_check_near_hits(from_pos, to_pos, direction, cone_di
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
 
+	local cone_distance = math.min(shot_distance, self.near_falloff_distance)
+	mvector3.set(cone_vec, direction)
+	mvector3.multiply(cone_vec, cone_distance)
+	mvector3.add(cone_vec, from_pos)
+
 	--Collect potential hitrays for all enemies that are within the autoaim cone, and return any valid bullet directions that lead to a hit.
-	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle or tweak_data.weapon.stat_info.autohit_angle
-	local autohit_cone_radius = cone_distance * math.tan(autohit_angle + self:_get_spread())
-	local autohit_candidates = self._unit:find_units("cone", from_pos, to_pos, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
+	local autohit_angle = autohit_type == RICOCHET_AUTOHIT and tweak_data.weapon.stat_info.ricochet_autohit_angle
+		or (tweak_data.weapon.stat_info.autohit_angle + self:_get_spread())
+	local autohit_cone_radius = cone_distance * math.tan(autohit_angle)
+	local autohit_candidates = self._unit:find_units("cone", from_pos, cone_vec, autohit_cone_radius, managers.slot:get_mask("player_autoaim"))
 	local autohit_dir = Vector3()
 	for _, enemy in pairs(autohit_candidates) do
 		--Get head and body positions of the enemy, and determine which one is closer to where the player was aiming to determine final raycast direction.

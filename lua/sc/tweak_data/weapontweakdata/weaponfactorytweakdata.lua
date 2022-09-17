@@ -209,15 +209,16 @@
 
 	--Shotgun Ammo Types
 		local slug_damage = {
-			light = 27,
-			medium = 45,
-			heavy = 72
+			light = 45,
+			medium = 72,
+			heavy = 90
 		}
 		local slug = {
 			desc_id = "bm_wp_upg_a_slug_desc_sc",
 			supported = true,
 			stats = {
-				value = 6
+				value = 6,
+				spread = 2
 			},
 			custom_stats = {
 				muzzleflash = "effects/payday2/particles/weapons/762_auto_fps",
@@ -232,9 +233,9 @@
 		}
 
 		local he_damage = {
-			light = 47,
-			medium = 75,
-			heavy = 92
+			light = 75,
+			medium = 92,
+			heavy = 140
 		}
 		local he_slug = {
 			desc_id = "bm_wp_upg_a_he_desc_sc",
@@ -253,9 +254,9 @@
 		}
 
 		local buck_damage = {
-			light = 3,
-			medium = 5,
-			heavy = 8
+			light = 5,
+			medium = 8,
+			heavy = 10
 		}
 		local d0buck = {
 			desc_id = "bm_wp_upg_a_custom_desc_sc",
@@ -265,29 +266,31 @@
 				spread = -3
 			},
 			custom_stats = {
-				damage_near_mul = 0.6,
-				damage_far_mul = 0.6,
-				rays = 7
+				rays = 6,
+				damage_near_mul = 0.8,
+				damage_far_mul = 0.8,
 			}
 		}
 
 		local shotgun_dot_damage = {
-			light = 2.6,
-			medium = 4.1,
-			heavy = 6.1
+			light = 4.6,
+			medium = 6.1,
+			heavy = 8.1
 		}
 		local flechette = {
 			desc_id = "bm_wp_upg_a_piercing_desc_sc",
 			stats = {
-				value = 6,
-				spread = -3
+				value = 6
 			},
 			custom_stats = {
+				armor_piercing_add = 1,
+				ammo_pickup_min_mul = 0.85,
+				ammo_pickup_max_mul = 0.85,
 				damage_near_mul = 1.25,
 				damage_far_mul = 1.25,
-				armor_piercing_add = 1,
-				rays = 6,
+				rays = 5,
 				bullet_class = "BleedBulletBase",
+				can_shoot_through_enemy = true,
 				dot_data = { 
 					type = "bleed",
 					custom_data = {
@@ -300,14 +303,13 @@
 		local dragons_breath = {
 			desc_id = "bm_wp_upg_a_dragons_breath_desc_sc",
 			stats = {
-				value = 6,
-				spread = -3
+				value = 6
 			},
 			custom_stats = {
 				ignore_statistic = true,
 				bullet_class = "FlameBulletBase",
 				armor_piercing_add = 1,
-				rays = 6,
+				rays = 5,
 				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_dragons_breath",
 				fire_dot_data = {
 					dot_damage = 1,

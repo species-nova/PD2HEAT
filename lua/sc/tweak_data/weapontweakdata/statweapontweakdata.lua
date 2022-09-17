@@ -57,8 +57,8 @@ function WeaponTweakData:_init_stats()
 
 		self.stat_info.damage_falloff = {
 			base = 1500,
-			max = 4500,
-			acc_bonus = 150,
+			max = 4000,
+			acc_bonus = 120,
 			near_mul = 1,
 			far_mul = 2
 		}
@@ -525,8 +525,8 @@ function WeaponTweakData:_init_stats()
 	end
 
 	self.stat_info.autohit_rate = 1 --Multiplier for how often autohit should occur at 0 spread. (IE: 1==every shot, 0.5==every other shot, ect)
-	self.stat_info.autohit_angle = 1.5
+	self.stat_info.autohit_angle = 1.25
 	self.stat_info.autohit_head_difficulty_factor = 0.75
-	self.stat_info.ricochet_autohit_angle = 6 --Ricochets need a fairly decently sized auto-hit angle to be usable.
+	self.stat_info.ricochet_autohit_angle = 12 --Ricochets need a large auto-hit angle to be usable.
 	self.stat_info.suppression_angle = 9
 end

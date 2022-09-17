@@ -2364,7 +2364,7 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_titan = deep_clone(self.taser) --titan taser
 	self.taser_titan.weapon = presets.weapon.good
 	self.taser_titan.tags = {"taser", "taser_titan", "custom", "special"}
-	self.taser_titan.HEALTH_INIT = 60
+	self.taser_titan.HEALTH_INIT = 57.6
 	self.taser_titan.headshot_dmg_mul = normal_headshot
 	self.taser_titan.priority_shout = "f32"
 	self.taser_titan.bot_priority_shout = "f32x_any"

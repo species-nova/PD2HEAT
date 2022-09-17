@@ -601,17 +601,13 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Heist Breifings--
 		["heist_pines_briefing"] = "We need you there fast, because it's really out in the sticks, so you're going in like the paras. Find the pilot - he's probably near the wreck, and then we'll send in a chopper to extract him. Stay with him til he's safely out, Also, Vlad says that plane was loaded with product, Search the forest and get as much out as you can. We could always use a little extra cash during Christmas.\n\nNOTE FROM JACKAL:\nThe explosion from that crash alerted nearby Reaper teams. Don't expect a police response.",
 
-		----Weapons + Mods Descriptions/names----
-		["bm_wp_upg_i_93r"] = "Bernetti 93t Kit",
-		["bm_wp_upg_i_93r_desc"] = "Enables a 3 round burst firemode, at the cost of extra kick.", --still need to do the one for the primary bernetti--
-
 		--Shotgun Generic Mods--
 		["bm_wp_ns_duck_desc_sc"] = "Causes pellets to spread horizontally, instead of clustering.",
-		["bm_wp_upg_a_he_desc_sc"] = "Fires a single, fin stabilized explosive slug. Extremely effective at crowd control.",
+		["bm_wp_upg_a_he_desc_sc"] = "Fires a single, fin stabilized explosive slug. Effective against crowds and shields.",
 		["bm_wp_upg_a_slug_desc_sc"] = "Fires a single lead slug that penetrates body armor, enemies, shields, titan shields, and walls.",
 		["bm_wp_upg_a_custom_desc_sc"] = "Fires a wide spread with 6 large pellets. Effective at close range.",
 		["bm_wp_upg_a_dragons_breath_desc_sc"] = "Fires a wide spread of pellets that burn through body armor. Has a chance to set enemies on fire.",
-		["bm_wp_upg_a_piercing_desc_sc"] = "Fires armor piercing flechettes that inflict bleed damage over time. Effective against multiple targets and at longer ranges.",
+		["bm_wp_upg_a_piercing_desc_sc"] = "Fires armor and enemy piercing flechettes that inflict bleed damage over time. Effective against multiple targets and at longer ranges.",
 
 		--Generic Mods--
 		["bm_wp_upg_vg_afg"] = "AFG",
@@ -643,9 +639,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 
 		--'Nade Launchers--
 		["bm_wp_upg_a_grenade_launcher_incendiary_desc_sc"] = "Fires a round that causes a fire at point of impact. The fire deals damage over time, and has a chance to interrupt enemies.",
-		["bm_wp_upg_a_grenade_launcher_frag_desc_sc"] = "Fires a round that causes an explosion at point of impact. The explosion deals 800 damage and has a radius of 5 meters.",
-		["bm_wp_upg_a_grenade_launcher_electric_desc_sc"] = "Fires a round that causes a burst of electricity at point of impact. The burst deals 400 damage, has a radius of 5 meters, and has a chance to tase enemies.",
-		["bm_wp_upg_a_grenade_launcher_electric_arbiter_desc_sc"] = "Fires a round that causes a burst of electricity at point of impact. The burst deals 300 damage, has a radius of 2.5 meters, and has a chance to tase enemies.",
+		["bm_wp_upg_a_grenade_launcher_frag_desc_sc"] = "Fires a round that causes an explosion at point of impact. The explosion deals 400 damage and has a radius of 5 meters.",
+		["bm_wp_upg_a_grenade_launcher_electric_desc_sc"] = "Fires a round that causes a burst of electricity at point of impact. The burst deals 200 damage, has a radius of 5 meters, and has a chance to tase enemies.",
+		["bm_wp_upg_a_grenade_launcher_electric_arbiter_desc_sc"] = "Fires a round that causes a burst of electricity at point of impact. The burst deals 150 damage, has a radius of 2.5 meters, and has a chance to tase enemies.",
 
 		--Flamethrowers--
 		["bm_wp_fla_mk2_mag_rare_sc"] = "Rare",
