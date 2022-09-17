@@ -77,21 +77,9 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 
 	local custom_stats = managers.weapon_factory:get_custom_stats_from_weapon(self._factory_id, self._blueprint)
 	for part_id, stats in pairs(custom_stats) do
-		if stats.disable_steelsight_stance then
+		if stats.reload_anim_override then
 			if weapon_tweak.animations then
-				weapon_tweak.animations.has_steelsight_stance = false
-			end
-		end
-
-		if stats.is_drum_aa12 then
-			if weapon_tweak.animations then
-				weapon_tweak.animations.reload_name_id = "aa12"
-			end
-		end
-
-		if stats.is_mag_akm then
-			if weapon_tweak.animations then
-				weapon_tweak.animations.reload_name_id = "akm"
+				weapon_tweak.animations.reload_name_id = stats.reload_anim_override 
 			end
 		end
 
@@ -109,6 +97,14 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 		
 		if self._swap_speed_mul and stats.swap_speed_mul then
 			self._swap_speed_mul = self._swap_speed_mul * stats.swap_speed_mul
+		end
+
+		if stats.kick_addend then
+			--Avoid mutating global state. Multiple pointless clones should be a non issue since guns should only have 1 barrel ext mod at most.
+			self._kick = clone(self._kick)
+			for i = 0, 4 do
+				self._kick[i] = self._kick[i] + stats.kick_addend[i]
+			end
 		end
 	end
 
@@ -348,7 +344,9 @@ end
 --Stops the current burst. Applies recoil to the player if the burst should have delayed recoil.
 function NewRaycastWeaponBase:cancel_burst()	
 	if self._delayed_burst_recoil and self._burst_rounds_fired and self._burst_rounds_fired > 0 then
-		self._setup.user_unit:movement():current_state():force_recoil_kick(self, self._burst_rounds_fired)
+		local current_state = self._setup.user_unit:movement():current_state()
+		local v, h, shake = self:get_kick(current_state, self._burst_rounds_fired)
+		current_state:apply_recoil(v, h, shake)
 	end
 	self._burst_rounds_fired = nil
 end

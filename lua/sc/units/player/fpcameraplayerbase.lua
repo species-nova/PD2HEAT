@@ -116,34 +116,23 @@ end
 
 --Add more recoil to burn through.
 --Also no longer arbitrarily caps vertical recoil.
-function FPCameraPlayerBase:recoil_kick(up, down, left, right, shooting)
-	local player_state = managers.player:current_state()
-	if player_state == "bipod" then
-		local bipod_recoil_mul = tweak_data.weapon.stat_info.stance_recoil_mults.bipod
-		up = up * bipod_recoil_mul
-		down = down * bipod_recoil_mul
-		left = left * bipod_recoil_mul
-		right = right * bipod_recoil_mul
-	end
-
-	local lerp_x, lerp_y
-	if shooting then
-		local weapon_unit = managers.player:equipped_weapon_unit()
-		if weapon_unit then
-			local kick_lerp = weapon_unit:base():do_kick_pattern()
-			lerp_x = kick_lerp[1]
-			lerp_y = kick_lerp[2]
+function FPCameraPlayerBase:recoil_kick(v, h, h2, v2)
+	--Trick to allow vanilla styled calls.
+	--All non-gun related calls into this follow the format of -/+/-/+ to follow down/up/left/right.
+	--But since they have symmetric values (IE: PlayerIncapacitated does -2/2/-2/2), we can swap the last 2 args and get the same
+	--end results. Guns, on the other hand, gain full control over their recoil behavior and just need to provide.
+	--Their vertical and horizontal motions.
+	if h2 and v2 then
+		local lerp_x, lerp_y
+		if not lerp_x then
+			lerp_x = math.random()
+			lerp_y = math.random()
 		end
+		v = math.lerp(v, v2, lerp_y)
+		h = math.lerp(h, h2, lerp_x)
 	end
 
-	if not lerp_x then
-		lerp_x = math.random()
-		lerp_y = math.random()
-	end
-	local v = math.lerp(up, down, lerp_y)
 	self._recoil_kick.accumulated = (self._recoil_kick.accumulated or 0) + v
-	
-	local h = math.lerp(left, right, lerp_x)
 	self._recoil_kick.h.accumulated = (self._recoil_kick.h.accumulated or 0) + h
 end
 

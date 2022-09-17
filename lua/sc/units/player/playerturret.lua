@@ -62,11 +62,8 @@ function PlayerTurret:_check_action_primary_attack(t, input)
 			end
 
 			if not fired.skip_recoil then
-				local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
-				local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
-				self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
-				self._ext_camera:play_shaker("fire_weapon_rot", shake_multiplier * recoil_multiplier * 0.5)
-				self._ext_camera:play_shaker("fire_weapon_kick", shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
+				local v, h, shake = weap_base:get_recoil_kick(self, 1)
+				self:apply_recoil(v, h, shake)
 			end
 
 			managers.hud:set_ammo_amount(2, weap_base:ammo_info())

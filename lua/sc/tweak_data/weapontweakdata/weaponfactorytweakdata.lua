@@ -7,20 +7,68 @@
 		}
 	--Barrel Extensions
 		local unsuppressor = {
-			stats = {suppression = 4, alert_size = -1},
+			stats = {value = 1, suppression = 4, alert_size = -1},
 			heat_stat_table = "unsuppressor"
 		}
 		local loudener = {
-			stats = {suppression = 4},
+			stats = {value = 1, suppression = 4},
 			heat_stat_table = "loudener"
 		}
 		local flash_hider = {
-			stats = {suppression = -4},
+			stats = {value = 1, suppression = -4},
 			heat_stat_table = "flash_hider"
 		}
 		local suppressor = {
-			stats = {value = 1, suppression = -4, alert_size = 1},
+			stats = {value = 2, suppression = -4, alert_size = 1},
 			heat_stat_table = "suppressor"
+		}
+		local vertical_compensator = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					-0.2,
+					-0.2,
+					-0.2,
+					0.2
+				}
+			},
+			heat_stat_table = "vertical_compensator"
+		}
+		local horizontal_compensator = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					0.2,
+					0.2,
+					0.2,
+					-0.2
+				}
+			},
+			heat_stat_table = "horizontal_compensator"
+		}
+		local left_compensator = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					0.2,
+					0.2,
+					0.4,
+					0.0
+				}
+			},
+			heat_stat_table = "left_compensator"
+		}
+		local right_compensator = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					0.2,
+					0.2,
+					0.0,
+					-0.4
+				}
+			},
+			heat_stat_table = "right_compensator"
 		}
 	--Gadgets
 		local bulky_gadget = {

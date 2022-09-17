@@ -1276,11 +1276,11 @@ function PlayerStandard:is_shooting_count()
 	return self._shooting and self._equipped_unit and self._equipped_unit:base():burst_rounds_remaining()
 end
 
---Recoil used at the end of burst fire.
-function PlayerStandard:force_recoil_kick(weap_base, shots_fired)
-	local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier() * (shots_fired or 1)
-	local up, down, left, right = unpack(weap_base:weapon_tweak_data().kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
-	self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
+--Applies camera effects for recoil.
+function PlayerStandard:apply_recoil(v, h, shake)
+	self._ext_camera:play_shaker("fire_weapon_rot", shake * 0.5)
+	self._ext_camera:play_shaker("fire_weapon_kick", shake * 0.75, 1, 0.15)
+	self._camera_unit:base():recoil_kick(v, h)
 end
 
 function PlayerStandard:_start_action_steelsight(t, gadget_state)
@@ -2347,7 +2347,6 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 					else
 						if input.btn_primary_attack_press and start_shooting then
-							--TODO: Investigate removing spread/autohit muls, since they are no longer relevant.
 							fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 						elseif fire_on_release then
 							if input.btn_primary_attack_release then
@@ -2380,9 +2379,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						self._shot = true --Used to signal that a crosshair jiggle should occur.
 
 						managers.rumble:play("weapon_fire")
-						--Apply stability to screen shake from firing.
 						local weap_tweak_data = tweak_data.weapon[weap_base:get_name_id()]
-						local shake_multiplier = weap_base:shake_multiplier(self._state_data.in_steelsight and "fire_steelsight_multiplier" or "fire_multiplier")
 						self._equipped_unit:base():tweak_data_anim_stop("unequip")
 						self._equipped_unit:base():tweak_data_anim_stop("equip")
 
@@ -2399,11 +2396,8 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						end
 
 						if not fired.skip_recoil then
-							local up, down, left, right = unpack(weap_tweak_data.kick[self._state_data.in_steelsight and "steelsight" or self._state_data.ducking and "crouching" or "standing"])
-							local recoil_multiplier = (weap_base:recoil() + weap_base:recoil_addend()) * weap_base:recoil_multiplier()
-							self._camera_unit:base():recoil_kick(up * recoil_multiplier, down * recoil_multiplier, left * recoil_multiplier, right * recoil_multiplier, true)
-							self._ext_camera:play_shaker("fire_weapon_rot", shake_multiplier * recoil_multiplier * 0.5)
-							self._ext_camera:play_shaker("fire_weapon_kick", shake_multiplier * recoil_multiplier * 0.75, 1, 0.15)
+							local v, h, shake = weap_base:get_recoil_kick(self, 1)
+							self:apply_recoil(v, h, shake)
 						end
 
 						if self._shooting_t then

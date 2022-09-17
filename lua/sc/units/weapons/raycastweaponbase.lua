@@ -58,6 +58,7 @@ function RaycastWeaponBase:heat_init()
 	end
 
 	self._bullets_fired = 0
+	self._kick = weapon_tweak.kick
 	self._curr_kick = 0
 	self._kick_pattern = weapon_tweak.kick_pattern
 	self._rays = weapon_tweak.rays or 1
@@ -1124,19 +1125,22 @@ function RaycastWeaponBase:_play_magazine_empty_anims()
 	end
 end
 
---Updates the position in the weapon kick pattern table, and returns the desired value.
-function RaycastWeaponBase:do_kick_pattern()
-	if not self._kick_pattern then
-		heat.log(self._name_id, " is missing a kick pattern!")
-		return {math.random(), math.random()}
-	end
+function RaycastWeaponBase:get_recoil_kick(current_state, shots_fired)
+	local shake_multiplier = self:shake_multiplier(current_state._state_data.in_steelsight and "fire_steelsight_multiplier" or "fire_multiplier")
+	local recoil_multiplier = 
+		(self:recoil() + self:recoil_addend()) * self:recoil_multiplier()
+		* tweak_data.weapon.stat_info.stance_recoil_mults[current_state:get_movement_state()]
+		* shots_fired 
+	local up = self._kick[1] * recoil_multiplier
+	local down = self._kick[2] * recoil_multiplier
+	local left = self._kick[3] * recoil_multiplier
+	local right = self._kick[4] * recoil_multiplier
 
-	self._curr_kick = self._curr_kick + math.round(math.random(self._kick_pattern.random_range[1], self._kick_pattern.random_range[2]))
-	if self._curr_kick > #self._kick_pattern.pattern then
-		self._curr_kick = self._curr_kick - #self._kick_pattern.pattern
-	end
-
-	return self._kick_pattern.pattern[self._curr_kick]
+	self._curr_kick = ((self._curr_kick + math.round(math.random(self._kick_pattern.random_range[1], self._kick_pattern.random_range[2])) - 1)
+		% #self._kick_pattern.pattern) + 1
+	local current_lerp = self._kick_pattern.pattern[self._curr_kick]
+	
+	return math.lerp(up, down, current_lerp[1]), math.lerp(left, right, current_lerp[2]), shake_multiplier * recoil_multiplier
 end
 
 function RaycastWeaponBase:holds_single_round()
