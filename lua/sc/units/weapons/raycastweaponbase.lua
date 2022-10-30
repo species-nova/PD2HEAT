@@ -33,11 +33,6 @@ function RaycastWeaponBase:heat_init()
 	self._can_shoot_through_titan_shield = weapon_tweak.can_shoot_through_titan_shield
 	self._reload_speed_mult = weapon_tweak.reload_speed_multiplier or 1
 
-	local can_toggle = weapon_tweak.CAN_TOGGLE_FIREMODE
-	self._has_auto = not self._locked_fire_mode and (can_toggle or weapon_tweak.FIRE_MODE == "auto")
-	self._has_burst = (can_toggle or weapon_tweak.BURST_COUNT) and weapon_tweak.BURST_COUNT ~= false
-	self._has_single = can_toggle or (self._has_burst and not self._has_auto)
-
 	--Set range multipliers.
 	self._damage_near_mul = tweak_data.weapon.stat_info.damage_falloff.near_mul
 	self._damage_far_mul = tweak_data.weapon.stat_info.damage_falloff.far_mul
@@ -1071,7 +1066,7 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			return
 		end
 
-		local ammo_usage = 1
+		local ammo_usage = self:ammo_usage()
 		local mag = base:get_ammo_remaining_in_clip()
 		local remaining_ammo = mag - ammo_usage
 

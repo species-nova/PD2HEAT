@@ -2,6 +2,11 @@ local old_update_stats_values = NewRaycastWeaponBase._update_stats_values
 function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data, ...)
 	old_update_stats_values(self, disallow_replenish, ammo_data, ...)
 	
+	--Why the fuck is this not triggering on heist restarts????
+	if not self._damage_near_mul then
+		self:heat_init()
+	end
+
 	local weapon_tweak = self:weapon_tweak_data()
 	if self._ammo_data then
 		if self._ammo_data.rays ~= nil then
@@ -113,13 +118,6 @@ end
 
 function NewRaycastWeaponBase:get_offhand_auto_reload_speed()
 	return self._offhand_auto_reload_speed
-end
-
---Returns the number of additional rays fired by the gun, beyond the normal amount defined in the tweakdata.
-function RaycastWeaponBase:_get_bonus_rays()
-	local result = self._first_shot_active and self._first_shot_bonus_rays or 0
-	self._first_shot_active = false
-	return result
 end
 
 function NewRaycastWeaponBase:clip_full()
@@ -256,6 +254,7 @@ NewRaycastWeaponBase.get_damage_falloff = RaycastWeaponBase.get_damage_falloff
 NewRaycastWeaponBase.reload_speed_multiplier = RaycastWeaponBase.reload_speed_multiplier
 NewRaycastWeaponBase.weapon_range = RaycastWeaponBase.weapon_range
 NewRaycastWeaponBase.recoil_multiplier = RaycastWeaponBase.recoil_multiplier
+NewRaycastWeaponBase._fire_raycast = RaycastWeaponBase._fire_raycast
 
 local on_enabled_original = NewRaycastWeaponBase.on_enabled
 function NewRaycastWeaponBase:on_enabled(...)
@@ -313,11 +312,55 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 	return mul * (self._fire_rate_multiplier or 1)
 end
 
+local ids_single = Idstring("single")
+local ids_auto = Idstring("auto")
+local ids_burst = Idstring("burst")
+local ids_volley = Idstring("volley")
 --Use pre-existing custom burst fire code, rather than copying all of the vanilla code. Since there are a few incompatibilities between the two.
 --Primarily relating to how burst delays are handled, since vanilla ones don't respect ROF modifiers.
-NewRaycastWeaponBase.stop_shooting = NewRaycastWeaponBase.super.start_shooting
-NewRaycastWeaponBase.stop_shooting = NewRaycastWeaponBase.super.stop_shooting
-NewRaycastWeaponBase.trigger_held = NewRaycastWeaponBase.super.trigger_held
+NewRaycastWeaponBase.stop_shooting = RaycastWeaponBase.stop_shooting
+NewRaycastWeaponBase.trigger_held = RaycastWeaponBase.trigger_held
+
+function NewRaycastWeaponBase:start_shooting()
+	if self._fire_mode == ids_volley then
+		self:_start_charging()
+		self._shooting = true
+		return
+	end
+
+	return NewRaycastWeaponBase.super.start_shooting(self)
+end
+
+function NewRaycastWeaponBase:trigger_held(...)
+	if self._fire_mode == ids_volley then
+		if self._volley_fired then
+			return false
+		end
+
+		local volley_charge_time = self:charge_max_t()
+		local fired = false
+
+		if self._volley_charge_start_t + volley_charge_time <= managers.player:player_timer():time() then
+			fired = self:fire(...)
+
+			if fired then
+				self:call_on_digital_gui("stop_volley_charge")
+
+				self._next_fire_allowed = self._unit:timer():time() + self:charge_cooldown_t()
+
+				self:_fire_sound()
+
+				self._volley_charging = nil
+				self._volley_fired = true
+			end
+		end
+
+		return fired
+	end
+
+	return NewRaycastWeaponBase.super.trigger_held(self, ...)
+end
+
 function NewRaycastWeaponBase:fire(...)
 	local result = NewRaycastWeaponBase.super.fire(self, ...)
 	
@@ -361,51 +404,53 @@ function NewRaycastWeaponBase:shooting_count()
 	return self._burst_rounds_fired and self._burst_rounds_fired - self._burst_count or 0
 end
 
-local ids_single = Idstring("single")
-local ids_auto = Idstring("auto")
-local ids_burst = Idstring("burst")
 function NewRaycastWeaponBase:can_toggle_firemode()
 	if self:gadget_overrides_weapon_functions() then
 		return self:gadget_function_override("can_toggle_firemode")
 	end
 
-	return self._has_single and (self._has_burst or self._has_auto) or self._has_auto and self._has_burst
+	heat.print_value(self._toggable_fire_modes, "Toggleable Fire Modes")
+
+	return self._toggable_fire_modes and #self._toggable_fire_modes > 1
 end
 
 function NewRaycastWeaponBase:toggle_firemode(skip_post_event)
-	local can_toggle = not self._locked_fire_mode and self:can_toggle_firemode()
-
-	if can_toggle then
-		if self._fire_mode == ids_single then
-			self._fire_mode = self._has_burst and ids_burst or ids_auto
-
-			if not skip_post_event then
-				self._sound_fire:post_event("wp_auto_switch_on")
-			end
-		elseif self._fire_mode == ids_burst then
-			if self._has_auto then
-				self._fire_mode = ids_auto
-				if not skip_post_event then
-					self._sound_fire:post_event("wp_auto_switch_on")
-				end
-			else
-				self._fire_mode = ids_single
-				if not skip_post_event then
-					self._sound_fire:post_event("wp_auto_switch_off")
-				end
-			end
-		else --Automatic
-			self._fire_mode = self._has_single and ids_single or ids_burst
-
-			if not skip_post_event then
-				self._sound_fire:post_event("wp_auto_switch_off")
+	if self._locked_fire_mode or not self:can_toggle_firemode() then
+		return false
+	end
+	
+	if not self._fire_mode_index then
+		for i = 1, #self._toggable_fire_modes do
+			if self._toggable_fire_modes[i] == self._fire_mode then
+				self._fire_mode_index = i
 			end
 		end
+	end
+	self._fire_mode_index = ((self._fire_mode_index - 1) % #self._toggable_fire_modes) + 1
+	local prev_fire_mode = self._fire_mode
+	self._fire_mode = self._toggable_fire_modes[self._fire_mode_index]
 
-		return true
+	if not skip_post_event then
+		if prev_fire_mode == ids_single or prev_fire_mode == ids_volley then
+			self._sound_fire:post_event("wp_auto_switch_on")
+		else
+			self._sound_fire:post_event("wp_auto_switch_off")
+		end
 	end
 
-	return false
+	return true
+end
+
+--Returns the number of additional rays fired by the gun, beyond the normal amount.
+function RaycastWeaponBase:_get_bonus_rays()
+	local result = self._first_shot_active and self._first_shot_bonus_rays or 0
+	self._first_shot_active = false
+	
+	if self._fire_mode == ids_volley then
+		result = result + self._volley_rays
+	end
+
+	return result
 end
 
 function NewRaycastWeaponBase:enter_steelsight_speed_multiplier()

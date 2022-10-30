@@ -686,6 +686,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--socom deez nuts--
 		["bm_w_socom_desc"] = "Jackal's sidearm of choice. A reliable and powerful .45ACP handgun with a stylish design.",
 
+		--Attachments
+		["bm_wpn_fps_upg_m4_m_quad_desc"] = "Reduces movement speed by 10% while equipped.",
+
 		--Legendary Skins--
 		["bm_menu_sc_legendary_ak"] = "Vlad's Rodina",
 		["bm_menu_sc_legendary_flamethrower"] = "Dragon Lord",

@@ -26,6 +26,7 @@ function WeaponTweakData:init(...)
 		self.tecci.CLIP_AMMO_MAX = 100
 		self.tecci.fire_rate_multiplier = 1.05 --700 rpm
 		self.tecci.CAN_TOGGLE_FIREMODE = true
+		self.tecci.tactical_reload = true --Closed bolt. Whether or not the gun holds "one in the chamber"
 		--self.tecci.auto.fire_rate = 0.075 --For fire-rate tweaks, try out both the fire_rate_multiplier and directly changing timers to see what feels better.
 		self.tecci.stats = {
 			--Stats not included in this table are auto-calculated.
@@ -93,6 +94,7 @@ function WeaponTweakData:init(...)
 		self.amcar.kick = self.stat_info.kick_tables.even_recoil
 		self.amcar.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.amcar.supported = true
+		self.amcar.tactical_reload = true
 		self.amcar.stats = {
 			damage = 12,
 			spread = 16,
@@ -118,6 +120,7 @@ function WeaponTweakData:init(...)
 		self.g36.kick = self.stat_info.kick_tables.even_recoil
 		self.g36.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.g36.supported = true
+		self.g36.tactical_reload = true
 		self.g36.stats = {
 			damage = 12,
 			spread = 18,
@@ -145,6 +148,7 @@ function WeaponTweakData:init(...)
 		self.vhs.kick = self.stat_info.kick_tables.right_recoil
 		self.vhs.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.vhs.supported = true
+		self.vhs.tactical_reload = true
 		self.vhs.stats = {
 			damage = 12,
 			spread = 18,
@@ -171,6 +175,7 @@ function WeaponTweakData:init(...)
 		self.s552.kick = self.stat_info.kick_tables.right_recoil
 		self.s552.kick_pattern = self.stat_info.kick_patterns.random
 		self.s552.supported = true
+		self.s552.tactical_reload = true
 		self.s552.stats = {
 			damage = 12,
 			spread = 17,
@@ -191,6 +196,7 @@ function WeaponTweakData:init(...)
 
 		--Union 5.56
 		self.corgi.CLIP_AMMO_MAX = 30
+		self.corgi.tactical_reload = true
 		self.corgi.fire_rate_multiplier = 1.0501 --900 rpm
 		self.corgi.CAN_TOGGLE_FIREMODE = true
 		self.corgi.kick = self.stat_info.kick_tables.moderate_kick
@@ -226,6 +232,7 @@ function WeaponTweakData:init(...)
 		self.olympic.kick = self.stat_info.kick_tables.even_recoil
 		self.olympic.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.olympic.supported = true
+		self.olympic.tactical_reload = true
 		self.olympic.stats = {
 			damage = 12,
 			spread = 15,
@@ -251,6 +258,7 @@ function WeaponTweakData:init(...)
 			"assault_rifle"
 		}
 		self.komodo.CLIP_AMMO_MAX = 30
+		self.komodo.tactical_reload = true
 		self.komodo.fire_rate_multiplier = 1.125
 		self.komodo.kick = self.stat_info.kick_tables.moderate_kick
 		self.komodo.kick_pattern = self.stat_info.kick_patterns.jumpy_2
@@ -275,6 +283,7 @@ function WeaponTweakData:init(...)
 		--Clarion
 		self.famas.use_data.selection_index = 1
 		self.famas.CLIP_AMMO_MAX = 25
+		self.famas.tactical_reload = true
 		self.famas.BURST_COUNT = 3
 		self.famas.FIRE_MODE = "burst"
 		self.famas.ADAPTIVE_BURST_SIZE = false
@@ -308,6 +317,7 @@ function WeaponTweakData:init(...)
 		self.ak74.kick = self.stat_info.kick_tables.right_recoil
 		self.ak74.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.ak74.supported = true
+		self.ak74.tactical_reload = true
 		self.ak74.stats = {
 			damage = 16,
 			spread = 17,
@@ -333,6 +343,7 @@ function WeaponTweakData:init(...)
 		self.new_m4.kick = self.stat_info.kick_tables.moderate_kick
 		self.new_m4.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.new_m4.supported = true
+		self.new_m4.tactical_reload = true
 		self.new_m4.stats = {
 			damage = 16,
 			spread = 16,
@@ -355,6 +366,7 @@ function WeaponTweakData:init(...)
 		self.aug.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.aug.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.aug.supported = true
+		self.aug.tactical_reload = true
 		self.aug.stats = {
 			damage = 16,
 			spread = 16,
@@ -375,6 +387,7 @@ function WeaponTweakData:init(...)
 
 		--Ak17
 		self.flint.CLIP_AMMO_MAX = 30
+		self.flint.tactical_reload = true
 		self.flint.BURST_COUNT = 2
 		self.flint.BURST_FIRE_RATE_MULTIPLIER = 1.53846153833 --1000 rpm in burst fire, 650 otherwise.
 		self.flint.fire_mode_data.fire_rate = 0.09230769230 --650 rpm
@@ -408,6 +421,7 @@ function WeaponTweakData:init(...)
 		self.ak5.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.ak5.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.ak5.supported = true
+		self.ak5.tactical_reload = true
 		self.ak5.stats = {
 			damage = 16,
 			spread = 15,
@@ -514,6 +528,7 @@ function WeaponTweakData:init(...)
 			"assault_rifle"
 		}
 		self.hajk.supported = true
+		self.hajk.tactical_reload = true
 		self.hajk.stats = {
 			damage = 16,
 			spread = 15,
@@ -539,6 +554,7 @@ function WeaponTweakData:init(...)
 		self.akm.kick = self.stat_info.kick_tables.right_kick
 		self.akm.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.akm.supported = true
+		self.akm.tactical_reload = true
 		self.akm.stats = {
 			damage = 20,
 			spread = 17,
@@ -564,6 +580,7 @@ function WeaponTweakData:init(...)
 		self.akm_gold.fire_mode_data.fire_rate = 0.1
 		self.akm_gold.auto.fire_rate = 0.1
 		self.akm_gold.supported = true
+		self.akm.tactical_reload = true
 		self.akm_gold.stats = {
 			damage = 20,
 			spread = 17,
@@ -593,6 +610,7 @@ function WeaponTweakData:init(...)
 		self.l85a2.kick = self.stat_info.kick_tables.moderate_kick
 		self.l85a2.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.l85a2.supported = true
+		self.l85a2.tactical_reload = true
 		self.l85a2.stats = {
 			damage = 20,
 			spread = 18,
@@ -620,6 +638,7 @@ function WeaponTweakData:init(...)
 		self.m16.kick = self.stat_info.kick_tables.vertical_kick
 		self.m16.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.m16.supported = true
+		self.m16.tactical_reload = true
 		self.m16.stats = {
 			damage = 20,
 			spread = 16,
@@ -640,6 +659,7 @@ function WeaponTweakData:init(...)
 
 		--Falcon
 		self.fal.CLIP_AMMO_MAX = 30
+		self.fal.tactical_reload = true
 		self.fal.fire_mode_data.fire_rate = 0.08571428571
 		self.fal.CAN_TOGGLE_FIREMODE = true
 		self.fal.auto = {}
@@ -674,11 +694,12 @@ function WeaponTweakData:init(...)
 		self.akmsu.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.akmsu.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.akmsu.supported = true
+		self.akmsu.tactical_reload = true
 		self.akmsu.stats = {
 			damage = 20,
-			spread = 15,
+			spread = 14,
 			recoil = 14,
-			concealment = 13
+			concealment = 14
 		}
 		self.akmsu.timers = {
 			reload_not_empty = 2.6,
@@ -699,6 +720,7 @@ function WeaponTweakData:init(...)
 			"akimbo"
 		}
 		self.x_akmsu.CLIP_AMMO_MAX = self.akmsu.CLIP_AMMO_MAX * 2
+		self.x_akmsu.tactical_reload = true
 		self.x_akmsu.BURST_COUNT = 2
 		self.x_akmsu.ADAPTIVE_BURST_SIZE = true
 		self.x_akmsu.fire_mode_data.fire_rate = self.akmsu.fire_mode_data.fire_rate
@@ -709,9 +731,9 @@ function WeaponTweakData:init(...)
 		self.x_akmsu.supported = true
 		self.x_akmsu.stats = {
 			damage = 20,
-			spread = 11,
+			spread = 10,
 			recoil = 10,
-			concealment = 9
+			concealment = 10
 		}
 		self.x_akmsu.timers = {
 			reload_not_empty = 3.6,
@@ -732,6 +754,7 @@ function WeaponTweakData:init(...)
 		self.scar.fire_rate_multiplier = 1.029 --630 rpm.
 		self.scar.CAN_TOGGLE_FIREMODE = true
 		self.scar.CLIP_AMMO_MAX = 20
+		self.scar.tactical_reload = true
 		self.scar.kick = self.stat_info.kick_tables.vertical_kick
 		self.scar.kick_pattern = self.stat_info.kick_patterns.random
 		self.scar.supported = true
@@ -819,6 +842,7 @@ function WeaponTweakData:init(...)
 		self.asval.sounds.dryfire = "primary_dryfire"
 		self.asval.fire_rate_multiplier = 1.005 --900 rpm
 		self.asval.CLIP_AMMO_MAX = 20
+		self.asval.tactical_reload = true
 		self.asval.kick = self.stat_info.kick_tables.moderate_kick
 		self.asval.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.asval.supported = true
@@ -844,6 +868,7 @@ function WeaponTweakData:init(...)
 		--Gecko 7.62
 		self.galil.fire_rate_multiplier = 0.8875 --750 rpm
 		self.galil.CLIP_AMMO_MAX = 30
+		self.galil.tactical_reload = true
 		self.galil.kick = self.stat_info.kick_tables.moderate_right_kick
 		self.galil.kick_pattern = self.stat_info.kick_patterns.random
 		self.galil.supported = true
@@ -957,6 +982,7 @@ function WeaponTweakData:init(...)
 		self.new_m14.kick = self.stat_info.kick_tables.moderate_kick
 		self.new_m14.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.new_m14.supported = true
+		self.new_m14.tactical_reload = true
 		self.new_m14.stats = {
 			damage = 30,
 			spread = 19,
@@ -979,6 +1005,7 @@ function WeaponTweakData:init(...)
 		--Gewehr 3
 		self.g3.FIRE_MODE = "single"
 		self.g3.CLIP_AMMO_MAX = 20
+		self.g3.tactical_reload = true
 		self.g3.fire_mode_data.fire_rate = 0.1 --600 rpm
 		self.g3.auto.fire_rate = 0.1
 		self.g3.kick = self.stat_info.kick_tables.right_kick
@@ -1040,6 +1067,7 @@ function WeaponTweakData:init(...)
 		self.tti.can_shoot_through_wall = false
 		self.tti.has_description = false
 		self.tti.CLIP_AMMO_MAX = 20
+		self.tti.tactical_reload = true
 		self.tti.fire_mode_data.fire_rate = 0.3
 		self.tti.single.fire_rate = 0.3
 		self.tti.kick = self.stat_info.kick_tables.vertical_kick
@@ -1316,6 +1344,7 @@ function WeaponTweakData:init(...)
 		self.rpk.kick = self.stat_info.kick_tables.horizontal_right_recoil
 		self.rpk.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.rpk.supported = true
+		self.rpk.tactical_reload = true
 		self.rpk.stats = {
 			damage = 20,
 			spread = 6,
@@ -1375,6 +1404,7 @@ function WeaponTweakData:init(...)
 		self.msr.kick = self.stat_info.kick_tables.vertical_kick
 		self.msr.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.msr.supported = true
+		self.msr.tactical_reload = true
 		self.msr.stats = {
 			damage = 50,
 			spread = 19,
@@ -1398,6 +1428,7 @@ function WeaponTweakData:init(...)
 		self.r700.kick = self.stat_info.kick_tables.vertical_kick
 		self.r700.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.r700.supported = true
+		self.r700.tactical_reload = true
 		self.r700.stats = {
 			damage = 50,
 			spread = 21,
@@ -1422,6 +1453,7 @@ function WeaponTweakData:init(...)
 		self.wa2000.kick = self.stat_info.kick_tables.vertical_kick
 		self.wa2000.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.wa2000.supported = true
+		self.wa2000.tactical_reload = true
 		self.wa2000.stats = {
 			damage = 50,
 			spread = 20,
@@ -1476,6 +1508,7 @@ function WeaponTweakData:init(...)
 		self.siltstone.has_description = true
 		self.siltstone.desc_id = "bm_ap_weapon_sc_desc"
 		self.siltstone.CLIP_AMMO_MAX = 10
+		self.siltstone.tactical_reload = true
 		self.siltstone.fire_mode_data.fire_rate = 0.6
 		self.siltstone.kick = self.stat_info.kick_tables.right_kick
 		self.siltstone.kick_pattern = self.stat_info.kick_patterns.zigzag_2
@@ -1562,6 +1595,7 @@ function WeaponTweakData:init(...)
 		self.model70.has_description = true
 		self.model70.desc_id = "bm_ap_weapon_sc_desc"
 		self.model70.CLIP_AMMO_MAX = 6
+		self.model70.tactical_reload = true
 		self.model70.kick = self.stat_info.kick_tables.vertical_kick
 		self.model70.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.model70.supported = true
@@ -1587,6 +1621,7 @@ function WeaponTweakData:init(...)
 		self.desertfox.has_description = true
 		self.desertfox.desc_id = "bm_ap_weapon_sc_desc"
 		self.desertfox.CLIP_AMMO_MAX = 5
+		self.desertfox.tactical_reload = true
 		self.desertfox.fire_rate_multiplier = 1.1667 --70rpm
 		self.desertfox.kick = self.stat_info.kick_tables.right_kick
 		self.desertfox.kick_pattern = self.stat_info.kick_patterns.jumpy_1
@@ -1612,6 +1647,7 @@ function WeaponTweakData:init(...)
 		self.r93.has_description = true
 		self.r93.desc_id = "bm_ap_weapon_sc_desc"
 		self.r93.CLIP_AMMO_MAX = 6 --Has 5 rounds irl, but 6 makes for more interesting tradeoffs.
+		self.r93.tactical_reload = true
 		self.r93.fire_mode_data.fire_rate = 1
 		self.r93.kick = self.stat_info.kick_tables.vertical_kick
 		self.r93.kick_pattern = self.stat_info.kick_patterns.zigzag_2
@@ -1669,6 +1705,7 @@ function WeaponTweakData:init(...)
 		self.m95.kick = self.stat_info.kick_tables.right_kick
 		self.m95.kick_pattern = self.stat_info.kick_patterns.random
 		self.m95.supported = true
+		self.m95.tactical_reload = true
 		self.m95.stats = {
 			damage = 100,
 			spread = 21,
@@ -1692,6 +1729,7 @@ function WeaponTweakData:init(...)
 		--Tatonka
 		self.coal.use_data.selection_index = 2
 		self.coal.CLIP_AMMO_MAX = 64
+		self.coal.tactical_reload = true
 		self.coal.fire_mode_data.fire_rate = 0.08823529411 --680 rpm
 		self.coal.auto.fire_rate = 0.08823529411
 		self.coal.kick = self.stat_info.kick_tables.horizontal_right_recoil
@@ -1717,6 +1755,7 @@ function WeaponTweakData:init(...)
 	--PDW Smg (Secondary)
 		--CMP
 		self.mp9.CLIP_AMMO_MAX = 20
+		self.mp9.tactical_reload = true
 		self.mp9.auto.fire_rate = 0.0545454545454 --1100 rpm
 		self.mp9.fire_mode_data.fire_rate = 0.0545454545454
 		self.mp9.kick = self.stat_info.kick_tables.even_recoil
@@ -1742,6 +1781,7 @@ function WeaponTweakData:init(...)
 		--Heather
 		self.sr2.fire_rate_multiplier = 1.2666667 --950 rpm
 		self.sr2.CLIP_AMMO_MAX = 30
+		self.sr2.tactical_reload = true
 		self.sr2.kick = self.stat_info.kick_tables.left_recoil
 		self.sr2.kick_pattern = self.stat_info.kick_patterns.random
 		self.sr2.supported = true
@@ -1769,6 +1809,7 @@ function WeaponTweakData:init(...)
 		self.p90.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.p90.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.p90.supported = true
+		self.p90.tactical_reload = true
 		self.p90.stats = {
 			damage = 10,
 			spread = 11,
@@ -1792,6 +1833,7 @@ function WeaponTweakData:init(...)
 		self.x_sr2.single.fire_rate = self.sr2.auto.fire_rate
 		self.x_sr2.fire_rate_multiplier = self.sr2.fire_rate_multiplier
 		self.x_sr2.CLIP_AMMO_MAX = self.sr2.CLIP_AMMO_MAX * 2
+		self.x_sr2.tactical_reload = true
 		self.x_sr2.kick = self.sr2.kick
 		self.x_sr2.kick_pattern = self.sr2.kick_pattern
 		self.x_sr2.BURST_COUNT = 2
@@ -1849,6 +1891,7 @@ function WeaponTweakData:init(...)
 		self.shepheard.kick = self.stat_info.kick_tables.even_recoil
 		self.shepheard.kick_pattern = self.stat_info.zigzag_1
 		self.shepheard.supported = true
+		self.shepheard.tactical_reload = true
 		self.shepheard.stats = {
 			damage = 12,
 			spread = 15,
@@ -1924,6 +1967,7 @@ function WeaponTweakData:init(...)
 		self.new_mp5.kick = self.stat_info.kick_tables.right_recoil
 		self.new_mp5.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.new_mp5.supported = true
+		self.new_mp5.tactical_reload = true
 		self.new_mp5.stats = {
 			damage = 12,
 			spread = 16,
@@ -1947,6 +1991,7 @@ function WeaponTweakData:init(...)
 		self.scorpion.kick = self.stat_info.kick_tables.even_recoil
 		self.scorpion.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.scorpion.supported = true
+		self.scorpion.tactical_reload = true
 		self.scorpion.stats = {
 			damage = 12,
 			spread = 12,
@@ -2000,6 +2045,7 @@ function WeaponTweakData:init(...)
 		self.x_mp5.kick = self.new_mp5.kick
 		self.x_mp5.kick_pattern = self.new_mp5.kick_pattern
 		self.x_mp5.CLIP_AMMO_MAX = self.new_mp5.CLIP_AMMO_MAX * 2
+		self.x_mp5.tactical_reload = true
 		self.x_mp5.supported = true
 		self.x_mp5.stats = {
 			damage = 12,
@@ -2105,6 +2151,7 @@ function WeaponTweakData:init(...)
 		self.mp7.kick = self.stat_info.kick_tables.left_recoil
 		self.mp7.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.mp7.supported = true
+		self.mp7.tactical_reload = true
 		self.mp7.stats = {
 			damage = 16,
 			spread = 12,
@@ -2124,6 +2171,7 @@ function WeaponTweakData:init(...)
 
 		--Blaster
 		self.tec9.CLIP_AMMO_MAX = 20
+		self.tec9.tactical_reload = true
 		self.tec9.fire_rate_multiplier = 1.11666667 --1000 rpm.
 		self.tec9.CAN_TOGGLE_FIREMODE = false
 		self.tec9.kick = self.stat_info.kick_tables.even_recoil
@@ -2200,6 +2248,7 @@ function WeaponTweakData:init(...)
 		self.schakal.use_data.selection_index = 2
 		self.schakal.fire_rate_multiplier = 0.92 --600 rpm
 		self.schakal.CLIP_AMMO_MAX = 25
+		self.schakal.tactical_reload = true
 		self.schakal.BURST_COUNT = 3
 		self.schakal.ADAPTIVE_BURST_SIZE = false
 		self.schakal.kick = self.stat_info.kick_tables.even_recoil
@@ -2229,6 +2278,7 @@ function WeaponTweakData:init(...)
 		self.polymer.kick = self.stat_info.kick_tables.even_recoil
 		self.polymer.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.polymer.supported = true
+		self.polymer.tactical_reload = true
 		self.polymer.stats = {
 			damage = 20,
 			spread = 8,
@@ -2328,6 +2378,7 @@ function WeaponTweakData:init(...)
 		self.beer.kick = self.stat_info.kick_tables.even_recoil
 		self.beer.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.beer.supported = true
+		self.beer.tactical_reload = true
 		self.beer.stats = {
 			damage = 12,
 			spread = 15,
@@ -2352,6 +2403,7 @@ function WeaponTweakData:init(...)
 		self.glock_17.kick = self.stat_info.kick_tables.even_recoil
 		self.glock_17.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.glock_17.supported = true
+		self.glock_17.tactical_reload = true
 		self.glock_17.stats = {
 			damage = 12,
 			spread = 18,
@@ -2397,6 +2449,7 @@ function WeaponTweakData:init(...)
 		self.lemming.desc_id = "bm_light_ap_weapon_sc_desc"
 		self.lemming.has_description = true
 		self.lemming.CLIP_AMMO_MAX = 20
+		self.lemming.tactical_reload = true
 		self.lemming.fire_mode_data.fire_rate = 0.125
 		self.lemming.single.fire_rate = 0.125
 		self.lemming.kick = self.stat_info.kick_tables.even_recoil
@@ -2430,6 +2483,7 @@ function WeaponTweakData:init(...)
 		self.g26.fire_mode_data.fire_rate = 0.11009174311
 		self.g26.single.fire_rate = 0.11009174311
 		self.g26.supported = true
+		self.g26.tactical_reload = true
 		self.g26.stats = {
 			damage = 12,
 			spread = 19,
@@ -2455,6 +2509,7 @@ function WeaponTweakData:init(...)
 		self.glock_18c.auto.fire_rate = 0.11009174311
 		self.glock_18c.fire_rate_multiplier = 2.01835 --1100 rpm
 		self.glock_18c.CLIP_AMMO_MAX = 17
+		self.glock_18c.tactical_reload = true
 		self.glock_18c.kick = self.stat_info.kick_tables.left_recoil
 		self.glock_18c.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.glock_18c.supported = true
@@ -2503,6 +2558,7 @@ function WeaponTweakData:init(...)
 		self.x_g17.kick = self.glock_17.kick
 		self.x_g17.kick_pattern = self.glock_17.kick_pattern
 		self.x_g17.CLIP_AMMO_MAX = self.glock_17.CLIP_AMMO_MAX * 2
+		self.x_g17.tactical_reload = true
 		self.x_g17.fire_mode_data.fire_rate = self.glock_17.fire_mode_data.fire_rate
 		self.x_g17.single.fire_rate = self.glock_17.single.fire_rate
 		self.x_g17.BURST_COUNT = 2
@@ -2535,6 +2591,7 @@ function WeaponTweakData:init(...)
 		self.x_b92fs.BURST_COUNT = 2
 		self.x_b92fs.ADAPTIVE_BURST_SIZE = true
 		self.x_b92fs.CLIP_AMMO_MAX = self.b92fs.CLIP_AMMO_MAX * 2
+		self.x_b92fs.tactical_reload = true
 		self.x_b92fs.fire_mode_data.fire_rate = self.b92fs.fire_mode_data.fire_rate
 		self.x_b92fs.single.fire_rate = self.b92fs.single.fire_rate
 		self.x_b92fs.supported = true
@@ -2564,6 +2621,7 @@ function WeaponTweakData:init(...)
 		self.jowi.fire_mode_data.fire_rate = self.g26.fire_mode_data.fire_rate
 		self.jowi.single.fire_rate = self.g26.single.fire_rate
 		self.jowi.CLIP_AMMO_MAX = self.g26.CLIP_AMMO_MAX * 2
+		self.jowi.tactical_reload = true
 		self.jowi.BURST_COUNT = 2
 		self.jowi.ADAPTIVE_BURST_SIZE = true
 		self.jowi.FIRE_MODE = "burst"
@@ -2593,6 +2651,7 @@ function WeaponTweakData:init(...)
 		self.x_g18c.single.fire_rate = self.glock_18c.auto.fire_rate
 		self.x_g18c.fire_rate_multiplier = self.glock_18c.fire_rate_multiplier
 		self.x_g18c.CLIP_AMMO_MAX = self.glock_18c.CLIP_AMMO_MAX * 2
+		self.x_g18c.tactical_reload = true
 		self.x_g18c.kick = self.glock_18c.kick
 		self.x_g18c.kick_pattern = self.glock_18c.kick_pattern
 		self.x_g18c.BURST_COUNT = 2
@@ -2624,6 +2683,7 @@ function WeaponTweakData:init(...)
 		self.czech.kick = self.stat_info.kick_tables.left_recoil
 		self.czech.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.czech.supported = true
+		self.czech.tactical_reload = true
 		self.czech.stats = {
 			damage = 16,
 			spread = 14,
@@ -2692,6 +2752,7 @@ function WeaponTweakData:init(...)
 	--Medium Pistol (Secondary)
 		--Gruber Kurz
 		self.ppk.CLIP_AMMO_MAX = 9
+		self.ppk.tactical_reload = true
 		self.ppk.kick = self.stat_info.kick_tables.right_recoil
 		self.ppk.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.ppk.supported = true
@@ -2719,6 +2780,7 @@ function WeaponTweakData:init(...)
 		self.packrat.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.packrat.fire_rate_multiplier = 1.135417 --545 rpm
 		self.packrat.supported = true
+		self.packrat.tactical_reload = true
 		self.packrat.stats = {
 			damage = 16,
 			spread = 16,
@@ -2740,6 +2802,7 @@ function WeaponTweakData:init(...)
 		self.pl14.fire_mode_data.fire_rate = 0.11009174311
 		self.pl14.single.fire_rate = 0.11009174311
 		self.pl14.CLIP_AMMO_MAX = 14
+		self.pl14.tactical_reload = true
 		self.pl14.kick = self.stat_info.kick_tables.left_recoil
 		self.pl14.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.pl14.supported = true
@@ -2786,6 +2849,7 @@ function WeaponTweakData:init(...)
 		self.holt.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.holt.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.holt.supported = true
+		self.holt.tactical_reload = true
 		self.holt.stats = {
 			damage = 16,
 			spread = 15,
@@ -2807,6 +2871,7 @@ function WeaponTweakData:init(...)
 		self.stech.kick = self.stat_info.kick_tables.moderate_kick
 		self.stech.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.stech.CLIP_AMMO_MAX = 20
+		self.stech.tactical_reload = true
 		self.stech.supported = true
 		self.stech.stats = {
 			damage = 16,
@@ -2833,6 +2898,7 @@ function WeaponTweakData:init(...)
 		self.x_legacy.kick = self.legacy.kick
 		self.x_legacy.kick_pattern = self.legacy.kick_pattern
 		self.x_legacy.CLIP_AMMO_MAX = self.legacy.CLIP_AMMO_MAX * 2
+		self.x_legacy.tactical_reload = true
 		self.x_legacy.BURST_COUNT = 2
 		self.x_legacy.ADAPTIVE_BURST_SIZE = true
 		self.x_legacy.FIRE_MODE = "burst"
@@ -2861,6 +2927,7 @@ function WeaponTweakData:init(...)
 		self.x_pl14.fire_mode_data.fire_rate = self.pl14.fire_mode_data.fire_rate
 		self.x_pl14.single.fire_rate = self.pl14.single.fire_rate
 		self.x_pl14.CLIP_AMMO_MAX = self.pl14.CLIP_AMMO_MAX * 2
+		self.x_pl14.tactical_reload = true
 		self.x_pl14.BURST_COUNT = 2
 		self.x_pl14.ADAPTIVE_BURST_SIZE = true
 		self.x_pl14.FIRE_MODE = "burst"
@@ -2891,6 +2958,7 @@ function WeaponTweakData:init(...)
 		--Cavity 9mm
 		self.sub2000.categories = {"pistol"}
 		self.sub2000.CLIP_AMMO_MAX = 30
+		self.sub2000.tactical_reload = true
 		self.sub2000.fire_rate_multiplier = 0.77195467 --545 rpm
 		self.sub2000.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.sub2000.kick_pattern = self.stat_info.kick_patterns.random
@@ -2949,6 +3017,7 @@ function WeaponTweakData:init(...)
 		self.p226.kick = self.stat_info.kick_tables.left_recoil
 		self.p226.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.p226.CLIP_AMMO_MAX = 13
+		self.p226.tactical_reload = true
 		self.p226.supported = true
 		self.p226.stats = {
 			damage = 20,
@@ -2972,6 +3041,7 @@ function WeaponTweakData:init(...)
 		self.sparrow.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.sparrow.fire_rate_multiplier = 1.2 --480 rpm
 		self.sparrow.supported = true
+		self.sparrow.tactical_reload = true
 		self.sparrow.stats = {
 			damage = 20,
 			spread = 16,
@@ -2994,6 +3064,7 @@ function WeaponTweakData:init(...)
 		self.g22c.kick = self.stat_info.kick_tables.even_recoil
 		self.g22c.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.g22c.CLIP_AMMO_MAX = 15
+		self.g22c.tactical_reload = true
 		self.g22c.supported = true
 		self.g22c.stats = {
 			damage = 20,
@@ -3014,6 +3085,7 @@ function WeaponTweakData:init(...)
 
 		--Crosskill Guard
 		self.shrew.CLIP_AMMO_MAX = 8
+		self.shrew.tactical_reload = true
 		self.shrew.kick = self.stat_info.kick_tables.moderate_kick
 		self.shrew.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.shrew.supported = true
@@ -3040,6 +3112,7 @@ function WeaponTweakData:init(...)
 		self.x_g22c.kick = self.g22c.kick
 		self.x_g22c.kick_pattern = self.g22c.kick_pattern
 		self.x_g22c.CLIP_AMMO_MAX = self.g22c.CLIP_AMMO_MAX * 2
+		self.x_g22c.tactical_reload = true
 		self.x_g22c.BURST_COUNT = 2
 		self.x_g22c.ADAPTIVE_BURST_SIZE = true
 		self.x_g22c.FIRE_MODE = "burst"
@@ -3068,6 +3141,7 @@ function WeaponTweakData:init(...)
 	--Light HandCannon (Secondary)
 		--Interceptor .45
 		self.usp.CLIP_AMMO_MAX = 12
+		self.usp.tactical_reload = true
 		self.usp.kick = self.stat_info.kick_tables.right_recoil
 		self.usp.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.usp.supported = true
@@ -3094,6 +3168,7 @@ function WeaponTweakData:init(...)
 		self.colt_1911.fire_mode_data.fire_rate = 0.125
 		self.colt_1911.single.fire_rate = 0.125
 		self.colt_1911.CLIP_AMMO_MAX = 8
+		self.colt_1911.tactical_reload = true
 		self.colt_1911.kick = self.stat_info.kick_tables.moderate_left_kick
 		self.colt_1911.kick_pattern = self.stat_info.kick_patterns.random
 		self.colt_1911.supported = true
@@ -3147,6 +3222,7 @@ function WeaponTweakData:init(...)
 		self.breech.kick = self.stat_info.kick_tables.moderate_kick
 		self.breech.kick_pattern = self.stat_info.kick_patterns.jumpy_1
 		self.breech.supported = true
+		self.breech.tactical_reload = true
 		self.breech.stats = {
 			damage = 24,
 			spread = 15,
@@ -3166,6 +3242,7 @@ function WeaponTweakData:init(...)
 
 		--Leo
 		self.hs2000.CLIP_AMMO_MAX = 13
+		self.hs2000.tactical_reload = true
 		self.hs2000.FIRE_MODE = "single"
 		self.hs2000.kick = self.stat_info.kick_tables.left_recoil
 		self.hs2000.kick_pattern = self.stat_info.kick_patterns.zigzag_1
@@ -3200,6 +3277,7 @@ function WeaponTweakData:init(...)
 		self.x_usp.ADAPTIVE_BURST_SIZE = true
 		self.x_usp.FIRE_MODE = "burst"
 		self.x_usp.supported = true
+		self.x_usp.tactical_reload = true
 		self.x_usp.stats = {
 			damage = 24,
 			spread = 11,
@@ -3223,6 +3301,7 @@ function WeaponTweakData:init(...)
 
 		--Akimbo Crosskill
 		self.x_1911.CLIP_AMMO_MAX = self.colt_1911.CLIP_AMMO_MAX * 2
+		self.x_1911.tactical_reload = true 
 		self.x_1911.fire_mode_data.fire_rate = self.colt_1911.fire_mode_data.fire_rate
 		self.x_1911.single.fire_rate = self.colt_1911.single.fire_rate
 		self.x_1911.kick = self.colt_1911.kick
@@ -3257,6 +3336,7 @@ function WeaponTweakData:init(...)
 		self.deagle.kick = self.stat_info.kick_tables.vertical_kick
 		self.deagle.kick_pattern = self.stat_info.kick_patterns.random
 		self.deagle.CLIP_AMMO_MAX = 7
+		self.deagle.tactical_reload = true
 		self.deagle.supported = true
 		self.deagle.stats = {
 			damage = 30,
@@ -3275,6 +3355,29 @@ function WeaponTweakData:init(...)
 			equip = 0.35
 		}
 		self.deagle.reload_speed_multiplier = 1.15 --2.2/3.1s
+
+		--Kahn .357 Revolver
+		self.korth.fire_mode_data.fire_rate = 0.15 --400 rpm
+		self.korth.use_data.selection_index = 2
+		self.korth.kick = self.stat_info.kick_tables.right_kick
+		self.korth.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.korth.supported = true
+		self.korth.stats = {
+			damage = 30,
+			spread = 20,
+			recoil = 8,
+			concealment = 18
+		}
+		self.korth.timers = {
+			reload_empty = 3.6,
+			reload_not_empty = 3.6,
+			reload_operational = 2.9,
+			empty_reload_operational = 2.9,
+			reload_interrupt = 0.6,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.5,
+			equip = 0.45
+		}
 
 	--Medium Handcannons (Secondary)
 		--Bronco
@@ -3880,6 +3983,31 @@ function WeaponTweakData:init(...)
 		self.elastic.fire_rate_multiplier = 1.25
 		self.elastic.reload_speed_multiplier = 2
 
+	--VD12 Tier (Primary)
+		--VD-12
+		self.sko12.fire_rate_multiplier = 0.91666 --250 rpm
+		self.sko12.kick = self.stat_info.kick_tables.right_recoil
+		self.sko12.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.sko12.FIRE_MODE = "single"
+		self.sko12.CAN_TOGGLE_FIREMODE = false
+		self.sko12.supported = true
+		self.sko12.stats = {
+			damage = 3,
+			spread = 10,
+			recoil = 14,
+			concealment = 8
+		}
+		self.sko12.timers = {
+			reload_not_empty = 3.7,
+			reload_empty = 4.2,
+			reload_operational = 3.1,
+			empty_reload_operational = 3.5,
+			reload_interrupt = 0.9,
+			empty_reload_interrupt = 0.6,
+			unequip = 0.6,
+			equip = 0.6
+		}
+
 	--Light Shotgun (Primary)
 		--Steakout
 		self.aa12.CLIP_AMMO_MAX = 10
@@ -3905,32 +4033,6 @@ function WeaponTweakData:init(...)
 			equip = 0.55
 		}
 
-		--Izhma 12G
-		self.saiga.muzzleflash = "effects/particles/shotgun/shotgun_gen"
-		self.saiga.CLIP_AMMO_MAX = 5
-		self.saiga.fire_mode_data.fire_rate = 0.1
-		self.saiga.auto.fire_rate = 0.1
-		self.saiga.kick = self.stat_info.kick_tables.right_kick
-		self.saiga.kick_pattern = self.stat_info.kick_patterns.zigzag_1
-		self.saiga.supported = true
-		self.saiga.stats = {
-			damage = 5,
-			spread = 12,
-			recoil = 9,
-			concealment = 16
-		}
-		self.saiga.timers = {
-			reload_not_empty = 3.3,
-			reload_empty = 4.5,
-			reload_operational = 2.65,
-			empty_reload_operational = 3.95,
-			reload_interrupt = 0.5,
-			empty_reload_interrupt = 0.5,
-			unequip = 0.6,
-			equip = 0.6
-		}
-		self.saiga.reload_speed_multiplier = 1.2 --2.2/3
-
 		--Predator 12g
 		self.spas12.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.spas12.CLIP_AMMO_MAX = 6
@@ -3940,6 +4042,7 @@ function WeaponTweakData:init(...)
 		self.spas12.kick = self.stat_info.kick_tables.left_kick
 		self.spas12.kick_pattern = self.stat_info.kick_patterns.jumpy_3
 		self.spas12.supported = true
+		self.spas12.tactical_reload = true
 		self.spas12.stats = {
 			damage = 5,
 			spread = 13,
@@ -3967,6 +4070,7 @@ function WeaponTweakData:init(...)
 		self.benelli.kick = self.stat_info.kick_tables.moderate_kick
 		self.benelli.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.benelli.supported = true
+		self.benelli.tactical_reload = true
 		self.benelli.stats = {
 			damage = 5,
 			spread = 12,
@@ -4014,7 +4118,8 @@ function WeaponTweakData:init(...)
 
 	--Light Shotgun (Akimbo)
 		--Brothers Grimm
-		self.x_basset.CLIP_AMMO_MAX = 10
+		self.x_basset.CLIP_AMMO_MAX = self.basset.CLIP_AMMO_MAX * 2
+		self.x_basset.tactical_reload = true
 		self.x_basset.kick = self.stat_info.kick_tables.right_kick
 		self.x_basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.x_basset.BURST_COUNT = 2
@@ -4100,6 +4205,34 @@ function WeaponTweakData:init(...)
 			equip = 0.6
 		}
 		self.rota.reload_speed_multiplier = 0.9 --3.6s
+
+		--Izhma 12G
+		self.saiga.muzzleflash = "effects/particles/shotgun/shotgun_gen"
+		self.saiga.CLIP_AMMO_MAX = 5
+		self.saiga.tactical_reload = true
+		self.saiga.fire_mode_data.fire_rate = 0.1
+		self.saiga.auto.fire_rate = 0.1
+		self.saiga.kick = self.stat_info.kick_tables.right_kick
+		self.saiga.kick_pattern = self.stat_info.kick_patterns.zigzag_1
+		self.saiga.use_data.selection_index = 1
+		self.saiga.supported = true
+		self.saiga.stats = {
+			damage = 5,
+			spread = 12,
+			recoil = 9,
+			concealment = 15
+		}
+		self.saiga.timers = {
+			reload_not_empty = 3.3,
+			reload_empty = 4.5,
+			reload_operational = 2.65,
+			empty_reload_operational = 3.95,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 0.5,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.saiga.reload_speed_multiplier = 1.2 --2.8/3.8
 		
 		--Argos 3
 		self.ultima.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4191,6 +4324,7 @@ function WeaponTweakData:init(...)
 		--Grimm 12g
 		self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.basset.CLIP_AMMO_MAX = 5
+		self.basset.tactical_reload = true
 		self.basset.kick = self.stat_info.kick_tables.right_kick
 		self.basset.kick_pattern = self.stat_info.kick_patterns.zigzag_1
 		self.basset.supported = true
@@ -4221,6 +4355,7 @@ function WeaponTweakData:init(...)
 		self.r870.kick = self.stat_info.kick_tables.vertical_kick
 		self.r870.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.r870.supported = true
+		self.r870.tactical_reload = true
 		self.r870.stats = {
 			damage = 8,
 			spread = 12,
@@ -4242,6 +4377,7 @@ function WeaponTweakData:init(...)
 		self.m590.tactical_reload = true
 		self.m590.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.m590.CLIP_AMMO_MAX = 7
+		self.m590.tactical_reload = true
 		self.m590.kick = self.stat_info.kick_tables.vertical_kick
 		self.m590.kick_pattern = self.stat_info.kick_patterns.zigzag_2
 		self.m590.supported = true
@@ -4266,6 +4402,7 @@ function WeaponTweakData:init(...)
 		--Raven
 		self.ksg.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.ksg.CLIP_AMMO_MAX = 14
+		self.ksg.tactical_reload = true
 		self.ksg.single.fire_rate = 0.55
 		self.ksg.fire_mode_data.fire_rate = 0.55
 		self.ksg.fire_rate_multiplier = 0.825 --90rpm
@@ -4321,6 +4458,7 @@ function WeaponTweakData:init(...)
 		--Breaker 12g
 		self.boot.use_data.selection_index = 1
 		self.boot.CLIP_AMMO_MAX = 5
+		self.boot.tactical_reload = true
 		self.boot.fire_rate_multiplier = 1.13
 		self.boot.fire_mode_data.fire_rate = 0.85
 		self.boot.single.fire_rate = 0.85
@@ -4354,6 +4492,7 @@ function WeaponTweakData:init(...)
 		self.serbu.kick = self.stat_info.kick_tables.vertical_kick
 		self.serbu.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.serbu.supported = true
+		self.serbu.tactical_reload = true
 		self.serbu.stats = {
 			damage = 8,
 			spread = 10,
@@ -4374,6 +4513,7 @@ function WeaponTweakData:init(...)
 		--GSPS--
 		self.m37.muzzleflash = "effects/particles/shotgun/shotgun_gen"
 		self.m37.CLIP_AMMO_MAX = 4
+		self.m37.tactical_reload = true
 		self.m37.fire_mode_data.fire_rate = 0.75
 		self.m37.single.fire_rate = 0.75
 		self.m37.kick = self.stat_info.kick_tables.left_kick
@@ -4644,11 +4784,6 @@ function WeaponTweakData:init(...)
 		self.ranc_heavy_machine_gun.kick = self.stat_info.kick_tables.moderate_kick
 		self.ranc_heavy_machine_gun.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 
-	--Anubis .45
-	if self.socom then
-		--TODO: Implement Anubis stats once the standalone gun is released.
-	end
-
 	--The following Akimbo weapons are not supported. These generally:
 		--A: Fail to fit into an interesting and non-degenerate gameplay niche.
 		--B: Lack unique animations, or have animations that make glaringly obvious limitations with current akimbo code.
@@ -4688,13 +4823,8 @@ function WeaponTweakData:init(...)
 		--Akimbo Matevers
 		--Akimbo Bronco
 		--Akimbo Frenchman
-
-	--Apply tactical reloading to relevant guns.
-	--TODO: Move these to the weapon specific blocks.
-	local tact_rel = {'deagle','colt_1911','usp','p226','g22c','glock_17','glock_18c','b92fs','ppk','mp9','new_mp5','mp7','p90','olympic','akmsu','akm','akm_gold','ak74','m16','amcar','new_m4','ak5','s552','g36','aug','saiga','new_m14','scar','fal','rpk','msr','r93','m95','famas','galil','g3','scorpion','benelli','serbu','r870','ksg','g26','spas12','l85a2','vhs','hs2000','tec9','asval','sub2000','polymer','wa2000','model70','sparrow','m37','sr2','pl14','tecci','hajk','boot','packrat','schakal','desertfox','tti','siltstone','flint','coal','lemming','breech','basset','shrew','corgi','shepheard','komodo','legacy','beer','czech','stech','r700','holt', 'x_deagle','x_1911','x_b92fs','jowi','x_usp','x_g17','x_g22c','x_packrat','x_shrew','x_breech','x_g18c','x_hs2000','x_p226','x_pl14','x_ppk','x_sparrow','x_legacy','x_czech','x_stech','x_holt', 'x_sr2','x_mp5', 'x_coal', 'x_mp7', 'x_mp9', 'x_p90', 'x_polymer', 'x_schakal', 'x_scorpion', 'x_tec9','x_shepheard', 'x_akmsu', 'x_hajk', 'x_olympic'}
-	for i, wep_id in ipairs(tact_rel) do
-		self[wep_id].tactical_reload = true
-	end
+		--Akimbo Kahn .357
+		--Akimbo VD-12 Shotgun
 
 	--Calculate any remaining weapon stats that are shared (IE: reload is always 20) or determined systemically (IE: ammo pickup).
 	for name, weap in pairs(self) do
@@ -4726,6 +4856,11 @@ function WeaponTweakData:init(...)
 				weap.panic_suppression_chance = 0.05
 				self:calculate_ammo_data(weap)
 				self:calculate_suppression_data(weap)
+
+				if not weap.fire_mode_data.toggable then
+					log(name)
+					self:create_fire_mode_toggles(weap)
+				end
 
 				if weap.CLIP_AMMO_MAX == 1 then
 					weap.upgrade_blocks = {
@@ -4771,22 +4906,15 @@ local damage_tier_data = {
 	{damage = 200, pickup = 75, suppression = 17},
 	{damage = 300, pickup = 60, suppression = 18}
 }
-local shotgun_damage_tier_data = {
-	{tier =  5, damage =  50, pickup = 120, suppression = 13}, --110 damage shotguns = 100 damage other weapons
-	{tier =  8, damage =  80, pickup = 110, suppression = 14}, --176 damage shotguns = 160 damage other weapons
-	{tier = 10, damage = 100, pickup = 100, suppression = 15} --220 damage shotguns = 200 damage other weapons
-}
-
 local damage_pool_primary = 2400
 local damage_pool_secondary = 1200
 
 local function get_damage_tier(weapon)
 	local damage_mul = weapon.stats_modifiers and weapon.stats_modifiers.damage or 1
 	local damage = weapon.stats.damage * damage_mul
-	local damage_tiers = weapon.rays and shotgun_damage_tier_data or damage_tier_data
-	for i = 1, #damage_tiers do
-		local damage_tier = damage_tiers[i]
-		if damage - 1 <= (damage_tier.tier or damage_tier.damage) then
+	for i = 1, #damage_tier_data do
+		local damage_tier = damage_tier_data[i]
+		if (damage * (weapon.rays or 1)) - 1 <= (damage_tier.tier or damage_tier.damage) then
 			return damage_tier
 		end
 	end
@@ -4798,14 +4926,14 @@ local category_data = {
 	shotgun          = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	bow              = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
 	crossbow         = {pickup = 0.7, suppression = 0.5, ammo_max = 1.0},
-	pistol           = {pickup = 1.0, suppression = 0.5, ammo_max = 1.0},
-	smg              = {pickup = 1.1, suppression = 1.5, ammo_max = 1.0},
+	pistol           = {pickup = 1.1, suppression = 0.5, ammo_max = 1.0},
+	smg              = {pickup = 1.0, suppression = 1.5, ammo_max = 1.0},
 	lmg              = {pickup = 1.0, suppression = 1.3, ammo_max = 1.5}, --Applies on top of SMG preset
 	minigun          = {pickup = 1.0, suppression = 1.3, ammo_max = 2.0}, --Applies on top of SMG preset
 	saw              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	grenade_launcher = {pickup = 0.5, suppression = 1.0, ammo_max = 1.0},
 	snp              = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
-	assault_rifle    = {pickup = 1.1, suppression = 1.0, ammo_max = 1.0},
+	assault_rifle    = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	akimbo           = {pickup = 1.0, suppression = 1.0, ammo_max = 1.0},
 	flamethrower     = {pickup = 1.3, suppression = 1.5, ammo_max = 2.0}
 }
@@ -4878,4 +5006,27 @@ function WeaponTweakData:calculate_suppression_data(weapon)
 
 	--Silenced guns have their suppression reduced by an additional 4 points.
 	weapon.stats.suppression = math.clamp(math.round(damage_tier.suppression * multiplier) - (weapon.stats.alert_size == 2 and 4 or 0), 1, #self.stats.suppression)
+end
+
+function WeaponTweakData:create_fire_mode_toggles(weapon)
+	weapon.fire_mode_data.toggable = {}
+
+	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "single" then
+		log("    SINGLE")
+		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "single"
+	end
+
+	local has_burst = false
+	if weapon.BURST_COUNT and weapon.BURST_COUNT ~= false then
+		log("    BURST")
+		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "burst"
+		has_burst = true
+	end
+
+	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "auto" then
+		log("    AUTO")
+		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "auto"
+	end
+
+	weapon.CAN_TOGGLE_FIREMODE = weapon.CAN_TOGGLE_FIREMODE or has_burst
 end

@@ -2,84 +2,66 @@
 	--Cosmetic
 		local cosmetic = {
 			has_description = false,
-			stats = {value = 1},
-			heat_stat_table = "cosmetic"
+			stats = {value = 1}
 		}
 	--Barrel Extensions
 		local unsuppressor = {
 			stats = {value = 1, suppression = 4, alert_size = -1},
-			heat_stat_table = "unsuppressor"
+			custom_stats = {
+				damage_near_mul = 1/0.9,
+				damage_far_mul  = 1/0.9
+			}
 		}
 		local loudener = {
-			stats = {value = 1, suppression = 4},
-			heat_stat_table = "loudener"
+			stats = {value = 1, suppression = 4}
 		}
 		local flash_hider = {
-			stats = {value = 1, suppression = -4},
-			heat_stat_table = "flash_hider"
+			stats = {value = 1, suppression = -4}
 		}
 		local suppressor = {
 			stats = {value = 2, suppression = -4, alert_size = 1},
-			heat_stat_table = "suppressor"
-		}
-		local vertical_compensator = {
-			stats = {value = 1},
 			custom_stats = {
-				kick_addend = {
-					-0.2,
-					-0.2,
-					-0.2,
-					0.2
-				}
-			},
-			heat_stat_table = "vertical_compensator"
+				damage_near_mul = 0.9,
+				damage_far_mul  = 0.9
+			}
 		}
-		local horizontal_compensator = {
-			stats = {value = 1},
-			custom_stats = {
-				kick_addend = {
-					0.2,
-					0.2,
-					0.2,
-					-0.2
-				}
-			},
-			heat_stat_table = "horizontal_compensator"
+		local light_stab_ext = {
+			stats = {value = 2, spread = -1, recoil = 1},
+			heat_stat_table = "light_stab_ext",
+			heat_mod_filters = {heavy_stab_ext = true}
 		}
-		local left_compensator = {
-			stats = {value = 1},
-			custom_stats = {
-				kick_addend = {
-					0.2,
-					0.2,
-					0.4,
-					0.0
-				}
-			},
-			heat_stat_table = "left_compensator"
+		local heavy_stab_ext = {
+			stats = {value = 3, spread = -2, recoil = 2},
+			heat_stat_table = "heavy_stab_ext",
+			heat_mod_filters = {light_stab_ext = true, heavy_stab_ext = true}
 		}
-		local right_compensator = {
-			stats = {value = 1},
-			custom_stats = {
-				kick_addend = {
-					0.2,
-					0.2,
-					0.0,
-					-0.4
-				}
-			},
-			heat_stat_table = "right_compensator"
+		local light_acc_ext = {
+			stats = {value = 2, spread = 1, recoil = -1},
+			heat_stat_table = "light_acc_ext",
+			heat_mod_filters = {heavy_acc_ext = true}
+		}
+		local heavy_acc_ext = {
+			stats = {value = 3, spread = 2, recoil = -2},
+			heat_stat_table = "heavy_acc_ext",
+			heat_mod_filters = {light_acc_ext = true, heavy_acc_ext = true}
 		}
 	--Gadgets
 		local bulky_gadget = {
-			custom_stats = {swap_speed_mul = 0.9},
-			heat_stat_table = "bulky_gadget"
+			custom_stats = {swap_speed_mul = 0.9}
 		}
-	--Misc
+	--Magazines
+		local quadstacked_mag = {
+			has_description = true,
+			desc_id = "bm_wpn_fps_upg_m4_m_quad_desc",
+			custom_stats = {movement_speed = 0.9},
+			stats = {value = 3, concealment = -5, reload = -5, extra_ammo = 30}
+		}
+		local vintage_mag = {
+			stats = {value = 3, concealment = 2, reload = 6, extra_ammo = -10}
+		}
 		local shell_rack = {
-			stats = {reload = 2, concealment = -1},
-			custom_stats = {swap_speed_mul = 0.9},
-			heat_stat_table = "shell_rack"
+			stats = {value = 1, reload = 2, concealment = -1},
+			custom_stats = {swap_speed_mul = 0.9}
 		}
 	--Barrels
 		local light_mob_barrel = {
@@ -103,25 +85,49 @@
 			heat_mod_filters = {light_acc_barrel = true, heavy_acc_barrel = true}
 		}
 	--Grips
-		local light_stab_grip = {
-			stats = {value = 2, spread = -1, recoil = 1},
-			heat_stat_table = "light_stab_grip",
-			heat_mod_filters = {heavy_stab_grip = true}
+		local vertical_grip = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					-0.2,
+					-0.2,
+					-0.2,
+					0.2
+				}
+			}
 		}
-		local heavy_stab_grip = {
-			stats = {value = 3, spread = -2, recoil = 2},
-			heat_stat_table = "heavy_stab_grip",
-			heat_mod_filters = {light_stab_grip = true, heavy_stab_grip = true}
+		local horizontal_grip = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					0.2,
+					0.2,
+					0.2,
+					-0.2
+				}
+			}
 		}
-		local light_acc_grip = {
-			stats = {value = 2, spread = 1, recoil = -1},
-			heat_stat_table = "light_acc_grip",
-			heat_mod_filters = {heavy_acc_grip = true}
+		local left_grip = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					0.2,
+					0.2,
+					0.0,
+					0.4,
+				}
+			}
 		}
-		local heavy_acc_grip = {
-			stats = {value = 3, spread = 2, recoil = -2},
-			heat_stat_table = "heavy_acc_grip",
-			heat_mod_filters = {light_acc_grip = true, heavy_acc_grip = true}
+		local right_grip = {
+			stats = {value = 1},
+			custom_stats = {
+				kick_addend = {
+					0.2,
+					0.2,
+					-0.4,
+					0.0
+				}
+			}
 		}
 	--Stocks
 		local light_mob_stock = {
@@ -146,8 +152,7 @@
 		}
 	--Arrows
 		local poison_arrow = {
-			stats = {value = 4},
-			heat_stat_table = "poison_arrow"
+			stats = {value = 4}
 		}
 			local light_bow_poison = {
 				stats = {damage = -20},
@@ -178,19 +183,16 @@
 				}
 			}
 		local light_explosive_arrow = {
-			stats = {value = 4, damage = 20, spread = -4},
-			heat_stat_table = "light_explosive_arrow"
+			stats = {value = 4, damage = 20, spread = -4}
 		}
 		local heavy_explosive_arrow = {
-			stats = {value = 4, damage = 20, spread = -4},
-			heat_stat_table = "heavy_explosive_arrow"
+			stats = {value = 4, damage = 20, spread = -4}
 		}
 	--Flamethrower Tanks
 		local rare_tank = {
 			stats = {value = 4},
 			has_description = true,
 			desc_id = "bm_wp_fla_mk2_mag_rare_desc_sc",
-			heat_stat_table = "rare_tank",
 			custom_stats = {
 				fire_dot_data = {
 					dot_damage = 1,
@@ -206,7 +208,6 @@
 			stats = {value = 4},
 			has_description = true,
 			desc_id = "bm_wp_fla_mk2_mag_well_desc_sc",
-			heat_stat_table = "well_done_tank",
 			custom_stats = {
 				fire_dot_data = {
 					dot_damage = 1,
@@ -226,37 +227,37 @@
 			part[field] = data
 		end
 
-		if arg then
-			local function append_stats(append_table)
-				for k, v in pairs(append_table) do
-					if type(v) == "table" then			
-						--Clone current table to avoid changing the global attachment tables.
-						part[k] = part[k] and deep_clone(part[k]) or {}
+		local arg = {...}
+		local function append_stats(append_table)
+			for k, v in pairs(append_table) do
+				if type(v) == "table" then			
+					--Clone current table to avoid changing the global attachment tables.
+					part[k] = part[k] and deep_clone(part[k]) or {}
 
-						for stat, data in pairs(v) do
-							orig_stat = part[k][stat]
-							if type(orig_stat) == "number" and k ~= "heat_stat_table" then
-								part[k][stat] = orig_stat + data
-							else
-								part[k][stat] = data
-							end
+					for stat, data in pairs(v) do
+						orig_stat = part[k][stat]
+						if orig_stat and type(orig_stat) == "number" and k ~= "heat_stat_table" then
+							part[k][stat] = orig_stat + data
+						else
+							part[k][stat] = data
 						end
-					elseif type(t) == "number" and type(part[k]) == "number" then
-						part[k] = part[k] + v
-					else
-						part[k] = v
 					end
+				elseif type(t) == "number" and type(part[k]) == "number" then
+					part[k] = part[k] + v
+				else
+					part[k] = v
 				end
 			end
+		end
 
-			for i = 1, #arg do
-				append_stats(arg[i])
-			end
+		for i = 1, #arg do
+			append_stats(arg[i])
 		end
 	end
 
 	--Shotgun Ammo Types
 		local slug_damage = {
+			vd12 = 27,
 			light = 45,
 			medium = 72,
 			heavy = 90
@@ -281,6 +282,7 @@
 		}
 
 		local he_damage = {
+			vd12 = 47,
 			light = 75,
 			medium = 92,
 			heavy = 140
@@ -302,6 +304,7 @@
 		}
 
 		local buck_damage = {
+			vd12 = 3,
 			light = 5,
 			medium = 8,
 			heavy = 10
@@ -321,6 +324,7 @@
 		}
 
 		local shotgun_dot_damage = {
+			vd12 = 2.6,
 			light = 4.6,
 			medium = 6.1,
 			heavy = 8.1
@@ -420,6 +424,139 @@ function WeaponFactoryTweakData:init()
 	end
 end
 
+local orig_init_silencers = WeaponFactoryTweakData._init_silencers
+function WeaponFactoryTweakData:_init_silencers()
+	orig_init_silencers(self)
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_large, suppressor, heavy_acc_ext) --The Bigger the Better
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_medium, suppressor, light_acc_ext) --Medium Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_small, suppressor) --Low Profile Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_large, suppressor, heavy_acc_ext) --Monolith Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium, suppressor, light_acc_ext) --Standard Issue Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_small, suppressor) --Size Doesn't Matter Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_shot_thick, suppressor, heavy_stab_ext) --Silent Killer Suppressor
+end
+
+local orig_init_nozzles = WeaponFactoryTweakData._init_nozzles
+function WeaponFactoryTweakData:_init_nozzles()
+	orig_init_nozzles(self)
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_firepig, flash_hider) --Fire Breather Nozzle
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_stubby, heavy_acc_ext) --Stubby Compensator
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_tank, heavy_stab_ext, loudener) --The Tank Compensator
+	apply_stats(self.parts.wpn_fps_upg_ns_shot_shark, light_acc_ext) --Shark Teeth Nozzle
+end
+
+local orig_init_gadgets = WeaponFactoryTweakData._init_gadgets
+function WeaponFactoryTweakData:_init_gadgets()
+	orig_init_gadgets(self)
+	--apply_stats(self.parts.wpn_fps_addon_ris, cosmetic) --???
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_smg_sho_surefire, cosmetic) --Assault Light
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_smg_sho_peqbox, cosmetic) --Tactical Laser Module
+	apply_stats(self.parts.wpn_fps_upg_fl_pis_laser, cosmetic) --Pocket Laser
+	apply_stats(self.parts.wpn_fps_upg_fl_pis_tlr1, cosmetic) --Tactical Pistol Light
+end
+
+local orig_init_vertical_grips = WeaponFactoryTweakData._init_vertical_grips
+function WeaponFactoryTweakData:_init_vertical_grips()
+	orig_init_vertical_grips(self)
+	apply_stats(self.parts.wpn_fps_upg_vg_ass_smg_verticalgrip, vertical_grip)
+	apply_stats(self.parts.wpn_fps_upg_vg_ass_smg_stubby, horizontal_grip)
+	apply_stats(self.parts.wpn_fps_upg_vg_ass_smg_afg, cosmetic)
+end
+
+local orig_init_sights = WeaponFactoryTweakData._init_sights
+function WeaponFactoryTweakData:_init_sights()
+	orig_init_sights(self)
+	--TODO: Go over these!
+	--apply_stats(self.parts.wpn_fps_upg_o_specter, cosmetic) --Milspec Scope
+	--apply_stats(self.parts.wpn_fps_upg_o_aimpoint, cosmetic) --Military Red Dot
+	--apply_stats(self.parts.wpn_fps_upg_o_aimpoint_2, cosmetic) --Preorder Military Red Dot
+	--apply_stats(self.parts.wpn_fps_upg_o_docter, cosmetic) --Surgeon Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_tf90, cosmetic) --Compact Tactical
+	--apply_stats(self.parts.wpn_fps_upg_o_poe, cosmetic) --Owl Glass
+	--apply_stats(self.parts.wpn_fps_upg_o_eotech, cosmetic) --Holographic Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_t1micro, cosmetic) --The Professional's Choice Sight
+	--apply_stats(self.parts.wpn_upg_o_marksmansight_rear, cosmetic) --Marksman Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_45iron, cosmetic) --Angled Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_shortdot, cosmetic) --Shortdot Sight (Default Sniper Scope)
+	--apply_stats(self.parts.wpn_fps_upg_o_leupold, cosmetic) --Theia Magnified Scope
+end
+
+local orig_init_content_dlc1 = WeaponFactoryTweakData._init_content_dlc1
+function WeaponFactoryTweakData:_init_content_dlc1()
+	orig_init_content_dlc1(self)
+	--TODO: Go over these!
+	--apply_stats(self.parts.wpn_fps_upg_o_cmore, cosmetic) --See More Sight
+end
+
+local orig_init_content_dlc2 = WeaponFactoryTweakData._init_content_dlc2
+function WeaponFactoryTweakData:_init_content_dlc2()
+	orig_init_content_dlc2(self)
+	--TODO: self.parts.wpn_fps_upg_i_singlefire
+	--TODO: self.parts.wpn_fps_upg_i_autofire
+	--Make these replace the related fire mode with burst fire. Add them to exclude tables on guns that already have burst fire.
+	apply_stats(self.parts.wpn_fps_upg_m4_g_hgrip, left_grip) --Rubber Grip
+	apply_stats(self.parts.wpn_fps_upg_m4_g_mgrip, cosmetic) --Straight Grip
+end
+
+orig_init_content_dlc2_dec16 = WeaponFactoryTweakData._init_content_dlc2_dec16
+function WeaponFactoryTweakData:_init_content_dlc2_dec16()
+	orig_init_content_dlc2_dec16(self)
+	--TODO: Go over these!
+	--apply_stats(self.parts.wpn_fps_upg_o_acog, cosmetic) --Acough Optic Scope
+end
+
+
+orig_init_content_jobs = WeaponFactoryTweakData._init_content_jobs
+function WeaponFactoryTweakData:_init_content_jobs()
+	orig_init_content_jobs(self)
+	apply_stats(self.parts.wpn_fps_pis_rage_extra, cosmetic) --Bronco Scope Mount
+	apply_stats(self.parts.wpn_fps_pis_deagle_extra, cosmetic) --Deagle Scope Mount
+	apply_stats(self.parts.wpn_fps_upg_fg_jp, horizontal_grip) --Competition Foregrip
+	apply_stats(self.parts.wpn_fps_upg_fg_smr, vertical_grip) --Gazelle Rail
+	apply_stats(self.parts.wpn_fps_upg_m4_m_quad, quadstacked_mag) --CAR Quadstacked Mag
+	apply_stats(self.parts.wpn_fps_upg_ak_fg_tapco, vertical_grip) --Battleproven Handguard
+	apply_stats(self.parts.wpn_fps_upg_fg_midwest, horizontal_grip) --Lightweight Rail
+	apply_stats(self.parts.wpn_fps_upg_ak_b_draco, heavy_mob_barrel) --AK Slavic Dragon Barrel
+	apply_stats(self.parts.wpn_fps_upg_ak_m_quad, quadstacked_mag) --AK Quadstacked Mag
+	apply_stats(self.parts.wpn_fps_upg_ak_g_hgrip, left_grip) --AK Rubber Grip
+	apply_stats(self.parts.wpn_fps_upg_ak_g_pgrip, horizontal_grip) --Ak Plastic Grip
+	apply_stats(self.parts.wpn_fps_upg_ak_g_wgrip, right_grip) --AK Wood Grip
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_jprifles, heavy_stab_ext) --Competitors Compensator
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_linear, heavy_acc_ext, loudener) --Funnel of Fun Nozzle
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_surefire, light_stab_ext) --Tactical Compensator
+	apply_stats(self.parts.wpn_fps_upg_pis_ns_flash, flash_hider) --Flash Hider
+	apply_stats(self.parts.wpn_fps_upg_shot_ns_king, heavy_acc_ext) --King's Crown Compensator
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium_slim, suppressor, heavy_stab_ext) --Asepsis Suppressor
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_peq15, cosmetic) --Military Laser Module
+	apply_stats(self.parts.wpn_fps_upg_m4_s_crane, light_stab_stock) --Wide Stock
+	apply_stats(self.parts.wpn_fps_upg_m4_s_mk46, light_stab_stock) --War-Torn Stock
+	--apply_stats(self.parts.wpn_fps_upg_o_rmr, cosmetic) --Pistol Red Dot Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_eotech_xps, cosmetic) --Compact Holosight
+	--apply_stats(self.parts.wpn_fps_upg_o_reflex, cosmetic) --Speculator Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_rx01, cosmetic) --Trigonom Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_rx30, cosmetic) --Solar Sight
+	--apply_stats(self.parts.wpn_fps_upg_o_cs, cosmetic) --Combat Sight
+end
+
+local orig_init_m4 = WeaponFactoryTweakData._init_m4
+function WeaponFactoryTweakData:_init_m4()
+	orig_init_m4(self)
+	apply_stats(self.parts.wpn_fps_m4_upper_reciever_edge, cosmetic) --Exotique Receiver
+	apply_stats(self.parts.wpn_fps_m4_uupg_b_long, light_acc_barrel) --Long Barrel
+	apply_stats(self.parts.wpn_fps_m4_uupg_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_fps_m4_uupg_b_medium, light_acc_barrel) --Medium Barrel (Para)
+	apply_stats(self.parts.wpn_fps_m4_uupg_b_sd, suppressor, light_stab_ext, light_acc_barrel) --Stealth Barrel
+	apply_stats(self.parts.wpn_fps_m4_uupg_fg_lr300, horizontal_grip) --Aftermarket Special Handguard
+	apply_stats(self.parts.wpn_fps_m4_uupg_m_std, cosmetic) --Milspec Mag
+	apply_stats(self.parts.wpn_fps_m4_uupg_s_fold, heavy_mob_stock) --Folding Stock
+	apply_stats(self.parts.wpn_fps_upg_m4_g_ergo, left_grip) --Ergo Grip
+	apply_stats(self.parts.wpn_fps_upg_m4_g_sniper, vertical_grip) --Pro Grip
+	apply_stats(self.parts.wpn_fps_upg_m4_m_pmag, cosmetic) --Tactical Mag
+	apply_stats(self.parts.wpn_fps_upg_m4_m_straight, vintage_mag) --Vintage Magazine
+	apply_stats(self.parts.wpn_fps_upg_m4_s_standard, light_stab_stock) --Standard Stock
+	apply_stats(self.parts.wpn_fps_upg_m4_s_pts, heavy_stab_stock) --Tactical Stock
+	apply_stats(self.parts.wpn_fps_m4_upg_fg_mk12, heavy_acc_barrel, suppressor, vertical_grip) --Longbore Exclusive Set
+end
 --Stakeout
 local orig_init_aa12 = WeaponFactoryTweakData._init_aa12
 function WeaponFactoryTweakData:_init_aa12()
@@ -635,6 +772,20 @@ function WeaponFactoryTweakData:_init_type54()
 	})
 end
 
+--VD 12
+orig_init_sko12 = WeaponFactoryTweakData._init_sko12
+function WeaponFactoryTweakData:_init_sko12()
+	orig_init_sko12(self)
+	apply_stats(self.parts.wpn_fps_sho_sko12_b_long, light_acc_barrel) --Long Barrel
+	apply_stats(self.parts.wpn_fps_sho_sko12_b_short, light_mob_barrel) --Short Barrel
+	apply_stats(self.parts.wpn_fps_sho_sko12_fg_railed, cosmetic) --Front Mounting Rail
+	apply_stats(self.parts.wpn_fps_sho_sko12_body_grip, cosmetic) --VD12 Grip
+	apply_stats(self.parts.wpn_fps_sho_sko12_stock, light_stab_stock) --VD12 Stock
+	apply_stats(self.parts.wpn_fps_sho_sko12_stock_conversion, light_stab_stock) --VD12 Stock (Exclusive Set)
+	apply_stats(self.parts.wpn_fps_sho_sko12_conversion, cosmetic) --Exclusive Set
+	apply_shotgun_ammo_types(self.wpn_fps_sho_sko12, "vd12")
+end
+
 --GL 40
 local orig_init_gre_m79 = WeaponFactoryTweakData._init_gre_m79
 function WeaponFactoryTweakData:_init_gre_m79()
@@ -672,7 +823,7 @@ function WeaponFactoryTweakData:_init_hunter()
 	apply_stats(self.parts.wpn_fps_bow_hunter_b_carbon, light_acc_barrel) --Carbon Limb
 	apply_stats(self.parts.wpn_fps_bow_hunter_b_skeletal, light_mob_barrel) --Skeletal Limb
 	apply_stats(self.parts.wpn_fps_bow_hunter_g_camo, cosmetic) --Camo Grip
-	apply_stats(self.parts.wpn_fps_bow_hunter_g_walnut, light_acc_grip) --Walnut Grip
+	apply_stats(self.parts.wpn_fps_bow_hunter_g_walnut, cosmetic) --Walnut Grip
 	apply_stats(self.parts.wpn_fps_upg_a_crossbow_explosion, light_explosive_arrow) --Explosive Bolt
 	apply_stats(self.parts.wpn_fps_upg_a_crossbow_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
@@ -945,25 +1096,25 @@ function WeaponFactoryTweakData:create_bonuses(tweak_data, weapon_skins)
 	self.parts.wpn_fps_upg_bonus_damage_p2 = make_boost(
 		"bm_menu_bonus_spread_p1_mod",
 		"guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_spread_p1_sc",
-		light_stab_grip
+		light_stab_ext
 	)
 
 	self.parts.wpn_fps_upg_bonus_recoil_p1 = make_boost(
 		"bm_menu_bonus_spread_p2_mod",
 		"guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_damage_p1_sc",
-		heavy_stab_grip
+		heavy_stab_ext
 	)
 
 	self.parts.wpn_fps_upg_bonus_team_exp_money_p3 = make_boost(
 		"bm_menu_bonus_recoil_p1_mod",
 		"guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_recoil_p1_sc",
-		light_acc_grip
+		light_acc_ext
 	)
 
 	self.parts.wpn_fps_upg_bonus_total_ammo_p3 = make_boost(
 		"bm_menu_bonus_recoil_p1_mod",
 		"guis/dlcs/boost_in_lootdrop/textures/pd2/blackmarket/icons/mods/wpn_fps_upg_bonus_total_ammo_p1_sc",
-		heavy_acc_grip
+		heavy_acc_ext
 	)
 
 	if weapon_skins then

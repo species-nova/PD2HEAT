@@ -981,3 +981,9 @@ function WeaponTweakData:_init_data_flamethrower_mk2_crew()
 	orig_init_data_flamethrower_mk2_crew(self)
 	--Todo
 end
+
+local orig_init_data_korth_crew = WeaponTweakData._init_data_korth_crew
+function WeaponTweakData:_init_data_korth_crew()
+	orig_init_data_korth_crew(self)
+	apply_crew_weapon_preset(self.korth_crew, crew_revolver_stats)
+end
