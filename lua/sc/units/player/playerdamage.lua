@@ -194,6 +194,12 @@ function PlayerDamage:init(unit)
 	}
 
 	self:clear_delayed_damage()
+
+	self._slowdowns = {} --TODO: Unify slow mechanics.
+	self._can_play_tinnitus = not managers.user:get_setting("accessibility_sounds_tinnitus") or false
+	self._can_play_tinnitus_clbk_func = callback(self, self, "clbk_tinnitus_toggle_changed")
+
+	managers.user:add_setting_changed_callback("accessibility_sounds_tinnitus", self._can_play_tinnitus_clbk_func)
 end
 
 local orig_pre_destroy = PlayerDamage.pre_destroy
