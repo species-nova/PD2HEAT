@@ -464,7 +464,7 @@ function PlayerDamage:damage_bullet(attack_data)
 		if slow_data.taunt then
 			attacker_unit:sound():say("post_tasing_taunt")
 		end
-		managers.player:apply_slow_debuff(slow_data.duration, slow_data.power)
+		self:apply_slowdown(slow_data)
 	end
 	
 	return 
@@ -884,7 +884,17 @@ function PlayerDamage:damage_fall(data)
 	else --Health damage taken.
 		self._unit:sound():play("player_hit_permadamage")
 		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.HEALTH, 0)
-		managers.player:apply_slow_debuff(10 * math.max(health_damage_ratio, 0.2), 0.8) --Very large falls break ur legs.
+
+		--Add a slow debuff to large falls to prevent certain kiting loops.
+		--TODO: Consider making an alternative to the add slowdown function that doesn't cause additional allocations.
+		self:apply_slowdown({
+			id = "fall",
+			mul = 0.2,
+			max_mul = 0.2,
+			duration = 10 * math.max(health_damage_ratio, 0.2),
+			decay_t = 5 * math.max(health_damage_ratio, 0.2),
+			prevents_running = true
+		})
 
 		--Alert nearby enemies.
 		local new_alert = {
@@ -915,6 +925,37 @@ function PlayerDamage:damage_fall(data)
 	self:_call_listeners(damage_info)
 
 	return true
+end
+
+function PlayerDamage:apply_slowdown(slowdown_data)
+	local applied_data = self._slowdowns[slowdown_data.id]
+
+	--Add slow duration multiplier.
+	if applied_data then
+		if applied_data.add_mul then
+			applied_data.mul = math.max(applied_data.max_mul or 0, applied_data.mul - applied_data.add_mul)
+		end
+
+		applied_data.current_mul = applied_data.mul
+		applied_data.current_duration = applied_data.duration * self._slow_duration_multiplier
+		applied_data.current_decay_t = applied_data.decay_t * self._slow_duration_multiplier
+
+		self:_update_slowdowns_state()
+	else
+		self._slowdowns[slowdown_data.id] = {
+			mul = slowdown_data.mul,
+			add_mul = slowdown_data.add_mul,
+			max_mul = slowdown_data.max_mul,
+			current_mul = slowdown_data.mul,
+			duration = slowdown_data.duration * self._slow_duration_multiplier,
+			current_duration = slowdown_data.duration * self._slow_duration_multiplier,
+			decay_t = slowdown_data.decay_time * self._slow_duration_multiplier,
+			current_decay_t = slowdown_data.decay_time * self._slow_duration_multiplier,
+			prevents_running = slowdown_data.prevents_running
+		}
+	end
+
+	self:_update_slowdowns_state()
 end
 
 --Include deflection in calcs. Doesn't work in cases where armor is pierced, but I can't be assed to fix it.
@@ -1115,6 +1156,19 @@ function PlayerDamage:_calc_health_damage(attack_data)
 
 	if not self._ally_attack then
 		attack_data.damage = managers.player:modify_value("damage_taken", attack_data.damage, attack_data) --Stoic damage delay. Done here so it applies to all health damage taken.
+	end
+
+	--Vanilla slow effect compatibility.
+	--Mod enemies use slowing_bullets in their character tweak data to accomplish their slows.
+	--Largely as a holdover from older mod versions that used their own slow system.
+	--And also to make it easier to ensure consistency within an enemy type.
+	if attack_data.weapon_unit then
+		local weap_base = alive(attack_data.weapon_unit) and attack_data.weapon_unit:base()
+		local weap_tweak_data = weap_base and weap_base.weapon_tweak_data and weap_base:weapon_tweak_data()
+
+		if weap_tweak_data and weap_tweak_data.slowdown_data then
+			self:apply_slowdown(weap_tweak_data.slowdown_data)
+		end
 	end
 
 	return self:_calc_health_damage_no_deflection(attack_data)

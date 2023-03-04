@@ -109,14 +109,14 @@ function PlayerStandard:_update_movement(t, dt)
 	self._target_headbob = self._target_headbob or 0
 	self._headbob = self._headbob or 0
 	
-	local WALK_SPEED_MAX = self:_get_max_walk_speed(t)
+	local movement_speed = self:_get_max_walk_speed(t)
 	
 	self._cached_final_speed = self._cached_final_speed or 0
 		
-	if WALK_SPEED_MAX ~= self._cached_final_speed then
-		self._cached_final_speed = WALK_SPEED_MAX
+	if movement_speed ~= self._cached_final_speed then
+		self._cached_final_speed = movement_speed
 		
-		self._ext_network:send("action_change_speed", WALK_SPEED_MAX)
+		self._ext_network:send("action_change_speed", movement_speed)
 	end
 	
 	local floor_moving_ray = self:_chk_floor_moving_pos()
@@ -127,7 +127,7 @@ function PlayerStandard:_update_movement(t, dt)
 		--floor_moving_pos = floor_moving_ray.position
 	end
 	
-	local acceleration = WALK_SPEED_MAX * 8
+	local acceleration = movement_speed * 8
 	local decceleration = acceleration * 0.8
 	
 	if self._state_data.on_zipline and self._state_data.zipline_data.position then
@@ -158,7 +158,7 @@ function PlayerStandard:_update_movement(t, dt)
 		mvector3.set(mvec_move_dir_normalized, self._move_dir)
 		mvector3.normalize(mvec_move_dir_normalized)
 
-		local wanted_walk_speed = WALK_SPEED_MAX * math.min(1, self._move_dir:length())
+		local wanted_walk_speed = movement_speed * math.min(1, self._move_dir:length())
 		local achieved_walk_vel = mvec_achieved_walk_vel
 		
 		local lleration = acceleration
@@ -168,7 +168,7 @@ function PlayerStandard:_update_movement(t, dt)
 		end
 
 		if self._jump_vel_xy and self._state_data.in_air and mvector3.dot(self._jump_vel_xy, self._last_velocity_xy) > 0 then
-			local wanted_walk_speed_air = WALK_SPEED_MAX * math.min(1, self._move_dir:length())
+			local wanted_walk_speed_air = movement_speed * math.min(1, self._move_dir:length())
 			local acceleration = self._state_data.in_air and 700 or self._running and 5000 or 3000
 			local input_move_vec = wanted_walk_speed_air * self._move_dir
 			local jump_dir = mvector3.copy(self._last_velocity_xy)
@@ -208,7 +208,7 @@ function PlayerStandard:_update_movement(t, dt)
 			self._target_headbob = self._target_headbob * weapon_tweak_data.headbob.multiplier
 		end
 	elseif not mvector3.is_zero(self._last_velocity_xy) then
-		local decceleration = self._state_data.in_air and 250 or math.lerp(2000, 1500, math.min(self._last_velocity_xy:length() / WALK_SPEED_MAX, 1))
+		local decceleration = self._state_data.in_air and 250 or math.lerp(2000, 1500, math.min(self._last_velocity_xy:length() / movement_speed, 1))
 		local achieved_walk_vel = math.step(self._last_velocity_xy, Vector3(), decceleration * dt)
 
 		pos_new = mvec_pos_new
@@ -807,8 +807,11 @@ function PlayerStandard:_get_max_walk_speed(t, force_run)
 		multiplier = multiplier * self._equipped_unit:base():movement_penalty()
 	end
 
-	local final_speed = movement_speed * multiplier
-	return final_speed
+	if self._slowdown_mul then
+		multiplier = multiplier * self._slowdown_mul
+	end
+
+	return movement_speed * multiplier
 end
 
 local orig_set_running = PlayerStandard.set_running
@@ -1278,8 +1281,8 @@ end
 
 --Applies camera effects for recoil.
 function PlayerStandard:apply_recoil(v, h, shake)
-	self._ext_camera:play_shaker("fire_weapon_rot", shake * 0.5)
-	self._ext_camera:play_shaker("fire_weapon_kick", shake * 0.75, 1, 0.15)
+	self._ext_camera:play_shaker("fire_weapon_rot", shake)
+	self._ext_camera:play_shaker("fire_weapon_kick", shake, 1, 0.15)
 	self._camera_unit:base():recoil_kick(v, h)
 end
 

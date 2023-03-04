@@ -144,8 +144,8 @@ function WeaponTweakData:_init_stats()
 		}
 
 		--Recoil multiplier. Used for stability, and cosmetic camera shake.
-		self.stat_info.base_recoil_mult = 3.5
-		self.stat_info.recoil_per_stability = -0.15
+		self.stat_info.base_recoil_mult = 2
+		self.stat_info.recoil_per_stability = -0.075
 		self.stats.recoil = {}
 		for i = 0, 20, 1 do
 			table.insert(self.stats.recoil, self.stat_info.base_recoil_mult + (i * self.stat_info.recoil_per_stability))

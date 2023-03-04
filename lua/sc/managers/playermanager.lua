@@ -33,15 +33,11 @@ local function get_as_digested(amount)
 	return list
 end
 
-Hooks:PostHook(PlayerManager, "init", "ResInit", function(self)
-	--Info for slow debuff, usually caused by Titan Tasers.
-	self._slow_data = {
-		duration = 0, --Amount of time the slow should decay over.
-		power = 0, --% slow when first started.
-		start_time = 0 --Time when slow was started.
-	}
+local orig_init = PlayerManager.init
+function PlayerManager:init()
+	orig_init(self)
 	self._melee_knockdown_mul = 1
-end)
+end
 
 --Make armor bot boost increase armor by % instead of adding.
 --Removed unused armor multipliers.
@@ -125,9 +121,6 @@ function PlayerManager:movement_speed_multiplier(speed_state, bonus_multiplier, 
 	if bonus_multiplier then
 		multiplier = multiplier * bonus_multiplier
 	end
-
-	--Apply slowing debuff if active.
-	multiplier = multiplier * self:_slow_debuff_mult()
 
 	return multiplier
 end
@@ -966,13 +959,6 @@ function PlayerManager:_internal_load()
 	--Fully loaded aced checks
 	self._ammo_boxes_until_throwable = self:upgrade_value("player", "regain_throwable_from_ammo")
 
-	--Reset when players are spawned, just in case.
-	self._slow_data = {
-		duration = 0,
-		power = 0,
-		start_time = 0
-	}
-
 	--Precache detection risk, so that the value does not need to be recalculated every frame (very slow).
 	self._detection_risk = math.round(managers.blackmarket:get_suspicion_offset_of_local(tweak_data.player.SUSPICION_OFFSET_LERP or 0.75) * 100)
 end
@@ -1166,29 +1152,6 @@ function PlayerManager:fixed_health_regen()
 	end
 
 	return health_regen
-end
-
---Slows the player by a % that decays linearly over a duration, along with a visual.
---Power should be between 1 and 0. Corresponds to % speed is slowed on start.
-function PlayerManager:apply_slow_debuff(duration, power)
-	if power > 1 - self:_slow_debuff_mult() then
-		self._slow_data = {
-			duration = duration * self._slow_duration_multiplier,
-			power = power,
-			start_time = Application:time()
-		}
-		managers.hud:activate_effect_screen(duration, {0.0, 0.2, power})
-	end
-end
-
-function PlayerManager:_slow_debuff_mult()
-	local time = Application:time()
-	
-	if self._slow_data.start_time + self._slow_data.duration < time then
-		return 1 --no slow
-	end
-
-	return math.clamp(1 - self._slow_data.power * (1 - ((time - self._slow_data.start_time) / self._slow_data.duration)), 0, 1)
 end
 
 --Called when psychoknife kills are performed.
