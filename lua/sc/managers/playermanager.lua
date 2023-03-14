@@ -447,7 +447,6 @@ function PlayerManager:check_skills()
 	self._single_shot_panic_when_kill = self:has_category_upgrade("weapon", "single_shot_panic_when_kill")
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
 	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
-	self._slow_duration_multiplier = self:upgrade_value("player", "slow_duration_multiplier", 1)
 
 	if self:has_category_upgrade("shotgun", "shell_stacking_reload_speed") then
 		self._shell_rack = self:upgrade_value("shotgun", "shell_stacking_reload_speed")

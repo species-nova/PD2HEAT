@@ -409,8 +409,6 @@ function NewRaycastWeaponBase:can_toggle_firemode()
 		return self:gadget_function_override("can_toggle_firemode")
 	end
 
-	heat.print_value(self._toggable_fire_modes, "Toggleable Fire Modes")
-
 	return self._toggable_fire_modes and #self._toggable_fire_modes > 1
 end
 
@@ -423,10 +421,16 @@ function NewRaycastWeaponBase:toggle_firemode(skip_post_event)
 		for i = 1, #self._toggable_fire_modes do
 			if self._toggable_fire_modes[i] == self._fire_mode then
 				self._fire_mode_index = i
+				break
 			end
 		end
 	end
-	self._fire_mode_index = ((self._fire_mode_index - 1) % #self._toggable_fire_modes) + 1
+
+	if self._fire_mode_index == #self._toggable_fire_modes then
+		self._fire_mode_index = 1
+	else
+		self._fire_mode_index = self._fire_mode_index + 1		
+	end
 	local prev_fire_mode = self._fire_mode
 	self._fire_mode = self._toggable_fire_modes[self._fire_mode_index]
 

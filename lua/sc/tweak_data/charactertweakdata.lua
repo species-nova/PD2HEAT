@@ -2064,13 +2064,8 @@ function CharacterTweakData:_init_phalanx_vip(presets) --captain winters
 		entrance = true
 	}
 	self.phalanx_vip.slowing_bullets = {
-		id = "Winters",
-		mul = 0.8,
-		add_mul = 0.2,
-		max_mul = 0.6,
 		duration = 1.5,
-		decay_t = 0.5,
-		prevents_running = false
+		power = 0.75
 	}
 	self.phalanx_vip.do_omnia = {
 		cooldown = 8,
@@ -2131,13 +2126,8 @@ function CharacterTweakData:_init_spring(presets) --captain spring
 	self.headless_hatman = deep_clone(self.spring)
 	self.headless_hatman.custom_voicework = "hatman"
 	self.headless_hatman.slowing_bullets = {
-		id = "Hatman",
-		mul = 0.9,
-		add_mul = 0.1,
-		max_mul = 0.5,
-		duration = 1.0,
-		decay_t = 0.5,
-		prevents_running = false
+		duration = 1,
+		power = 0.5
 	}
 	self.headless_hatman.grenade = hatman_molotov
 	self.headless_hatman.captain_type = heat.captain_types.hvh
@@ -2365,13 +2355,9 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_summers.follower = true
 	self.taser_summers.tase_on_melee = true
 	self.taser_summers.slowing_bullets = {
-		id = "Titan Taser",
-		taunt = true,
-		mul = 0,
-		max_mul = 0,
-		duration = 3
-		decay_t = 1,
-		prevents_running = true
+		duration = 3,
+		power = 1,
+		taunt = true
 	}
 	table.insert(self._enemy_list, "taser_summers")
 	
@@ -2398,13 +2384,9 @@ function CharacterTweakData:_init_taser(presets) --taser
 	self.taser_titan.move_speed = presets.move_speed.fast
 	self.taser_titan.tase_on_melee = true
 	self.taser_titan.slowing_bullets = {
-		id = "Titan Taser",
-		taunt = true,
-		mul = 0,
-		max_mul = 0,
-		duration = 3
-		decay_t = 1,
-		prevents_running = true
+		duration = 3,
+		power = 1,
+		taunt = true
 	}
 	table.insert(self._enemy_list, "taser_titan")
 end

@@ -632,7 +632,7 @@ function RaycastWeaponBase:recoil_multiplier()
 
 	mul = mul + managers.player:temporary_upgrade_value("temporary", "bullet_hell", {recoil_multiplier = 1.0}).recoil_multiplier - 1
 
-	return rounds * self:_convert_add_to_mul(mul)
+	return rounds * self:_convert_add_to_mul(mul) * math.sqrt(self._base_fire_rate)
 end
 
 function RaycastWeaponBase:weapon_range()

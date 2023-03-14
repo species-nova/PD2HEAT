@@ -4858,7 +4858,6 @@ function WeaponTweakData:init(...)
 				self:calculate_suppression_data(weap)
 
 				if not weap.fire_mode_data.toggable then
-					log(name)
 					self:create_fire_mode_toggles(weap)
 				end
 
@@ -5012,19 +5011,16 @@ function WeaponTweakData:create_fire_mode_toggles(weapon)
 	weapon.fire_mode_data.toggable = {}
 
 	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "single" then
-		log("    SINGLE")
 		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "single"
 	end
 
 	local has_burst = false
 	if weapon.BURST_COUNT and weapon.BURST_COUNT ~= false then
-		log("    BURST")
 		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "burst"
 		has_burst = true
 	end
 
 	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "auto" then
-		log("    AUTO")
 		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "auto"
 	end
 

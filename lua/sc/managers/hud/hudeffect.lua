@@ -1,3 +1,4 @@
+--TODO: Decouple slow effect from armor piercing effect. Currently, both use this exact hud element.
 HUDEffectScreen = HUDEffectScreen or class()
 function HUDEffectScreen:init(hud)
 	self._hud_panel = hud.panel
@@ -20,11 +21,11 @@ function HUDEffectScreen:init(hud)
 	self._duration = 0.0
 end
 
-function HUDEffectScreen:do_effect_screen(duration, color)
+function HUDEffectScreen:do_effect_screen(duration, r, g, b)
 	if not _G.is_vr then
 		self._effect_panel:set_alpha(1)
 		self._duration = duration
-		self._effect_panel:set_color(Color(color[1], color[2], color[3]))
+		self._effect_panel:set_color(Color(r, g, b))
 		if self._active == true then
 			self._effect_panel:stop()
 		end

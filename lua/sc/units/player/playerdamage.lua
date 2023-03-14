@@ -75,8 +75,8 @@ function PlayerDamage:init(unit)
 	self._dodge_meter_prev = 0.0 --dodge in meter from previous frame.
 	self.in_smoke_bomb = 0.0 --Sicario tracking stuff; 0 = not in smoke, 1 = inside smoke, 2 = inside own smoke. Tfw no explicit enum support in lua :(
 	self._dodge_melee = player_manager:has_category_upgrade("player", "dodge_melee")
-	self._can_counter_dozers = managers.player:has_category_upgrade("player", "counter_strike_dozer")
-	self._autocounter_melee_tase = managers.player:has_category_upgrade("player", "counter_melee_tase")
+	self._can_counter_dozers = player_manager:has_category_upgrade("player", "counter_strike_dozer")
+	self._autocounter_melee_tase = player_manager:has_category_upgrade("player", "counter_melee_tase")
 	self._keep_health_on_revive = false --Used for cloaker kicks and taser downs, stops reviving from changing player health.
 	self._biker_armor_regen_t = 0.0 --Used to track the time until the next biker armor regen tick.
 	self._melee_push_multiplier = 1 - math.min(math.max(player_manager:upgrade_value("player", "resist_melee_push", 0.0) * self:_max_armor(), 0.0), 0.95) --Stun Resistance melee push resist.
@@ -84,6 +84,7 @@ function PlayerDamage:init(unit)
 	self._unpierceable = player_manager:has_category_upgrade("player", "unpierceable_armor")
 	self._armor_full_stagger_range = player_manager:upgrade_value("player", "armor_full_stagger", -1)
 	self._has_full_armor_staggered = true
+	self._slow_duration_multiplier = player_manager:upgrade_value("player", "slow_duration_multiplier", 1)
 	managers.player:set_damage_absorption("absorption_addend", managers.player:upgrade_value("player", "damage_absorption_addend", 0))
 	managers.player:set_damage_absorption("full_armor_absorption", managers.player:upgrade_value("player", "armor_full_damage_absorb", 0) * self:_max_armor())
 
@@ -195,7 +196,18 @@ function PlayerDamage:init(unit)
 
 	self:clear_delayed_damage()
 
-	self._slowdowns = {} --TODO: Unify slow mechanics.
+	--In Heat, all slowdowns use a single static table to simplify hud conveyance and implementation complexity.
+	--Incoming slows refresh the existing one, and power/duration if they have higher base values for it.
+	--Being slowed by more than 50% prevents sprinting.
+	--decay_t is ignored since vanilla implementation is subject to sudden 'lurching' at the end of the duration.
+	--Instead, all slows decay linearly with no flat decrease portion.
+	--Likewise, stacking slows is not a thing. It's much less important without decay_t.
+	self._slowdowns = {
+		power = 1,
+		duration = 0,
+		decay_time = 0,
+		start_time = 0
+	}
 	self._can_play_tinnitus = not managers.user:get_setting("accessibility_sounds_tinnitus") or false
 	self._can_play_tinnitus_clbk_func = callback(self, self, "clbk_tinnitus_toggle_changed")
 
@@ -364,7 +376,7 @@ function PlayerDamage:_apply_damage(attack_data, damage_info, variant, t)
 	if (attack_data.armor_piercing or variant == "explosion") and not self._unpierceable then
 		attack_data.damage = attack_data.damage - health_subtracted
 		if not _G.IS_VR then --Add screen effect to signify armor piercing attack.
-			managers.hud:activate_effect_screen(0.75, {1, 0.2, 0})
+			managers.hud:activate_effect_screen(0.75, 1, 0.2, 0)
 		end
 	else
 		attack_data.damage = attack_data.damage * armor_reduction_multiplier
@@ -464,7 +476,7 @@ function PlayerDamage:damage_bullet(attack_data)
 		if slow_data.taunt then
 			attacker_unit:sound():say("post_tasing_taunt")
 		end
-		self:apply_slowdown(slow_data)
+		self:apply_slowdown(slow_data.duration, slow_data.power)
 	end
 	
 	return 
@@ -885,16 +897,8 @@ function PlayerDamage:damage_fall(data)
 		self._unit:sound():play("player_hit_permadamage")
 		managers.hud:on_hit_direction(Vector3(0, 0, 0), HUDHitDirection.DAMAGE_TYPES.HEALTH, 0)
 
-		--Add a slow debuff to large falls to prevent certain kiting loops.
-		--TODO: Consider making an alternative to the add slowdown function that doesn't cause additional allocations.
-		self:apply_slowdown({
-			id = "fall",
-			mul = 0.2,
-			max_mul = 0.2,
-			duration = 10 * math.max(health_damage_ratio, 0.2),
-			decay_t = 5 * math.max(health_damage_ratio, 0.2),
-			prevents_running = true
-		})
+		--Add a slow debuff to large falls to help prevent certain kiting loops.
+		self:apply_slowdown(10 * math.max(health_damage_ratio, 0.2), 0.8)
 
 		--Alert nearby enemies.
 		local new_alert = {
@@ -927,35 +931,46 @@ function PlayerDamage:damage_fall(data)
 	return true
 end
 
-function PlayerDamage:apply_slowdown(slowdown_data)
-	local applied_data = self._slowdowns[slowdown_data.id]
-
-	--Add slow duration multiplier.
-	if applied_data then
-		if applied_data.add_mul then
-			applied_data.mul = math.max(applied_data.max_mul or 0, applied_data.mul - applied_data.add_mul)
-		end
-
-		applied_data.current_mul = applied_data.mul
-		applied_data.current_duration = applied_data.duration * self._slow_duration_multiplier
-		applied_data.current_decay_t = applied_data.decay_t * self._slow_duration_multiplier
-
-		self:_update_slowdowns_state()
-	else
-		self._slowdowns[slowdown_data.id] = {
-			mul = slowdown_data.mul,
-			add_mul = slowdown_data.add_mul,
-			max_mul = slowdown_data.max_mul,
-			current_mul = slowdown_data.mul,
-			duration = slowdown_data.duration * self._slow_duration_multiplier,
-			current_duration = slowdown_data.duration * self._slow_duration_multiplier,
-			decay_t = slowdown_data.decay_time * self._slow_duration_multiplier,
-			current_decay_t = slowdown_data.decay_time * self._slow_duration_multiplier,
-			prevents_running = slowdown_data.prevents_running
-		}
+function PlayerDamage:apply_slowdown(power, duration)
+	if duration then --HEAT path. Preferred.
+		self._slowdowns.duration = math.max(self._slowdowns.duration, power * self._slow_duration_multiplier)
+		self._slowdowns.power = math.max(self._slowdowns.power, duration)
+	else --"Vanilla compatible" path. Should generally be dead code.
+		local new_slow_data = power
+		self._slowdowns.duration = math.max(self._slowdowns.duration, new_slow_data.duration * self._slow_duration_multiplier)
+		self._slowdowns.power = math.max(self._slowdowns.power, 1 - new_slow_data.mul)
 	end
 
+	local time = managers.player:player_timer():time()
+	self._slowdowns.start_time = time
+	managers.hud:activate_effect_screen(self._slowdowns.duration, 0.0, 0.2, self._slowdowns.power)
 	self:_update_slowdowns_state()
+end
+
+--Now just acts as a wrapper for _update_slowdowns_state. No need for extra mutation.
+function PlayerDamage:_update_slowdowns(dt)
+	self:_update_slowdowns_state()
+end
+
+function PlayerDamage:_update_slowdowns_state()
+	--Add effect screen to slow effect.
+	local slow_mul, prevents_running = self:get_current_slowdown()
+
+	if slow_mul ~= 1 and self._unit:movement():current_state().apply_slowdown then
+		self._unit:movement():current_state():apply_slowdown(slow_mul, prevents_running)
+	end
+end
+
+function PlayerDamage:get_current_slowdown()
+	local time = managers.player:player_timer():time()
+	
+	if self._slowdowns.start_time + self._slowdowns.duration < time then
+		return 1, false --no slow
+	end
+
+	local slow_amount = math.clamp(1 - self._slowdowns.power * (1 - ((time - self._slowdowns.start_time) / self._slowdowns.duration)), 0, 1)
+	local prevents_running = slow_amount < 0.5
+	return slow_amount, prevents_running
 end
 
 --Include deflection in calcs. Doesn't work in cases where armor is pierced, but I can't be assed to fix it.

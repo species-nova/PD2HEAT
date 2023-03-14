@@ -837,6 +837,11 @@ end
 
 --Allows for melee sprinting.
 function PlayerStandard:_start_action_running(t)
+	if self._slowdown_run_prevent then
+		self._running_wanted = false
+		return
+	end
+
 	--Consolidated vanilla checks.
 	if not self._move_dir or self:on_ladder() or self:_on_zipline() or managers.player:get_player_rule("no_run") or not self._unit:movement():is_above_stamina_threshold() then
 		self._running_wanted = true
