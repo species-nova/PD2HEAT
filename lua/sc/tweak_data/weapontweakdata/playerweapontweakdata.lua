@@ -1875,7 +1875,7 @@ function WeaponTweakData:init(...)
 		self.hailstorm.fire_rate_multiplier = 0.75 --1500 rpm
 		self.hailstorm.reload_speed_multiplier = 0.9 --4.1/4.8s
 		self.hailstorm.swap_speed_multiplier = 0.8
-		self.hailstorm.pickup_multiplier = 0.7
+		self.hailstorm.pickup_multiplier = 0.75
 
 	--PDW SMG (Akimbo)
 		--Akimbo Heather
