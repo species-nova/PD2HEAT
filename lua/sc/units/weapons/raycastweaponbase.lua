@@ -897,7 +897,6 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, shot_distance, 
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
 
-	if true then return end
 	local cone_distance = math.min(shot_distance, self.near_falloff_distance)
 	mvector3.set(cone_vec, direction)
 	mvector3.multiply(cone_vec, cone_distance)
