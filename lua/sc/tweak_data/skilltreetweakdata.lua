@@ -579,7 +579,7 @@ function SkillTreeTweakData:init(tweak_data)
 				},
 				[2] = {
 					upgrades = {
-						"shotgun_headshots_ignore_medics"
+						"shotgun_close_combat_ignore_medics"
 					},
 					cost = self.costs.hightierpro
 				}

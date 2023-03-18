@@ -658,6 +658,9 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Thanatos--
 		["bm_thanatos_sc_desc"] = "Anti-materiel rifle, normally used to combat well-armored targets.\n\nMay nothing stop your shot.\n\nCAN PENETRATE BODY ARMOR, SHIELDS, TITAN SHIELDS, AND THIN WALLS.",
 
+		--Hailstorm--
+		["bm_hailstorm_sc_desc"] = "An electronically driven monstrosity from the land down under.\n\nCan toggle between SMG and Shotgun firing modes. Gains benefits from skills based on which firing mode it's in.",
+
 		--Galant--
 		["bm_galant_sc_desc"] = "A classic WW2 battle rifle. Reliable, accurate, and quick to reload.\n\nReloads faster when the magazine is empty.",
 

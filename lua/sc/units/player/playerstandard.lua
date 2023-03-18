@@ -1809,6 +1809,8 @@ function PlayerStandard:_start_action_reload_enter(t)
 				self:_interupt_action_running(t)
 			end
 
+			self:_interupt_action_charging_weapon(t)
+
 			weapon:invalidate_current_reload_speed_multiplier()
 			local is_reload_not_empty = weapon:clip_not_empty()
 			local base_reload_enter_expire_t = weapon:reload_enter_expire_t(is_reload_not_empty)
@@ -2268,8 +2270,7 @@ end
 
 function PlayerStandard:_check_action_primary_attack(t, input)
 	local new_action = nil
-	local action_wanted = input.btn_primary_attack_state or input.btn_primary_attack_release or self:is_shooting_count()
-
+	local action_wanted = input.btn_primary_attack_state or input.btn_primary_attack_release or self:is_shooting_count() or self:_is_charging_weapon()
 	if action_wanted then
 		local action_forbidden = self:_is_reloading() or self:_changing_weapon() or self:_is_meleeing() or self._use_item_expire_t or self:_interacting() or self:_is_throwing_projectile() or self:_is_deploying_bipod() or self._menu_closed_fire_cooldown > 0 or self:is_switching_stances()
 
@@ -2351,7 +2352,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 					local fired = nil
 					if weap_base:burst_rounds_remaining() then
 						fired = weap_base:trigger_pressed(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
-					elseif fire_mode == "auto" then
+					elseif fire_mode == "auto" or (fire_mode == "volley" and self._shooting) then
 						fired = weap_base:trigger_held(self:get_fire_weapon_position(), self:get_fire_weapon_direction(), dmg_mul, false, 1, 1)
 					else
 						if input.btn_primary_attack_press and start_shooting then
@@ -2373,7 +2374,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						end
 					end
 
-					local charging_weapon = fire_on_release and weap_base:charging()
+					local charging_weapon = weap_base:charging()
 
 					if not self._state_data.charging_weapon and charging_weapon then
 						self:_start_action_charging_weapon(t)
@@ -2395,7 +2396,7 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 							weap_base:tweak_data_anim_play("fire", weap_base:fire_rate_multiplier())
 						end
 
-						if (fire_mode == "single" or fire_mode == "burst") and weap_base:get_name_id() ~= "saw" and not weap_base.skip_fire_animation then
+						if fire_mode ~= "auto" and weap_base:get_name_id() ~= "saw" and not weap_base.skip_fire_animation then
 							if not self._state_data.in_steelsight then
 								self._ext_camera:play_redirect(self:get_animation("recoil"), weap_base:fire_rate_multiplier())
 							elseif weap_tweak_data.animations.recoil_steelsight then
@@ -2431,6 +2432,12 @@ function PlayerStandard:_check_action_primary_attack(t, input)
 						elseif weap_base.akimbo and not weap_base:weapon_tweak_data().allow_akimbo_autofire or fire_mode == "single" or fire_mode == "burst" then
 							self._ext_network:send("shot_blank", impact, 0)
 						end
+
+						if fire_mode == "volley" then
+							self:_check_stop_shooting()
+						end
+					elseif fire_mode == "volley" then
+						new_action = self:_is_charging_weapon()
 					elseif fire_mode == "single" or fire_mode == "burst" and not weap_base:burst_rounds_remaining() then
 						new_action = false
 					end

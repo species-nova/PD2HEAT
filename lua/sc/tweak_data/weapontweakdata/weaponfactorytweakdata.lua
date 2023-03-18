@@ -897,6 +897,19 @@ function WeaponFactoryTweakData:_init_system()
 	apply_stats(self.parts.wpn_fps_fla_system_m_low, rare_tank) --Low Temperature Mixture
 end
 
+--Hailstorm
+local orig_init_hailstorm = WeaponFactoryTweakData._init_hailstorm
+function WeaponFactoryTweakData:_init_hailstorm()
+	orig_init_hailstorm(self)
+	apply_stats(self.parts.wpn_fps_hailstorm_b_extended, light_acc_barrel, flash_hider) --V1.4 Barrel
+	apply_stats(self.parts.wpn_fps_hailstorm_b_suppressed, light_acc_barrel, suppressor) --V2.2 Barrel
+	apply_stats(self.parts.wpn_fps_hailstorm_b_ext_suppressed, heavy_acc_barrel, suppressor) --V3.8 Barrel
+	apply_stats(self.parts.wpn_fps_hailstorm_conversion, light_stab_stock, light_stab_ext, light_acc_barrel) --Prototype Exclusive Set
+	apply_stats(self.parts.wpn_fps_hailstorm_g_crystal, cosmetic) --Crystalline Grip
+	apply_stats(self.parts.wpn_fps_hailstorm_g_noise, cosmetic) --FRZA Grip
+	apply_stats(self.parts.wpn_fps_hailstorm_g_bubble, cosmetic) --Whiteout Grip
+end
+
 --Phoenix .500
 function WeaponFactoryTweakData:init_heat_shatters_fury()
 	self.wpn_fps_pis_shatters_fury.adds = {

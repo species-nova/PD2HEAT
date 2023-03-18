@@ -297,17 +297,24 @@ function NewRaycastWeaponBase:fire_rate_multiplier()
 	local mul = 1
 	local player_manager = managers.player
 
-	if player_manager:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
+	if managers.player:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
 		mul = mul + player_manager:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1) - 1
 	end 
-
+	
 	mul = mul + player_manager:temporary_upgrade_value("temporary", "bullet_hell", {fire_rate_multiplier = 1.0}).fire_rate_multiplier - 1
+
+	--Adds hipfire bonus over the normal one.
+	local user_unit = self._setup and self._setup.user_unit
+	local current_state = alive(user_unit) and user_unit:movement() and user_unit:movement()._current_state
+	if current_state and not current_state:in_steelsight() then
+		mul = mul + player_manager:upgrade_value("shotgun", "hip_rate_of_fire", 1) - 1
+	end
 
 	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
 	
 	if self:burst_rounds_remaining() then
 		mul = mul * (self._burst_fire_rate_multiplier or 1)
-	end
+	end	
 
 	return mul * (self._fire_rate_multiplier or 1)
 end
@@ -316,10 +323,6 @@ local ids_single = Idstring("single")
 local ids_auto = Idstring("auto")
 local ids_burst = Idstring("burst")
 local ids_volley = Idstring("volley")
---Use pre-existing custom burst fire code, rather than copying all of the vanilla code. Since there are a few incompatibilities between the two.
---Primarily relating to how burst delays are handled, since vanilla ones don't respect ROF modifiers.
-NewRaycastWeaponBase.stop_shooting = RaycastWeaponBase.stop_shooting
-NewRaycastWeaponBase.trigger_held = RaycastWeaponBase.trigger_held
 
 function NewRaycastWeaponBase:start_shooting()
 	if self._fire_mode == ids_volley then
@@ -331,12 +334,15 @@ function NewRaycastWeaponBase:start_shooting()
 	return NewRaycastWeaponBase.super.start_shooting(self)
 end
 
+function NewRaycastWeaponBase:stop_shooting()
+	NewRaycastWeaponBase.super.stop_shooting(self)
+	if self._fire_mode == ids_volley then
+		self:stop_volley_charge()
+	end
+end
+
 function NewRaycastWeaponBase:trigger_held(...)
 	if self._fire_mode == ids_volley then
-		if self._volley_fired then
-			return false
-		end
-
 		local volley_charge_time = self:charge_max_t()
 		local fired = false
 
@@ -346,12 +352,12 @@ function NewRaycastWeaponBase:trigger_held(...)
 			if fired then
 				self:call_on_digital_gui("stop_volley_charge")
 
-				self._next_fire_allowed = self._unit:timer():time() + self:charge_cooldown_t()
+				--Allow fire rate buffs to affect the volley mode.
+				self._next_fire_allowed = self._unit:timer():time() + (self:charge_cooldown_t() / self:fire_rate_multiplier())
 
 				self:_fire_sound()
 
 				self._volley_charging = nil
-				self._volley_fired = true
 			end
 		end
 
@@ -441,6 +447,15 @@ function NewRaycastWeaponBase:toggle_firemode(skip_post_event)
 			self._sound_fire:post_event("wp_auto_switch_off")
 		end
 	end
+
+	local fire_effect = fire_mode_data and (self._silencer and fire_mode_data.muzzleflash_silenced or fire_mode_data.muzzleflash)
+	self:change_fire_effect(fire_effect)
+
+	local trail_effect = fire_mode_data and fire_mode_data.trail_effect
+	self:change_trail_effect(trail_effect)
+
+	self:call_on_digital_gui("set_firemode", self:fire_mode())
+	self:update_firemode_gui_ammo()
 
 	return true
 end

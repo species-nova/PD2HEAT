@@ -8,32 +8,8 @@ function ShotgunBase:_update_stats_values(...)
 	end
 end
 
-function ShotgunBase:fire_rate_multiplier()
-	local mul = 1
-	local player_manager = managers.player
 
-	if managers.player:has_activate_temporary_upgrade("temporary", "headshot_fire_rate_mult") then
-		mul = mul + player_manager:temporary_upgrade_value("temporary", "headshot_fire_rate_mult", 1) - 1
-	end 
-	
-	mul = mul + player_manager:temporary_upgrade_value("temporary", "bullet_hell", {fire_rate_multiplier = 1.0}).fire_rate_multiplier - 1
-
-	--Adds hipfire bonus over the normal one.
-	local user_unit = self._setup and self._setup.user_unit
-	local current_state = alive(user_unit) and user_unit:movement() and user_unit:movement()._current_state
-	if current_state and not current_state:in_steelsight() then
-		mul = mul + player_manager:upgrade_value("shotgun", "hip_rate_of_fire", 1) - 1
-	end
-
-	mul = mul * (self:weapon_tweak_data().fire_rate_multiplier or 1)
-	
-	if self:burst_rounds_remaining() then
-		mul = mul * (self._burst_fire_rate_multiplier or 1)
-	end	
-
-	return mul * (self._fire_rate_multiplier or 1)
-end
-
+ShotgunBase.fire_rate_multiplier = NewRaycastWeaponBase.fire_rate_multiplier
 ShotgunBase._fire_raycast = RaycastWeaponBase._fire_raycast --Baseline fire_raycast supports multiple rays.
 
 --Update achievement checks to also use shotgun specific ones.

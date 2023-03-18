@@ -14,46 +14,73 @@ heat = heat or {}
 		return indent_strs[indent]
 	end
 
-	local function print_table(t, name, max_depth, indent, seen)
-		indent = indent and indent + 1 or 1
-		local i = get_indent(indent)
-		if max_depth and indent > max_depth then log(i .. "...") return end
+	local function print_table(t, name, max_depth, indent, seen, printout)
+		indent = indent + 1
+		if max_depth and indent > max_depth + 1 then 
+			printout[#printout + 1] = get_indent(indent)
+			printout[#printout + 1] = "...\n"
+			return
+		end
 
 		seen = seen or {}
 		name = name or "[Unknown]"
 
 		if seen[t] then
-			log(i .. "REFERENCE TO " .. seen[t])
+			printout[#printout + 1] = get_indent(indent)
+			printout[#printout + 1] = "REFERENCE TO "
+			printout[#printout + 1] = seen[t]
+			printout[#printout + 1] = "\n"
 			return
 		end
 
 		seen[t] = tostring(name)
 		for k, v in pairs(t) do
-			heat.print_value(v, k, max_depth, indent, seen)
+			heat.print_value(v, k, max_depth, indent, seen, printout)
 		end
 	end
 
-function heat.print_value(v, k, max_depth, indent, seen)
+function heat.print_value(v, k, max_depth, indent, seen, printout)
+	printout = printout or {}
 	indent = indent and indent + 1 or 1
-	local i = get_indent(indent)
-	if max_depth and indent > max_depth then log(i .. "...") return end
+	printout[#printout + 1] = get_indent(indent)
+	if max_depth and indent > max_depth + 1 then
+		printout[#printout + 1] = "...\n"
+		return
+	end
 	
 	seen = seen or {}
 	k = k or "[Unknown]"
 
-	local type = type(v)
-	if type == "table" then
-		log(i .. tostring(k) .. " = {")
-		print_table(v, k, max_depth, indent, seen)
-		log(i .. "}")
-	elseif type == "userdata" then
+	local t = type(v)
+	if t == "table" then
+		printout[#printout + 1] = tostring(k)
+		printout[#printout + 1] = " = {\n"
+		print_table(v, k, max_depth, indent, seen, printout)
+		printout[#printout + 1] = get_indent(indent)
+		printout[#printout + 1] = "}\n"
+	elseif t == "userdata" then
 		local v_table = getmetatable(v) or {}
 
-		log(i .. tostring(k) .. " = " .. tostring(v) .. " | type = " .. type .. " {")
-		print_table(v_table, k, max_depth, indent, seen)
-		log(i .. "}")
+		printout[#printout + 1] = tostring(k)
+		printout[#printout + 1] = " = "
+		printout[#printout + 1] = tostring(v)
+		printout[#printout + 1] = " | type = "
+		printout[#printout + 1] = t 
+		printout[#printout + 1] = " {\n"
+		print_table(v_table, k, max_depth, indent, seen, printout)
+		printout[#printout + 1] = get_indent(indent)
+		printout[#printout + 1] = "}\n"
 	else
-		log(i .. tostring(k) .. " = " .. tostring(v) .. " | type = " .. type)
+		printout[#printout + 1] = tostring(k)
+		printout[#printout + 1] = " = "
+		printout[#printout + 1] = tostring(v)
+		printout[#printout + 1] = " | type = "
+		printout[#printout + 1] = t
+		printout[#printout + 1] = "\n"
+	end
+
+	if indent == 1 then
+		log(table.concat(printout, ""))
 	end
 end
 
@@ -67,4 +94,24 @@ function heat.log(...)
 	end
 
 	log(table.concat(args, ""))
+end
+
+function heat.traceback()
+	local level = 2
+	local traceback = {}
+	while true do
+		local info = debug.getinfo(level, "Sl")
+		if not info then
+			break
+		end
+		
+		if info.what == "C" then
+			traceback[#traceback + 1] = "C function"
+		else
+			traceback[#traceback + 1] = string.format("[%s]:%d", info.short_src, info.currentline)
+		end
+		level = level + 1
+	end
+
+	log(table.concat(traceback, "\n"))
 end

@@ -125,16 +125,6 @@ function RaycastWeaponBase:heat_init()
 				self._offhand_auto_reload_speed = (self._offhand_auto_reload_speed or 0) + managers.player:upgrade_value(category, "offhand_auto_reload")
 			end
 
-			if managers.player:has_category_upgrade(category, "overhealed_damage_mul") then
-				local overheal_bonus_data = managers.player:upgrade_value(category, "overhealed_damage_mul")
-				self._overheal_damage_dist = math.max(self._overheal_damage_dist or -1, overheal_bonus_data.range or math.huge)
-				self._overheal_damage_mul = (self._overheal_damage_mul or 1) * (overheal_bonus_data.damage or 1)
-			end
-
-			if managers.player:has_category_upgrade(category, "headshots_ignore_medics") then
-				self._ignore_medics_distance = math.max(self._ignore_medics_distance or -1, managers.player:upgrade_value(category, "close_combat_ignore_medics", -1))
-			end
-
 			self.headshot_repeat_damage_mult = managers.player:upgrade_value(category, "headshot_repeat_damage_mult", 1)
 		end
 
@@ -470,7 +460,7 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 
 	--Give more generous auto-aim.
 	if not ricochet_hit_enemy then
-		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, direction, ray_distance, RICOCHET_AUTOHIT)
+		local auto_ray_hits, auto_hit_enemy = self:_check_near_hits(from_pos, reflect_dir, ray_distance, RICOCHET_AUTOHIT)
 		if auto_ray_hits then
 			ricochet_hit_enemy = auto_hit_enemy
 			ray_hits = auto_ray_hits
@@ -492,7 +482,7 @@ function RaycastWeaponBase:_fire_ricochet(hit, units_hit, unique_hits, hit_enemy
 
 	--Store data for ricohet particle effect
 	unique_hits.ricochet_from_pos = from_pos
-	unique_hits.ricochet_direction = reflect_vec
+	unique_hits.ricochet_direction = reflect_dir
 	unique_hits.ricochet_distance = ray_distance
 
 	return unique_hits, ricochet_hit_enemy or hit_enemy
@@ -907,6 +897,7 @@ function RaycastWeaponBase:_check_near_hits(from_pos, direction, shot_distance, 
 	local wall_mask = managers.slot:get_mask("world_geometry", "vehicles")
 	local shield_mask = managers.slot:get_mask("enemy_shield_check")
 
+	if true then return end
 	local cone_distance = math.min(shot_distance, self.near_falloff_distance)
 	mvector3.set(cone_vec, direction)
 	mvector3.multiply(cone_vec, cone_distance)
@@ -1066,16 +1057,18 @@ function RaycastWeaponBase:fire(from_pos, direction, dmg_mul, shoot_player, spre
 			return
 		end
 
-		local ammo_usage = self:ammo_usage()
 		local mag = base:get_ammo_remaining_in_clip()
+		local ammo_usage = math.min(self:ammo_usage(), mag)
 		local remaining_ammo = mag - ammo_usage
+		self._volley_rays = ammo_usage - 1 --Ugly state mutation to cover case where volley fire gun doesn't have enough bullets for full volley.
+		--Subtract 1 since this is treated as bonus rays, so the original raycast already exists.
 
 		if mag > 0 and remaining_ammo <= 0 then
 			self:_play_magazine_empty_anims()
 			self:set_magazine_empty(true)
 		end
 
-		base:set_ammo_remaining_in_clip(mag - ammo_usage)
+		base:set_ammo_remaining_in_clip(remaining_ammo)
 		self:use_ammo(base, ammo_usage)
 	end
 
@@ -1151,7 +1144,12 @@ function RaycastWeaponBase:categories()
 		return self:gadget_function_override("categories")
 	end
 	
-	return self._tweak_data and self._tweak_data.categories or self:weapon_tweak_data().categories
+	local fire_mode_category_override = false
+	local fire_mode_data = self._fire_mode_data and self._fire_mode_data[self._fire_mode:key()]
+	if fire_mode_data and fire_mode_data.categories then
+		fire_mode_category_override = fire_mode_data.categories
+	end
+	return fire_mode_category_override or self._tweak_data and self._tweak_data.categories or self:weapon_tweak_data().categories
 end
 
 function RaycastWeaponBase:get_accuracy_addend()
@@ -1287,17 +1285,34 @@ function RaycastWeaponBase:shake_multiplier(multiplier_type)
 end
 
 function RaycastWeaponBase:can_ignore_medic_heals(distance)
-	if self._ignore_medics_distance and (not distance or distance < self._ignore_medics_distance) then
-		return self._ignore_medics_distance
+	if not self._autoaim then return false end --Ignore if not a player.
+
+	local categories = self:categories()
+	local ignore_medics_distance = false
+	for i = 1, #categories do
+		ignore_medics_distance = math.max(ignore_medics_distance or -1, managers.player:upgrade_value(categories[i], "close_combat_ignore_medics", -1))
+	end
+
+	if ignore_medics_distance and (not distance or distance < ignore_medics_distance) then
+		return ignore_medics_distance
 	end
 end
 
 function RaycastWeaponBase:overhealed_damage_mul(distance)
-	if self._overheal_damage_dist and (not distance or distance < self._overheal_damage_dist) then
-		return self._overheal_damage_mul
+	if not self._autoaim then return 1 end --Ignore if not a player.
+
+	local categories = self:categories()
+	local damage_mul = 1
+	for i = 1, #categories do
+		if managers.player:has_category_upgrade(categories[i], "overhealed_damage_mul") then
+			local overheal_bonus_data = managers.player:upgrade_value(categories[i], "overhealed_damage_mul", {})
+			if not distance or overheal_bonus_data.range and distance < overheal_bonus_data.range then
+				damage_mul = damage_mul * (overheal_bonus_data.damage or 1)
+			end
+		end
 	end
 
-	return 1
+	return damage_mul
 end
 
 --Make mobility affect sprint-out speed.

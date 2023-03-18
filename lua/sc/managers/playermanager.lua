@@ -206,7 +206,7 @@ function PlayerManager:on_killshot(killed_unit, variant, headshot, weapon_id)
 	self:spread_panic(math.min(panic_chance, 1))
 
 	--Bot boost to regain throwables.
-	local gain_throwable_per_kill = managers.player:upgrade_value("team", "crew_throwable_regen", 0)
+	local gain_throwable_per_kill = self:upgrade_value("team", "crew_throwable_regen", 0)
 	if gain_throwable_per_kill ~= 0 then
 		self._throw_regen_kills = (self._throw_regen_kills or 0) + 1
 
@@ -335,7 +335,7 @@ end
 --Calculates bonus from Moving Target.
 function PlayerManager:detection_risk_movement_speed_bonus()
 	local multiplier = 0
-	local detection_risk_add_movement_speed = managers.player:upgrade_value("player", "detection_risk_add_movement_speed")
+	local detection_risk_add_movement_speed = self:upgrade_value("player", "detection_risk_add_movement_speed")
 	multiplier = multiplier + self:get_value_from_risk_upgrade(detection_risk_add_movement_speed, self._detection_risk)
 	return multiplier
 end
@@ -347,7 +347,7 @@ function PlayerManager:critical_hit_chance(detection_risk)
 	multiplier = multiplier + self:upgrade_value("weapon", "critical_hit_chance", 0)
 	multiplier = multiplier + managers.player:temporary_upgrade_value("temporary", "unseen_strike", 1) - 1
 	multiplier = multiplier + self._crit_mul - 1
-	local detection_risk_add_crit_chance = managers.player:upgrade_value("player", "detection_risk_add_crit_chance")
+	local detection_risk_add_crit_chance = self:upgrade_value("player", "detection_risk_add_crit_chance")
 	multiplier = multiplier + self:get_value_from_risk_upgrade(detection_risk_add_crit_chance, self._detection_risk)
 
 	return multiplier
@@ -766,7 +766,7 @@ function PlayerManager:on_headshot_dealt(unit, attack_data)
 
 	self._on_headshot_dealt_t = t + (tweak_data.upgrades.on_headshot_dealt_cooldown or 0)
 	local damage_ext = player_unit:character_damage()
-	local regen_armor_bonus = managers.player:upgrade_value("player", "headshot_regen_armor_bonus", 0)
+	local regen_armor_bonus = self:upgrade_value("player", "headshot_regen_armor_bonus", 0)
 
 	if damage_ext and regen_armor_bonus > 0 then
 		damage_ext:restore_armor(regen_armor_bonus)
@@ -978,7 +978,7 @@ end
 --Moves skills to here for a central point of contact for melee damage multipliers.
 function PlayerManager:get_melee_dmg_multiplier()
 	return self._melee_dmg_mul
-		* managers.player:upgrade_value("weapon", "passive_damage_multiplier", 1)
+		* self:upgrade_value("weapon", "passive_damage_multiplier", 1)
 		* (1 + self:close_combat_upgrade_value("player", "close_combat_damage_boost", 0))
 		* self:upgrade_value("player", "melee_damage_health_ratio_multiplier", 1)
 end

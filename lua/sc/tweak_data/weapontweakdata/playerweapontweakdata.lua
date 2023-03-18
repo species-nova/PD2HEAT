@@ -440,6 +440,7 @@ function WeaponTweakData:init(...)
 		}
 		self.ak5.reload_speed_multiplier = 1.20 --2.4/3.2s
 
+
 		--SABR
 		if self.osipr then
 			self.osipr.tactical_reload = true
@@ -1827,6 +1828,54 @@ function WeaponTweakData:init(...)
 			equip = 0.65
 		}
 
+		--Hailstorm
+		self.hailstorm.desc_id = "bm_hailstorm_sc_desc"
+		self.hailstorm.categories = {
+			"smg",
+			"shotgun"
+		}
+		self.hailstorm.supported = true
+		self.hailstorm.kick = self.stat_info.kick_tables.even_recoil
+		self.hailstorm.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.hailstorm.fire_mode_data.volley.ammo_usage = 15
+		--Unused in heat, rays is based off of ammo_usage
+		--self.hailstorm.fire_mode_data.volley.rays = 15
+		self.hailstorm.fire_mode_data.volley.can_shoot_through_wall = false
+		self.hailstorm.fire_mode_data.volley.can_shoot_through_shield = false
+		self.hailstorm.fire_mode_data.volley.can_shoot_through_enemy = false
+		self.hailstorm.fire_mode_data.volley.categories = {
+			"shotgun"
+		}
+		self.hailstorm.fire_mode_data.auto = {
+			categories = {
+				"smg"
+			}
+		}
+		self.hailstorm.charge_data = {
+			max_t = 0.8,
+			cooldown_t = 0.2
+		}
+		self.hailstorm.stats = {
+			damage = 10,
+			spread = 6,
+			recoil = 7,
+			concealment = 14
+		}
+		self.hailstorm.timers = {
+			reload_not_empty = 3.7,
+			reload_empty = 4.3,
+			reload_operational = 3.5,
+			empty_reload_operational = 3.55,
+			reload_interrupt = 0.5,
+			empty_reload_interrupt = 1.1,
+			unequip = 0.5,
+			equip = 0.55
+		}
+		self.hailstorm.fire_rate_multiplier = 0.75 --1500 rpm
+		self.hailstorm.reload_speed_multiplier = 0.9 --4.1/4.8s
+		self.hailstorm.swap_speed_multiplier = 0.8
+		self.hailstorm.pickup_multiplier = 0.7
+
 	--PDW SMG (Akimbo)
 		--Akimbo Heather
 		self.x_sr2.fire_mode_data.fire_rate = self.sr2.fire_mode_data.fire_rate
@@ -2540,7 +2589,7 @@ function WeaponTweakData:init(...)
 			spread = 17,
 			recoil = 20,
 			concealment = 20,
-			alert_size = 1
+			alert_size = 2
 		}
 		self.maxim9.timers = {
 			reload_not_empty = 2.0,
@@ -4856,10 +4905,7 @@ function WeaponTweakData:init(...)
 				weap.panic_suppression_chance = 0.05
 				self:calculate_ammo_data(weap)
 				self:calculate_suppression_data(weap)
-
-				if not weap.fire_mode_data.toggable then
-					self:create_fire_mode_toggles(weap)
-				end
+				self:create_fire_mode_toggles(weap)
 
 				if weap.CLIP_AMMO_MAX == 1 then
 					weap.upgrade_blocks = {
@@ -4965,7 +5011,7 @@ function WeaponTweakData:calculate_ammo_data(weapon)
 	weapon.AMMO_PICKUP[1] = pickup_mul_near_empty * (damage_tier.pickup / damage_tier.damage)
 	weapon.AMMO_PICKUP[2] = pickup_mul_near_full * (damage_tier.pickup / damage_tier.damage)
 
-	local pickup_multiplier = get_category_modifier(weapon, "pickup")
+	local pickup_multiplier = get_category_modifier(weapon, "pickup") * (weapon.pickup_multiplier or 1)
 
 	local ammo_max = weapon.AMMO_MAX
 	if not ammo_max then
@@ -5022,6 +5068,10 @@ function WeaponTweakData:create_fire_mode_toggles(weapon)
 
 	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "auto" then
 		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "auto"
+	end
+
+	if weapon.fire_mode_data.volley then
+		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "volley"
 	end
 
 	weapon.CAN_TOGGLE_FIREMODE = weapon.CAN_TOGGLE_FIREMODE or has_burst
