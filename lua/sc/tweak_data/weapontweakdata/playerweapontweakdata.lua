@@ -1830,6 +1830,7 @@ function WeaponTweakData:init(...)
 
 		--Hailstorm
 		self.hailstorm.desc_id = "bm_hailstorm_sc_desc"
+		self.hailstorm.has_description = true
 		self.hailstorm.categories = {
 			"smg",
 			"shotgun"
