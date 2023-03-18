@@ -601,7 +601,7 @@ function RaycastWeaponBase:_convert_add_to_mul(value)
 end
 
 function RaycastWeaponBase:recoil_multiplier()
-	local rounds = 1 + (self._volley_rays or 0)
+	local rounds = 1 + (self._volley_rays and math.sqrt(self._volley_rays) or 0)
 	if self._delayed_burst_recoil and self:fire_mode() == "burst" then
 		if self:burst_rounds_remaining() then
 			return 0
@@ -1127,7 +1127,7 @@ function RaycastWeaponBase:get_recoil_kick(current_state, shots_fired)
 		% #self._kick_pattern.pattern) + 1
 	local current_lerp = self._kick_pattern.pattern[self._curr_kick]
 	
-	return math.lerp(up, down, current_lerp[1]), math.lerp(left, right, current_lerp[2]), shake_multiplier * recoil_multiplier
+	return math.lerp(up, down, current_lerp[1]), math.lerp(left, right, current_lerp[2]), shake_multiplier * math.min(recoil_multiplier, 4)
 end
 
 function RaycastWeaponBase:holds_single_round()
@@ -1186,7 +1186,7 @@ function RaycastWeaponBase:update_spread(current_state, t, dt)
 
 	--Apply bloom penalty to spread. Decay existing stacks if player is not firing or reloading.
 	if self._bloom_stacks > 0 and current_state._is_reloading and not current_state:_is_reloading()
-		and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay then
+		and t > self._next_fire_allowed + tweak_data.weapon.stat_info.bloom_data.decay_delay and not self._volley_charging then
 		self._bloom_stacks = math.max(self._bloom_stacks - tweak_data.weapon.stat_info.bloom_data.decay * dt, 0)
 	end
 	spread_area = spread_area + (self._bloom_stacks * self._spread_bloom * self:bloom_spread_penality_reduction())
@@ -1205,7 +1205,8 @@ function RaycastWeaponBase:add_bloom_stack()
 	if self:gadget_overrides_weapon_functions() then
 		return self:gadget_function_override("add_bloom_stack")
 	end
-	self._bloom_stacks = self:holds_single_round() and 1 or math.min(self._bloom_stacks + self._base_fire_rate, 1)
+	self._bloom_stacks = self:holds_single_round() and 1 
+		or math.min(self._bloom_stacks + (self._base_fire_rate * (self._volley_rays and self._volley_rays + 1 or 1)), 1)
 end
 
 function RaycastWeaponBase:multiply_bloom(amount)

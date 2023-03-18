@@ -394,7 +394,7 @@ end
 function NewRaycastWeaponBase:cancel_burst()	
 	if self._delayed_burst_recoil and self._burst_rounds_fired and self._burst_rounds_fired > 0 then
 		local current_state = self._setup.user_unit:movement():current_state()
-		local v, h, shake = self:get_kick(current_state, self._burst_rounds_fired)
+		local v, h, shake = self:get_recoil_kick(current_state, self._burst_rounds_fired)
 		current_state:apply_recoil(v, h, shake)
 	end
 	self._burst_rounds_fired = nil
