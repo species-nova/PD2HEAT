@@ -347,35 +347,6 @@
 		<object force="true" path="units/payday2/architecture/hcm/hcm_int_floor_2x2m_a" unload="true"/>
 		<unit force="true" path="units/payday2/architecture/hcm/hcm_int_floor_2x2m_a" unload="true"/>
 	</add>
-	<add path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_a" type="unit">
-		<material_config force="true" path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_a" unload="true"/>
-		<object force="true" path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_a" unload="true"/>
-		<unit force="true" path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_a" unload="true"/>
-	</add>
-	<add path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_d" type="unit">
-		<material_config force="true" path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_d" unload="true"/>
-		<object force="true" path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_d" unload="true"/>
-		<unit force="true" path="units/pd2_dlc_dark/props/drk_mobile_sever_rack/drk_prop_mobile_server_rack_d" unload="true"/>
-	</add>
-	<add path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_pickup_harddrive" type="unit">
-		<material_config force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_pickup_harddrive" unload="true"/>
-		<object force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_pickup_harddrive" unload="true"/>
-		<sequence_manager force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_pickup_harddrive" unload="true"/>
-		<unit force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_pickup_harddrive" unload="true"/>
-	</add>
-	<add path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_place_harddrive" type="unit">
-		<bnk force="true" path="soundbanks/regular_sfx" unload="true"/>
-		<material_config force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_pickup_harddrive" unload="true"/>
-		<object force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_place_harddrive" unload="true"/>
-		<sequence_manager force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_place_harddrive" unload="true"/>
-		<unit force="true" path="units/payday2/equipment/gen_interactable_pickup_harddrive/gen_interactable_place_harddrive" unload="true"/>
-	</add>
-	<add path="units/payday2/props/gen_interactable_panel_keycard/gen_panel_keycard_hack" type="unit">
-		<material_config force="true" path="units/payday2/props/gen_interactable_panel_keycard/gen_panel_keycard_hack" unload="true"/>
-		<object force="true" path="units/payday2/props/gen_interactable_panel_keycard/gen_panel_keycard_hack" unload="true"/>
-		<sequence_manager force="true" path="units/payday2/props/gen_interactable_panel_keycard/gen_panel_keycard_hack" unload="true"/>
-		<unit force="true" path="units/payday2/props/gen_interactable_panel_keycard/gen_panel_keycard_hack" unload="true"/>
-	</add>
 	<add path="units/pd2_dlc_sah/props/sah_prop_branch_security_shutter/sah_prop_branch_security_shutter" type="unit">
 		<material_config force="true" path="units/pd2_dlc_sah/props/sah_prop_branch_security_shutter/sah_prop_branch_security_shutter" unload="true"/>
 		<object force="true" path="units/pd2_dlc_sah/props/sah_prop_branch_security_shutter/sah_prop_branch_security_shutter" unload="true"/>
@@ -571,7 +542,23 @@
 		<unit path="units/pd2_dlc1/architecture/res_int_motel/res_int_motel_vending_machine_01_illum" unload="true"/>
 	</add>
 	<add from_db="true" path="core/environments/skies/sky_0200_night_moon_stars/sky_0200_night_moon_stars" type="scene">
-		<scene path="core/environments/skies/sky_0200_night_moon_stars/sky_0200_night_moon_stars"/>
 		<material_config path="core/environments/skies/sky_0200_night_moon_stars/sky_0200_night_moon_stars"/>
+		<scene path="core/environments/skies/sky_0200_night_moon_stars/sky_0200_night_moon_stars"/>
+	</add>
+	<add from_db="true" path="units/world/props/oil_stains_decal/oil_stains_decal_03" type="unit">
+		<material_config path="units/world/props/oil_stains_decal/oil_stains_decal"/>
+		<object path="units/world/props/oil_stains_decal/oil_stains_decal_03"/>
+		<unit path="units/world/props/oil_stains_decal/oil_stains_decal_03"/>
+	</add>
+	<add from_db="true" path="core/units/light_omni_seq/light_omni_seq" type="unit">
+		<material_config path="core/material_configs/hub_elements"/>
+		<object path="core/units/light_omni_seq/light_omni_seq"/>
+		<sequence_manager path="core/units/light_omni_seq/light_omni_seq"/>
+		<unit path="core/units/light_omni_seq/light_omni_seq"/>
+	</add>
+	<add from_db="true" path="units/payday2/architecture/ind/ind_ext_rollupgaragedoor_clean_a" type="unit">
+		<material_config path="units/payday2/architecture/ind/ind_ext_garagedoor01_clean"/>
+		<object path="units/payday2/architecture/ind/ind_ext_rollupgaragedoor_clean_a"/>
+		<unit path="units/payday2/architecture/ind/ind_ext_rollupgaragedoor_clean_a"/>
 	</add>
 </table>
