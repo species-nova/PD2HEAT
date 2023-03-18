@@ -1,10 +1,13 @@
---Common stat tables
-	--Cosmetic
+--///Common stat tables///
+  --Try to follow the commenting conventions shown.  List the name of the preset, and what it does exactly.
+	--///Cosmetic///
+		--Cosmetic: If a modpart has no associated stats to apply to the weapon, give it the 'cosmetic' flag, which will make the 'TODO' description not appear ingame.
 		local cosmetic = {
 			has_description = false,
 			stats = {value = 1}
 		}
-	--Barrel Extensions
+	--///Barrel Extensions///
+		--Unsuppressor: To be used on modparts that remove a silencer aspect from the base weapon.
 		local unsuppressor = {
 			stats = {value = 1, suppression = 4, alert_size = -1},
 			custom_stats = {
@@ -12,12 +15,15 @@
 				damage_far_mul  = 1/0.9
 			}
 		}
+		--Loudener: Increases suppression.
 		local loudener = {
 			stats = {value = 1, suppression = 4}
 		}
+		--Flash Hider: Reduces suppression.
 		local flash_hider = {
 			stats = {value = 1, suppression = -4}
 		}
+		--Suppressor: Suppresses modpart/weapon.
 		local suppressor = {
 			stats = {value = 2, suppression = -4, alert_size = 1},
 			custom_stats = {
@@ -25,66 +31,79 @@
 				damage_far_mul  = 0.9
 			}
 		}
+		--Light stability extension: DESCRIBE ME
 		local light_stab_ext = {
 			stats = {value = 2, spread = -1, recoil = 1},
 			heat_stat_table = "light_stab_ext",
 			heat_mod_filters = {heavy_stab_ext = true}
 		}
+		--Heavy stability extension: DESCRIBE ME
 		local heavy_stab_ext = {
 			stats = {value = 3, spread = -2, recoil = 2},
 			heat_stat_table = "heavy_stab_ext",
 			heat_mod_filters = {light_stab_ext = true, heavy_stab_ext = true}
 		}
+		--Light accuracy extension: DESCRIBE ME
 		local light_acc_ext = {
 			stats = {value = 2, spread = 1, recoil = -1},
 			heat_stat_table = "light_acc_ext",
 			heat_mod_filters = {heavy_acc_ext = true}
 		}
+		--Heavy accuracy extension: DESCRIBE ME
 		local heavy_acc_ext = {
 			stats = {value = 3, spread = 2, recoil = -2},
 			heat_stat_table = "heavy_acc_ext",
 			heat_mod_filters = {light_acc_ext = true, heavy_acc_ext = true}
 		}
-	--Gadgets
+	--///Gadgets///
+		--Bulky gadget: DESCRIBE ME
 		local bulky_gadget = {
 			custom_stats = {swap_speed_mul = 0.9}
 		}
-	--Magazines
+	--///Magazines///
+		--Quadstacked magazine: DESCRIBE ME
 		local quadstacked_mag = {
 			has_description = true,
 			desc_id = "bm_wpn_fps_upg_m4_m_quad_desc",
 			custom_stats = {movement_speed = 0.9},
 			stats = {value = 3, concealment = -5, reload = -5, extra_ammo = 30}
 		}
+		--Vintage magazine: DESCRIBE ME
 		local vintage_mag = {
 			stats = {value = 3, concealment = 2, reload = 6, extra_ammo = -10}
 		}
+		--Shell rack: DESCRIBE ME
 		local shell_rack = {
 			stats = {value = 1, reload = 2, concealment = -1},
 			custom_stats = {swap_speed_mul = 0.9}
 		}
-	--Barrels
+	--//Barrels///
+		--Light mobility barrel: DESCRIBE ME
 		local light_mob_barrel = {
 			stats = {value = 2, spread = -1, concealment = 1},
 			heat_stat_table = "light_mob_barrel", --Identifier for the stat table.
 			heat_mod_filters = {heavy_mob_barrel = true} --Used to determine modifiers of X or Y stat types to filter out for gun.
 		}
+		--Heavy mobility barrel: DESCRIBE ME
 		local heavy_mob_barrel = {
 			stats = {value = 3, spread = -2, concealment = 2},
 			heat_stat_table = "heavy_mob_barrel",
 			heat_mod_filters = {light_mob_barrel = true, heavy_mob_barrel = true}
 		}
+		--Light accuracy barrel: DESCRIBE ME
 		local light_acc_barrel = {
 			stats = {value = 2, spread = 1, concealment = -1},
 			heat_stat_table = "light_acc_barrel",
 			heat_mod_filters = {heavy_acc_barrel = true}
 		}
+		--Heavy accuracy barrel: DESCRIBE ME
 		local heavy_acc_barrel = {
 			stats = {value = 3, spread = 2, concealment = -2},
 			heat_stat_table = "heavy_acc_barrel",
 			heat_mod_filters = {light_acc_barrel = true, heavy_acc_barrel = true}
 		}
-	--Grips
+	--///Grips///
+		--Vertical Grip: DESCRIBE ME
 		local vertical_grip = {
 			stats = {value = 1},
 			custom_stats = {
@@ -96,6 +115,7 @@
 				}
 			}
 		}
+		--Horizontal grip: DESCRIBE ME
 		local horizontal_grip = {
 			stats = {value = 1},
 			custom_stats = {
@@ -107,6 +127,7 @@
 				}
 			}
 		}
+		--Left grip with no beef: DESCRIBE ME
 		local left_grip = {
 			stats = {value = 1},
 			custom_stats = {
@@ -118,6 +139,7 @@
 				}
 			}
 		}
+		--Right grip: DESCRIBE ME
 		local right_grip = {
 			stats = {value = 1},
 			custom_stats = {
@@ -129,32 +151,38 @@
 				}
 			}
 		}
-	--Stocks
+	--///Stocks///
+		--Light mobility stock: DESCRIBE ME
 		local light_mob_stock = {
 			stats = {value = 2, recoil = -1, concealment = 1},
 			heat_stat_table = "light_mob_stock",
 			heat_mod_filters = {heavy_mob_stock = true}
 		}
+		--Heavy mobility stock: DESCRIBE ME
 		local heavy_mob_stock = {
 			stats = {value = 3, recoil = -2, concealment = 2},
 			heat_stat_table = "heavy_mob_stock",
 			heat_mod_filters = {light_mob_stock = true, heavy_mob_stock = true}
 		}
+		--Light stability stock: DESCRIBE ME
 		local light_stab_stock = {
 			stats = {value = 2, recoil = 1, concealment = -1},
 			heat_stat_table = "light_stab_stock",
 			heat_mod_filters = {heavy_stab_stock = true}
 		}
+		--Heavy stability stock: DESCRIBE ME
 		local heavy_stab_stock = {
 			stats = {value = 3, recoil = 2, concealment = -2},
 			heat_stat_table = "heavy_stab_stock",
 			heat_mod_filters = {light_stab_stock = true, heavy_stab_stock = true}
 		}
-	--Arrows
+	--///Arrows///
+		--Poison arrow: DESCRIBE ME
 		local poison_arrow = {
 			stats = {value = 4}
 		}
-			local light_bow_poison = {
+		--Light bow poison: DESCRIBE ME
+		local light_bow_poison = {
 				stats = {damage = -20},
 				custom_stats = {
 					dot_data =  {
@@ -168,7 +196,8 @@
 					}
 				}
 			}
-			local heavy_bow_poison = {
+		--Heavy bow poison: DESCRIBE ME
+		local heavy_bow_poison = {
 				stats = {damage = -20},
 				custom_stats = {
 					dot_data = {
@@ -182,13 +211,16 @@
 					}
 				}
 			}
+		--Light explosive arrow: DESCRIBE ME
 		local light_explosive_arrow = {
 			stats = {value = 4, damage = 20, spread = -4}
 		}
+		--Heavy explosive arrow: DESCRIBE ME
 		local heavy_explosive_arrow = {
 			stats = {value = 4, damage = 20, spread = -4}
 		}
-	--Flamethrower Tanks
+	--///Flamethrower Tanks///
+		--Rare tank: DESCRIBE ME
 		local rare_tank = {
 			stats = {value = 4},
 			has_description = true,
@@ -204,6 +236,7 @@
 				damage_far_mul = 1.2727273
 			}
 		}
+		--Well done tank: DESCRIBE ME
 		local well_done_tank = {
 			stats = {value = 4},
 			has_description = true,
@@ -219,6 +252,10 @@
 				damage_far_mul = 0.7272727
 			}
 		}
+		
+--////////////////////////////////////////////////////////////////////////////////
+--////////////////////////////////////////////////////////////////////////////////
+--////////////////////////////////////////////////////////////////////////////////
 
 	--Applies a HEAT attachment stat table to a given attachment.
 	local function apply_stats(part, stat_table, ...)
@@ -433,6 +470,7 @@ function WeaponFactoryTweakData:_init_silencers()
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_large, suppressor, heavy_acc_ext) --Monolith Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium, suppressor, light_acc_ext) --Standard Issue Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_small, suppressor) --Size Doesn't Matter Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_thick, suppressor, heavy_stab_ext) --Silent Killer Suppressor
 end
 
@@ -443,6 +481,7 @@ function WeaponFactoryTweakData:_init_nozzles()
 	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_stubby, heavy_acc_ext) --Stubby Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_tank, heavy_stab_ext, loudener) --The Tank Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_shark, light_acc_ext) --Shark Teeth Nozzle
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator
 end
 
 local orig_init_gadgets = WeaponFactoryTweakData._init_gadgets
@@ -453,6 +492,9 @@ function WeaponFactoryTweakData:_init_gadgets()
 	apply_stats(self.parts.wpn_fps_upg_fl_ass_smg_sho_peqbox, cosmetic) --Tactical Laser Module
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_laser, cosmetic) --Pocket Laser
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_tlr1, cosmetic) --Tactical Pistol Light
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_laser, cosmetic) --Compact Laser Module
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, cosmetic) --LED Combo
+
 end
 
 local orig_init_vertical_grips = WeaponFactoryTweakData._init_vertical_grips
