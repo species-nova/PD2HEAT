@@ -470,7 +470,7 @@ function WeaponFactoryTweakData:_init_silencers()
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_large, suppressor, heavy_acc_ext) --Monolith Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium, suppressor, light_acc_ext) --Standard Issue Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_small, suppressor) --Size Doesn't Matter Suppressor
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor
+	--apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_thick, suppressor, heavy_stab_ext) --Silent Killer Suppressor
 end
 
@@ -481,7 +481,7 @@ function WeaponFactoryTweakData:_init_nozzles()
 	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_stubby, heavy_acc_ext) --Stubby Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_tank, heavy_stab_ext, loudener) --The Tank Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_shark, light_acc_ext) --Shark Teeth Nozzle
-	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator
+	--apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator
 end
 
 local orig_init_gadgets = WeaponFactoryTweakData._init_gadgets
@@ -492,8 +492,8 @@ function WeaponFactoryTweakData:_init_gadgets()
 	apply_stats(self.parts.wpn_fps_upg_fl_ass_smg_sho_peqbox, cosmetic) --Tactical Laser Module
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_laser, cosmetic) --Pocket Laser
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_tlr1, cosmetic) --Tactical Pistol Light
-	apply_stats(self.parts.wpn_fps_upg_fl_ass_laser, cosmetic) --Compact Laser Module
-	apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, cosmetic) --LED Combo
+	--apply_stats(self.parts.wpn_fps_upg_fl_ass_laser, cosmetic) --Compact Laser Module
+	--apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, cosmetic) --LED Combo
 
 end
 
