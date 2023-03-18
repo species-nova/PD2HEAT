@@ -601,7 +601,7 @@ function RaycastWeaponBase:_convert_add_to_mul(value)
 end
 
 function RaycastWeaponBase:recoil_multiplier()
-	local rounds = 1
+	local rounds = 1 + (self._volley_rays or 0)
 	if self._delayed_burst_recoil and self:fire_mode() == "burst" then
 		if self:burst_rounds_remaining() then
 			return 0
@@ -622,7 +622,7 @@ function RaycastWeaponBase:recoil_multiplier()
 
 	mul = mul + managers.player:temporary_upgrade_value("temporary", "bullet_hell", {recoil_multiplier = 1.0}).recoil_multiplier - 1
 
-	return rounds * self:_convert_add_to_mul(mul) * math.sqrt(self._base_fire_rate)
+	return rounds * self:_convert_add_to_mul(mul) * math.sqrt((self.AKIMBO and 2 or 1) * self._base_fire_rate)
 end
 
 function RaycastWeaponBase:weapon_range()
