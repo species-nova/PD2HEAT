@@ -645,7 +645,7 @@ local shield_knock_data = {
 	}
 }
 function InstantBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank, no_sound)
-	blank = Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
+	blank = blank or Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
 
 	local hit_unit = col_ray.unit
 	local hit_char_damage = hit_unit:character_damage()
@@ -1299,7 +1299,6 @@ end
 
 function RaycastWeaponBase:overhealed_damage_mul(distance)
 	if not self._autoaim then return 1 end --Ignore if not a player.
-
 	local categories = self:categories()
 	local damage_mul = 1
 	for i = 1, #categories do
@@ -1567,7 +1566,7 @@ end
 	--2. Use give_fire_damage instead of give_impact_damage.
 	--DragonsBreathBulletBase is no longer used. DB rounds use FlameBulletBase.
 	function FlameBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank)
-		blank = Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
+		blank = blank or Network:is_client() and not blank and user_unit ~= managers.player:player_unit()
 
 		local hit_unit = col_ray.unit
 		local hit_char_damage = hit_unit:character_damage()
