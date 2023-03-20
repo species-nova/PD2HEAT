@@ -1124,6 +1124,40 @@ function WeaponTweakData:init(...)
 		self.qbu88.fire_mode_data.fire_rate = 0.3
 		self.qbu88.single.fire_rate = 0.3
 
+		--North Star
+		self.victor.categories = {
+			"assault_rifle"
+		}
+		self.victor.armor_piercing_chance = 0
+		self.victor.can_shoot_through_enemy = false
+		self.victor.can_shoot_through_shield = false
+		self.victor.can_shoot_through_wall = false
+		self.victor.has_description = false
+		self.victor.tactical_reload = true
+		self.victor.kick = self.stat_info.kick_tables.vertical_kick
+		self.victor.kick_pattern = self.stat_info.kick_patterns.zigzag_3
+		self.victor.supported = true
+		self.victor.stats = {
+			damage = 30,
+			spread = 21,
+			recoil = 16,
+			concealment = 12
+		}
+		self.victor.timers = {
+			reload_not_empty = 3.5,
+			reload_empty = 3.5,
+			reload_operational = 2.45,
+			empty_reload_operational = 2.45,
+			reload_interrupt = 0.4, --TODO: Set these.
+			empty_reload_interrupt = 0.4,
+			unequip = 08,
+			equip = 0.8
+		}
+		self.victor.swap_speed_multiplier = 1.1
+		self.victor.fire_mode_data = {
+			fire_rate = 0.353
+		}
+
 	--Minigun (PRIMARY)
 		--Minigun
 		self.m134.categories = {
@@ -1381,8 +1415,7 @@ function WeaponTweakData:init(...)
 			damage = 20,
 			spread = 9,
 			recoil = 18,
-			concealment = 6,
-			reload = 20
+			concealment = 6
 		}
 		self.par.timers = {
 			reload_not_empty = 7.2,
@@ -1396,6 +1429,32 @@ function WeaponTweakData:init(...)
 			deploy_bipod = 1
 		}
 		self.par.fire_rate_multiplier = 0.715 --650 rpm.
+
+		--Akron HC
+		self.hcar.categories = {
+			"lmg",
+			"smg"
+		}
+		self.hcar.kick = self.stat_info.kick_tables.moderate_kick
+		self.hcar.kick_pattern = self.stat_info.kick_patterns.jumpy_3
+		self.hcar.supported = true
+		self.hcar.stats = {
+			damage = 20,
+			spread = 18,
+			recoil = 14,
+			concealment = 13
+		}
+		self.hcar.timers = {
+			reload_not_empty = 3.95,
+			reload_empty = 4.4,
+			reload_operational = 3.15,
+			empty_reload_operational = 3.6,
+			reload_interrupt = 0.65,  --TODO: Set these.
+			empty_reload_interrupt = 6.5,
+			unequip = 0.5,
+			equip = 0.65
+		}
+		self.hcar.reload_speed_multiplier = 1.15 --3.3/3.8s
 
 	--Light Sniper (PRIMARY)
 		--Rattlesnake
@@ -1557,7 +1616,6 @@ function WeaponTweakData:init(...)
 			unequip = 0.4,
 			equip = 0.45
 		}
-
 
 	--Heavy Sniper (Primary)
 		--Bernetti Rangehitter
@@ -2752,7 +2810,6 @@ function WeaponTweakData:init(...)
 		}
 
 		--Kang Arms Model 54
-		--TODO: Still very buggy/crashy.
 		self.type54.use_data.selection_index = 2
 		self.type54.kick = self.stat_info.kick_tables.left_recoil
 		self.type54.kick_pattern = self.stat_info.kick_patterns.zigzag_1
@@ -3642,6 +3699,44 @@ function WeaponTweakData:init(...)
 			equip = 0.65
 		}
 		self.peacemaker.swap_speed_multiplier = 0.65
+
+		--Aran G2
+		self.contender.desc_id = "bm_ap_weapon_sc_desc"
+		self.contender.has_description = true
+		self.contender.categories = {
+			"pistol"
+		}
+		self.contender.kick = self.stat_info.kick_tables.vertical_kick
+		self.contender.kick_pattern = self.stat_info.kick_patterns.random
+		self.contender.supported = true
+		self.contender.can_shoot_through_enemy = true
+		self.contender.can_shoot_through_wall = true
+		self.contender.can_shoot_through_shield = true
+		self.contender.armor_piercing_chance = 1
+		self.contender.stats = {
+			damage = 50,
+			spread = 21,
+			recoil = 14,
+			concealment = 16
+		}
+		self.contender.timers = {
+			reload_not_empty = 1.7,
+			reload_empty = 1.7,
+			reload_operational = 1.15,
+			empty_reload_operational = 1.15,
+			reload_interrupt = 0.1,
+			empty_reload_interrupt = 0.1,
+			unequip = 0.6,
+			equip = 0.6
+		}
+		self.contender.reload_speed_multiplier = 1.15 --1.5s
+		self.contender.swap_speed_multiplier = 1.3
+		self.contender.fire_mode_data = {
+			fire_rate = 0.3
+		}
+		self.contender.single = {
+			fire_rate = 0.3
+		}
 
 	--Grenade Launchers (Primary)
 		--GL 40

@@ -197,7 +197,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 					"vhs",
 					"bowie",
 					"micstand",
-					"qbu88"
+					"qbu88",
+					"contender"
 				}
 			},
 		l29 = {

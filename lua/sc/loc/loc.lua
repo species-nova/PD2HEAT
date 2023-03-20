@@ -683,6 +683,12 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Kang Arms X1--
 		["bm_w_qbu88"] = "Káng Arms X1 Rifle",
 
+		--North Star--
+		["bm_w_victor"] = "North Star Rifle",
+
+		--Aran G2
+		["bm_w_contender"] = "Aran G2 Pistol",
+
 		--Gecko M2
 		["bm_w_maxim9_desc"] = "This weapon is suppressed.",
 
