@@ -1,5 +1,4 @@
 --///Common stat tables///
-  --Try to follow the commenting conventions shown.  List the name of the preset, and what it does exactly.
 	--///Cosmetic///
 		--Cosmetic: If a modpart has no associated stats to apply to the weapon, give it the 'cosmetic' flag, which will make the 'TODO' description not appear ingame.
 		local cosmetic = {
@@ -7,7 +6,7 @@
 			stats = {value = 1}
 		}
 	--///Barrel Extensions///
-		--Unsuppressor: To be used on modparts that remove a silencer aspect from the base weapon.
+		--To be used on modparts that remove a suppressor/silencer/silenced barrel from the base weapon.
 		local unsuppressor = {
 			stats = {value = 1, suppression = 4, alert_size = -1},
 			custom_stats = {
@@ -15,15 +14,8 @@
 				damage_far_mul  = 1/0.9
 			}
 		}
-		--Loudener: Increases suppression.
-		local loudener = {
-			stats = {value = 1, suppression = 4}
-		}
-		--Flash Hider: Reduces suppression.
-		local flash_hider = {
-			stats = {value = 1, suppression = -4}
-		}
-		--Suppressor: Suppresses modpart/weapon.
+
+		--Apply to suppressors/silencers, or suppressed barrels.
 		local suppressor = {
 			stats = {value = 2, suppression = -4, alert_size = 1},
 			custom_stats = {
@@ -31,200 +23,208 @@
 				damage_far_mul  = 0.9
 			}
 		}
-		--Light stability extension: DESCRIBE ME
+		
+		--Reduces the gun's suppression effect without silencing it. Use for flash hiders.
+		--Flash Hiders tend to have long (lengthwise) holes meant to try and make the muzzle flash of a gun less visible.
+		--Since the game includes a very large number of barrel extensions, feel free to not sweat realism too heavily on these to give people more options that fit their preferred aesthetic.
+		local flash_hider = {
+			stats = {value = 1, suppression = -4}
+		}
+		
+		--Increases a gun's suppression effect. Things that would remove a flash-hider, or redirect gas forwards.
+		--I wish barrel loudeners were real. :( https://i.imgur.com/XzZ3uIW.jpg
+		local loudener = {
+			stats = {value = 1, suppression = 4}
+		}
+		--Increases stability at the cost of accuracy. Prefer using on small recoil compensators.
+		--Recoil compensators tend to have many holes along the sides/top to cause gas leaving the barrel to push it counter to recoil.
+		--Really 'heavy' looking barrel extensions can also make sense here.
 		local light_stab_ext = {
 			stats = {value = 2, spread = -1, recoil = 1},
 			heat_stat_table = "light_stab_ext",
 			heat_mod_filters = {heavy_stab_ext = true}
 		}
-		--Heavy stability extension: DESCRIBE ME
+		--Greatly increases stability at the cost of accuracy. Prefer using on big recoil compensators.
 		local heavy_stab_ext = {
 			stats = {value = 3, spread = -2, recoil = 2},
 			heat_stat_table = "heavy_stab_ext",
 			heat_mod_filters = {light_stab_ext = true, heavy_stab_ext = true}
 		}
-		--Light accuracy extension: DESCRIBE ME
+		--Increases accuracy at the cost of stability. Prefer using on small barrel extensions.
+		--Barrel extensions tend to have few if any holes in them and act primarily to increase the effective barrel length.
 		local light_acc_ext = {
 			stats = {value = 2, spread = 1, recoil = -1},
 			heat_stat_table = "light_acc_ext",
 			heat_mod_filters = {heavy_acc_ext = true}
 		}
-		--Heavy accuracy extension: DESCRIBE ME
+		--Greatly increases accuracy at the cost of stability. Prefer using on big barrel extensions.
 		local heavy_acc_ext = {
 			stats = {value = 3, spread = 2, recoil = -2},
 			heat_stat_table = "heavy_acc_ext",
 			heat_mod_filters = {light_acc_ext = true, heavy_acc_ext = true}
 		}
 	--///Gadgets///
-		--Bulky gadget: DESCRIBE ME
+		--Use for non-stat affecting things that provide a clear mechanical benefit over other alternatives in the same mod slot.
+		--Examples include:
+			--Scopes with added utility (IE: rangefinders, highlighting, health displays)
+			--Combined Modules (gadgets that provide both a flashlight and a laser, rather than just one of the two)
 		local bulky_gadget = {
 			custom_stats = {swap_speed_mul = 0.9}
 		}
 	--///Magazines///
-		--Quadstacked magazine: DESCRIBE ME
+		--Leave these to Ravi. Magazines are very liable to act like straight upgrades to guns and need much more individualized attention than other attachments.
 		local quadstacked_mag = {
 			has_description = true,
 			desc_id = "bm_wpn_fps_upg_m4_m_quad_desc",
 			custom_stats = {movement_speed = 0.9},
 			stats = {value = 3, concealment = -5, reload = -5, extra_ammo = 30}
 		}
-		--Vintage magazine: DESCRIBE ME
 		local vintage_mag = {
 			stats = {value = 3, concealment = 2, reload = 6, extra_ammo = -10}
 		}
-		--Straight magazine: DESCRIBE ME
+
 		local straight_mag = {
-			stats = {value = 3, concealment = 1, reload = 3, spread = -1}
+			stats = {value = 3}
 		}
-		--Shell rack: DESCRIBE ME
+
 		local shell_rack = {
 			stats = {value = 1, reload = 2, concealment = -1},
 			custom_stats = {swap_speed_mul = 0.9}
 		}
 	--//Barrels///
-		--Light mobility barrel: DESCRIBE ME
+		--Increases mobility at the cost of accuracy. Use this for barrels shorter than the default.
+		--Prefer this over the heavy_mob_barrel if only one option exists to allow people to pick the amount of mobility/accuracy tradeoff they have via modifiers.
 		local light_mob_barrel = {
 			stats = {value = 2, spread = -1, concealment = 1},
-			heat_stat_table = "light_mob_barrel", --Identifier for the stat table.
-			heat_mod_filters = {heavy_mob_barrel = true} --Used to determine modifiers of X or Y stat types to filter out for gun.
+			heat_stat_table = "light_mob_barrel",
+			heat_mod_filters = {heavy_mob_barrel = true}
 		}
-		--Heavy mobility barrel: DESCRIBE ME
+		--Greatly increases mobility at the cost of accuracy. Use this for barrels much shorter than the default.
+		--Prefer this only if the difference is massive, or if there is another short barrel that's not quite *as* short.
 		local heavy_mob_barrel = {
 			stats = {value = 3, spread = -2, concealment = 2},
 			heat_stat_table = "heavy_mob_barrel",
 			heat_mod_filters = {light_mob_barrel = true, heavy_mob_barrel = true}
 		}
-		--Light accuracy barrel: DESCRIBE ME
+		--Increases accuracy at the cost of mobility. Use this for barrels longer than the default.
+		--Prefer this over the heavy_acc_barrel if only one option exists to allow people to pick the amount of mobility/accuracy tradeoff they have via modifiers.
 		local light_acc_barrel = {
 			stats = {value = 2, spread = 1, concealment = -1},
 			heat_stat_table = "light_acc_barrel",
 			heat_mod_filters = {heavy_acc_barrel = true}
 		}
-		--Heavy accuracy barrel: DESCRIBE ME
+		--Greatly increases accuracy at the cost of mobility. Use this for barrels much longer than the default.
+		--Prefer this only if the difference is massive, or if there is another long barrel that's not quite *as* long.
 		local heavy_acc_barrel = {
 			stats = {value = 3, spread = 2, concealment = -2},
 			heat_stat_table = "heavy_acc_barrel",
 			heat_mod_filters = {light_acc_barrel = true, heavy_acc_barrel = true}
 		}
 	--///Grips///
-		--Vertical Grip: DESCRIBE ME
+		--Try to avoid giving guns access to more than 1 recoil changing grip at a time since stacking can result in extremely unbalanced feeling recoil.
+		--Or potentially lead to outright recoil increases if values wrap around.
+		--Make any other grips cosmetic if possible.
+		--Reduces vertical recoil but increases horizontal recoil.
 		local vertical_grip = {
 			stats = {value = 1},
 			custom_stats = {
-				kick_addend = {
-					-0.2,
-					-0.2,
-					-0.2,
-					0.2
-				}
+				--Tables follow the pattern of up/down/left/right.
+				kick_addend = {-0.2, -0.2, 0.2, -0.2}
 			}
+			--TODO: Add descriptions?
 		}
-		--Horizontal grip: DESCRIBE ME
+		--Reduces horizontal recoil but increases vertical recoil.
 		local horizontal_grip = {
 			stats = {value = 1},
 			custom_stats = {
-				kick_addend = {
-					0.2,
-					0.2,
-					0.2,
-					-0.2
-				}
+				kick_addend = {0.2, 0.2, 0.2, -0.2}
 			}
 		}
-		--Left grip with no beef: DESCRIBE ME
+		--Reduces recoil to the left, but increases it to the right.
 		local left_grip = {
 			stats = {value = 1},
 			custom_stats = {
-				kick_addend = {
-					0.2,
-					0.2,
-					0.0,
-					0.4,
-				}
+				kick_addend = {0.0, 0.0, 0.2, 0.2}
 			}
 		}
-		--Right grip: DESCRIBE ME
+		--Reduces recoil to the right, but increases it to the left.
 		local right_grip = {
 			stats = {value = 1},
 			custom_stats = {
-				kick_addend = {
-					0.2,
-					0.2,
-					-0.4,
-					0.0
-				}
+				kick_addend = {0.0, 0.0, -0.2, -0.2}
 			}
 		}
 	--///Stocks///
-		--Light mobility stock: DESCRIBE ME
+		--Increases mobility at the cost of stability. Use on smaller/less bulky stocks.
+		--Prefer this over the heavy_mob_stock if only one option exists to allow people to pick the amount of mobility/stability tradeoff they have via modifiers.
 		local light_mob_stock = {
 			stats = {value = 2, recoil = -1, concealment = 1},
 			heat_stat_table = "light_mob_stock",
 			heat_mod_filters = {heavy_mob_stock = true}
 		}
-		--Heavy mobility stock: DESCRIBE ME
+		--Greatly increases mobility at the cost of stability. Use this for very flimsy stocks, or cases where a stock is removed.
+		--Prefer this only if the difference is massive, or if there is another stock that's not quite *as* small.
 		local heavy_mob_stock = {
 			stats = {value = 3, recoil = -2, concealment = 2},
 			heat_stat_table = "heavy_mob_stock",
 			heat_mod_filters = {light_mob_stock = true, heavy_mob_stock = true}
 		}
-		--Light stability stock: DESCRIBE ME
+		--Increases stability at the cost of mobility. Use on bulkier stocks.
+		--Prefer this over the heavy_mob_stock if only one option exists to allow people to pick the amount of mobility/stability tradeoff they have via modifiers.
 		local light_stab_stock = {
 			stats = {value = 2, recoil = 1, concealment = -1},
 			heat_stat_table = "light_stab_stock",
 			heat_mod_filters = {heavy_stab_stock = true}
 		}
-		--Heavy stability stock: DESCRIBE ME
+		--Greatly increases stability at the cost of mobility. Use this for very bulky stocks.
+		--Prefer this only if the difference is massive, or if there is another stock that's not quite *as* big.
 		local heavy_stab_stock = {
 			stats = {value = 3, recoil = 2, concealment = -2},
 			heat_stat_table = "heavy_stab_stock",
 			heat_mod_filters = {light_stab_stock = true, heavy_stab_stock = true}
 		}
 	--///Arrows///
-		--Poison arrow: DESCRIBE ME
+		--Poison arrows offer increased effective body shot damage and mild CC in return for a longer TTK on headshots in many cases.
 		local poison_arrow = {
 			stats = {value = 4}
 		}
-		--Light bow poison: DESCRIBE ME
 		local light_bow_poison = {
-				stats = {damage = -20},
-				custom_stats = {
-					dot_data =  {
-						type = "poison",
-						custom_data = {
-							dot_damage = 0.6,
-							dot_duration = 5.1,
-							dot_tick_period = 0.5,
-							hurt_animation_chance = 0.5
-						}
+			stats = {damage = -20},
+			custom_stats = {
+				dot_data =  {
+					type = "poison",
+					custom_data = {
+						dot_damage = 0.6,
+						dot_duration = 5.1,
+						dot_tick_period = 0.5,
+						hurt_animation_chance = 0.5
 					}
 				}
 			}
-		--Heavy bow poison: DESCRIBE ME
+		}
 		local heavy_bow_poison = {
-				stats = {damage = -20},
-				custom_stats = {
-					dot_data = {
-						type = "poison",
-						custom_data = {
-							dot_damage = 0.6,
-							dot_duration = 5.1,
-							dot_tick_period = 0.5,
-							hurt_animation_chance = 0.5
-						}
+			stats = {damage = -20},
+			custom_stats = {
+				dot_data = {
+					type = "poison",
+					custom_data = {
+						dot_damage = 0.6,
+						dot_duration = 5.1,
+						dot_tick_period = 0.5,
+						hurt_animation_chance = 0.5
 					}
 				}
 			}
-		--Light explosive arrow: DESCRIBE ME
+		}
+		--Explosive arrows grant explosive utility at the cost of reusability, speed, and accuracy.
 		local light_explosive_arrow = {
 			stats = {value = 4, damage = 20, spread = -4}
 		}
-		--Heavy explosive arrow: DESCRIBE ME
 		local heavy_explosive_arrow = {
 			stats = {value = 4, damage = 20, spread = -4}
 		}
 	--///Flamethrower Tanks///
-		--Rare tank: DESCRIBE ME
+		--Increases the range of the flamethrower, but reduces the reliability of it to apply DOT effects.
 		local rare_tank = {
 			stats = {value = 4},
 			has_description = true,
@@ -240,7 +240,7 @@
 				damage_far_mul = 1.2727273
 			}
 		}
-		--Well done tank: DESCRIBE ME
+		--Increases the reliability of a flamethrower's ability to apply a DOT, but reduces its range.
 		local well_done_tank = {
 			stats = {value = 4},
 			has_description = true,
@@ -256,51 +256,9 @@
 				damage_far_mul = 0.7272727
 			}
 		}
-		
---////////////////////////////////////////////////////////////////////////////////
---////////////////////////////////////////////////////////////////////////////////
---////////////////////////////////////////////////////////////////////////////////
 
-	--Applies a HEAT attachment stat table to a given attachment.
-	local function apply_stats(part, stat_table, ...)
-		part.supported = true
-		for field, data in pairs(stat_table) do
-			part[field] = data
-		end
-
-		local arg = {...}
-		local function append_stats(append_table)
-			for k, v in pairs(append_table) do
-				if type(v) == "table" then			
-					--Clone current table to avoid changing the global attachment tables.
-					part[k] = part[k] and deep_clone(part[k]) or {}
-
-					for stat, data in pairs(v) do
-						orig_stat = part[k][stat]
-						if orig_stat and type(orig_stat) == "number" and k ~= "heat_stat_table" then
-							part[k][stat] = orig_stat + data
-						else
-							part[k][stat] = data
-						end
-					end
-				elseif type(t) == "number" and type(part[k]) == "number" then
-					part[k] = part[k] + v
-				else
-					part[k] = v
-				end
-			end
-		end
-
-		for i = 1, #arg do
-			append_stats(arg[i])
-		end
-	end
-	
---////////////////////////////////////////////////////////////////////////////////
---////////////////////////////////////////////////////////////////////////////////
---////////////////////////////////////////////////////////////////////////////////
-
-	--Shotgun Ammo Types
+	--///Shotgun Ammo Types///
+		--Slugs offer AP and increased accuracy at the cost of only firing one pellet and ammo pickup.
 		local slug_damage = {
 			vd12 = 27,
 			light = 45,
@@ -326,6 +284,7 @@
 			}
 		}
 
+		--HE rounds offer explosive utility and raw damage at the cost of bullet storm access, ammo pickup, and headshots.
 		local he_damage = {
 			vd12 = 47,
 			light = 75,
@@ -348,6 +307,7 @@
 			}
 		}
 
+		--Buckshot offers increased total close range damage at the cost of long range effectiveness.
 		local buck_damage = {
 			vd12 = 3,
 			light = 5,
@@ -374,6 +334,8 @@
 			medium = 6.1,
 			heavy = 8.1
 		}
+		--Flechettes offer increased crowd damage and ranged effectiveness via piercing and Bleed DOT
+		--at the cost of reduced single target damage output (by losing half pellets) and pickup.
 		local flechette = {
 			desc_id = "bm_wp_upg_a_piercing_desc_sc",
 			stats = {
@@ -397,6 +359,7 @@
 				}
 			}
 		}
+		--DB offers the ability to stun enemies efficiently at the cost of at the cost of reduced single target damage output (by losing half pellets).
 		local dragons_breath = {
 			desc_id = "bm_wp_upg_a_dragons_breath_desc_sc",
 			stats = {
@@ -448,6 +411,45 @@
 --////////////////////////////////////////////////////////////////////////////////
 --////////////////////////////////////////////////////////////////////////////////
 
+	--Applies a HEAT attachment stat table to a given attachment.
+	local function apply_stats(part, stat_table, ...)
+		part.supported = true
+		for field, data in pairs(stat_table) do
+			part[field] = data
+		end
+
+		local arg = {...}
+		local function append_stats(append_table)
+			for k, v in pairs(append_table) do
+				if type(v) == "table" then			
+					--Clone current table to avoid changing the global attachment tables.
+					part[k] = part[k] and deep_clone(part[k]) or {}
+
+					for stat, data in pairs(v) do
+						orig_stat = part[k][stat]
+						if orig_stat and type(orig_stat) == "number" and k ~= "heat_stat_table" then
+							part[k][stat] = orig_stat + data
+						else
+							part[k][stat] = data
+						end
+					end
+				elseif type(t) == "number" and type(part[k]) == "number" then
+					part[k] = part[k] + v
+				else
+					part[k] = v
+				end
+			end
+		end
+
+		for i = 1, #arg do
+			append_stats(arg[i])
+		end
+	end
+
+--////////////////////////////////////////////////////////////////////////////////
+--////////////////////////////////////////////////////////////////////////////////
+--////////////////////////////////////////////////////////////////////////////////
+
 local orig_init = WeaponFactoryTweakData.init
 function WeaponFactoryTweakData:init()
 	orig_init(self)
@@ -466,8 +468,11 @@ function WeaponFactoryTweakData:init()
 				gadget_zoom = part.stats.gadget_zoom
 			}
 			part.custom_stats = nil
-			part.desc_id = "bm_auto_generated_mod_sc_desc"
-			part.has_description = true
+			--TODO: Uncomment conditional once all attachments are given stats.
+			--if not part.desc_id then
+				part.desc_id = "bm_auto_generated_mod_sc_desc"
+				part.has_description = true
+			--end
 		end
 	end
 end
@@ -481,25 +486,30 @@ end
 --[[This is where things get interesting!
 
 The cloned function corresponds to a function in the basegame's WeaponFactoryTweakData.lua file.
-Modparts defined here MUST BE IN THE FUNCTION THEY ARE NORMALLY INSIDE, IN VANILLA, OR ELSE YOU WILL CRASH!
-Don't push changes to this file until you can confirm the game launches with any new additions!
+Modparts defined here MUST BE IN THE FUNCTION THEY ARE NORMALLY INSIDE, IN VANILLA, OR ELSE YOU ARE LIABLE TO CRASH IF YOU REFERENCE A MOD PART THAT IS NOT YET DEFINED!
+Don't push changes to this file until you can confirm the game launches with any new additions.
 
-Barrel extensions, stocks, and some magazines will confer stat changes, and most anything else will be marked with the 'cosmetic' tag (unless there's a specific reason to give something stats)
-
-(also, PLEASE REVISE this description above.  this was written as of my current understanding of the balance model 3/20/2023! ~Rhynne)]]--
+Barrel extensions, stocks, barrels, and some magazines will confer stat changes, and most anything else will be marked with the 'cosmetic' tag (unless there's a specific reason to give something stats as defined above).
+Weapon mod parts are intended to be strict side-grades in the abstract sense.
+While some guns may benefit from specific weapon mods- they should ideally never feel required to make a gun 'good'.
+	Exceptions may inadvertently occur with custom ammo types in certain cases, due to their transformative nature, but such cases should be few and far between.
+Avoid allowing guns to access the same 'sort' of weapon mod multiple times. (IE: No ability to apply multiple different +acc/-stab mods to get more than 20 accuracy from mod parts)
+This is intended to try and bound the range of stats a gun can occupy and prevent it from stepping too far on another's toes, and to prevent abuse of negative stat caps to turn attachments into strict upgrades.
 
 --///BASIC EXAMPLE TABLE///
 
 --[[
-
-local orig_init_example = WeaponFactoryTweakData._init_example --The 'local' line here matches the one below inside the function.  This specific line tells it what it's cloning.
-
+--The 'local' line here matches the one below inside the function.  This specific line tells it what it's cloning.
+--DON'T FORGET THE LOCAL! Things will 'work' without it, but may result in 'strange' crashes when other mods are involved or down the road if someone makes a similar mistake.
+local orig_init_example = WeaponFactoryTweakData._init_example
 function WeaponFactoryTweakData:_init_example() --The function you will be modifying entries in.
-
-	orig_init_example(self) --Telling it to use the modified data here, without changing anything else in this function.
+	orig_init_example(self) --Tell the game to do the vanilla function. This will create the weapon mod part tables for us to modify.
 	
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_example, cosmetic) --One of the entries within the table.  After the 'self.parts.wpn_part_id_here', place a ',' character, and then the stat preset(s) to use.  If there are no stats associated, mark it as 'cosmetic'.  Additionally, leave a comment on parts to say what it's ingame name is.  If it's specific to a single weapon, mark what weapon it's for (using the ingame name.)
-	
+	--Applies the desired stat table.
+	--After the 'self.parts.wpn_part_id_here', place a ',' character, and then the stat preset(s) to use. If there are no stats associated, mark it as 'cosmetic'.
+	--Additionally, leave a comment on parts to say what it's ingame name is. If it's specific to a single weapon, mark what weapon it's for (using the ingame name.)
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_example, cosmetic)
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium, suppressor, light_acc_ext) --Example with multiple stat presets. apply_stats() will do its best to combine the two.
 end
 
 --Refer to other table entries below and just try to match the formatting.
