@@ -72,6 +72,10 @@
 		local vintage_mag = {
 			stats = {value = 3, concealment = 2, reload = 6, extra_ammo = -10}
 		}
+		--Straight magazine: DESCRIBE ME
+		local straight_mag = {
+			stats = {value = 3, concealment = 1, reload = 3, spread = -1}
+		}
 		--Shell rack: DESCRIBE ME
 		local shell_rack = {
 			stats = {value = 1, reload = 2, concealment = -1},
@@ -584,7 +588,8 @@ function WeaponFactoryTweakData:_init_butchermodpack()
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_m3x, cosmetic) --Polymer Flashlight
 	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_jungle, suppressor, heavy_stab_ext) --Jungle Ninja Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_jungle, suppressor, heavy_acc_ext) --Jungle Ninja Suppressor
+	apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag) --MP5 Straight Magazine
 
 end
 
@@ -841,7 +846,7 @@ local orig_init_gre_m79 = WeaponFactoryTweakData._init_gre_m79
 function WeaponFactoryTweakData:_init_gre_m79()
 	orig_init_gre_m79(self)
 	apply_stats(self.parts.wpn_fps_gre_m79_barrel_short, heavy_mob_barrel) --Pirate Barrel
-	apply_stats(self.parts.wpn_fps_gre_m79_stock_short, light_mob_stock) --Sawed off stock.
+	apply_stats(self.parts.wpn_fps_gre_m79_stock_short, light_mob_stock) --Sawed off stock
 end
 
 --Piglet
