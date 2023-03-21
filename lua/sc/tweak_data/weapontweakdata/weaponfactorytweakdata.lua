@@ -476,6 +476,35 @@ end
 --////////////////////////////////////////////////////////////////////////////////
 --////////////////////////////////////////////////////////////////////////////////
 
+
+--///WEAPON MODPARTS///
+--[[This is where things get interesting!
+
+The cloned function corresponds to a function in the basegame's WeaponFactoryTweakData.lua file.
+Modparts defined here MUST BE IN THE FUNCTION THEY ARE NORMALLY INSIDE, IN VANILLA, OR ELSE YOU WILL CRASH!
+Don't push changes to this file until you can confirm the game launches with any new additions!
+
+Barrel extensions, stocks, and some magazines will confer stat changes, and most anything else will be marked with the 'cosmetic' tag (unless there's a specific reason to give something stats)
+
+(also, PLEASE REVISE this description above.  this was written as of my current understanding of the balance model 3/20/2023! ~Rhynne)]]--
+
+--///BASIC EXAMPLE TABLE///
+
+--[[
+
+local orig_init_example = WeaponFactoryTweakData._init_example --The 'local' line here matches the one below inside the function.  This specific line tells it what it's cloning.
+
+function WeaponFactoryTweakData:_init_example() --The function you will be modifying entries in.
+
+	orig_init_example(self) --Telling it to use the modified data here, without changing anything else in this function.
+	
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_example, cosmetic) --One of the entries within the table.  After the 'self.parts.wpn_part_id_here', place a ',' character, and then the stat preset(s) to use.  If there are no stats associated, mark it as 'cosmetic'.  Additionally, leave a comment on parts to say what it's ingame name is.  If it's specific to a single weapon, mark what weapon it's for (using the ingame name.)
+	
+end
+
+--Refer to other table entries below and just try to match the formatting.
+]]--
+
 --///Generic Silencer Table///
 local orig_init_silencers = WeaponFactoryTweakData._init_silencers
 function WeaponFactoryTweakData:_init_silencers()
