@@ -465,6 +465,7 @@ function WeaponFactoryTweakData:init()
 	end
 end
 
+--///Generic Silencer Table///
 local orig_init_silencers = WeaponFactoryTweakData._init_silencers
 function WeaponFactoryTweakData:_init_silencers()
 	orig_init_silencers(self)
@@ -477,6 +478,7 @@ function WeaponFactoryTweakData:_init_silencers()
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_thick, suppressor, heavy_stab_ext) --Silent Killer Suppressor
 end
 
+--///Generic Barrel Extension Table///
 local orig_init_nozzles = WeaponFactoryTweakData._init_nozzles
 function WeaponFactoryTweakData:_init_nozzles()
 	orig_init_nozzles(self)
@@ -486,6 +488,7 @@ function WeaponFactoryTweakData:_init_nozzles()
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_shark, light_acc_ext) --Shark Teeth Nozzle
 end
 
+--///Generic Gadgets Table///
 local orig_init_gadgets = WeaponFactoryTweakData._init_gadgets
 function WeaponFactoryTweakData:_init_gadgets()
 	orig_init_gadgets(self)
@@ -498,6 +501,7 @@ function WeaponFactoryTweakData:_init_gadgets()
 
 end
 
+--///Generic Vertical Grips Table///
 local orig_init_vertical_grips = WeaponFactoryTweakData._init_vertical_grips
 function WeaponFactoryTweakData:_init_vertical_grips()
 	orig_init_vertical_grips(self)
@@ -506,6 +510,7 @@ function WeaponFactoryTweakData:_init_vertical_grips()
 	apply_stats(self.parts.wpn_fps_upg_vg_ass_smg_afg, cosmetic)
 end
 
+--///Generic Sights Table///
 local orig_init_sights = WeaponFactoryTweakData._init_sights
 function WeaponFactoryTweakData:_init_sights()
 	orig_init_sights(self)
@@ -524,6 +529,7 @@ function WeaponFactoryTweakData:_init_sights()
 	--apply_stats(self.parts.wpn_fps_upg_o_leupold, cosmetic) --Theia Magnified Scope
 end
 
+--///Armored Transport (DLC1) Table///
 local orig_init_content_dlc1 = WeaponFactoryTweakData._init_content_dlc1
 function WeaponFactoryTweakData:_init_content_dlc1()
 	orig_init_content_dlc1(self)
@@ -531,6 +537,7 @@ function WeaponFactoryTweakData:_init_content_dlc1()
 	--apply_stats(self.parts.wpn_fps_upg_o_cmore, cosmetic) --See More Sight
 end
 
+--///??? (DLC2) Table///
 local orig_init_content_dlc2 = WeaponFactoryTweakData._init_content_dlc2
 function WeaponFactoryTweakData:_init_content_dlc2()
 	orig_init_content_dlc2(self)
@@ -541,6 +548,7 @@ function WeaponFactoryTweakData:_init_content_dlc2()
 	apply_stats(self.parts.wpn_fps_upg_m4_g_mgrip, cosmetic) --Straight Grip
 end
 
+--///??? (DLC2 Dec16) Table///
 orig_init_content_dlc2_dec16 = WeaponFactoryTweakData._init_content_dlc2_dec16
 function WeaponFactoryTweakData:_init_content_dlc2_dec16()
 	orig_init_content_dlc2_dec16(self)
@@ -548,7 +556,7 @@ function WeaponFactoryTweakData:_init_content_dlc2_dec16()
 	--apply_stats(self.parts.wpn_fps_upg_o_acog, cosmetic) --Acough Optic Scope
 end
 
-
+--///Gage Mod Courier Table///
 orig_init_content_jobs = WeaponFactoryTweakData._init_content_jobs
 function WeaponFactoryTweakData:_init_content_jobs()
 	orig_init_content_jobs(self)
@@ -581,6 +589,7 @@ function WeaponFactoryTweakData:_init_content_jobs()
 	--apply_stats(self.parts.wpn_fps_upg_o_cs, cosmetic) --Combat Sight
 end
 
+--///Butcher Mod Pack (Free) Table///
 local orig_init_butchermodpack = WeaponFactoryTweakData._init_butchermodpack
 function WeaponFactoryTweakData:_init_butchermodpack()
 	orig_init_butchermodpack(self)
@@ -599,6 +608,7 @@ function WeaponFactoryTweakData:_init_butchermodpack()
 
 end
 
+--///M4 Series Parts Table///
 local orig_init_m4 = WeaponFactoryTweakData._init_m4
 function WeaponFactoryTweakData:_init_m4()
 	orig_init_m4(self)
@@ -618,7 +628,8 @@ function WeaponFactoryTweakData:_init_m4()
 	apply_stats(self.parts.wpn_fps_upg_m4_s_pts, heavy_stab_stock) --Tactical Stock
 	apply_stats(self.parts.wpn_fps_m4_upg_fg_mk12, heavy_acc_barrel, suppressor, vertical_grip) --Longbore Exclusive Set
 end
---Stakeout
+
+--///Stakeout 12G Table///
 local orig_init_aa12 = WeaponFactoryTweakData._init_aa12
 function WeaponFactoryTweakData:_init_aa12()
 	orig_init_aa12(self)
@@ -627,7 +638,7 @@ function WeaponFactoryTweakData:_init_aa12()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_aa12, "light")
 end
 
---Izhma
+--///Izhma Table///
 local orig_init_saiga = WeaponFactoryTweakData._init_saiga
 function WeaponFactoryTweakData:_init_saiga()
 	orig_init_saiga(self)
@@ -636,7 +647,7 @@ function WeaponFactoryTweakData:_init_saiga()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_saiga, "light")
 end
 
---Predator
+--///Predator Table///
 local orig_init_spas12 = WeaponFactoryTweakData._init_spas12
 function WeaponFactoryTweakData:_init_spas12()
 	orig_init_spas12(self)
@@ -646,7 +657,7 @@ function WeaponFactoryTweakData:_init_spas12()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_spas12, "light")
 end
 
---M1014
+--///M1014///
 local orig_init_ben = WeaponFactoryTweakData._init_ben
 function WeaponFactoryTweakData:_init_ben()
 	orig_init_ben(self)
@@ -657,7 +668,7 @@ function WeaponFactoryTweakData:_init_ben()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_ben, "light")
 end
 
---Street Sweeper
+--///Street Sweeper///
 local orig_init_striker = WeaponFactoryTweakData._init_striker
 function WeaponFactoryTweakData:_init_striker()
 	orig_init_striker(self)
@@ -666,21 +677,7 @@ function WeaponFactoryTweakData:_init_striker()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_striker, "light")
 end
 
---Brother's Grimm
-local orig_init_x_basset = WeaponFactoryTweakData._init_x_basset
-function WeaponFactoryTweakData:_init_x_basset()
-	orig_init_x_basset(self)
-	apply_shotgun_ammo_types(self.wpn_fps_sho_x_basset, "light")
-end
-
---Akimbo Judge
-local orig_init_x_judge = WeaponFactoryTweakData._init_x_judge
-function WeaponFactoryTweakData:_init_x_judge()
-	orig_init_x_judge(self)
-	apply_shotgun_ammo_types(self.wpn_fps_pis_x_judge, "light")
-end
-
---Goliath
+--///Goliath///
 local orig_init_rota = WeaponFactoryTweakData._init_rota
 function WeaponFactoryTweakData:_init_rota()
 	orig_init_rota(self)
@@ -689,7 +686,7 @@ function WeaponFactoryTweakData:_init_rota()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_rota, "light")
 end
 
---Argos 3
+--///Argos 3///
 local orig_init_ultima = WeaponFactoryTweakData._init_ultima
 function WeaponFactoryTweakData:_init_ultima()
 	orig_init_ultima(self)
@@ -699,14 +696,21 @@ function WeaponFactoryTweakData:_init_ultima()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_ultima, "light")
 end
 
---Judge
+--///Judge///
 local orig_init_judge = WeaponFactoryTweakData._init_judge
 function WeaponFactoryTweakData:_init_judge()
 	orig_init_judge(self)
 	apply_shotgun_ammo_types(self.wpn_fps_pis_judge, "light")
 end
 
---Grimm
+--///Akimbo Judge///
+local orig_init_x_judge = WeaponFactoryTweakData._init_x_judge
+function WeaponFactoryTweakData:_init_x_judge()
+	orig_init_x_judge(self)
+	apply_shotgun_ammo_types(self.wpn_fps_pis_x_judge, "light")
+end
+
+--///Grimm///
 local orig_init_basset = WeaponFactoryTweakData._init_basset
 function WeaponFactoryTweakData:_init_basset()
 	orig_init_basset(self)
@@ -714,7 +718,14 @@ function WeaponFactoryTweakData:_init_basset()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_basset, "light")
 end
 
---Reinfeld 880
+--///Brother's Grimm///
+local orig_init_x_basset = WeaponFactoryTweakData._init_x_basset
+function WeaponFactoryTweakData:_init_x_basset()
+	orig_init_x_basset(self)
+	apply_shotgun_ammo_types(self.wpn_fps_sho_x_basset, "light")
+end
+
+--///Reinfeld 880///
 local orig_init_r870 = WeaponFactoryTweakData._init_r870
 function WeaponFactoryTweakData:_init_r870()
 	orig_init_r870(self)
@@ -727,7 +738,7 @@ function WeaponFactoryTweakData:_init_r870()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_r870, "medium")
 end
 
---Mosconi 12G Tactical
+--///Mosconi 12G Tactical///
 local orig_init_m590 = WeaponFactoryTweakData._init_m590
 function WeaponFactoryTweakData:_init_m590()
 	orig_init_m590(self)
@@ -737,7 +748,7 @@ function WeaponFactoryTweakData:_init_m590()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_m590, "medium")
 end
 
---Raven
+--///Raven///
 local orig_init_ksg = WeaponFactoryTweakData._init_ksg
 function WeaponFactoryTweakData:_init_ksg()
 	orig_init_ksg(self)
@@ -746,7 +757,7 @@ function WeaponFactoryTweakData:_init_ksg()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_ksg, "medium")
 end
 
---Reinfeld 88
+--///Reinfeld 88///
 local orig_init_m1897 = WeaponFactoryTweakData._init_m1897
 function WeaponFactoryTweakData:_init_m1897()
 	orig_init_m1897(self)
@@ -756,7 +767,7 @@ function WeaponFactoryTweakData:_init_m1897()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_m1897, "medium")
 end
 
---Breaker
+--///Breaker///
 local orig_init_boot = WeaponFactoryTweakData._init_boot
 function WeaponFactoryTweakData:_init_boot()
 	orig_init_boot(self)
@@ -767,7 +778,7 @@ function WeaponFactoryTweakData:_init_boot()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_boot, "medium")
 end
 
---Locomotive
+--///Locomotive///
 local orig_init_serbu = WeaponFactoryTweakData._init_serbu
 function WeaponFactoryTweakData:_init_serbu()
 	orig_init_serbu(self)
@@ -777,7 +788,7 @@ function WeaponFactoryTweakData:_init_serbu()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_serbu, "medium")
 end
 
---GSPS
+--///GSPS///
 local orig_init_m37 = WeaponFactoryTweakData._init_m37
 function WeaponFactoryTweakData:_init_m37()
 	orig_init_m37(self)
@@ -786,7 +797,7 @@ function WeaponFactoryTweakData:_init_m37()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_m37, "medium")
 end
 
---Mosconi
+--///Mosconi///
 local orig_init_huntsman = WeaponFactoryTweakData._init_huntsman
 function WeaponFactoryTweakData:_init_huntsman()
 	orig_init_huntsman(self)
@@ -795,7 +806,7 @@ function WeaponFactoryTweakData:_init_huntsman()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_huntsman, "heavy")
 end
 
---Joceline O/U
+--///Joceline O/U///
 local orig_init_b682 = WeaponFactoryTweakData._init_b682
 function WeaponFactoryTweakData:_init_b682()
 	orig_init_b682(self)
@@ -805,7 +816,7 @@ function WeaponFactoryTweakData:_init_b682()
 	apply_shotgun_ammo_types(self.wpn_fps_shot_b682, "heavy")
 end
 
---Claire
+--///Claire///
 local orig_init_coach = WeaponFactoryTweakData._init_coach
 function WeaponFactoryTweakData:_init_coach()
 	orig_init_coach(self)
@@ -814,7 +825,7 @@ function WeaponFactoryTweakData:_init_coach()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_coach, "heavy")
 end
 
---Type 54
+--///Type 54///
 local orig_init_type54 = WeaponFactoryTweakData._init_type54
 function WeaponFactoryTweakData:_init_type54()
 	orig_init_type54(self)
@@ -833,7 +844,7 @@ function WeaponFactoryTweakData:_init_type54()
 	})
 end
 
---VD 12
+--///VD 12///
 orig_init_sko12 = WeaponFactoryTweakData._init_sko12
 function WeaponFactoryTweakData:_init_sko12()
 	orig_init_sko12(self)
@@ -847,7 +858,7 @@ function WeaponFactoryTweakData:_init_sko12()
 	apply_shotgun_ammo_types(self.wpn_fps_sho_sko12, "vd12")
 end
 
---GL 40
+--///GL 40///
 local orig_init_gre_m79 = WeaponFactoryTweakData._init_gre_m79
 function WeaponFactoryTweakData:_init_gre_m79()
 	orig_init_gre_m79(self)
@@ -855,21 +866,21 @@ function WeaponFactoryTweakData:_init_gre_m79()
 	apply_stats(self.parts.wpn_fps_gre_m79_stock_short, light_mob_stock) --Sawed off stock
 end
 
---Piglet
+--///Piglet///
 local orig_init_m32 = WeaponFactoryTweakData._init_m32
 function WeaponFactoryTweakData:_init_m32()
 	orig_init_m32(self)
 	apply_stats(self.parts.wpn_fps_gre_m32_barrel_short, light_mob_barrel) --Short Barrel
 end
 
---China Puff
+--///China Puff///
 local orig_init_china = WeaponFactoryTweakData._init_china
 function WeaponFactoryTweakData:_init_china()
 	orig_init_china(self)
 	apply_stats(self.parts.wpn_fps_gre_china_s_short, light_mob_stock) --Riot Stock
 end
 
---Arbiter
+--///Arbiter///
 local orig_init_arbiter = WeaponFactoryTweakData._init_arbiter
 function WeaponFactoryTweakData:_init_arbiter()
 	orig_init_arbiter(self)
@@ -877,7 +888,7 @@ function WeaponFactoryTweakData:_init_arbiter()
 	apply_stats(self.parts.wpn_fps_gre_arbiter_b_comp, light_acc_barrel) --Long Barrel
 end
 
---Pistol Crossbow
+--///Pistol Crossbow///
 local orig_init_hunter = WeaponFactoryTweakData._init_hunter
 function WeaponFactoryTweakData:_init_hunter()
 	orig_init_hunter(self)
@@ -889,7 +900,7 @@ function WeaponFactoryTweakData:_init_hunter()
 	apply_stats(self.parts.wpn_fps_upg_a_crossbow_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
---Heavy Crossbow
+--///Heavy Crossbow///
 local orig_init_arblast = WeaponFactoryTweakData._init_arblast
 function WeaponFactoryTweakData:_init_arblast()
 	orig_init_arblast(self)
@@ -897,7 +908,7 @@ function WeaponFactoryTweakData:_init_arblast()
 	apply_stats(self.parts.wpn_fps_bow_arblast_m_poison, poison_arrow, heavy_bow_poison) --Poison Bolt
 end
 
---Light Crossbow
+--///Light Crossbow///
 local orig_init_frankish = WeaponFactoryTweakData._init_frankish
 function WeaponFactoryTweakData:_init_frankish()
 	orig_init_frankish(self)
@@ -905,7 +916,7 @@ function WeaponFactoryTweakData:_init_frankish()
 	apply_stats(self.parts.wpn_fps_bow_frankish_m_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
---Airbow
+--///Airbow///
 local orig_init_ecp = WeaponFactoryTweakData._init_ecp
 function WeaponFactoryTweakData:_init_ecp()
 	orig_init_ecp(self)
@@ -914,7 +925,7 @@ function WeaponFactoryTweakData:_init_ecp()
 	apply_stats(self.parts.wpn_fps_bow_ecp_m_arrows_poison, poison_arrow, light_bow_poison) --Poison Bolt
 end
 
---Plainsrider
+--///Plainsrider///
 local orig_init_plainsrider = WeaponFactoryTweakData._init_plainsrider
 function WeaponFactoryTweakData:_init_plainsrider()
 	orig_init_plainsrider(self)
@@ -922,7 +933,7 @@ function WeaponFactoryTweakData:_init_plainsrider()
 	apply_stats(self.parts.wpn_fps_upg_a_bow_poison, poison_arrow, light_bow_poison) --Poisoned Arrows
 end
 
---English Longbow
+--///English Longbow///
 local orig_init_long = WeaponFactoryTweakData._init_long
 function WeaponFactoryTweakData:_init_long()
 	orig_init_long(self)
@@ -930,7 +941,7 @@ function WeaponFactoryTweakData:_init_long()
 	apply_stats(self.parts.wpn_fps_bow_long_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
 end
 
---DECA Technologies Compound Bow
+--///DECA Technologies Compound Bow///
 local orig_init_elastic = WeaponFactoryTweakData._init_elastic
 function WeaponFactoryTweakData:_init_elastic()
 	orig_init_elastic(self)
@@ -941,7 +952,7 @@ function WeaponFactoryTweakData:_init_elastic()
 	apply_stats(self.parts.wpn_fps_bow_elastic_m_poison, poison_arrow, heavy_bow_poison) --Poisoned Arrows
 end
 
---Flamethrower Mk1
+--///Flamethrower Mk1///
 local orig_init_flamethrower_mk2 = WeaponFactoryTweakData._init_flamethrower_mk2
 function WeaponFactoryTweakData:_init_flamethrower_mk2()
 	orig_init_flamethrower_mk2(self)
@@ -949,7 +960,7 @@ function WeaponFactoryTweakData:_init_flamethrower_mk2()
 	apply_stats(self.parts.wpn_fps_fla_mk2_mag_welldone, well_done_tank) --Well Done
 end
 
---MA-17 Flamethrower
+--///MA-17 Flamethrower///
 local orig_init_system = WeaponFactoryTweakData._init_system
 function WeaponFactoryTweakData:_init_system()
 	orig_init_system(self)
@@ -958,7 +969,7 @@ function WeaponFactoryTweakData:_init_system()
 	apply_stats(self.parts.wpn_fps_fla_system_m_low, rare_tank) --Low Temperature Mixture
 end
 
---Hailstorm
+--///Hailstorm///
 local orig_init_hailstorm = WeaponFactoryTweakData._init_hailstorm
 function WeaponFactoryTweakData:_init_hailstorm()
 	orig_init_hailstorm(self)
@@ -971,7 +982,7 @@ function WeaponFactoryTweakData:_init_hailstorm()
 	apply_stats(self.parts.wpn_fps_hailstorm_g_bubble, cosmetic) --Whiteout Grip
 end
 
---Phoenix .500
+--///Phoenix .500 (CUSTOM)///
 function WeaponFactoryTweakData:init_heat_shatters_fury()
 	self.wpn_fps_pis_shatters_fury.adds = {
 		wpn_fps_upg_o_specter = {
@@ -1065,7 +1076,7 @@ function WeaponFactoryTweakData:init_heat_shatters_fury()
 	}
 end
 
---SABR
+--///SABR (CUSTOM)///
 function WeaponFactoryTweakData:init_heat_osipr()
 	self.parts.wpn_fps_ass_osipr_scope.material_parameters = {
 		gfx_reddot = {
@@ -1095,7 +1106,7 @@ function WeaponFactoryTweakData:init_heat_osipr()
 	self.parts.wpn_fps_ass_osipr_m_gl_incendiary.custom = false
 end
 
---Modifiers
+--///Modifiers///
 function WeaponFactoryTweakData:create_bonuses(tweak_data, weapon_skins)
 	--Gotta keep the internal IDs intact to not anger remote JSONs and custom_xml.
 	local function make_boost(name, icon, stat_table)
@@ -1247,7 +1258,7 @@ function WeaponFactoryTweakData:create_ammunition()
 	orig_create_ammunition(self)
 
 	--Generic incendiary ammo.
-	--See enveffecttweakdata.lua for remaining stats on GL incendiary ammo.
+	  --See enveffecttweakdata.lua for remaining stats on GL incendiary ammo.
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary.supported = true
 	self.parts.wpn_fps_upg_a_grenade_launcher_incendiary.stats = {damage = -180}
 
