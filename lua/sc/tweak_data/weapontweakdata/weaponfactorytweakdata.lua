@@ -471,11 +471,8 @@ function WeaponFactoryTweakData:init()
 				gadget_zoom = part.stats.gadget_zoom
 			}
 			part.custom_stats = nil
-			--TODO: Uncomment conditional once all attachments are given stats.
-			--if not part.desc_id then
-				part.desc_id = "bm_auto_generated_mod_sc_desc"
-				part.has_description = true
-			--end
+			part.desc_id = "bm_auto_generated_mod_sc_desc"
+			part.has_description = true
 		end
 	end
 end
