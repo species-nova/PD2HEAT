@@ -586,10 +586,16 @@ function WeaponFactoryTweakData:_init_butchermodpack()
 	orig_init_butchermodpack(self)
 	apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, cosmetic) --LED Combo
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_m3x, cosmetic) --Polymer Flashlight
-	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor
-	apply_stats(self.parts.wpn_fps_upg_ns_pis_jungle, suppressor, heavy_acc_ext) --Jungle Ninja Suppressor
-	apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag) --MP5 Straight Magazine
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator REVIEW ME
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor REVIEW ME
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_jungle, suppressor, heavy_acc_ext) --Jungle Ninja Suppressor REVIEW ME
+	
+	apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag) --Compact-5 Submachine Gun: Straight Magazine REVIEW ME
+	
+	apply_stats(self.parts.wpn_fps_upg_o_m14_scopemount, cosmetic) --M308 Rifle: Scope Mount
+	
+	apply_stats(self.parts.wpn_fps_smg_p90_b_civilian, cosmetic) --Kobus 90 Submachine Gun: Civilian Market Barrel (stats?)
+	apply_stats(self.parts.wpn_fps_smg_p90_b_ninja, suppressor, heavy_stab_ext) --Kobus 90 Submachine Gun: Ninja Barrel REVIEW ME
 
 end
 
