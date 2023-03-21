@@ -495,7 +495,7 @@ While some guns may benefit from specific weapon mods- they should ideally never
 	Exceptions may inadvertently occur with custom ammo types in certain cases, due to their transformative nature, but such cases should be few and far between.
 Avoid allowing guns to access the same 'sort' of weapon mod multiple times. (IE: No ability to apply multiple different +acc/-stab mods to get more than 20 accuracy from mod parts)
 This is intended to try and bound the range of stats a gun can occupy and prevent it from stepping too far on another's toes, and to prevent abuse of negative stat caps to turn attachments into strict upgrades.
-
+]]--
 --///BASIC EXAMPLE TABLE///
 
 --[[
