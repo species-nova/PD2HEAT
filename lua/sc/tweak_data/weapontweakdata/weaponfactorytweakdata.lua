@@ -379,6 +379,9 @@
 			}
 		}
 
+	--Helper function to auto-apply all the shotgun ammo type tables.
+	--First parameter is the base table for the desired weapon.
+	--The second is the damage tier it's in (vd12, light, medium, or heavy)
 	local function apply_shotgun_ammo_types(weapon, tier)
 		local function create_override(part, stat_block)
 			weapon.override = weapon.override or {}
