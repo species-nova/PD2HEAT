@@ -106,7 +106,7 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 
 		if stats.kick_addend then
 			--Avoid mutating global state. Multiple pointless clones should be a non issue since guns should only have 1 grip mod at most.
-			self._kick = clone(self._kick)
+			self._kick = self._kick and clone(self._kick) or {0, 0, 0, 0}
 			for i = 0, 4 do
 				self._kick[i] = self._kick[i] + stats.kick_addend[i]
 			end

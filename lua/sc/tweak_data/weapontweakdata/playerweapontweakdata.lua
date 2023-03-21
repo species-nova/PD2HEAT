@@ -19,7 +19,7 @@ function WeaponTweakData:init(...)
 
 	--Bootleg tier (Primary)
 		--Bootleg
-		self.tecci.supported = true --ALWAYS include this flag for weapons indended to be used by players. Without it, the gun becomes unselectable.
+		self.tecci.supported = true --ALWAYS include this flag for weapons intended to be used by players. Without it, the gun becomes unselectable.
 		self.tecci.kick = self.stat_info.kick_tables.horizontal_recoil
 		self.tecci.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		--self.tecci.AMMO_MAX --Vanilla max ammo stat. Don't define unless you want automatic ammo max calculation to be overwritten (IE: for balancing guns with underbarrels and such)
