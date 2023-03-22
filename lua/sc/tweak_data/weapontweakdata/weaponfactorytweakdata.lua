@@ -553,8 +553,6 @@ function WeaponFactoryTweakData:_init_gadgets()
 	apply_stats(self.parts.wpn_fps_upg_fl_ass_smg_sho_peqbox, cosmetic) --Tactical Laser Module
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_laser, cosmetic) --Pocket Laser
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_tlr1, cosmetic) --Tactical Pistol Light
-	--apply_stats(self.parts.wpn_fps_upg_fl_ass_laser, cosmetic) --Compact Laser Module
-
 end
 
 --///Generic Vertical Grips Table///
@@ -637,6 +635,7 @@ function WeaponFactoryTweakData:_init_content_jobs()
 	apply_stats(self.parts.wpn_fps_upg_fl_ass_peq15, cosmetic) --Military Laser Module
 	apply_stats(self.parts.wpn_fps_upg_m4_s_crane, light_stab_stock) --Wide Stock
 	apply_stats(self.parts.wpn_fps_upg_m4_s_mk46, light_stab_stock) --War-Torn Stock
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_laser, cosmetic) --Compact Laser Module
 	--apply_stats(self.parts.wpn_fps_upg_o_rmr, cosmetic) --Pistol Red Dot Sight
 	--apply_stats(self.parts.wpn_fps_upg_o_eotech_xps, cosmetic) --Compact Holosight
 	--apply_stats(self.parts.wpn_fps_upg_o_reflex, cosmetic) --Speculator Sight
@@ -707,6 +706,9 @@ function WeaponFactoryTweakData:_init_g26()
 	orig_init_g26(self)
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_large_kac, suppressor, review) --Champion's Silencer MULTIPLE WEAPONS
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium_gem, suppressor, review) --Roctec Suppressor MULTIPLE WEAPONS
+	
+	apply_stats(self.parts.wpn_fps_upg_fl_pis_crimson, cosmetic) --Micro Laser MULTIPLE WEAPONS
+	apply_stats(self.parts.wpn_fps_upg_fl_pis_x400v, cosmetic) --Combined Module MULTIPLE WEAPONS
 end
 
 --///Wasp-DS SMG Table///
@@ -714,6 +716,8 @@ local orig_init_fmg9 = WeaponFactoryTweakData._init_fmg9
 function WeaponFactoryTweakData:_init_fmg9()
 	orig_init_fmg9(self)
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_putnik, suppressor, review) --Medved R4 Suppressor MULTIPLE WEAPONS
+	
+	apply_stats(self.parts.wpn_fps_upg_fl_pis_perst, cosmetic) --Medved R4 Laser Sight MULTIPLE WEAPONS
 end
 
 --///Compact-5 Submachine Gun Table///
@@ -726,6 +730,19 @@ function WeaponFactoryTweakData:_init_mp5()
 	
 	apply_stats(self.parts.wpn_fps_smg_mp5_s_adjust, cosmetic, review) --Compact-5 Submachine Gun: Adjustable Stock
 	apply_stats(self.parts.wpn_fps_smg_mp5_s_ring, cosmetic, review) --Compact-5 Submachine Gun: Bare Essentials Stock
+end
+
+--///McShay Mod Pack Table///
+local orig_init_mxm_mods = WeaponFactoryTweakData._init_mxm_mods
+function WeaponFactoryTweakData:_init_mxm_mods()
+	orig_init_mxm_mods(self)
+	apply_stats(self.parts.wpn_fps_upg_fl_dbal_laser, cosmetic) --Stealth Laser Module
+
+	apply_stats(self.parts.wpn_fps_m4_uupg_g_billet, cosmetic, review) --Skeletonized AR Grip
+
+	apply_stats(self.parts.wpn_fps_m4_uupg_lower_radian, cosmetic, review) --Orthogon Lower Receiver
+	apply_stats(self.parts.wpn_fps_m4_uupg_upper_radian, cosmetic, review) --Orthogon Upper Receiver
+
 end
 
 --///Izhma Table///
