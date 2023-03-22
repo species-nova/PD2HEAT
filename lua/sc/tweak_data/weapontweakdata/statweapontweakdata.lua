@@ -37,10 +37,19 @@ function WeaponTweakData:_init_stats()
 	end
 	setmetatable(self.stats.damage, stat_meta_table)
 
-	self.stats.zoom = {}
-	for i = 1, 12.1, 0.1 do
-		table.insert(self.stats.zoom, 65 / i)
-	end
+	--Just use the vanilla zoom table.
+	self.stats.zoom = {
+		63,
+		60,
+		55,
+		50,
+		45,
+		40,
+		35,
+		30,
+		25,
+		20
+	}
 	setmetatable(self.stats.zoom, stat_meta_table)
 
 	--ACCURACY

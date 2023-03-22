@@ -65,6 +65,8 @@ function NewRaycastWeaponBase:_update_stats_values(disallow_replenish, ammo_data
 			self._spread_moving = self._current_stats.spread_moving or self._spread_moving
 			self._extra_ammo = self._current_stats.extra_ammo or self._extra_ammo
 			self._total_ammo_mod = self._current_stats.total_ammo_mod or self._total_ammo_mod
+			self._spread_multiplier[1] = self._current_stats.spread_multi[1] * self._spread_multiplier[1]
+			self._spread_multiplier[2] = self._current_stats.spread_multi[2] * self._spread_multiplier[2]
 			self._damage = ((self._current_stats.damage or 0) + self:damage_addend()) * self:damage_multiplier()
 		end
 	end

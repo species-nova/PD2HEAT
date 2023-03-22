@@ -85,6 +85,34 @@ function WeaponTweakData:init(...)
 		--Used exclusively on rocket launchers to fit their gimmick.
 		--self.tecci.turret_instakill = true
 
+		--Rodion 3B
+		self.tkb.supported = true --Still sorting out details of how I want this to work exactly.
+		self.tkb.CLIP_AMMO_MAX = 30
+		self.tkb.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.tkb.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.tkb.stats = {
+			damage = 8,
+			spread = 15,
+			recoil = 10,
+			concealment = 13
+		}
+		self.tkb.timers = {
+			reload_not_empty = 3.5,
+			reload_empty = 4.05,
+			reload_operational = 2.5,
+			empty_reload_operational = 3.45, 
+			reload_interrupt = 0.66,--TODO!
+			empty_reload_interrupt = 0.66,
+			unequip = 0.7,
+			equip = 1.2
+		}
+		self.tkb.fire_rate_multiplier = 0.75 --600 RPM. RL gun has a quoted figure of 1800 rpm split between each barrel.
+		self.tkb.charge_data = nil
+		self.tkb.rays = 3
+		self.tkb.fire_mode_data.volley = nil
+		self.tkb.spread_multi = {1.5, 0.666667}
+		self.tkb.reload_speed_multiplier = 1.1 --3.2s/3.7s
+
 	--Light Rifles (PRIMARY)
 		--Amcar
 		self.amcar.desc_id = "bm_menu_sc_amcar_desc"

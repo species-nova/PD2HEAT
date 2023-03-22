@@ -25,9 +25,11 @@ function HUDManager:_player_hud_layout()
 
 	crosshair_panel:set_center(managers.hud:script(PlayerBase.PLAYER_INFO_HUD_PD2).panel:center())
 	
-	self:set_crosshair_offset(0)
-	self._ch_offset = 0
-	self._ch_current_offset = 0
+	self:set_crosshair_offset(0, 0)
+	self._ch_offset_x = 0
+	self._ch_offset_y = 0
+	self._ch_current_offset_x = 0
+	self._ch_current_offset_y = 0
 	self._ch_fov = 0
 
 	self._crosshair_parts = {
@@ -65,11 +67,12 @@ function HUDManager:set_camera_fov(fov)
 	self._ch_fov = fov
 end
 
-function HUDManager:set_crosshair_offset(offset)
+function HUDManager:set_crosshair_offset(offset_x, offset_y)
 	--Compensate for FOV. 2500000 is a close-enough base mult for the crosshair size. 
 	local scale_mult = 2500000 / (self._ch_fov or 75)
 
-	self._ch_offset = math.tan(math.rad(math.min(math.max(offset, 0), 180))) * scale_mult
+	self._ch_offset_x = math.tan(math.rad(math.min(math.max(offset_x, 0), 180))) * scale_mult
+	self._ch_offset_y = math.tan(math.rad(math.min(math.max(offset_y, 0), 180))) * scale_mult
 end
 
 function HUDManager:set_crosshair_visible(visible)
@@ -101,11 +104,17 @@ end
 function HUDManager:_update_crosshair_offset(t, dt)
 	--Aim for crosshairs to settle into position within ~0.125 seconds. Just a magic number that feels ok.
 	--Crosshair size set to a bigger value than it currently is.
-	if self._ch_current_offset > self._ch_offset then
-		self._ch_current_offset = math.max(self._ch_current_offset - ((self._ch_current_offset - self._ch_offset) * dt * 8), self._ch_offset)
+	if self._ch_current_offset_x > self._ch_offset_x then
+		self._ch_current_offset_x = math.max(self._ch_current_offset_x - ((self._ch_current_offset_x - self._ch_offset_x) * dt * 8), self._ch_offset_x)
 	--Crosshair size set to a smaller value than it currently is.
 	else
-		self._ch_current_offset = math.min(self._ch_current_offset + ((self._ch_offset - self._ch_current_offset) * dt * 8), self._ch_offset)
+		self._ch_current_offset_x = math.min(self._ch_current_offset_x + ((self._ch_offset_x - self._ch_current_offset_x) * dt * 8), self._ch_offset_x)
+	end
+
+	if self._ch_current_offset_y > self._ch_offset_y then
+		self._ch_current_offset_y = math.max(self._ch_current_offset_y - ((self._ch_current_offset_y - self._ch_offset_y) * dt * 8), self._ch_offset_y)
+	else
+		self._ch_current_offset_y = math.min(self._ch_current_offset_y + ((self._ch_offset_y - self._ch_current_offset_y) * dt * 8), self._ch_offset_y)
 	end
 
 	self:_layout_crosshair()
@@ -120,7 +129,7 @@ function HUDManager:_layout_crosshair()
 	
 	for _ , part in ipairs(self._crosshair_parts) do
 		local rotation = part:rotation()
-		part:set_center_x(x + math.cos(rotation) * (self._ch_current_offset + 11 * 0.5))
-		part:set_center_y(y + math.sin(rotation) * (self._ch_current_offset + 11 * 0.5))
+		part:set_center_x(x + math.cos(rotation) * (self._ch_current_offset_x + 11 * 0.5))
+		part:set_center_y(y + math.sin(rotation) * (self._ch_current_offset_y + 11 * 0.5))
 	end
 end

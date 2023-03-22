@@ -52,6 +52,7 @@ function RaycastWeaponBase:heat_init()
 		self._next_spin_animation_t = 0 --Time to play next animation loop.
 	end
 
+	self._spread_multiplier = weapon_tweak.spread_multi or {1, 1}
 	self._bullets_fired = 0
 	self._kick = weapon_tweak.kick
 	self._curr_kick = 0
@@ -1261,6 +1262,10 @@ function RaycastWeaponBase:_get_spread(user_unit)
 	end
 
 	local spread = self._current_spread or self._spread
+	if self._spread_multiplier then
+		return spread * self._spread_multiplier[1], spread * self._spread_multiplier[2]
+	end
+
 	return spread, spread
 end
 

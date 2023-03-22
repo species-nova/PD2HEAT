@@ -276,7 +276,8 @@ Hooks:PostHook(UpgradesTweakData, "init", "ResLevelTableInit", function(self, tw
 		l50 = {
 				name_id = "lvl_50",
 				upgrades = {
-					"halloween_sword"
+					"halloween_sword",
+					"tkb"
 				}
 			},
 		l51 = {

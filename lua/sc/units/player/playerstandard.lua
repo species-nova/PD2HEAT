@@ -503,21 +503,22 @@ function PlayerStandard:_update_crosshair(t, dt, weapon)
 
 		--Update crosshair size.
 			--Get current weapon's spread values to determine base size.
-			local crosshair_spread = weapon:_get_spread(self._unit)
+			local crosshair_spread_x, crosshair_spread_y = weapon:_get_spread(self._unit)
 
 			--Apply additional jiggle over crosshair in addition to actual aim bloom for game feel.
 			if self._shot and t and (not self._next_crosshair_jiggle or self._next_crosshair_jiggle < t) then
-				crosshair_spread = crosshair_spread + (weapon._recoil) * 4 --Magic number that feels good.
+				crosshair_spread_x = crosshair_spread_x + (weapon._recoil) * 4 --Magic number that feels good.
+				crosshair_spread_y = crosshair_spread_y + (weapon._recoil) * 4
 				self._next_crosshair_jiggle = t + 0.1
 				self._shot = false --Trigger crosshair jiggles when a single shot was fired in the previous frame.
 			end
 
 			--Set the final size of the crosshair.
-			managers.hud:set_crosshair_offset(crosshair_spread)
+			managers.hud:set_crosshair_offset(crosshair_spread_x, crosshair_spread_y)
 	else
 		--Hide the crosshair and set its size to 0 when it shouldn't be seen.
 		managers.hud:set_crosshair_visible(false)
-		managers.hud:set_crosshair_offset(0)
+		managers.hud:set_crosshair_offset(0, 0)
 	end
 
 	--Vanilla accessibility dot updates are handled here, once per frame, instead of potentially multiple times per frame.
