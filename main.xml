@@ -41,6 +41,7 @@
 		<hook file="sc/managers/hud/huddodge.lua" source_file="lib/managers/hud/HUDTemp"/>
         <hook file="sc/managers/hud/hudeffect.lua" source_file="lib/managers/hud/HUDTemp"/>
 		<hook file="sc/managers/hud/hudcrosshair.lua" source_file="lib/managers/hudmanager"/>
+		<hook file="sc/managers/hud/hudheisttimer.lua" source_file="lib/managers/hud/hudheisttimer"/>
         <!--///OVERHAUL\\\-->
 		<hook file="sc/network/base/hostnetworksession.lua" source_file="lib/network/base/hostnetworksession"/>
 		<hook file="sc/tweak_data/networktweakdata.lua" source_file="lib/tweak_data/networktweakdata"/>
@@ -320,6 +321,7 @@
 		<hook file="sc/managers/lootmanager.lua" source_file="lib/managers/lootmanager"/>
 		<hook file="sc/core/managers/menu/items/menuitemslider.lua" source_file="core/lib/managers/menu/items/coremenuitemslider"/>
 		<hook file="sc/managers/menu/menupauserenderer.lua" source_file="lib/managers/menu/MenuPauseRenderer"/>
+		<hook file="sc/core/managers/subtitle/coresubtitlepresenter.lua" source_file="core/lib/managers/subtitle/coresubtitlepresenter"/>
 		<!--///COMPATIBILITY\\\-->
 		<hook file="sc/compatibility/IncompatibilityWarningGui.lua" source_file="lib/managers/menu/menunodegui"/>
 		<hook file="sc/compatibility/HUDHitman.lua" source_file="lib/managers/hud/HUDTeammate"/>
