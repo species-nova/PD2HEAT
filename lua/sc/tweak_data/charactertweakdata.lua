@@ -483,7 +483,7 @@ function CharacterTweakData:_init_fbi(presets) --fbi hrt
 		self.fbi_vet.speech_prefix_p2 = self._speech_prefix_p2
 		self.fbi_vet.speech_prefix_count = 4
 	else   
-	   self.fbi_vet.custom_voicework = "bruce"
+	   self.fbi_vet.custom_voicework = "pdth"
 		self.fbi_vet.speech_prefix_p1 = "CVOV"
 		self.fbi_vet.speech_prefix_count = nil
 	end   
@@ -540,11 +540,7 @@ function CharacterTweakData:_init_medic(presets) --Medic
 	self.medic.dodge = presets.dodge.athletic
 	self.medic.deathguard = true
 	self.medic.no_arrest = true
-	if self:get_ai_group_type() == "murkywater" then
-	    self.medic.custom_voicework = "murky_medic"
-	else	
-	    self.medic.custom_voicework = nil
-	end	
+	self.medic.custom_voicework = nil
 	self.medic.chatter = {
 		aggressive = true,
 		retreat = true,
