@@ -771,7 +771,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	self.heavy_swat_sniper.static_dodge_preset = true
 	self.heavy_swat_sniper.static_melee_preset = true
 	self.heavy_swat_sniper.die_sound_event = "mga_death_scream"
-	self.heavy_swat_sniper.custom_voicework = "tsniper"
+	self.heavy_swat_sniper.custom_voicework = "pdth"
 	self.heavy_swat_sniper.is_special = true
 	table.insert(self._enemy_list, "heavy_swat_sniper")
 	
@@ -2016,7 +2016,7 @@ function CharacterTweakData:_init_phalanx_minion(presets) --titan shield
 	self.phalanx_minion.speech_prefix_p1 = "CVOSH"
 	self.phalanx_minion.speech_prefix_p2 = nil
 	self.phalanx_minion.speech_prefix_count = 1	
-	self.phalanx_minion.custom_voicework = "tshield"
+	self.phalanx_minion.custom_voicework = "pdth"
 	table.insert(self._enemy_list, "phalanx_minion")
 	self.phalanx_minion_assault = deep_clone(self.phalanx_minion)
 	table.insert(self._enemy_list, "phalanx_minion_assault")
