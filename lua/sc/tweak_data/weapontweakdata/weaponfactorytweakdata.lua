@@ -5,6 +5,12 @@
 			has_description = false,
 			stats = {value = 1}
 		}
+		
+		--Review: Apply to a part with unfinished stats for another dev to CTRL+F through the file and find, if you don't feel comfortable applying stats yourself/aren't confident about your own application.
+		local review = {
+			stats = {value = 1}
+		}
+
 	--///Barrel Extensions///
 		--To be used on modparts that remove a suppressor/silencer/silenced barrel from the base weapon.
 		local unsuppressor = {
@@ -645,16 +651,16 @@ function WeaponFactoryTweakData:_init_butchermodpack()
 	orig_init_butchermodpack(self)
 	apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, cosmetic) --LED Combo
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_m3x, cosmetic) --Polymer Flashlight
-	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider) --Ported Compensator REVIEW ME
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor REVIEW ME
-	apply_stats(self.parts.wpn_fps_upg_ns_pis_jungle, suppressor, heavy_acc_ext) --Jungle Ninja Suppressor REVIEW ME
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider, review) --Ported Compensator
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget, review) --Budget Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_jungle, suppressor, heavy_acc_ext, review) --Jungle Ninja Suppressor
 	
-	apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag) --Compact-5 Submachine Gun: Straight Magazine REVIEW ME
+	apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag, review) --Compact-5 Submachine Gun: Straight Magazine
 	
 	apply_stats(self.parts.wpn_fps_upg_o_m14_scopemount, cosmetic) --M308 Rifle: Scope Mount
 	
 	apply_stats(self.parts.wpn_fps_smg_p90_b_civilian, cosmetic) --Kobus 90 Submachine Gun: Civilian Market Barrel (stats?)
-	apply_stats(self.parts.wpn_fps_smg_p90_b_ninja, suppressor, heavy_stab_ext) --Kobus 90 Submachine Gun: Ninja Barrel REVIEW ME
+	apply_stats(self.parts.wpn_fps_smg_p90_b_ninja, suppressor, heavy_stab_ext, review) --Kobus 90 Submachine Gun: Ninja Barrel
 
 end
 
@@ -686,6 +692,40 @@ function WeaponFactoryTweakData:_init_aa12()
 	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_long, light_acc_barrel) --Long Barrel
 	apply_stats(self.parts.wpn_fps_sho_aa12_barrel_silenced, light_acc_barrel, suppressor) --Suppressed Barrel
 	apply_shotgun_ammo_types(self.wpn_fps_sho_aa12, "light")
+end
+
+--///KS12 Urban Rifle Table///
+local orig_init_shak12 = WeaponFactoryTweakData._init_shak12
+function WeaponFactoryTweakData:_init_shak12()
+	orig_init_shak12(self)
+	apply_stats(self.parts.wpn_fps_ass_shak12_ns_suppressor, suppressor, review) --KS12-S Long Silencer MULTIPLE WEAPONS
+end
+
+--///Chimano Compact Pistol Table///
+local orig_init_g26 = WeaponFactoryTweakData._init_g26
+function WeaponFactoryTweakData:_init_g26()
+	orig_init_g26(self)
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_large_kac, suppressor, review) --Champion's Silencer MULTIPLE WEAPONS
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium_gem, suppressor, review) --Roctec Suppressor MULTIPLE WEAPONS
+end
+
+--///Wasp-DS SMG Table///
+local orig_init_fmg9 = WeaponFactoryTweakData._init_fmg9
+function WeaponFactoryTweakData:_init_fmg9()
+	orig_init_fmg9(self)
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_putnik, suppressor, review) --Medved R4 Suppressor MULTIPLE WEAPONS
+end
+
+--///Compact-5 Submachine Gun Table///
+local orig_init_mp5 = WeaponFactoryTweakData._init_mp5
+function WeaponFactoryTweakData:_init_mp5()
+	orig_init_mp5(self)
+	apply_stats(self.parts.wpn_fps_smg_mp5_fg_mp5sd, suppressor, review) --Compact-5 Submachine Gun: SPOOC Foregrip
+	apply_stats(self.parts.wpn_fps_smg_mp5_fg_mp5a5, cosmetic, review) --Compact-5 Submachine Gun: Polizei Tactical Barrel
+	apply_stats(self.parts.wpn_fps_smg_mp5_fg_m5k, cosmetic, review) --Compact-5 Submachine Gun: Polizei Tactical Barrel
+	
+	apply_stats(self.parts.wpn_fps_smg_mp5_s_adjust, cosmetic, review) --Compact-5 Submachine Gun: Adjustable Stock
+	apply_stats(self.parts.wpn_fps_smg_mp5_s_ring, cosmetic, review) --Compact-5 Submachine Gun: Bare Essentials Stock
 end
 
 --///Izhma Table///

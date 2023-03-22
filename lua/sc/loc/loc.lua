@@ -728,7 +728,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["bm_rocket_launcher_sc_desc"] = "ROCKETS FIRED BY THIS WEAPON INSTANTLY DESTROY TURRETS.",
 		["bm_quake_shotgun_sc_desc"] = "FIRES BOTH BARRELS AT ONCE, DOUBLING THE NUMBER OF PELLETS.",
 		["bm_hx25_buck_sc_desc"] = "FIRES 12 PELLETS IN A WIDE SPREAD.\n\nSTILL TREATED AS A GRENADE LAUNCHER BY SKILLS.",
-		["bm_auto_generated_mod_sc_desc"] = "TODO: This weapon mod is missing stats.",
+		["bm_auto_generated_mod_sc_desc"] = "TODO:. STATS NOT APPLIED YET!\nIF THIS IS A SILENCER, IT WON'T BE SILENCED!",
 
 		--Overhaul Content Indicators--
 		["loot_sc"] = "Heat",
