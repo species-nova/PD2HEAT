@@ -55,7 +55,19 @@ WeaponDescription._stats_shown = {
 	}
 }
 
-function get_range_mul(weapon_tweak)
+local function upgrade_blocked(weapon_tweak_data, category, upgrade)
+	if not weapon_tweak_data.upgrade_blocks then
+		return false
+	end
+
+	if not weapon_tweak_data.upgrade_blocks[category] then
+		return false
+	end
+
+	return table.contains(weapon_tweak_data.upgrade_blocks[category], upgrade)
+end
+
+local function get_range_mul(weapon_tweak)
 	local category_mul = 1
 	for i = 1, #weapon_tweak.categories do
 		local category = weapon_tweak.categories[i]
@@ -68,7 +80,7 @@ function get_range_mul(weapon_tweak)
 	return category_mul
 end
 
-function get_swap_mul(weapon_tweak)
+local function get_swap_mul(weapon_tweak)
 	local multiplier = 1
 	local skill_multiplier = 1
 	skill_multiplier = skill_multiplier + managers.player:upgrade_value("weapon", "swap_speed_multiplier", 1) - 1
@@ -463,8 +475,10 @@ function WeaponDescription._get_skill_stats(name, category, slot, base_stats, mo
 	for _, stat in ipairs(WeaponDescription._stats_shown) do
 		if weapon_tweak.stats[stat.stat_name or stat.name] or stat.name == "totalammo" or stat.name == "fire_rate" then
 			if stat.name == "magazine" then
-				skill_stats.magazine.value = math.round((managers.player:upgrade_value("weapon", "clip_ammo_increase", 1) - 1) * ((weapon_tweak.CLIP_AMMO_MAX + (mods_stats.magazine.value or 0)) / mag_count)) * mag_count
-				skill_stats[stat.name].skill_in_effect = managers.player:has_category_upgrade("weapon", "clip_ammo_increase")
+				if not upgrade_blocked(weapon_tweak, "weapon", "clip_ammo_increase") then 
+					skill_stats.magazine.value = math.round((managers.player:upgrade_value("weapon", "clip_ammo_increase", 1) - 1) * ((weapon_tweak.CLIP_AMMO_MAX + (mods_stats.magazine.value or 0)) / mag_count)) * mag_count
+					skill_stats[stat.name].skill_in_effect = managers.player:has_category_upgrade("weapon", "clip_ammo_increase")
+				end
 			elseif stat.name == "totalammo" then
 			elseif stat.name == "reload" then
 				local skill_in_effect = false

@@ -1659,18 +1659,17 @@ end
 
 function PlayerStandard:_update_reload_timers(t, dt, input)
 	local state = self._state_data
+	local weapon = self._equipped_unit:base()
 	
 	if state.reload_enter_expire_t and state.reload_enter_expire_t <= t then
 		state.reload_enter_expire_t = nil
 
 		self:_start_action_reload(t)
 	end
-
-	local weapon = alive(self._equipped_unit) and self._equipped_unit:base()
 	
 	if state.reload_expire_t then
 		local interupt = nil
-		local speed_multiplier = self._equipped_unit:base():reload_speed_multiplier()
+		local speed_multiplier = weapon:reload_speed_multiplier()
 		if weapon:update_reloading(t, dt, state.reload_expire_t - t) then --Update reloading if using a per-bullet reload.
 			managers.hud:set_ammo_amount(weapon:selection_index(), weapon:ammo_info())
 

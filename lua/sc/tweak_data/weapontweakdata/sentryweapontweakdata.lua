@@ -81,7 +81,6 @@ local function multiply_all_sentry_health_and_damage(health_multiplier, damage_m
 	local allow_autorepair = true
 	local job = Global.level_data and Global.level_data.level_id
 	if job == "chew" or job == "glace" then
-		health_multiplier = health_multiplier * 0.5
 		allow_autorepair = false
 	end
 

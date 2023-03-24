@@ -1,3 +1,15 @@
+local function no_magazine(weap)
+	if not weap.upgrade_blocks then
+		weap.upgrade_blocks = {
+			weapon = {"clip_ammo_increase"}
+		}
+	elseif not weap.upgrade_blocks.weapon then
+		weap.upgrade_blocks.weapon = {"clip_ammo_increase"}
+	else
+		table.insert(weap.upgrade_blocks.weapon, "clip_ammo_increase")
+	end
+end
+
 local orig_init = WeaponTweakData.init
 function WeaponTweakData:init(...)
 	orig_init(self, ...)
@@ -84,34 +96,6 @@ function WeaponTweakData:init(...)
 
 		--Used exclusively on rocket launchers to fit their gimmick.
 		--self.tecci.turret_instakill = true
-
-		--Rodion 3B
-		self.tkb.supported = true --Still sorting out details of how I want this to work exactly.
-		self.tkb.CLIP_AMMO_MAX = 30
-		self.tkb.kick_pattern = self.stat_info.kick_patterns.zigzag_2
-		self.tkb.kick = self.stat_info.kick_tables.moderate_right_kick
-		self.tkb.stats = {
-			damage = 8,
-			spread = 15,
-			recoil = 10,
-			concealment = 13
-		}
-		self.tkb.timers = {
-			reload_not_empty = 3.5,
-			reload_empty = 4.05,
-			reload_operational = 2.5,
-			empty_reload_operational = 3.45, 
-			reload_interrupt = 0.66,--TODO!
-			empty_reload_interrupt = 0.66,
-			unequip = 0.7,
-			equip = 1.2
-		}
-		self.tkb.fire_rate_multiplier = 0.75 --600 RPM. RL gun has a quoted figure of 1800 rpm split between each barrel.
-		self.tkb.charge_data = nil
-		self.tkb.rays = 3
-		self.tkb.fire_mode_data.volley = nil
-		self.tkb.spread_multi = {1.5, 0.666667}
-		self.tkb.reload_speed_multiplier = 1.1 --3.2s/3.7s
 
 	--Light Rifles (PRIMARY)
 		--Amcar
@@ -979,6 +963,34 @@ function WeaponTweakData:init(...)
 		}
 		self.contraband_m203.reload_speed_multiplier = 1.25 --2s
 
+		--Rodion 3B
+		self.tkb.supported = true --Still sorting out details of how I want this to work exactly.
+		self.tkb.CLIP_AMMO_MAX = 30
+		self.tkb.kick_pattern = self.stat_info.kick_patterns.zigzag_2
+		self.tkb.kick = self.stat_info.kick_tables.moderate_right_kick
+		self.tkb.stats = {
+			damage = 8,
+			spread = 15,
+			recoil = 10,
+			concealment = 13
+		}
+		self.tkb.timers = {
+			reload_not_empty = 3.5,
+			reload_empty = 4.05,
+			reload_operational = 2.5,
+			empty_reload_operational = 3.45, 
+			reload_interrupt = 0.69,
+			empty_reload_interrupt = 0.66,
+			unequip = 0.7,
+			equip = 1.2
+		}
+		self.tkb.fire_rate_multiplier = 0.75 --600 RPM. RL gun has a quoted figure of 1800 rpm split between each barrel.
+		self.tkb.charge_data = nil
+		self.tkb.rays = 3
+		self.tkb.fire_mode_data.volley = nil
+		self.tkb.spread_multi = {1.5, 0.666667}
+		self.tkb.reload_speed_multiplier = 1.1 --3.2s/3.7s		
+
 	--Heavy DMR (PRIMARY)
 		--Galant--
 		self.ching.CLIP_AMMO_MAX = 8
@@ -1003,6 +1015,7 @@ function WeaponTweakData:init(...)
 			equip = 0.55
 		}
 		self.ching.swap_speed_multiplier = 0.9
+		no_magazine(self.ching)
 
 		--M308
 		self.new_m14.CLIP_AMMO_MAX = 20
@@ -1153,6 +1166,7 @@ function WeaponTweakData:init(...)
 		self.qbu88.single.fire_rate = 0.3
 
 		--North Star
+		self.victor.unlock_func = nil
 		self.victor.categories = {
 			"assault_rifle"
 		}
@@ -1162,7 +1176,7 @@ function WeaponTweakData:init(...)
 		self.victor.can_shoot_through_wall = false
 		self.victor.has_description = false
 		self.victor.tactical_reload = true
-		self.victor.kick = self.stat_info.kick_tables.vertical_kick
+		self.victor.kick = self.stat_info.kick_tables.left_kick
 		self.victor.kick_pattern = self.stat_info.kick_patterns.zigzag_3
 		self.victor.supported = true
 		self.victor.stats = {
@@ -1176,9 +1190,9 @@ function WeaponTweakData:init(...)
 			reload_empty = 3.5,
 			reload_operational = 2.45,
 			empty_reload_operational = 2.45,
-			reload_interrupt = 0.4, --TODO: Set these.
-			empty_reload_interrupt = 0.4,
-			unequip = 08,
+			reload_interrupt = 0.74,
+			empty_reload_interrupt = 1.21,
+			unequip = 0.8,
 			equip = 0.8
 		}
 		self.victor.swap_speed_multiplier = 1.1
@@ -1474,15 +1488,15 @@ function WeaponTweakData:init(...)
 		}
 		self.hcar.timers = {
 			reload_not_empty = 3.95,
-			reload_empty = 4.4,
+			reload_empty = 4.45,
 			reload_operational = 3.15,
 			empty_reload_operational = 3.6,
-			reload_interrupt = 0.65,  --TODO: Set these.
-			empty_reload_interrupt = 6.5,
+			reload_interrupt = 0.65,
+			empty_reload_interrupt = 0.57,
 			unequip = 0.5,
 			equip = 0.65
 		}
-		self.hcar.reload_speed_multiplier = 1.15 --3.3/3.8s
+		self.hcar.reload_speed_multiplier = 1.16 --3.4/3.8s
 
 	--Light Sniper (PRIMARY)
 		--Rattlesnake
@@ -1591,6 +1605,7 @@ function WeaponTweakData:init(...)
 			equip = 0.9
 		}
 		self.winchester1874.reload_speed_multiplier = 1.1
+		no_magazine(self.winchester1874)
 
 		--Grom
 		self.siltstone.has_description = true
@@ -1677,6 +1692,7 @@ function WeaponTweakData:init(...)
 			equip = 0.6
 		}
 		self.sbl.swap_speed_multiplier = 0.8
+		no_magazine(self.sbl)
 
 		--Platypus 70
 		self.model70.has_description = true
@@ -1782,6 +1798,7 @@ function WeaponTweakData:init(...)
 			equip = 0.5
 		}
 		self.mosin.reload_speed_multiplier = 1.2 --3.5s
+		no_magazine(self.mosin)
 
 	--O LAWD HE COMING Sniper (Primary)
 		--Thanatos .50 cal
@@ -3146,6 +3163,7 @@ function WeaponTweakData:init(...)
 			equip = 0.35
 		}
 		self.c96.reload_speed_multiplier = 1.15 --3.8s/4.2s
+		no_magazine(self.c96)
 
 	--Heavy Pistols (Secondary)
 		--Signature .40
@@ -3513,6 +3531,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		no_magazine(self.korth)
 
 	--Medium Handcannons (Secondary)
 		--Bronco
@@ -3537,6 +3556,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		no_magazine(self.new_raging_bull)
 
 		--Castigo
 		self.chinchilla.fire_mode_data.fire_rate = 0.19047619
@@ -3560,6 +3580,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		no_magazine(self.chinchilla)
 
 		--Frenchman Model 87
 		self.model3.fire_rate_multiplier = 0.6 --240 rpm
@@ -3582,6 +3603,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		no_magazine(self.model3)
 
 		--Matever .357
 		self.mateba.fire_mode_data.fire_rate = 0.15789474
@@ -3605,6 +3627,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		no_magazine(self.mateba)
 
 	--Medium Handcannons (Akimbo)
 		--Akimbo Castigo
@@ -3635,6 +3658,7 @@ function WeaponTweakData:init(...)
 			equip = 0.5
 		}
 		self.x_chinchilla.reload_speed_multiplier = 0.85 --4.4s
+		no_magazine(self.x_chinchilla)
 
 	--Heavy Handcannon (Primary)
 		--Phoenix .500 Revolver
@@ -3667,6 +3691,7 @@ function WeaponTweakData:init(...)
 			equip = 0.5
 		}
 		self.shatters_fury.swap_speed_multiplier = 0.7
+		no_magazine(self.shatters_fury)
 
 		--RUS-12 Angry Tiger
 		self.rsh12.use_data.selection_index = 2
@@ -3697,6 +3722,7 @@ function WeaponTweakData:init(...)
 			equip = 0.45
 		}
 		self.rsh12.swap_speed_multiplier = 0.75
+		no_magazine(self.rsh12)
 
 	--Heavy Handcannon (Secondary)
 		--Peacemaker
@@ -3727,6 +3753,7 @@ function WeaponTweakData:init(...)
 			equip = 0.65
 		}
 		self.peacemaker.swap_speed_multiplier = 0.65
+		no_magazine(self.peacemaker)
 
 		--Aran G2
 		self.contender.desc_id = "bm_ap_weapon_sc_desc"
@@ -3818,6 +3845,7 @@ function WeaponTweakData:init(...)
 		}
 		self.m32.swap_speed_multiplier = 1.2
 		self.m32.reload_speed_multiplier = 1.2
+		no_magazine(self.m32)
 
 	--Grenade Launchers (Secondary)
 		--Compact 40mm
@@ -3873,6 +3901,7 @@ function WeaponTweakData:init(...)
 		}
 		self.china.reload_speed_multiplier = 0.85 --5.8s
 		self.china.swap_speed_multiplier = 0.95
+		no_magazine(self.china)
 
 		--Arbiter
 		self.arbiter.fire_mode_data.fire_rate = 0.4
@@ -3929,6 +3958,7 @@ function WeaponTweakData:init(...)
 			equip = 0.85
 		}
 		self.ray.swap_speed_multiplier = 1.2
+		no_magazine(self.ray)
 
 	--Rocket Launchers (Secondary)
 		--HRL-7
@@ -3982,6 +4012,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.7,
 			equip = 0.5
 		}
+		no_magazine(self.ecp)
 
 		--Heavy Crossbow
 		self.arblast.has_description = true
@@ -4233,6 +4264,7 @@ function WeaponTweakData:init(...)
 			equip = 0.85
 		}
 		self.spas12.reload_speed_multiplier = 1.1
+		no_magazine(self.spas12)
 
 		--M1014
 		self.benelli.CLIP_AMMO_MAX = 7
@@ -4261,6 +4293,7 @@ function WeaponTweakData:init(...)
 			equip = 0.85
 		}
 		self.benelli.reload_speed_multiplier = 1.1
+		no_magazine(self.benelli)
 
 		--Street Sweeper
 		self.striker.use_data.selection_index = 2
@@ -4288,6 +4321,7 @@ function WeaponTweakData:init(...)
 			equip = 0.85
 		}
 		self.striker.reload_speed_multiplier = 0.85
+		no_magazine(self.striker)
 
 	--Light Shotgun (Akimbo)
 		--Brothers Grimm
@@ -4351,6 +4385,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.5
 		}
+		no_magazine(self.x_judge)
 
 	--Light Shotguns (Secondary)
 		--Goliath 12G
@@ -4378,6 +4413,7 @@ function WeaponTweakData:init(...)
 			equip = 0.6
 		}
 		self.rota.reload_speed_multiplier = 0.9 --3.6s
+		no_magazine(self.rota)
 
 		--Izhma 12G
 		self.saiga.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4467,8 +4503,9 @@ function WeaponTweakData:init(...)
 				}
 			}
 		}
-		self.ultima.timers.shotgun_reload_interrupt = 0.5
 		--Mostly use the vanilla timers, since they match the unique reload animation pretty well.
+		self.ultima.timers.shotgun_reload_interrupt = 0.5
+		no_magazine(self.ultima)
 
 		--Judge
 		self.judge.fire_mode_data.fire_rate = 0.272727
@@ -4493,6 +4530,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.5,
 			equip = 0.45
 		}
+		no_magazine(self.judge)
 
 		--Grimm 12g
 		self.basset.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4545,6 +4583,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.6,
 			equip = 0.55
 		}
+		no_magazine(self.r870)
 
 		--Mosconi 12G Tactical
 		self.m590.tactical_reload = true
@@ -4571,6 +4610,7 @@ function WeaponTweakData:init(...)
 			equip = 0.55
 		}
 		self.m590.reload_speed_multiplier = 0.8 --6.6s
+		no_magazine(self.m590)
 
 		--Raven
 		self.ksg.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4599,6 +4639,7 @@ function WeaponTweakData:init(...)
 			equip = 0.55
 		}
 		self.ksg.reload_speed_multiplier = 0.85 --11s
+		no_magazine(self.ksg)
 
 		--Reinfeld 88
 		self.m1897.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4626,6 +4667,7 @@ function WeaponTweakData:init(...)
 		}
 		self.m1897.reload_speed_multiplier = 1.1
 		self.m1897.swap_speed_multiplier = 1.1
+		no_magazine(self.m1897)
 
 	--Medium Shotguns (Secondary)
 		--Breaker 12g
@@ -4656,6 +4698,7 @@ function WeaponTweakData:init(...)
 			equip = 0.85
 		}
 		self.boot.reload_speed_multiplier = 0.92 --3.7s
+		no_magazine(self.boot)
 
 		--Locomotive 12g
 		self.serbu.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4682,6 +4725,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.7,
 			equip = 0.6
 		}
+		no_magazine(self.serbu)
 
 		--GSPS--
 		self.m37.muzzleflash = "effects/particles/shotgun/shotgun_gen"
@@ -4709,6 +4753,7 @@ function WeaponTweakData:init(...)
 			equip = 0.85
 		}
 		self.m37.reload_speed_multiplier = 1.25 --3s
+		no_magazine(self.m37)
 
 	--Heavy Shotgun (Primary)
 		--Mosconi 12G
@@ -4747,6 +4792,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.6
 		}
 		self.huntsman.reload_speed_multiplier = 1.04 --2.7s
+		no_magazine(self.huntsman)
 
 		--Joceline O/U 12G
 		self.b682.muzzleflash = "effects/particles/shotgun/muzzleflash"
@@ -4779,6 +4825,7 @@ function WeaponTweakData:init(...)
 			equip = 0.55
 		}
 		self.b682.reload_speed_multiplier = 1.1 --3s
+		no_magazine(self.b682)
 
 	--Heavy Shotgun (Secondary)
 		--Claire 12G
@@ -4817,6 +4864,7 @@ function WeaponTweakData:init(...)
 			unequip = 0.4
 		}
 		self.coach.reload_speed_multiplier = 1.05 --2.2s
+		no_magazine(self.coach)
 
 	--Saws
 		--OVE9000 Saw
@@ -5032,11 +5080,7 @@ function WeaponTweakData:init(...)
 				self:create_fire_mode_toggles(weap)
 
 				if weap.CLIP_AMMO_MAX == 1 then
-					weap.upgrade_blocks = {
-						weapon = {
-							"clip_ammo_increase"
-						}
-					}
+					no_magazine(weap)
 				end
 
 				--Normalize camera shake.
