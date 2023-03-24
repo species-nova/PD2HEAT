@@ -1,3 +1,4 @@
+--[[
 function SoundTweakData:_init_acoustics()
 	self.acoustics = {
 		pd2_acoustics_forest = {}
@@ -51,3 +52,4 @@ function SoundTweakData:_init_acoustics()
 		}
 	}
 end
+]]--
