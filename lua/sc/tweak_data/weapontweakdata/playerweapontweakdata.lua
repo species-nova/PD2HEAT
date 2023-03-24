@@ -2579,7 +2579,7 @@ function WeaponTweakData:init(...)
 		self.b92fs.single.fire_rate = 0.11009174311
 		self.b92fs.CLIP_AMMO_MAX = 15
 		self.b92fs.kick = self.stat_info.kick_tables.even_recoil
-		self.b92fs.kick_pattern = self.stat_info.jumpy_2
+		self.b92fs.kick_pattern = self.stat_info.kick_patterns.jumpy_2
 		self.b92fs.supported = true
 		self.b92fs.stats = {
 			damage = 12,
@@ -5224,7 +5224,7 @@ end
 function WeaponTweakData:create_fire_mode_toggles(weapon)
 	weapon.fire_mode_data.toggable = {}
 
-	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "single" then
+	if weapon.CAN_TOGGLE_FIREMODE or weapon.FIRE_MODE == "single" or table.contains(weapon.categories, "akimbo") then
 		weapon.fire_mode_data.toggable[#weapon.fire_mode_data.toggable + 1] = "single"
 	end
 

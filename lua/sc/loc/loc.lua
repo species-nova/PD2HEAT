@@ -1456,7 +1456,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 
 			--Quintstacked Mags--
 			["menu_spotter_teamwork_beta_sc"] = "Quintstacked Mags",
-			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Only applies to weapons with detachable magazines.\n\nACE: ##$pro##\nYour weapons' magazine sizes are increased by an additional ##30%.##",
+			["menu_spotter_teamwork_beta_desc_sc"] = "BASIC: ##$basic##\nYour weapons' magazine sizes are increased by ##20%.##\n\nNote: Only applies to weapons with detachable magazines or belts.\n\nACE: ##$pro##\nYour weapons' magazine sizes are increased by an additional ##30%.##",
 
 			--Heavy Impact--
 			["menu_speedy_reload_sc"] = "Heavy Impact",
