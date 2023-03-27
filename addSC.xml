@@ -448,8 +448,8 @@
 	<material_config path="units/pd2_mcmansion/characters/ene_male_hector_1/ene_male_hector_1_contour" force="true" />	
 	<effect path="effects/payday2/particles/character/flashlight_ss" load="true"/>
 	
-	<!--epic hd cloaker eyes thanks jarey-->
-	<texture path="units/payday2/characters/shared_textures/spook_il"/>
+	<!--HD Cloaker Lens Glow -- these are available as a stand-alone mod.  Remove?-->
+	<!--<texture path="units/payday2/characters/shared_textures/spook_il"/>-->
 
 	<!--Risk Level-->
 	<texture path="guis/textures/pd2/mission_briefing/assets/assets_risklevel_4_sc" force="false"/>
@@ -1436,7 +1436,7 @@
 	
 	<!--Sniper Trails-->
 	<effect path="effects/particles/weapons/sniper_trail_sc" force="false"/>
-		<!--REVISE ME!-->
+		<!--REVISE ME!  OR DELETE ME AND USE OVK'S!-->
 	<effect path="effects/particles/weapons/titan_trail_sc" force="false"/>
 	
 	<!--Stat Boost-->
