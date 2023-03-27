@@ -2206,27 +2206,27 @@
 	<texture path="units/payday2/weapons/wpn_npc_amcar/third_person_nm" force="true"/-- fucking crashes for some reason and i dont have the energy rn to fix it lol>
 	
 	<!--swat 1-->
-	<model path="units/payday2/characters/ene_swat_1/ene_swat_1" force="true"/>	
+	<!--<model path="units/payday2/characters/ene_swat_1/ene_swat_1" force="true"/>	
 	<object path="units/payday2/characters/ene_swat_1/ene_swat_1" force="true"/>	
 	<material_config path="units/payday2/characters/ene_swat_1/ene_swat_1" force="true"/>	
-	<material_config path="units/payday2/characters/ene_swat_1/ene_swat_1_contour" force="true"/>	
+	<material_config path="units/payday2/characters/ene_swat_1/ene_swat_1_contour" force="true"/>-->
 	
 	<!--swat 2-->
-	<model path="units/payday2/characters/ene_swat_2/ene_swat_2" force="true"/>	
+	<!--<model path="units/payday2/characters/ene_swat_2/ene_swat_2" force="true"/>-->
 	
 	<!--fbi swat 1-->
-	<model path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1" force="true"/>	
+	<!--<model path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1" force="true"/>	
 	<object path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1" force="true"/>	
 	<unit path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1" force="true"/>	
 	<unit path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1_husk" force="true"/>	
 	<material_config path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1" force="true"/>	
-	<material_config path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1_contour" force="true"/>	
+	<material_config path="units/payday2/characters/ene_fbi_swat_1/ene_fbi_swat_1_contour" force="true"/>-->
 	
 	<!--fbi swat 2-->
-	<unit path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>	
+	<!--<unit path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>	
 	<unit path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2_husk" force="true"/>	
 	<model path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>	
-	<object path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>		
+	<object path="units/payday2/characters/ene_fbi_swat_2/ene_fbi_swat_2" force="true"/>-->		
 	
 	<!--vanilla unit texture overrides and other new stuff-->
 		<!--REVIEW AND PHASE OUT UNNECESSARY!-->	
@@ -2236,14 +2236,14 @@
 	<texture path="units/payday2/characters/shared_textures/police_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/fbi_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/spook_heavy_df" force="true"/>
-	<texture path="units/payday2/characters/shared_textures/swat_body_df" force="true"/>
-	<texture path="units/payday2/characters/shared_textures/swat_fbi_body_df" force="true"/>
+	<!--<texture path="units/payday2/characters/shared_textures/swat_body_df" force="true"/>-->
+	<!--<texture path="units/payday2/characters/shared_textures/swat_fbi_body_df" force="true"/>-->
 	<texture path="units/payday2/characters/shared_textures/helmets_atlas_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/bulldozer_city_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/bulldozer_saiga_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/ene_city_heavy_df" force="true"/>
 	<texture path="units/payday2/characters/shared_textures/ene_city_heavy_nm" force="true"/>
-	<texture path="units/pd2_mod_omnia/characters/shared_textures/swat_body_nm"/>
+	<!--<texture path="units/pd2_mod_omnia/characters/shared_textures/swat_body_nm"/>-->
 
 	<!--bravo dmr-->
 	<object path="units/pd2_mod_bravo/characters/ene_bravo_dmr/ene_bravo_dmr" />
