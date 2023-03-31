@@ -169,10 +169,10 @@ end
 --If no list is provided, instead loads all available voicelines.
 function HeatVoiceline:load(units_to_load)
 	if not units_to_load then --If no units supplied, LOAD EVERYTHING. Very slow and memory inefficient, you have been warned!
-		log("HEAT VOICELINE: Loading all voicelines!")
+		heat.tlog("VOICELINE", "Loading all voicelines!")
 		units_to_load = file.GetDirectories(Application:nice_path(self._custom_voice_path))
 	else 
-		log("HEAT VOICELINE: Loading voicelines for " .. tostring(#units_to_load) .. " selected units.")
+		heat.tlog("VOICELINE", "Loading voicelines for ", tostring(#units_to_load), " selected units.")
 	end
 
 	self._load_queue[#self._load_queue + 1] = units_to_load
@@ -195,7 +195,7 @@ function HeatVoiceline:update(dt, in_menu)
 
 		local result, error = coroutine.resume(self._load_coroutine, self)
 		if not result then
-			log("HEAT VOICELINE: Unable to resume loading coroutine. Message - " .. tostring(error))
+			heat.tlog("VOICELINE", "Unable to resume loading coroutine. Message - ", tostring(error))
 		end
 	end
 end
@@ -203,7 +203,7 @@ end
 --Unloads all loaded voice lines.
 --Should ideally be called just prior to leaving a level.
 function HeatVoiceline:unload()
-	log("HEAT VOICELINE: UNLOADING")
+	heat.tlog("VOICELINE", "UNLOADING")
 
 	--Clear active loading attempts.
 	self._load_coroutine = nil
@@ -230,18 +230,18 @@ function HeatVoiceline:unload()
 	--Reset both to be empty tables.
 	self._loaded = {}
 
-	log("HEAT VOICELINE: Unloaded " .. tostring(counter) .. " voicelines.")
+	heat.tlog("VOICELINE", "Unloaded ", tostring(counter), " voicelines.")
 end
 
 --Internal loading thread. Consumes the topmost item in the load queue then pops it.
 --Consumed items are appended as xaudio buffers to the _loaded table, organized by unit and line type.
 --Loads a number of buffers equal to self._buffers_per_frame before yielding.
 function HeatVoiceline:_load()
-	log("HEAT VOICELINE: Initiated load.")
+	heat.tlog("VOICELINE", "Initiated load.")
 	for i = 1, #self._load_queue[#self._load_queue] do
 		local unit_type = self._load_queue[#self._load_queue][i]
 		if not self._loaded[unit_type] then
-			log("HEAT VOICELINE: Loading " .. unit_type)
+			heat.tlog("VOICELINE", "Loading ", unit_type)
 			self._loaded[unit_type] = {}
 			local unit_dir = self._custom_voice_path .. "\\" .. unit_type
 			for _, line_type in pairs(file.GetDirectories(unit_dir)) do
@@ -267,7 +267,7 @@ function HeatVoiceline:_load()
 		end
 	end
 
-	log("HEAT VOICELINE: Load complete.")
+	heat.tlog("VOICELINE", "Load complete.")
 	self._load_queue[#self._load_queue] = nil
 end
 

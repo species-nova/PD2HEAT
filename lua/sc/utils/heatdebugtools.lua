@@ -96,6 +96,17 @@ function heat.log(...)
 	log(table.concat(args, ""))
 end
 
+
+heat.log_tags = {
+	VOICELINE = true
+}
+
+function heat.tlog(tag, ...)
+	if heat.log_tags[tag] then
+		return heat.log("[Heat][", tag, "] ", ...)
+	end
+end 
+
 function heat.traceback()
 	local level = 2
 	local traceback = {}

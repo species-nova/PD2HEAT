@@ -81,24 +81,6 @@
 	<object path="units/pd2_dlc_mad/characters/ene_acc_shield_akan_shield_small/ene_acc_shield_akan_small" force="false"/>
 	<material_config path="units/pd2_dlc_mad/characters/ene_acc_shield_akan_shield_small/ene_acc_shield_akan_small" force="false"/>
 	<cooked_physics path="units/pd2_dlc_mad/characters/ene_acc_shield_akan_shield_small/ene_acc_shield_akan_small" force="false"/>
-	
-    <!--Titan Sniper-->	
-	<unit path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper" force="false" load="true"/>
-	<unit path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper_husk" force="false" load="true"/>
-	<object path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper" force="false"/>
-	<cooked_physics path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper" force="false"/>
-	<model path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper" force="false"/>
-	<material_config path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper" force="false"/>
-	<material_config path="units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper_contour" force="false"/>
-	<texture path="units/pd2_dlc_mad/characters/shared_textures/helmets_snp_df" force="false"/>	
-	<texture path="units/pd2_dlc_mad/characters/shared_textures/ene_phalanx_snp_df" force="false"/>	
-
-	<!--Titan Sniper Cap Accessory-->
-	<object path="units/pd2_dlc_mad/characters/ene_acc_helmet_titsnip_cap/ene_acc_helmet_titsnip_cap" force="false"/>
-	<cooked_physics path="units/pd2_dlc_mad/characters/ene_acc_helmet_titsnip_cap/ene_acc_helmet_titsnip_cap" force="false"/>
-	<model path="units/pd2_dlc_mad/characters/ene_acc_helmet_titsnip_cap/ene_acc_helmet_titsnip_cap" force="false"/>
-	<unit path="units/pd2_dlc_mad/characters/ene_acc_helmet_titsnip_cap/ene_acc_helmet_titsnip_cap" force="false" load="true"/>
-	<material_config path="units/pd2_dlc_mad/characters/ene_acc_helmet_titsnip_cap/ene_acc_helmet_titsnip_cap" force="false"/>	
 
 	<!--akan LPF-->
 	<object path="units/pd2_dlc_mad/characters/ene_akan_lpf/ene_akan_lpf" force="false"/>

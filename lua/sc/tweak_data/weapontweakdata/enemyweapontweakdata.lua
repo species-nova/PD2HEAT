@@ -364,7 +364,7 @@ function WeaponTweakData:_init_data_m14_sniper_npc()
 	self.m14_sniper_npc.alert_size = 2500
 	self.m14_sniper_npc.suppression = 3.4
 	self.m14_sniper_npc.armor_piercing = true
-	self.m14_sniper_npc.sniper_trail = true
+	self.m14_sniper_npc.trail = "effects/particles/weapons/sniper_trail_sc"
 	self.m14_sniper_npc.FIRE_MODE = "single"
 
 	--Reaper variant
@@ -624,7 +624,7 @@ function WeaponTweakData:_init_data_scar_npc()
 	self.scar_npc.alert_size = 2500
 	self.scar_npc.suppression = 2.8
 	self.scar_npc.FIRE_MODE = "single"
-	self.scar_npc.titan_trail = true
+	self.scar_npc.trail = "effects/particles/weapons/sniper_trail_marshal"
 	self.scar_npc.usage = "is_dmr"
 	self.scar_npc.armor_piercing = true
 	self.scar_secondary_npc = deep_clone(self.scar_npc)
@@ -778,4 +778,14 @@ function WeaponTweakData:_init_data_flamethrower_npc()
 	self.flamethrower_mk2_flamer.pull_magazine_during_reload = "large_metal"
 	self.flamethrower_mk2_flamer.anim_usage = "is_bullpup"
 	self.flamethrower_mk2_flamer.usage = "is_flamethrower"
+end
+
+local orig_init_data_dmr_npc = WeaponTweakData._init_data_dmr_npc
+function WeaponTweakData:_init_data_dmr_npc()
+	orig_init_data_dmr_npc(self)
+	self.dmr_npc.usage = "is_dmr"
+	self.dmr_npc.alert_size = 2500
+	self.dmr_npc.suppression = 2.8
+	self.dmr_npc.DAMAGE = dmr_damage
+	self.dmr_npc.armor_piercing = true
 end
