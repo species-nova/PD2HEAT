@@ -124,8 +124,12 @@ function CharacterTweakData:init(tweak_data, presets)
 		end
 	}
 
+	self.heavy_swat_sniper = deep_clone(self.marshal_marksman)
 	self:_init_fbi_vet(presets)
 	self:_init_medic_summers(presets)
+	self:_init_weekend_dmr(presets)
+	self:_init_weekend_lmg(presets)
+	self:_init_weekend(presets)
 	self:_init_boom(presets)
 	self:_init_spring(presets)
 	self:_init_summers(presets)
@@ -488,9 +492,10 @@ function CharacterTweakData:_init_omnia_lpf(presets) --lpf
 end
 
 local orig_init_swat = CharacterTweakData._init_swat
-function CharacterTweakData:_init_swat(presets) --light swat
+function CharacterTweakData:_init_swat(presets)
 	orig_init_swat(self, presets)
 
+	--Light Swat
 	local enemies = {self.swat}
 	override_enemies(enemies, {
 		HEALTH_INIT = 16.8,
@@ -498,8 +503,6 @@ function CharacterTweakData:_init_swat(presets) --light swat
 		weapon = presets.weapon.expert,
 		move_speed = presets.move_speed.very_fast,
 		surrender = presets.surrender.hard,
-		speech_prefix_p1 = self._prefix_data_p1.cop(),
-		speech_prefix_p2 = "n",
 		no_arrest = false,
 		silent_priority_shout = "f37"
 	})
@@ -520,77 +523,28 @@ function CharacterTweakData:_init_swat(presets) --light swat
 	end
 end
 
+local orig_init_heavy_swat = CharacterTweakData._init_heavy_swat
 function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
-	self.heavy_swat = deep_clone(presets.base)
-	self.heavy_swat.tags = {"law"}
-	self.heavy_swat.experience = {}
-	self.heavy_swat.weapon = presets.weapon.expert
-	self.heavy_swat.detection = presets.detection.normal
-	self.heavy_swat.HEALTH_INIT = 25.2
-	self.heavy_swat.headshot_dmg_mul = normal_headshot
-	self.heavy_swat.move_speed = presets.move_speed.fast
-	self.heavy_swat.surrender_break_time = {6, 8}
-	self.heavy_swat.suppression = presets.suppression.hard_agg
-	self.heavy_swat.surrender = presets.surrender.hard
-	self.heavy_swat.ecm_vulnerability = 1
-	self.heavy_swat.weapon_voice = "2"
-	self.heavy_swat.experience.cable_tie = "tie_swat"
-	self.heavy_swat.speech_prefix_p1 = self._prefix_data_p1.swat()
-	self.heavy_swat.speech_prefix_p2 = self._speech_prefix_p2
-	self.heavy_swat.speech_prefix_count = 4
-	self.heavy_swat.access = "swat"
-	self.heavy_swat.dodge = presets.dodge.heavy
-	self.heavy_swat.no_arrest = false
-	self.heavy_swat.chatter = presets.enemy_chatter.swat
-	if job == "chill_combat" then
-		self.heavy_swat.steal_loot = nil
-	else
-		self.heavy_swat.steal_loot = true
-	end
+	orig_init_heavy_swat(self, presets)
+
+	--Heavy Swat
+	local enemies = {self.heavy_swat}
+	override_enemies(enemies, {
+		HEALTH_INIT = 25.2,
+		headshot_dmg_mul = normal_headshot,
+		weapon = presets.weapon.expert,
+		surrender = presets.surrender.hard,
+		no_arrest = false,
+		silent_priority_shout = "f37"
+	})
+
 	if self:get_ai_group_type() == "murkywater" then
 		self.heavy_swat.has_alarm_pager = true
-	else
-		self.heavy_swat.has_alarm_pager = false
 	end
+
 	if job == "kosugi" or job == "dark" then
 		self.heavy_swat.shooting_death = false
-	else
-		self.heavy_swat.shooting_death = true
 	end
-	self.heavy_swat.silent_priority_shout = "f37"
-	table.insert(self._enemy_list, "heavy_swat")
-
-	self.heavy_swat_sniper = deep_clone(self.heavy_swat) --titan sniper marksman marksmen
-	self.heavy_swat_sniper.tags = {"law", "sniper", "special", "customvo"}
-	self.heavy_swat_sniper.priority_shout = "f34"
-	self.heavy_swat_sniper.bot_priority_shout = "f34x_any"
-	self.heavy_swat_sniper.priority_shout_max_dis = 3000
-	self.heavy_swat_sniper.HEALTH_INIT = 14.4
-	self.heavy_swat_sniper.headshot_dmg_mul = normal_headshot
-	self.heavy_swat_sniper.surrender_break_time = {6, 10}
-	self.heavy_swat_sniper.suppression = nil
-	self.heavy_swat_sniper.surrender = nil
-	self.heavy_swat_sniper.no_arrest = true
-	self.heavy_swat_sniper.ecm_vulnerability = 1
-	self.heavy_swat_sniper.experience.cable_tie = "tie_swat"
-	self.heavy_swat_sniper.speech_prefix_p1 = "CVOSN"
-	self.heavy_swat_sniper.speech_prefix_p2 = nil
-	self.heavy_swat_sniper.speech_prefix_count = 1
-	self.heavy_swat_sniper.access = "swat"
-	self.heavy_swat_sniper.use_animation_on_fire_damage = false
-	self.heavy_swat_sniper.move_speed = presets.move_speed.normal
-	self.heavy_swat_sniper.dodge = presets.dodge.elite
-	self.heavy_swat_sniper.chatter = presets.enemy_chatter.swat
-	self.heavy_swat_sniper.melee_weapon = "fists"
-	self.heavy_swat_sniper.steal_loot = nil
-	self.heavy_swat_sniper.has_alarm_pager = false
-	self.heavy_swat_sniper.calls_in = true
-	self.heavy_swat_sniper.die_sound_event = "mga_death_scream"
-	self.heavy_swat_sniper.custom_voicework = "pdth"
-	self.heavy_swat_sniper.is_special = true
-	table.insert(self._enemy_list, "heavy_swat_sniper")
-
-
 end
 
 local orig_init_marshall_marksman = CharacterTweakData._init_marshal_marksman
@@ -600,6 +554,7 @@ function CharacterTweakData:_init_marshal_marksman(presets)
 	--Marshall Marksmen ("Titan Snipers")
 	local enemies = {self.marshal_marksman}
 	override_enemies(enemies, {
+		tags = {"law", "marksman", "special"},
 		weapon = presets.weapon.expert,
 		dodge = presets.dodge.elite,
 		HEALTH_INIT = 14.4,
@@ -612,7 +567,9 @@ function CharacterTweakData:_init_marshal_marksman(presets)
 		no_retreat = nil,
 		is_special = true
 	})
+end
 
+function CharacterTweakData:_init_weekend_dmr(presets)
 	--Bravo Marksmen
 	self.weekend_dmr = deep_clone(self.marshal_marksman)
 	self.weekend_dmr.speech_prefix_p1 = "CVOB"
@@ -636,78 +593,44 @@ function CharacterTweakData:_init_marshal_marksman(presets)
 	table.insert(self._enemy_list, "weekend_dmr")
 end
 
-function CharacterTweakData:_init_fbi_swat(presets) --green light fbi swat
-	self.fbi_swat = deep_clone(presets.base)
-	self.fbi_swat.tags = {"law"}
-	self.fbi_swat.experience = {}
-	self.fbi_swat.weapon = presets.weapon.expert
-	self.fbi_swat.detection = presets.detection.normal
-	self.fbi_swat.HEALTH_INIT = 16.8
-	self.fbi_swat.headshot_dmg_mul = normal_headshot
-	self.fbi_swat.move_speed = presets.move_speed.very_fast
-	self.fbi_swat.surrender_break_time = {6, 10}
-	self.fbi_swat.suppression = presets.suppression.hard_def
-	self.fbi_swat.surrender = presets.surrender.hard
-	self.fbi_swat.ecm_vulnerability = 1
-	self.fbi_swat.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.fbi_swat.weapon_voice = "2"
-	self.fbi_swat.experience.cable_tie = "tie_swat"
-	self.fbi_swat.speech_prefix_p1 = self._prefix_data_p1.swat()
-	self.fbi_swat.speech_prefix_p2 = self._speech_prefix_p2
-	self.fbi_swat.speech_prefix_count = 4
-	self.fbi_swat.access = "swat"
-	self.fbi_swat.dodge = presets.dodge.athletic_very_hard
-	self.fbi_swat.no_arrest = false
-	self.fbi_swat.chatter = presets.enemy_chatter.swat
-	self.fbi_swat.melee_weapon = "knife_1"
-	if job == "chill_combat" then
-		self.fbi_swat.steal_loot = nil
-	else
-		self.fbi_swat.steal_loot = true
-	end
-	table.insert(self._enemy_list, "fbi_swat")
+local orig_init_fbi_swat = CharacterTweakData._init_fbi_swat
+function CharacterTweakData:_init_fbi_swat(presets)
+	orig_init_fbi_swat(self, presets)
 
-	self.fbi_swat_vet = deep_clone(self.fbi_swat)
-	table.insert(self._enemy_list, "fbi_swat_vet")
+	--Green Light Swat
+	local enemies = {self.fbi_swat}
+	override_enemies(enemies, {
+		HEALTH_INIT = 16.8,
+		headshot_dmg_mul = normal_headshot,
+		surrender = presets.surrender.hard,
+		speech_prefix_p1 = self._prefix_data_p1.swat(),
+		dodge = presets.dodge.athletic_very_hard,
+		no_arrest = false
+	})
 end
 
-function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec swat
-	self.fbi_heavy_swat = deep_clone(presets.base)
-	self.fbi_heavy_swat.tags = {"law"}
-	self.fbi_heavy_swat.experience = {}
-	self.fbi_heavy_swat.weapon = presets.weapon.normal
-	self.fbi_heavy_swat.detection = presets.detection.normal
-	self.fbi_heavy_swat.HEALTH_INIT = 25.2
-	self.fbi_heavy_swat.damage.hurt_severity = presets.hurt_severities.boom
-	self.fbi_heavy_swat.damage.explosion_damage_mul = 0.5
-	self.fbi_heavy_swat.headshot_dmg_mul = normal_headshot
-	self.fbi_heavy_swat.move_speed = presets.move_speed.fast
-	self.fbi_heavy_swat.surrender_break_time = {6, 8}
-	self.fbi_heavy_swat.suppression = presets.suppression.hard_agg
-	self.fbi_heavy_swat.surrender = presets.surrender.hard
-	self.fbi_heavy_swat.ecm_vulnerability = 1
-	self.fbi_heavy_swat.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.fbi_heavy_swat.weapon_voice = "2"
-	self.fbi_heavy_swat.experience.cable_tie = "tie_swat"
-	self.fbi_heavy_swat.speech_prefix_p1 = self._prefix_data_p1.heavy_swat()
-	self.fbi_heavy_swat.speech_prefix_p2 = self._speech_prefix_p2
-	self.fbi_heavy_swat.speech_prefix_count = 4
-	self.fbi_heavy_swat.access = "swat"
-	self.fbi_heavy_swat.dodge = presets.dodge.heavy_very_hard
-	self.fbi_heavy_swat.no_arrest = false
-	self.fbi_heavy_swat.melee_weapon = "knife_1"
-	self.fbi_heavy_swat.chatter = presets.enemy_chatter.swat
-	if job == "chill_combat" then
-		self.fbi_heavy_swat.steal_loot = nil
-	else
-		self.fbi_heavy_swat.steal_loot = true
-	end
-	table.insert(self._enemy_list, "fbi_heavy_swat")
+local orig_init_fbi_heavy_swat = CharacterTweakData._init_fbi_heavy_swat
+function CharacterTweakData:_init_fbi_heavy_swat(presets)
+	orig_init_fbi_heavy_swat(self, presets)
 
+	--Tan FBI/Gensec Heavy Swat
+	local enemies = {self.fbi_heavy_swat}
+	override_enemies(enemies, {
+		HEALTH_INIT = 25.2,
+		headshot_dmg_mul = normal_headshot,
+		damage = {
+			hurt_severities = presets.hurt_severities.boom,
+			explosion_damage_mul = 0.5
+		},
+		surrender = presets.surrender.hard,
+		dodge = presets.dodge.heavy_very_hard,
+		weapon = presets.weapon.normal,
+		no_arrest = false,
+		melee_weapon = "knife_1"
+	})
+end
+
+function CharacterTweakData:_init_weekend_lmg(presets)
 	--Bravo LMG
 	self.weekend_lmg = deep_clone(self.heavy_swat)
 	if self:get_ai_group_type() == "russia" then
@@ -732,62 +655,34 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets) --heavy tan fbi gensec
 	table.insert(self._enemy_list, "weekend_lmg")
 end
 
+local orig_init_city_swat = CharacterTweakData._init_city_swat
 function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
-	self.city_swat = deep_clone(presets.base)
-	self.city_swat.tags = {"law", "city_swat"}
-	self.city_swat.experience = {}
-	self.city_swat.weapon = presets.weapon.expert
-	self.city_swat.detection = presets.detection.normal
-	self.city_swat.HEALTH_INIT = 16.8
-	self.city_swat.headshot_dmg_mul = normal_headshot
-	self.city_swat.move_speed = presets.move_speed.very_fast
-	self.city_swat.surrender_break_time = {6, 10}
-	self.city_swat.suppression = presets.suppression.hard_def
-	self.city_swat.surrender = presets.surrender.hard
-	self.city_swat.no_arrest = false
-	self.city_swat.ecm_vulnerability = 1
-	self.city_swat.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.city_swat.weapon_voice = "2"
-	self.city_swat.experience.cable_tie = "tie_swat"
-	self.city_swat.silent_priority_shout = "f37"
-	self.city_swat.speech_prefix_p1 = self._prefix_data_p1.swat()
-	self.city_swat.speech_prefix_p2 = self._speech_prefix_p2
-	self.city_swat.speech_prefix_count = 4
-	self.city_swat.access = "swat"
-	self.city_swat.dodge = presets.dodge.athletic_overkill
-	self.city_swat.chatter = presets.enemy_chatter.swat
-	self.city_swat.melee_weapon = "knife_1"
-	if job == "chill_combat" then
-		self.city_swat.steal_loot = nil
-	else
-		self.city_swat.steal_loot = true
-	end
+	orig_init_city_swat(self, presets)
+
+	--Light Zeal Gensec Swat
+	local enemies = {self.city_swat}
+	override_enemies(enemies, {
+		HEALTH_INIT = 16.8,
+		headshot_dmg_mul = normal_headshot,
+		weapon = presets.weapon.expert,
+		surrender = presets.surrender.hard,
+		no_arrest = false,
+		speech_prefix_p1 = self._prefix_data_p1.swat(),
+		dodge = presets.dodge.athletic_overkill,
+		has_alarm_pager = true
+	})
+
 	if job == "kosugi" or job == "dark" then
 		self.city_swat.shooting_death = false
 		self.city_swat.radio_prefix = "fri_"
 		self.city_swat.use_radio = "dsp_radio_russian"
-	else
-		self.city_swat.shooting_death = true
 	end
-	self.city_swat.has_alarm_pager = true
-	self.city_swat.calls_in = true
-	self.city_swat.custom_voicework = nil
-	table.insert(self._enemy_list, "city_swat")
 
-	--Unused pretty sure
-	self.city_swat_guard = deep_clone(self.city_swat)
-	self.city_swat_guard.weapon = presets.weapon.good
-	self.city_swat_guard.HEALTH_INIT = 16.8
-	self.city_swat_guard.headshot_dmg_mul = strong_headshot
-	self.city_swat_guard.damage.hurt_severity = presets.hurt_severities.strong
-	self.city_swat_guard.access = "security"
-	self.city_swat_guard.chatter = presets.enemy_chatter.guard
-	self.city_swat_guard.melee_weapon = "baton"
-	self.city_swat_guard.use_radio = nil
-	table.insert(self._enemy_list, "city_swat_guard")
+	self.skeleton_swat_titan = deep_clone(self.city_swat) --zombie riot titan swat
+	table.insert(self._enemy_list, "skeleton_swat_titan")
+end
 
+function CharacterTweakData:_init_weekend(presets)
 	--Bravo Shotgunner Rifle
 	self.weekend = deep_clone(self.swat)
 	if self:get_ai_group_type() == "russia" then
@@ -811,9 +706,6 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	self.weekend.grenade = frag
 	self.weekend.surrender = presets.surrender.bravo
 	table.insert(self._enemy_list, "weekend")
-
-	self.skeleton_swat_titan = deep_clone(self.city_swat) --zombie riot titan swat
-	table.insert(self._enemy_list, "skeleton_swat_titan")
 end
 
 function CharacterTweakData:_init_sniper(presets) --sniper
@@ -8039,7 +7931,6 @@ function CharacterTweakData:_set_easy_wish()
 	self.hrt.can_slide_on_suppress = true
 	self.fbi_swat.can_slide_on_suppress = true
 	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true
 
 	self.flashbang_multiplier = 10
 	self.concussion_multiplier = 10
@@ -8065,7 +7956,6 @@ function CharacterTweakData:_set_overkill_290()
 	self.hrt.can_slide_on_suppress = true
 	self.fbi_swat.can_slide_on_suppress = true
 	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true
 
 	--Fast HRTs
 	self.fbi.move_speed = self.presets.move_speed.lightning
@@ -8098,14 +7988,12 @@ function CharacterTweakData:_set_sm_wish()
 	self.hrt.can_slide_on_suppress = true
 	self.fbi_swat.can_slide_on_suppress = true
 	self.city_swat.can_slide_on_suppress = true
-	self.city_swat_guard.can_slide_on_suppress = true
 	self.fbi_heavy_swat.can_slide_on_suppress = true
 
 	self.weap_unit_names[13] = Idstring("units/payday2/weapons/wpn_npc_sniper_sc/wpn_npc_sniper_sc")
 	self.weap_unit_names[21] = Idstring("units/pd2_dlc_mad/weapons/wpn_npc_svd_sc/wpn_npc_svd_sc")
 
 	self.city_swat.can_shoot_while_dodging = true
-	self.city_swat_guard.can_shoot_while_dodging = true
 
 	self.flashbang_multiplier = 10
 	self.concussion_multiplier = 10

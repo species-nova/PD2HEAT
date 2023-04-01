@@ -70,6 +70,11 @@ function CopActionShoot:init(action_desc, common_data)
 	self._is_team_ai = managers.groupai:state():is_unit_team_AI(self._unit) and true or nil
 	self._shield_slotmask = managers.slot:get_mask("enemy_shield_check")
 
+	self._glint_effect = weapon_unit:effect_spawner(Idstring("glint_scope"))
+	if self._glint_effect then
+		self._glint_effect:activate()
+	end
+
 	if not self._is_team_ai then
 		if self._ext_brain.converted and self._ext_brain:converted() or managers.groupai:state():is_enemy_converted_to_criminal(self._unit) then
 			self._is_converted = true
@@ -186,6 +191,11 @@ function CopActionShoot:on_exit()
 	--Disable laser.
 	if self._w_usage_tweak.use_laser then
 		self:disable_sniper_laser()
+	end
+
+	--Disable Glint
+	if self._glint_effect then
+		self._glint_effect:kill_effect()
 	end
 end
 
