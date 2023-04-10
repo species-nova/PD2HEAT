@@ -97,7 +97,7 @@ function ExplosionManager:_apply_damage(bodies, splinters, params, damage_func, 
 	--Data relevant to the explosion itself.
 	local hit_pos = params.hit_pos
 	local user_unit = params.user
-	local base_damage = params.damage * managers.player:get_perk_damage_bonus(user_unit)
+	local base_damage = params.damage
 	local range = params.range
 	local curve_pow = params.curve_pow
 	local col_ray = params.col_ray
@@ -105,7 +105,7 @@ function ExplosionManager:_apply_damage(bodies, splinters, params, damage_func, 
 	local push_units = params.push_units or variant == "explosion" and true or false
 	local geometry_mask = managers.slot:get_mask("world_geometry")
 	local shield_mask = obstructed_by_shields and managers.slot:get_mask("enemy_shield_check")
-
+	heat.log("Base Damage = ", base_damage)
 	--Data used to count hits and kills.
 	local criminal_names = CriminalsManager.character_names()
 	local count_cops = 0
@@ -116,6 +116,11 @@ function ExplosionManager:_apply_damage(bodies, splinters, params, damage_func, 
 	local count_gangster_kills = 0
 	local count_civilian_kills = 0
 	local count_criminal_kills = 0
+
+	--Apply perk damage bonus if explosion params don't have a flag indicating it was already applied.
+	if not params.perk_damage_applied then
+		base_damage = base_damage * managers.player:get_perk_damage_bonus(user_unit)
+	end
 
 	--Get tables of things to interact.
 	local hit_units = {} --Also used to prevent splinters from hitting the same thing multiple times. 
@@ -201,7 +206,13 @@ function ExplosionManager:_apply_damage(bodies, splinters, params, damage_func, 
 
 			if ray_hit then --If we hit something, see if we can apply damage to it.
 				local length = mvec3_dir(hit_unit_pos, hit_pos, hit_unit_pos)
-				local damage = base_damage * math_pow(math_clamp(1 - length / range, 0, 1), curve_pow) * dmg_mul
+				--Make damage falloff less granular to make room for breakpoints to match a bit more easily.
+				local damage_falloff = math_max(math_round(math_pow(math_clamp(1 - length / range, 0, 1), curve_pow) * 10) * 0.1, 0.1)
+				--Clamp sufficiently close hits to be max damage.
+				if damage_falloff >= 0.8 then
+					damage_falloff = 1
+				end
+				local damage = base_damage * damage_falloff * dmg_mul
 
 				if hit_object then --Apply prop damage to props.
 					local prop_damage = damage

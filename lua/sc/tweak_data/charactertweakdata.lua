@@ -275,8 +275,7 @@ function CharacterTweakData:_init_gensec(presets)
 	orig_init_gensec(self, presets)
 
 	--Gensec Guards, used on armored transport
-	local enemies = {self.gensec}
-	override_enemies(enemies, {
+	override_enemies({self.gensec}, {
 		HEALTH_INIT = 7.2,
 		headshot_dmg_mul = normal_headshot,
 		hurt_severity = presets.hurt_severities.bravo,
@@ -318,8 +317,7 @@ function CharacterTweakData:_init_fbi(presets)
 	orig_init_fbi(self, presets)
 
 	--FBI and HRTs.
-	local enemies = {self.fbi}
-	override_enemies(enemies, {
+	override_enemies({self.fbi}, {
 		HEALTH_INIT = 12,
 		headshot_dmg_mul =  normal_headshot,
 		weapon = presets.weapon.expert,
@@ -392,8 +390,7 @@ function CharacterTweakData:_init_medic(presets)
 	orig_init_medic(self, presets)
 
 	--Medic
-	local enemies = {self.medic}
-	override_enemies(enemies, {
+	override_enemies({self.medic}, {
 		HEALTH_INIT = 36,
 		headshot_dmg_mul = normal_headshot,
 		chatter = {
@@ -496,8 +493,7 @@ function CharacterTweakData:_init_swat(presets)
 	orig_init_swat(self, presets)
 
 	--Light Swat
-	local enemies = {self.swat}
-	override_enemies(enemies, {
+	override_enemies({self.swat}, {
 		HEALTH_INIT = 16.8,
 		headshot_dmg_mul = normal_headshot,
 		weapon = presets.weapon.expert,
@@ -528,8 +524,7 @@ function CharacterTweakData:_init_heavy_swat(presets) --heavy swat
 	orig_init_heavy_swat(self, presets)
 
 	--Heavy Swat
-	local enemies = {self.heavy_swat}
-	override_enemies(enemies, {
+	override_enemies({self.heavy_swat}, {
 		HEALTH_INIT = 25.2,
 		headshot_dmg_mul = normal_headshot,
 		weapon = presets.weapon.expert,
@@ -552,8 +547,7 @@ function CharacterTweakData:_init_marshal_marksman(presets)
 	orig_init_marshall_marksman(self, presets)
 
 	--Marshall Marksmen ("Titan Snipers")
-	local enemies = {self.marshal_marksman}
-	override_enemies(enemies, {
+	override_enemies({self.marshal_marksman}, {
 		tags = {"law", "marksman", "special"},
 		weapon = presets.weapon.expert,
 		dodge = presets.dodge.elite,
@@ -598,8 +592,7 @@ function CharacterTweakData:_init_fbi_swat(presets)
 	orig_init_fbi_swat(self, presets)
 
 	--Green Light Swat
-	local enemies = {self.fbi_swat}
-	override_enemies(enemies, {
+	override_enemies({self.fbi_swat}, {
 		HEALTH_INIT = 16.8,
 		headshot_dmg_mul = normal_headshot,
 		surrender = presets.surrender.hard,
@@ -614,13 +607,17 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets)
 	orig_init_fbi_heavy_swat(self, presets)
 
 	--Tan FBI/Gensec Heavy Swat
-	local enemies = {self.fbi_heavy_swat}
-	override_enemies(enemies, {
+	override_enemies({self.fbi_heavy_swat}, {
 		HEALTH_INIT = 25.2,
 		headshot_dmg_mul = normal_headshot,
 		damage = {
 			hurt_severities = presets.hurt_severities.boom,
-			explosion_damage_mul = 0.5
+			explosion_damage_mul = 0.5,
+			death_severity = 0.5,
+			tased_response = {
+				light = {tased_time = 5, down_time = 5},
+				heavy = {tased_time = 5, down_time = 10}
+			}
 		},
 		surrender = presets.surrender.hard,
 		dodge = presets.dodge.heavy_very_hard,
@@ -660,8 +657,7 @@ function CharacterTweakData:_init_city_swat(presets) --light zeal gensec swat
 	orig_init_city_swat(self, presets)
 
 	--Light Zeal Gensec Swat
-	local enemies = {self.city_swat}
-	override_enemies(enemies, {
+	override_enemies({self.city_swat}, {
 		HEALTH_INIT = 16.8,
 		headshot_dmg_mul = normal_headshot,
 		weapon = presets.weapon.expert,
@@ -708,72 +704,66 @@ function CharacterTweakData:_init_weekend(presets)
 	table.insert(self._enemy_list, "weekend")
 end
 
+local orig_init_sniper = CharacterTweakData._init_sniper
 function CharacterTweakData:_init_sniper(presets) --sniper
-	self.sniper = deep_clone(presets.base)
-	self.sniper.tags = {"law", "sniper", "special"}
-	self.sniper.experience = {}
-	self.sniper.weapon = presets.weapon.sniper
-	self.sniper.detection = presets.detection.sniper
-	self.sniper.HEALTH_INIT = 9.6
-	self.sniper.headshot_dmg_mul = normal_headshot
-	self.sniper.big_head_mode = true
-	self.sniper.damage.hurt_severity = presets.hurt_severities.no_hurts
-	self.sniper.allowed_poses = {stand = true}
-	self.sniper.move_speed = presets.move_speed.very_fast
-	self.sniper.shooting_death = false
-	self.sniper.no_move_and_shoot = true
-	self.sniper.move_and_shoot_cooldown = 1
-	self.sniper.suppression = nil
-	self.sniper.melee_weapon = nil
-	self.sniper.ecm_vulnerability = 1
-	self.sniper.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.sniper.weapon_voice = "1"
-	self.sniper.experience.cable_tie = "tie_swat"
-	self.sniper.speech_prefix_p1 = self._prefix_data_p1.swat()
-	self.sniper.speech_prefix_p2 = "n"
-	self.sniper.speech_prefix_count = 4
-	self.sniper.priority_shout = "f34"
-	self.sniper.bot_priority_shout = "f34x_any"
-	self.sniper.priority_shout_max_dis = 3000
-	self.sniper.access = "sniper"
-	self.sniper.no_retreat = true
-	self.sniper.no_limping = true
-	self.sniper.no_arrest = true
-	self.sniper.chatter = presets.enemy_chatter.no_chatter
-	self.sniper.steal_loot = nil
-	self.sniper.rescue_hostages = false
-	self.sniper.crouch_move = nil
-	self.sniper.is_special = true
-	self.sniper.die_sound_event = "mga_death_scream"
-	self.sniper.spawn_sound_event = "mga_deploy_snipers"
-	self.sniper.do_not_drop_ammo = true
-	table.insert(self._enemy_list, "sniper")
+	orig_init_sniper(self, presets)
+	override_enemies({self.sniper}, {
+		HEALTH_INIT = 9.6,
+		big_head_mode = true, --TODO: Replace with the ability to explicitly set the radius.
+		headshot_dmg_mul = normal_headshot,
+		allowed_poses = {stand = true},
+		move_speed = presets.move_speed.normal,
+		suppression = presets.suppression.no_supress,
+		damage = {
+			hurt_severities = presets.hurt_severities.no_hurts,
+			explosion_damage_mul = 1,
+			death_severity = 0,
+			tased_response = {
+				light = {tased_time = 5, down_time = 5},
+				heavy = {tased_time = 5, down_time = 10}
+			}
+		},
+		bot_priority_shout = "f34x_any",
+		priority_shout_max_dis = 5000,
+		no_limping = true,
+		crouch_move = false,
+		is_special = true,
+		die_sound_event = "mga_death_scream",
+		do_not_drop_ammo = true
+	})
 end
 
+local orig_init_gangster = CharacterTweakData._init_gangster
 function CharacterTweakData:_init_gangster(presets) --gangster
-	self.gangster = deep_clone(presets.base)
-	self.gangster.experience = {}
-	self.gangster.weapon = presets.weapon.gangster
-	self.gangster.detection = presets.detection.normal
-	self.gangster.HEALTH_INIT = 6
-	self.gangster.headshot_dmg_mul = normal_headshot
-	self.gangster.damage.melee_damage_mul = 0.5
-	self.gangster.move_speed = presets.move_speed.normal
-	self.gangster.suspicious = nil
-	self.gangster.suppression = presets.suppression.easy
-	self.gangster.surrender = nil
-	self.gangster.ecm_vulnerability = 1
-	self.gangster.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.gangster.no_arrest = true
-	self.gangster.no_retreat = true
-	self.gangster.weapon_voice = "3"
-	self.gangster.experience.cable_tie = "tie_swat"
-	self.gangster.rescue_hostages = false
-	self.gangster.use_radio = nil
+	orig_init_gangster(self, presets)
+	override_enemies({self.gangster}, {
+		HEALTH_INIT = 6,
+		damage = {
+			hurt_severities = presets.hurt_severities.no_hurts,
+			explosion_damage_mul = 1,
+			death_severity = 0.5,
+			tased_response = {
+				light = {tased_time = 5, down_time = 5},
+				heavy = {tased_time = 5, down_time = 10}
+			}
+		},
+		headshot_dmg_mul = normal_headshot,
+		move_speed = presets.move_speed.normal,
+		weapon = presets.weapon.gangster,
+		unintimidateable = true,
+		silent_priority_shout = "f37",
+		chatter = {
+			aggressive = true,
+			retreat = true,
+			contact = true,
+			go_go = true,
+			suppress = true
+		},
+		speech_prefix_p1 = "lt",
+		speech_prefix_count = 2,
+		speech_prefix_p2 = nil
+	})
+
 	if job == "nightclub" or job == "short2_stage1" or job == "jolly" or job == "spa" then
 		self.gangster.speech_prefix_p1 = "rt"
 		self.gangster.speech_prefix_p2 = nil
@@ -794,101 +784,48 @@ function CharacterTweakData:_init_gangster(presets) --gangster
 		self.gangster.speech_prefix_p2 = nil
 		self.gangster.speech_prefix_count = 2
 	end
-	self.gangster.chatter = {
-		aggressive = true,
-		retreat = true,
-		contact = true,
-		go_go = true,
-		suppress = true
-	}
-	self.gangster.silent_priority_shout = "f37"
+
 	if job == "alex_3" or job == "alex_3_res" or job == "mex" then
 		self.gangster.access = "security"
 	else
 		self.gangster.access = "gangster"
 	end
-	self.gangster.dodge = presets.dodge.average
-	self.gangster.challenges = {type = "gangster"}
-	self.gangster.melee_weapon = "fists"
-	self.gangster.steal_loot = nil
-	self.gangster.calls_in = true
-	self.gangster.unintimidateable = true
-	self.gangster.always_drop = true
-	table.insert(self._enemy_list, "gangster")
 end
 
+local orig_init_biker = CharacterTweakData._init_biker
 function CharacterTweakData:_init_biker(presets) --biker
+	orig_init_biker(self, presets)
+
 	self.biker = deep_clone(self.gangster)
 	if job == "mex" then
 		self.biker.access = "security"
 	else
 		self.biker.access = "gangster"
 	end
-	self.biker.calls_in = true
 	self.biker.speech_prefix_p1 = "bik"
 	self.biker.speech_prefix_p2 = nil
 	self.biker.speech_prefix_count = 2
-	self.biker.chatter = {
-		aggressive = true,
-		retreat = true,
-		contact = true,
-		go_go = true,
-		suppress = true
-	}
 	self.biker.always_drop = true
 	self.biker.melee_weapon = "knife_1"
-	table.insert(self._enemy_list, "biker")
-	self.biker_guard = deep_clone(self.biker)
-	self.biker_guard.suppression = presets.suppression.hard_def
-	self.biker_guard.has_alarm_pager = true
-	self.biker_guard.radio_prefix = "fri_"
-	self.biker_guard.surrender = presets.surrender.hard
-	self.biker_guard.surrender_break_time = {20, 30}
-	self.biker_guard.detection = presets.detection.guard
-	self.biker_guard.move_speed = presets.move_speed.very_fast
-	self.biker_guard.ecm_vulnerability = 1
-	self.biker_guard.no_arrest = false
-	self.biker_guard.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.biker_guard.speech_prefix_p1 = "bik"
-	self.biker_guard.speech_prefix_p2 = nil
-	self.biker_guard.speech_prefix_count = 2
-	self.biker_guard.chatter = {
-		aggressive = true,
-		retreat = true,
-		contact = true,
-		go_go = true,
-		suppress = true
-	}
-	table.insert(self._enemy_list, "biker_guard")
 end
 
 function CharacterTweakData:_init_triad(presets) --triad gangster
 	self.triad = deep_clone(self.gangster)
-	self.triad.access = "gangster"
+	self.triad.detection = presets.detection.guard
+	self.triad.radio_prefix = "fri_"
 	self.triad.calls_in = true
+	self.triad.suspicious = true
 	self.triad.die_sound_event = "l2n_x01a_any_3p"
-
 	table.insert(self._enemy_list, "triad")
 end
 
+local orig_init_captain = CharacterTweakData._init_captain
 function CharacterTweakData:_init_captain(presets) --alaskan deal friendly captain
-	self.captain = deep_clone(self.gangster)
-	self.captain.calls_in = true
-	self.captain.no_limping = true
-	self.captain.immune_to_knock_down = true
-	self.captain.immune_to_concussion = true
-	self.captain.no_retreat = true
-	self.captain.no_arrest = true
-	self.captain.surrender = nil
-	self.captain.unintimidateable = true
-	self.captain.damage.hurt_severity = presets.hurt_severities.no_hurts
-	self.captain.flammable = false
-	self.captain.can_be_tased = false
-	self.captain.suppression = nil
-
-	table.insert(self._enemy_list, "captain")
+	orig_init_captain(self, presets)
+	override_enemies({self.captain}, {
+		no_limping = true,
+		--unintimidateable = true
+	})
 end
 
 function CharacterTweakData:_init_biker_escape(presets) --unused, prolly for old firestarter day 1
@@ -901,8 +838,6 @@ end
 
 function CharacterTweakData:_init_mobster(presets) --hotline miami mobster gangster
 	self.mobster = deep_clone(self.gangster)
-	self.mobster.calls_in = true
-	self.mobster.melee_weapon = "fists"
 	self.mobster.speech_prefix_p1 = "rt"
 	self.mobster.speech_prefix_p2 = nil
 	self.mobster.speech_prefix_count = 2
@@ -917,54 +852,39 @@ function CharacterTweakData:_init_mobster(presets) --hotline miami mobster gangs
 	table.insert(self._enemy_list, "mobster")
 end
 
+local orig_init_mobster_boss = CharacterTweakData._init_mobster_boss
 function CharacterTweakData:_init_mobster_boss(presets) --the commissar
-	self.mobster_boss = deep_clone(presets.base)
-	self.mobster_boss.tags = {"custom", "special"}
-	self.mobster_boss.experience = {}
-	self.mobster_boss.detection = presets.detection.normal
-	self.mobster_boss.weapon = presets.weapon.gangster
-	self.mobster_boss.HEALTH_INIT = 480
-	self.mobster_boss.headshot_dmg_mul = strong_headshot
-	self.mobster_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
-	self.mobster_boss.damage.explosion_damage_mul = 2
-	self.mobster_boss.move_speed = presets.move_speed.slow
-	self.mobster_boss.allowed_poses = {stand = true}
-	self.mobster_boss.crouch_move = false
-	self.mobster_boss.no_run_start = true
-	self.mobster_boss.no_run_stop = true
-	self.mobster_boss.no_retreat = true
-	self.mobster_boss.no_limping = true
-	self.mobster_boss.no_arrest = true
-	self.mobster_boss.surrender = nil
-	self.mobster_boss.ecm_vulnerability = 0
-	self.mobster_boss.ecm_hurts = {}
-	self.mobster_boss.weapon_voice = "3"
-	self.mobster_boss.experience.cable_tie = "tie_swat"
-	self.mobster_boss.access = "gangster"
-	self.mobster_boss.speech_prefix_p1 = "l"
-	self.mobster_boss.speech_prefix_p2 = "n"
-	self.mobster_boss.speech_prefix_count = 4
-	self.mobster_boss.rescue_hostages = false
-	self.mobster_boss.melee_weapon = "fists_dozer"
-	self.mobster_boss.steal_loot = nil
-	self.mobster_boss.calls_in = nil
-	self.mobster_boss.chatter = presets.enemy_chatter.no_chatter
-	self.mobster_boss.use_radio = nil
-	self.mobster_boss.can_be_tased = false
-	self.mobster_boss.priority_shout = "g29"
-	self.mobster_boss.bot_priority_shout = "g29"
-	self.mobster_boss.silent_priority_shout = nil
-	self.mobster_boss.custom_shout = true
-	self.mobster_boss.priority_shout_max_dis = 3000
-	self.mobster_boss.use_animation_on_fire_damage = false
-	self.mobster_boss.flammable = true
-	self.mobster_boss.immune_to_knock_down = true
-	self.mobster_boss.immune_to_concussion = true
-	self.mobster_boss.must_headshot = true
-	self.mobster_boss.is_special = true
-	self.mobster_boss.always_drop = true
-	self.mobster_boss.die_sound_event = "l1n_burndeath"
-	table.insert(self._enemy_list, "mobster_boss")
+	orig_init_mobster_boss(self, presets)
+
+	override_enemies({self.mobster_boss}, {
+		tags = {"special"},
+		weapon = presets.weapon.good,
+		HEALTH_INIT = 480,
+		headshot_dmg_mul = strong_headshot,
+		damage = {
+			hurt_severities = presets.hurt_severities.tank_titan,
+			explosion_damage_mul = 2
+		},
+		crouch_move = false,
+		no_run_stop = true,
+		no_run_start = true,
+		allowed_poses = {stand = true},
+		move_speed = presets.move_speed.slow,
+		melee_weapon = "fists_dozer",
+		immune_to_knock_down = true,
+		always_drop = true,
+		die_sound_event = "l1n_burndeath",
+		custom_shout = true,
+		priority_shout = "g29",
+		bot_priority_shout = "g29",
+		silent_priority_shout = false,
+		can_be_tased = false,
+		priority_shout_max_dis = 3000,
+		use_animation_on_fire_damage = false,
+		is_special = true,
+		ecm_vulnerability = 0,
+		ecm_hurts = {}
+	})
 end
 
 function CharacterTweakData:_init_biker_boss(presets) --biker heist day 2 Female boss

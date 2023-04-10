@@ -121,7 +121,7 @@ local grenade_damage = 20
 local function apply_launcher_grenade(grenade)
 	grenade.damage = grenade_damage
 	grenade.player_damage = 21.5
-	grenade.curve_pow = 1
+	grenade.curve_pow = 0.75
 	grenade.range = 500
 end
 apply_launcher_grenade(tweak_data.projectiles.launcher_frag)
@@ -134,7 +134,7 @@ apply_launcher_grenade(tweak_data.projectiles.underbarrel_m203_groza)
 tweak_data.projectiles.launcher_frag_arbiter.damage = 15
 tweak_data.projectiles.launcher_frag_arbiter.player_damage = 16
 tweak_data.projectiles.launcher_frag_arbiter.range = 400
-tweak_data.projectiles.launcher_frag_arbiter.curve_pow = 1
+tweak_data.projectiles.launcher_frag_arbiter.curve_pow = 0.75
 tweak_data.projectiles.launcher_frag_arbiter.init_timer = nil
 tweak_data.projectiles.launcher_frag_osipr = deep_clone(tweak_data.projectiles.launcher_frag_arbiter)
 
@@ -152,7 +152,7 @@ local incendiary_damage = 2
 local function apply_launcher_indendiary(grenade)
 	grenade.damage = incendiary_damage
 	grenade.launch_speed = 1250
-	grenade.curve_pow = 1
+	grenade.curve_pow = 0.75
 	grenade.player_damage = 3
 	grenade.burn_duration = 5
 	grenade.fire_dot_data = fire_pool_dot_data
@@ -224,12 +224,12 @@ tweak_data.projectiles.launcher_poison_arbiter.poison_gas_range = 600
 tweak_data.projectiles.launcher_poison_arbiter.poison_gas_duration = 8
 tweak_data.projectiles.launcher_poison_arbiter.poison_gas_dot_data = arbiter_poison_gas_cloud_dot_data
 
-local light_poison_arrow_damage = 60
-local light_arrow_damage = 80
-local light_exp_arrow_damage = 100
-local heavy_poison_arrow_damage = 80
-local heavy_arrow_damage = 100
-local heavy_exp_arrow_damage = 120
+local light_poison_arrow_damage = 6
+local light_arrow_damage = 8
+local light_exp_arrow_damage = 10
+local heavy_poison_arrow_damage = 8
+local heavy_arrow_damage = 10
+local heavy_exp_arrow_damage = 12
 
 --Plainsrider--
 tweak_data.projectiles.west_arrow.damage = light_arrow_damage
@@ -394,7 +394,7 @@ tweak_data.dot_types.bleed = {
 
 --Stun nades--
 tweak_data.projectiles.concussion.damage = 0
-tweak_data.projectiles.concussion.curve_pow = 0.8
+tweak_data.projectiles.concussion.curve_pow = 0.75
 tweak_data.projectiles.concussion.range = 1000
 tweak_data.projectiles.concussion.duration = {min = 7.5, additional = 0}
 

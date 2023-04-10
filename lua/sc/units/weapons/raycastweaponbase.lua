@@ -1428,6 +1428,24 @@ end
 		return result
 	end
 
+	function DOTBulletBase:start_dot_damage(col_ray, weapon_unit, dot_data, weapon_id, user_unit)
+		dot_data = dot_data or self.DOT_DATA
+		local hurt_animation = not dot_data.hurt_animation_chance or math.rand(1) < dot_data.hurt_animation_chance
+
+		--Make weapon falloff a binary switch instead of scaling the dot damage.
+		local can_apply_dot = true
+		if alive(weapon_unit) and dot_data.use_weapon_damage_falloff then
+			weap_base = weapon_unit:base()
+			if (col_ray.falloff_distance or col_ray.distance) > weap_base.near_falloff_distance then
+				can_apply_dot = false
+			end
+		end
+
+		if can_apply_dot == true then
+			managers.dot:add_doted_enemy(col_ray.unit, TimerManager:game():time(), weapon_unit, dot_data.dot_length, dot_data.dot_damage, hurt_animation, self.VARIANT, weapon_id)
+	 	end
+	end
+
 	function ProjectilesPoisonBulletBase:on_collision(col_ray, weapon_unit, user_unit, damage, blank)
 		local result = DOTBulletBase.super.on_collision(self, col_ray, weapon_unit, user_unit, damage, blank)
 		local hit_unit = col_ray.unit
@@ -1458,23 +1476,6 @@ end
 	ProjectilesBleedBulletBase = ProjectilesBleedBulletBase or class(BleedBulletBase)
 	ProjectilesBleedBulletBase.NO_BULLET_INPACT_SOUND = false
 	ProjectilesBleedBulletBase.on_collision = ProjectilesPoisonBulletBase.on_collision --The poison function fulfills the needs for bleed damage.
-	function BleedBulletBase:start_dot_damage(col_ray, weapon_unit, dot_data, weapon_id)
-		dot_data = dot_data or self.DOT_DATA
-		local hurt_animation = not dot_data.hurt_animation_chance or math.rand(1) < dot_data.hurt_animation_chance
-
-		--Add range limits for Flechette shotguns.
-		local can_apply_dot = true
-		if alive(weapon_unit) then
-			weap_base = weapon_unit:base()
-			if (col_ray.falloff_distance or col_ray.distance) > weap_base.near_falloff_distance then
-				can_apply_dot = false
-			end
-		end
-
-		if can_apply_dot == true then
-			managers.dot:add_doted_enemy(col_ray.unit, TimerManager:game():time(), weapon_unit, dot_data.dot_length, dot_data.dot_damage, hurt_animation, self.VARIANT, weapon_id)
-	 	end
-	end
 
 	--Adds a blood splat effect every time the bleed deals damage.
 	function BleedBulletBase:give_damage_dot(col_ray, weapon_unit, attacker_unit, damage, hurt_animation, weapon_id)
@@ -1493,6 +1494,11 @@ end
 	function InstantExplosiveBulletBase:on_collision_server(position, normal, damage, user_unit, weapon_unit, owner_peer_id, owner_selection_index)
 		local slot_mask = managers.slot:get_mask("explosion_targets")
 
+		local perk_damage_applied = user_unit == managers.player:player_unit()
+		if not perk_damage_applied then
+			damage = damage * managers.player:get_perk_damage_bonus(user_unit)
+		end
+
 		managers.explosion:play_sound_and_effects(position, normal, self.RANGE, self.EFFECT_PARAMS)
 
 		--We need to hit the local player and pass in the user unit to handle friendly fire.
@@ -1504,6 +1510,7 @@ end
 			curve_pow = self.CURVE_POW,
 			damage = damage,
 			player_damage = damage * self.PLAYER_DMG_MUL,
+			perk_damage_applied = true,
 			ignore_unit = weapon_unit,
 			user = user_unit,
 			owner = weapon_unit
