@@ -280,7 +280,7 @@ function CharacterTweakData:_init_gensec(presets)
 		headshot_dmg_mul = normal_headshot,
 		hurt_severity = presets.hurt_severities.bravo,
 		move_speed = presets.move_speed.very_fast,
-		hurt_severities = presets.suppression.hard_def,
+		hurt_severity = presets.suppression.hard_def,
 		chatter = presets.enemy_chatter.guard,
 		shooting_death = false
 	})
@@ -611,7 +611,7 @@ function CharacterTweakData:_init_fbi_heavy_swat(presets)
 		HEALTH_INIT = 25.2,
 		headshot_dmg_mul = normal_headshot,
 		damage = {
-			hurt_severities = presets.hurt_severities.boom,
+			hurt_severity = presets.hurt_severities.boom,
 			explosion_damage_mul = 0.5,
 			death_severity = 0.5,
 			tased_response = {
@@ -715,7 +715,7 @@ function CharacterTweakData:_init_sniper(presets) --sniper
 		move_speed = presets.move_speed.normal,
 		suppression = presets.suppression.no_supress,
 		damage = {
-			hurt_severities = presets.hurt_severities.no_hurts,
+			hurt_severity = presets.hurt_severities.no_hurts,
 			explosion_damage_mul = 1,
 			death_severity = 0,
 			tased_response = {
@@ -739,7 +739,7 @@ function CharacterTweakData:_init_gangster(presets) --gangster
 	override_enemies({self.gangster}, {
 		HEALTH_INIT = 6,
 		damage = {
-			hurt_severities = presets.hurt_severities.no_hurts,
+			hurt_severity = presets.hurt_severities.no_hurts,
 			explosion_damage_mul = 1,
 			death_severity = 0.5,
 			tased_response = {
@@ -862,7 +862,7 @@ function CharacterTweakData:_init_mobster_boss(presets) --the commissar
 		HEALTH_INIT = 480,
 		headshot_dmg_mul = strong_headshot,
 		damage = {
-			hurt_severities = presets.hurt_severities.tank_titan,
+			hurt_severity = presets.hurt_severities.tank_titan,
 			explosion_damage_mul = 2
 		},
 		crouch_move = false,
