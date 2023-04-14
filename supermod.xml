@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<mod name="Restoration" global_key="restoration">
+<mod name="Heat" global_key="heat">
 	<tweak definition="heat_network_tweak.xml"/>
 	<tweak definition="heat_deferred_postprocessor_tweak.xml"/>
 	<tweak definition="heat_defaultrendertemplates_tweak.xml"/>
@@ -13,5 +13,4 @@
 	<tweak definition="nin_res_animation_state_machine.xml" />
 	<tweak definition="nin_res_animation_states.xml" />
 	<tweak definition="nin_res_animation_subset.xml" />
-	<!-- <:include src="addoutfit.xml"/> -->
 </mod>

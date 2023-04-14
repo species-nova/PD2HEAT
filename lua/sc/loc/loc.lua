@@ -476,7 +476,7 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		--Hint Override--
 		["hint_otherside"] = "Spring's presence prevents the airlock from closing!",
 
-		--Heist Breifings--
+		--Heist Briefings--
 		["heist_pines_briefing"] = "We need you there fast, because it's really out in the sticks, so you're going in like the paras. Find the pilot - he's probably near the wreck, and then we'll send in a chopper to extract him. Stay with him til he's safely out, Also, Vlad says that plane was loaded with product, Search the forest and get as much out as you can. We could always use a little extra cash during Christmas.\n\nNOTE FROM JACKAL:\nThe explosion from that crash alerted nearby Reaper teams. Don't expect a police response.",
 
 		--Shotgun Generic Mods--
@@ -653,31 +653,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization", function(loc)
 		["menu_asset_dinner_safe"] = "Safe",
 		["menu_asset_bomb_inside_info"] = "Insider Info",
 		["menu_asset_mad_cyborg_test_subject"] = "Test Subjects",
-
-		--Player Outfits--
-		["bm_suit_two_piece_sc"] = "Two-piece Suit",
-		["bm_suit_two_piece_desc_sc"] = "The classy approach to heisting. Never hurts to look sharp when yelling, 'down on the ground!'\n\nSelecting this option will make sure you wear your Default outfit, regardless of any heist's own outfit.",
-
-		["bm_suit_loud_suit"] = "Combat Harness",
-		["bm_suit_loud_suit_desc"] = "This is a suit for when you don't mind the heat. It's lightweight, easy to move in, and built for utility. Good choice for going in for a smash and grab, or when hitting heavily fortified mercenary facilities.",
-
-		["bm_suit_jackal_track"] = "Special Merchandise",
-		["bm_suit_jackal_track_desc"] = "A special-made tracksuit, with both the Jackal logo, and a variation on the VERITAS logo.\n\nThe crew received them in unmarked boxes, but Jackal confirms he never sent them, or has seen them before.\nIt's unknown where they came from.\n\n\n\n...Inside the packages, was one note:\n\n''##A TOKEN OF APPRECIATION, FOR THOSE WITH DEDICATION.\nXOXO\n--S.N.##''\n\n",
-
-		["bm_suit_sunny"] = "Sunny-Side Robber",
-		["bm_suit_sunny_desc"] = "Sometimes you just want to roll up your sleeves, and do a little heisting.",
-
-		--["bm_suit_pool"] = "Bodhi's Pool Repair Uniform",							    ~~R.I.P.~~
-		--["bm_suit_pool_desc"] = "Sharp threads for pool repair men...",			~~TAKEN TOO SOON~~
-
-		["bm_suit_prison"] = "Prison Suit",
-		["bm_suit_prison_desc"] = "You've been taken into custody!",
-
-		["bm_suit_var_jumpsuit_flecktarn"] = "Flecktarn Camo",
-		["bm_suit_var_jumpsuit_flecktarn_desc"] = "A classic camo used by two European countries, proven battle-effective by its ability to blend into forested environments easily. It sure as hell doesn't work in urban areas, but in rural ones it does wonders to trick people's eyes.",
-
-		["bm_suit_var_jumpsuit_flatgreen"] = "Gooey Green", --actually it's pronounced 'gee-you-eye'
-		["bm_suit_var_jumpsuit_flatgreen_desc"] = "This suit was rumored to have belonged to one member of a trio of psychotic criminals, having been recovered near a destroyed garbage truck that was presumed to have been involved in a bloody heist on a GenSec armored car, which left numerous SWAT members dead and quite a few wounded. The identity of these criminals are still shrouded in mystery, as most evidence was destroyed with the Garbage Truck, only leaving this jumpsuit.",
 
 		--New menu stats--
 		["bm_menu_deflection"] = "Deflection",
@@ -1127,9 +1102,6 @@ Hooks:Add("LocalizationManagerPostInit", "SC_Localization_Skills", function(loc)
 		["st_menu_technician_sentry"] = "Fortress",
 		["hud_instruct_mask_on"] = "Press $BTN_USE_ITEM To put on Mask",
 		["hud_instruct_mask_on_alpha"] = "Press $BTN_USE_ITEM to put on your mask",
-
-		--Default Suit String--
-		["bm_suit_none_desc"] = "This is the heister's default outfit with the selected armor.\n\nWill automatically change from the Two-piece Suit depending on the selected heist!",
 
 		--Mutators--
 		["menu_mutators_achievement_disabled"] = "Mutators that reduce Experience and Money gained will also disable the earning of achievements, most trophies, and level completions!",
