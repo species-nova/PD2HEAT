@@ -857,117 +857,39 @@ function CharacterTweakData:_init_mobster_boss(presets) --the commissar
 	orig_init_mobster_boss(self, presets)
 
 	override_enemies({self.mobster_boss}, {
-		tags = {"special"},
-		weapon = presets.weapon.good,
-		HEALTH_INIT = 480,
-		headshot_dmg_mul = strong_headshot,
-		damage = {
-			hurt_severity = presets.hurt_severities.tank_titan,
-			explosion_damage_mul = 2
-		},
-		crouch_move = false,
-		no_run_stop = true,
-		no_run_start = true,
-		allowed_poses = {stand = true},
-		move_speed = presets.move_speed.slow,
-		melee_weapon = "fists_dozer",
-		immune_to_knock_down = true,
-		always_drop = true,
 		die_sound_event = "l1n_burndeath",
 		custom_shout = true,
 		priority_shout = "g29",
 		bot_priority_shout = "g29",
-		silent_priority_shout = false,
-		can_be_tased = false,
-		priority_shout_max_dis = 3000,
-		use_animation_on_fire_damage = false,
-		is_special = true,
-		ecm_vulnerability = 0,
-		ecm_hurts = {}
+		silent_priority_shout = false
 	})
+
+	override_enemies({self.mobster_boss}, presets.generic_boss_stats)
 end
 
+local orig_init_biker_boss = CharacterTweakData._init_biker_boss
 function CharacterTweakData:_init_biker_boss(presets) --biker heist day 2 Female boss
-	self.biker_boss = deep_clone(presets.base)
-	self.biker_boss.tags = {"custom", "special"}
-	self.biker_boss.experience = {}
-	self.biker_boss.weapon = presets.weapon.gangster
-	self.biker_boss.detection = presets.detection.normal
-	self.biker_boss.HEALTH_INIT = 480
-	self.biker_boss.headshot_dmg_mul = strong_headshot
-	self.biker_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
-	self.biker_boss.damage.explosion_damage_mul = 2
-	self.biker_boss.move_speed = presets.move_speed.very_slow
-	self.biker_boss.allowed_poses = {stand = true}
-	self.biker_boss.no_retreat = true
-	self.biker_boss.no_limping = true
-	self.biker_boss.no_run_start = true
-	self.biker_boss.no_run_stop = true
-	self.biker_boss.no_arrest = true
-	self.biker_boss.surrender = nil
-	self.biker_boss.ecm_vulnerability = 0
-	self.biker_boss.ecm_hurts = {}
-	self.biker_boss.weapon_voice = "3"
-	self.biker_boss.experience.cable_tie = "tie_swat"
-	self.biker_boss.access = "gangster"
-	self.biker_boss.speech_prefix_p1 = "bb"
-	self.biker_boss.speech_prefix_p2 = "n"
-	self.biker_boss.speech_prefix_count = 1
-	self.biker_boss.rescue_hostages = false
-	self.biker_boss.melee_weapon = "fists_dozer"
-	self.biker_boss.steal_loot = nil
-	self.biker_boss.calls_in = nil
-	self.biker_boss.chatter = presets.enemy_chatter.no_chatter
-	self.biker_boss.use_radio = nil
-	self.biker_boss.use_animation_on_fire_damage = false
-	self.biker_boss.flammable = true
-	self.biker_boss.can_be_tased = false
-	self.biker_boss.immune_to_knock_down = true
-	self.biker_boss.priority_shout = "g29"
-	self.biker_boss.bot_priority_shout = "g29"
-	self.biker_boss.silent_priority_shout = nil
-	self.biker_boss.custom_shout = true
-	self.biker_boss.priority_shout_max_dis = 3000
-	self.biker_boss.immune_to_concussion = true
-	self.biker_boss.must_headshot = true
-	self.biker_boss.always_drop = true
-	self.biker_boss.is_special = true
-	self.biker_boss.die_sound_event = "f1n_x01a_any_3p"
-	table.insert(self._enemy_list, "biker_boss")
+	orig_init_biker_boss(self, presets)
+
+	override_enemies({self.biker_boss}, {
+		speech_prefix_p1 = "bb"	,
+		speech_prefix_p2 = "n",
+		speech_prefix_count = 1,
+		custom_shout = true,
+		die_sound_event = "f1n_x01a_any_3p"
+	})
+
+	override_enemies({self.biker_boss}, presets.generic_boss_stats)
 end
 
-function CharacterTweakData:_init_hector_boss(presets) --hoxvenge hector boss
-	self.hector_boss = deep_clone(self.mobster_boss)
-	self.hector_boss.tags = {"custom", "special"}
-	self.hector_boss.weapon = presets.weapon.good
-	self.hector_boss.can_be_tased = false
-	self.hector_boss.priority_shout = "g29"
-	self.hector_boss.bot_priority_shout = "g29"
-	self.hector_boss.silent_priority_shout = nil
-	self.hector_boss.custom_shout = true
-	self.hector_boss.priority_shout_max_dis = 3000
-	self.hector_boss.is_special = true
-	self.hector_boss.always_drop = true
-	self.hector_boss.die_sound_event = "l1n_burndeath"
-	table.insert(self._enemy_list, "hector_boss")
-end
-
+local orig_init_hector_boss_no_armor = CharacterTweakData._init_hector_boss_no_armor
 function CharacterTweakData:_init_hector_boss_no_armor(presets) --stealth hoxvenge hector boss
-	self.hector_boss_no_armor = deep_clone(self.fbi)
-	self.hector_boss_no_armor.no_retreat = true
-	self.hector_boss_no_armor.no_limping = true
-	self.hector_boss_no_armor.no_arrest = true
-	self.hector_boss_no_armor.surrender = nil
-	self.hector_boss_no_armor.unintimidateable = true
-	self.hector_boss_no_armor.access = "gangster"
-	self.hector_boss_no_armor.rescue_hostages = false
-	self.hector_boss_no_armor.steal_loot = nil
-	self.hector_boss_no_armor.calls_in = nil
-	self.hector_boss_no_armor.chatter = presets.enemy_chatter.no_chatter
-	self.hector_boss_no_armor.use_radio = nil
-	self.hector_boss_no_armor.can_be_tased = true
-	self.hector_boss_no_armor.always_drop = true
-	table.insert(self._enemy_list, "hector_boss_no_armor")
+	orig_init_hector_boss_no_armor(self, presets)
+	override_enemies({self.hector_boss_no_armor}, {
+		unintimidateable = true,
+		no_limping = true,
+		can_be_tased = true
+	})
 end
 
 function CharacterTweakData:_init_chavez_boss(presets) --chavez
@@ -7360,6 +7282,31 @@ function CharacterTweakData:_presets(tweak_data)
 				cosmetics = {}
 			}
 		}
+	}
+
+	presets.generic_boss_stats = {
+		tags = {"special"},
+		weapon = presets.weapon.gangster,
+		HEALTH_INIT = 480,
+		headshot_dmg_mul = strong_headshot,
+		damage = {
+			hurt_severity = presets.hurt_severities.tank_titan,
+			explosion_damage_mul = 2
+		},
+		crouch_move = false,
+		no_run_stop = true,
+		no_run_start = true,
+		allowed_poses = {stand = true},
+		move_speed = presets.move_speed.slow,
+		melee_weapon = "fists_dozer",
+		immune_to_knock_down = true,
+		always_drop = true,
+		can_be_tased = false,
+		priority_shout_max_dis = 3000,
+		use_animation_on_fire_damage = false,
+		is_special = true,
+		ecm_vulnerability = 0,
+		ecm_hurts = {}
 	}
 
 	return presets
