@@ -1856,35 +1856,35 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		}
 	end
 
-	self.unit_categories.Titan_sniper = {
+	self.unit_categories.marshal_marksman = {
 		unit_types = {
 			america = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
 			},
 			russia = {
-				Idstring("units/pd2_dlc_mad/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2")
 			},
 			zombie = {
-				Idstring("units/pd2_mod_halloween/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2")
 			},
 			murkywater = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2")
 			},
 			federales = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_2/ene_male_marshal_marksman_2")
 			},
 			nypd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
 			},
 			lapd = {
-				Idstring("units/pd2_dlc_vip/characters/ene_titan_sniper/ene_titan_sniper")
+				Idstring("units/pd2_dlc_usm1/characters/ene_male_marshal_marksman_1/ene_male_marshal_marksman_1")
 			}
 		},
 		access = access_type_all
 	}
 
-	self.unit_categories.Titan_sniper_boss = deep_clone(self.unit_categories.Titan_sniper)
-	self.unit_categories.Titan_sniper_boss.ignore_spawn_cap = true
+	self.unit_categories.marshal_marksman_boss = deep_clone(self.unit_categories.marshal_marksman)
+	self.unit_categories.marshal_marksman_boss.ignore_spawn_cap = true
 
 	self.unit_categories.Bravo_sharpshooter = {
 		unit_types = {
@@ -1911,7 +1911,7 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 			}					
 		},
 		access = access_type_all
-	}		
+	}
 
 	--FBI Heavy (Rifle, Walk only)
 	if difficulty_index <= 6 then
@@ -5370,7 +5370,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_sniper",
+					unit = "marshal_marksman",
 					freq = 1,
 					amount_min = 1,
 					amount_max = 1,
@@ -5404,7 +5404,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_sniper",
+					unit = "marshal_marksman",
 					freq = 1,
 					amount_min = 1,
 					amount_max = 1,
@@ -5445,7 +5445,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 			amount = {4, 5},
 			spawn = {
 				{
-					unit = "Titan_sniper",
+					unit = "marshal_marksman",
 					freq = 0.2,
 					amount_min = 1,
 					amount_max = 2,
@@ -5650,7 +5650,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Titan_sniper",
+					unit = "marshal_marksman",
 					freq = 0.2,
 					tactics = self._tactics.MH_swat_rifle,
 					rank = 2
@@ -5690,7 +5690,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Titan_sniper",
+					unit = "marshal_marksman",
 					freq = 0.3,
 					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 2
@@ -5724,7 +5724,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 3
 				},
 				{
-					unit = "Titan_sniper",
+					unit = "marshal_marksman",
 					freq = 0.6,
 					tactics = self._tactics.ELITE_swat_rifle,
 					rank = 2
@@ -6727,7 +6727,7 @@ function GroupAITweakData:_init_enemy_spawn_groups(difficulty_index)
 					rank = 2
 				},
 				{
-					unit = "Titan_sniper_boss",
+					unit = "marshal_marksman_boss",
 					freq = 1,
 					amount_min = 2,
 					amount_max = 2,

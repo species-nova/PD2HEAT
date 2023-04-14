@@ -334,7 +334,7 @@
 			}
 		}
 
-		local shotgun_dot_damage = {
+		local shotgun_dot_duration = {
 			vd12 = 2.6,
 			light = 4.6,
 			medium = 6.1,
@@ -349,8 +349,8 @@
 			},
 			custom_stats = {
 				armor_piercing_add = 1,
-				ammo_pickup_min_mul = 0.85,
-				ammo_pickup_max_mul = 0.85,
+				ammo_pickup_min_mul = 0.8,
+				ammo_pickup_max_mul = 0.8,
 				damage_near_mul = 1.25,
 				damage_far_mul = 1.25,
 				rays = 5,
@@ -359,11 +359,14 @@
 				dot_data = { 
 					type = "bleed",
 					custom_data = {
+						use_weapon_damage_falloff = true,
 						dot_damage = 1,
 						dot_tick_period = 0.5
 					}
 				}
 			}
+
+
 		}
 		--DB offers the ability to stun enemies efficiently at the cost of at the cost of reduced single target damage output (by losing half pellets).
 		local dragons_breath = {
@@ -385,6 +388,44 @@
 			}
 		}
 
+		local poison_slug_duration = {
+			vd12 = 2.6,
+			light = 3.6,
+			medium = 5.1,
+			heavy = 5.1
+		}
+		local poison_slug_damage = {
+			vd12 = 21,
+			light = 25,
+			medium = 42,
+			heavy = 70
+		}
+		local poison_slug = {
+			desc_id = "bm_wp_upg_a_rip_desc_sc",
+			stats = {
+				value = 6,
+				spread = 1
+			},
+			custom_stats = {
+				rays = 1,
+				armor_piercing_add = 1,
+				ammo_pickup_min_mul = 0.9,
+				ammo_pickup_max_mul = 0.9,
+				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_rip",
+				bullet_class = "PoisonBulletBase",
+				dot_data = {
+					type = "poison",
+					custom_data = {
+						use_weapon_damage_falloff = true,
+						hurt_animation_chance = 1,
+						dot_damage = 0.6,
+						dot_length = 5,
+						dot_tick_period = 0.5
+					}
+				}
+			}
+		}
+
 	--Helper function to auto-apply all the shotgun ammo type tables.
 	--First parameter is the base table for the desired weapon.
 	--The second is the damage tier it's in (vd12, light, medium, or heavy)
@@ -394,15 +435,19 @@
 			weapon.override[part] = stat_block
 		end
 
-		local function create_shotgun_ammo(preset, damage)
+		local function create_shotgun_ammo(preset, damage, dot_duration)
 			local ammo = deep_clone(preset)
+			
+			if damage ~= 0 then
+				ammo.stats.damage = damage
+			end
 
-			if ammo.custom_stats.dot_data then
-				ammo.custom_stats.dot_data.custom_data.dot_length = damage
-			elseif ammo.custom_stats.fire_dot_data then
-				ammo.custom_stats.fire_dot_data.dot_length = damage
-			else
-				ammo.stats.damage = damage				
+			if dot_damage then
+				if ammo.custom_stats.dot_data then
+					ammo.custom_stats.dot_data.custom_data.dot_length = dot_duration
+				elseif ammo.custom_stats.fire_dot_data then
+					ammo.custom_stats.fire_dot_data.dot_length = dot_duration
+				end
 			end
 
 			return ammo
@@ -412,8 +457,9 @@
 		create_override("wpn_fps_upg_a_explosive", create_shotgun_ammo(he_slug, he_damage[tier])) --Taser Slug
 		create_override("wpn_fps_upg_a_custom", create_shotgun_ammo(d0buck, buck_damage[tier])) --00 Buckshot
 		create_override("wpn_fps_upg_a_custom_free", create_shotgun_ammo(d0buck, buck_damage[tier])) --00 Buckshot (free)
-		create_override("wpn_fps_upg_a_piercing", create_shotgun_ammo(flechette, shotgun_dot_damage[tier])) --Flechettes
-		create_override("wpn_fps_upg_a_dragons_breath", create_shotgun_ammo(dragons_breath, shotgun_dot_damage[tier])) --Dragon's Breath
+		create_override("wpn_fps_upg_a_piercing", create_shotgun_ammo(poison_slug, 0, shotgun_dot_duration[tier])) --Flechettes
+		create_override("wpn_fps_upg_a_dragons_breath", create_shotgun_ammo(dragons_breath, 0, shotgun_dot_duration[tier])) --Dragon's Breath
+		create_override("wpn_fps_upg_a_rip", create_shotgun_ammo(poison_slug, poison_slug_damage[tier], poison_slug_duration[tier])) --Dragon's Breath
 	end
 
 --////////////////////////////////////////////////////////////////////////////////
@@ -538,8 +584,8 @@ end
 local orig_init_nozzles = WeaponFactoryTweakData._init_nozzles
 function WeaponFactoryTweakData:_init_nozzles()
 	orig_init_nozzles(self)
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_firepig, flash_hider) --Fire Breather Nozzle
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_stubby, heavy_acc_ext) --Stubby Compensator
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_firepig, heavy_acc_ext, flash_hider) --Fire Breather Nozzle
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_stubby, light_acc_ext) --Stubby Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_ass_smg_tank, heavy_stab_ext, loudener) --The Tank Compensator
 	apply_stats(self.parts.wpn_fps_upg_ns_shot_shark, light_acc_ext) --Shark Teeth Nozzle
 end
@@ -648,18 +694,19 @@ end
 local orig_init_butchermodpack = WeaponFactoryTweakData._init_butchermodpack
 function WeaponFactoryTweakData:_init_butchermodpack()
 	orig_init_butchermodpack(self)
-	apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, cosmetic) --LED Combo
+	apply_stats(self.parts.wpn_fps_upg_fl_ass_utg, bulky_gadget) --LED Combo
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_m3x, cosmetic) --Polymer Flashlight
-	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, heavy_acc_ext, flash_hider, review) --Ported Compensator
-	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget, review) --Budget Suppressor
+	apply_stats(self.parts.wpn_fps_upg_ass_ns_battle, light_acc_barrel, flash_hider) --Ported Compensator
+	apply_stats(self.parts.wpn_fps_upg_ns_ass_filter, suppressor, bulky_gadget) --Budget Suppressor
 	apply_stats(self.parts.wpn_fps_upg_ns_pis_jungle, suppressor, heavy_acc_ext, review) --Jungle Ninja Suppressor
 	
-	apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag, review) --Compact-5 Submachine Gun: Straight Magazine
+	--Lists 10mm, maybe tweak stats?
+	--apply_stats(self.parts.wpn_fps_smg_mp5_m_straight, straight_mag, review) --Compact-5 Submachine Gun: Straight Magazine
 	
 	apply_stats(self.parts.wpn_fps_upg_o_m14_scopemount, cosmetic) --M308 Rifle: Scope Mount
 	
-	apply_stats(self.parts.wpn_fps_smg_p90_b_civilian, cosmetic) --Kobus 90 Submachine Gun: Civilian Market Barrel (stats?)
-	apply_stats(self.parts.wpn_fps_smg_p90_b_ninja, suppressor, heavy_stab_ext, review) --Kobus 90 Submachine Gun: Ninja Barrel
+	apply_stats(self.parts.wpn_fps_smg_p90_b_civilian, heavy_acc_barrel) --Kobus 90 Submachine Gun: Civilian Market Barrel (stats?)
+	apply_stats(self.parts.wpn_fps_smg_p90_b_ninja, suppressor, heavy_stab_ext, heavy_acc_barrel) --Kobus 90 Submachine Gun: Ninja Barrel
 
 end
 
@@ -704,18 +751,18 @@ end
 local orig_init_g26 = WeaponFactoryTweakData._init_g26
 function WeaponFactoryTweakData:_init_g26()
 	orig_init_g26(self)
-	apply_stats(self.parts.wpn_fps_upg_ns_pis_large_kac, suppressor, review) --Champion's Silencer MULTIPLE WEAPONS
-	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium_gem, suppressor, review) --Roctec Suppressor MULTIPLE WEAPONS
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_large_kac, suppressor, light_acc_ext) --Champion's Silencer MULTIPLE WEAPONS
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_medium_gem, suppressor, light_stab_ext) --Roctec Suppressor MULTIPLE WEAPONS
 	
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_crimson, cosmetic) --Micro Laser MULTIPLE WEAPONS
-	apply_stats(self.parts.wpn_fps_upg_fl_pis_x400v, cosmetic) --Combined Module MULTIPLE WEAPONS
+	apply_stats(self.parts.wpn_fps_upg_fl_pis_x400v, bulky_gadget) --Combined Module MULTIPLE WEAPONS
 end
 
 --///Wasp-DS SMG Table///
 local orig_init_fmg9 = WeaponFactoryTweakData._init_fmg9
 function WeaponFactoryTweakData:_init_fmg9()
 	orig_init_fmg9(self)
-	apply_stats(self.parts.wpn_fps_upg_ns_pis_putnik, suppressor, review) --Medved R4 Suppressor MULTIPLE WEAPONS
+	apply_stats(self.parts.wpn_fps_upg_ns_pis_putnik, suppressor, heavy_stab_ext) --Medved R4 Suppressor MULTIPLE WEAPONS
 	
 	apply_stats(self.parts.wpn_fps_upg_fl_pis_perst, cosmetic) --Medved R4 Laser Sight MULTIPLE WEAPONS
 end
@@ -724,12 +771,11 @@ end
 local orig_init_mp5 = WeaponFactoryTweakData._init_mp5
 function WeaponFactoryTweakData:_init_mp5()
 	orig_init_mp5(self)
-	apply_stats(self.parts.wpn_fps_smg_mp5_fg_mp5sd, suppressor, review) --Compact-5 Submachine Gun: SPOOC Foregrip
-	apply_stats(self.parts.wpn_fps_smg_mp5_fg_mp5a5, cosmetic, review) --Compact-5 Submachine Gun: Polizei Tactical Barrel
-	apply_stats(self.parts.wpn_fps_smg_mp5_fg_m5k, cosmetic, review) --Compact-5 Submachine Gun: Polizei Tactical Barrel
-	
-	apply_stats(self.parts.wpn_fps_smg_mp5_s_adjust, cosmetic, review) --Compact-5 Submachine Gun: Adjustable Stock
-	apply_stats(self.parts.wpn_fps_smg_mp5_s_ring, cosmetic, review) --Compact-5 Submachine Gun: Bare Essentials Stock
+	apply_stats(self.parts.wpn_fps_smg_mp5_fg_mp5sd, suppressor) --Compact-5 Submachine Gun: SPOOC Foregrip
+	apply_stats(self.parts.wpn_fps_smg_mp5_fg_mp5a5, cosmetic) --Compact-5 Submachine Gun: Polizei Tactical Barrel
+	apply_stats(self.parts.wpn_fps_smg_mp5_fg_m5k, heavy_mob_barrel) --Compact-5 Submachine Gun: Sehr Kurze Barrel 
+	apply_stats(self.parts.wpn_fps_smg_mp5_s_adjust, light_mob_stock) --Compact-5 Submachine Gun: Adjustable Stock
+	apply_stats(self.parts.wpn_fps_smg_mp5_s_ring, heavy_mob_stock) --Compact-5 Submachine Gun: Bare Essentials Stock
 end
 
 --///McShay Mod Pack Table///
@@ -738,10 +784,10 @@ function WeaponFactoryTweakData:_init_mxm_mods()
 	orig_init_mxm_mods(self)
 	apply_stats(self.parts.wpn_fps_upg_fl_dbal_laser, cosmetic) --Stealth Laser Module
 
-	apply_stats(self.parts.wpn_fps_m4_uupg_g_billet, cosmetic, review) --Skeletonized AR Grip
+	apply_stats(self.parts.wpn_fps_m4_uupg_g_billet, cosmetic) --Skeletonized AR Grip
 
-	apply_stats(self.parts.wpn_fps_m4_uupg_lower_radian, cosmetic, review) --Orthogon Lower Receiver
-	apply_stats(self.parts.wpn_fps_m4_uupg_upper_radian, cosmetic, review) --Orthogon Upper Receiver
+	apply_stats(self.parts.wpn_fps_m4_uupg_lower_radian, cosmetic) --Orthogon Lower Receiver
+	apply_stats(self.parts.wpn_fps_m4_uupg_upper_radian, cosmetic) --Orthogon Upper Receiver
 
 end
 
@@ -1406,7 +1452,7 @@ function WeaponFactoryTweakData:create_ammunition()
 
 	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats = deep_clone(flechette.custom_stats)
 	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats.underbarrel_stats = deep_clone(flechette.stats)
-	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats.dot_data.custom_data.dot_length = shotgun_dot_damage.heavy
+	self.parts.wpn_fps_upg_a_piercing_underbarrel.custom_stats.dot_data.custom_data.dot_length = shotgun_dot_duration.heavy
 	self.parts.wpn_fps_upg_a_piercing_underbarrel.desc_id = slug.desc_id
 	self.parts.wpn_fps_upg_a_piercing_underbarrel.supported = true
 end
