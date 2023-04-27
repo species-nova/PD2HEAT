@@ -1,0 +1,221 @@
+<table>
+	<unit>
+		<sequence editable_state="true" name="'force_drone_loop_start'" triggable="true">
+			<run_sequence name="'drone_loop_start'"/>
+			<function extension="'character_damage'" function="'force_activation'"/>
+		</sequence>
+		
+		
+		
+		<sequence editable_state="true" name="'drone_damaged'" triggable="true">
+		</sequence>
+		
+		<sequence editable_state="true" name="'drone_emp'" triggable="true">
+			<sound action="'play'" event="'drone_loop_stop'" source="'snd'"/>
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<run_sequence name="'int_seq_spot_off'"/>
+			<interaction enabled="true"/>
+		</sequence>
+		<sequence editable_state="true" name="'drone_emp_recover'" triggable="true">
+			<sound action="'play'" event="'drone_loop_start'" source="'snd'"/>
+			<run_sequence name="'int_seq_led_blink_on'"/>
+			<run_sequence name="'int_seq_spot_on'"/>
+			<interaction enabled="false"/>
+		</sequence>
+		
+		<sequence editable_state="false" name="'int_seq_spot_on'" triggable="false">
+			<object enabled="true" name="'g_light_cone'"/>
+			<light enabled="true" filter="'led_color_red'" name="'li_light_red'"/>
+			<light enabled="true" filter="'led_color_blue'" name="'li_light_blue'"/>
+			<light enabled="true" filter="'led_color_white'" name="'li_light_white'"/>
+		</sequence>
+		<sequence editable_state="false" name="'int_seq_spot_off'" triggable="false">
+			<object enabled="false" name="'g_light_cone'"/>
+			<light enabled="false" name="'li_light_red'"/>
+			<light enabled="false" name="'li_light_blue'"/>
+			<light enabled="false" name="'li_light_white'"/>
+		</sequence>
+		
+		<sequence editable_state="true" name="'drone_loop_start'" triggable="true">
+			<sound action="'play'" event="'drone_loop_start'" source="'snd'"/>
+			<body enabled="false" name="'body_static'"/>
+			<body enabled="true" name="'body_dynamic'"/>
+			<body enabled="true" name="'body_hitbox'"/>
+		</sequence>
+		
+		<sequence editable_state="true" name="'drone_loop_stop'" triggable="true">
+			<sound action="'play'" event="'drone_loop_stop'" source="'snd'"/>
+		</sequence>
+		
+		<sequence editable_state="true" name="'state_camera_charging'" triggable="true">
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<run_sequence name="'int_seq_spot_off'"/>
+			<set_variables led_color="0"/>
+			<run_sequence name="'int_seq_led_blink'"/>
+			<run_sequence name="'int_seq_spot_on'"/>
+			<sound action="'play'" event="'drone_camera_charge'" object="'CameraPitch'"/>
+		</sequence>
+		
+		
+		<sequence name="'drone_damaged'" triggable="false">
+			<effect_spawner enabled="true" name="'es_sparks'"/>
+			<attention giveaway="'broken_cam'" operation="'add'" preset_name="'broken_cam_ene_ntl'"/>
+			<sound action="'play'" event="'drone_camera_malfunction_start'" source="'snd'"/>
+		</sequence>
+		
+		<sequence name="'drone_destroyed'" triggable="false">
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<run_sequence name="'int_seq_spot_off'"/>
+			<set_variables led_color="0"/>
+			<run_sequence name="'int_seq_led_blink'"/>
+			<run_sequence name="'int_seq_spot_on'"/>
+			<effect_spawner enabled="true" name="'es_sparks'"/>
+			<attention giveaway="'broken_cam'" operation="'add'" preset_name="'broken_cam_ene_ntl'"/>
+			<sound action="'play'" event="'emitter_security_camera_explode'" object="'CameraPitch'"/>
+			<sound action="'play'" event="'drone_camera_malfunction_stop'" source="'snd'"/>
+			<sound action="'play'" event="'drone_loop_stop'" source="'snd'"/>
+			<function extension="'base'" function="'generate_cooldown'" param1="1"/>
+			<interaction enabled="true"/>
+		</sequence>
+		
+		<sequence editable_state="true" name="'state_camera_feed_off'" triggable="true">
+			<function extension="'base'" function="'set_access_camera_enabled'" param1="false"/>
+		</sequence>
+		<sequence editable_state="true" name="'state_camera_feed_on'" triggable="true">
+			<function extension="'base'" function="'set_access_camera_enabled'" param1="true"/>
+		</sequence>
+		
+		<sequence editable_state="false" name="'int_seq_enable_hitbox'" triggable="false">
+			<body enabled="false" name="'body_static'"/>
+			<body enabled="true" name="'body_hitbox'"/>
+		</sequence>
+		<sequence editable_state="false" name="'int_seq_disable_hitbox'" triggable="false">
+			<body enabled="true" name="'body_static'"/>
+			<body enabled="false" name="'body_hitbox'"/>
+		</sequence>
+		
+		<sequence editable_state="true" name=" 'state_deathwish' " triggable="true">
+			<object enabled="false" name="'g_body'"/>
+			<object enabled="true" name="'g_body_dw'"/>
+			<run_sequence name="'int_seq_disable_hitbox'"/>
+			<set_variables deathwish="1"/>
+		</sequence>
+		
+		
+		
+		<variables>
+			<camera_charge_del value="10"/>
+			<def_led_color value="2"/>
+			<take_off_len value="150/30"/>
+			<curr_anim_id value="0"/>
+			<curr_anim_len value="0"/>
+			<led_color value="0"/>
+			<deathwish value="0"/>
+		</variables>
+		<filter name="'is_not_deathwish'">
+			<check value="vars.deathwish == 0"/>
+		</filter>
+		<filter name="'led_color_red'">
+			<check value="vars.led_color == 0"/>
+		</filter>
+		<filter name="'led_color_blue'">
+			<check value="vars.led_color == 1"/>
+		</filter>
+		<filter name="'led_color_white'">
+			<check value="vars.led_color == 2"/>
+		</filter>
+
+
+		<sequence editable_state="true" name="'state_camera_active'" triggable="true">
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<run_sequence name="'int_seq_spot_off'"/>
+			<set_variables led_color="vars.def_led_color"/>
+			<run_sequence name="'int_seq_led_blink'"/>
+			<run_sequence name="'int_seq_spot_on'"/>
+		</sequence>
+		<sequence editable_state="true" name="'state_camera_deactivate'" triggable="true">
+			<run_sequence name="'int_seq_spot_off'"/>
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<sound action="'play'" event="'drone_camera_deactivate'" object="'CameraPitch'"/>
+		</sequence>
+		<sequence editable_state="true" name="'state_ecm_on'" triggable="true">
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<run_sequence name="'int_seq_spot_off'"/>
+			<set_variables led_color="1"/>
+			<run_sequence name="'int_seq_led_blink'"/>
+			<run_sequence name="'int_seq_spot_on'"/>
+			<sound action="'play'" event="'drone_camera_malfunction_loop'" source="'snd'"/>
+		</sequence>
+		<sequence editable_state="true" name="'state_ecm_off'" triggable="true">
+			<run_sequence name="'state_camera_active'"/>
+			<sound action="'play'" event="'drone_camera_malfunction_stop'" source="'snd'"/>
+		</sequence>
+		<sequence editable_state="false" name="'done_anim'" triggable="false"/>
+		<sequence editable_state="false" name="'done_takeoff'" triggable="false"/>
+		<sequence editable_state="false" name="'done_landed'" triggable="false">
+			<sound action="'play'" event="'drone_camera_malfunction_stop'" source="'snd'"/>
+			<attention giveaway="'broken_cam'" operation="'remove'" preset_name="'broken_cam_ene_ntl'"/>
+		</sequence>
+		<sequence editable_state="false" name="'done_camera_charged'" triggable="false"/>
+		<sequence editable_state="false" name="'int_seq_start_broken'" triggable="false">
+			<run_sequence name="'int_seq_led_blink_off'"/>
+			<set_variables led_color="0"/>
+			<run_sequence name="'int_seq_led_blink'"/>
+			<attention giveaway="'broken_cam'" operation="'add'" preset_name="'broken_cam_ene_ntl'"/>
+		</sequence>
+		<sequence editable_state="false" name="'int_seq_blades_solid'" triggable="false">
+			<object enabled="false" name="'g_blade_1'"/>
+			<object enabled="false" name="'g_blade_2'"/>
+			<object enabled="false" name="'g_blade_3'"/>
+			<object enabled="false" name="'g_blade_4'"/>
+			<object enabled="true" name="'g_blade_solid_1'"/>
+			<object enabled="true" name="'g_blade_solid_2'"/>
+			<object enabled="true" name="'g_blade_solid_3'"/>
+			<object enabled="true" name="'g_blade_solid_4'"/>
+		</sequence>
+		<sequence editable_state="false" name="'int_seq_blades_trans'" triggable="false">
+			<object enabled="true" name="'g_blade_1'"/>
+			<object enabled="true" name="'g_blade_2'"/>
+			<object enabled="true" name="'g_blade_3'"/>
+			<object enabled="true" name="'g_blade_4'"/>
+			<object enabled="false" name="'g_blade_solid_1'"/>
+			<object enabled="false" name="'g_blade_solid_2'"/>
+			<object enabled="false" name="'g_blade_solid_3'"/>
+			<object enabled="false" name="'g_blade_solid_4'"/>
+		</sequence>
+		<sequence editable_state="false" name="'int_seq_led_blink'" triggable="false">
+			<object enabled="true" filter="'led_color_blue'" name="'g_led_01'"/>
+			<effect_spawner enabled="true" filter="'led_color_blue'" name="'es_lights_blue_01'"/>
+			<effect_spawner enabled="true" filter="'led_color_blue'" name="'es_lights_blue_02'"/>
+			<effect_spawner enabled="true" filter="'led_color_blue'" name="'es_lights_blue_03'"/>
+			<effect_spawner enabled="true" filter="'led_color_blue'" name="'es_lights_blue_04'"/>
+			<object enabled="true" filter="'led_color_white'" name="'g_led_02'"/>
+			<effect_spawner enabled="true" filter="'led_color_white'" name="'es_lights_white_01'"/>
+			<effect_spawner enabled="true" filter="'led_color_white'" name="'es_lights_white_02'"/>
+			<effect_spawner enabled="true" filter="'led_color_white'" name="'es_lights_white_03'"/>
+			<effect_spawner enabled="true" filter="'led_color_white'" name="'es_lights_white_04'"/>
+			<object enabled="true" filter="'led_color_red'" name="'g_led_03'"/>
+			<effect_spawner enabled="true" filter="'led_color_red'" name="'es_lights_red_01'"/>
+			<effect_spawner enabled="true" filter="'led_color_red'" name="'es_lights_red_02'"/>
+			<effect_spawner enabled="true" filter="'led_color_red'" name="'es_lights_red_03'"/>
+			<effect_spawner enabled="true" filter="'led_color_red'" name="'es_lights_red_04'"/>
+		</sequence>
+		<sequence editable_state="false" name="'int_seq_led_blink_off'" triggable="false">
+			<object enabled="false" name="'g_led_01'"/>
+			<effect_spawner enabled="false" name="'es_lights_blue_01'"/>
+			<effect_spawner enabled="false" name="'es_lights_blue_02'"/>
+			<effect_spawner enabled="false" name="'es_lights_blue_03'"/>
+			<effect_spawner enabled="false" name="'es_lights_blue_04'"/>
+			<object enabled="false" name="'g_led_02'"/>
+			<effect_spawner enabled="false" name="'es_lights_white_01'"/>
+			<effect_spawner enabled="false" name="'es_lights_white_02'"/>
+			<effect_spawner enabled="false" name="'es_lights_white_03'"/>
+			<effect_spawner enabled="false" name="'es_lights_white_04'"/>
+			<object enabled="false" name="'g_led_03'"/>
+			<effect_spawner enabled="false" name="'es_lights_red_01'"/>
+			<effect_spawner enabled="false" name="'es_lights_red_02'"/>
+			<effect_spawner enabled="false" name="'es_lights_red_03'"/>
+			<effect_spawner enabled="false" name="'es_lights_red_04'"/>
+		</sequence>
+	</unit>
+</table>

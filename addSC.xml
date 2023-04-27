@@ -1,4 +1,11 @@
 <table directory="assets">
+	<!--flying drones by Rex & Xeletron, adapted & modified for HEAT-->
+	<!--TODO: once tested and implemented, move me to my own package, since I won't be on every level!-->
+	<add>
+		<material_config	path="units/pd2_mod_wz/equipment/drones/drones" />
+		<unit_obj_seq		path="units/pd2_mod_wz/equipment/drones/ene_drone_camera" />
+	</add>
+	
 	<!--old g3-->
 	<object path="units/pd2_dlc_gage_assault/weapons/wpn_fps_ass_g3_pts/wpn_fps_ass_g3_m_mag" force="true"/>
 	<model path="units/pd2_dlc_gage_assault/weapons/wpn_fps_ass_g3_pts/wpn_fps_ass_g3_m_mag" force="true"/>

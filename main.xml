@@ -2,6 +2,7 @@
 	<!--///MOD CONFIG FILE\\\-->
     <Classes directory="classes">
     	<class file="callbacks.lua"/>
+		<class file="DynamicBodyDrone.lua"/>
     </Classes>
 	<ScriptMods directory="scriptdata/menus">
 		<mod file="start_menu.xml" type="custom_xml" target_file="gamedata/menus/start_menu" target_type="menu" merge_mode="script_merge"/>

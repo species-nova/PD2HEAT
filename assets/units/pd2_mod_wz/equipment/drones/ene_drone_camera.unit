@@ -1,0 +1,55 @@
+<unit type="gen" slot="1">
+	<object file="units/pd2_mod_wz/equipment/drones/ene_drone_camera" />
+	<network sync="bodies" remote_unit=""/>
+	
+	<!-- <dependencies> -->
+		<!-- <depends_on bnk="soundbanks/regular_sfx" /> -->
+		<!-- <depends_on animation_def="anims/units/level/dark/drone/def"/> -->
+		<!-- <depends_on animation_state_machine="anims/units/level/dark/drone/machine"/> -->
+		<!-- <depends_on effect="effects/payday2/particles/smoke_trail/drone_smoke" /> -->
+
+		<!-- <depends_on effect="effects/payday2/particles/flares/drone_flare_red" />  -->
+		<!-- <depends_on effect="effects/payday2/particles/flares/drone_flare_white" />  -->
+		<!-- <depends_on effect="effects/payday2/particles/flares/drone_flare_blue" />  -->
+	<!-- </dependencies> -->
+
+	<extensions>
+		<!-- Basic-->
+		<extension name="unit_data" class="ScriptUnitData" />
+		<extension name="damage" 	class="UnitDamage" >
+			<var name="_collision_event" value="bag_medium_drop" />
+			<var name="_collision_sfx_quite_time" value="0.1" />
+		</extension>
+		
+		<!-- Mostly camera stuff-->
+		<extension name="base" class="SecurityCamera" >
+			<var name="security_camera" value="true" />
+			<var name="update_position" value="true" />
+			<var name="_set_access_camera_enabled" value="false" />
+			<var name="is_friendly" value="true" />
+		</extension>
+		<extension name="contour" class="ContourExt" />
+		<extension name="attention" class="AIAttentionObject" />
+		
+		<!--Drone capture-->
+		<extension name="interaction" class="CarryInteractionExt">
+			<var name="tweak_data" value="drone_carry_drop" />
+			<var name="_remove_on_interact" value="true" />
+		</extension>
+		<extension name="carry_data" class="CarryData">
+			<var name="_carry_id" value="wz_drone" />
+		</extension>
+		
+		<!-- Drone -->
+		<extension name="character_damage" class="DynamicBodyDrone" >
+			<var name="_weakpoint"				value="body_dynamic" />
+			<var name="_weakpoint_critical"		value="body_hitbox" />
+		</extension>
+		
+	</extensions>
+	
+	<sounds>
+		<default_soundsource source="rp_root"/>
+		<soundsource name="snd" source="rp_root" />
+	</sounds>
+</unit>

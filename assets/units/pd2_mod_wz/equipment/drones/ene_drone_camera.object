@@ -1,0 +1,65 @@
+<dynamic_object>
+	<diesel materials="units/pd2_mod_wz/equipment/drones/drones" orientation_object="rp_root" />
+	<sequence_manager file="units/pd2_mod_wz/equipment/drones/ene_drone_camera" />
+	
+	<bodies>
+		<body name="body_static" enabled="true" template="static" >
+			<object name="c_box_01" collision_type="box" padding="-2.5" />
+			<object name="c_box_02" collision_type="box" padding="-2.5" />
+		</body>
+		<body name="body_dynamic" enabled="false" template="dynamic" collides_with_mover="false" pushed_by_mover="false" sweep="true" >
+			<object name="rp_root" />
+			<object name="c_box_01" collision_type="box" padding="-2.5" mass="1" />
+			<object name="c_box_02" collision_type="box" padding="-2.5" mass="1" />
+		</body>
+		<body name="body_hitbox" enabled="false" template="raycoll" collides_with_mover="false" pushed_by_mover="false" >
+			<object name="c_hitbox" collision_type="sphere" padding="-10" />
+		</body>
+	</bodies>
+	
+	<decal_surfaces default_material="metal_chassis">
+		<decal_mesh name="g_body" enabled="true" material="metal_chassis" />
+	</decal_surfaces>
+
+	<effects>
+		<effect_spawner name="es_sparks" enabled="false" object="rp_root" effect="effects/payday2/particles/smoke_trail/drone_smoke" />
+
+		<effect_spawner name="es_lights_red_01" enabled="false" object="e_effect_01" effect="effects/payday2/particles/flares/drone_flare_red" />
+		<effect_spawner name="es_lights_red_02" enabled="false" object="e_effect_02" effect="effects/payday2/particles/flares/drone_flare_red" />
+		<effect_spawner name="es_lights_red_03" enabled="false" object="e_effect_03" effect="effects/payday2/particles/flares/drone_flare_red" />
+		<effect_spawner name="es_lights_red_04" enabled="false" object="e_effect_04" effect="effects/payday2/particles/flares/drone_flare_red" />
+
+		<effect_spawner name="es_lights_white_01" enabled="false" object="e_effect_01" effect="effects/payday2/particles/flares/drone_flare_white" />
+		<effect_spawner name="es_lights_white_02" enabled="false" object="e_effect_02" effect="effects/payday2/particles/flares/drone_flare_white" />
+		<effect_spawner name="es_lights_white_03" enabled="false" object="e_effect_03" effect="effects/payday2/particles/flares/drone_flare_white" />
+		<effect_spawner name="es_lights_white_04" enabled="false" object="e_effect_04" effect="effects/payday2/particles/flares/drone_flare_white" />
+
+		<effect_spawner name="es_lights_blue_01" enabled="false" object="e_effect_01" effect="effects/payday2/particles/flares/drone_flare_blue" />
+		<effect_spawner name="es_lights_blue_02" enabled="false" object="e_effect_02" effect="effects/payday2/particles/flares/drone_flare_blue" />
+		<effect_spawner name="es_lights_blue_03" enabled="false" object="e_effect_03" effect="effects/payday2/particles/flares/drone_flare_blue" />
+		<effect_spawner name="es_lights_blue_04" enabled="false" object="e_effect_04" effect="effects/payday2/particles/flares/drone_flare_blue" />
+	</effects>
+
+	<graphics>
+		<object name="g_body" enabled="true" />
+		<object name="g_blade_1" enabled="true" />
+		<object name="g_blade_2" enabled="true" />
+		<object name="g_blade_3" enabled="true" />
+		<object name="g_blade_4" enabled="true" />
+		<object name="g_blade_solid_1" enabled="false" />
+		<object name="g_blade_solid_2" enabled="false" />
+		<object name="g_blade_solid_3" enabled="false" />
+		<object name="g_blade_solid_4" enabled="false" />
+		<object name="g_body_dw" enabled="false"/>
+		<object name="g_led_01" enabled="false"/>
+		<object name="g_led_02" enabled="false"/>
+		<object name="g_led_03" enabled="false"/>
+	</graphics>
+
+	<!-- Lights will be non-functional until model tool supports lights -->
+	<lights>
+		<light name="li_light_red" enabled="false" editable="true" type="spot|specular" multiplier="identity" far_range="7000" falloff="4" />
+		<light name="li_light_blue" enabled="false" editable="true" type="spot|specular" multiplier="identity" far_range="7000" falloff="4" />
+		<light name="li_light_white" enabled="false" editable="true" type="spot|specular" multiplier="identity" far_range="7000" falloff="4" />
+	</lights>
+</dynamic_object>
