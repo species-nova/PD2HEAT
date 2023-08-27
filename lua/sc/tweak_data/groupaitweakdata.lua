@@ -2976,6 +2976,27 @@ function GroupAITweakData:_init_unit_categories(difficulty_index)
 		}
 	end
 
+	self.unit_categories.marshal_shield = {
+		unit_types = {
+			america = {
+				Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_1/ene_male_marshal_shield_1")
+			},
+			russia = {
+				Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2")
+			},
+			zombie = {
+				Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2")
+			},
+			murkywater = {
+				Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2")
+			},
+			federales = {
+				Idstring("units/pd2_dlc_usm2/characters/ene_male_marshal_shield_2/ene_male_marshal_shield_2")
+			}
+		},
+		access = access_type_walk_only
+	}
+
 	--Ghost Titancloakers that spawn with boss
 	self.unit_categories.HVH_Boss_Spooc = {
 		unit_types = {

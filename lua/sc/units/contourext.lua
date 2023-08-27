@@ -55,6 +55,7 @@ end
 local init_original = ContourExt.init
 function ContourExt:init(...)
 	self._timer = TimerManager:game()
+	self._contour_list = {} --Rewrite assumes that contour_list is not nil.
 
 	init_original(self, ...)
 end

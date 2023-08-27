@@ -98,7 +98,8 @@ end
 
 
 heat.log_tags = {
-	VOICELINE = true
+	VOICELINE = true,
+	DEBUG = true
 }
 
 function heat.tlog(tag, ...)

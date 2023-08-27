@@ -1544,6 +1544,24 @@ function PlayerStandard:_do_melee_damage(t, bayonet_melee, melee_hit_ray, melee_
 	return col_ray
 end
 
+--TODO: Update to use check_melee_special_damage
+function PlayerStandard:_check_melee_dot_damage(col_ray, defense_data, melee_entry)
+	if not defense_data or defense_data.type == "death" then
+		return
+	end
+
+	local dot_data = tweak_data.blackmarket.melee_weapons[melee_entry].dot_data
+
+	if not dot_data then
+		return
+	end
+
+	local data = managers.dot:create_dot_data(dot_data.type, dot_data.custom_data)
+	local damage_class = CoreSerialize.string_to_classtable(data.damage_class)
+
+	damage_class:start_dot_damage(col_ray, nil, data, melee_entry)
+end
+
 --Now also returns steelsight information. Used for referencing spread values to give steelsight bonuses.
 function PlayerStandard:get_movement_state()
 	--Is stance done check ensures that steelsight is only returned if we actually finish the steelsight animation.
