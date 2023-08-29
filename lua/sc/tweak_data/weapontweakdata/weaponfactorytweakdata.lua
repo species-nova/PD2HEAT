@@ -412,6 +412,7 @@
 				ammo_pickup_max_mul = 0.9,
 				muzzleflash = "effects/payday2/particles/weapons/shotgun/sho_muzzleflash_rip",
 				bullet_class = "PoisonBulletBase",
+				can_shoot_through_enemy = true,
 				dot_data = {
 					type = "poison",
 					custom_data = {
@@ -456,9 +457,9 @@
 		create_override("wpn_fps_upg_a_explosive", create_shotgun_ammo(he_slug, he_damage[tier])) --Taser Slug
 		create_override("wpn_fps_upg_a_custom", create_shotgun_ammo(d0buck, buck_damage[tier])) --00 Buckshot
 		create_override("wpn_fps_upg_a_custom_free", create_shotgun_ammo(d0buck, buck_damage[tier])) --00 Buckshot (free)
-		create_override("wpn_fps_upg_a_piercing", create_shotgun_ammo(poison_slug, 0, shotgun_dot_duration[tier])) --Flechettes
+		create_override("wpn_fps_upg_a_piercing", create_shotgun_ammo(flechette, 0, shotgun_dot_duration[tier])) --Flechettes
 		create_override("wpn_fps_upg_a_dragons_breath", create_shotgun_ammo(dragons_breath, 0, shotgun_dot_duration[tier])) --Dragon's Breath
-		create_override("wpn_fps_upg_a_rip", create_shotgun_ammo(poison_slug, poison_slug_damage[tier], poison_slug_duration[tier])) --Dragon's Breath
+		create_override("wpn_fps_upg_a_rip", create_shotgun_ammo(poison_slug, poison_slug_damage[tier], poison_slug_duration[tier])) --Poison Slug
 	end
 
 --////////////////////////////////////////////////////////////////////////////////

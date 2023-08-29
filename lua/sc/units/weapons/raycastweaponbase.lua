@@ -16,7 +16,6 @@ function RaycastWeaponBase:heat_init()
 	}
 	local weapon_tweak = tweak_data.weapon[self._name_id] or self._tweak_data
 	
-	--self._bullet_slotmask = self._bullet_slotmask - World:make_slot_mask(16)
 	if Global.game_settings and Global.game_settings.one_down then
 		self._bullet_slotmask = self._bullet_slotmask + 3
 	else
