@@ -682,12 +682,16 @@ function PlayerManager:enemy_shot(unit, attack_data)
 	--Filter out invalid attacks.
 	local weapon_unit = attack_data.weapon_unit
 	local player_unit = attack_data.attacker_unit
-	local underbarrel = self:equipped_weapon_unit():base():gadget_overrides_weapon_functions()
-	if player_unit ~= self:player_unit()
+	if not alive(player_unit) 
+		or player_unit ~= self:player_unit()
 		or not alive(weapon_unit)
-		or not (weapon_unit == self:equipped_weapon_unit()
-			or (underbarrel and weapon_unit == underbarrel._unit))
+		or not (weapon_unit == self:equipped_weapon_unit())
 		or attack_data.damage == 0 then
+		return
+	end
+
+	local underbarrel = self:equipped_weapon_unit():base():gadget_overrides_weapon_functions()
+	if underbarrel and weapon_unit == underbarrel._unit then
 		return
 	end
 
