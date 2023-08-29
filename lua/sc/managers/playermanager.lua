@@ -448,9 +448,9 @@ function PlayerManager:check_skills()
 	self._unseen_strike = self:has_category_upgrade("player", "unseen_increased_crit_chance")
 	self._silent_precision = self:has_category_upgrade("player", "silent_increased_accuracy")
 
+	self._shell_rack_stacks = 0
 	if self:has_category_upgrade("shotgun", "shell_stacking_reload_speed") then
 		self._shell_rack = self:upgrade_value("shotgun", "shell_stacking_reload_speed")
-		self._shell_rack_stacks = 0
 	end
 
 	--Make Trigger Happy and Desperado stack off of headshots.

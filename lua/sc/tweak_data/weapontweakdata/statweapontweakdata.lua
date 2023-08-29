@@ -21,7 +21,7 @@ function WeaponTweakData:_init_stats()
 	}
 
 	self.stats.alert_size = {
-		2500, --Unsilenced
+		3000, --Unsilenced
 		0 --Silenced
 	}
 

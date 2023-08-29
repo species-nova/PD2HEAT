@@ -864,7 +864,7 @@ function WeaponTweakData:init(...)
 			spread = 17,
 			recoil = 11,
 			concealment = 12,
-			alert_size = 1
+			alert_size = 2
 		}
 		self.asval.timers = {
 			reload_not_empty = 3.1,
@@ -5069,7 +5069,7 @@ function WeaponTweakData:init(...)
 
 				--Fixed stat values that are the same for all, or nearly all guns.
 				weap.stats.zoom = weap.stats.zoom or 1
-				weap.stats.alert_size = weap.stats.alert_size or 2
+				weap.stats.alert_size = weap.stats.alert_size or 1
 				weap.stats.extra_ammo = 101
 				weap.stats.total_ammo_mod = 100
 				weap.stats.reload = 20

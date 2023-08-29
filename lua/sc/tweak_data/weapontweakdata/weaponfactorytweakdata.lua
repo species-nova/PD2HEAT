@@ -365,9 +365,8 @@
 					}
 				}
 			}
-
-
 		}
+
 		--DB offers the ability to stun enemies efficiently at the cost of at the cost of reduced single target damage output (by losing half pellets).
 		local dragons_breath = {
 			desc_id = "bm_wp_upg_a_dragons_breath_desc_sc",
