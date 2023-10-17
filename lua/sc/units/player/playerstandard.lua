@@ -2506,11 +2506,13 @@ function PlayerStandard:_stance_entered(unequipped)
 	sway = sway or misc_attribs.shakers
 	vel_overshot = vel_overshot or misc_attribs.vel_overshot	
 
-	local duration = tweak_data.player.TRANSITION_DURATION + (weap_base:transition_duration() or 0)
+	local head_duration = tweak_data.player.TRANSITION_DURATION
+	local head_duration_multiplier = 1
+	local duration = head_duration + (self._equipped_unit:base():transition_duration() or 0)
 	local duration_multiplier = (self._state_data.in_steelsight or self._state_data.was_in_steelsight) and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
 	local new_fov = self:get_zoom_fov(misc_attribs) + 0
 
-	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration)
+	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration, head_duration, head_duration_multiplier)
 	managers.menu:set_mouse_sensitivity(self:in_steelsight())
 end
 
