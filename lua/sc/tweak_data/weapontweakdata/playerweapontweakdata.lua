@@ -3942,7 +3942,7 @@ function WeaponTweakData:init(...)
 		self.ray.fire_rate_multiplier = 0.75 --80 rpm
 		self.ray.supported = true
 		self.ray.stats = {
-			damage = 30,
+			damage = 300,
 			spread = 6,
 			recoil = 21,
 			concealment = 5
