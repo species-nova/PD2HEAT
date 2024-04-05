@@ -4,8 +4,8 @@
 	<object file="units/pd2_dlc_max/weapons/wpn_fps_smoke_screen_grenade/wpn_third_smoke_screen_grenade" />
 	<dependencies>
 		<depends_on unit="units/weapons/gas_grenade/gas_grenade_husk" />
-		<depends_on effect="effects/particles/explosions/explosion_smoke_grenade" />
-		<depends_on effect="effects/particles/explosions/cs_grenade_smoke" />
+		<!-- <depends_on effect="effects/particles/explosions/explosion_smoke_grenade" />
+		<depends_on effect="effects/particles/explosions/cs_grenade_smoke" /> -->
 	</dependencies>
 	<extensions>
 		<extension name="base" class="GasGrenade">
