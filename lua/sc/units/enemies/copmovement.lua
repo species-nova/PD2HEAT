@@ -95,8 +95,6 @@ function CopMovement:init(unit)
 	CopMovement._action_variants.medic_summers.heal = MedicActionHeal
 	CopMovement._action_variants.tank_titan = clone(security_variant)
 	CopMovement._action_variants.tank_titan.walk = TankCopActionWalk
-	CopMovement._action_variants.tank_titan_assault = clone(security_variant)
-	CopMovement._action_variants.tank_titan_assault.walk = TankCopActionWalk
 	CopMovement._action_variants.tank_biker = clone(security_variant)
 	CopMovement._action_variants.tank_biker.walk = TankCopActionWalk
 	CopMovement._action_variants.biker_guard = security_variant

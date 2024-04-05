@@ -135,7 +135,9 @@ function CharacterTweakData:init(tweak_data, presets)
 	self:_init_summers(presets)
 	self:_init_autumn(presets)
 	self:_init_omnia_lpf(presets)
+	self:_init_tank_titan(presets)
 	self:_init_tank_biker(presets)
+	self:_init_spooc_titan(presets)
 
 	--Blanket mechanics changes.
 	self:_set_characters_ecm_hurts()
@@ -758,10 +760,7 @@ function CharacterTweakData:_init_gangster(presets) --gangster
 			contact = true,
 			go_go = true,
 			suppress = true
-		},
-		speech_prefix_p1 = "lt",
-		speech_prefix_count = 2,
-		speech_prefix_p2 = nil
+		}
 	})
 
 	if job == "nightclub" or job == "short2_stage1" or job == "jolly" or job == "spa" then
@@ -795,18 +794,12 @@ end
 local orig_init_biker = CharacterTweakData._init_biker
 function CharacterTweakData:_init_biker(presets) --biker
 	orig_init_biker(self, presets)
-
-	self.biker = deep_clone(self.gangster)
-	if job == "mex" then
-		self.biker.access = "security"
-	else
-		self.biker.access = "gangster"
-	end
-	self.biker.speech_prefix_p1 = "bik"
-	self.biker.speech_prefix_p2 = nil
-	self.biker.speech_prefix_count = 2
-	self.biker.always_drop = true
-	self.biker.melee_weapon = "knife_1"
+	override_enemies({self.biker}, {
+		speech_prefix_p1 = "bik",
+		speech_prefix_p2 = false,
+		speech_prefix_count = 2,
+		melee_weapon = "knife_1"
+	})
 end
 
 function CharacterTweakData:_init_triad(presets) --triad gangster
@@ -848,14 +841,12 @@ function CharacterTweakData:_init_mobster(presets) --hotline miami mobster gangs
 		go_go = true,
 		suppress = true
 	}
-	self.mobster.always_drop = true
 	table.insert(self._enemy_list, "mobster")
 end
 
 local orig_init_mobster_boss = CharacterTweakData._init_mobster_boss
 function CharacterTweakData:_init_mobster_boss(presets) --the commissar
 	orig_init_mobster_boss(self, presets)
-
 	override_enemies({self.mobster_boss}, {
 		die_sound_event = "l1n_burndeath",
 		custom_shout = true,
@@ -870,7 +861,6 @@ end
 local orig_init_biker_boss = CharacterTweakData._init_biker_boss
 function CharacterTweakData:_init_biker_boss(presets) --biker heist day 2 Female boss
 	orig_init_biker_boss(self, presets)
-
 	override_enemies({self.biker_boss}, {
 		speech_prefix_p1 = "bb"	,
 		speech_prefix_p2 = "n",
@@ -892,396 +882,165 @@ function CharacterTweakData:_init_hector_boss_no_armor(presets) --stealth hoxven
 	})
 end
 
+local orig_init_chavez_boss = CharacterTweakData._init_chavez_boss
 function CharacterTweakData:_init_chavez_boss(presets) --chavez
-	self.chavez_boss = deep_clone(presets.base)
-	self.chavez_boss.experience = {}
-	self.chavez_boss.tags = {"custom", "special"}
-	self.chavez_boss.weapon = presets.weapon.gangster
-	self.chavez_boss.detection = presets.detection.normal
-	self.chavez_boss.priority_shout = "g29"
-	self.chavez_boss.bot_priority_shout = "g29"
-	self.chavez_boss.silent_priority_shout = nil
-	self.chavez_boss.custom_shout = true
-	self.chavez_boss.priority_shout_max_dis = 3000
-	self.chavez_boss.HEALTH_INIT = 480
-	self.chavez_boss.headshot_dmg_mul = strong_headshot
-	self.chavez_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
-	self.chavez_boss.damage.explosion_damage_mul = 2
-	self.chavez_boss.move_speed = presets.move_speed.very_slow
-	self.chavez_boss.allowed_poses = {stand = true}
-	self.chavez_boss.no_retreat = true
-	self.chavez_boss.no_limping = true
-	self.chavez_boss.no_arrest = true
-	self.chavez_boss.no_run_start = true
-	self.chavez_boss.no_run_stop = true
-	self.chavez_boss.surrender = nil
-	self.chavez_boss.ecm_vulnerability = 0
-	self.chavez_boss.ecm_hurts = {}
-	self.chavez_boss.weapon_voice = "1"
-	self.chavez_boss.experience.cable_tie = "tie_swat"
-	self.chavez_boss.access = "gangster"
-	self.chavez_boss.speech_prefix_p1 = "bb"
-	self.chavez_boss.speech_prefix_p2 = "n"
-	self.chavez_boss.speech_prefix_count = 1
-	self.chavez_boss.rescue_hostages = false
-	self.chavez_boss.melee_weapon = "fists_dozer"
-	self.chavez_boss.steal_loot = nil
-	self.chavez_boss.calls_in = nil
-	self.chavez_boss.chatter = presets.enemy_chatter.no_chatter
-	self.chavez_boss.use_radio = nil
-	self.chavez_boss.can_be_tased = false
-	self.chavez_boss.use_animation_on_fire_damage = false
-	self.chavez_boss.flammable = true
-	self.chavez_boss.can_be_tased = false
-	self.chavez_boss.immune_to_knock_down = true
-	self.chavez_boss.immune_to_concussion = true
-	self.chavez_boss.must_headshot = true
-	self.chavez_boss.is_special = true
-	self.chavez_boss.always_drop = true
-	self.chavez_boss.die_sound_event = "l1n_burndeath"
-	table.insert(self._enemy_list, "chavez_boss")
+	orig_init_chavez_boss(self, presets)
+	override_enemies({self.chavez_boss}, {
+		priority_shout = "g29",
+		bot_priority_shout = "g29",
+		custom_shout = true,
+		silent_priority_shout = false,
+		die_sound_event = "l1n_burndeath"
+	})
+
+	override_enemies({self.chavez_boss}, presets.generic_boss_stats)
 end
 
+local orig_init_triad_boss = CharacterTweakData._init_triad_boss
 function CharacterTweakData:_init_triad_boss(presets) -- Yufu wang
-	self.triad_boss = deep_clone(presets.base)
-	self.triad_boss.experience = {}
-	self.triad_boss.weapon = presets.weapon.expert
-	self.triad_boss.detection = presets.detection.normal
-	self.triad_boss.priority_shout = "g29"
-	self.triad_boss.bot_priority_shout = "g29"
-	self.triad_boss.silent_priority_shout = nil
-	self.triad_boss.custom_shout = true
-	self.triad_boss.priority_shout_max_dis = 3000
-	self.triad_boss.HEALTH_INIT = 480
-	self.triad_boss.headshot_dmg_mul = normal_headshot
-	self.triad_boss.big_head_mode = true
-	self.triad_boss.damage.hurt_severity = presets.hurt_severities.spring
-	self.triad_boss.melee_weapon = "fists_dozer"
-	self.triad_boss.damage.explosion_damage_mul = 2
-	self.triad_boss.suppression = nil
-	self.triad_boss.move_speed = presets.move_speed.very_slow
-	self.triad_boss.allowed_stances = {cbt = true}
-	self.triad_boss.allowed_poses = {stand = true}
-	self.triad_boss.crouch_move = false
-	self.triad_boss.no_retreat = true
-	self.triad_boss.no_limping = true
-	self.triad_boss.no_arrest = true
-	self.triad_boss.no_run_start = true
-	self.triad_boss.no_run_stop = true
-	self.triad_boss.surrender = nil
-	self.triad_boss.ecm_vulnerability = 0
-	self.triad_boss.ecm_hurts = {}
-	self.triad_boss.weapon_voice = "3"
-	self.triad_boss.experience.cable_tie = "tie_swat"
-	self.triad_boss.access = "gangster"
-	self.triad_boss.speech_prefix_p1 = "bb"
-	self.triad_boss.speech_prefix_p2 = "n"
-	self.triad_boss.speech_prefix_count = 1
-	self.triad_boss.die_sound_event = "Play_yuw_pent_death"
-	self.triad_boss.rescue_hostages = false
-	self.triad_boss.steal_loot = nil
-	self.triad_boss.calls_in = nil
-	self.triad_boss.chatter = presets.enemy_chatter.no_chatter
-	self.triad_boss.use_radio = nil
-	self.triad_boss.can_be_tased = false
-	self.triad_boss.use_animation_on_fire_damage = false
-	self.triad_boss.flammable = true
-	self.triad_boss.can_be_tased = false
-	self.triad_boss.immune_to_knock_down = true
-	self.triad_boss.immune_to_concussion = true
-	self.triad_boss.must_headshot = false
-	self.triad_boss.is_special = true
-	self.triad_boss.throwable = "molotov"
-	self.triad_boss.grenade = molotov
+	orig_init_triad_boss(self, presets)
+	override_enemies({self.triad_boss}, {
+		weapon = presets.weapon.expert,
+		priority_shout = "g29",
+		bot_priority_shout = "g29",
+		silent_priority_shout = false,
+		custom_shout = true,
+		priority_shout_max_dis = 3000,
+		HEALTH_INIT = 480,
+		headshot_dmg_mul = normal_headshot,
+		big_head_mode = true,
+		damage = {
+			hurt_severity = presets.hurt_severities.spring,
+			explosion_damage_mul = 2
+		},
+		move_speed = presets.move_speed.very_slow,
+		no_arrest = true,
+		melee_weapon = "fists_dozer",
+		ecm_vulnerability = 0,
+		ecm_hurts = {},
+		flammable = true,
+		must_headshot = false,
+		bullet_damage_only_from_front = false,
+		player_health_scaling_mul = false,
+		grenade = molotov
+	})
 
-	-- Yufu Wang's special AoE
-	self.triad_boss.aoe_damage_data = {
-		verification_delay = 0.3,
-		activation_range = 500,
-		activation_delay = 3,
-		env_tweak_name = "triad_boss_aoe_fire",
-		play_voiceline = true,
-		check_player = true,
-		check_npc_slotmask = {
-			"criminals",
-			-2,
-			-3
-		}
-	}
-
-	self.triad_boss.invulnerable_to_slotmask = {
-		"enemies",
-		17
-	}
-
-	table.insert(self._enemy_list, "triad_boss")
-
-	self.triad_boss_no_armor = deep_clone(self.gangster)
-	self.triad_boss_no_armor.suspicious = nil
-	self.triad_boss_no_armor.detection = presets.detection.normal
-	self.triad_boss_no_armor.damage.hurt_severity = presets.hurt_severities.no_hurts
-	self.triad_boss_no_armor.move_speed = presets.move_speed.very_fast
-	self.triad_boss_no_armor.dodge = presets.dodge.athletic
-	self.triad_boss_no_armor.crouch_move = nil
-	self.triad_boss_no_armor.suppression = nil
-	self.triad_boss_no_armor.can_be_tased = false
-	self.triad_boss_no_armor.no_retreat = true
-	self.triad_boss_no_armor.no_arrest = true
-	self.triad_boss_no_armor.surrender = nil
-	self.triad_boss_no_armor.ecm_vulnerability = 0
-	self.triad_boss_no_armor.ecm_hurts = {
-		ears = {
-			max_duration = 0,
-			min_duration = 0
-		}
-	}
-	self.triad_boss_no_armor.rescue_hostages = false
-	self.triad_boss_no_armor.steal_loot = nil
-	self.triad_boss_no_armor.calls_in = nil
-	self.triad_boss_no_armor.chatter = presets.enemy_chatter.no_chatter
-	self.triad_boss_no_armor.use_radio = nil
-	self.triad_boss_no_armor.radio_prefix = "fri_"
-	self.triad_boss_no_armor.use_animation_on_fire_damage = false
-	self.triad_boss_no_armor.immune_to_knock_down = true
-	self.triad_boss_no_armor.immune_to_concussion = true
-
-	table.insert(self._enemy_list, "triad_boss_no_armor")
+	self.triad_boss.aoe_damage_data.activation_range = 500
+	self.triad_boss.aoe_damage_data.activation_delay = 3
 end
 
+local orig_init_bolivians = CharacterTweakData._init_bolivians
 function CharacterTweakData:_init_bolivians(presets) --Scarface guards
-	self.bolivian = deep_clone(self.gangster)
-	self.bolivian.detection = presets.detection.normal
-	self.bolivian.access = "security"
-	self.bolivian.radio_prefix = "fri_"
-	self.bolivian.suspicious = true
-	self.bolivian.crouch_move = nil
-	self.bolivian.no_arrest = true
-	self.bolivian.speech_prefix_p1 = "lt"
-	self.bolivian.speech_prefix_p2 = nil
-	self.bolivian.speech_prefix_count = 2
-	self.bolivian.chatter = {
-		aggressive = true,
-		retreat = true,
-		contact = true,
-		go_go = true,
-		suppress = true
-	}
-	self.bolivian.always_drop = true
-	table.insert(self._enemy_list, "bolivian")
+	orig_init_bolivians(self, presets)
+	override_enemies({self.bolivian, self.bolivian_indoors}, {
+		detection = presets.detection.normal,
+		suspicious = true,
+		no_arrest = true
+	})
+end
 
-	self.bolivian_indoors = deep_clone(self.bolivian)
-	self.bolivian_indoors.suppression = presets.suppression.hard
-	self.bolivian_indoors.has_alarm_pager = true
-	self.bolivian_indoors.surrender = presets.surrender.easy
-	self.bolivian_indoors.surrender_break_time = {20, 30}
-	self.bolivian_indoors.detection = presets.detection.guard
-	self.bolivian_indoors.move_speed = presets.move_speed.very_fast
-	self.bolivian_indoors.ecm_vulnerability = 1
-	self.bolivian_indoors.no_arrest = false
-	self.bolivian_indoors.ecm_hurts = {
-		ears = {min_duration = 3, max_duration = 3}
-	}
-	self.bolivian_indoors.speech_prefix_p1 = "lt"
-	self.bolivian_indoors.speech_prefix_p2 = nil
-	self.bolivian_indoors.speech_prefix_count = 2
-	self.bolivian_indoors.chatter = {
-		aggressive = true,
-		retreat = true,
-		contact = true,
-		go_go = true,
-		suppress = true
-	}
-	self.bolivian_indoors.unintimidateable = false
-	table.insert(self._enemy_list, "bolivian_indoors")
+local orig_init_bolivian_indoors_mex = CharacterTweakData._init_bolivian_indoors_mex
+function CharacterTweakData:_init_bolivian_indoors_mex(presets)
+	orig_init_bolivian_indoors_mex(self, presets)
+	override_enemies({self.bolivian_indoors_mex}, {
+		weapon = presets.weapon.gangster
+	})
 
-	self.bolivian_indoors_mex = deep_clone(self.bolivian_indoors) --border crossing gangster guard
-	self.bolivian_indoors_mex.has_alarm_pager = true
 	if job == "mex" then
 		self.bolivian_indoors_mex.access = "security"
 	else
 		self.bolivian_indoors_mex.access = "gangster"
 	end
-
-	table.insert(self._enemy_list, "bolivian_indoors_mex")
 end
 
+local orig_init_drug_lord_boss = CharacterTweakData._init_drug_lord_boss
 function CharacterTweakData:_init_drug_lord_boss(presets) --sosa
-	self.drug_lord_boss = deep_clone(presets.base)
-	self.drug_lord_boss.experience = {}
-	self.drug_lord_boss.tags = {"custom", "special"}
-	self.drug_lord_boss.grenade = frag
-	self.drug_lord_boss.weapon = presets.weapon.gangster
-	self.drug_lord_boss.detection = presets.detection.normal
-	self.drug_lord_boss.HEALTH_INIT = 480
-	self.drug_lord_boss.headshot_dmg_mul = strong_headshot
-	self.drug_lord_boss.damage.hurt_severity = presets.hurt_severities.tank_titan
-	self.drug_lord_boss.damage.explosion_damage_mul = 2
-	self.drug_lord_boss.move_speed = presets.move_speed.very_slow
-	self.drug_lord_boss.allowed_poses = {stand = true}
-	self.drug_lord_boss.crouch_move = false
-	self.drug_lord_boss.no_run_start = true
-	self.drug_lord_boss.no_run_stop = true
-	self.drug_lord_boss.no_retreat = true
-	self.drug_lord_boss.no_limping = true
-	self.drug_lord_boss.no_arrest = true
-	self.drug_lord_boss.surrender = nil
-	self.drug_lord_boss.ecm_vulnerability = 0
-	self.drug_lord_boss.ecm_hurts = {}
-	self.drug_lord_boss.weapon_voice = "3"
-	self.drug_lord_boss.experience.cable_tie = "tie_swat"
-	self.drug_lord_boss.access = "gangster"
-	self.drug_lord_boss.speech_prefix_p1 = "bb"
-	self.drug_lord_boss.speech_prefix_p2 = "n"
-	self.drug_lord_boss.speech_prefix_count = 1
-	self.drug_lord_boss.rescue_hostages = false
-	self.drug_lord_boss.silent_priority_shout = "f37"
-	self.drug_lord_boss.melee_weapon = "fists_dozer"
-	self.drug_lord_boss.steal_loot = nil
-	self.drug_lord_boss.calls_in = nil
-	self.drug_lord_boss.chatter = presets.enemy_chatter.no_chatter
-	self.drug_lord_boss.use_radio = nil
-	self.drug_lord_boss.can_be_tased = false
-	self.drug_lord_boss.use_animation_on_fire_damage = false
-	self.drug_lord_boss.flammable = true
-	self.drug_lord_boss.can_be_tased = false
-	self.drug_lord_boss.immune_to_knock_down = true
-	self.drug_lord_boss.immune_to_concussion = true
-	self.drug_lord_boss.priority_shout = "g29"
-	self.drug_lord_boss.bot_priority_shout = "g29"
-	self.drug_lord_boss.custom_shout = true
-	self.drug_lord_boss.priority_shout_max_dis = 3000
-	self.drug_lord_boss.must_headshot = true
-	self.drug_lord_boss.is_special = true
-	self.drug_lord_boss.always_drop = true
-	self.drug_lord_boss.die_sound_event = "l1n_burndeath"
-	table.insert(self._enemy_list, "drug_lord_boss")
+	orig_init_drug_lord_boss(self, presets)
+	override_enemies({self.drug_lord_boss}, {
+		grenade = frag,
+		die_sound_event = "l1n_burndeath"
+	})
+	override_enemies({self.drug_lord_boss}, presets.generic_boss_stats)
 end
 
+local orig_init_drug_lord_boss_stealth = CharacterTweakData._init_drug_lord_boss_stealth
 function CharacterTweakData:_init_drug_lord_boss_stealth(presets) --sosa stealth
-	self.drug_lord_boss_stealth = deep_clone(presets.base)
-	self.drug_lord_boss_stealth.experience = {}
-	self.drug_lord_boss_stealth.weapon = presets.weapon.gangster
-	self.drug_lord_boss_stealth.detection = presets.detection.normal
-	self.drug_lord_boss_stealth.HEALTH_INIT = 12
-	self.drug_lord_boss_stealth.headshot_dmg_mul = strong_headshot
-	self.drug_lord_boss_stealth.move_speed = presets.move_speed.very_fast
-	self.drug_lord_boss_stealth.no_retreat = true
-	self.drug_lord_boss_stealth.no_limping = true
-	self.drug_lord_boss_stealth.no_arrest = true
-	self.drug_lord_boss_stealth.surrender = nil
-	self.drug_lord_boss_stealth.unintimidateable = true
-	self.drug_lord_boss_stealth.ecm_vulnerability = 0
-	self.drug_lord_boss_stealth.ecm_hurts = {
-		ears = {min_duration = 0, max_duration = 0}
-	}
-	self.drug_lord_boss_stealth.weapon_voice = "3"
-	self.drug_lord_boss_stealth.experience.cable_tie = "tie_swat"
-	self.drug_lord_boss_stealth.access = "gangster"
-	self.drug_lord_boss_stealth.speech_prefix_p1 = "bb"
-	self.drug_lord_boss_stealth.speech_prefix_p2 = "n"
-	self.drug_lord_boss_stealth.speech_prefix_count = 1
-	self.drug_lord_boss_stealth.rescue_hostages = false
-	self.drug_lord_boss_stealth.silent_priority_shout = "f37"
-	self.drug_lord_boss_stealth.melee_weapon = "fists_dozer"
-	self.drug_lord_boss_stealth.steal_loot = nil
-	self.drug_lord_boss_stealth.calls_in = nil
-	self.drug_lord_boss_stealth.chatter = presets.enemy_chatter.no_chatter
-	self.drug_lord_boss_stealth.use_radio = nil
-	self.drug_lord_boss_stealth.use_animation_on_fire_damage = true
-	self.drug_lord_boss_stealth.flammable = true
-	self.drug_lord_boss_stealth.can_be_tased = true
-	self.drug_lord_boss_stealth.immune_to_knock_down = false
-	self.drug_lord_boss_stealth.immune_to_concussion = false
-	self.drug_lord_boss_stealth.always_drop = true
-	self.drug_lord_boss_stealth.die_sound_event = "l2n_x01a_any_3p"
-	table.insert(self._enemy_list, "drug_lord_boss_stealth")
+	orig_init_drug_lord_boss_stealth(self, presets)
+	override_enemies({self.drug_lord_boss_stealth}, {
+		weapon = presets.weapon.gangster,
+		die_sound_event = "l2n_x01a_any_3p",
+		HEALTH_INIT = 12,
+		headshot_dmg_mul = strong_headshot,
+		move_speed = presets.move_speed.very_fast,
+		no_limping = true,
+		melee_weapon = "fists_dozer",
+		unintimidateable = true,
+		ecm_hurts = {
+			ears = {min_duration = 0, max_duration = 0}
+		},
+		ecm_vulnerability = 0
+	})
 end
 
+local orig_init_tank = CharacterTweakData._init_tank
 function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
-	self.tank = deep_clone(presets.base)
-	self.tank.tags = {"law", "tank", "special"}
-	self.tank.experience = {}
-	self.tank.damage.tased_response = {
-		light = {tased_time = 1, down_time = 0},
-		heavy = {tased_time = 2, down_time = 0}
-	}
-	self.tank.damage.explosion_damage_mul = 2
-	self.tank.weapon = presets.weapon.dozer
-	self.tank.detection = presets.detection.normal
-	self.tank.HEALTH_INIT = 294
-	self.tank.headshot_dmg_mul = strong_headshot
-	self.tank.move_speed = presets.move_speed.slow
-	self.tank.allowed_stances = {cbt = true}
-	self.tank.allowed_poses = {stand = true}
-	self.tank.crouch_move = false
-	self.tank.no_run_start = true
-	self.tank.no_run_stop = true
-	self.tank.no_retreat = true
-	self.tank.no_limping = true
-	self.tank.no_arrest = true
-	self.tank.surrender = nil
-	self.tank.ecm_vulnerability = 0
-	self.tank.ecm_hurts = {}
-	if self:get_ai_group_type() == "federales" then
-		self.tank.die_sound_event = "bdz_x02a_any_3p"
-	else
-		self.tank.die_sound_event = nil
-	end
-	self.tank.weapon_voice = "3"
-	self.tank.experience.cable_tie = "tie_swat"
-	self.tank.access = "tank"
-	self.tank.speech_prefix_p1 = self._prefix_data_p1.bulldozer()
-	self.tank.speech_prefix_p2 = nil
-	self.tank.speech_prefix_count = nil
-	self.tank.spawn_sound_event = self._prefix_data_p1.bulldozer() .. "_entrance"
-	self.tank.priority_shout = "f30"
-	self.tank.bot_priority_shout = "f30x_any"
-	self.tank.priority_shout_max_dis = 3000
-	self.tank.rescue_hostages = false
-	self.tank.deathguard = true
-	self.tank.melee_weapon = "fists_dozer"
-	self.tank.damage.hurt_severity = presets.hurt_severities.tank
-	self.tank.chatter = {
-		reload = true, --this is just here for tdozers
-		aggressive = true,
-		retreat = true,
-		go_go = true,
-		contact = true,
-		entrance = true
-	}
-	self.tank.announce_incomming = "incomming_tank"
-	self.tank.kill_taunt = "post_kill_taunt"
-	self.tank.steal_loot = nil
-	self.tank.calls_in = nil
-	self.tank.use_animation_on_fire_damage = false
-	self.tank.flammable = true
-	self.tank.can_be_tased = false
-	self.tank.immune_to_concussion = false
-	self.tank.immune_to_knock_down = true
-	self.tank.tank_concussion = true
-	self.tank.must_headshot = true
-	self.tank.no_recoil = true
-	self.tank.is_special = true
-	table.insert(self._enemy_list, "tank")
+	orig_init_tank(self, presets)
+	override_enemies({self.tank, self.tank_medic, self.tank_mini}, {
+		weapon = presets.weapon.dozer,
+		HEALTH_INIT = 294,
+		headshot_dmg_mul = strong_headshot,
+		damage = {
+			explosion_damage_mul = 2,
+			tased_response = {
+				light = {down_time = 0, tased_time = 1},
+				heavy = {down_time = 0, tased_time = 2}
+			},
+			hurt_severity = presets.hurt_severities.tank,
+			death_severity = 0.5
+		},
+		ecm_vulnerability = 0,
+		ecm_hurts = {ears = {min_duration = 0, max_duration = 0}},
+		spawn_sound_event = self._prefix_data_p1.bulldozer() .. "_entrance",
+		bot_priority_shout = "f30x_any",
+		priority_shout_max_dis = 3000,
+		melee_weapon = "fists_dozer",
+		chatter = {
+			reload = true, --this is just here for tdozers
+			aggressive = true,
+			retreat = true,
+			go_go = true,
+			contact = true,
+			entrance = true
+		},
+		is_special = true,
+		immune_to_concussion = false,
+		tank_concussion = true,
+		no_recoil = true
+	})
 
-	self.tank_medic = deep_clone(self.tank) --medic dozer
-	self.tank_medic.is_special = true
-	table.insert(self.tank_medic.tags, "medic")
-	table.insert(self.tank_medic.tags, "backliner")
-	table.insert(self._enemy_list, "tank_medic")
+	override_enemies({self.tank_mini}, {
+		move_speed = presets.move_speed.slow,
+		shooting_death = false
+	})
 
+	override_enemies({self.tank_hw}, {
+		weapon = presets.weapon.sniper,
+		tags = {"law", "tank", "special", "tank_titan", "customvo", "no_run", "backliner"},
+		move_speed = presets.move_speed.very_slow,
+		headshot_dmg_mul = strong_headshot,
+		immune_to_knock_down = true,
+		priority_shout_max_dis = 3000,
+		spawn_sound_event = "bdz_entrance_elite",
+	}) --Headless dozer
+end
+
+function CharacterTweakData:_init_tank_titan(presets)
 	self.tank_titan = deep_clone(self.tank) --titan dozer
 	self.tank_titan.weapon = presets.weapon.sniper
 	self.tank_titan.tags = {"law", "tank", "special", "tank_titan", "customvo", "no_run", "backliner"}
 	self.tank_titan.move_speed = presets.move_speed.very_slow
 	self.tank_titan.damage.hurt_severity = presets.hurt_severities.tank_titan
 	self.tank_titan.HEALTH_INIT = 480
-	self.tank_titan.headshot_dmg_mul = strong_headshot
-	self.tank_titan.damage.explosion_damage_mul = 2
-	self.tank_titan.immune_to_concussion = true
-	self.tank_titan.immune_to_knock_down = true
-	self.tank_titan.priority_shout_max_dis = 3000
-	self.tank_titan.ecm_vulnerability = 0
 	self.tank_titan.spawn_sound_event = "bdz_entrance_elite"
 	if self:get_ai_group_type() == "russia" then
 		self.tank.speech_prefix_p1 = self._prefix_data_p1.bulldozer()
@@ -1294,26 +1053,13 @@ function CharacterTweakData:_init_tank(presets) --motherfucking bulldozer
 		self.tank_titan.speech_prefix_p1 = "CVOD"
 		self.tank_titan.speech_prefix_count = nil
 	end
-	self.tank_titan.ecm_hurts = {}
-	self.tank_titan.is_special = true
 	table.insert(self._enemy_list, "tank_titan")
-
-	self.tank_titan_assault = deep_clone(self.tank_titan) --unsure
-	self.tank_titan_assault.tags = {"law", "tank", "special", "tank_titan", "no_run", "backliner"}
-	table.insert(self._enemy_list, "tank_titan_assault")
-
-	self.tank_hw = deep_clone(self.tank_titan_assault) --headless dozer
-	self.tank_hw.ignore_headshot = false
-	self.tank_hw.melee_anims = nil
-	table.insert(self._enemy_list, "tank_hw")
 end
 
 function CharacterTweakData:_init_tank_biker(presets) --biker dozer
 	self.tank_biker = deep_clone(self.tank)
 	self.tank_biker.spawn_sound_event = nil
 	self.tank_biker.spawn_sound_event_2 = nil
-	self.tank_biker.access = "gangster"
-	self.tank_biker.rescue_hostages = false
 	self.tank_biker.use_radio = nil
 	self.tank_biker.speech_prefix_p1 = "bik"
 	self.tank_biker.speech_prefix_p2 = nil
@@ -1323,72 +1069,51 @@ function CharacterTweakData:_init_tank_biker(presets) --biker dozer
 	self.tank_biker.chatter = presets.enemy_chatter.swat
 end
 
+local orig_init_spooc = CharacterTweakData._init_spooc
 function CharacterTweakData:_init_spooc(presets) --cloaker
-	self.spooc = deep_clone(presets.base)
-	self.spooc.tags = {"law", "spooc", "special"}
-	self.spooc.experience = {}
-	self.spooc.damage.hurt_severity = presets.hurt_severities.spooc
-	self.spooc.weapon = presets.weapon.good
-	self.spooc.detection = presets.detection.normal
-	self.spooc.HEALTH_INIT = 72
-	self.spooc.headshot_dmg_mul = strong_headshot
-	self.spooc.damage.melee_damage_mul = 0.5
-	self.spooc.move_speed = presets.move_speed.lightning
-	self.spooc.no_retreat = true
-	self.spooc.no_arrest = true
-	self.spooc.surrender_break_time = {4, 6}
-	self.spooc.suppression = nil
-	self.spooc.surrender = nil
-	self.spooc.priority_shout = "f33"
-	self.spooc.bot_priority_shout = "f33x_any"
-	self.spooc.priority_shout_max_dis = 3000
-	self.spooc.rescue_hostages = false
-	self.spooc.spooc_attack_timeout = {4, 4}
-	self.spooc.spooc_attack_beating_time = {3, 3}
-	self.spooc.spooc_attack_use_smoke_chance = 0
-	self.spooc.weapon_voice = "3"
-	self.spooc.experience.cable_tie = "tie_swat"
-	self.spooc.speech_prefix_p1 = self._prefix_data_p1.cloaker()
-	self.spooc.speech_prefix_count = nil
-	self.spooc.access = "spooc"
-	self.spooc.flammable = true
-	self.spooc.dodge = presets.dodge.ninja
-	self.spooc.chatter = presets.enemy_chatter.cloaker
-	self.spooc.steal_loot = nil
-	self.spooc.melee_weapon = "fists"
-	self.spooc.use_radio = nil
-	self.spooc.can_be_tased = true
-	self.spooc.is_special = true
-	self.spooc.kick_damage = 6.0 --Amount of damage dealt when cloakers kick players.
-	self.spooc.jump_kick_damage = 12.0 --Amount of damage dealt when cloakers jump kick players.
-	self.spooc.spawn_sound_event_2 = "clk_c01x_plu"
-	self.spooc.spooc_sound_events = {
-		detect_stop = "cloaker_detect_stop",
-		detect = "cloaker_detect_mono"
-	}
-	self.spooc.special_deaths = {
-		melee = {
-			[("head"):id():key()] = {
-				sequence = "dismember_head",
-				melee_weapon_id = "sandsteel",
-				character_name = "dragon",
-				sound_effect = "split_gen_head"
-			},
-			[("body"):id():key()] = {
-				sequence = "dismember_body_top",
-				melee_weapon_id = "sandsteel",
-				character_name = "dragon",
-				sound_effect = "split_gen_body"
+	orig_init_spooc(self, presets)
+	override_enemies({self.spooc}, {
+		HEALTH_INIT = 72,
+		headshot_dmg_mul = strong_headshot,
+		melee_damage_mul = 0.5,
+		priority_shout_max_dis = 3000,
+		is_special = true,
+		spooc_attack_timeout = {4, 4},
+		spooc_attack_beating_time = {3, 3},
+		spooc_attack_use_smoke_chance = 0,
+		use_animation_on_fire_damage = true,
+		dodge_with_grenade = false,
+		chatter = presets.enemy_chatter.cloaker,
+		melee_weapon = "fists",
+		kick_damage = 6.0, --Amount of damage dealt when cloakers kick players.
+		jump_kick_damage = 12.0, --Amount of damage dealt when cloakers jump kick players.
+		spawn_sound_event_2 = "clk_c01x_plu",
+		special_deaths = {
+			melee = {
+				[("head"):id():key()] = {
+					sequence = "dismember_head",
+					melee_weapon_id = "sandsteel",
+					character_name = "dragon",
+					sound_effect = "split_gen_head"
+				},
+				[("body"):id():key()] = {
+					sequence = "dismember_body_top",
+					melee_weapon_id = "sandsteel",
+					character_name = "dragon",
+					sound_effect = "split_gen_body"
+				}
 			}
 		}
-	}
-	table.insert(self._enemy_list, "spooc")
+	})
+	self.spooc.damage.explosion_damage_mul = 2
+	self.spooc.damage.hurt_severity = presets.hurt_severities.spooc
+end
 
+function CharacterTweakData:_init_spooc_titan(presets)
 	self.spooc_titan = deep_clone(self.spooc) --titan cloaker
 	self.spooc_titan.weapon = presets.weapon.normal
 	self.spooc_titan.tags = {"law", "custom", "special", "spooc"}
 	self.spooc_titan.special_deaths = nil
-	self.spooc_titan.damage.explosion_damage_mul = 2
 	if self:get_ai_group_type() == "russia" then
 		self.spooc_titan.speech_prefix_p1 = self._prefix_data_p1.cloaker()
 		self.spooc_titan.speech_prefix_count = nil
@@ -1398,68 +1123,31 @@ function CharacterTweakData:_init_spooc(presets) --cloaker
 		self.spooc_titan.speech_prefix_count = nil
 		self.spooc_titan.custom_voicework = "tspook"
 	end
-	self.spooc_titan.damage.hurt_severity = presets.hurt_severities.spooc
 	self.spooc_titan.can_cloak = true
 	self.spooc_titan.recloak_damage_threshold = 0.5
 	self.spooc_titan.can_be_tased = false
 	self.spooc_titan.priority_shout_max_dis = 0
-	self.spooc_titan.unintimidateable = true
-	self.spooc_titan.spawn_sound_event = "cloaker_presence_loop"
-	self.spooc_titan.die_sound_event = "cloaker_presence_stop"
-	self.spooc_titan.is_special = true
 	table.insert(self._enemy_list, "spooc_titan")
 end
 
+local orig_init_shadow_spooc = CharacterTweakData._init_shadow_spooc
 function CharacterTweakData:_init_shadow_spooc(presets) --white house shadow cloaker
-	self.shadow_spooc = deep_clone(presets.base)
-	self.shadow_spooc.tags = {"law", "spooc", "special"}
-	self.shadow_spooc.experience = {}
-	self.shadow_spooc.damage.hurt_severity = presets.hurt_severities.spooc
-	self.shadow_spooc.weapon = presets.weapon.normal
-	self.shadow_spooc.detection = presets.detection.normal
-	self.shadow_spooc.HEALTH_INIT = 72
-	self.shadow_spooc.headshot_dmg_mul = strong_headshot
-	self.shadow_spooc.damage.melee_damage_mul = 0.5
-	self.shadow_spooc.damage.explosion_damage_mul = 2
-	self.shadow_spooc.move_speed = presets.move_speed.lightning
-	self.shadow_spooc.no_retreat = true
-	self.shadow_spooc.no_arrest = true
-	self.shadow_spooc.surrender_break_time = {4, 6}
-	self.shadow_spooc.suppression = nil
-	self.shadow_spooc.surrender = nil
-	self.shadow_spooc.priority_shout = "f33"
-	self.shadow_spooc.bot_priority_shout = "f33x_any"
-	self.shadow_spooc.priority_shout_max_dis = 3000
-	self.shadow_spooc.rescue_hostages = false
-	self.shadow_spooc.spooc_attack_timeout = {4, 4}
-	self.shadow_spooc.spooc_attack_beating_time = {3, 3}
-	self.shadow_spooc.spooc_attack_use_smoke_chance = 0
-	self.shadow_spooc.weapon_voice = "3"
-	self.shadow_spooc.experience.cable_tie = "tie_swat"
-	self.shadow_spooc.speech_prefix_p1 = "uno_clk"
-	self.shadow_spooc.speech_prefix_count = nil
-	self.shadow_spooc.use_radio = nil
-	self.shadow_spooc.chatter = presets.enemy_chatter.no_chatter
-	self.shadow_spooc.do_not_drop_ammo = false
-	self.shadow_spooc.steal_loot = nil
-	self.shadow_spooc.spawn_sound_event = "uno_cloaker_presence_loop"
-	self.shadow_spooc.die_sound_event = "uno_cloaker_presence_stop"
-	self.shadow_spooc.spooc_sound_events = {
-		detect_stop = "uno_cloaker_detect_stop",
-		taunt_during_assault = "",
-		taunt_after_assault = "",
-		detect = "uno_cloaker_detect"
-	}
-	self.shadow_spooc.access = "spooc"
-	self.shadow_spooc.flammable = true
-	self.shadow_spooc.dodge = presets.dodge.ninja
-	self.shadow_spooc.chatter = presets.enemy_chatter.no_chatter
-	self.shadow_spooc.steal_loot = nil
-	self.shadow_spooc.melee_weapon = nil
-	self.shadow_spooc.use_radio = nil
-	self.shadow_spooc.can_be_tased = true
-	self.shadow_spooc.is_special = true
-	table.insert(self._enemy_list, "shadow_spooc")
+	orig_init_shadow_spooc(self, presets)
+	override_enemies({self.shadow_spooc}, {
+		HEALTH_INIT = 72,
+		headshot_dmg_mul = strong_headshot,
+		melee_damage_mul = 0.5,
+		priority_shout_max_dis = 3000,
+		is_special = true,
+		spooc_attack_timeout = {4, 4},
+		spooc_attack_beating_time = {3, 3},
+		use_animation_on_fire_damage = true,
+		chatter = presets.enemy_chatter.cloaker,
+		melee_weapon = "fists",
+		kick_damage = 6.0, --Amount of damage dealt when cloakers kick players.
+		jump_kick_damage = 12.0, --Amount of damage dealt when cloakers jump kick players.
+		spawn_sound_event_2 = "clk_c01x_plu"
+	})
 end
 
 function CharacterTweakData:_init_shield(presets) --shielddddd
@@ -7306,7 +6994,9 @@ function CharacterTweakData:_presets(tweak_data)
 		use_animation_on_fire_damage = false,
 		is_special = true,
 		ecm_vulnerability = 0,
-		ecm_hurts = {}
+		ecm_hurts = {},
+		DAMAGE_CLAMP_BULLET = false,
+		DAMAGE_CLAMP_EXPLOSION = false
 	}
 
 	return presets
