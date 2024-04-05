@@ -2483,10 +2483,8 @@ function PlayerStandard:_stance_entered(unequipped)
 	}
 
 	local weap_base = self._equipped_unit:base()
-	local stances = (self:_is_meleeing() or self:_is_throwing_projectile()) and tweak_data.player.stances.default or tweak_data.player.stances[stance_id] or tweak_data.player.stances.default
-	local misc_attribs = (not self:_is_using_bipod() or self:_is_throwing_projectile() or stances.bipod) and (self._state_data.in_steelsight and stances.steelsight or self._state_data.ducking and stances.crouched or stances.standard)
-	local vel_overshot = misc_attribs.vel_overshot
-	local sway = misc_attribs.shakers
+	local vel_overshot = nil
+	local sway = nil
 	if not unequipped then
 		stance_id = weap_base:get_stance_id()
 
@@ -2501,16 +2499,17 @@ function PlayerStandard:_stance_entered(unequipped)
 		end
 	end
 
+	local stances = nil
+	stances = (self:_is_meleeing() or self:_is_throwing_projectile()) and tweak_data.player.stances.default or tweak_data.player.stances[stance_id] or tweak_data.player.stances.default
+	local misc_attribs = stances.standard
+	misc_attribs = (not self:_is_using_bipod() or self:_is_throwing_projectile() or stances.bipod) and (self._state_data.in_steelsight and stances.steelsight or self._state_data.ducking and stances.crouched or stances.standard)
+	sway = sway or misc_attribs.shakers
+	vel_overshot = vel_overshot or misc_attribs.vel_overshot	
+
 	local head_duration = tweak_data.player.TRANSITION_DURATION
 	local head_duration_multiplier = 1
 	local duration = head_duration + (self._equipped_unit:base():transition_duration() or 0)
-	local duration_multiplier = self._state_data.in_steelsight and 1 / self._equipped_unit:base():enter_steelsight_speed_multiplier() or 1
-
-	if self._instant_stance_transition then
-		self._instant_stance_transition = nil
-		duration_multiplier = 0
-	end
-
+	local duration_multiplier = (self._state_data.in_steelsight or self._state_data.was_in_steelsight) and 1 / weap_base:enter_steelsight_speed_multiplier() or 1
 	local new_fov = self:get_zoom_fov(misc_attribs) + 0
 
 	self._camera_unit:base():clbk_stance_entered(misc_attribs.shoulders, head_stance, vel_overshot, new_fov, sway, stance_mod, duration_multiplier, duration, head_duration, head_duration_multiplier)
